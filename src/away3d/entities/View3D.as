@@ -1,4 +1,4 @@
-﻿package away3d.containers
+﻿package away3d.entities
 {
 
 	import flash.display.Sprite;
@@ -11,7 +11,7 @@
 	import flash.geom.Transform;
 	import flash.geom.Vector3D;
 	import flash.utils.getTimer;
-
+	
 	import away3d.arcane;
 	import away3d.cameras.Camera3D;
 	import away3d.core.managers.Mouse3DManager;
@@ -84,19 +84,19 @@
 		private var _profile:String;
 		private var _layeredView:Boolean = false;
 
-		public function get depthPrepass():Boolean
-		{
-			return _depthPrepass;
-		}
-
-		public function set depthPrepass(value:Boolean):void
-		{
-			_depthPrepass = value;
-		}
-
+		/**
+		 *
+		 * @param scene
+		 * @param camera
+		 * @param renderer
+		 * @param forceSoftware
+		 * @param profile
+		 *
+		 */
 		public function View3D(scene:Scene3D = null, camera:Camera3D = null, renderer:RendererBase = null, forceSoftware:Boolean = false, profile:String = "baseline")
 		{
 			super();
+
 			_profile = profile;
 			_scene = scene || new Scene3D();
 			_scene.addEventListener(Scene3DEvent.PARTITION_CHANGED, onScenePartitionChanged);
@@ -127,6 +127,16 @@
 			_camera.addEventListener(CameraEvent.LENS_CHANGED, onLensChanged);
 
 			_camera.partition = _scene.partition;
+		}
+
+		public function get depthPrepass():Boolean
+		{
+			return _depthPrepass;
+		}
+
+		public function set depthPrepass(value:Boolean):void
+		{
+			_depthPrepass = value;
 		}
 
 		private function onScenePartitionChanged(event:Scene3DEvent):void
@@ -789,8 +799,8 @@
 		{
 			var v:Vector3D = _camera.project(point3d);
 
-			v.x = (v.x + 1.0) * _width / 2.0;
-			v.y = (v.y + 1.0) * _height / 2.0;
+			v.x = (v.x + 1.0) * _width * 0.5;
+			v.y = (v.y + 1.0) * _height * 0.5;
 
 			return v;
 		}

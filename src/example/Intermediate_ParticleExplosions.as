@@ -53,8 +53,8 @@ package example
 	import away3d.animators.nodes.ParticleBillboardNode;
 	import away3d.animators.nodes.ParticlePositionNode;
 	import away3d.cameras.Camera3D;
-	import away3d.containers.Scene3D;
-	import away3d.containers.View3D;
+	import away3d.entities.Scene3D;
+	import away3d.entities.View3D;
 	import away3d.controllers.HoverController;
 	import away3d.core.base.Geometry;
 	import away3d.core.base.ParticleGeometry;

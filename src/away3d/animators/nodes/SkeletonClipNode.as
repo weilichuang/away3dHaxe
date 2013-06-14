@@ -1,9 +1,10 @@
 package away3d.animators.nodes
 {
-	import away3d.animators.*;
-	import away3d.animators.data.*;
-	import away3d.animators.states.*;
-	import flash.geom.*;
+	import flash.geom.Vector3D;
+
+	import away3d.animators.IAnimator;
+	import away3d.animators.data.SkeletonPose;
+	import away3d.animators.states.SkeletonClipState;
 
 
 	/**

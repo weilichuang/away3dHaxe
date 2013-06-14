@@ -3,9 +3,9 @@
  */
 package away3d.events
 {
-	import away3d.cameras.lenses.LensBase;
-
 	import flash.events.Event;
+	
+	import away3d.cameras.lenses.LensBase;
 
 	public class LensEvent extends Event
 	{

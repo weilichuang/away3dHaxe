@@ -1,8 +1,8 @@
 package away3d.events
 {
-	import away3d.containers.ObjectContainer3D;
-
 	import flash.events.Event;
+	
+	import away3d.entities.ObjectContainer3D;
 
 	public class Scene3DEvent extends Event
 	{

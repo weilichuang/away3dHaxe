@@ -1,12 +1,16 @@
 package away3d.utils
 {
 
+	import flash.display.Bitmap;
+	import flash.display.BitmapData;
+	import flash.display.DisplayObject;
+	import flash.geom.Matrix;
+	import flash.utils.ByteArray;
+	import flash.utils.Dictionary;
+	import flash.utils.getDefinitionByName;
+
 	import away3d.errors.CastError;
 	import away3d.textures.BitmapTexture;
-
-	import flash.display.*;
-	import flash.geom.Matrix;
-	import flash.utils.*;
 
 	/** Helper class for casting assets to usable objects */
 	public class Cast

@@ -1,5 +1,13 @@
 package away3d.loaders.parsers
 {
+	import flash.display.BitmapData;
+	import flash.events.EventDispatcher;
+	import flash.events.TimerEvent;
+	import flash.net.URLRequest;
+	import flash.utils.ByteArray;
+	import flash.utils.Timer;
+	import flash.utils.getTimer;
+	
 	import away3d.arcane;
 	import away3d.errors.AbstractMethodError;
 	import away3d.events.AssetEvent;
@@ -9,14 +17,6 @@ package away3d.loaders.parsers
 	import away3d.loaders.misc.ResourceDependency;
 	import away3d.loaders.parsers.utils.ParserUtil;
 	import away3d.tools.utils.TextureUtils;
-
-	import flash.display.BitmapData;
-	import flash.events.EventDispatcher;
-	import flash.events.TimerEvent;
-	import flash.net.URLRequest;
-	import flash.utils.ByteArray;
-	import flash.utils.Timer;
-	import flash.utils.getTimer;
 
 	use namespace arcane;
 

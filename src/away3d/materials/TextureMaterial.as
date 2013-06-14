@@ -1,10 +1,10 @@
 ﻿package away3d.materials
 {
-	import away3d.*;
-	import away3d.textures.*;
-
-	import flash.display.*;
-	import flash.geom.*;
+	import flash.display.BlendMode;
+	import flash.geom.ColorTransform;
+	
+	import away3d.arcane;
+	import away3d.textures.Texture2DBase;
 
 	use namespace arcane;
 

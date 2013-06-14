@@ -1,5 +1,11 @@
 ﻿package away3d.materials
 {
+	import flash.display.BlendMode;
+	import flash.display3D.Context3D;
+	import flash.display3D.Context3DBlendFactor;
+	import flash.display3D.Context3DCompareMode;
+	import flash.events.Event;
+	
 	import away3d.arcane;
 	import away3d.cameras.Camera3D;
 	import away3d.core.managers.Stage3DProxy;
@@ -16,13 +22,6 @@
 	import away3d.materials.passes.ShadowCasterPass;
 	import away3d.materials.passes.SuperShaderPass;
 	import away3d.textures.Texture2DBase;
-
-	import flash.display.BlendMode;
-
-	import flash.display3D.Context3D;
-	import flash.display3D.Context3DBlendFactor;
-	import flash.display3D.Context3DCompareMode;
-	import flash.events.Event;
 
 	use namespace arcane;
 

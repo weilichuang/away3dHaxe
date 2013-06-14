@@ -1,14 +1,14 @@
-package example  
+package example
 {
 	import away3d.primitives.SkyBox;
 	import away3d.textures.BitmapCubeTexture;
 	import away3d.utils.Cast;
-	
+
 	/**
 	 * ...
-	 * @author 
+	 * @author
 	 */
-	public class NightSkyBox extends SkyBox 
+	public class NightSkyBox extends SkyBox
 	{
 		//skybox
 		[Embed(source = "/../embeds/skybox/grimnight_posX.png")]
@@ -23,15 +23,16 @@ package example
 		private var EnvNegY:Class;
 		[Embed(source = "/../embeds/skybox/grimnight_negZ.png")]
 		private var EnvNegZ:Class;
-		
-		public var cubeTexture:BitmapCubeTexture; 
-		public function NightSkyBox() 
+
+		public var cubeTexture:BitmapCubeTexture;
+
+		public function NightSkyBox()
 		{
 			cubeTexture = new BitmapCubeTexture(Cast.bitmapData(EnvPosX), Cast.bitmapData(EnvNegX), Cast.bitmapData(EnvPosY), Cast.bitmapData(EnvNegY), Cast.bitmapData(EnvPosZ), Cast.bitmapData(EnvNegZ));
-			
+
 			super(cubeTexture);
 		}
-		
+
 	}
 
 }

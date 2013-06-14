@@ -1,9 +1,9 @@
 package away3d.tools.serialize
 {
-	import away3d.arcane;
-	import away3d.core.math.Quaternion;
-
 	import flash.geom.Vector3D;
+
+	import away3d.arcane;
+	import away3d.math.Quaternion;
 
 	use namespace arcane;
 

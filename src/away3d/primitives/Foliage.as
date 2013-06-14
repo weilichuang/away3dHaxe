@@ -1,11 +1,10 @@
 package away3d.primitives
 {
 
-	import away3d.core.base.*;
-	import away3d.tools.utils.*;
-	import away3d.utils.*;
-
-	import flash.geom.*;
+	import flash.geom.Vector3D;
+	
+	import away3d.core.base.CompactSubGeometry;
+	import away3d.tools.utils.GeomUtil;
 
 	public class Foliage extends PrimitiveBase
 	{

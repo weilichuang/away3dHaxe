@@ -1,18 +1,18 @@
 package away3d.lights.shadowmaps
 {
+	import flash.display3D.textures.TextureBase;
+
 	import away3d.arcane;
 	import away3d.cameras.Camera3D;
-	import away3d.containers.Scene3D;
 	import away3d.core.managers.Stage3DProxy;
 	import away3d.core.render.DepthRenderer;
 	import away3d.core.traverse.EntityCollector;
 	import away3d.core.traverse.ShadowCasterCollector;
+	import away3d.entities.Scene3D;
 	import away3d.errors.AbstractMethodError;
 	import away3d.lights.LightBase;
 	import away3d.textures.RenderTexture;
 	import away3d.textures.TextureProxyBase;
-
-	import flash.display3D.textures.TextureBase;
 
 	use namespace arcane;
 

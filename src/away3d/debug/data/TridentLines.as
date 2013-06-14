@@ -1,9 +1,9 @@
 ﻿package away3d.debug.data
 {
+	import flash.geom.Vector3D;
+	
 	import away3d.entities.SegmentSet;
 	import away3d.primitives.LineSegment;
-
-	import flash.geom.Vector3D;
 
 	public class TridentLines extends SegmentSet
 	{

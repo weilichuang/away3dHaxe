@@ -53,9 +53,9 @@ package example
 	import away3d.animators.nodes.SkeletonClipNode;
 	import away3d.animators.transitions.CrossfadeTransition;
 	import away3d.cameras.Camera3D;
-	import away3d.containers.ObjectContainer3D;
-	import away3d.containers.Scene3D;
-	import away3d.containers.View3D;
+	import away3d.entities.ObjectContainer3D;
+	import away3d.entities.Scene3D;
+	import away3d.entities.View3D;
 	import away3d.controllers.LookAtController;
 	import away3d.debug.AwayStats;
 	import away3d.entities.Mesh;
@@ -105,7 +105,7 @@ package example
 		[Embed(source = "/../embeds/hellknight/hellknight_specular.png")]
 		private var BodySpecular:Class;
 
-		
+
 
 		//billboard texture for red light
 		[Embed(source = "/../embeds/redlight.png")]

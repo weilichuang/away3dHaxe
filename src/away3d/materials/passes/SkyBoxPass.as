@@ -1,18 +1,17 @@
 package away3d.materials.passes
 {
-	import away3d.arcane;
-	import away3d.cameras.Camera3D;
-	import away3d.core.base.IRenderable;
-	import away3d.core.managers.Stage3DProxy;
-	import away3d.textures.CubeTextureBase;
-
 	import flash.display3D.Context3D;
-
 	import flash.display3D.Context3DCompareMode;
 	import flash.display3D.Context3DProgramType;
 	import flash.display3D.Context3DTextureFormat;
 	import flash.geom.Matrix3D;
 	import flash.geom.Vector3D;
+	
+	import away3d.arcane;
+	import away3d.cameras.Camera3D;
+	import away3d.core.base.IRenderable;
+	import away3d.core.managers.Stage3DProxy;
+	import away3d.textures.CubeTextureBase;
 
 	use namespace arcane;
 

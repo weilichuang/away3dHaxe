@@ -1,13 +1,13 @@
 package away3d.materials.utils
 {
-	import away3d.arcane;
-	import away3d.core.base.ISubGeometry;
-	import away3d.entities.Mesh;
-
 	import flash.display.BitmapData;
 	import flash.display.Graphics;
 	import flash.display.Sprite;
 	import flash.display.TriangleCulling;
+	
+	import away3d.arcane;
+	import away3d.core.base.ISubGeometry;
+	import away3d.entities.Mesh;
 
 	use namespace arcane;
 

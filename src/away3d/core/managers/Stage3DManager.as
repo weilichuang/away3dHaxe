@@ -1,9 +1,9 @@
 package away3d.core.managers
 {
-	import away3d.arcane;
-
 	import flash.display.Stage;
 	import flash.utils.Dictionary;
+
+	import away3d.arcane;
 
 	use namespace arcane;
 

@@ -10,7 +10,7 @@ package away3d.loaders.parsers
 	import flash.net.URLRequest;
 	import flash.utils.ByteArray;
 	import flash.utils.Endian;
-
+	
 	import away3d.arcane;
 	import away3d.animators.AnimationSetBase;
 	import away3d.animators.AnimatorBase;
@@ -31,11 +31,11 @@ package away3d.loaders.parsers
 	import away3d.cameras.lenses.OrthographicLens;
 	import away3d.cameras.lenses.OrthographicOffCenterLens;
 	import away3d.cameras.lenses.PerspectiveLens;
-	import away3d.containers.ObjectContainer3D;
 	import away3d.core.base.CompactSubGeometry;
 	import away3d.core.base.Geometry;
 	import away3d.core.base.ISubGeometry;
 	import away3d.entities.Mesh;
+	import away3d.entities.ObjectContainer3D;
 	import away3d.entities.TextureProjector;
 	import away3d.library.assets.AssetType;
 	import away3d.library.assets.IAsset;

@@ -5,12 +5,12 @@ package away3d.loaders.parsers
 	import flash.net.URLRequest;
 	import flash.utils.ByteArray;
 	import flash.utils.Endian;
-
+	
 	import away3d.arcane;
-	import away3d.containers.ObjectContainer3D;
 	import away3d.core.base.Geometry;
 	import away3d.core.base.ISubGeometry;
 	import away3d.entities.Mesh;
+	import away3d.entities.ObjectContainer3D;
 	import away3d.library.assets.AssetType;
 	import away3d.library.assets.IAsset;
 	import away3d.loaders.misc.ResourceDependency;
@@ -870,10 +870,10 @@ package away3d.loaders.parsers
 		}
 	}
 }
+import flash.geom.Vector3D;
+
 import away3d.materials.MaterialBase;
 import away3d.textures.Texture2DBase;
-
-import flash.geom.Vector3D;
 
 internal class TextureVO
 {

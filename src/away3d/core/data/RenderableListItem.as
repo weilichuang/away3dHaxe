@@ -1,9 +1,9 @@
 package away3d.core.data
 {
 
-	import away3d.core.base.IRenderable;
-
 	import flash.geom.Matrix3D;
+
+	import away3d.core.base.IRenderable;
 
 	public final class RenderableListItem
 	{

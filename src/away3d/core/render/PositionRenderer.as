@@ -1,13 +1,7 @@
 package away3d.core.render
 {
-	import away3d.core.base.IRenderable;
-	import away3d.core.data.RenderableListItem;
-	import away3d.core.math.Matrix3DUtils;
-	import away3d.core.traverse.EntityCollector;
-	import away3d.debug.Debug;
-
 	import com.adobe.utils.AGALMiniAssembler;
-
+	
 	import flash.display3D.Context3D;
 	import flash.display3D.Context3DBlendFactor;
 	import flash.display3D.Context3DCompareMode;
@@ -15,6 +9,12 @@ package away3d.core.render
 	import flash.display3D.Program3D;
 	import flash.display3D.textures.TextureBase;
 	import flash.geom.Matrix3D;
+	
+	import away3d.core.base.IRenderable;
+	import away3d.core.data.RenderableListItem;
+	import away3d.core.traverse.EntityCollector;
+	import away3d.debug.Debug;
+	import away3d.math.Matrix3DUtils;
 
 	/**
 	 * The PositionRenderer renders normalized position coordinates.

@@ -1,14 +1,12 @@
 package away3d.filters.tasks
 {
+	import flash.display.BitmapData;
+	import flash.display3D.Context3DTextureFormat;
+	import flash.display3D.textures.Texture;
+	
 	import away3d.arcane;
 	import away3d.cameras.Camera3D;
 	import away3d.core.managers.Stage3DProxy;
-
-	import flash.display.BitmapData;
-
-	import flash.display3D.Context3DTextureFormat;
-
-	import flash.display3D.textures.Texture;
 
 	use namespace arcane;
 

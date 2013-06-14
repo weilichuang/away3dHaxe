@@ -1,17 +1,17 @@
 package away3d.lights
 {
+	import flash.geom.Matrix3D;
+	import flash.geom.Vector3D;
+	
 	import away3d.arcane;
 	import away3d.bounds.BoundingSphere;
 	import away3d.bounds.BoundingVolumeBase;
 	import away3d.core.base.IRenderable;
-	import away3d.core.math.Matrix3DUtils;
 	import away3d.core.partition.EntityNode;
 	import away3d.core.partition.PointLightNode;
 	import away3d.lights.shadowmaps.CubeMapShadowMapper;
 	import away3d.lights.shadowmaps.ShadowMapperBase;
-
-	import flash.geom.Matrix3D;
-	import flash.geom.Vector3D;
+	import away3d.math.Matrix3DUtils;
 
 	use namespace arcane;
 

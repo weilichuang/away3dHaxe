@@ -1,14 +1,20 @@
 ﻿package away3d.entities
 {
-	import away3d.materials.utils.DefaultMaterialManager;
-	import away3d.animators.IAnimator;
 	import away3d.arcane;
-	import away3d.containers.*;
-	import away3d.core.base.*;
-	import away3d.core.partition.*;
-	import away3d.events.*;
-	import away3d.library.assets.*;
-	import away3d.materials.*;
+	import away3d.animators.IAnimator;
+	import away3d.core.base.Geometry;
+	import away3d.core.base.IMaterialOwner;
+	import away3d.core.base.ISubGeometry;
+	import away3d.core.base.Object3D;
+	import away3d.core.base.SubGeometry;
+	import away3d.core.base.SubMesh;
+	import away3d.core.partition.EntityNode;
+	import away3d.core.partition.MeshNode;
+	import away3d.events.GeometryEvent;
+	import away3d.library.assets.AssetType;
+	import away3d.library.assets.IAsset;
+	import away3d.materials.MaterialBase;
+	import away3d.materials.utils.DefaultMaterialManager;
 
 	use namespace arcane;
 

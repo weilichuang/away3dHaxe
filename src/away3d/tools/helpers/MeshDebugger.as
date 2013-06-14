@@ -1,8 +1,8 @@
 package away3d.tools.helpers
 {
-	import away3d.containers.Scene3D;
-	import away3d.containers.ObjectContainer3D;
 	import away3d.entities.Mesh;
+	import away3d.entities.ObjectContainer3D;
+	import away3d.entities.Scene3D;
 	import away3d.tools.helpers.data.MeshDebug;
 
 	/**
@@ -303,12 +303,12 @@ package away3d.tools.helpers
 
 	}
 }
+import away3d.entities.Mesh;
+import away3d.entities.Scene3D;
+import away3d.tools.helpers.data.MeshDebug;
 
 class MeshDebugData
 {
-	import away3d.containers.Scene3D;
-	import away3d.entities.Mesh;
-	import away3d.tools.helpers.data.MeshDebug;
 
 	public var mesh:Mesh;
 	public var meshDebug:MeshDebug;

@@ -1,6 +1,6 @@
 package away3d.animators.states
 {
-	import away3d.animators.data.*;
+	import away3d.animators.data.SpriteSheetAnimationFrame;
 
 	/**
 	 * Provides an interface for animation node classes that hold animation data for use in the SpriteSheetAnimator class.

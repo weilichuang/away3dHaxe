@@ -1,7 +1,7 @@
 package away3d.controllers
 {
 	import away3d.arcane;
-	import away3d.entities.*;
+	import away3d.entities.Entity;
 	import away3d.errors.AbstractMethodError;
 
 	use namespace arcane;

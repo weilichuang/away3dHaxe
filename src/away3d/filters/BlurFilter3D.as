@@ -1,10 +1,10 @@
 package away3d.filters
 {
+	import flash.display3D.textures.Texture;
+	
 	import away3d.core.managers.Stage3DProxy;
 	import away3d.filters.tasks.Filter3DHBlurTask;
 	import away3d.filters.tasks.Filter3DVBlurTask;
-
-	import flash.display3D.textures.Texture;
 
 	public class BlurFilter3D extends Filter3DBase
 	{

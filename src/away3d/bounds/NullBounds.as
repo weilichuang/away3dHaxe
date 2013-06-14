@@ -1,11 +1,13 @@
 package away3d.bounds
 {
-	import away3d.core.base.*;
-	import away3d.core.math.Plane3D;
-	import away3d.core.math.PlaneClassification;
-	import away3d.primitives.*;
+	import flash.geom.Matrix3D;
+	import flash.geom.Vector3D;
 
-	import flash.geom.*;
+	import away3d.core.base.Geometry;
+	import away3d.math.Plane3D;
+	import away3d.math.PlaneClassification;
+	import away3d.primitives.WireframePrimitiveBase;
+	import away3d.primitives.WireframeSphere;
 
 	/**
 	 * NullBounds represents a debug bounding "volume" that is either considered always in, or always out of the frustum.

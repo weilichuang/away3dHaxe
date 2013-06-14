@@ -1,17 +1,17 @@
 package away3d.core.managers
 {
 
-	import away3d.arcane;
-	import away3d.containers.ObjectContainer3D;
-	import away3d.containers.View3D;
-	import away3d.core.pick.IPicker;
-	import away3d.core.pick.PickingCollisionVO;
-	import away3d.core.pick.PickingType;
-	import away3d.events.TouchEvent3D;
-
 	import flash.events.TouchEvent;
 	import flash.geom.Vector3D;
 	import flash.utils.Dictionary;
+
+	import away3d.arcane;
+	import away3d.core.pick.IPicker;
+	import away3d.core.pick.PickingCollisionVO;
+	import away3d.core.pick.PickingType;
+	import away3d.entities.ObjectContainer3D;
+	import away3d.entities.View3D;
+	import away3d.events.TouchEvent3D;
 
 	use namespace arcane;
 

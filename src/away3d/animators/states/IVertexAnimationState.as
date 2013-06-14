@@ -1,6 +1,6 @@
 package away3d.animators.states
 {
-	import away3d.core.base.*;
+	import away3d.core.base.Geometry;
 
 	/**
 	 * Provides an interface for animation node classes that hold animation data for use in the Vertex animator class.

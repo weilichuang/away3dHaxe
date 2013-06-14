@@ -1,8 +1,12 @@
 package away3d.loaders
 {
+	import flash.events.Event;
+	import flash.events.EventDispatcher;
+	import flash.net.URLRequest;
+	
 	import away3d.arcane;
-	import away3d.containers.ObjectContainer3D;
 	import away3d.entities.Mesh;
+	import away3d.entities.ObjectContainer3D;
 	import away3d.events.AssetEvent;
 	import away3d.events.LoaderEvent;
 	import away3d.events.ParserEvent;
@@ -13,10 +17,6 @@ package away3d.loaders
 	import away3d.loaders.misc.AssetLoaderToken;
 	import away3d.loaders.misc.SingleFileLoader;
 	import away3d.loaders.parsers.ParserBase;
-
-	import flash.events.Event;
-	import flash.events.EventDispatcher;
-	import flash.net.URLRequest;
 
 	use namespace arcane;
 

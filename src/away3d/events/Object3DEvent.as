@@ -1,8 +1,8 @@
 package away3d.events
 {
-	import away3d.core.base.*;
-
 	import flash.events.Event;
+	
+	import away3d.core.base.Object3D;
 
 	/**
 	* Passed as a parameter when a 3d object event occurs

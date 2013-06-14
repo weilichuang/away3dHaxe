@@ -1,7 +1,7 @@
 package away3d.animators.nodes
 {
-	import away3d.animators.*;
-	import away3d.animators.states.*;
+	import away3d.animators.IAnimator;
+	import away3d.animators.states.SkeletonDifferenceState;
 
 	/**
 	 * A skeleton animation node that uses a difference input pose with a base input pose to blend a linearly interpolated output of a skeleton pose.

@@ -1,7 +1,6 @@
 package away3d.loaders.parsers
 {
 	import flash.geom.Vector3D;
-	import flash.utils.ByteArray;
 	import flash.utils.Dictionary;
 
 	import away3d.arcane;

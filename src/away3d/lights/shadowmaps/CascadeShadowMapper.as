@@ -1,19 +1,19 @@
 package away3d.lights.shadowmaps
 {
-	import away3d.arcane;
-	import away3d.cameras.Camera3D;
-	import away3d.cameras.lenses.FreeMatrixLens;
-	import away3d.cameras.lenses.LensBase;
-	import away3d.containers.Scene3D;
-	import away3d.core.math.Matrix3DUtils;
-	import away3d.core.render.DepthRenderer;
-
 	import flash.display3D.textures.TextureBase;
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
 	import flash.events.IEventDispatcher;
 	import flash.geom.Matrix3D;
 	import flash.geom.Rectangle;
+	
+	import away3d.arcane;
+	import away3d.cameras.Camera3D;
+	import away3d.cameras.lenses.FreeMatrixLens;
+	import away3d.cameras.lenses.LensBase;
+	import away3d.core.render.DepthRenderer;
+	import away3d.entities.Scene3D;
+	import away3d.math.Matrix3DUtils;
 
 	use namespace arcane;
 

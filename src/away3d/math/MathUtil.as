@@ -1,10 +1,10 @@
-package away3d.core.math
+package away3d.math
 {
 
 	/**
 	 * MathConsts provides some commonly used mathematical constants
 	 */
-	public class MathConsts
+	public class MathUtil
 	{
 		/**
 		 * The amount to multiply with when converting radians to degrees.

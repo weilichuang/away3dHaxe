@@ -2,8 +2,8 @@ package away3d.events
 {
 
 	import away3d.arcane;
-	import away3d.containers.ObjectContainer3D;
-	import away3d.containers.View3D;
+	import away3d.entities.ObjectContainer3D;
+	import away3d.entities.View3D;
 	import away3d.core.base.IRenderable;
 	import away3d.materials.MaterialBase;
 

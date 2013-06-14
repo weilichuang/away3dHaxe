@@ -1,10 +1,11 @@
 package away3d.core.pick
 {
-	import flash.geom.*;
-
-	import away3d.tools.utils.GeomUtil;
+	import flash.geom.Point;
+	import flash.geom.Vector3D;
+	
 	import away3d.core.base.SubGeometry;
 	import away3d.core.base.SubMesh;
+	import away3d.tools.utils.GeomUtil;
 
 	/**
 	 * An abstract base class for all picking collider classes. It should not be instantiated directly.

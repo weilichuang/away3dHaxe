@@ -1,8 +1,8 @@
 package away3d.core.pick
 {
-	import away3d.core.base.*;
-
-	import flash.geom.*;
+	import flash.geom.Vector3D;
+	
+	import away3d.core.base.SubMesh;
 
 	/**
 	 * Pure AS3 picking collider for entity objects. Used with the <code>RaycastPicker</code> picking object.

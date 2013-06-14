@@ -1,10 +1,13 @@
 package away3d.animators.utils
 {
-	import away3d.arcane;
-	import away3d.animators.data.*;
-	import away3d.animators.nodes.*;
+	import flash.geom.Matrix3D;
+	import flash.geom.Orientation3D;
+	import flash.geom.Vector3D;
 
-	import flash.geom.*;
+	import away3d.arcane;
+	import away3d.animators.data.JointPose;
+	import away3d.animators.data.SkeletonPose;
+	import away3d.animators.nodes.SkeletonClipNode;
 
 
 	use namespace arcane;

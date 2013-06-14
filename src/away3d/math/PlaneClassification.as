@@ -1,4 +1,4 @@
-package away3d.core.math
+package away3d.math
 {
 
 	public class PlaneClassification

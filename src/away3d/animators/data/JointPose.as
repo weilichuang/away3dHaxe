@@ -1,8 +1,9 @@
 package away3d.animators.data
 {
-	import away3d.core.math.*;
+	import flash.geom.Matrix3D;
+	import flash.geom.Vector3D;
 
-	import flash.geom.*;
+	import away3d.math.Quaternion;
 
 	/**
 	 * Contains transformation data for a skeleton joint, used for skeleton animation.

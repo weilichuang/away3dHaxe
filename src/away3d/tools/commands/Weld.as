@@ -1,15 +1,15 @@
 package away3d.tools.commands
 {
+	import flash.geom.Vector3D;
+	import flash.utils.Dictionary;
+
 	import away3d.arcane;
-	import away3d.containers.ObjectContainer3D;
 	import away3d.core.base.CompactSubGeometry;
 	import away3d.core.base.Geometry;
 	import away3d.core.base.ISubGeometry;
-	import away3d.core.math.MathConsts;
 	import away3d.entities.Mesh;
-
-	import flash.geom.Vector3D;
-	import flash.utils.Dictionary;
+	import away3d.entities.ObjectContainer3D;
+	import away3d.math.MathUtil;
 
 	use namespace arcane;
 
@@ -46,7 +46,7 @@ package away3d.tools.commands
 			_keepUvs = keepUvs;
 			_useNormalMode = useNormalMode;
 			_smoothNormals = smoothNormals;
-			_normalThreshold = normalAngleDegree * MathConsts.DEGREES_TO_RADIANS;
+			_normalThreshold = normalAngleDegree * MathUtil.DEGREES_TO_RADIANS;
 			_vertCnt = applyToGeom(mesh.geometry);
 		}
 
@@ -56,7 +56,7 @@ package away3d.tools.commands
 		 * @param obj  				The ObjectContainer3D to weld
 		 * @param keepUVs 			If the uvs should be kept as defined. Default is true.
 	   * @param normalAngleDegree	Threshold to compair the normals. Default is 180.
-			   * @param useNormalMode 		If the face normals or vertex normals are used for comparison. VERTEXNORMALS keeps intact the original data. Default uses USE_FACENORMALS.
+				  * @param useNormalMode 		If the face normals or vertex normals are used for comparison. VERTEXNORMALS keeps intact the original data. Default uses USE_FACENORMALS.
 		 * @param smoothNormals 		Smooth. Default is true.
 		 */
 		public function applyToContainer(obj:ObjectContainer3D, keepUVs:Boolean = true, normalAngleDegree:Number = 180, useNormalMode:String = USE_FACENORMALS, smoothNormals:Boolean = true):void
@@ -64,7 +64,7 @@ package away3d.tools.commands
 			_keepUvs = keepUVs;
 			_useNormalMode = useNormalMode;
 			_smoothNormals = smoothNormals;
-			_normalThreshold = normalAngleDegree * MathConsts.DEGREES_TO_RADIANS;
+			_normalThreshold = normalAngleDegree * MathUtil.DEGREES_TO_RADIANS;
 			_vertCnt = parse(obj);
 		}
 

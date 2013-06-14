@@ -4,7 +4,7 @@ package away3d.loaders.parsers
 	import flash.utils.ByteArray;
 	import flash.utils.Dictionary;
 	import flash.utils.Endian;
-
+	
 	import away3d.arcane;
 	import away3d.animators.VertexAnimationSet;
 	import away3d.animators.nodes.VertexClipNode;

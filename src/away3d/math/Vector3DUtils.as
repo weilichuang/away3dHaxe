@@ -1,6 +1,7 @@
-package away3d.core.math
+package away3d.math
 {
-	import flash.geom.*;
+	import flash.geom.Matrix3D;
+	import flash.geom.Vector3D;
 
 	/**
 	 * Vector3DUtils provides additional Vector3D math functions.
@@ -176,7 +177,7 @@ package away3d.core.math
 				var x1:Number;
 				var y1:Number;
 
-				var rad:Number = MathConsts.DEGREES_TO_RADIANS;
+				var rad:Number = MathUtil.DEGREES_TO_RADIANS;
 				var rotx:Number = rotation.x * rad;
 				var roty:Number = rotation.y * rad;
 				var rotz:Number = rotation.z * rad;

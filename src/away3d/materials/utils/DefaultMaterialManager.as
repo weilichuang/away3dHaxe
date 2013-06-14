@@ -1,10 +1,10 @@
 package away3d.materials.utils
 {
-	import away3d.core.base.*;
-	import away3d.materials.*;
-	import away3d.textures.*;
-
-	import flash.display.*;
+	import flash.display.BitmapData;
+	
+	import away3d.core.base.IMaterialOwner;
+	import away3d.materials.TextureMaterial;
+	import away3d.textures.BitmapTexture;
 
 	public class DefaultMaterialManager
 	{

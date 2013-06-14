@@ -1,11 +1,11 @@
 package away3d.textures
 {
+	import flash.display.BitmapData;
+	import flash.display3D.textures.TextureBase;
+
 	import away3d.arcane;
 	import away3d.materials.utils.MipmapGenerator;
 	import away3d.tools.utils.TextureUtils;
-
-	import flash.display.BitmapData;
-	import flash.display3D.textures.TextureBase;
 
 	use namespace arcane;
 

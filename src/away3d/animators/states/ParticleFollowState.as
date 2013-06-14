@@ -1,18 +1,19 @@
 package away3d.animators.states
 {
-	import away3d.arcane;
-	import away3d.animators.data.ParticleAnimationData;
-	import away3d.cameras.Camera3D;
-	import away3d.animators.data.AnimationRegisterCache;
-	import away3d.animators.data.AnimationSubGeometry;
-	import away3d.core.base.IRenderable;
-	import away3d.core.managers.Stage3DProxy;
-	import away3d.animators.nodes.ParticleFollowNode;
-	import away3d.animators.ParticleAnimator;
-	import away3d.core.base.Object3D;
-	import away3d.core.math.MathConsts;
 	import flash.display3D.Context3DVertexBufferFormat;
 	import flash.geom.Vector3D;
+
+	import away3d.arcane;
+	import away3d.animators.ParticleAnimator;
+	import away3d.animators.data.AnimationRegisterCache;
+	import away3d.animators.data.AnimationSubGeometry;
+	import away3d.animators.data.ParticleAnimationData;
+	import away3d.animators.nodes.ParticleFollowNode;
+	import away3d.cameras.Camera3D;
+	import away3d.core.base.IRenderable;
+	import away3d.core.base.Object3D;
+	import away3d.core.managers.Stage3DProxy;
+	import away3d.math.MathUtil;
 
 	use namespace arcane;
 
@@ -83,7 +84,7 @@ package away3d.animators.states
 					_targetEuler.x = _followTarget.rotationX;
 					_targetEuler.y = _followTarget.rotationY;
 					_targetEuler.z = _followTarget.rotationZ;
-					_targetEuler.scaleBy(MathConsts.DEGREES_TO_RADIANS);
+					_targetEuler.scaleBy(MathUtil.DEGREES_TO_RADIANS);
 				}
 			}
 			//initialization

@@ -68,8 +68,8 @@ package example
 	import away3d.animators.nodes.SkeletonClipNode;
 	import away3d.animators.transitions.CrossfadeTransition;
 	import away3d.cameras.Camera3D;
-	import away3d.containers.ObjectContainer3D;
-	import away3d.containers.Scene3D;
+	import away3d.entities.ObjectContainer3D;
+	import away3d.entities.Scene3D;
 	import away3d.controllers.LookAtController;
 	import away3d.core.base.Geometry;
 	import away3d.debug.AwayStats;

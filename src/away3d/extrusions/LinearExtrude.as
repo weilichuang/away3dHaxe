@@ -1,5 +1,8 @@
 ﻿package away3d.extrusions
 {
+	import flash.geom.Point;
+	import flash.geom.Vector3D;
+	
 	import away3d.bounds.BoundingVolumeBase;
 	import away3d.core.base.Geometry;
 	import away3d.core.base.SubGeometry;
@@ -10,9 +13,6 @@
 	import away3d.materials.MaterialBase;
 	import away3d.materials.utils.MultipleMaterials;
 	import away3d.tools.helpers.MeshHelper;
-
-	import flash.geom.Point;
-	import flash.geom.Vector3D;
 
 	public class LinearExtrude extends Mesh
 	{
@@ -1153,10 +1153,10 @@
 
 	}
 }
+import flash.geom.Point;
+
 import away3d.core.base.SubGeometry;
 import away3d.materials.MaterialBase;
-
-import flash.geom.Point;
 
 class SubGeometryList
 {

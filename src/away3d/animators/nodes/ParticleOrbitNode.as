@@ -1,13 +1,15 @@
 package away3d.animators.nodes
 {
-	import flash.geom.*;
+	import flash.geom.Vector3D;
 
-	import away3d.*;
-	import away3d.animators.*;
-	import away3d.animators.data.*;
-	import away3d.animators.states.*;
-	import away3d.materials.compilation.*;
-	import away3d.materials.passes.*;
+	import away3d.arcane;
+	import away3d.animators.IAnimator;
+	import away3d.animators.data.AnimationRegisterCache;
+	import away3d.animators.data.ParticleProperties;
+	import away3d.animators.data.ParticlePropertiesMode;
+	import away3d.animators.states.ParticleOrbitState;
+	import away3d.materials.compilation.ShaderRegisterElement;
+	import away3d.materials.passes.MaterialPassBase;
 
 	use namespace arcane;
 

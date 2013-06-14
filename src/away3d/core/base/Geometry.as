@@ -1,12 +1,12 @@
 package away3d.core.base
 {
+	import flash.geom.Matrix3D;
+
 	import away3d.arcane;
 	import away3d.events.GeometryEvent;
 	import away3d.library.assets.AssetType;
 	import away3d.library.assets.IAsset;
 	import away3d.library.assets.NamedAssetBase;
-
-	import flash.geom.Matrix3D;
 
 	use namespace arcane;
 

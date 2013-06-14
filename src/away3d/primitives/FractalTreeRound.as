@@ -1,10 +1,11 @@
 package away3d.primitives
 {
-	import away3d.core.base.*;
-	import away3d.tools.utils.*;
-	import away3d.utils.*;
+	import flash.geom.Matrix3D;
+	import flash.geom.Point;
+	import flash.geom.Vector3D;
 
-	import flash.geom.*;
+	import away3d.core.base.CompactSubGeometry;
+	import away3d.tools.utils.GeomUtil;
 
 	public class FractalTreeRound extends PrimitiveBase
 	{

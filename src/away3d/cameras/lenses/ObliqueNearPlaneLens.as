@@ -1,7 +1,7 @@
 package away3d.cameras.lenses
 {
 	import away3d.arcane;
-	import away3d.core.math.Plane3D;
+	import away3d.math.Plane3D;
 	import away3d.events.LensEvent;
 
 	import flash.geom.Matrix3D;

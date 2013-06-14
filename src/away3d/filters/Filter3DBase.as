@@ -1,10 +1,10 @@
 package away3d.filters
 {
+	import flash.display3D.textures.Texture;
+	
 	import away3d.cameras.Camera3D;
 	import away3d.core.managers.Stage3DProxy;
 	import away3d.filters.tasks.Filter3DTaskBase;
-
-	import flash.display3D.textures.Texture;
 
 	public class Filter3DBase
 	{

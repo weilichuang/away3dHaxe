@@ -1,5 +1,9 @@
 package away3d.materials.passes
 {
+	import flash.display3D.Context3D;
+	import flash.geom.ColorTransform;
+	import flash.geom.Vector3D;
+	
 	import away3d.arcane;
 	import away3d.cameras.Camera3D;
 	import away3d.core.managers.Stage3DProxy;
@@ -13,11 +17,6 @@ package away3d.materials.passes
 	import away3d.materials.methods.ColorTransformMethod;
 	import away3d.materials.methods.EffectMethodBase;
 	import away3d.materials.methods.MethodVOSet;
-
-	import flash.display3D.Context3D;
-
-	import flash.geom.ColorTransform;
-	import flash.geom.Vector3D;
 
 	use namespace arcane;
 

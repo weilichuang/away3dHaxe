@@ -1,15 +1,15 @@
 package away3d.tools.helpers
 {
+	import flash.display.BitmapData;
+	import flash.display.MovieClip;
+	import flash.geom.Matrix;
+	import flash.geom.Point;
+
 	import away3d.animators.data.SpriteSheetAnimationFrame;
 	import away3d.animators.nodes.SpriteSheetClipNode;
 	import away3d.textures.BitmapTexture;
 	import away3d.textures.Texture2DBase;
 	import away3d.tools.utils.TextureUtils;
-
-	import flash.display.BitmapData;
-	import flash.display.MovieClip;
-	import flash.geom.Matrix;
-	import flash.geom.Point;
 
 	/**
 	 * SpriteSheetHelper, a class to ease sprite sheet animation data generation

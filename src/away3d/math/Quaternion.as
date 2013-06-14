@@ -1,4 +1,4 @@
-package away3d.core.math
+package away3d.math
 {
 	import flash.geom.Matrix3D;
 	import flash.geom.Orientation3D;

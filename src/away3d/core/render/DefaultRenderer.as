@@ -1,5 +1,12 @@
 package away3d.core.render
 {
+	import flash.display3D.Context3DBlendFactor;
+	import flash.display3D.Context3DCompareMode;
+	import flash.display3D.textures.TextureBase;
+	import flash.geom.Matrix3D;
+	import flash.geom.Rectangle;
+	import flash.geom.Vector3D;
+
 	import away3d.arcane;
 	import away3d.cameras.Camera3D;
 	import away3d.core.base.IRenderable;
@@ -11,13 +18,6 @@ package away3d.core.render
 	import away3d.lights.PointLight;
 	import away3d.lights.shadowmaps.ShadowMapperBase;
 	import away3d.materials.MaterialBase;
-
-	import flash.display3D.Context3DBlendFactor;
-	import flash.display3D.Context3DCompareMode;
-	import flash.display3D.textures.TextureBase;
-	import flash.geom.Matrix3D;
-	import flash.geom.Rectangle;
-	import flash.geom.Vector3D;
 
 	use namespace arcane;
 

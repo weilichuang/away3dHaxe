@@ -1,10 +1,10 @@
 ﻿package away3d.controllers
 {
-	import away3d.containers.*;
-	import away3d.entities.*;
-	import away3d.events.*;
-
 	import flash.geom.Vector3D;
+
+	import away3d.entities.Entity;
+	import away3d.entities.ObjectContainer3D;
+	import away3d.events.Object3DEvent;
 
 	/**
 	* Extended camera used to automatically look at a specified target object.

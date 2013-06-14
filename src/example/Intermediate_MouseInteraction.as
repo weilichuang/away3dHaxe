@@ -19,8 +19,8 @@ package example
 	import away3d.bounds.BoundingSphere;
 	import away3d.bounds.BoundingVolumeBase;
 	import away3d.cameras.Camera3D;
-	import away3d.containers.Scene3D;
-	import away3d.containers.View3D;
+	import away3d.entities.Scene3D;
+	import away3d.entities.View3D;
 	import away3d.controllers.HoverController;
 	import away3d.core.base.Geometry;
 	import away3d.core.pick.PickingColliderType;

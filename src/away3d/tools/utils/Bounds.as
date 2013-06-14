@@ -1,13 +1,13 @@
 package away3d.tools.utils
 {
-	import flash.utils.Dictionary;
-	import away3d.entities.Entity;
 	import flash.geom.Matrix3D;
-	import away3d.arcane;
-	import away3d.containers.ObjectContainer3D;
-	import away3d.entities.Mesh;
-
 	import flash.geom.Vector3D;
+	import flash.utils.Dictionary;
+
+	import away3d.arcane;
+	import away3d.entities.Entity;
+	import away3d.entities.Mesh;
+	import away3d.entities.ObjectContainer3D;
 
 	use namespace arcane;
 

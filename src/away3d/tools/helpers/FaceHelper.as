@@ -1,9 +1,9 @@
 package away3d.tools.helpers
 {
 	import away3d.arcane;
+	import away3d.core.base.CompactSubGeometry;
 	import away3d.core.base.ISubGeometry;
 	import away3d.core.base.SubGeometry;
-	import away3d.core.base.CompactSubGeometry;
 	import away3d.core.base.data.UV;
 	import away3d.core.base.data.Vertex;
 	import away3d.entities.Mesh;

@@ -1,10 +1,10 @@
 package away3d.textures
 {
-	import away3d.arcane;
-
 	import flash.display3D.Context3D;
 	import flash.display3D.Context3DTextureFormat;
 	import flash.display3D.textures.TextureBase;
+
+	import away3d.arcane;
 
 	use namespace arcane;
 

@@ -1,8 +1,8 @@
 package away3d.events
 {
-	import away3d.core.base.ISubGeometry;
-
 	import flash.events.Event;
+
+	import away3d.core.base.ISubGeometry;
 
 	/**
 	 * Dispatched to notify changes in a geometry object's state.

@@ -1,22 +1,34 @@
 package away3d.core.pick
 {
+	import com.adobe.utils.AGALMiniAssembler;
+	
+	import flash.display.BitmapData;
+	import flash.display3D.Context3D;
+	import flash.display3D.Context3DBlendFactor;
+	import flash.display3D.Context3DClearMask;
+	import flash.display3D.Context3DCompareMode;
+	import flash.display3D.Context3DProgramType;
+	import flash.display3D.Context3DTriangleFace;
+	import flash.display3D.Program3D;
+	import flash.display3D.textures.TextureBase;
+	import flash.geom.Matrix3D;
+	import flash.geom.Point;
+	import flash.geom.Rectangle;
+	import flash.geom.Vector3D;
+	
 	import away3d.arcane;
-	import away3d.cameras.*;
-	import away3d.containers.*;
-	import away3d.core.base.*;
-	import away3d.core.data.*;
-	import away3d.core.managers.*;
-	import away3d.core.math.*;
-	import away3d.core.traverse.*;
-	import away3d.entities.*;
+	import away3d.cameras.Camera3D;
+	import away3d.core.base.IRenderable;
+	import away3d.core.base.ISubGeometry;
+	import away3d.core.base.SubMesh;
+	import away3d.core.data.RenderableListItem;
+	import away3d.core.managers.Stage3DProxy;
+	import away3d.core.traverse.EntityCollector;
+	import away3d.entities.Entity;
+	import away3d.entities.Scene3D;
+	import away3d.entities.View3D;
+	import away3d.math.Matrix3DUtils;
 	import away3d.tools.utils.GeomUtil;
-
-	import flash.display.*;
-	import flash.display3D.*;
-	import flash.display3D.textures.*;
-	import flash.geom.*;
-
-	import com.adobe.utils.*;
 
 	use namespace arcane;
 

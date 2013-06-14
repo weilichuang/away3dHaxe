@@ -211,6 +211,7 @@ package example
 		 * Initialise the material
 		 */
 		private var skyBox:SnowSkyBox;
+
 		private function initMaterials():void
 		{
 			terrainMethod = new TerrainDiffuseMethod([Cast.bitmapTexture(Beach), Cast.bitmapTexture(Grass), Cast.bitmapTexture(Rock)], Cast.bitmapTexture(Blend), [1, 50, 150, 100]);
@@ -227,7 +228,7 @@ package example
 			waterMethod = new SimpleWaterNormalMethod(Cast.bitmapTexture(WaterNormals), Cast.bitmapTexture(WaterNormals));
 			fresnelMethod = new FresnelSpecularMethod();
 			fresnelMethod.normalReflectance = .3;
-			
+
 			skyBox = new SnowSkyBox();
 			//create skybox.
 			scene.addChild(skyBox);

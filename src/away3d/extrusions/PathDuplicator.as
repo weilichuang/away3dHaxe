@@ -1,13 +1,13 @@
 package away3d.extrusions
 {
 
-	import away3d.containers.ObjectContainer3D;
-	import away3d.containers.Scene3D;
-	import away3d.entities.Mesh;
-	import away3d.paths.IPath;
-
 	import flash.geom.Matrix3D;
 	import flash.geom.Vector3D;
+	
+	import away3d.entities.Mesh;
+	import away3d.entities.ObjectContainer3D;
+	import away3d.entities.Scene3D;
+	import away3d.paths.IPath;
 
 	[Deprecated]
 	public class PathDuplicator

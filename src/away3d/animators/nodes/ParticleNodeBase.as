@@ -1,11 +1,12 @@
 package away3d.animators.nodes
 {
+	import flash.utils.getQualifiedClassName;
+
 	import away3d.arcane;
-	import away3d.animators.data.ParticleProperties;
 	import away3d.animators.ParticleAnimationSet;
 	import away3d.animators.data.AnimationRegisterCache;
+	import away3d.animators.data.ParticleProperties;
 	import away3d.materials.passes.MaterialPassBase;
-	import flash.utils.getQualifiedClassName;
 
 	use namespace arcane;
 

@@ -19,8 +19,8 @@ package example
 
 	import away3d.arcane;
 	import away3d.cameras.Camera3D;
-	import away3d.containers.ObjectContainer3D;
-	import away3d.containers.Scene3D;
+	import away3d.entities.ObjectContainer3D;
+	import away3d.entities.Scene3D;
 	import away3d.controllers.HoverController;
 	import away3d.debug.AwayStats;
 	import away3d.entities.Mesh;

@@ -1,8 +1,8 @@
 package away3d.controllers
 {
 	import away3d.arcane;
-	import away3d.core.math.*;
-	import away3d.entities.*;
+	import away3d.entities.Entity;
+	import away3d.math.MathUtil;
 
 	use namespace arcane;
 
@@ -205,8 +205,8 @@ package away3d.controllers
 				}
 				else
 				{
-					targetObject.x += _walkIncrement * Math.sin(panAngle * MathConsts.DEGREES_TO_RADIANS);
-					targetObject.z += _walkIncrement * Math.cos(panAngle * MathConsts.DEGREES_TO_RADIANS);
+					targetObject.x += _walkIncrement * Math.sin(panAngle * MathUtil.DEGREES_TO_RADIANS);
+					targetObject.z += _walkIncrement * Math.cos(panAngle * MathUtil.DEGREES_TO_RADIANS);
 				}
 				_walkIncrement = 0;
 			}

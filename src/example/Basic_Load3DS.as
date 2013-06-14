@@ -46,7 +46,7 @@ package example
 	import flash.geom.Vector3D;
 	import flash.utils.getTimer;
 
-	import away3d.containers.View3D;
+	import away3d.entities.View3D;
 	import away3d.controllers.HoverController;
 	import away3d.debug.AwayStats;
 	import away3d.entities.Mesh;
@@ -105,7 +105,7 @@ package example
 		{
 			init();
 		}
-		
+
 		/**
 		 * Global initialise function
 		 */

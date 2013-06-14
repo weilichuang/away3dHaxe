@@ -1,8 +1,8 @@
 package away3d.events
 {
-	import away3d.animators.*;
-
-	import flash.events.*;
+	import flash.events.Event;
+	
+	import away3d.animators.AnimatorBase;
 
 	/**
 	 * Dispatched to notify changes in an animator's state.

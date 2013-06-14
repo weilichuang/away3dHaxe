@@ -1,10 +1,14 @@
 package away3d.materials.passes
 {
+	import flash.display3D.Context3D;
+	import flash.display3D.Context3DProgramType;
+	import flash.geom.Matrix;
+	import flash.geom.Matrix3D;
+	
 	import away3d.arcane;
 	import away3d.cameras.Camera3D;
 	import away3d.core.base.IRenderable;
 	import away3d.core.managers.Stage3DProxy;
-	import away3d.core.math.Matrix3DUtils;
 	import away3d.errors.AbstractMethodError;
 	import away3d.events.ShadingMethodEvent;
 	import away3d.materials.LightSources;
@@ -17,12 +21,8 @@ package away3d.materials.passes
 	import away3d.materials.methods.MethodVOSet;
 	import away3d.materials.methods.ShaderMethodSetup;
 	import away3d.materials.methods.ShadowMapMethodBase;
+	import away3d.math.Matrix3DUtils;
 	import away3d.textures.Texture2DBase;
-
-	import flash.display3D.Context3D;
-	import flash.display3D.Context3DProgramType;
-	import flash.geom.Matrix;
-	import flash.geom.Matrix3D;
 
 	use namespace arcane;
 

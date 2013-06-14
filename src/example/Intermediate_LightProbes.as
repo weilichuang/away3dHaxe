@@ -45,8 +45,8 @@ package example
 	import flash.ui.Keyboard;
 
 	import away3d.cameras.Camera3D;
-	import away3d.containers.Scene3D;
-	import away3d.containers.View3D;
+	import away3d.entities.Scene3D;
+	import away3d.entities.View3D;
 	import away3d.controllers.LookAtController;
 	import away3d.entities.Mesh;
 	import away3d.events.AssetEvent;

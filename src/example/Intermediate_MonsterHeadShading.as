@@ -61,8 +61,8 @@ package example
 	import flash.utils.Dictionary;
 
 	import away3d.cameras.Camera3D;
-	import away3d.containers.Scene3D;
-	import away3d.containers.View3D;
+	import away3d.entities.Scene3D;
+	import away3d.entities.View3D;
 	import away3d.controllers.HoverController;
 	import away3d.core.base.SubMesh;
 	import away3d.debug.AwayStats;

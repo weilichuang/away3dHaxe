@@ -1,13 +1,13 @@
 package away3d.tools.utils
 {
-	import away3d.containers.ObjectContainer3D;
+	import flash.geom.Vector3D;
+
 	import away3d.core.base.Geometry;
 	import away3d.core.base.ISubGeometry;
 	import away3d.core.base.SubGeometry;
 	import away3d.core.base.data.UV;
 	import away3d.entities.Mesh;
-
-	import flash.geom.Vector3D;
+	import away3d.entities.ObjectContainer3D;
 
 	public class Projector
 	{

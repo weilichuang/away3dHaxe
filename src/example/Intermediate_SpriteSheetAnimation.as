@@ -53,8 +53,8 @@ package example
 	import away3d.animators.SpriteSheetAnimationSet;
 	import away3d.animators.SpriteSheetAnimator;
 	import away3d.animators.nodes.SpriteSheetClipNode;
-	import away3d.containers.ObjectContainer3D;
-	import away3d.containers.View3D;
+	import away3d.entities.ObjectContainer3D;
+	import away3d.entities.View3D;
 	import away3d.entities.Mesh;
 	import away3d.events.AssetEvent;
 	import away3d.events.LoaderEvent;

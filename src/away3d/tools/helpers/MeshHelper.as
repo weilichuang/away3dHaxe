@@ -1,7 +1,10 @@
 package away3d.tools.helpers
 {
+	import flash.geom.Matrix3D;
+	import flash.geom.Vector3D;
+	import flash.utils.Dictionary;
+
 	import away3d.arcane;
-	import away3d.containers.ObjectContainer3D;
 	import away3d.core.base.CompactSubGeometry;
 	import away3d.core.base.Geometry;
 	import away3d.core.base.ISubGeometry;
@@ -10,14 +13,11 @@ package away3d.tools.helpers
 	import away3d.core.base.data.UV;
 	import away3d.core.base.data.Vertex;
 	import away3d.entities.Mesh;
+	import away3d.entities.ObjectContainer3D;
 	import away3d.materials.MaterialBase;
 	import away3d.materials.utils.DefaultMaterialManager;
 	import away3d.tools.utils.Bounds;
 	import away3d.tools.utils.GeomUtil;
-
-	import flash.geom.Matrix3D;
-	import flash.geom.Vector3D;
-	import flash.utils.Dictionary;
 
 	use namespace arcane;
 

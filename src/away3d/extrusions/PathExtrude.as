@@ -1,20 +1,20 @@
 package away3d.extrusions
 {
+	import flash.geom.Matrix3D;
+	import flash.geom.Vector3D;
+
 	import away3d.bounds.BoundingVolumeBase;
 	import away3d.core.base.Geometry;
 	import away3d.core.base.SubGeometry;
 	import away3d.core.base.SubMesh;
 	import away3d.core.base.data.UV;
 	import away3d.core.base.data.Vertex;
-	import away3d.core.math.Vector3DUtils;
 	import away3d.entities.Mesh;
 	import away3d.materials.MaterialBase;
+	import away3d.math.Vector3DUtils;
 	import away3d.paths.IPath;
 	import away3d.paths.IPathSegment;
 	import away3d.tools.helpers.MeshHelper;
-
-	import flash.geom.Matrix3D;
-	import flash.geom.Vector3D;
 
 	[Deprecated]
 	public class PathExtrude extends Mesh

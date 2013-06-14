@@ -1,15 +1,16 @@
 package away3d.animators.states
 {
-	import away3d.animators.data.ParticlePropertiesMode;
+	import flash.display3D.Context3DVertexBufferFormat;
+
 	import away3d.arcane;
-	import away3d.cameras.Camera3D;
+	import away3d.animators.ParticleAnimator;
 	import away3d.animators.data.AnimationRegisterCache;
 	import away3d.animators.data.AnimationSubGeometry;
+	import away3d.animators.data.ParticlePropertiesMode;
+	import away3d.animators.nodes.ParticleSpriteSheetNode;
+	import away3d.cameras.Camera3D;
 	import away3d.core.base.IRenderable;
 	import away3d.core.managers.Stage3DProxy;
-	import away3d.animators.nodes.ParticleSpriteSheetNode;
-	import away3d.animators.ParticleAnimator;
-	import flash.display3D.Context3DVertexBufferFormat;
 
 	use namespace arcane;
 

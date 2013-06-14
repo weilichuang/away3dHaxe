@@ -1,5 +1,7 @@
 package away3d.core.traverse
 {
+	import flash.geom.Vector3D;
+
 	import away3d.arcane;
 	import away3d.cameras.Camera3D;
 	import away3d.core.base.IRenderable;
@@ -7,7 +9,6 @@ package away3d.core.traverse
 	import away3d.core.data.EntityListItemPool;
 	import away3d.core.data.RenderableListItem;
 	import away3d.core.data.RenderableListItemPool;
-	import away3d.core.math.Plane3D;
 	import away3d.core.partition.NodeBase;
 	import away3d.entities.Entity;
 	import away3d.lights.DirectionalLight;
@@ -15,8 +16,7 @@ package away3d.core.traverse
 	import away3d.lights.LightProbe;
 	import away3d.lights.PointLight;
 	import away3d.materials.MaterialBase;
-
-	import flash.geom.Vector3D;
+	import away3d.math.Plane3D;
 
 	use namespace arcane;
 

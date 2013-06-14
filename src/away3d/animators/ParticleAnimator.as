@@ -1,16 +1,20 @@
 package away3d.animators
 {
-	import flash.display3D.*;
-	import flash.utils.*;
+	import flash.display3D.Context3DProgramType;
+	import flash.utils.Dictionary;
 
-	import away3d.*;
-	import away3d.animators.data.*;
-	import away3d.animators.nodes.*;
-	import away3d.animators.states.*;
-	import away3d.cameras.*;
-	import away3d.core.base.*;
-	import away3d.core.managers.*;
-	import away3d.materials.passes.*;
+	import away3d.arcane;
+	import away3d.animators.data.AnimationRegisterCache;
+	import away3d.animators.data.AnimationSubGeometry;
+	import away3d.animators.data.ParticlePropertiesMode;
+	import away3d.animators.nodes.ParticleNodeBase;
+	import away3d.animators.states.ParticleStateBase;
+	import away3d.cameras.Camera3D;
+	import away3d.core.base.IRenderable;
+	import away3d.core.base.ISubGeometry;
+	import away3d.core.base.SubMesh;
+	import away3d.core.managers.Stage3DProxy;
+	import away3d.materials.passes.MaterialPassBase;
 
 	use namespace arcane;
 

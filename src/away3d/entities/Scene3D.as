@@ -1,13 +1,12 @@
-package away3d.containers
+package away3d.entities
 {
+	import flash.events.EventDispatcher;
+	
 	import away3d.arcane;
 	import away3d.core.partition.NodeBase;
 	import away3d.core.partition.Partition3D;
 	import away3d.core.traverse.PartitionTraverser;
-	import away3d.entities.Entity;
 	import away3d.events.Scene3DEvent;
-
-	import flash.events.EventDispatcher;
 
 	use namespace arcane;
 

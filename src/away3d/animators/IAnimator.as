@@ -1,12 +1,12 @@
 package away3d.animators
 {
-	import away3d.animators.nodes.*;
-	import away3d.animators.states.*;
+	import away3d.animators.nodes.AnimationNodeBase;
+	import away3d.animators.states.AnimationStateBase;
 	import away3d.cameras.Camera3D;
-	import away3d.core.base.*;
-	import away3d.core.managers.*;
-	import away3d.entities.*;
-	import away3d.materials.passes.*;
+	import away3d.core.base.IRenderable;
+	import away3d.core.managers.Stage3DProxy;
+	import away3d.entities.Mesh;
+	import away3d.materials.passes.MaterialPassBase;
 
 	/**
 	 * Provides an interface for animator classes that control animation output from a data set subtype of <code>AnimationSetBase</code>.

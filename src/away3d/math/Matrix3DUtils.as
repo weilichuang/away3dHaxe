@@ -1,6 +1,7 @@
-package away3d.core.math
+package away3d.math
 {
-	import flash.geom.*;
+	import flash.geom.Matrix3D;
+	import flash.geom.Vector3D;
 
 	/**
 	 * Matrix3DUtils provides additional Matrix3D math functions.

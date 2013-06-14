@@ -4,6 +4,8 @@
 
 package away3d.extrusions
 {
+	import flash.geom.Vector3D;
+
 	import away3d.bounds.BoundingVolumeBase;
 	import away3d.core.base.Geometry;
 	import away3d.core.base.SubGeometry;
@@ -12,8 +14,6 @@ package away3d.extrusions
 	import away3d.entities.Mesh;
 	import away3d.materials.MaterialBase;
 	import away3d.tools.helpers.MeshHelper;
-
-	import flash.geom.Vector3D;
 
 	public class DelaunayMesh extends Mesh
 	{

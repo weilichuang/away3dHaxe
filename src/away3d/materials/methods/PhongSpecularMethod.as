@@ -3,8 +3,9 @@
  */
 package away3d.materials.methods
 {
-	import away3d.*;
-	import away3d.materials.compilation.*;
+	import away3d.arcane;
+	import away3d.materials.compilation.ShaderRegisterCache;
+	import away3d.materials.compilation.ShaderRegisterElement;
 
 	use namespace arcane;
 

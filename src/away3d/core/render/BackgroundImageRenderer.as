@@ -1,11 +1,7 @@
 package away3d.core.render
 {
-	import away3d.core.managers.Stage3DProxy;
-	import away3d.debug.Debug;
-	import away3d.textures.Texture2DBase;
-
 	import com.adobe.utils.AGALMiniAssembler;
-
+	
 	import flash.display3D.Context3D;
 	import flash.display3D.Context3DProgramType;
 	import flash.display3D.Context3DTextureFormat;
@@ -13,6 +9,10 @@ package away3d.core.render
 	import flash.display3D.IndexBuffer3D;
 	import flash.display3D.Program3D;
 	import flash.display3D.VertexBuffer3D;
+	
+	import away3d.core.managers.Stage3DProxy;
+	import away3d.debug.Debug;
+	import away3d.textures.Texture2DBase;
 
 	public class BackgroundImageRenderer
 	{

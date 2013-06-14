@@ -72,8 +72,8 @@ package example
 	import away3d.animators.nodes.SkeletonClipNode;
 	import away3d.animators.transitions.CrossfadeTransition;
 	import away3d.cameras.lenses.PerspectiveLens;
-	import away3d.containers.ObjectContainer3D;
-	import away3d.containers.View3D;
+	import away3d.entities.ObjectContainer3D;
+	import away3d.entities.View3D;
 	import away3d.controllers.HoverController;
 	import away3d.core.base.Geometry;
 	import away3d.debug.AwayStats;

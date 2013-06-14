@@ -1,11 +1,12 @@
 package away3d.loaders.parsers
 {
-	import away3d.arcane;
-	import away3d.animators.data.*;
-	import away3d.animators.nodes.*;
-	import away3d.core.math.*;
+	import flash.geom.Vector3D;
 
-	import flash.geom.*;
+	import away3d.arcane;
+	import away3d.animators.data.JointPose;
+	import away3d.animators.data.SkeletonPose;
+	import away3d.animators.nodes.SkeletonClipNode;
+	import away3d.math.Quaternion;
 
 
 	use namespace arcane;
@@ -639,9 +640,9 @@ package away3d.loaders.parsers
 	}
 }
 
-import away3d.core.math.Quaternion;
-
 import flash.geom.Vector3D;
+
+import away3d.math.Quaternion;
 
 // value objects
 

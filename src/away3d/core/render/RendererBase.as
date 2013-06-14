@@ -1,5 +1,13 @@
 package away3d.core.render
 {
+	import flash.display.BitmapData;
+	import flash.display3D.Context3D;
+	import flash.display3D.Context3DCompareMode;
+	import flash.display3D.textures.TextureBase;
+	import flash.events.Event;
+	import flash.geom.Matrix3D;
+	import flash.geom.Rectangle;
+
 	import away3d.arcane;
 	import away3d.core.managers.Stage3DProxy;
 	import away3d.core.sort.IEntitySorter;
@@ -8,15 +16,6 @@ package away3d.core.render
 	import away3d.errors.AbstractMethodError;
 	import away3d.events.Stage3DEvent;
 	import away3d.textures.Texture2DBase;
-
-	import flash.display.BitmapData;
-
-	import flash.display3D.Context3D;
-	import flash.display3D.Context3DCompareMode;
-	import flash.display3D.textures.TextureBase;
-	import flash.events.Event;
-	import flash.geom.Matrix3D;
-	import flash.geom.Rectangle;
 
 	use namespace arcane;
 

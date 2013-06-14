@@ -1,6 +1,6 @@
 package away3d.core.partition
 {
-	import away3d.core.math.Plane3D;
+	import away3d.math.Plane3D;
 
 	import flash.geom.Vector3D;
 

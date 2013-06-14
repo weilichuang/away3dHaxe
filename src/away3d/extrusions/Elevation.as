@@ -1,11 +1,11 @@
 ﻿package away3d.extrusions
 {
+	import flash.display.BitmapData;
+	
 	import away3d.core.base.Geometry;
 	import away3d.core.base.SubGeometry;
 	import away3d.entities.Mesh;
 	import away3d.materials.MaterialBase;
-
-	import flash.display.BitmapData;
 
 	/**
 	* Class Elevation generates (and becomes) a mesh from an heightmap.

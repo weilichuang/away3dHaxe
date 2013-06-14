@@ -1,13 +1,13 @@
 package away3d.textures
 {
-	import away3d.materials.utils.IVideoPlayer;
-	import away3d.materials.utils.SimpleVideoPlayer;
-	import away3d.tools.utils.TextureUtils;
-
 	import flash.display.BitmapData;
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.geom.Rectangle;
+
+	import away3d.materials.utils.IVideoPlayer;
+	import away3d.materials.utils.SimpleVideoPlayer;
+	import away3d.tools.utils.TextureUtils;
 
 	public class VideoTexture extends BitmapTexture
 	{

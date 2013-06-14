@@ -1,15 +1,15 @@
 package away3d.core.managers
 {
-	import away3d.arcane;
-	import away3d.debug.Debug;
-	import away3d.events.Stage3DEvent;
-	import away3d.materials.passes.MaterialPassBase;
-
 	import com.adobe.utils.AGALMiniAssembler;
 
 	import flash.display3D.Context3DProgramType;
 	import flash.display3D.Program3D;
 	import flash.utils.ByteArray;
+
+	import away3d.arcane;
+	import away3d.debug.Debug;
+	import away3d.events.Stage3DEvent;
+	import away3d.materials.passes.MaterialPassBase;
 
 	use namespace arcane;
 

@@ -1,18 +1,19 @@
 package away3d.animators
 {
-	import away3d.animators.data.*;
-	import away3d.animators.states.*;
-	import away3d.animators.transitions.*;
-	import away3d.arcane;
-	import away3d.cameras.Camera3D;
-	import away3d.core.base.*;
-	import away3d.core.managers.*;
-	import away3d.core.math.MathConsts;
-	import away3d.materials.*;
-	import away3d.materials.passes.*;
-
 	import flash.display3D.Context3DProgramType;
 	import flash.geom.Matrix;
+
+	import away3d.arcane;
+	import away3d.animators.data.UVAnimationFrame;
+	import away3d.animators.states.IUVAnimationState;
+	import away3d.animators.transitions.IAnimationTransition;
+	import away3d.cameras.Camera3D;
+	import away3d.core.base.IRenderable;
+	import away3d.core.base.SubMesh;
+	import away3d.core.managers.Stage3DProxy;
+	import away3d.materials.TextureMaterial;
+	import away3d.materials.passes.MaterialPassBase;
+	import away3d.math.MathUtil;
 
 	use namespace arcane;
 
@@ -137,7 +138,7 @@ package away3d.animators
 				_deltaFrame.rotation += _rotationIncrease;
 
 			if (_deltaFrame.rotation != 0)
-				_uvTransform.rotate(_deltaFrame.rotation * MathConsts.DEGREES_TO_RADIANS);
+				_uvTransform.rotate(_deltaFrame.rotation * MathUtil.DEGREES_TO_RADIANS);
 			if (_deltaFrame.scaleU != 1 || _deltaFrame.scaleV != 1)
 				_uvTransform.scale(_deltaFrame.scaleU, _deltaFrame.scaleV);
 

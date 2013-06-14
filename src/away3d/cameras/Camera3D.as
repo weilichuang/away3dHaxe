@@ -8,14 +8,14 @@ package away3d.cameras
 	import away3d.bounds.NullBounds;
 	import away3d.cameras.lenses.LensBase;
 	import away3d.cameras.lenses.PerspectiveLens;
-	import away3d.core.math.Matrix3DUtils;
-	import away3d.core.math.Plane3D;
 	import away3d.core.partition.CameraNode;
 	import away3d.core.partition.EntityNode;
 	import away3d.entities.Entity;
 	import away3d.events.CameraEvent;
 	import away3d.events.LensEvent;
 	import away3d.library.assets.AssetType;
+	import away3d.math.Matrix3DUtils;
+	import away3d.math.Plane3D;
 
 	use namespace arcane;
 

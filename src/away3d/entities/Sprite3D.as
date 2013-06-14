@@ -1,7 +1,12 @@
 package away3d.entities
 {
-	import away3d.animators.IAnimator;
+	import flash.display3D.IndexBuffer3D;
+	import flash.geom.Matrix;
+	import flash.geom.Matrix3D;
+	import flash.geom.Vector3D;
+
 	import away3d.arcane;
+	import away3d.animators.IAnimator;
 	import away3d.bounds.AxisAlignedBoundingBox;
 	import away3d.bounds.BoundingVolumeBase;
 	import away3d.cameras.Camera3D;
@@ -9,16 +14,11 @@ package away3d.entities
 	import away3d.core.base.SubGeometry;
 	import away3d.core.base.SubMesh;
 	import away3d.core.managers.Stage3DProxy;
-	import away3d.core.math.Matrix3DUtils;
 	import away3d.core.partition.EntityNode;
 	import away3d.core.partition.RenderableNode;
 	import away3d.core.pick.IPickingCollider;
 	import away3d.materials.MaterialBase;
-
-	import flash.display3D.IndexBuffer3D;
-	import flash.geom.Matrix;
-	import flash.geom.Matrix3D;
-	import flash.geom.Vector3D;
+	import away3d.math.Matrix3DUtils;
 
 	use namespace arcane;
 

@@ -1,11 +1,11 @@
 package away3d.controllers
 {
-	import away3d.arcane;
-	import away3d.containers.*;
-	import away3d.entities.*;
-	import away3d.core.math.*;
-
 	import flash.geom.Vector3D;
+
+	import away3d.arcane;
+	import away3d.entities.Entity;
+	import away3d.entities.ObjectContainer3D;
+	import away3d.math.MathUtil;
 
 	use namespace arcane;
 
@@ -306,9 +306,9 @@ package away3d.controllers
 			}
 
 			var pos:Vector3D = (lookAtObject) ? lookAtObject.position : (lookAtPosition) ? lookAtPosition : _origin;
-			targetObject.x = pos.x + distance * Math.sin(_currentPanAngle * MathConsts.DEGREES_TO_RADIANS) * Math.cos(_currentTiltAngle * MathConsts.DEGREES_TO_RADIANS);
-			targetObject.z = pos.z + distance * Math.cos(_currentPanAngle * MathConsts.DEGREES_TO_RADIANS) * Math.cos(_currentTiltAngle * MathConsts.DEGREES_TO_RADIANS);
-			targetObject.y = pos.y + distance * Math.sin(_currentTiltAngle * MathConsts.DEGREES_TO_RADIANS) * yFactor;
+			targetObject.x = pos.x + distance * Math.sin(_currentPanAngle * MathUtil.DEGREES_TO_RADIANS) * Math.cos(_currentTiltAngle * MathUtil.DEGREES_TO_RADIANS);
+			targetObject.z = pos.z + distance * Math.cos(_currentPanAngle * MathUtil.DEGREES_TO_RADIANS) * Math.cos(_currentTiltAngle * MathUtil.DEGREES_TO_RADIANS);
+			targetObject.y = pos.y + distance * Math.sin(_currentTiltAngle * MathUtil.DEGREES_TO_RADIANS) * yFactor;
 
 			super.update();
 		}

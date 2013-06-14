@@ -1,14 +1,16 @@
 package away3d.entities
 {
+	import flash.geom.Vector3D;
+	
 	import away3d.arcane;
-	import away3d.bounds.*;
-	import away3d.containers.*;
-	import away3d.core.partition.*;
-	import away3d.core.pick.*;
-	import away3d.errors.*;
-	import away3d.library.assets.*;
-
-	import flash.geom.*;
+	import away3d.bounds.AxisAlignedBoundingBox;
+	import away3d.bounds.BoundingVolumeBase;
+	import away3d.core.partition.EntityNode;
+	import away3d.core.partition.Partition3D;
+	import away3d.core.pick.IPickingCollider;
+	import away3d.core.pick.PickingCollisionVO;
+	import away3d.errors.AbstractMethodError;
+	import away3d.library.assets.AssetType;
 
 	use namespace arcane;
 

@@ -1,21 +1,28 @@
 package away3d.core.managers
 {
-	import away3d.tools.utils.TextureUtils;
-
 	import flash.display3D.Context3D;
-
 	import flash.display3D.IndexBuffer3D;
-
 	import flash.display3D.VertexBuffer3D;
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
 	import flash.geom.Rectangle;
-
 	import flash.utils.Dictionary;
+
+	import away3d.tools.utils.TextureUtils;
 
 	public class RTTBufferManager extends EventDispatcher
 	{
 		private static var _instances:Dictionary;
+
+		public static function getInstance(stage3DProxy:Stage3DProxy):RTTBufferManager
+		{
+			if (!stage3DProxy)
+				throw new Error("stage3DProxy key cannot be null!");
+
+			_instances ||= new Dictionary();
+
+			return _instances[stage3DProxy] ||= new RTTBufferManager(new SingletonEnforcer(), stage3DProxy);
+		}
 
 		private var _renderToTextureVertexBuffer:VertexBuffer3D;
 		private var _renderToScreenVertexBuffer:VertexBuffer3D;
@@ -40,14 +47,6 @@ package away3d.core.managers
 			_renderToTextureRect = new Rectangle();
 
 			_stage3DProxy = stage3DProxy;
-		}
-
-		public static function getInstance(stage3DProxy:Stage3DProxy):RTTBufferManager
-		{
-			if (!stage3DProxy)
-				throw new Error("stage3DProxy key cannot be null!");
-			_instances ||= new Dictionary();
-			return _instances[stage3DProxy] ||= new RTTBufferManager(new SingletonEnforcer(), stage3DProxy);
 		}
 
 

@@ -54,7 +54,7 @@ package example
 	import away3d.animators.data.ParticlePropertiesMode;
 	import away3d.animators.nodes.ParticleBillboardNode;
 	import away3d.animators.nodes.ParticleVelocityNode;
-	import away3d.containers.View3D;
+	import away3d.entities.View3D;
 	import away3d.controllers.HoverController;
 	import away3d.core.base.Geometry;
 	import away3d.debug.AwayStats;
@@ -92,7 +92,7 @@ package example
 		{
 			init();
 		}
-		
+
 		/**
 		 * Global initialise function
 		 */

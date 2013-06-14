@@ -48,7 +48,7 @@ package example
 	import flash.utils.getTimer;
 
 	import away3d.cameras.Camera3D;
-	import away3d.containers.Scene3D;
+	import away3d.entities.Scene3D;
 	import away3d.controllers.HoverController;
 	import away3d.entities.Mesh;
 	import away3d.events.AssetEvent;

@@ -1,9 +1,9 @@
 ﻿package away3d.debug
 {
+	import flash.geom.Vector3D;
+	
 	import away3d.entities.SegmentSet;
 	import away3d.primitives.LineSegment;
-
-	import flash.geom.Vector3D;
 
 	/**
 	* Class WireframeAxesGrid generates a grid of lines on a given plane<code>WireframeAxesGrid</code>

@@ -13,12 +13,12 @@ package away3d.loaders.parsers
 	import away3d.animators.data.SkeletonPose;
 	import away3d.animators.nodes.AnimationNodeBase;
 	import away3d.animators.nodes.SkeletonClipNode;
-	import away3d.containers.ObjectContainer3D;
 	import away3d.core.base.CompactSubGeometry;
 	import away3d.core.base.Geometry;
 	import away3d.core.base.SkinnedSubGeometry;
 	import away3d.debug.Debug;
 	import away3d.entities.Mesh;
+	import away3d.entities.ObjectContainer3D;
 	import away3d.loaders.misc.ResourceDependency;
 	import away3d.materials.ColorMaterial;
 	import away3d.materials.ColorMultiPassMaterial;
@@ -1006,9 +1006,10 @@ package away3d.loaders.parsers
 
 	}
 }
-import away3d.loaders.parsers.*;
+import flash.geom.Matrix3D;
+import flash.geom.Vector3D;
 
-import flash.geom.*;
+import away3d.loaders.parsers.DAEParser;
 
 class DAEAnimationInfo
 {

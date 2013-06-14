@@ -1,13 +1,14 @@
 package away3d.core.base
 {
-	import away3d.arcane;
-	import away3d.controllers.*;
-	import away3d.core.math.*;
-	import away3d.events.*;
-	import away3d.library.assets.*;
-
 	import flash.geom.Matrix3D;
 	import flash.geom.Vector3D;
+
+	import away3d.arcane;
+	import away3d.controllers.ControllerBase;
+	import away3d.events.Object3DEvent;
+	import away3d.library.assets.NamedAssetBase;
+	import away3d.math.MathUtil;
+	import away3d.math.Matrix3DUtils;
 
 	use namespace arcane;
 
@@ -297,7 +298,7 @@ package away3d.core.base
 		 */
 		public function get rotationX():Number
 		{
-			return _rotationX * MathConsts.RADIANS_TO_DEGREES;
+			return _rotationX * MathUtil.RADIANS_TO_DEGREES;
 		}
 
 		public function set rotationX(val:Number):void
@@ -305,7 +306,7 @@ package away3d.core.base
 			if (rotationX == val)
 				return;
 
-			_rotationX = val * MathConsts.DEGREES_TO_RADIANS;
+			_rotationX = val * MathUtil.DEGREES_TO_RADIANS;
 
 			invalidateRotation();
 		}
@@ -315,7 +316,7 @@ package away3d.core.base
 		 */
 		public function get rotationY():Number
 		{
-			return _rotationY * MathConsts.RADIANS_TO_DEGREES;
+			return _rotationY * MathUtil.RADIANS_TO_DEGREES;
 		}
 
 		public function set rotationY(val:Number):void
@@ -323,7 +324,7 @@ package away3d.core.base
 			if (rotationY == val)
 				return;
 
-			_rotationY = val * MathConsts.DEGREES_TO_RADIANS;
+			_rotationY = val * MathUtil.DEGREES_TO_RADIANS;
 
 			invalidateRotation();
 		}
@@ -333,7 +334,7 @@ package away3d.core.base
 		 */
 		public function get rotationZ():Number
 		{
-			return _rotationZ * MathConsts.RADIANS_TO_DEGREES;
+			return _rotationZ * MathUtil.RADIANS_TO_DEGREES;
 		}
 
 		public function set rotationZ(val:Number):void
@@ -341,7 +342,7 @@ package away3d.core.base
 			if (rotationZ == val)
 				return;
 
-			_rotationZ = val * MathConsts.DEGREES_TO_RADIANS;
+			_rotationZ = val * MathUtil.DEGREES_TO_RADIANS;
 
 			invalidateRotation();
 		}
@@ -405,18 +406,18 @@ package away3d.core.base
 		 */
 		public function get eulers():Vector3D
 		{
-			_eulers.x = _rotationX * MathConsts.RADIANS_TO_DEGREES;
-			_eulers.y = _rotationY * MathConsts.RADIANS_TO_DEGREES;
-			_eulers.z = _rotationZ * MathConsts.RADIANS_TO_DEGREES;
+			_eulers.x = _rotationX * MathUtil.RADIANS_TO_DEGREES;
+			_eulers.y = _rotationY * MathUtil.RADIANS_TO_DEGREES;
+			_eulers.z = _rotationZ * MathUtil.RADIANS_TO_DEGREES;
 
 			return _eulers;
 		}
 
 		public function set eulers(value:Vector3D):void
 		{
-			_rotationX = value.x * MathConsts.DEGREES_TO_RADIANS;
-			_rotationY = value.y * MathConsts.DEGREES_TO_RADIANS;
-			_rotationZ = value.z * MathConsts.DEGREES_TO_RADIANS;
+			_rotationX = value.x * MathUtil.DEGREES_TO_RADIANS;
+			_rotationY = value.y * MathUtil.DEGREES_TO_RADIANS;
+			_rotationZ = value.z * MathUtil.DEGREES_TO_RADIANS;
 
 			invalidateRotation();
 		}
@@ -785,9 +786,9 @@ package away3d.core.base
 		 */
 		public function rotateTo(ax:Number, ay:Number, az:Number):void
 		{
-			_rotationX = ax * MathConsts.DEGREES_TO_RADIANS;
-			_rotationY = ay * MathConsts.DEGREES_TO_RADIANS;
-			_rotationZ = az * MathConsts.DEGREES_TO_RADIANS;
+			_rotationX = ax * MathUtil.DEGREES_TO_RADIANS;
+			_rotationY = ay * MathUtil.DEGREES_TO_RADIANS;
+			_rotationZ = az * MathUtil.DEGREES_TO_RADIANS;
 
 			invalidateRotation();
 		}

@@ -1,10 +1,11 @@
 package away3d.materials.utils
 {
-	import flash.display.*;
+	import flash.display.BitmapData;
 	import flash.display3D.textures.CubeTexture;
 	import flash.display3D.textures.Texture;
 	import flash.display3D.textures.TextureBase;
-	import flash.geom.*;
+	import flash.geom.Matrix;
+	import flash.geom.Rectangle;
 
 	/**
 	 * MipmapGenerator is a helper class that uploads BitmapData to a Texture including mipmap levels.

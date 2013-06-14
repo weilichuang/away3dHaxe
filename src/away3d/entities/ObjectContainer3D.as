@@ -1,5 +1,9 @@
-package away3d.containers
+package away3d.entities
 {
+	import flash.events.Event;
+	import flash.geom.Matrix3D;
+	import flash.geom.Vector3D;
+	
 	import away3d.arcane;
 	import away3d.core.base.Object3D;
 	import away3d.core.partition.Partition3D;
@@ -7,10 +11,6 @@ package away3d.containers
 	import away3d.events.Scene3DEvent;
 	import away3d.library.assets.AssetType;
 	import away3d.library.assets.IAsset;
-
-	import flash.events.Event;
-	import flash.geom.Matrix3D;
-	import flash.geom.Vector3D;
 
 	use namespace arcane;
 

@@ -1,5 +1,8 @@
 package away3d.library
 {
+	import flash.events.EventDispatcher;
+	import flash.net.URLRequest;
+	
 	import away3d.arcane;
 	import away3d.events.AssetEvent;
 	import away3d.events.LoaderEvent;
@@ -16,9 +19,6 @@ package away3d.library
 	import away3d.loaders.misc.AssetLoaderToken;
 	import away3d.loaders.misc.SingleFileLoader;
 	import away3d.loaders.parsers.ParserBase;
-
-	import flash.events.EventDispatcher;
-	import flash.net.URLRequest;
 
 	use namespace arcane;
 

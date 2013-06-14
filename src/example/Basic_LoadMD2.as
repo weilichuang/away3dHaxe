@@ -8,7 +8,7 @@
 
 	import away3d.animators.VertexAnimationSet;
 	import away3d.animators.VertexAnimator;
-	import away3d.containers.View3D;
+	import away3d.entities.View3D;
 	import away3d.controllers.HoverController;
 	import away3d.debug.AwayStats;
 	import away3d.entities.Mesh;

@@ -79,7 +79,7 @@ package example
 		{
 			_skyBox = new SnowSkyBox();
 			view.scene.addChild(_skyBox);
-			
+
 			//setup the environment map material
 			var material:ColorMaterial = new ColorMaterial(0xFFFFFF, 1);
 			material.specular = 0.5;
@@ -92,7 +92,7 @@ package example
 			_torus = new Mesh(new TorusGeometry(150, 60, 40, 20), material);
 			view.scene.addChild(_torus);
 
-			
+
 		}
 
 		/**

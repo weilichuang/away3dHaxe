@@ -1,13 +1,13 @@
 ﻿package away3d.debug
 {
+	import flash.geom.Vector3D;
+	
 	import away3d.core.base.Geometry;
 	import away3d.debug.data.TridentLines;
 	import away3d.entities.Mesh;
 	import away3d.extrusions.LatheExtrude;
 	import away3d.materials.ColorMaterial;
 	import away3d.tools.commands.Merge;
-
-	import flash.geom.Vector3D;
 
 	/**
 	 * Creates a new <code>Trident</code> object.

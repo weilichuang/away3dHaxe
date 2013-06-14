@@ -1,5 +1,7 @@
 package away3d.lights
 {
+	import flash.geom.Matrix3D;
+	
 	import away3d.arcane;
 	import away3d.bounds.BoundingVolumeBase;
 	import away3d.bounds.NullBounds;
@@ -7,8 +9,6 @@ package away3d.lights
 	import away3d.core.partition.EntityNode;
 	import away3d.core.partition.LightProbeNode;
 	import away3d.textures.CubeTextureBase;
-
-	import flash.geom.Matrix3D;
 
 	use namespace arcane;
 

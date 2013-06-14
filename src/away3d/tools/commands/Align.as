@@ -308,10 +308,10 @@ package away3d.tools.commands
 
 	}
 }
+import away3d.entities.Mesh;
 
 class MeshBound
 {
-	import away3d.entities.Mesh;
 
 	public var mesh:Mesh;
 	public var minX:Number;

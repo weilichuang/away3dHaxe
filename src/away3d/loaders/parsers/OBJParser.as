@@ -1,7 +1,7 @@
 package away3d.loaders.parsers
 {
 	import flash.net.URLRequest;
-
+	
 	import away3d.arcane;
 	import away3d.core.base.Geometry;
 	import away3d.core.base.ISubGeometry;
@@ -1000,7 +1000,6 @@ class SpecularData
 
 class LoadedMaterial
 {
-	import away3d.materials.ColorMaterial;
 
 	public var materialID:String;
 	public var texture:Texture2DBase;

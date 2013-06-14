@@ -1,10 +1,11 @@
 package away3d.tools.commands
 {
-	import away3d.containers.*;
-	import away3d.core.base.*;
-	import away3d.entities.*;
-	import away3d.materials.*;
-	import away3d.tools.utils.*;
+	import away3d.core.base.Geometry;
+	import away3d.core.base.ISubGeometry;
+	import away3d.entities.Mesh;
+	import away3d.entities.ObjectContainer3D;
+	import away3d.materials.MaterialBase;
+	import away3d.tools.utils.GeomUtil;
 
 	/**
 	 *  Class Merge merges two or more static meshes into one.<code>Merge</code>

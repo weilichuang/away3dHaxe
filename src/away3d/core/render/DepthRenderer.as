@@ -1,18 +1,18 @@
 package away3d.core.render
 {
-	import away3d.arcane;
-	import away3d.cameras.Camera3D;
-	import away3d.core.base.IRenderable;
-	import away3d.core.data.RenderableListItem;
-	import away3d.core.math.Plane3D;
-	import away3d.core.traverse.EntityCollector;
-	import away3d.entities.Entity;
-	import away3d.materials.MaterialBase;
-
 	import flash.display3D.Context3DBlendFactor;
 	import flash.display3D.Context3DCompareMode;
 	import flash.display3D.textures.TextureBase;
 	import flash.geom.Rectangle;
+	
+	import away3d.arcane;
+	import away3d.cameras.Camera3D;
+	import away3d.core.base.IRenderable;
+	import away3d.core.data.RenderableListItem;
+	import away3d.core.traverse.EntityCollector;
+	import away3d.entities.Entity;
+	import away3d.materials.MaterialBase;
+	import away3d.math.Plane3D;
 
 	use namespace arcane;
 
