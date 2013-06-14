@@ -20,35 +20,33 @@ package away3d.utils
 
 		public static function string(data:*):String
 		{
-			if (data is Class)
-				data = new data;
-
 			if (data is String)
 				return data;
+
+			if (data is Class)
+				data = new data;
 
 			return String(data);
 		}
 
 		public static function byteArray(data:*):ByteArray
 		{
-			//throw new Error(typeof(data));
+			if (data is ByteArray)
+				return data;
 
 			if (data is Class)
 				data = new data;
-
-			if (data is ByteArray)
-				return data;
 
 			return ByteArray(data);
 		}
 
 		public static function xml(data:*):XML
 		{
-			if (data is Class)
-				data = new data;
-
 			if (data is XML)
 				return data;
+
+			if (data is Class)
+				data = new data;
 
 			return XML(data);
 		}

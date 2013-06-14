@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<actionScriptProperties analytics="false" mainApplicationPath="Advanced_MultiPassSponzaDemo.as" projectUUID="dda927d0-1d8c-4450-908d-b2815e2ca928" version="11">
-  <compiler additionalCompilerArguments="-locale en_US&#13;&#10;-default-size 1024 768&#13;&#10;-default-frame-rate 60&#13;&#10;-default-background-color 0x0" advancedTelemetry="true" autoRSLOrdering="true" copyDependentFiles="true" fteInMXComponents="false" generateAccessible="false" htmlExpressInstall="true" htmlGenerate="false" htmlHistoryManagement="true" htmlPlayerVersionCheck="true" includeNetmonSwc="false" outputFolderPath="bin" removeUnusedRSL="true" sourceFolderPath="src" strict="true" targetPlayerVersion="0.0.0" useApolloConfig="false" useDebugRSLSwfs="true" useFlashSDK="true" verifyDigests="true" warn="true">
+<actionScriptProperties analytics="false" mainApplicationPath="example/Advanced_MultiPassSponzaDemo.as" projectUUID="dda927d0-1d8c-4450-908d-b2815e2ca928" version="11">
+  <compiler additionalCompilerArguments="-locale en_US&#13;&#10;-default-size 1024 768&#13;&#10;-default-frame-rate 60&#13;&#10;-default-background-color 0x0" advancedTelemetry="true" autoRSLOrdering="true" copyDependentFiles="false" fteInMXComponents="false" generateAccessible="false" htmlExpressInstall="true" htmlGenerate="false" htmlHistoryManagement="true" htmlPlayerVersionCheck="true" includeNetmonSwc="false" outputFolderPath="bin" removeUnusedRSL="true" sourceFolderPath="src" strict="true" targetPlayerVersion="0.0.0" useApolloConfig="false" useDebugRSLSwfs="true" useFlashSDK="true" verifyDigests="true" warn="true">
     <compilerSourcePath/>
     <libraryPath defaultLinkType="0">
       <libraryPathEntry kind="4" path="">
@@ -17,13 +17,13 @@
           <libraryPathEntry kind="3" linkType="1" path="${PROJECT_FRAMEWORKS}/libs/spark.swc" useDefaultLinkType="false"/>
           <libraryPathEntry kind="3" linkType="1" path="${PROJECT_FRAMEWORKS}/libs/sparkskins.swc" useDefaultLinkType="false"/>
           <libraryPathEntry kind="3" linkType="1" path="${PROJECT_FRAMEWORKS}/libs/rpc.swc" useDefaultLinkType="false"/>
-          <libraryPathEntry kind="3" linkType="1" path="${PROJECT_FRAMEWORKS}/libs/videoPlayer.swc" useDefaultLinkType="false"/>
-          <libraryPathEntry kind="3" linkType="1" path="${PROJECT_FRAMEWORKS}/libs/qtp_air.swc" useDefaultLinkType="false"/>
           <libraryPathEntry kind="3" linkType="1" path="${PROJECT_FRAMEWORKS}/libs/datavisualization.swc" useDefaultLinkType="false"/>
+          <libraryPathEntry kind="3" linkType="1" path="${PROJECT_FRAMEWORKS}/libs/qtp_air.swc" useDefaultLinkType="false"/>
+          <libraryPathEntry kind="3" linkType="1" path="${PROJECT_FRAMEWORKS}/libs/videoPlayer.swc" useDefaultLinkType="false"/>
           <libraryPathEntry kind="3" linkType="1" path="${PROJECT_FRAMEWORKS}/libs/spark_dmv.swc" useDefaultLinkType="false"/>
           <libraryPathEntry kind="3" linkType="1" path="${PROJECT_FRAMEWORKS}/libs/automation.swc" useDefaultLinkType="false"/>
-          <libraryPathEntry kind="3" linkType="1" path="${PROJECT_FRAMEWORKS}/libs/flash-integration.swc" useDefaultLinkType="false"/>
           <libraryPathEntry kind="3" linkType="1" path="${PROJECT_FRAMEWORKS}/libs/automation_dmv.swc" useDefaultLinkType="false"/>
+          <libraryPathEntry kind="3" linkType="1" path="${PROJECT_FRAMEWORKS}/libs/flash-integration.swc" useDefaultLinkType="false"/>
           <libraryPathEntry kind="3" linkType="1" path="${PROJECT_FRAMEWORKS}/libs/automation_flashflexkit.swc" useDefaultLinkType="false"/>
           <libraryPathEntry kind="3" linkType="1" path="${PROJECT_FRAMEWORKS}/libs/automation_agent.swc" useDefaultLinkType="false"/>
         </excludedEntries>
@@ -33,35 +33,35 @@
     <sourceAttachmentPath/>
   </compiler>
   <applications>
-    <application path="Intermediate_MonsterHeadShading.as"/>
-    <application path="Advanced_FractalTreeDemo.as"/>
-    <application path="Basic_Shading.as"/>
-    <application path="Intermediate_MD5Animation.as"/>
-    <application path="Intermediate_LightProbes.as"/>
-    <application path="Basic_LoadMD2.as"/>
-    <application path="Intermediate_Head.as"/>
-    <application path="Intermediate_RealTimeEnvMap.as"/>
-    <application path="Basic_Load3DS.as"/>
-    <application path="Advanced_MultiPassSponzaDemo.as"/>
-    <application path="Intermediate_PolarBearAWDAnimation.as"/>
-    <application path="Basic_View.as"/>
-    <application path="Intermediate_SpriteSheetAnimation.as"/>
-    <application path="Advanced_TerrainDemo.as"/>
-    <application path="Intermediate_PerelithKnightMD2.as"/>
-    <application path="Intermediate_ParticleTrails.as"/>
-    <application path="Basic_SpriteSheetAnimation.as"/>
-    <application path="Intermediate_MouseInteraction.as"/>
-    <application path="Basic_Particles.as"/>
-    <application path="Basic_UVAnimation.as"/>
-    <application path="Basic_SkyBox.as"/>
-    <application path="Basic_Stereo.as"/>
-    <application path="Advanced_ShallowWaterDemo.as"/>
-    <application path="Intermediate_Globe.as"/>
-    <application path="Intermediate_ParticleExplosions.as"/>
-    <application path="Basic_Fire.as"/>
-    <application path="Basic_Tweening3D.as"/>
-    <application path="Intermediate_OnkbaAWDAnimation.as"/>
-    <application path="Intermediate_PlanarReflections.as"/>
+    <application path="example/Basic_Shading.as"/>
+    <application path="example/Basic_SkyBox.as"/>
+    <application path="example/Intermediate_Globe.as"/>
+    <application path="example/Intermediate_RealTimeEnvMap.as"/>
+    <application path="example/Intermediate_Head.as"/>
+    <application path="example/Basic_UVAnimation.as"/>
+    <application path="example/Basic_Load3DS.as"/>
+    <application path="example/Intermediate_LightProbes.as"/>
+    <application path="example/Basic_LoadMD2.as"/>
+    <application path="example/Intermediate_MouseInteraction.as"/>
+    <application path="example/Basic_SpriteSheetAnimation.as"/>
+    <application path="example/Intermediate_OnkbaAWDAnimation.as"/>
+    <application path="example/Intermediate_ParticleExplosions.as"/>
+    <application path="example/Intermediate_PolarBearAWDAnimation.as"/>
+    <application path="example/Intermediate_MD5Animation.as"/>
+    <application path="example/Basic_Tweening3D.as"/>
+    <application path="example/Intermediate_ParticleTrails.as"/>
+    <application path="example/Intermediate_PlanarReflections.as"/>
+    <application path="example/Advanced_FractalTreeDemo.as"/>
+    <application path="example/Basic_Fire.as"/>
+    <application path="example/Basic_Particles.as"/>
+    <application path="example/Intermediate_SpriteSheetAnimation.as"/>
+    <application path="example/Basic_View.as"/>
+    <application path="example/Intermediate_PerelithKnightMD2.as"/>
+    <application path="example/Advanced_TerrainDemo.as"/>
+    <application path="example/Intermediate_MonsterHeadShading.as"/>
+    <application path="example/Advanced_ShallowWaterDemo.as"/>
+    <application path="example/Advanced_MultiPassSponzaDemo.as"/>
+    <application path="example/Basic_Stereo.as"/>
   </applications>
   <modules/>
   <workers/>
