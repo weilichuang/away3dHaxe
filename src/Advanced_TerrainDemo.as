@@ -70,20 +70,6 @@ package
 
 	public class Advanced_TerrainDemo extends BasicApplication
 	{
-		// Environment map.
-		[Embed(source = "/../embeds/skybox/snow_positive_x.jpg")]
-		private var EnvPosX:Class;
-		[Embed(source = "/../embeds/skybox/snow_positive_y.jpg")]
-		private var EnvPosY:Class;
-		[Embed(source = "/../embeds/skybox/snow_positive_z.jpg")]
-		private var EnvPosZ:Class;
-		[Embed(source = "/../embeds/skybox/snow_negative_x.jpg")]
-		private var EnvNegX:Class;
-		[Embed(source = "/../embeds/skybox/snow_negative_y.jpg")]
-		private var EnvNegY:Class;
-		[Embed(source = "/../embeds/skybox/snow_negative_z.jpg")]
-		private var EnvNegZ:Class;
-
 		//water normal map
 		[Embed(source = "/../embeds/water_normals.jpg")]
 		private var WaterNormals:Class;
@@ -126,7 +112,6 @@ package
 		private var fresnelMethod:FresnelSpecularMethod;
 		private var terrainMaterial:TextureMaterial;
 		private var waterMaterial:TextureMaterial;
-		private var cubeTexture:BitmapCubeTexture;
 
 		//scene objects
 		private var text:TextField;
@@ -225,10 +210,9 @@ package
 		/**
 		 * Initialise the material
 		 */
+		private var skyBox:SnowSkyBox;
 		private function initMaterials():void
 		{
-			cubeTexture = new BitmapCubeTexture(Cast.bitmapData(EnvPosX), Cast.bitmapData(EnvNegX), Cast.bitmapData(EnvPosY), Cast.bitmapData(EnvNegY), Cast.bitmapData(EnvPosZ), Cast.bitmapData(EnvNegZ));
-
 			terrainMethod = new TerrainDiffuseMethod([Cast.bitmapTexture(Beach), Cast.bitmapTexture(Grass), Cast.bitmapTexture(Rock)], Cast.bitmapTexture(Blend), [1, 50, 150, 100]);
 
 			terrainMaterial = new TextureMaterial(Cast.bitmapTexture(Albedo));
@@ -243,13 +227,17 @@ package
 			waterMethod = new SimpleWaterNormalMethod(Cast.bitmapTexture(WaterNormals), Cast.bitmapTexture(WaterNormals));
 			fresnelMethod = new FresnelSpecularMethod();
 			fresnelMethod.normalReflectance = .3;
+			
+			skyBox = new SnowSkyBox();
+			//create skybox.
+			scene.addChild(skyBox);
 
 			waterMaterial = new TextureMaterial(new BitmapTexture(new BitmapData(512, 512, true, 0xaa404070)));
 			waterMaterial.alphaBlending = true;
 			waterMaterial.lightPicker = lightPicker;
 			waterMaterial.repeat = true;
 			waterMaterial.normalMethod = waterMethod;
-			waterMaterial.addMethod(new EnvMapMethod(cubeTexture));
+			waterMaterial.addMethod(new EnvMapMethod(skyBox.cubeTexture));
 			waterMaterial.specularMethod = fresnelMethod;
 			waterMaterial.gloss = 100;
 			waterMaterial.specular = 1;
@@ -261,9 +249,6 @@ package
 		 */
 		private function initObjects():void
 		{
-			//create skybox.
-			scene.addChild(new SkyBox(cubeTexture));
-
 			//create mountain like terrain
 			terrain = new Elevation(terrainMaterial, Cast.bitmapData(HeightMap), 5000, 1300, 5000, 250, 250);
 			scene.addChild(terrain);

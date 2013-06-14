@@ -291,14 +291,5 @@ package
 			move = false;
 			stage.removeEventListener(Event.MOUSE_LEAVE, onStageMouseLeave);
 		}
-
-		/**
-		 * stage listener for resize events
-		 */
-		private function onResize(event:Event = null):void
-		{
-			view.width = stage.stageWidth;
-			view.height = stage.stageHeight;
-		}
 	}
 }

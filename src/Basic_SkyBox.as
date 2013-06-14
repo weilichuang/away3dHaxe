@@ -50,22 +50,8 @@ package
 
 	public class Basic_SkyBox extends BasicApplication
 	{
-		// Environment map.
-		[Embed(source = "../embeds/skybox/snow_positive_x.jpg")]
-		private var EnvPosX:Class;
-		[Embed(source = "../embeds/skybox/snow_positive_y.jpg")]
-		private var EnvPosY:Class;
-		[Embed(source = "../embeds/skybox/snow_positive_z.jpg")]
-		private var EnvPosZ:Class;
-		[Embed(source = "../embeds/skybox/snow_negative_x.jpg")]
-		private var EnvNegX:Class;
-		[Embed(source = "../embeds/skybox/snow_negative_y.jpg")]
-		private var EnvNegY:Class;
-		[Embed(source = "../embeds/skybox/snow_negative_z.jpg")]
-		private var EnvNegZ:Class;
-
 		//scene objects
-		private var _skyBox:SkyBox;
+		private var _skyBox:SnowSkyBox;
 		private var _torus:Mesh;
 
 		/**
@@ -91,24 +77,22 @@ package
 		 */
 		private function initObjects():void
 		{
-			//setup the cube texture
-			var cubeTexture:BitmapCubeTexture = new BitmapCubeTexture(Cast.bitmapData(EnvPosX), Cast.bitmapData(EnvNegX), Cast.bitmapData(EnvPosY), Cast.bitmapData(EnvNegY), Cast.bitmapData(EnvPosZ), Cast.
-				bitmapData(EnvNegZ));
-
+			_skyBox = new SnowSkyBox();
+			view.scene.addChild(_skyBox);
+			
 			//setup the environment map material
 			var material:ColorMaterial = new ColorMaterial(0xFFFFFF, 1);
 			material.specular = 0.5;
 			material.ambient = 0.25;
 			material.ambientColor = 0x111199;
 			material.ambient = 1;
-			material.addMethod(new EnvMapMethod(cubeTexture, 1));
+			material.addMethod(new EnvMapMethod(_skyBox.cubeTexture, 1));
 
 			//setup the scene
 			_torus = new Mesh(new TorusGeometry(150, 60, 40, 20), material);
 			view.scene.addChild(_torus);
 
-			_skyBox = new SkyBox(cubeTexture);
-			view.scene.addChild(_skyBox);
+			
 		}
 
 		/**

@@ -71,7 +71,6 @@ package
 		private var ParticleImg:Class;
 
 		//engine variables
-		private var _view:View3D;
 		private var _cameraController:HoverController;
 
 		//particle variables
@@ -91,17 +90,24 @@ package
 		 */
 		public function Basic_Particles()
 		{
-			stage.scaleMode = StageScaleMode.NO_SCALE;
-			stage.align = StageAlign.TOP_LEFT;
+			init();
+		}
+		
+		/**
+		 * Global initialise function
+		 */
+		private function init():void
+		{
+			initEngine();
+			initObjects();
+			initListeners();
+		}
 
-			_view = new View3D();
-
-			addChild(_view);
-
-			_cameraController = new HoverController(_view.camera, null, 45, 20, 1000);
-
-			addChild(new AwayStats(_view));
-
+		/**
+		 * Initialise the scene objects
+		 */
+		private function initObjects():void
+		{
 			//setup the particle geometry
 			var plane:Geometry = new PlaneGeometry(10, 10, 1, 1, false);
 			var geometrySet:Vector.<Geometry> = new Vector.<Geometry>();
@@ -122,17 +128,21 @@ package
 			_particleAnimator = new ParticleAnimator(_particleAnimationSet);
 			_particleMesh = new Mesh(ParticleGeometryHelper.generateGeometry(geometrySet), material);
 			_particleMesh.animator = _particleAnimator;
-			_view.scene.addChild(_particleMesh);
+			view.scene.addChild(_particleMesh);
 
 			//start the animation
 			_particleAnimator.start();
+		}
 
-			//add listeners
-			addEventListener(Event.ENTER_FRAME, onEnterFrame);
-			stage.addEventListener(MouseEvent.MOUSE_DOWN, onMouseDown);
-			stage.addEventListener(MouseEvent.MOUSE_UP, onMouseUp);
-			stage.addEventListener(Event.RESIZE, onResize);
-			onResize();
+		/**
+		 * Initialise the engine
+		 */
+		override protected function initEngine():void
+		{
+			super.initEngine();
+
+			_cameraController = new HoverController(view.camera, null, 45, 20, 1000);
+
 		}
 
 		/**

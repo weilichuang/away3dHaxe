@@ -101,9 +101,6 @@ package
 		private var HeadOcclusion:Class;
 
 		//engine variables
-		private var scene:Scene3D;
-		private var camera:Camera3D;
-		private var view:View3D;
 		private var cameraController:LookAtController;
 
 		//light objects
@@ -200,20 +197,6 @@ package
 			lightProbeNR.x = 75;
 			lightProbeNR.z = -75;
 			scene.addChild(lightProbeNR);
-		}
-
-		/**
-		 * Initialise the listeners
-		 */
-		private function initListeners():void
-		{
-			addEventListener(Event.ENTER_FRAME, onEnterFrame);
-			stage.addEventListener(KeyboardEvent.KEY_UP, onKeyUp);
-			stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown);
-			stage.addEventListener(Event.RESIZE, onResize);
-			stage.addEventListener(MouseEvent.MOUSE_DOWN, onMouseDown);
-			stage.addEventListener(MouseEvent.MOUSE_UP, onMouseUp);
-			onResize();
 		}
 
 		override protected function onMouseDown(event:MouseEvent):void
@@ -342,7 +325,7 @@ package
 		/**
 		 * Key down listener for animation
 		 */
-		private function onKeyDown(event:KeyboardEvent):void
+		override protected function onKeyDown(event:KeyboardEvent):void
 		{
 			switch (event.keyCode)
 			{
@@ -361,7 +344,7 @@ package
 			}
 		}
 
-		private function onKeyUp(event:KeyboardEvent):void
+		override protected function onKeyUp(event:KeyboardEvent):void
 		{
 			switch (event.keyCode)
 			{
@@ -388,15 +371,6 @@ package
 				headMaterial.texture = headTexture;
 			else
 				headMaterial.texture = whiteTexture;
-		}
-
-		/**
-		 * stage listener for resize events
-		 */
-		private function onResize(event:Event = null):void
-		{
-			view.width = stage.stageWidth;
-			view.height = stage.stageHeight;
 		}
 	}
 }

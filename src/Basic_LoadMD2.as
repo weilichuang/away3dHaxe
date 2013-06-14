@@ -1,42 +1,4 @@
-﻿/*
-
-MD2 file loading example in Away3d
-
-Demonstrates:
-
-How to use the AssetLibrary class to load an embedded internal md2 model.
-How to map an external asset reference inside a file to an internal embedded asset.
-How to clone an asset from the AssetLibrary and apply different animation sequences.
-
-Code by Rob Bateman
-rob@infiniteturtles.co.uk
-http://www.infiniteturtles.co.uk
-
-This code is distributed under the MIT License
-
-Copyright (c)
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the “Software”), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
-
-*/
-
-package
+﻿package
 {
 	import flash.display.Sprite;
 	import flash.display.StageAlign;
@@ -88,7 +50,6 @@ package
 		public static var stateNames:Array = ["stand", "sniffsniff", "deathc", "attack", "crattack", "run", "paina", "cwalk", "crpain", "cstand", "deathb", "salute_alt", "painc", "painb", "flip", "jump"];
 
 		//engine variables
-		private var _view:View3D;
 		private var _cameraController:HoverController;
 
 		//light objects
@@ -116,16 +77,24 @@ package
 		 */
 		public function Basic_LoadMD2()
 		{
-			stage.scaleMode = StageScaleMode.NO_SCALE;
-			stage.align = StageAlign.TOP_LEFT;
+			init();
+		}
+		
+		/**
+		 * Global initialise function
+		 */
+		private function init():void
+		{
+			initEngine();
+			initObjects();
+			initListeners();
+		}
 
-			//setup the view
-			_view = new View3D();
-			addChild(_view);
-
-			//setup controller to be used on the camera
-			_cameraController = new HoverController(_view.camera, null, 45, 20, 1000, -90);
-
+		/**
+		 * Initialise the scene objects
+		 */
+		private function initObjects():void
+		{
 			//setup the lights for the scene
 			_light = new DirectionalLight(0, -1, -1);
 			_lightPicker = new StaticLightPicker([_light]);
@@ -149,16 +118,17 @@ package
 
 			//setup the scene
 			_view.scene.addChild(_floor);
+		}
 
-			//add stats panel
-			addChild(new AwayStats(_view));
+		/**
+		 * Initialise the engine
+		 */
+		override protected function initEngine():void
+		{
+			super.initEngine();
 
-			//add listeners
-			addEventListener(Event.ENTER_FRAME, onEnterFrame);
-			stage.addEventListener(MouseEvent.MOUSE_DOWN, onMouseDown);
-			stage.addEventListener(MouseEvent.MOUSE_UP, onMouseUp);
-			stage.addEventListener(Event.RESIZE, onResize);
-			onResize();
+			//setup controller to be used on the camera
+			_cameraController = new HoverController(_view.camera, null, 45, 20, 1000, -90);
 		}
 
 		/**

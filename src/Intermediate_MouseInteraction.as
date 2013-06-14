@@ -48,10 +48,6 @@ package
 	public class Intermediate_MouseInteraction extends BasicApplication
 	{
 		//engine variables
-		private var scene:Scene3D;
-		private var camera:Camera3D;
-		private var view:View3D;
-		private var awayStats:AwayStats;
 		private var cameraController:HoverController;
 
 		//light objects
@@ -401,20 +397,6 @@ package
 		}
 
 		/**
-		 * Initialise the listeners
-		 */
-		private function initListeners():void
-		{
-			addEventListener(Event.ENTER_FRAME, onEnterFrame);
-			view.addEventListener(MouseEvent.MOUSE_DOWN, onMouseDown);
-			view.addEventListener(MouseEvent.MOUSE_UP, onMouseUp);
-			stage.addEventListener(Event.RESIZE, onResize);
-			stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown);
-			stage.addEventListener(KeyboardEvent.KEY_UP, onKeyUp);
-			onResize();
-		}
-
-		/**
 		 * Navigation and render loop
 		 */
 		override protected function render():void
@@ -468,7 +450,7 @@ package
 		/**
 		 * Key down listener for camera control
 		 */
-		private function onKeyDown(event:KeyboardEvent):void
+		override protected function onKeyDown(event:KeyboardEvent):void
 		{
 			switch (event.keyCode)
 			{
@@ -500,7 +482,7 @@ package
 		/**
 		 * Key up listener for camera control
 		 */
-		private function onKeyUp(event:KeyboardEvent):void
+		override protected function onKeyUp(event:KeyboardEvent):void
 		{
 			switch (event.keyCode)
 			{
@@ -530,16 +512,6 @@ package
 		{
 			move = false;
 			stage.removeEventListener(Event.MOUSE_LEAVE, onStageMouseLeave);
-		}
-
-		/**
-		 * stage listener for resize events
-		 */
-		private function onResize(event:Event = null):void
-		{
-			view.width = stage.stageWidth;
-			view.height = stage.stageHeight;
-			awayStats.x = stage.stageWidth - awayStats.width;
 		}
 
 		/**

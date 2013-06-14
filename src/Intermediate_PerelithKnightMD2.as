@@ -164,7 +164,7 @@ package
 		override protected function initListeners():void
 		{
 			super.initListeners();
-			stage.addEventListener(Event.MOUSE_LEAVE, onMouseUp);
+			stage.addEventListener(MouseEvent.MOUSE_OUT, onMouseUp);
 			stage.addEventListener(MouseEvent.MOUSE_WHEEL, onMouseWheel);
 		}
 

@@ -77,7 +77,6 @@ package
 		public static var SandTexture:Class;
 
 		//engine variables
-		private var _view:View3D;
 		private var _cameraController:HoverController;
 
 		//light objects
@@ -104,25 +103,29 @@ package
 		 */
 		public function Basic_Load3DS()
 		{
-			stage.scaleMode = StageScaleMode.NO_SCALE;
-			stage.align = StageAlign.TOP_LEFT;
+			init();
+		}
+		
+		/**
+		 * Global initialise function
+		 */
+		private function init():void
+		{
+			initEngine();
+			initObjects();
+			initListeners();
+		}
 
-			//setup the view
-			_view = new View3D();
-
-			addChild(_view);
-
-			//setup the camera for optimal shadow rendering
-			_view.camera.lens.far = 2100;
-
-			//setup controller to be used on the camera
-			_cameraController = new HoverController(_view.camera, null, 45, 20, 1000, 10);
-
+		/**
+		 * Initialise the scene objects
+		 */
+		private function initObjects():void
+		{
 			//setup the lights for the scene
 			_light = new DirectionalLight(-1, -1, 1);
 			_direction = new Vector3D(-1, -1, 1);
 			_lightPicker = new StaticLightPicker([_light]);
-			_view.scene.addChild(_light);
+			view.scene.addChild(_light);
 
 			//setup parser to be used on Loader3D
 			Parsers.enableAllBundled();
@@ -137,7 +140,7 @@ package
 			_groundMaterial.lightPicker = _lightPicker;
 			_groundMaterial.specular = 0;
 			_ground = new Mesh(new PlaneGeometry(1000, 1000), _groundMaterial);
-			_view.scene.addChild(_ground);
+			view.scene.addChild(_ground);
 
 			//setup the scene
 			_loader = new Loader3D();
@@ -145,17 +148,22 @@ package
 			_loader.z = -200;
 			_loader.addEventListener(AssetEvent.ASSET_COMPLETE, onAssetComplete);
 			_loader.loadData(new AntModel(), assetLoaderContext);
-			_view.scene.addChild(_loader);
+			view.scene.addChild(_loader);
+		}
 
-			//add stats panel
-			addChild(new AwayStats(_view));
+		/**
+		 * Initialise the engine
+		 */
+		override protected function initEngine():void
+		{
+			super.initEngine();
 
-			//add listeners
-			addEventListener(Event.ENTER_FRAME, onEnterFrame);
-			stage.addEventListener(MouseEvent.MOUSE_DOWN, onMouseDown);
-			stage.addEventListener(MouseEvent.MOUSE_UP, onMouseUp);
-			stage.addEventListener(Event.RESIZE, onResize);
-			onResize();
+			//setup the camera for optimal shadow rendering
+			view.camera.lens.far = 2100;
+
+			//setup controller to be used on the camera
+			_cameraController = new HoverController(view.camera, null, 45, 20, 1000, 10);
+
 		}
 
 		/**

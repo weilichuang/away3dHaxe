@@ -307,16 +307,6 @@ package
 		}
 
 		/**
-		 * Initialise the listeners
-		 */
-		private function initListeners():void
-		{
-			addEventListener(Event.ENTER_FRAME, onEnterFrame);
-			stage.addEventListener(Event.RESIZE, onResize);
-			onResize();
-		}
-
-		/**
 		 * Navigation and render loop
 		 */
 		override protected function render():void
@@ -441,7 +431,7 @@ package
 		/**
 		 * Key down listener for animation
 		 */
-		private function onKeyDown(event:KeyboardEvent):void
+		override protected function onKeyDown(event:KeyboardEvent):void
 		{
 			switch (event.keyCode)
 			{
@@ -469,7 +459,7 @@ package
 			}
 		}
 
-		private function onKeyUp(event:KeyboardEvent):void
+		override protected function onKeyUp(event:KeyboardEvent):void
 		{
 			switch (event.keyCode)
 			{

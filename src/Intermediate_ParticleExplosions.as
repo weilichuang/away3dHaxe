@@ -80,9 +80,6 @@ package
 		private var PlayerImage:Class;
 
 		//engine variables
-		private var scene:Scene3D;
-		private var camera:Camera3D;
-		private var view:View3D;
 		private var cameraController:HoverController;
 
 		//light variables
@@ -326,18 +323,6 @@ package
 		}
 
 		/**
-		 * Initialise the listeners
-		 */
-		private function initListeners():void
-		{
-			addEventListener(Event.ENTER_FRAME, onEnterFrame);
-			stage.addEventListener(MouseEvent.MOUSE_DOWN, onMouseDown);
-			stage.addEventListener(MouseEvent.MOUSE_UP, onMouseUp);
-			stage.addEventListener(Event.RESIZE, onResize);
-			onResize();
-		}
-
-		/**
 		 * Initialiser function for red particle properties
 		 */
 		private function initRedParticleFunc(properties:ParticleProperties):void
@@ -440,15 +425,6 @@ package
 		{
 			move = false;
 			stage.removeEventListener(Event.MOUSE_LEAVE, onStageMouseLeave);
-		}
-
-		/**
-		 * stage listener for resize events
-		 */
-		private function onResize(event:Event = null):void
-		{
-			view.width = stage.stageWidth;
-			view.height = stage.stageHeight;
 		}
 	}
 }

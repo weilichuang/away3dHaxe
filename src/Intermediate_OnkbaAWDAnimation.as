@@ -128,9 +128,6 @@ package
 		private var fogFar:Number = 10000;
 
 		//engine variables
-		private var _view:View3D;
-		private var _signature:Sprite;
-		private var _stats:AwayStats;
 		private var _lightPicker:StaticLightPicker;
 		private var _cameraController:HoverController;
 
@@ -277,7 +274,7 @@ package
 
 			_sunLight.castsShadows = true;
 			_sunLight.shadowMapper = new NearDirectionalShadowMapper(.1);
-			_view.scene.addChild(_sunLight);
+			view.scene.addChild(_sunLight);
 
 			//create a light for ambient effect that mimics the sky
 			_skyLight = new PointLight();
@@ -289,7 +286,7 @@ package
 			_skyLight.y = 500;
 			_skyLight.radius = 1000;
 			_skyLight.fallOff = 2500;
-			_view.scene.addChild(_skyLight);
+			view.scene.addChild(_skyLight);
 
 			//create light picker for materials
 			_lightPicker = new StaticLightPicker([_sunLight, _skyLight]);
@@ -355,28 +352,23 @@ package
 		private function initObjects():void
 		{
 			//create skybox
-			_view.scene.addChild(new SkyBox(_skyMap));
+			view.scene.addChild(new SkyBox(_skyMap));
 
 			//create ground
 			_ground = new Mesh(new PlaneGeometry(100000, 100000), _groundMaterial);
 			_ground.geometry.scaleUV(160, 160);
 			_ground.y = -480;
 			_ground.castsShadows = false;
-			_view.scene.addChild(_ground);
+			view.scene.addChild(_ground);
 		}
 
 
 		/**
 		 * Initialise the listeners
 		 */
-		private function initListeners():void
+		override protected function initListeners():void
 		{
-			//add render loop
-			addEventListener(Event.ENTER_FRAME, onEnterFrame);
-
-			//add key listeners
-			stage.addEventListener(KeyboardEvent.KEY_UP, onKeyUp);
-			stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown);
+			super.initListeners();
 
 			//navigation
 			stage.addEventListener(MouseEvent.MOUSE_DOWN, onStageMouseDown);
@@ -384,10 +376,6 @@ package
 			stage.addEventListener(MouseEvent.MOUSE_UP, onStageMouseLeave);
 			stage.addEventListener(MouseEvent.MOUSE_WHEEL, onStageMouseWheel);
 			stage.addEventListener(Event.MOUSE_LEAVE, onStageMouseLeave);
-
-			//add resize event
-			stage.addEventListener(Event.RESIZE, onResize);
-			onResize();
 		}
 
 		/**
@@ -433,7 +421,7 @@ package
 			_cameraController.update();
 
 			//update light
-			_skyLight.position = _view.camera.position;
+			_skyLight.position = view.camera.position;
 
 			//update view
 			super.render();
@@ -596,8 +584,8 @@ package
 			loader3d.removeEventListener(AssetEvent.ASSET_COMPLETE, onAssetComplete);
 			loader3d.removeEventListener(LoaderEvent.RESOURCE_COMPLETE, onResourceComplete);
 
-			_view.scene.addChild(_hero);
-			_view.scene.addChild(_gun);
+			view.scene.addChild(_hero);
+			view.scene.addChild(_gun);
 		}
 
 		/**
@@ -618,7 +606,7 @@ package
 						g.x = decal + (400 * i);
 						g.z = (decal + (400 * j));
 						if (g.x != 0 || g.z != 0)
-							_view.scene.addChild(g);
+							view.scene.addChild(g);
 					}
 				}
 			}
@@ -691,7 +679,7 @@ package
 		/**
 		 * Key down listener for animation
 		 */
-		private function onKeyDown(event:KeyboardEvent):void
+		override protected function onKeyDown(event:KeyboardEvent):void
 		{
 			switch (event.keyCode)
 			{
@@ -734,7 +722,7 @@ package
 		/**
 		 * Key up listener
 		 */
-		private function onKeyUp(event:KeyboardEvent):void
+		override protected function onKeyUp(event:KeyboardEvent):void
 		{
 			switch (event.keyCode)
 			{
@@ -761,17 +749,6 @@ package
 					currentRotationInc = 0;
 					break;
 			}
-		}
-
-		/**
-		 * stage listener and mouse control
-		 */
-		private function onResize(event:Event = null):void
-		{
-			_view.width = stage.stageWidth;
-			_view.height = stage.stageHeight;
-			_stats.x = stage.stageWidth - _stats.width;
-			_signature.y = stage.stageHeight - _signature.height;
 		}
 
 		private function onStageMouseDown(ev:MouseEvent):void
@@ -844,7 +821,7 @@ package
 			// objects
 			_heroPieces = new ObjectContainer3D();
 			_heroPieces.scale(10);
-			_view.scene.addChild(_heroPieces);
+			view.scene.addChild(_heroPieces);
 
 			_eyes = new ObjectContainer3D();
 

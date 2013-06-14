@@ -105,19 +105,7 @@ package
 		[Embed(source = "/../embeds/hellknight/hellknight_specular.png")]
 		private var BodySpecular:Class;
 
-		//skybox
-		[Embed(source = "/../embeds/skybox/grimnight_posX.png")]
-		private var EnvPosX:Class;
-		[Embed(source = "/../embeds/skybox/grimnight_posY.png")]
-		private var EnvPosY:Class;
-		[Embed(source = "/../embeds/skybox/grimnight_posZ.png")]
-		private var EnvPosZ:Class;
-		[Embed(source = "/../embeds/skybox/grimnight_negX.png")]
-		private var EnvNegX:Class;
-		[Embed(source = "/../embeds/skybox/grimnight_negY.png")]
-		private var EnvNegY:Class;
-		[Embed(source = "/../embeds/skybox/grimnight_negZ.png")]
-		private var EnvNegZ:Class;
+		
 
 		//billboard texture for red light
 		[Embed(source = "/../embeds/redlight.png")]
@@ -158,11 +146,7 @@ package
 		private var HellKnight_RangeAttack2:Class;
 
 		//engine variables
-		private var scene:Scene3D;
-		private var camera:Camera3D;
-		private var view:View3D;
 		private var cameraController:LookAtController;
-		private var awayStats:AwayStats;
 
 		//animation variables
 		private var animator:SkeletonAnimator;
@@ -365,8 +349,7 @@ package
 			scene.addChild(ground);
 
 			//create a skybox
-			cubeTexture = new BitmapCubeTexture(Cast.bitmapData(EnvPosX), Cast.bitmapData(EnvNegX), Cast.bitmapData(EnvPosY), Cast.bitmapData(EnvNegY), Cast.bitmapData(EnvPosZ), Cast.bitmapData(EnvNegZ));
-			skyBox = new SkyBox(cubeTexture);
+			skyBox = new NightSkyBox();
 			scene.addChild(skyBox);
 		}
 
@@ -378,16 +361,6 @@ package
 			//parse hellknight mesh
 			AssetLibrary.addEventListener(AssetEvent.ASSET_COMPLETE, onAssetComplete);
 			AssetLibrary.loadData(new HellKnight_Mesh(), null, null, new MD5MeshParser());
-		}
-
-		/**
-		 * Initialise the listeners
-		 */
-		private function initListeners():void
-		{
-			addEventListener(Event.ENTER_FRAME, onEnterFrame);
-			stage.addEventListener(Event.RESIZE, onResize);
-			onResize();
 		}
 
 		/**
@@ -491,7 +464,7 @@ package
 		/**
 		 * Key down listener for animation
 		 */
-		private function onKeyDown(event:KeyboardEvent):void
+		override protected function onKeyDown(event:KeyboardEvent):void
 		{
 			switch (event.keyCode)
 			{
@@ -546,7 +519,7 @@ package
 			}
 		}
 
-		private function onKeyUp(event:KeyboardEvent):void
+		override protected function onKeyUp(event:KeyboardEvent):void
 		{
 			switch (event.keyCode)
 			{
@@ -602,16 +575,6 @@ package
 			//update animator
 			animator.playbackSpeed = IDLE_SPEED;
 			animator.play(currentAnim, stateTransition);
-		}
-
-		/**
-		 * stage listener for resize events
-		 */
-		private function onResize(event:Event = null):void
-		{
-			view.width = stage.stageWidth;
-			view.height = stage.stageHeight;
-			awayStats.x = stage.stageWidth - awayStats.width;
 		}
 	}
 }

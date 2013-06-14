@@ -97,11 +97,7 @@ package
 		private var DiffuseGradient:Class;
 
 		//engine variables
-		private var _scene:Scene3D;
-		private var _camera:Camera3D;
-		private var _view:View3D;
-		private var _cameraController:HoverController;
-		private var _awayStats:AwayStats;
+		private var cameraController:HoverController;
 		private var _text:TextField;
 
 		//gui variables
@@ -220,19 +216,19 @@ package
 		{
 			super.initEngine();
 
-			_scene = new Scene3D();
+			scene = new Scene3D();
 
-			_camera = new Camera3D();
-			_camera.lens.near = 20;
-			_camera.lens.far = 1000;
+			camera = new Camera3D();
+			camera.lens.near = 20;
+			camera.lens.far = 1000;
 
-			_view.antiAlias = 4;
-			_view.scene = _scene;
-			_view.camera = _camera;
+			view.antiAlias = 4;
+			view.scene = scene;
+			view.camera = camera;
 
 			//setup controller to be used on the camera
-			_cameraController = new HoverController(_camera, null, 225, 10, 800);
-			_cameraController.yFactor = 1;
+			cameraController = new HoverController(camera, null, 225, 10, 800);
+			cameraController.yFactor = 1;
 		}
 
 		/**
@@ -273,7 +269,7 @@ package
 			_directionalLight.ambientColor = 0x101025;
 			_directionalLight.castsShadows = true;
 			DirectionalShadowMapper(_directionalLight.shadowMapper).lightOffset = 1000;
-			_scene.addChild(_directionalLight);
+			scene.addChild(_directionalLight);
 
 			// blue point light coming from the right
 			_blueLight = new PointLight();
@@ -281,7 +277,7 @@ package
 			_blueLight.x = 3000;
 			_blueLight.z = 700;
 			_blueLight.y = 20;
-			_scene.addChild(_blueLight);
+			scene.addChild(_blueLight);
 
 			// red light coming from the left
 			_redLight = new PointLight();
@@ -289,7 +285,7 @@ package
 			_redLight.x = -2000;
 			_redLight.z = 800;
 			_redLight.y = -400;
-			_scene.addChild(_redLight);
+			scene.addChild(_redLight);
 
 			_lightPicker = new StaticLightPicker([_directionalLight, _blueLight, _redLight]);
 
@@ -322,19 +318,6 @@ package
 			_gui.addSlider("parent.lightDirection", 0, 360, {label: "Direction", tick: 0.1});
 			_gui.addSlider("parent.lightElevation", -90, 90, {label: "Elevation", tick: 0.1});
 			_gui.show();
-		}
-
-		/**
-		 * Initialise the listeners
-		 */
-		private function initListeners():void
-		{
-			addEventListener(Event.ENTER_FRAME, onEnterFrame);
-			stage.addEventListener(MouseEvent.MOUSE_DOWN, onMouseDown);
-			stage.addEventListener(MouseEvent.MOUSE_UP, onMouseUp);
-			stage.addEventListener(KeyboardEvent.KEY_UP, onKeyUp);
-			stage.addEventListener(Event.RESIZE, onResize);
-			onResize();
 		}
 
 		/**
@@ -475,8 +458,8 @@ package
 		{
 			if (_move)
 			{
-				_cameraController.panAngle = 0.3 * (stage.mouseX - _lastMouseX) + _lastPanAngle;
-				_cameraController.tiltAngle = 0.3 * (stage.mouseY - _lastMouseY) + _lastTiltAngle;
+				cameraController.panAngle = 0.3 * (stage.mouseX - _lastMouseX) + _lastPanAngle;
+				cameraController.tiltAngle = 0.3 * (stage.mouseY - _lastMouseY) + _lastTiltAngle;
 			}
 
 			super.render();
@@ -492,7 +475,7 @@ package
 				_headModel = event.asset as Mesh;
 				_headModel.geometry.scale(4); //TODO scale cannot be performed on mesh when using sub-surface diffuse method
 				_headModel.y = -20;
-				_scene.addChild(_headModel);
+				scene.addChild(_headModel);
 			}
 		}
 
@@ -548,8 +531,8 @@ package
 		 */
 		override protected function onMouseDown(event:MouseEvent):void
 		{
-			_lastPanAngle = _cameraController.panAngle;
-			_lastTiltAngle = _cameraController.tiltAngle;
+			_lastPanAngle = cameraController.panAngle;
+			_lastTiltAngle = cameraController.tiltAngle;
 			_lastMouseX = stage.mouseX;
 			_lastMouseY = stage.mouseY;
 			_move = true;
@@ -568,7 +551,7 @@ package
 		/**
 		 * Key up listener for swapping between standard diffuse & specular shading, and sub-surface diffuse shading with fresnel specular shading
 		 */
-		private function onKeyUp(event:KeyboardEvent):void
+		override protected function onKeyUp(event:KeyboardEvent):void
 		{
 			_advancedMethod = !_advancedMethod;
 
@@ -588,15 +571,12 @@ package
 		/**
 		 * stage listener for resize events
 		 */
-		private function onResize(event:Event = null):void
+		override protected function onResize(event:Event = null):void
 		{
-			_view.width = stage.stageWidth;
-			_view.height = stage.stageHeight;
+			super.onResize(event);
 
 			_text.x = (stage.stageWidth - _text.width) / 2;
 			_text.y = (stage.stageHeight - _text.height) / 2;
-
-			_awayStats.x = stage.stageWidth - _awayStats.width;
 		}
 	}
 }
