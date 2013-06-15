@@ -1,19 +1,25 @@
 package example.utils
 {
-	import away3d.textures.*;
+	import flash.display.Bitmap;
+	import flash.display.BitmapData;
+	import flash.display.Shader;
+	import flash.display.Shape;
+	import flash.display.Sprite;
+	import flash.filters.DisplacementMapFilter;
+	import flash.filters.ShaderFilter;
+	import flash.geom.Matrix;
+	import flash.geom.Point;
 
-	import flash.display.*;
-	import flash.filters.*;
-	import flash.geom.*;
+	import away3d.textures.BitmapCubeTexture;
 
 
 	public class BitmapFilterEffects extends Sprite
 	{
-		[Embed(source = "/../pb/Sharpen.pbj", mimeType = "application/octet-stream")]
+		[Embed(source = "/pb/Sharpen.pbj", mimeType = "application/octet-stream")]
 		public static var SharpenClass:Class;
-		[Embed(source = "/../pb/NormalMap.pbj", mimeType = "application/octet-stream")]
+		[Embed(source = "/pb/NormalMap.pbj", mimeType = "application/octet-stream")]
 		public static var NormalMapClass:Class;
-		[Embed(source = "/../pb/Outline.pbj", mimeType = "application/octet-stream")]
+		[Embed(source = "/pb/Outline.pbj", mimeType = "application/octet-stream")]
 		public static var OutlineClass:Class;
 
 		private static var _bitmap:Bitmap = new Bitmap();

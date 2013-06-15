@@ -42,17 +42,17 @@ package example
 	import flash.geom.Vector3D;
 	import flash.utils.getTimer;
 
-	import away3d.cameras.Camera3D;
+	import away3d.entities.Camera3D;
 	import away3d.entities.Scene3D;
 	import away3d.controllers.HoverController;
 	import away3d.entities.Mesh;
-	import away3d.lights.DirectionalLight;
+	import away3d.entities.lights.DirectionalLight;
 	import away3d.materials.TextureMaterial;
 	import away3d.materials.lightpickers.StaticLightPicker;
-	import away3d.primitives.CubeGeometry;
-	import away3d.primitives.PlaneGeometry;
-	import away3d.primitives.SphereGeometry;
-	import away3d.primitives.TorusGeometry;
+	import away3d.entities.primitives.CubeGeometry;
+	import away3d.entities.primitives.PlaneGeometry;
+	import away3d.entities.primitives.SphereGeometry;
+	import away3d.entities.primitives.TorusGeometry;
 	import away3d.textures.BitmapTexture;
 	import away3d.utils.Cast;
 

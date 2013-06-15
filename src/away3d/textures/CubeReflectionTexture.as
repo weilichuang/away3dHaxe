@@ -5,8 +5,8 @@ package away3d.textures
 	import flash.geom.Vector3D;
 
 	import away3d.arcane;
-	import away3d.cameras.Camera3D;
-	import away3d.cameras.lenses.PerspectiveLens;
+	import away3d.entities.Camera3D;
+	import away3d.entities.lenses.PerspectiveLens;
 	import away3d.core.managers.Stage3DProxy;
 	import away3d.core.render.DefaultRenderer;
 	import away3d.core.render.RendererBase;

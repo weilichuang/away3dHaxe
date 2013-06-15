@@ -12,9 +12,9 @@ package away3d.animators
 	import away3d.animators.states.IAnimationState;
 	import away3d.entities.Mesh;
 	import away3d.events.AnimatorEvent;
-	import away3d.library.assets.AssetType;
-	import away3d.library.assets.IAsset;
-	import away3d.library.assets.NamedAssetBase;
+	import away3d.io.library.assets.AssetType;
+	import away3d.io.library.assets.IAsset;
+	import away3d.io.library.assets.NamedAssetBase;
 
 	use namespace arcane;
 

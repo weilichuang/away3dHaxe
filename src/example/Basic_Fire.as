@@ -55,18 +55,18 @@ package example
 	import away3d.animators.nodes.ParticleColorNode;
 	import away3d.animators.nodes.ParticleScaleNode;
 	import away3d.animators.nodes.ParticleVelocityNode;
-	import away3d.cameras.Camera3D;
+	import away3d.entities.Camera3D;
 	import away3d.entities.Scene3D;
 	import away3d.controllers.HoverController;
 	import away3d.core.base.Geometry;
 	import away3d.core.base.ParticleGeometry;
 	import away3d.entities.Mesh;
-	import away3d.lights.DirectionalLight;
-	import away3d.lights.PointLight;
+	import away3d.entities.lights.DirectionalLight;
+	import away3d.entities.lights.PointLight;
 	import away3d.materials.TextureMaterial;
 	import away3d.materials.TextureMultiPassMaterial;
 	import away3d.materials.lightpickers.StaticLightPicker;
-	import away3d.primitives.PlaneGeometry;
+	import away3d.entities.primitives.PlaneGeometry;
 	import away3d.tools.helpers.ParticleGeometryHelper;
 	import away3d.utils.Cast;
 
@@ -382,7 +382,7 @@ package example
 
 import away3d.animators.ParticleAnimator;
 import away3d.entities.Mesh;
-import away3d.lights.PointLight;
+import away3d.entities.lights.PointLight;
 
 /**
  * Data class for the fire objects

@@ -9,8 +9,8 @@ package away3d.entities
 	import away3d.core.partition.Partition3D;
 	import away3d.events.Object3DEvent;
 	import away3d.events.Scene3DEvent;
-	import away3d.library.assets.AssetType;
-	import away3d.library.assets.IAsset;
+	import away3d.io.library.assets.AssetType;
+	import away3d.io.library.assets.IAsset;
 
 	use namespace arcane;
 

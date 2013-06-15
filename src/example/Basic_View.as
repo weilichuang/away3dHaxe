@@ -42,7 +42,7 @@ package example
 
 	import away3d.entities.Mesh;
 	import away3d.materials.TextureMaterial;
-	import away3d.primitives.PlaneGeometry;
+	import away3d.entities.primitives.PlaneGeometry;
 	import away3d.utils.Cast;
 
 	public class Basic_View extends BasicApplication

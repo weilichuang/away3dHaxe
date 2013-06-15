@@ -3,10 +3,10 @@ package away3d.materials.lightpickers
 	import flash.events.Event;
 	
 	import away3d.events.LightEvent;
-	import away3d.lights.DirectionalLight;
-	import away3d.lights.LightBase;
-	import away3d.lights.LightProbe;
-	import away3d.lights.PointLight;
+	import away3d.entities.lights.DirectionalLight;
+	import away3d.entities.lights.LightBase;
+	import away3d.entities.lights.LightProbe;
+	import away3d.entities.lights.PointLight;
 
 	public class StaticLightPicker extends LightPickerBase
 	{

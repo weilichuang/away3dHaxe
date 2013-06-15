@@ -8,8 +8,8 @@ package away3d.core.partition
 	import away3d.entities.Entity;
 	import away3d.entities.ObjectContainer3D;
 	import away3d.entities.Scene3D;
-	import away3d.primitives.WireframeCube;
-	import away3d.primitives.WireframePrimitiveBase;
+	import away3d.entities.primitives.WireframeCube;
+	import away3d.entities.primitives.WireframePrimitiveBase;
 
 	use namespace arcane;
 

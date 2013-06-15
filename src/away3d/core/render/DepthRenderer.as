@@ -6,7 +6,7 @@ package away3d.core.render
 	import flash.geom.Rectangle;
 	
 	import away3d.arcane;
-	import away3d.cameras.Camera3D;
+	import away3d.entities.Camera3D;
 	import away3d.core.base.IRenderable;
 	import away3d.core.data.RenderableListItem;
 	import away3d.core.traverse.EntityCollector;

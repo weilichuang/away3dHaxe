@@ -2,7 +2,7 @@ package example
 {
 	import away3d.entities.Mesh;
 	import away3d.materials.ColorMaterial;
-	import away3d.primitives.CubeGeometry;
+	import away3d.entities.primitives.CubeGeometry;
 	import away3d.stereo.StereoCamera3D;
 	import away3d.stereo.StereoView3D;
 	import away3d.stereo.methods.AnaglyphStereoRenderMethod;

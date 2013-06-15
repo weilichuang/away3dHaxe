@@ -8,14 +8,14 @@ package away3d.materials
 
 	import away3d.arcane;
 	import away3d.animators.IAnimationSet;
-	import away3d.cameras.Camera3D;
+	import away3d.entities.Camera3D;
 	import away3d.core.base.IMaterialOwner;
 	import away3d.core.base.IRenderable;
 	import away3d.core.managers.Stage3DProxy;
 	import away3d.core.traverse.EntityCollector;
-	import away3d.library.assets.AssetType;
-	import away3d.library.assets.IAsset;
-	import away3d.library.assets.NamedAssetBase;
+	import away3d.io.library.assets.AssetType;
+	import away3d.io.library.assets.IAsset;
+	import away3d.io.library.assets.NamedAssetBase;
 	import away3d.materials.lightpickers.LightPickerBase;
 	import away3d.materials.passes.DepthMapPass;
 	import away3d.materials.passes.DistanceMapPass;

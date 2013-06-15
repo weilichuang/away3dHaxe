@@ -3,12 +3,12 @@ package away3d.tools.utils
 
 	import flash.geom.Vector3D;
 
-	import away3d.cameras.lenses.PerspectiveLens;
+	import away3d.entities.lenses.PerspectiveLens;
 	import away3d.entities.Mesh;
 	import away3d.entities.ObjectContainer3D;
 	import away3d.entities.View3D;
 	import away3d.materials.ColorMaterial;
-	import away3d.primitives.PlaneGeometry;
+	import away3d.entities.primitives.PlaneGeometry;
 
 	/**
 	* Class Drag3D allows free dragging of an ObjectContainer3D onto a given plane.

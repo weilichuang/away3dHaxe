@@ -60,18 +60,18 @@ package example
 
 	import away3d.controllers.HoverController;
 	import away3d.entities.Mesh;
-	import away3d.extrusions.Elevation;
-	import away3d.lights.DirectionalLight;
-	import away3d.lights.PointLight;
+	import away3d.entities.extrusions.Elevation;
+	import away3d.entities.lights.DirectionalLight;
+	import away3d.entities.lights.PointLight;
 	import away3d.materials.TextureMaterial;
 	import away3d.materials.lightpickers.StaticLightPicker;
 	import away3d.materials.methods.BasicDiffuseMethod;
 	import away3d.materials.methods.BasicSpecularMethod;
 	import away3d.materials.methods.FogMethod;
 	import away3d.materials.methods.TerrainDiffuseMethod;
-	import away3d.primitives.Foliage;
-	import away3d.primitives.FractalTreeRound;
-	import away3d.primitives.SkyBox;
+	import away3d.entities.primitives.Foliage;
+	import away3d.entities.primitives.FractalTreeRound;
+	import away3d.entities.primitives.SkyBox;
 	import away3d.textures.BitmapCubeTexture;
 	import away3d.textures.BitmapTexture;
 	import away3d.utils.Cast;

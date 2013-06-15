@@ -7,10 +7,10 @@ package example
 	import flash.events.KeyboardEvent;
 	import flash.events.MouseEvent;
 
-	import away3d.cameras.Camera3D;
+	import away3d.entities.Camera3D;
 	import away3d.entities.Scene3D;
 	import away3d.entities.View3D;
-	import away3d.debug.AwayStats;
+	import away3d.utils.AwayStats;
 
 	public class BasicApplication extends Sprite
 	{

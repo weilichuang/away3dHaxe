@@ -58,10 +58,10 @@ package example
 	import away3d.entities.Mesh;
 	import away3d.events.AssetEvent;
 	import away3d.events.LoaderEvent;
-	import away3d.library.assets.AssetType;
-	import away3d.lights.PointLight;
-	import away3d.loaders.Loader3D;
-	import away3d.loaders.parsers.AWD2Parser;
+	import away3d.io.library.assets.AssetType;
+	import away3d.entities.lights.PointLight;
+	import away3d.io.loaders.Loader3D;
+	import away3d.io.loaders.parsers.AWD2Parser;
 	import away3d.materials.SinglePassMaterialBase;
 	import away3d.materials.SpriteSheetMaterial;
 	import away3d.materials.lightpickers.StaticLightPicker;

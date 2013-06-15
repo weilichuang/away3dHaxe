@@ -3,12 +3,12 @@ package away3d.materials.methods
 	import flash.events.Event;
 	
 	import away3d.arcane;
-	import away3d.cameras.Camera3D;
+	import away3d.entities.Camera3D;
 	import away3d.core.base.IRenderable;
 	import away3d.core.managers.Stage3DProxy;
 	import away3d.events.ShadingMethodEvent;
-	import away3d.lights.DirectionalLight;
-	import away3d.lights.shadowmaps.CascadeShadowMapper;
+	import away3d.entities.lights.DirectionalLight;
+	import away3d.entities.lights.shadowmaps.CascadeShadowMapper;
 	import away3d.materials.compilation.ShaderRegisterCache;
 	import away3d.materials.compilation.ShaderRegisterData;
 	import away3d.materials.compilation.ShaderRegisterElement;

@@ -3,13 +3,13 @@ package away3d.materials.methods
 	import flash.geom.Vector3D;
 	
 	import away3d.arcane;
-	import away3d.cameras.Camera3D;
+	import away3d.entities.Camera3D;
 	import away3d.core.base.IRenderable;
 	import away3d.core.managers.Stage3DProxy;
 	import away3d.errors.AbstractMethodError;
-	import away3d.lights.LightBase;
-	import away3d.lights.PointLight;
-	import away3d.lights.shadowmaps.DirectionalShadowMapper;
+	import away3d.entities.lights.LightBase;
+	import away3d.entities.lights.PointLight;
+	import away3d.entities.lights.shadowmaps.DirectionalShadowMapper;
 	import away3d.materials.compilation.ShaderRegisterCache;
 	import away3d.materials.compilation.ShaderRegisterElement;
 

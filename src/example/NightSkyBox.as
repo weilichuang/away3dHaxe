@@ -1,6 +1,6 @@
 package example
 {
-	import away3d.primitives.SkyBox;
+	import away3d.entities.primitives.SkyBox;
 	import away3d.textures.BitmapCubeTexture;
 	import away3d.utils.Cast;
 

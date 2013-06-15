@@ -3,9 +3,9 @@ package away3d.entities
 	import flash.geom.Matrix3D;
 	
 	import away3d.arcane;
-	import away3d.cameras.lenses.PerspectiveLens;
+	import away3d.entities.lenses.PerspectiveLens;
 	import away3d.events.LensEvent;
-	import away3d.library.assets.AssetType;
+	import away3d.io.library.assets.AssetType;
 	import away3d.textures.Texture2DBase;
 
 	use namespace arcane;

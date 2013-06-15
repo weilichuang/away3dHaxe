@@ -3,8 +3,8 @@ package away3d.core.partition
 	import away3d.arcane;
 	import away3d.math.Plane3D;
 	import away3d.core.traverse.PartitionTraverser;
-	import away3d.primitives.WireframeCube;
-	import away3d.primitives.WireframePrimitiveBase;
+	import away3d.entities.primitives.WireframeCube;
+	import away3d.entities.primitives.WireframePrimitiveBase;
 
 	import flash.geom.Vector3D;
 

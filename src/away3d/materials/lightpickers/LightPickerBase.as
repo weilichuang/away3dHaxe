@@ -5,13 +5,13 @@ package away3d.materials.lightpickers
 	import away3d.arcane;
 	import away3d.core.base.IRenderable;
 	import away3d.core.traverse.EntityCollector;
-	import away3d.library.assets.AssetType;
-	import away3d.library.assets.IAsset;
-	import away3d.library.assets.NamedAssetBase;
-	import away3d.lights.DirectionalLight;
-	import away3d.lights.LightBase;
-	import away3d.lights.LightProbe;
-	import away3d.lights.PointLight;
+	import away3d.io.library.assets.AssetType;
+	import away3d.io.library.assets.IAsset;
+	import away3d.io.library.assets.NamedAssetBase;
+	import away3d.entities.lights.DirectionalLight;
+	import away3d.entities.lights.LightBase;
+	import away3d.entities.lights.LightProbe;
+	import away3d.entities.lights.PointLight;
 
 	use namespace arcane;
 

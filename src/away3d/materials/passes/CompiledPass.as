@@ -6,7 +6,7 @@ package away3d.materials.passes
 	import flash.geom.Matrix3D;
 	
 	import away3d.arcane;
-	import away3d.cameras.Camera3D;
+	import away3d.entities.Camera3D;
 	import away3d.core.base.IRenderable;
 	import away3d.core.managers.Stage3DProxy;
 	import away3d.errors.AbstractMethodError;

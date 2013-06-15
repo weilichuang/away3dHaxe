@@ -18,7 +18,7 @@ package example
 
 	import away3d.bounds.BoundingSphere;
 	import away3d.bounds.BoundingVolumeBase;
-	import away3d.cameras.Camera3D;
+	import away3d.entities.Camera3D;
 	import away3d.entities.Scene3D;
 	import away3d.entities.View3D;
 	import away3d.controllers.HoverController;
@@ -27,22 +27,22 @@ package example
 	import away3d.core.pick.PickingCollisionVO;
 	import away3d.core.pick.PickingType;
 	import away3d.core.pick.RaycastPicker;
-	import away3d.debug.AwayStats;
+	import away3d.utils.AwayStats;
 	import away3d.entities.Mesh;
 	import away3d.entities.SegmentSet;
 	import away3d.events.AssetEvent;
 	import away3d.events.MouseEvent3D;
-	import away3d.library.assets.AssetType;
-	import away3d.lights.PointLight;
-	import away3d.loaders.parsers.OBJParser;
+	import away3d.io.library.assets.AssetType;
+	import away3d.entities.lights.PointLight;
+	import away3d.io.loaders.parsers.OBJParser;
 	import away3d.materials.ColorMaterial;
 	import away3d.materials.TextureMaterial;
 	import away3d.materials.lightpickers.StaticLightPicker;
-	import away3d.primitives.CubeGeometry;
-	import away3d.primitives.CylinderGeometry;
-	import away3d.primitives.LineSegment;
-	import away3d.primitives.SphereGeometry;
-	import away3d.primitives.TorusGeometry;
+	import away3d.entities.primitives.CubeGeometry;
+	import away3d.entities.primitives.CylinderGeometry;
+	import away3d.entities.primitives.LineSegment;
+	import away3d.entities.primitives.SphereGeometry;
+	import away3d.entities.primitives.TorusGeometry;
 	import away3d.textures.BitmapTexture;
 
 	public class Intermediate_MouseInteraction extends BasicApplication

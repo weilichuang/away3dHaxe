@@ -52,9 +52,10 @@ package example
 
 	import away3d.controllers.FirstPersonController;
 	import away3d.entities.Mesh;
-	import away3d.extrusions.Elevation;
+	import away3d.entities.extrusions.Elevation;
+	import away3d.entities.lights.DirectionalLight;
+	import away3d.entities.primitives.PlaneGeometry;
 	import away3d.filters.BloomFilter3D;
-	import away3d.lights.DirectionalLight;
 	import away3d.materials.TextureMaterial;
 	import away3d.materials.lightpickers.StaticLightPicker;
 	import away3d.materials.methods.EnvMapMethod;
@@ -62,9 +63,6 @@ package example
 	import away3d.materials.methods.FresnelSpecularMethod;
 	import away3d.materials.methods.SimpleWaterNormalMethod;
 	import away3d.materials.methods.TerrainDiffuseMethod;
-	import away3d.primitives.PlaneGeometry;
-	import away3d.primitives.SkyBox;
-	import away3d.textures.BitmapCubeTexture;
 	import away3d.textures.BitmapTexture;
 	import away3d.utils.Cast;
 
@@ -169,7 +167,7 @@ package example
 			//setup controller to be used on the camera
 			cameraController = new FirstPersonController(camera, 180, 0, -80, 80);
 
-			view.filters3d = [new BloomFilter3D(200, 200, .85, 15, 2)];
+//			view.filters3d = [new BloomFilter3D(200, 200, .85, 15, 3)];
 		}
 
 		/**

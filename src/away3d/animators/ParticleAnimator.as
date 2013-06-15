@@ -9,7 +9,7 @@ package away3d.animators
 	import away3d.animators.data.ParticlePropertiesMode;
 	import away3d.animators.nodes.ParticleNodeBase;
 	import away3d.animators.states.ParticleStateBase;
-	import away3d.cameras.Camera3D;
+	import away3d.entities.Camera3D;
 	import away3d.core.base.IRenderable;
 	import away3d.core.base.ISubGeometry;
 	import away3d.core.base.SubMesh;

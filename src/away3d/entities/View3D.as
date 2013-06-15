@@ -13,7 +13,6 @@
 	import flash.utils.getTimer;
 	
 	import away3d.arcane;
-	import away3d.cameras.Camera3D;
 	import away3d.core.managers.Mouse3DManager;
 	import away3d.core.managers.RTTBufferManager;
 	import away3d.core.managers.Stage3DManager;

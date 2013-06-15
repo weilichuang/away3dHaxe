@@ -6,8 +6,8 @@ package example
 	import away3d.entities.Mesh;
 	import away3d.events.MouseEvent3D;
 	import away3d.materials.TextureMaterial;
-	import away3d.primitives.CubeGeometry;
-	import away3d.primitives.PlaneGeometry;
+	import away3d.entities.primitives.CubeGeometry;
+	import away3d.entities.primitives.PlaneGeometry;
 	import away3d.utils.Cast;
 
 	import caurina.transitions.Tweener;

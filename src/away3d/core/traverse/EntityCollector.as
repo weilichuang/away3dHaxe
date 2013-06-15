@@ -3,7 +3,7 @@ package away3d.core.traverse
 	import flash.geom.Vector3D;
 
 	import away3d.arcane;
-	import away3d.cameras.Camera3D;
+	import away3d.entities.Camera3D;
 	import away3d.core.base.IRenderable;
 	import away3d.core.data.EntityListItem;
 	import away3d.core.data.EntityListItemPool;
@@ -11,10 +11,10 @@ package away3d.core.traverse
 	import away3d.core.data.RenderableListItemPool;
 	import away3d.core.partition.NodeBase;
 	import away3d.entities.Entity;
-	import away3d.lights.DirectionalLight;
-	import away3d.lights.LightBase;
-	import away3d.lights.LightProbe;
-	import away3d.lights.PointLight;
+	import away3d.entities.lights.DirectionalLight;
+	import away3d.entities.lights.LightBase;
+	import away3d.entities.lights.LightProbe;
+	import away3d.entities.lights.PointLight;
 	import away3d.materials.MaterialBase;
 	import away3d.math.Plane3D;
 

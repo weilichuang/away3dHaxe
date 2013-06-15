@@ -18,15 +18,15 @@ package example
 	import flash.ui.Keyboard;
 
 	import away3d.arcane;
-	import away3d.cameras.Camera3D;
+	import away3d.entities.Camera3D;
 	import away3d.entities.ObjectContainer3D;
 	import away3d.entities.Scene3D;
 	import away3d.controllers.HoverController;
-	import away3d.debug.AwayStats;
+	import away3d.utils.AwayStats;
 	import away3d.entities.Mesh;
 	import away3d.entities.Sprite3D;
-	import away3d.lights.PointLight;
-	import away3d.loaders.parsers.Parsers;
+	import away3d.entities.lights.PointLight;
+	import away3d.io.loaders.parsers.Parsers;
 	import away3d.materials.ColorMaterial;
 	import away3d.materials.TextureMaterial;
 	import away3d.materials.compilation.ShaderRegisterCache;
@@ -40,8 +40,8 @@ package example
 	import away3d.materials.methods.FresnelSpecularMethod;
 	import away3d.materials.methods.MethodVO;
 	import away3d.materials.methods.PhongSpecularMethod;
-	import away3d.primitives.SkyBox;
-	import away3d.primitives.SphereGeometry;
+	import away3d.entities.primitives.SkyBox;
+	import away3d.entities.primitives.SphereGeometry;
 	import away3d.textures.BitmapCubeTexture;
 	import away3d.textures.BitmapTexture;
 	import away3d.utils.Cast;

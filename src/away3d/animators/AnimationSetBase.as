@@ -4,9 +4,9 @@ package away3d.animators
 
 	import away3d.animators.nodes.AnimationNodeBase;
 	import away3d.errors.AnimationSetError;
-	import away3d.library.assets.AssetType;
-	import away3d.library.assets.IAsset;
-	import away3d.library.assets.NamedAssetBase;
+	import away3d.io.library.assets.AssetType;
+	import away3d.io.library.assets.IAsset;
+	import away3d.io.library.assets.NamedAssetBase;
 
 	/**
 	 * Provides an abstract base class for data set classes that hold animation data for use in animator classes.

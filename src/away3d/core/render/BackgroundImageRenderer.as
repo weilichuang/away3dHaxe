@@ -11,7 +11,7 @@ package away3d.core.render
 	import flash.display3D.VertexBuffer3D;
 	
 	import away3d.core.managers.Stage3DProxy;
-	import away3d.debug.Debug;
+	import away3d.utils.Debug;
 	import away3d.textures.Texture2DBase;
 
 	public class BackgroundImageRenderer

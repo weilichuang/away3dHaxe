@@ -7,7 +7,7 @@ package away3d.tools.helpers.data
 	import away3d.core.base.SubGeometryBase;
 	import away3d.entities.Mesh;
 	import away3d.entities.SegmentSet;
-	import away3d.primitives.LineSegment;
+	import away3d.entities.primitives.LineSegment;
 
 	/**
 	* MeshDebug, holds the data for the MeshDebugger class

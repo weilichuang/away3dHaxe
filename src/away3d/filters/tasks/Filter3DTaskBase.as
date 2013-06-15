@@ -9,9 +9,9 @@ package away3d.filters.tasks
 	import flash.display3D.Program3D;
 	import flash.display3D.textures.Texture;
 	
-	import away3d.cameras.Camera3D;
+	import away3d.entities.Camera3D;
 	import away3d.core.managers.Stage3DProxy;
-	import away3d.debug.Debug;
+	import away3d.utils.Debug;
 	import away3d.errors.AbstractMethodError;
 
 	public class Filter3DTaskBase

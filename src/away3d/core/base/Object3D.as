@@ -6,7 +6,7 @@ package away3d.core.base
 	import away3d.arcane;
 	import away3d.controllers.ControllerBase;
 	import away3d.events.Object3DEvent;
-	import away3d.library.assets.NamedAssetBase;
+	import away3d.io.library.assets.NamedAssetBase;
 	import away3d.math.MathUtil;
 	import away3d.math.Matrix3DUtils;
 

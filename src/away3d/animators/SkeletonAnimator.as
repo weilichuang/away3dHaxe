@@ -11,7 +11,7 @@ package away3d.animators
 	import away3d.animators.data.SkeletonPose;
 	import away3d.animators.states.ISkeletonAnimationState;
 	import away3d.animators.transitions.IAnimationTransition;
-	import away3d.cameras.Camera3D;
+	import away3d.entities.Camera3D;
 	import away3d.core.base.IRenderable;
 	import away3d.core.base.SkinnedSubGeometry;
 	import away3d.core.base.SubMesh;

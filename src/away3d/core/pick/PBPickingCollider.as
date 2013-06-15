@@ -5,7 +5,7 @@ package away3d.core.pick
 	import flash.geom.Point;
 	import flash.geom.Vector3D;
 	import flash.utils.ByteArray;
-	
+
 	import away3d.core.base.SubMesh;
 
 	/**
@@ -16,7 +16,7 @@ package away3d.core.pick
 	 */
 	public class PBPickingCollider extends PickingColliderBase implements IPickingCollider
 	{
-		[Embed("/../pb/RayTriangleKernel.pbj", mimeType = "application/octet-stream")]
+		[Embed("/pb/RayTriangleKernel.pbj", mimeType = "application/octet-stream")]
 		private var RayTriangleKernelClass:Class;
 
 		private var _findClosestCollision:Boolean;

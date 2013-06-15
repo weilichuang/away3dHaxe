@@ -4,7 +4,7 @@ package away3d.core.base
 	import flash.geom.Matrix;
 	import flash.geom.Matrix3D;
 
-	import away3d.cameras.Camera3D;
+	import away3d.entities.Camera3D;
 	import away3d.core.managers.Stage3DProxy;
 	import away3d.entities.Entity;
 

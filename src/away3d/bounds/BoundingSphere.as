@@ -7,8 +7,8 @@ package away3d.bounds
 	import away3d.math.Matrix3DUtils;
 	import away3d.math.Plane3D;
 	import away3d.math.PlaneClassification;
-	import away3d.primitives.WireframePrimitiveBase;
-	import away3d.primitives.WireframeSphere;
+	import away3d.entities.primitives.WireframePrimitiveBase;
+	import away3d.entities.primitives.WireframeSphere;
 
 	use namespace arcane;
 

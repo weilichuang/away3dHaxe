@@ -4,9 +4,9 @@ package away3d.filters.tasks
 	import flash.display3D.Context3DProgramType;
 	import flash.display3D.textures.Texture;
 	import flash.display3D.textures.TextureBase;
-	
+
 	import away3d.arcane;
-	import away3d.cameras.Camera3D;
+	import away3d.entities.Camera3D;
 	import away3d.core.managers.Stage3DProxy;
 
 	use namespace arcane;
@@ -71,9 +71,9 @@ package away3d.filters.tasks
 					throw new Error("Unknown blend mode");
 			}
 			if (op != "mov")
-				code += op + " oc, ft0, ft1					\n";
+				code += op + " oc, ft0, ft1\n";
 			else
-				code += "mov oc, ft0						\n";
+				code += "mov oc, ft0\n";
 			return code;
 		}
 

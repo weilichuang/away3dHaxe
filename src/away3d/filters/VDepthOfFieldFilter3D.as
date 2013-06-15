@@ -2,7 +2,7 @@ package away3d.filters
 {
 	import flash.geom.Vector3D;
 
-	import away3d.cameras.Camera3D;
+	import away3d.entities.Camera3D;
 	import away3d.core.managers.Stage3DProxy;
 	import away3d.entities.ObjectContainer3D;
 	import away3d.filters.tasks.Filter3DVDepthOfFFieldTask;

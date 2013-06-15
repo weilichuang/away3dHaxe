@@ -11,8 +11,8 @@
 	import away3d.core.partition.EntityNode;
 	import away3d.core.partition.MeshNode;
 	import away3d.events.GeometryEvent;
-	import away3d.library.assets.AssetType;
-	import away3d.library.assets.IAsset;
+	import away3d.io.library.assets.AssetType;
+	import away3d.io.library.assets.IAsset;
 	import away3d.materials.MaterialBase;
 	import away3d.materials.utils.DefaultMaterialManager;
 

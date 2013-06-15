@@ -1,55 +1,9 @@
-/*
-
-AWD file loading example in Away3d
-
-Demonstrates:
-
-How to use the Loader3D object to load an embedded internal awd model.
-How to create character interaction
-How to set custom material on a model.
-
-Code by Rob Bateman and LoTh
-rob@infiniteturtles.co.uk
-http://www.infiniteturtles.co.uk
-3dflashlo@gmail.com
-http://3dflashlo.wordpress.com
-
-Model and Map by LoTH
-3dflashlo@gmail.com
-http://3dflashlo.wordpress.com
-
-This code is distributed under the MIT License
-
-Copyright (c) The Away Foundation http://www.theawayfoundation.org
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the “Software”), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
-
- */
 package example
 {
 	import flash.display.BitmapData;
 	import flash.display.BlendMode;
 	import flash.display.Loader;
 	import flash.display.LoaderInfo;
-	import flash.display.Sprite;
-	import flash.display.StageAlign;
-	import flash.display.StageScaleMode;
 	import flash.events.Event;
 	import flash.events.KeyboardEvent;
 	import flash.events.MouseEvent;
@@ -71,22 +25,23 @@ package example
 	import away3d.animators.data.Skeleton;
 	import away3d.animators.nodes.SkeletonClipNode;
 	import away3d.animators.transitions.CrossfadeTransition;
-	import away3d.cameras.lenses.PerspectiveLens;
-	import away3d.entities.ObjectContainer3D;
-	import away3d.entities.View3D;
 	import away3d.controllers.HoverController;
 	import away3d.core.base.Geometry;
-	import away3d.debug.AwayStats;
 	import away3d.entities.Mesh;
+	import away3d.entities.ObjectContainer3D;
+	import away3d.entities.lenses.PerspectiveLens;
+	import away3d.entities.lights.DirectionalLight;
+	import away3d.entities.lights.PointLight;
+	import away3d.entities.lights.shadowmaps.NearDirectionalShadowMapper;
+	import away3d.entities.primitives.PlaneGeometry;
+	import away3d.entities.primitives.SkyBox;
+	import away3d.entities.primitives.SphereGeometry;
 	import away3d.events.AssetEvent;
 	import away3d.events.LoaderEvent;
 	import away3d.events.MouseEvent3D;
-	import away3d.library.assets.AssetType;
-	import away3d.lights.DirectionalLight;
-	import away3d.lights.PointLight;
-	import away3d.lights.shadowmaps.NearDirectionalShadowMapper;
-	import away3d.loaders.Loader3D;
-	import away3d.loaders.parsers.AWD2Parser;
+	import away3d.io.library.assets.AssetType;
+	import away3d.io.loaders.Loader3D;
+	import away3d.io.loaders.parsers.AWD2Parser;
 	import away3d.materials.ColorMaterial;
 	import away3d.materials.TextureMaterial;
 	import away3d.materials.lightpickers.StaticLightPicker;
@@ -97,9 +52,6 @@ package example
 	import away3d.materials.methods.LightMapMethod;
 	import away3d.materials.methods.NearShadowMapMethod;
 	import away3d.materials.methods.SoftShadowMapMethod;
-	import away3d.primitives.PlaneGeometry;
-	import away3d.primitives.SkyBox;
-	import away3d.primitives.SphereGeometry;
 	import away3d.textures.BitmapCubeTexture;
 	import away3d.textures.BitmapTexture;
 	import away3d.utils.Cast;
@@ -901,6 +853,17 @@ package example
 		private function log(t:String):void
 		{
 			_text.htmlText = t;
+		}
+
+		/**
+		 * stage listener for resize events
+		 */
+		override protected function onResize(event:Event = null):void
+		{
+			super.onResize(event);
+
+			_text.x = (stage.stageWidth - _text.width) / 2;
+			_text.y = (stage.stageHeight - _text.height) / 2;
 		}
 	}
 }

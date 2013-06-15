@@ -39,12 +39,12 @@ package example
 {
 	import flash.geom.Vector3D;
 
-	import away3d.cameras.lenses.PerspectiveLens;
+	import away3d.entities.lenses.PerspectiveLens;
 	import away3d.entities.Mesh;
 	import away3d.materials.ColorMaterial;
 	import away3d.materials.methods.EnvMapMethod;
-	import away3d.primitives.SkyBox;
-	import away3d.primitives.TorusGeometry;
+	import away3d.entities.primitives.SkyBox;
+	import away3d.entities.primitives.TorusGeometry;
 	import away3d.textures.BitmapCubeTexture;
 	import away3d.utils.Cast;
 

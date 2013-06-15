@@ -8,10 +8,10 @@ package away3d.core.traverse
 	import away3d.entities.Entity;
 	import away3d.entities.Scene3D;
 	import away3d.errors.AbstractMethodError;
-	import away3d.lights.DirectionalLight;
-	import away3d.lights.LightBase;
-	import away3d.lights.LightProbe;
-	import away3d.lights.PointLight;
+	import away3d.entities.lights.DirectionalLight;
+	import away3d.entities.lights.LightBase;
+	import away3d.entities.lights.LightProbe;
+	import away3d.entities.lights.PointLight;
 
 	use namespace arcane;
 

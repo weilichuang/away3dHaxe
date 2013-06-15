@@ -8,7 +8,7 @@ package away3d.bounds
 	import away3d.core.base.ISubGeometry;
 	import away3d.errors.AbstractMethodError;
 	import away3d.math.Plane3D;
-	import away3d.primitives.WireframePrimitiveBase;
+	import away3d.entities.primitives.WireframePrimitiveBase;
 
 	use namespace arcane;
 

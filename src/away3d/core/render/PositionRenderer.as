@@ -13,7 +13,7 @@ package away3d.core.render
 	import away3d.core.base.IRenderable;
 	import away3d.core.data.RenderableListItem;
 	import away3d.core.traverse.EntityCollector;
-	import away3d.debug.Debug;
+	import away3d.utils.Debug;
 	import away3d.math.Matrix3DUtils;
 
 	/**

@@ -12,7 +12,7 @@ package away3d.core.managers
 	import flash.geom.Rectangle;
 
 	import away3d.arcane;
-	import away3d.debug.Debug;
+	import away3d.utils.Debug;
 	import away3d.events.Stage3DEvent;
 
 	use namespace arcane;

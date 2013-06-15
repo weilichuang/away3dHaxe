@@ -27,13 +27,13 @@ package example
 	import away3d.entities.Mesh;
 	import away3d.events.AssetEvent;
 	import away3d.events.LoaderEvent;
-	import away3d.library.assets.AssetType;
-	import away3d.lights.DirectionalLight;
-	import away3d.lights.PointLight;
-	import away3d.lights.shadowmaps.CascadeShadowMapper;
-	import away3d.loaders.Loader3D;
-	import away3d.loaders.misc.AssetLoaderContext;
-	import away3d.loaders.parsers.AWDParser;
+	import away3d.io.library.assets.AssetType;
+	import away3d.entities.lights.DirectionalLight;
+	import away3d.entities.lights.PointLight;
+	import away3d.entities.lights.shadowmaps.CascadeShadowMapper;
+	import away3d.io.loaders.Loader3D;
+	import away3d.io.loaders.misc.AssetLoaderContext;
+	import away3d.io.loaders.parsers.AWDParser;
 	import away3d.materials.TextureMaterial;
 	import away3d.materials.TextureMultiPassMaterial;
 	import away3d.materials.lightpickers.StaticLightPicker;
@@ -43,8 +43,8 @@ package example
 	import away3d.materials.methods.FogMethod;
 	import away3d.materials.methods.HardShadowMapMethod;
 	import away3d.materials.methods.SoftShadowMapMethod;
-	import away3d.primitives.PlaneGeometry;
-	import away3d.primitives.SkyBox;
+	import away3d.entities.primitives.PlaneGeometry;
+	import away3d.entities.primitives.SkyBox;
 	import away3d.textures.ATFCubeTexture;
 	import away3d.textures.ATFTexture;
 	import away3d.textures.SpecularBitmapTexture;
@@ -1073,7 +1073,7 @@ package example
 import flash.geom.Vector3D;
 
 import away3d.entities.Mesh;
-import away3d.lights.PointLight;
+import away3d.entities.lights.PointLight;
 
 /**
  * Data class for the Flame objects

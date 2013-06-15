@@ -8,7 +8,7 @@ package away3d.core.base
 	import away3d.animators.IAnimator;
 	import away3d.animators.data.AnimationSubGeometry;
 	import away3d.bounds.BoundingVolumeBase;
-	import away3d.cameras.Camera3D;
+	import away3d.entities.Camera3D;
 	import away3d.core.managers.Stage3DProxy;
 	import away3d.entities.Entity;
 	import away3d.entities.Mesh;
