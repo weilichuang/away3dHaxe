@@ -71,8 +71,8 @@ package away3d.core.base
 
 		public function activateVertexBuffer(index:int, stage3DProxy:Stage3DProxy):void
 		{
-			var contextIndex:int = stage3DProxy._stage3DIndex;
-			var context:Context3D = stage3DProxy._context3D;
+			var contextIndex:int = stage3DProxy.stage3DIndex;
+			var context:Context3D = stage3DProxy.context3D;
 
 			if (contextIndex != _contextIndex)
 				updateActiveBuffer(contextIndex);
@@ -87,8 +87,8 @@ package away3d.core.base
 
 		public function activateUVBuffer(index:int, stage3DProxy:Stage3DProxy):void
 		{
-			var contextIndex:int = stage3DProxy._stage3DIndex;
-			var context:Context3D = stage3DProxy._context3D;
+			var contextIndex:int = stage3DProxy.stage3DIndex;
+			var context:Context3D = stage3DProxy.context3D;
 
 			if (_uvsDirty && _autoGenerateUVs)
 			{
@@ -109,8 +109,8 @@ package away3d.core.base
 
 		public function activateSecondaryUVBuffer(index:int, stage3DProxy:Stage3DProxy):void
 		{
-			var contextIndex:int = stage3DProxy._stage3DIndex;
-			var context:Context3D = stage3DProxy._context3D;
+			var contextIndex:int = stage3DProxy.stage3DIndex;
+			var context:Context3D = stage3DProxy.context3D;
 
 			if (contextIndex != _contextIndex)
 				updateActiveBuffer(contextIndex);
@@ -131,8 +131,8 @@ package away3d.core.base
 
 		public function activateVertexNormalBuffer(index:int, stage3DProxy:Stage3DProxy):void
 		{
-			var contextIndex:int = stage3DProxy._stage3DIndex;
-			var context:Context3D = stage3DProxy._context3D;
+			var contextIndex:int = stage3DProxy.stage3DIndex;
+			var context:Context3D = stage3DProxy.context3D;
 
 			if (contextIndex != _contextIndex)
 				updateActiveBuffer(contextIndex);
@@ -147,8 +147,8 @@ package away3d.core.base
 
 		public function activateVertexTangentBuffer(index:int, stage3DProxy:Stage3DProxy):void
 		{
-			var contextIndex:int = stage3DProxy._stage3DIndex;
-			var context:Context3D = stage3DProxy._context3D;
+			var contextIndex:int = stage3DProxy.stage3DIndex;
+			var context:Context3D = stage3DProxy.context3D;
 
 			if (contextIndex != _contextIndex)
 				updateActiveBuffer(contextIndex);

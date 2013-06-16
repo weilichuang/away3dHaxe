@@ -168,7 +168,6 @@ package away3d.materials
 		public function dispose():void
 		{
 			var i:uint;
-
 			for (i = 0; i < _numPasses; ++i)
 				_passes[i].dispose();
 

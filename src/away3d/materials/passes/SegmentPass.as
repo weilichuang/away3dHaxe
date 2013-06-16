@@ -116,7 +116,7 @@
 		arcane override function render(renderable:IRenderable, stage3DProxy:Stage3DProxy, camera:Camera3D, viewProjection:Matrix3D):void
 		{
 			viewProjection = viewProjection;
-			var context:Context3D = stage3DProxy._context3D;
+			var context:Context3D = stage3DProxy.context3D;
 			_calcMatrix.copyFrom(renderable.sourceEntity.sceneTransform);
 			_calcMatrix.append(camera.inverseSceneTransform);
 
@@ -138,7 +138,7 @@
 		 */
 		override arcane function activate(stage3DProxy:Stage3DProxy, camera:Camera3D):void
 		{
-			var context:Context3D = stage3DProxy._context3D;
+			var context:Context3D = stage3DProxy.context3D;
 			super.activate(stage3DProxy, camera);
 
 			_constants[0] = _thickness / Math.min(stage3DProxy.width, stage3DProxy.height);
@@ -158,7 +158,7 @@
 		 */
 		arcane override function deactivate(stage3DProxy:Stage3DProxy):void
 		{
-			var context:Context3D = stage3DProxy._context3D;
+			var context:Context3D = stage3DProxy.context3D;
 			context.setVertexBufferAt(0, null);
 			context.setVertexBufferAt(1, null);
 			context.setVertexBufferAt(2, null);

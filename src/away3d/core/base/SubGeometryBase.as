@@ -112,8 +112,8 @@ package away3d.core.base
 		 */
 		public function getIndexBuffer(stage3DProxy:Stage3DProxy):IndexBuffer3D
 		{
-			var contextIndex:int = stage3DProxy._stage3DIndex;
-			var context:Context3D = stage3DProxy._context3D;
+			var contextIndex:int = stage3DProxy.stage3DIndex;
+			var context:Context3D = stage3DProxy.context3D;
 
 			if (!_indexBuffer[contextIndex] || _indexBufferContext[contextIndex] != context)
 			{

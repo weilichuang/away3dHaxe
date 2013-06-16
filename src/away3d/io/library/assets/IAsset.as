@@ -2,7 +2,9 @@ package away3d.io.library.assets
 {
 	import flash.events.IEventDispatcher;
 
-	public interface IAsset extends IEventDispatcher
+	import away3d.utils.IDispose;
+
+	public interface IAsset extends IEventDispatcher, IDispose
 	{
 		function get name():String;
 		function set name(val:String):void;
@@ -14,10 +16,5 @@ package away3d.io.library.assets
 
 		function assetPathEquals(name:String, ns:String):Boolean;
 		function resetAssetPath(name:String, ns:String = null, overrideOriginal:Boolean = true):void;
-
-		/**
-		 * Cleans up resources used by this asset.
-		*/
-		function dispose():void;
 	}
 }

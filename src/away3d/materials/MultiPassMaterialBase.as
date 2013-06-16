@@ -5,7 +5,7 @@
 	import flash.display3D.Context3DBlendFactor;
 	import flash.display3D.Context3DCompareMode;
 	import flash.events.Event;
-	
+
 	import away3d.arcane;
 	import away3d.entities.Camera3D;
 	import away3d.core.managers.Stage3DProxy;
@@ -457,14 +457,14 @@
 		override arcane function activatePass(index:uint, stage3DProxy:Stage3DProxy, camera:Camera3D):void
 		{
 			if (index == 0)
-				stage3DProxy._context3D.setBlendFactors(Context3DBlendFactor.ONE, Context3DBlendFactor.ZERO);
+				stage3DProxy.context3D.setBlendFactors(Context3DBlendFactor.ONE, Context3DBlendFactor.ZERO);
 			super.activatePass(index, stage3DProxy, camera);
 		}
 
 		override arcane function deactivate(stage3DProxy:Stage3DProxy):void
 		{
 			super.deactivate(stage3DProxy);
-			stage3DProxy._context3D.setBlendFactors(Context3DBlendFactor.ONE, Context3DBlendFactor.ZERO);
+			stage3DProxy.context3D.setBlendFactors(Context3DBlendFactor.ONE, Context3DBlendFactor.ZERO);
 		}
 
 		protected function updateScreenPasses():void

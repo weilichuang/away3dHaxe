@@ -213,7 +213,7 @@ package away3d.animators
 					numCondensedJoints = skinnedGeom.numCondensedJoints;
 				}
 				updateCondensedMatrices(skinnedGeom.condensedIndexLookUp, numCondensedJoints);
-				stage3DProxy._context3D.setProgramConstantsFromVector(Context3DProgramType.VERTEX, vertexConstantOffset, _condensedMatrices, numCondensedJoints * 3);
+				stage3DProxy.context3D.setProgramConstantsFromVector(Context3DProgramType.VERTEX, vertexConstantOffset, _condensedMatrices, numCondensedJoints * 3);
 			}
 			else
 			{
@@ -229,7 +229,7 @@ package away3d.animators
 					skinnedGeom.updateAnimatedData(subGeomAnimState.animatedVertexData);
 					return;
 				}
-				stage3DProxy._context3D.setProgramConstantsFromVector(Context3DProgramType.VERTEX, vertexConstantOffset, _globalMatrices, _numJoints * 3);
+				stage3DProxy.context3D.setProgramConstantsFromVector(Context3DProgramType.VERTEX, vertexConstantOffset, _globalMatrices, _numJoints * 3);
 			}
 
 			skinnedGeom.activateJointIndexBuffer(vertexStreamOffset, stage3DProxy);

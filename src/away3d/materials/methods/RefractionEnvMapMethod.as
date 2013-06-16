@@ -141,7 +141,7 @@ package away3d.materials.methods
 				data[index + 2] = _dispersionB + _refractionIndex;
 			}
 			data[index + 3] = _alpha;
-			stage3DProxy._context3D.setTextureAt(vo.texturesIndex, _envMap.getTextureForStage3D(stage3DProxy));
+			stage3DProxy.context3D.setTextureAt(vo.texturesIndex, _envMap.getTextureForStage3D(stage3DProxy));
 		}
 
 		arcane override function getFragmentCode(vo:MethodVO, regCache:ShaderRegisterCache, targetReg:ShaderRegisterElement):String

@@ -1,7 +1,7 @@
 package away3d.materials.methods
 {
 	import flash.geom.Vector3D;
-	
+
 	import away3d.arcane;
 	import away3d.entities.Camera3D;
 	import away3d.core.base.IRenderable;
@@ -180,7 +180,7 @@ package away3d.materials.methods
 				var f:Number = PointLight(_castingLight)._fallOff;
 				fragmentData[index + 11] = 1 / (2 * f * f);
 			}
-			stage3DProxy._context3D.setTextureAt(vo.texturesIndex, _castingLight.shadowMapper.depthMap.getTextureForStage3D(stage3DProxy));
+			stage3DProxy.context3D.setTextureAt(vo.texturesIndex, _castingLight.shadowMapper.depthMap.getTextureForStage3D(stage3DProxy));
 		}
 
 		arcane function activateForCascade(vo:MethodVO, stage3DProxy:Stage3DProxy):void

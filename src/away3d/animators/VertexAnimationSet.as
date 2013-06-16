@@ -92,7 +92,7 @@ package away3d.animators
 		public function deactivate(stage3DProxy:Stage3DProxy, pass:MaterialPassBase):void
 		{
 			var index:int = _streamIndices[pass];
-			var context:Context3D = stage3DProxy._context3D;
+			var context:Context3D = stage3DProxy.context3D;
 			context.setVertexBufferAt(index, null);
 			if (_uploadNormals)
 				context.setVertexBufferAt(index + 1, null);

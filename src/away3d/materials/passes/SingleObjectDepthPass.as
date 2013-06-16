@@ -6,7 +6,7 @@ package away3d.materials.passes
 	import flash.display3D.textures.Texture;
 	import flash.geom.Matrix3D;
 	import flash.utils.Dictionary;
-	
+
 	import away3d.arcane;
 	import away3d.entities.Camera3D;
 	import away3d.core.base.IRenderable;
@@ -138,7 +138,7 @@ package away3d.materials.passes
 		 */
 		arcane function getDepthMap(renderable:IRenderable, stage3DProxy:Stage3DProxy):Texture
 		{
-			return _textures[stage3DProxy._stage3DIndex][renderable];
+			return _textures[stage3DProxy.stage3DIndex][renderable];
 		}
 
 		/**
@@ -157,8 +157,8 @@ package away3d.materials.passes
 		arcane override function render(renderable:IRenderable, stage3DProxy:Stage3DProxy, camera:Camera3D, viewProjection:Matrix3D):void
 		{
 			var matrix:Matrix3D;
-			var contextIndex:int = stage3DProxy._stage3DIndex;
-			var context:Context3D = stage3DProxy._context3D;
+			var contextIndex:int = stage3DProxy.stage3DIndex;
+			var context:Context3D = stage3DProxy.context3D;
 			var len:uint;
 			var light:LightBase;
 			var lights:Vector.<LightBase> = _lightPicker.allPickedLights;
@@ -195,7 +195,7 @@ package away3d.materials.passes
 				updateProjectionTextures();
 			// never scale
 			super.activate(stage3DProxy, camera);
-			stage3DProxy._context3D.setProgramConstantsFromVector(Context3DProgramType.VERTEX, 4, _polyOffset, 1);
+			stage3DProxy.context3D.setProgramConstantsFromVector(Context3DProgramType.VERTEX, 4, _polyOffset, 1);
 		}
 	}
 }

@@ -57,9 +57,9 @@ package away3d.textures
 
 		public function getTextureForStage3D(stage3DProxy:Stage3DProxy):TextureBase
 		{
-			var contextIndex:int = stage3DProxy._stage3DIndex;
+			var contextIndex:int = stage3DProxy.stage3DIndex;
 			var tex:TextureBase = _textures[contextIndex];
-			var context:Context3D = stage3DProxy._context3D;
+			var context:Context3D = stage3DProxy.context3D;
 
 			if (!tex || _dirty[contextIndex] != context)
 			{

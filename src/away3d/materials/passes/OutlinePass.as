@@ -6,7 +6,7 @@ package away3d.materials.passes
 	import flash.display3D.Context3DTriangleFace;
 	import flash.geom.Matrix3D;
 	import flash.utils.Dictionary;
-	
+
 	import away3d.arcane;
 	import away3d.entities.Camera3D;
 	import away3d.core.base.Geometry;
@@ -159,7 +159,7 @@ package away3d.materials.passes
 		 */
 		override arcane function activate(stage3DProxy:Stage3DProxy, camera:Camera3D):void
 		{
-			var context:Context3D = stage3DProxy._context3D;
+			var context:Context3D = stage3DProxy.context3D;
 			super.activate(stage3DProxy, camera);
 
 			// do not write depth if not drawing inner lines (will cause the overdraw to hide inner lines)
@@ -175,7 +175,7 @@ package away3d.materials.passes
 		{
 			super.deactivate(stage3DProxy);
 			if (!_showInnerLines)
-				stage3DProxy._context3D.setDepthTest(true, Context3DCompareMode.LESS);
+				stage3DProxy.context3D.setDepthTest(true, Context3DCompareMode.LESS);
 		}
 
 
@@ -183,7 +183,7 @@ package away3d.materials.passes
 		{
 			var mesh:Mesh, dedicatedRenderable:IRenderable;
 
-			var context:Context3D = stage3DProxy._context3D;
+			var context:Context3D = stage3DProxy.context3D;
 			var matrix3D:Matrix3D = Matrix3DUtils.CALCULATION_MATRIX;
 			matrix3D.copyFrom(renderable.getRenderSceneTransform(camera));
 			matrix3D.append(viewProjection);

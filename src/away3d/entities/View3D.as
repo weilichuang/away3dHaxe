@@ -11,7 +11,7 @@
 	import flash.geom.Transform;
 	import flash.geom.Vector3D;
 	import flash.utils.getTimer;
-	
+
 	import away3d.arcane;
 	import away3d.core.managers.Mouse3DManager;
 	import away3d.core.managers.RTTBufferManager;
@@ -622,7 +622,7 @@
 
 			_renderer.clearOnRender = !_depthPrepass;
 
-			if (_filter3DRenderer && _stage3DProxy._context3D)
+			if (_filter3DRenderer && _stage3DProxy.context3D)
 			{
 				_renderer.render(_entityCollector, _filter3DRenderer.getMainInputTexture(_stage3DProxy), _rttBufferManager.renderToTextureRect);
 				_filter3DRenderer.render(_stage3DProxy, camera, _depthRender);
@@ -738,7 +738,7 @@
 		protected function renderSceneDepthToTexture(entityCollector:EntityCollector):void
 		{
 			if (_depthTextureInvalid || !_depthRender)
-				initDepthTexture(_stage3DProxy._context3D);
+				initDepthTexture(_stage3DProxy.context3D);
 			_depthRenderer.textureRatioX = _rttBufferManager.textureRatioX;
 			_depthRenderer.textureRatioY = _rttBufferManager.textureRatioY;
 			_depthRenderer.render(entityCollector, _depthRender);

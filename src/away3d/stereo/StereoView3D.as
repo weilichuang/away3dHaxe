@@ -92,7 +92,7 @@ package away3d.stereo
 				_stereoRenderer.render(_stage3DProxy);
 
 				if (!_shareContext)
-					_stage3DProxy._context3D.present();
+					_stage3DProxy.context3D.present();
 
 				// fire collected mouse events
 				_mouse3DManager.fireMouseEvents();
@@ -132,12 +132,12 @@ package away3d.stereo
 			if (_requireDepthRender)
 				renderDepthPrepass(_entityCollector);
 
-			if (_filter3DRenderer && _stage3DProxy._context3D)
+			if (_filter3DRenderer && _stage3DProxy.context3D)
 			{
 				_renderer.render(_entityCollector, _filter3DRenderer.getMainInputTexture(_stage3DProxy), _rttBufferManager.renderToTextureRect);
 				_filter3DRenderer.render(_stage3DProxy, camera, _depthRender);
 				if (!_shareContext)
-					_stage3DProxy._context3D.present();
+					_stage3DProxy.context3D.present();
 			}
 			else
 			{

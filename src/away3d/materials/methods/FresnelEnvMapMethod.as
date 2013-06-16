@@ -108,7 +108,7 @@ package away3d.materials.methods
 		{
 			var data:Vector.<Number> = vo.fragmentData;
 			var index:int = vo.fragmentConstantsIndex;
-			var context:Context3D = stage3DProxy._context3D;
+			var context:Context3D = stage3DProxy.context3D;
 			data[index] = _alpha;
 			data[index + 1] = _normalReflectance;
 			data[index + 2] = _fresnelPower;

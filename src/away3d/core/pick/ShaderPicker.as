@@ -1,7 +1,7 @@
 package away3d.core.pick
 {
 	import com.adobe.utils.AGALMiniAssembler;
-	
+
 	import flash.display.BitmapData;
 	import flash.display3D.Context3D;
 	import flash.display3D.Context3DBlendFactor;
@@ -15,7 +15,7 @@ package away3d.core.pick
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
 	import flash.geom.Vector3D;
-	
+
 	import away3d.arcane;
 	import away3d.entities.Camera3D;
 	import away3d.core.base.IRenderable;
@@ -111,7 +111,7 @@ package away3d.core.pick
 			if (!_stage3DProxy)
 				return null;
 
-			_context = _stage3DProxy._context3D;
+			_context = _stage3DProxy.context3D;
 
 			_viewportData[0] = view.width;
 			_viewportData[1] = view.height;

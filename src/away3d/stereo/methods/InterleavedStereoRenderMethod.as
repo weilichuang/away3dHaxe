@@ -44,7 +44,7 @@ package away3d.stereo.methods
 
 		override public function deactivate(stage3DProxy:Stage3DProxy):void
 		{
-			stage3DProxy._context3D.setTextureAt(2, null);
+			stage3DProxy.context3D.setTextureAt(2, null);
 		}
 
 

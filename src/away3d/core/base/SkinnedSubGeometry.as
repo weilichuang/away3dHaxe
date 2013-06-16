@@ -81,8 +81,8 @@ package away3d.core.base
 		 */
 		public function activateJointWeightsBuffer(index:int, stage3DProxy:Stage3DProxy):void
 		{
-			var contextIndex:int = stage3DProxy._stage3DIndex;
-			var context:Context3D = stage3DProxy._context3D;
+			var contextIndex:int = stage3DProxy.stage3DIndex;
+			var context:Context3D = stage3DProxy.context3D;
 			if (_jointWeightContext[contextIndex] != context || !_jointWeightsBuffer[contextIndex])
 			{
 				_jointWeightsBuffer[contextIndex] = context.createVertexBuffer(_numVertices, _jointsPerVertex);
@@ -104,8 +104,8 @@ package away3d.core.base
 		 */
 		public function activateJointIndexBuffer(index:int, stage3DProxy:Stage3DProxy):void
 		{
-			var contextIndex:int = stage3DProxy._stage3DIndex;
-			var context:Context3D = stage3DProxy._context3D;
+			var contextIndex:int = stage3DProxy.stage3DIndex;
+			var context:Context3D = stage3DProxy.context3D;
 
 			if (_jointIndexContext[contextIndex] != context || !_jointIndexBuffer[contextIndex])
 			{

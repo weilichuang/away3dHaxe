@@ -6,7 +6,7 @@ package away3d.materials.passes
 	import flash.display3D.Context3DTextureFormat;
 	import flash.geom.Matrix3D;
 	import flash.geom.Vector3D;
-	
+
 	import away3d.arcane;
 	import away3d.entities.Camera3D;
 	import away3d.core.base.IRenderable;
@@ -86,7 +86,7 @@ package away3d.materials.passes
 
 		override arcane function render(renderable:IRenderable, stage3DProxy:Stage3DProxy, camera:Camera3D, viewProjection:Matrix3D):void
 		{
-			var context:Context3D = stage3DProxy._context3D;
+			var context:Context3D = stage3DProxy.context3D;
 			var pos:Vector3D = camera.scenePosition;
 			_vertexData[0] = pos.x;
 			_vertexData[1] = pos.y;
@@ -104,7 +104,7 @@ package away3d.materials.passes
 		override arcane function activate(stage3DProxy:Stage3DProxy, camera:Camera3D):void
 		{
 			super.activate(stage3DProxy, camera);
-			var context:Context3D = stage3DProxy._context3D;
+			var context:Context3D = stage3DProxy.context3D;
 			context.setDepthTest(false, Context3DCompareMode.LESS);
 			context.setTextureAt(0, _cubeTexture.getTextureForStage3D(stage3DProxy));
 		}

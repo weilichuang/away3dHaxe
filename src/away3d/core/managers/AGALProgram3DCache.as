@@ -41,7 +41,7 @@ package away3d.core.managers
 
 		public static function getInstance(stage3DProxy:Stage3DProxy):AGALProgram3DCache
 		{
-			var index:int = stage3DProxy._stage3DIndex;
+			var index:int = stage3DProxy.stage3DIndex;
 
 			_instances ||= new Vector.<AGALProgram3DCache>(8, true);
 
@@ -66,7 +66,7 @@ package away3d.core.managers
 		private static function onContext3DDisposed(event:Stage3DEvent):void
 		{
 			var stage3DProxy:Stage3DProxy = Stage3DProxy(event.target);
-			var index:int = stage3DProxy._stage3DIndex;
+			var index:int = stage3DProxy.stage3DIndex;
 			_instances[index].dispose();
 			_instances[index] = null;
 			stage3DProxy.removeEventListener(Stage3DEvent.CONTEXT3D_DISPOSED, onContext3DDisposed);
@@ -86,7 +86,7 @@ package away3d.core.managers
 
 		public function setProgram3D(pass:MaterialPassBase, vertexCode:String, fragmentCode:String):void
 		{
-			var stageIndex:int = _stage3DProxy._stage3DIndex;
+			var stageIndex:int = _stage3DProxy.stage3DIndex;
 			var program:Program3D;
 			var key:String = getKey(vertexCode, fragmentCode);
 
@@ -96,7 +96,7 @@ package away3d.core.managers
 				_usages[_currentId] = 0;
 				_ids[key] = _currentId;
 				++_currentId;
-				program = _stage3DProxy._context3D.createProgram();
+				program = _stage3DProxy.context3D.createProgram();
 
 				var vertexByteCode:ByteArray = new AGALMiniAssembler(Debug.active).assemble(Context3DProgramType.VERTEX, vertexCode);
 				var fragmentByteCode:ByteArray = new AGALMiniAssembler(Debug.active).assemble(Context3DProgramType.FRAGMENT, fragmentCode);

@@ -8,7 +8,7 @@ package away3d.entities
 	import flash.geom.Matrix3D;
 	import flash.geom.Vector3D;
 	import flash.utils.Dictionary;
-	
+
 	import away3d.arcane;
 	import away3d.animators.IAnimator;
 	import away3d.bounds.BoundingSphere;
@@ -328,7 +328,7 @@ package away3d.entities
 		{
 			if (_activeSubSet.indexContext3D != stage3DProxy.context3D || _activeSubSet.indexBufferDirty)
 			{
-				_activeSubSet.indexBuffer = stage3DProxy._context3D.createIndexBuffer(_activeSubSet.numIndices);
+				_activeSubSet.indexBuffer = stage3DProxy.context3D.createIndexBuffer(_activeSubSet.numIndices);
 				_activeSubSet.indexBuffer.uploadFromVector(_activeSubSet.indices, 0, _activeSubSet.numIndices);
 				_activeSubSet.indexBufferDirty = false;
 				_activeSubSet.indexContext3D = stage3DProxy.context3D;
@@ -348,13 +348,13 @@ package away3d.entities
 
 			if (subSet.vertexContext3D != stage3DProxy.context3D || subSet.vertexBufferDirty)
 			{
-				subSet.vertexBuffer = stage3DProxy._context3D.createVertexBuffer(subSet.numVertices, 11);
+				subSet.vertexBuffer = stage3DProxy.context3D.createVertexBuffer(subSet.numVertices, 11);
 				subSet.vertexBuffer.uploadFromVector(subSet.vertices, 0, subSet.numVertices);
 				subSet.vertexBufferDirty = false;
 				subSet.vertexContext3D = stage3DProxy.context3D;
 			}
 
-			var context3d:Context3D = stage3DProxy._context3D;
+			var context3d:Context3D = stage3DProxy.context3D;
 			context3d.setVertexBufferAt(0, vertexBuffer, 0, Context3DVertexBufferFormat.FLOAT_3);
 			context3d.setVertexBufferAt(1, vertexBuffer, 3, Context3DVertexBufferFormat.FLOAT_3);
 			context3d.setVertexBufferAt(2, vertexBuffer, 6, Context3DVertexBufferFormat.FLOAT_1);

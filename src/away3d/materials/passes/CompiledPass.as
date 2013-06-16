@@ -4,7 +4,7 @@ package away3d.materials.passes
 	import flash.display3D.Context3DProgramType;
 	import flash.geom.Matrix;
 	import flash.geom.Matrix3D;
-	
+
 	import away3d.arcane;
 	import away3d.entities.Camera3D;
 	import away3d.core.base.IRenderable;
@@ -495,7 +495,7 @@ package away3d.materials.passes
 		arcane override function render(renderable:IRenderable, stage3DProxy:Stage3DProxy, camera:Camera3D, viewProjection:Matrix3D):void
 		{
 			var i:uint;
-			var context:Context3D = stage3DProxy._context3D;
+			var context:Context3D = stage3DProxy.context3D;
 			if (_uvBufferIndex >= 0)
 				renderable.activateUVBuffer(_uvBufferIndex, stage3DProxy);
 			if (_secondaryUVBufferIndex >= 0)

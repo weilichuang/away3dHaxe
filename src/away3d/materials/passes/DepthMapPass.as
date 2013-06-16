@@ -144,7 +144,7 @@
 			if (_alphaThreshold > 0)
 				renderable.activateUVBuffer(1, stage3DProxy);
 
-			var context:Context3D = stage3DProxy._context3D;
+			var context:Context3D = stage3DProxy.context3D;
 			var matrix:Matrix3D = Matrix3DUtils.CALCULATION_MATRIX;
 			matrix.copyFrom(renderable.getRenderSceneTransform(camera));
 			matrix.append(viewProjection);
@@ -158,7 +158,7 @@
 		 */
 		override arcane function activate(stage3DProxy:Stage3DProxy, camera:Camera3D):void
 		{
-			var context:Context3D = stage3DProxy._context3D;
+			var context:Context3D = stage3DProxy.context3D;
 			super.activate(stage3DProxy, camera);
 
 			if (_alphaThreshold > 0)

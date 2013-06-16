@@ -138,7 +138,7 @@ package away3d.materials.methods
 		override arcane function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):void
 		{
 			if (_useTexture)
-				stage3DProxy._context3D.setTextureAt(vo.texturesIndex, _texture.getTextureForStage3D(stage3DProxy));
+				stage3DProxy.context3D.setTextureAt(vo.texturesIndex, _texture.getTextureForStage3D(stage3DProxy));
 		}
 
 		/**

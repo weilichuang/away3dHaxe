@@ -34,8 +34,8 @@ package away3d.core.managers
 	{
 		private static var _frameEventDriver:Shape = new Shape();
 
-		arcane var _context3D:Context3D;
-		arcane var _stage3DIndex:int = -1;
+		private var _context3D:Context3D;
+		private var _stage3DIndex:int = -1;
 
 		private var _usesSoftwareRendering:Boolean;
 		private var _profile:String;

@@ -86,7 +86,7 @@ package away3d.materials.methods
 		arcane override function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):void
 		{
 			var index:int = vo.fragmentConstantsIndex;
-			stage3DProxy._context3D.setTextureAt(vo.texturesIndex, _texture.getTextureForStage3D(stage3DProxy));
+			stage3DProxy.context3D.setTextureAt(vo.texturesIndex, _texture.getTextureForStage3D(stage3DProxy));
 			vo.fragmentData[index] = _texture.textureRatioX * .5;
 			vo.fragmentData[uint(index + 1)] = _texture.textureRatioY * .5;
 			vo.fragmentData[uint(index + 3)] = _alpha;

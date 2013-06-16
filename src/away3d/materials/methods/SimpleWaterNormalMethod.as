@@ -124,7 +124,7 @@ package away3d.materials.methods
 
 			if (_useSecondNormalMap >= 0)
 			{
-				stage3DProxy._context3D.setTextureAt(vo.texturesIndex + 1, _texture2.getTextureForStage3D(stage3DProxy));
+				stage3DProxy.context3D.setTextureAt(vo.texturesIndex + 1, _texture2.getTextureForStage3D(stage3DProxy));
 			}
 		}
 

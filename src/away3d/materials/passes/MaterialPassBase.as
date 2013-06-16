@@ -350,8 +350,8 @@ package away3d.materials.passes
 			// TODO: not used
 			camera = camera;
 
-			var contextIndex:int = stage3DProxy._stage3DIndex;
-			var context:Context3D = stage3DProxy._context3D;
+			var contextIndex:int = stage3DProxy.stage3DIndex;
+			var context:Context3D = stage3DProxy.context3D;
 
 			context.setDepthTest(_writeDepth && !_enableBlending, _depthCompareMode);
 			if (_enableBlending)
@@ -399,7 +399,7 @@ package away3d.materials.passes
 		 */
 		arcane function deactivate(stage3DProxy:Stage3DProxy):void
 		{
-			var index:uint = stage3DProxy._stage3DIndex;
+			var index:uint = stage3DProxy.stage3DIndex;
 			_previousUsedStreams[index] = _numUsedStreams;
 			_previousUsedTexs[index] = _numUsedTextures;
 
@@ -413,7 +413,7 @@ package away3d.materials.passes
 				stage3DProxy.scissorRect = _oldRect;
 			}
 
-			stage3DProxy._context3D.setDepthTest(true, Context3DCompareMode.LESS_EQUAL);
+			stage3DProxy.context3D.setDepthTest(true, Context3DCompareMode.LESS_EQUAL);
 		}
 
 		/**

@@ -3,7 +3,7 @@ package away3d.materials.passes
 	import flash.display3D.Context3D;
 	import flash.geom.Matrix3D;
 	import flash.geom.Vector3D;
-	
+
 	import away3d.arcane;
 	import away3d.entities.Camera3D;
 	import away3d.core.base.IRenderable;
@@ -365,7 +365,7 @@ package away3d.materials.passes
 
 		override protected function updateProbes(stage3DProxy:Stage3DProxy):void
 		{
-			var context:Context3D = stage3DProxy._context3D;
+			var context:Context3D = stage3DProxy.context3D;
 			var probe:LightProbe;
 			var lightProbes:Vector.<LightProbe> = _lightPicker.lightProbes;
 			var weights:Vector.<Number> = _lightPicker.lightProbeWeights;

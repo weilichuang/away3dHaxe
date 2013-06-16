@@ -3,7 +3,7 @@ package away3d.materials.passes
 	import flash.display3D.Context3D;
 	import flash.geom.ColorTransform;
 	import flash.geom.Vector3D;
-	
+
 	import away3d.arcane;
 	import away3d.entities.Camera3D;
 	import away3d.core.managers.Stage3DProxy;
@@ -345,7 +345,7 @@ package away3d.materials.passes
 			var len:int = lightProbes.length;
 			var addDiff:Boolean = usesProbesForDiffuse();
 			var addSpec:Boolean = Boolean(_methodSetup._specularMethod && usesProbesForSpecular());
-			var context:Context3D = stage3DProxy._context3D;
+			var context:Context3D = stage3DProxy.context3D;
 
 			if (!(addDiff || addSpec))
 				return;

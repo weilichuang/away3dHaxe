@@ -70,8 +70,8 @@
 		 */
 		public function activateVertexBuffer(index:int, stage3DProxy:Stage3DProxy):void
 		{
-			var contextIndex:int = stage3DProxy._stage3DIndex;
-			var context:Context3D = stage3DProxy._context3D;
+			var contextIndex:int = stage3DProxy.stage3DIndex;
+			var context:Context3D = stage3DProxy.context3D;
 			if (!_vertexBuffer[contextIndex] || _vertexBufferContext[contextIndex] != context)
 			{
 				_vertexBuffer[contextIndex] = context.createVertexBuffer(_numVertices, 3);
@@ -92,8 +92,8 @@
 		 */
 		public function activateUVBuffer(index:int, stage3DProxy:Stage3DProxy):void
 		{
-			var contextIndex:int = stage3DProxy._stage3DIndex;
-			var context:Context3D = stage3DProxy._context3D;
+			var contextIndex:int = stage3DProxy.stage3DIndex;
+			var context:Context3D = stage3DProxy.context3D;
 
 			if (_autoGenerateUVs && _uvsDirty)
 				_uvs = updateDummyUVs(_uvs);
@@ -118,8 +118,8 @@
 		 */
 		public function activateSecondaryUVBuffer(index:int, stage3DProxy:Stage3DProxy):void
 		{
-			var contextIndex:int = stage3DProxy._stage3DIndex;
-			var context:Context3D = stage3DProxy._context3D;
+			var contextIndex:int = stage3DProxy.stage3DIndex;
+			var context:Context3D = stage3DProxy.context3D;
 
 			if (!_secondaryUvBuffer[contextIndex] || _secondaryUvBufferContext[contextIndex] != context)
 			{
@@ -143,8 +143,8 @@
 		 */
 		public function activateVertexNormalBuffer(index:int, stage3DProxy:Stage3DProxy):void
 		{
-			var contextIndex:int = stage3DProxy._stage3DIndex;
-			var context:Context3D = stage3DProxy._context3D;
+			var contextIndex:int = stage3DProxy.stage3DIndex;
+			var context:Context3D = stage3DProxy.context3D;
 
 			if (_autoDeriveVertexNormals && _vertexNormalsDirty)
 				_vertexNormals = updateVertexNormals(_vertexNormals);
@@ -171,8 +171,8 @@
 		 */
 		public function activateVertexTangentBuffer(index:int, stage3DProxy:Stage3DProxy):void
 		{
-			var contextIndex:int = stage3DProxy._stage3DIndex;
-			var context:Context3D = stage3DProxy._context3D;
+			var contextIndex:int = stage3DProxy.stage3DIndex;
+			var context:Context3D = stage3DProxy.context3D;
 
 			if (_vertexTangentsDirty)
 				_vertexTangents = updateVertexTangents(_vertexTangents);
@@ -420,7 +420,7 @@
 
 		protected function disposeForStage3D(stage3DProxy:Stage3DProxy):void
 		{
-			var index:int = stage3DProxy._stage3DIndex;
+			var index:int = stage3DProxy.stage3DIndex;
 			if (_vertexBuffer[index])
 			{
 				_vertexBuffer[index].dispose();

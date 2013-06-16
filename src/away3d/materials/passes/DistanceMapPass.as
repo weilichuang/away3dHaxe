@@ -5,7 +5,7 @@
 	import flash.display3D.Context3DTextureFormat;
 	import flash.geom.Matrix3D;
 	import flash.geom.Vector3D;
-	
+
 	import away3d.arcane;
 	import away3d.entities.Camera3D;
 	import away3d.core.base.IRenderable;
@@ -145,7 +145,7 @@
 		 */
 		arcane override function render(renderable:IRenderable, stage3DProxy:Stage3DProxy, camera:Camera3D, viewProjection:Matrix3D):void
 		{
-			var context:Context3D = stage3DProxy._context3D;
+			var context:Context3D = stage3DProxy.context3D;
 			var pos:Vector3D = camera.scenePosition;
 
 			_vertexData[0] = pos.x;
@@ -174,7 +174,7 @@
 		 */
 		override arcane function activate(stage3DProxy:Stage3DProxy, camera:Camera3D):void
 		{
-			var context:Context3D = stage3DProxy._context3D;
+			var context:Context3D = stage3DProxy.context3D;
 			super.activate(stage3DProxy, camera);
 
 			var f:Number = camera.lens.far;
