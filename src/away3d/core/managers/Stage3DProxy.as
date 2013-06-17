@@ -1,5 +1,7 @@
 package away3d.core.managers
 {
+	import away3d.events.Stage3DEvent;
+	import away3d.utils.Debug;
 	import flash.display.Shape;
 	import flash.display.Stage3D;
 	import flash.display3D.Context3D;
@@ -11,11 +13,6 @@ package away3d.core.managers
 	import flash.events.EventDispatcher;
 	import flash.geom.Rectangle;
 
-	import away3d.arcane;
-	import away3d.utils.Debug;
-	import away3d.events.Stage3DEvent;
-
-	use namespace arcane;
 
 	[Event(name = "enterFrame", type = "flash.events.Event")]
 	[Event(name = "exitFrame", type = "flash.events.Event")]

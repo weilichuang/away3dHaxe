@@ -2,11 +2,7 @@ package away3d.core.managers
 {
 	import flash.display.Stage;
 	import flash.utils.Dictionary;
-
-	import away3d.arcane;
-
-	use namespace arcane;
-
+	
 	/**
 	 * The Stage3DManager class provides a multiton object that handles management for Stage3D objects. Stage3D objects
 	 * should not be requested directly, but are exposed by a Stage3DProxy.
@@ -69,7 +65,7 @@ package away3d.core.managers
 		 * @param stage3DProxy
 		 * @private
 		 */
-		arcane function removeStage3DProxy(stage3DProxy:Stage3DProxy):void
+		public function removeStage3DProxy(stage3DProxy:Stage3DProxy):void
 		{
 			_numStageProxies--;
 			_stageProxies[stage3DProxy.stage3DIndex] = null;
