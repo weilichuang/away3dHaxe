@@ -94,7 +94,7 @@ package away3d.core.managers
 					{
 						if (!_collidingViewObjects)
 							_collidingViewObjects = new Vector.<PickingCollisionVO>(_viewCount);
-						_collidingViewObjects[_view3Ds[view]] = _mousePicker.getViewCollision(view.mouseX, view.mouseY, view);
+						_collidingObject = _collidingViewObjects[_view3Ds[view]] = _mousePicker.getViewCollision(view.mouseX, view.mouseY, view);
 					}
 				}
 			}
@@ -363,6 +363,7 @@ package away3d.core.managers
 
 		private function onMouseDown(event:MouseEvent):void
 		{
+			_activeView = (event.currentTarget as View3D);
 			updateCollider(_activeView); // ensures collision check is done with correct mouse coordinates on mobile
 			if (_collidingObject)
 			{

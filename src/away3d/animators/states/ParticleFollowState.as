@@ -75,9 +75,10 @@ package away3d.animators.states
 			{
 				if (_particleFollowNode._usesPosition)
 				{
-					_targetPos.x = _followTarget.position.x;
-					_targetPos.y = _followTarget.position.y;
-					_targetPos.z = _followTarget.position.z;
+					_targetPos.x = _followTarget.position.x / renderable.sourceEntity.scaleX;
+					_targetPos.y = _followTarget.position.y / renderable.sourceEntity.scaleY;
+					_targetPos.z = _followTarget.position.z / renderable.sourceEntity.scaleZ;
+
 				}
 				if (_particleFollowNode._usesRotation)
 				{
@@ -155,7 +156,7 @@ package away3d.animators.states
 				var t:Number = (k - Math.floor(k)) * data[i].totalTime;
 				if (t - deltaTime <= 0)
 				{
-					var inc:int = data[i].startVertexIndex * 3;
+					var inc:int = data[i].startVertexIndex * animationSubGeometry.totalLenOfOneVertex + _particleFollowNode.dataOffset;
 
 					if (_smooth)
 					{
@@ -208,7 +209,7 @@ package away3d.animators.states
 				var t:Number = (k - Math.floor(k)) * data[i].totalTime;
 				if (t - deltaTime <= 0)
 				{
-					var inc:int = data[i].startVertexIndex * 3;
+					var inc:int = data[i].startVertexIndex * animationSubGeometry.totalLenOfOneVertex + _particleFollowNode.dataOffset;
 
 					if (_smooth)
 					{
@@ -266,7 +267,7 @@ package away3d.animators.states
 				var t:Number = (k - Math.floor(k)) * data[i].totalTime;
 				if (t - deltaTime <= 0)
 				{
-					var inc:int = data[i].startVertexIndex * 6;
+					var inc:int = data[i].startVertexIndex * animationSubGeometry.totalLenOfOneVertex + _particleFollowNode.dataOffset;
 					if (_smooth)
 					{
 						temp.copyFrom(posVelocity);
