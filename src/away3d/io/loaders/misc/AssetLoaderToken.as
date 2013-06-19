@@ -1,13 +1,13 @@
 package away3d.io.loaders.misc
 {
 	import flash.events.EventDispatcher;
-	
-	
+
+
 	import away3d.events.AssetEvent;
 	import away3d.events.LoaderEvent;
 	import away3d.io.loaders.AssetLoader;
 
-	
+
 
 	/**
 	 * Dispatched when a full resource (including dependencies) finishes loading.
@@ -132,37 +132,37 @@ package away3d.io.loaders.misc
 	*/
 	public class AssetLoaderToken extends EventDispatcher
 	{
-		public var _loader:AssetLoader;
+		public var loader:AssetLoader;
 
 		public function AssetLoaderToken(loader:AssetLoader)
 		{
 			super();
 
-			_loader = loader;
+			this.loader = loader;
 		}
 
 
 		public override function addEventListener(type:String, listener:Function, useCapture:Boolean = false, priority:int = 0, useWeakReference:Boolean = false):void
 		{
-			_loader.addEventListener(type, listener, useCapture, priority, useWeakReference);
+			loader.addEventListener(type, listener, useCapture, priority, useWeakReference);
 		}
 
 
 		public override function removeEventListener(type:String, listener:Function, useCapture:Boolean = false):void
 		{
-			_loader.removeEventListener(type, listener, useCapture);
+			loader.removeEventListener(type, listener, useCapture);
 		}
 
 
 		public override function hasEventListener(type:String):Boolean
 		{
-			return _loader.hasEventListener(type);
+			return loader.hasEventListener(type);
 		}
 
 
 		public override function willTrigger(type:String):Boolean
 		{
-			return _loader.willTrigger(type);
+			return loader.willTrigger(type);
 		}
 	}
 }

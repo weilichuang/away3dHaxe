@@ -2,8 +2,8 @@ package away3d.entities.lights.shadowmaps
 {
 	import flash.display3D.textures.TextureBase;
 	import flash.geom.Vector3D;
-	
-	
+
+
 	import away3d.entities.Camera3D;
 	import away3d.entities.lenses.PerspectiveLens;
 	import away3d.core.render.DepthRenderer;
@@ -12,7 +12,7 @@ package away3d.entities.lights.shadowmaps
 	import away3d.textures.RenderCubeTexture;
 	import away3d.textures.TextureProxyBase;
 
-	
+
 
 	public class CubeMapShadowMapper extends ShadowMapperBase
 	{
@@ -63,7 +63,7 @@ package away3d.entities.lights.shadowmaps
 
 		override protected function updateDepthProjection(viewCamera:Camera3D):void
 		{
-			var maxDistance:Number = PointLight(_light)._fallOff;
+			var maxDistance:Number = PointLight(_light).fallOff;
 			var pos:Vector3D = _light.scenePosition;
 
 			// todo: faces outside frustum which are pointing away from camera need not be rendered!

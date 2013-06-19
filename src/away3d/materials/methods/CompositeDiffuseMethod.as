@@ -44,7 +44,7 @@ package away3d.materials.methods
 		public function CompositeDiffuseMethod(modulateMethod:Function = null, baseDiffuseMethod:BasicDiffuseMethod = null)
 		{
 			_baseMethod = baseDiffuseMethod || new BasicDiffuseMethod();
-			_baseMethod._modulateMethod = modulateMethod;
+			_baseMethod.modulateMethod = modulateMethod;
 			_baseMethod.addEventListener(ShadingMethodEvent.SHADER_INVALIDATED, onShaderInvalidated);
 		}
 

@@ -7,7 +7,7 @@ package away3d.core.render
 	import flash.geom.Rectangle;
 	import flash.geom.Vector3D;
 
-	
+
 	import away3d.entities.Camera3D;
 	import away3d.core.base.IRenderable;
 	import away3d.core.data.RenderableListItem;
@@ -19,7 +19,7 @@ package away3d.core.render
 	import away3d.entities.lights.shadowmaps.ShadowMapperBase;
 	import away3d.materials.MaterialBase;
 
-	
+
 
 	/**
 	 * The DefaultRenderer class provides the default rendering method. It renders the scene graph objects using the
@@ -80,7 +80,7 @@ package away3d.core.render
 			{
 				light = dirLights[i];
 				shadowMapper = light.shadowMapper;
-				if (light.castsShadows && (shadowMapper.autoUpdateShadows || shadowMapper._shadowsInvalid))
+				if (light.castsShadows && (shadowMapper.autoUpdateShadows || shadowMapper.shadowsInvalid))
 					shadowMapper.renderDepthMap(_stage3DProxy, entityCollector, _depthRenderer);
 			}
 
@@ -89,7 +89,7 @@ package away3d.core.render
 			{
 				light = pointLights[i];
 				shadowMapper = light.shadowMapper;
-				if (light.castsShadows && (shadowMapper.autoUpdateShadows || shadowMapper._shadowsInvalid))
+				if (light.castsShadows && (shadowMapper.autoUpdateShadows || shadowMapper.shadowsInvalid))
 					shadowMapper.renderDepthMap(_stage3DProxy, entityCollector, _distanceRenderer);
 			}
 		}

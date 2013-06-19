@@ -28,7 +28,7 @@ package away3d.materials.methods
 		{
 			super();
 			_baseMethod = baseSpecularMethod || new BasicSpecularMethod();
-			_baseMethod._modulateMethod = modulateMethod;
+			_baseMethod.modulateMethod = modulateMethod;
 			_baseMethod.addEventListener(ShadingMethodEvent.SHADER_INVALIDATED, onShaderInvalidated);
 		}
 

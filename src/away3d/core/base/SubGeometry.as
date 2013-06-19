@@ -5,10 +5,9 @@
 	import flash.display3D.VertexBuffer3D;
 	import flash.geom.Matrix3D;
 
-	
 	import away3d.core.managers.Stage3DProxy;
 
-	
+
 
 	/**
 	 * The SubGeometry class is a collections of geometric data that describes a triangle mesh. It is owned by a

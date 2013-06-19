@@ -1,24 +1,56 @@
 package away3d.materials.methods
 {
-	import away3d.events.ShadingMethodEvent;
 	import flash.events.EventDispatcher;
+
+	import away3d.events.ShadingMethodEvent;
 
 
 	public class ShaderMethodSetup extends EventDispatcher
 	{
-		public var _colorTransformMethod:ColorTransformMethod;
-		public var _colorTransformMethodVO:MethodVO;
-		public var _normalMethod:BasicNormalMethod;
-		public var _normalMethodVO:MethodVO;
-		public var _ambientMethod:BasicAmbientMethod;
-		public var _ambientMethodVO:MethodVO;
-		public var _shadowMethod:ShadowMapMethodBase;
-		public var _shadowMethodVO:MethodVO;
-		public var _diffuseMethod:BasicDiffuseMethod;
-		public var _diffuseMethodVO:MethodVO;
-		public var _specularMethod:BasicSpecularMethod;
-		public var _specularMethodVO:MethodVO;
-		public var _methods:Vector.<MethodVOSet>;
+		protected var _colorTransformMethod:ColorTransformMethod;
+		protected var _colorTransformMethodVO:MethodVO;
+
+		protected var _normalMethod:BasicNormalMethod;
+		protected var _normalMethodVO:MethodVO;
+		protected var _ambientMethod:BasicAmbientMethod;
+		protected var _ambientMethodVO:MethodVO;
+		protected var _shadowMethod:ShadowMapMethodBase;
+		protected var _shadowMethodVO:MethodVO;
+		protected var _diffuseMethod:BasicDiffuseMethod;
+		protected var _diffuseMethodVO:MethodVO;
+		protected var _specularMethod:BasicSpecularMethod;
+		protected var _specularMethodVO:MethodVO;
+		protected var _methods:Vector.<MethodVOSet>;
+
+		public function get colorTransformMethodVO():MethodVO
+		{
+			return _colorTransformMethodVO;
+		}
+
+		public function get normalMethodVO():MethodVO
+		{
+			return _normalMethodVO;
+		}
+
+		public function get ambientMethodVO():MethodVO
+		{
+			return _ambientMethodVO;
+		}
+
+		public function get shadowMethodVO():MethodVO
+		{
+			return _shadowMethodVO;
+		}
+
+		public function get diffuseMethodVO():MethodVO
+		{
+			return _diffuseMethodVO;
+		}
+
+		public function get specularMethodVO():MethodVO
+		{
+			return _specularMethodVO;
+		}
 
 		public function ShaderMethodSetup()
 		{
@@ -254,6 +286,11 @@ package away3d.materials.methods
 		public function get numMethods():int
 		{
 			return _methods.length;
+		}
+
+		public function get methods():Vector.<MethodVOSet>
+		{
+			return _methods;
 		}
 
 		/**

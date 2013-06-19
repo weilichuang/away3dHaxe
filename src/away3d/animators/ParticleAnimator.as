@@ -3,7 +3,7 @@ package away3d.animators
 	import flash.display3D.Context3DProgramType;
 	import flash.utils.Dictionary;
 
-	
+
 	import away3d.animators.data.AnimationRegisterCache;
 	import away3d.animators.data.AnimationSubGeometry;
 	import away3d.animators.data.ParticlePropertiesMode;
@@ -16,7 +16,7 @@ package away3d.animators
 	import away3d.core.managers.Stage3DProxy;
 	import away3d.materials.passes.MaterialPassBase;
 
-	
+
 
 	/**
 	 * Provides an interface for assigning paricle-based animation data sets to mesh-based entity objects
@@ -80,7 +80,7 @@ package away3d.animators
 		 */
 		public function setRenderState(stage3DProxy:Stage3DProxy, renderable:IRenderable, vertexConstantOffset:int, vertexStreamOffset:int, camera:Camera3D):void
 		{
-			var animationRegisterCache:AnimationRegisterCache = _particleAnimationSet._animationRegisterCache;
+			var animationRegisterCache:AnimationRegisterCache = _particleAnimationSet.animationRegisterCache;
 
 			var subMesh:SubMesh = renderable as SubMesh;
 			var state:ParticleStateBase;

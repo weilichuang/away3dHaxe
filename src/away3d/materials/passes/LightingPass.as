@@ -4,7 +4,7 @@ package away3d.materials.passes
 	import flash.geom.Matrix3D;
 	import flash.geom.Vector3D;
 
-	
+
 	import away3d.entities.Camera3D;
 	import away3d.core.base.IRenderable;
 	import away3d.core.managers.Stage3DProxy;
@@ -16,7 +16,7 @@ package away3d.materials.passes
 	import away3d.materials.compilation.LightingShaderCompiler;
 	import away3d.materials.compilation.ShaderCompiler;
 
-	
+
 
 	/**
 	 * DefaultScreenPass is a shader pass that uses shader methods to compile a complete program.
@@ -242,9 +242,9 @@ package away3d.materials.passes
 					dirLight = dirLights[offset + i];
 					dirPos = dirLight.sceneDirection;
 
-					_ambientLightR += dirLight._ambientR;
-					_ambientLightG += dirLight._ambientG;
-					_ambientLightB += dirLight._ambientB;
+					_ambientLightR += dirLight.ambientR;
+					_ambientLightG += dirLight.ambientG;
+					_ambientLightB += dirLight.ambientB;
 
 					if (_tangentSpace)
 					{
@@ -264,14 +264,14 @@ package away3d.materials.passes
 						_fragmentConstantData[k++] = 1;
 					}
 
-					_fragmentConstantData[k++] = dirLight._diffuseR;
-					_fragmentConstantData[k++] = dirLight._diffuseG;
-					_fragmentConstantData[k++] = dirLight._diffuseB;
+					_fragmentConstantData[k++] = dirLight.diffuseR;
+					_fragmentConstantData[k++] = dirLight.diffuseG;
+					_fragmentConstantData[k++] = dirLight.diffuseB;
 					_fragmentConstantData[k++] = 1;
 
-					_fragmentConstantData[k++] = dirLight._specularR;
-					_fragmentConstantData[k++] = dirLight._specularG;
-					_fragmentConstantData[k++] = dirLight._specularB;
+					_fragmentConstantData[k++] = dirLight.specularR;
+					_fragmentConstantData[k++] = dirLight.specularG;
+					_fragmentConstantData[k++] = dirLight.specularB;
 					_fragmentConstantData[k++] = 1;
 
 					if (++total == _numDirectionalLights)
@@ -313,9 +313,9 @@ package away3d.materials.passes
 					pointLight = pointLights[offset + i];
 					dirPos = pointLight.scenePosition;
 
-					_ambientLightR += pointLight._ambientR;
-					_ambientLightG += pointLight._ambientG;
-					_ambientLightB += pointLight._ambientB;
+					_ambientLightR += pointLight.ambientR;
+					_ambientLightG += pointLight.ambientG;
+					_ambientLightB += pointLight.ambientB;
 
 					if (_tangentSpace)
 					{
@@ -334,16 +334,16 @@ package away3d.materials.passes
 					}
 					_vertexConstantData[l++] = 1;
 
-					_fragmentConstantData[k++] = pointLight._diffuseR;
-					_fragmentConstantData[k++] = pointLight._diffuseG;
-					_fragmentConstantData[k++] = pointLight._diffuseB;
-					var radius:Number = pointLight._radius;
+					_fragmentConstantData[k++] = pointLight.diffuseR;
+					_fragmentConstantData[k++] = pointLight.diffuseG;
+					_fragmentConstantData[k++] = pointLight.diffuseB;
+					var radius:Number = pointLight.radius;
 					_fragmentConstantData[k++] = radius * radius;
 
-					_fragmentConstantData[k++] = pointLight._specularR;
-					_fragmentConstantData[k++] = pointLight._specularG;
-					_fragmentConstantData[k++] = pointLight._specularB;
-					_fragmentConstantData[k++] = pointLight._fallOffFactor;
+					_fragmentConstantData[k++] = pointLight.specularR;
+					_fragmentConstantData[k++] = pointLight.specularG;
+					_fragmentConstantData[k++] = pointLight.specularB;
+					_fragmentConstantData[k++] = pointLight.fallOffFactor;
 
 					if (++total == _numPointLights)
 					{
@@ -371,7 +371,7 @@ package away3d.materials.passes
 			var weights:Vector.<Number> = _lightPicker.lightProbeWeights;
 			var len:int = lightProbes.length - _lightProbesOffset;
 			var addDiff:Boolean = usesProbesForDiffuse();
-			var addSpec:Boolean = Boolean(_methodSetup._specularMethod && usesProbesForSpecular());
+			var addSpec:Boolean = Boolean(_methodSetup.specularMethod && usesProbesForSpecular());
 
 			if (!(addDiff || addSpec))
 				return;

@@ -1,6 +1,6 @@
 ﻿package away3d.entities
 {
-	
+
 	import away3d.animators.IAnimator;
 	import away3d.core.base.Geometry;
 	import away3d.core.base.IMaterialOwner;
@@ -16,7 +16,7 @@
 	import away3d.materials.MaterialBase;
 	import away3d.materials.utils.DefaultMaterialManager;
 
-	
+
 
 	/**
 	 * Mesh is an instance of a Geometry, augmenting it with a presence in the scene graph, a material, and an animation
@@ -105,7 +105,7 @@
 			for (var i:int = 0; i < len; ++i)
 			{
 				subMesh = _subMeshes[i];
-				oldMaterial = subMesh._material;
+				oldMaterial = subMesh.material;
 				if (oldMaterial)
 				{
 					subMesh.material = null;
@@ -350,7 +350,7 @@
 			--len;
 			for (; i < len; ++i)
 			{
-				_subMeshes[i]._index = i;
+				_subMeshes[i].index = i;
 			}
 		}
 
@@ -361,7 +361,7 @@
 		{
 			var subMesh:SubMesh = new SubMesh(subGeometry, this, null);
 			var len:uint = _subMeshes.length;
-			subMesh._index = len;
+			subMesh.index = len;
 			_subMeshes[len] = subMesh;
 			invalidateBounds();
 		}

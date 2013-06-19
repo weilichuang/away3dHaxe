@@ -73,8 +73,8 @@ package away3d.materials.methods
 				"sat " + t + ".w, " + t + ".y\n" +
 				"mul " + t + ".xz, " + t + ".w, " + lightDirReg + ".wz\n";
 
-			if (_modulateMethod != null)
-				code += _modulateMethod(vo, t, regCache, _sharedRegisters);
+			if (modulateMethod != null)
+				code += modulateMethod(vo, t, regCache, _sharedRegisters);
 
 			code += "mul " + t + ", " + t + ".x, " + lightColReg + "\n";
 

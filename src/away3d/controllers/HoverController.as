@@ -2,12 +2,12 @@ package away3d.controllers
 {
 	import flash.geom.Vector3D;
 
-	
+
 	import away3d.entities.Entity;
 	import away3d.entities.ObjectContainer3D;
 	import away3d.math.MathUtil;
 
-	
+
 
 	/**
 	 * Extended camera used to hover round a specified target object.
@@ -16,8 +16,8 @@ package away3d.controllers
 	 */
 	public class HoverController extends LookAtController
 	{
-		public var _currentPanAngle:Number = 0;
-		public var _currentTiltAngle:Number = 90;
+		public var currentPanAngle:Number = 0;
+		public var currentTiltAngle:Number = 90;
 
 		private var _panAngle:Number = 0;
 		private var _tiltAngle:Number = 90;
@@ -251,8 +251,8 @@ package away3d.controllers
 			this.wrapPanAngle = wrapPanAngle;
 
 			//values passed in contrustor are applied immediately
-			_currentPanAngle = _panAngle;
-			_currentTiltAngle = _tiltAngle;
+			currentPanAngle = _panAngle;
+			currentTiltAngle = _tiltAngle;
 		}
 
 		/**
@@ -268,7 +268,7 @@ package away3d.controllers
 		 */
 		public override function update(interpolate:Boolean = true):void
 		{
-			if (_tiltAngle != _currentTiltAngle || _panAngle != _currentPanAngle)
+			if (_tiltAngle != currentTiltAngle || _panAngle != currentPanAngle)
 			{
 
 				notifyUpdate();
@@ -280,35 +280,35 @@ package away3d.controllers
 					else
 						_panAngle = _panAngle % 360;
 
-					if (_panAngle - _currentPanAngle < -180)
-						_currentPanAngle -= 360;
-					else if (_panAngle - _currentPanAngle > 180)
-						_currentPanAngle += 360;
+					if (_panAngle - currentPanAngle < -180)
+						currentPanAngle -= 360;
+					else if (_panAngle - currentPanAngle > 180)
+						currentPanAngle += 360;
 				}
 
 				if (interpolate)
 				{
-					_currentTiltAngle += (_tiltAngle - _currentTiltAngle) / (steps + 1);
-					_currentPanAngle += (_panAngle - _currentPanAngle) / (steps + 1);
+					currentTiltAngle += (_tiltAngle - currentTiltAngle) / (steps + 1);
+					currentPanAngle += (_panAngle - currentPanAngle) / (steps + 1);
 				}
 				else
 				{
-					_currentPanAngle = _panAngle;
-					_currentTiltAngle = _tiltAngle;
+					currentPanAngle = _panAngle;
+					currentTiltAngle = _tiltAngle;
 				}
 
 				//snap coords if angle differences are close
-				if ((Math.abs(tiltAngle - _currentTiltAngle) < 0.01) && (Math.abs(_panAngle - _currentPanAngle) < 0.01))
+				if ((Math.abs(tiltAngle - currentTiltAngle) < 0.01) && (Math.abs(_panAngle - currentPanAngle) < 0.01))
 				{
-					_currentTiltAngle = _tiltAngle;
-					_currentPanAngle = _panAngle;
+					currentTiltAngle = _tiltAngle;
+					currentPanAngle = _panAngle;
 				}
 			}
 
 			var pos:Vector3D = (lookAtObject) ? lookAtObject.position : (lookAtPosition) ? lookAtPosition : _origin;
-			targetObject.x = pos.x + distance * Math.sin(_currentPanAngle * MathUtil.DEGREES_TO_RADIANS) * Math.cos(_currentTiltAngle * MathUtil.DEGREES_TO_RADIANS);
-			targetObject.z = pos.z + distance * Math.cos(_currentPanAngle * MathUtil.DEGREES_TO_RADIANS) * Math.cos(_currentTiltAngle * MathUtil.DEGREES_TO_RADIANS);
-			targetObject.y = pos.y + distance * Math.sin(_currentTiltAngle * MathUtil.DEGREES_TO_RADIANS) * yFactor;
+			targetObject.x = pos.x + distance * Math.sin(currentPanAngle * MathUtil.DEGREES_TO_RADIANS) * Math.cos(currentTiltAngle * MathUtil.DEGREES_TO_RADIANS);
+			targetObject.z = pos.z + distance * Math.cos(currentPanAngle * MathUtil.DEGREES_TO_RADIANS) * Math.cos(currentTiltAngle * MathUtil.DEGREES_TO_RADIANS);
+			targetObject.y = pos.y + distance * Math.sin(currentTiltAngle * MathUtil.DEGREES_TO_RADIANS) * yFactor;
 
 			super.update();
 		}

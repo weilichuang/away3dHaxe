@@ -1,24 +1,24 @@
 package away3d.entities.primitives.data
 {
-	
+
 	import away3d.entities.SegmentSet;
 
 	import flash.geom.Vector3D;
 
-	
+
 
 	public class Segment
 	{
-		public var _segmentsBase:SegmentSet;
-		public var _thickness:Number;
-		public var _start:Vector3D;
-		public var _end:Vector3D;
-		public var _startR:Number;
-		public var _startG:Number;
-		public var _startB:Number;
-		public var _endR:Number;
-		public var _endG:Number;
-		public var _endB:Number;
+		private var _segmentsBase:SegmentSet;
+		private var _thickness:Number;
+		private var _start:Vector3D;
+		private var _end:Vector3D;
+		public var startR:Number;
+		public var startG:Number;
+		public var startB:Number;
+		public var endR:Number;
+		public var endG:Number;
+		public var endB:Number;
 
 		private var _index:int = -1;
 		private var _subSetIndex:int = -1;
@@ -108,9 +108,9 @@ package away3d.entities.primitives.data
 
 		public function set startColor(color:uint):void
 		{
-			_startR = ((color >> 16) & 0xff) / 255;
-			_startG = ((color >> 8) & 0xff) / 255;
-			_startB = (color & 0xff) / 255;
+			startR = ((color >> 16) & 0xff) / 255;
+			startG = ((color >> 8) & 0xff) / 255;
+			startB = (color & 0xff) / 255;
 
 			_startColor = color;
 
@@ -127,9 +127,9 @@ package away3d.entities.primitives.data
 
 		public function set endColor(color:uint):void
 		{
-			_endR = ((color >> 16) & 0xff) / 255;
-			_endG = ((color >> 8) & 0xff) / 255;
-			_endB = (color & 0xff) / 255;
+			endR = ((color >> 16) & 0xff) / 255;
+			endG = ((color >> 8) & 0xff) / 255;
+			endB = (color & 0xff) / 255;
 
 			_endColor = color;
 
@@ -165,6 +165,11 @@ package away3d.entities.primitives.data
 		public function set segmentsBase(segBase:SegmentSet):void
 		{
 			_segmentsBase = segBase;
+		}
+
+		public function get segmentsBase():SegmentSet
+		{
+			return _segmentsBase;
 		}
 
 		private function update():void

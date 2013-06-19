@@ -1,10 +1,10 @@
 package away3d.math
 {
-	
+
 
 	import flash.geom.Vector3D;
 
-	
+
 
 	public class Plane3D
 	{
@@ -28,7 +28,7 @@ package away3d.math
 		 */
 		public var d:Number;
 
-		public var _alignment:int;
+		public var alignment:int;
 
 		// indicates the alignment of the plane
 		public static const ALIGN_ANY:int = 0;
@@ -46,13 +46,13 @@ package away3d.math
 			this.c = c;
 			this.d = d;
 			if (a == 0 && b == 0)
-				_alignment = ALIGN_XY_AXIS;
+				alignment = ALIGN_XY_AXIS;
 			else if (b == 0 && c == 0)
-				_alignment = ALIGN_YZ_AXIS;
+				alignment = ALIGN_YZ_AXIS;
 			else if (a == 0 && c == 0)
-				_alignment = ALIGN_XZ_AXIS;
+				alignment = ALIGN_XZ_AXIS;
 			else
-				_alignment = ALIGN_ANY;
+				alignment = ALIGN_ANY;
 		}
 
 		/**
@@ -78,13 +78,13 @@ package away3d.math
 
 			// not using epsilon, since a plane is infinite and a small incorrection can grow very large
 			if (a == 0 && b == 0)
-				_alignment = ALIGN_XY_AXIS;
+				alignment = ALIGN_XY_AXIS;
 			else if (b == 0 && c == 0)
-				_alignment = ALIGN_YZ_AXIS;
+				alignment = ALIGN_YZ_AXIS;
 			else if (a == 0 && c == 0)
-				_alignment = ALIGN_XZ_AXIS;
+				alignment = ALIGN_XZ_AXIS;
 			else
-				_alignment = ALIGN_ANY;
+				alignment = ALIGN_ANY;
 		}
 
 		/**
@@ -99,13 +99,13 @@ package away3d.math
 			c = normal.z;
 			d = a * point.x + b * point.y + c * point.z;
 			if (a == 0 && b == 0)
-				_alignment = ALIGN_XY_AXIS;
+				alignment = ALIGN_XY_AXIS;
 			else if (b == 0 && c == 0)
-				_alignment = ALIGN_YZ_AXIS;
+				alignment = ALIGN_YZ_AXIS;
 			else if (a == 0 && c == 0)
-				_alignment = ALIGN_XZ_AXIS;
+				alignment = ALIGN_XZ_AXIS;
 			else
-				_alignment = ALIGN_ANY;
+				alignment = ALIGN_ANY;
 		}
 
 		/**
@@ -129,11 +129,11 @@ package away3d.math
 		 */
 		public function distance(p:Vector3D):Number
 		{
-			if (_alignment == ALIGN_YZ_AXIS)
+			if (alignment == ALIGN_YZ_AXIS)
 				return a * p.x - d;
-			else if (_alignment == ALIGN_XZ_AXIS)
+			else if (alignment == ALIGN_XZ_AXIS)
 				return b * p.y - d;
-			else if (_alignment == ALIGN_XY_AXIS)
+			else if (alignment == ALIGN_XY_AXIS)
 				return c * p.z - d;
 			else
 				return a * p.x + b * p.y + c * p.z - d;
@@ -151,11 +151,11 @@ package away3d.math
 				return PlaneClassification.FRONT;
 
 			var len:Number;
-			if (_alignment == ALIGN_YZ_AXIS)
+			if (alignment == ALIGN_YZ_AXIS)
 				len = a * p.x - d;
-			else if (_alignment == ALIGN_XZ_AXIS)
+			else if (alignment == ALIGN_XZ_AXIS)
 				len = b * p.y - d;
-			else if (_alignment == ALIGN_XY_AXIS)
+			else if (alignment == ALIGN_XY_AXIS)
 				len = c * p.z - d;
 			else
 				len = a * p.x + b * p.y + c * p.z - d;

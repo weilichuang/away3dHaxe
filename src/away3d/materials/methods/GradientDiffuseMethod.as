@@ -77,8 +77,8 @@ package away3d.materials.methods
 				"add " + t + ".w, " + t + ".w, " + _sharedRegisters.commons + ".x\n" +
 				"mul " + t + ".xyz, " + t + ".w, " + lightDirReg + ".w\n";
 
-			if (_modulateMethod != null)
-				code += _modulateMethod(vo, t, regCache, _sharedRegisters);
+			if (modulateMethod != null)
+				code += modulateMethod(vo, t, regCache, _sharedRegisters);
 
 			code += getTex2DSampleCode(vo, t, _gradientTextureRegister, _gradient, t, "clamp") +
 //					"mul " + t + ".xyz, " + t + ".xyz, " + t + ".w\n" +

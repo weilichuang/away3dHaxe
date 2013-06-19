@@ -1,14 +1,13 @@
 package away3d.entities
 {
 	import flash.events.EventDispatcher;
-	
-	
+
 	import away3d.core.partition.NodeBase;
 	import away3d.core.partition.Partition3D;
 	import away3d.core.traverse.PartitionTraverser;
 	import away3d.events.Scene3DEvent;
 
-	
+
 
 	/**
 	 * The Scene3D class represents an independent 3D scene in which 3D objects can be created and manipulated.
@@ -20,7 +19,7 @@ package away3d.entities
 	 */
 	public class Scene3D extends EventDispatcher
 	{
-		public var _sceneGraphRoot:ObjectContainer3D;
+		protected var _sceneGraphRoot:ObjectContainer3D;
 		private var _partitions:Vector.<Partition3D>;
 
 		/**
@@ -33,6 +32,16 @@ package away3d.entities
 			_sceneGraphRoot.scene = this;
 			_sceneGraphRoot.isRoot = true;
 			_sceneGraphRoot.partition = new Partition3D(new NodeBase());
+		}
+
+		public function set sceneGraphRoot(value:ObjectContainer3D):void
+		{
+			_sceneGraphRoot = value;
+		}
+
+		public function get sceneGraphRoot():ObjectContainer3D
+		{
+			return _sceneGraphRoot;
 		}
 
 		/**

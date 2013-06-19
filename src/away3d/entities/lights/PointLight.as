@@ -2,8 +2,8 @@ package away3d.entities.lights
 {
 	import flash.geom.Matrix3D;
 	import flash.geom.Vector3D;
-	
-	
+
+
 	import away3d.bounds.BoundingSphere;
 	import away3d.bounds.BoundingVolumeBase;
 	import away3d.core.base.IRenderable;
@@ -13,7 +13,7 @@ package away3d.entities.lights
 	import away3d.entities.lights.shadowmaps.ShadowMapperBase;
 	import away3d.math.Matrix3DUtils;
 
-	
+
 
 	/**
 	 * PointLight represents an omni-directional light. The light is emitted from a given position in the scene.
@@ -21,9 +21,9 @@ package away3d.entities.lights
 	public class PointLight extends LightBase
 	{
 		//private static var _pos : Vector3D = new Vector3D();
-		public var _radius:Number = 90000;
-		public var _fallOff:Number = 100000;
-		public var _fallOffFactor:Number;
+		protected var _radius:Number = 90000;
+		protected var _fallOff:Number = 100000;
+		protected var _fallOffFactor:Number;
 
 		/**
 		 * Creates a new PointLight object.

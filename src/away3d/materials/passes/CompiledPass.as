@@ -5,7 +5,7 @@ package away3d.materials.passes
 	import flash.geom.Matrix;
 	import flash.geom.Matrix3D;
 
-	
+
 	import away3d.entities.Camera3D;
 	import away3d.core.base.IRenderable;
 	import away3d.core.managers.Stage3DProxy;
@@ -24,7 +24,7 @@ package away3d.materials.passes
 	import away3d.math.Matrix3DUtils;
 	import away3d.textures.Texture2DBase;
 
-	
+
 
 	public class CompiledPass extends MaterialPassBase
 	{
@@ -263,12 +263,12 @@ package away3d.materials.passes
 		 */
 		public function get normalMap():Texture2DBase
 		{
-			return _methodSetup._normalMethod.normalMap;
+			return _methodSetup.normalMethod.normalMap;
 		}
 
 		public function set normalMap(value:Texture2DBase):void
 		{
-			_methodSetup._normalMethod.normalMap = value;
+			_methodSetup.normalMethod.normalMap = value;
 		}
 
 		public function get normalMethod():BasicNormalMethod
@@ -369,16 +369,16 @@ package away3d.materials.passes
 
 		protected function addPassesFromMethods():void
 		{
-			if (_methodSetup._normalMethod && _methodSetup._normalMethod.hasOutput)
-				addPasses(_methodSetup._normalMethod.passes);
-			if (_methodSetup._ambientMethod)
-				addPasses(_methodSetup._ambientMethod.passes);
-			if (_methodSetup._shadowMethod)
-				addPasses(_methodSetup._shadowMethod.passes);
-			if (_methodSetup._diffuseMethod)
-				addPasses(_methodSetup._diffuseMethod.passes);
-			if (_methodSetup._specularMethod)
-				addPasses(_methodSetup._specularMethod.passes);
+			if (_methodSetup.normalMethod && _methodSetup.normalMethod.hasOutput)
+				addPasses(_methodSetup.normalMethod.passes);
+			if (_methodSetup.ambientMethod)
+				addPasses(_methodSetup.ambientMethod.passes);
+			if (_methodSetup.shadowMethod)
+				addPasses(_methodSetup.shadowMethod.passes);
+			if (_methodSetup.diffuseMethod)
+				addPasses(_methodSetup.diffuseMethod.passes);
+			if (_methodSetup.specularMethod)
+				addPasses(_methodSetup.specularMethod.passes);
 		}
 
 		/**
@@ -427,16 +427,16 @@ package away3d.materials.passes
 
 		protected function updateMethodConstants():void
 		{
-			if (_methodSetup._normalMethod)
-				_methodSetup._normalMethod.initConstants(_methodSetup._normalMethodVO);
-			if (_methodSetup._diffuseMethod)
-				_methodSetup._diffuseMethod.initConstants(_methodSetup._diffuseMethodVO);
-			if (_methodSetup._ambientMethod)
-				_methodSetup._ambientMethod.initConstants(_methodSetup._ambientMethodVO);
+			if (_methodSetup.normalMethod)
+				_methodSetup.normalMethod.initConstants(_methodSetup.normalMethodVO);
+			if (_methodSetup.diffuseMethod)
+				_methodSetup.diffuseMethod.initConstants(_methodSetup.diffuseMethodVO);
+			if (_methodSetup.ambientMethod)
+				_methodSetup.ambientMethod.initConstants(_methodSetup.ambientMethodVO);
 			if (_usingSpecularMethod)
-				_methodSetup._specularMethod.initConstants(_methodSetup._specularMethodVO);
-			if (_methodSetup._shadowMethod)
-				_methodSetup._shadowMethod.initConstants(_methodSetup._shadowMethodVO);
+				_methodSetup.specularMethod.initConstants(_methodSetup.specularMethodVO);
+			if (_methodSetup.shadowMethod)
+				_methodSetup.shadowMethod.initConstants(_methodSetup.shadowMethodVO);
 		}
 
 		protected function updateLightConstants():void
@@ -481,13 +481,13 @@ package away3d.materials.passes
 			super.activate(stage3DProxy, camera);
 
 			if (_usesNormals)
-				_methodSetup._normalMethod.activate(_methodSetup._normalMethodVO, stage3DProxy);
-			_methodSetup._ambientMethod.activate(_methodSetup._ambientMethodVO, stage3DProxy);
-			if (_methodSetup._shadowMethod)
-				_methodSetup._shadowMethod.activate(_methodSetup._shadowMethodVO, stage3DProxy);
-			_methodSetup._diffuseMethod.activate(_methodSetup._diffuseMethodVO, stage3DProxy);
+				_methodSetup.normalMethod.activate(_methodSetup.normalMethodVO, stage3DProxy);
+			_methodSetup.ambientMethod.activate(_methodSetup.ambientMethodVO, stage3DProxy);
+			if (_methodSetup.shadowMethod)
+				_methodSetup.shadowMethod.activate(_methodSetup.shadowMethodVO, stage3DProxy);
+			_methodSetup.diffuseMethod.activate(_methodSetup.diffuseMethodVO, stage3DProxy);
 			if (_usingSpecularMethod)
-				_methodSetup._specularMethod.activate(_methodSetup._specularMethodVO, stage3DProxy);
+				_methodSetup.specularMethod.activate(_methodSetup.specularMethodVO, stage3DProxy);
 		}
 
 		/**
@@ -554,23 +554,23 @@ package away3d.materials.passes
 				renderable.inverseSceneTransform.copyRawDataTo(_vertexConstantData, _sceneNormalMatrixIndex, false);
 
 			if (_usesNormals)
-				_methodSetup._normalMethod.setRenderState(_methodSetup._normalMethodVO, renderable, stage3DProxy, camera);
+				_methodSetup.normalMethod.setRenderState(_methodSetup.normalMethodVO, renderable, stage3DProxy, camera);
 
-			var ambientMethod:BasicAmbientMethod = _methodSetup._ambientMethod;
-			ambientMethod._lightAmbientR = _ambientLightR;
-			ambientMethod._lightAmbientG = _ambientLightG;
-			ambientMethod._lightAmbientB = _ambientLightB;
-			ambientMethod.setRenderState(_methodSetup._ambientMethodVO, renderable, stage3DProxy, camera);
+			var ambientMethod:BasicAmbientMethod = _methodSetup.ambientMethod;
+			ambientMethod.lightAmbientR = _ambientLightR;
+			ambientMethod.lightAmbientG = _ambientLightG;
+			ambientMethod.lightAmbientB = _ambientLightB;
+			ambientMethod.setRenderState(_methodSetup.ambientMethodVO, renderable, stage3DProxy, camera);
 
-			if (_methodSetup._shadowMethod)
-				_methodSetup._shadowMethod.setRenderState(_methodSetup._shadowMethodVO, renderable, stage3DProxy, camera);
-			_methodSetup._diffuseMethod.setRenderState(_methodSetup._diffuseMethodVO, renderable, stage3DProxy, camera);
+			if (_methodSetup.shadowMethod)
+				_methodSetup.shadowMethod.setRenderState(_methodSetup.shadowMethodVO, renderable, stage3DProxy, camera);
+			_methodSetup.diffuseMethod.setRenderState(_methodSetup.diffuseMethodVO, renderable, stage3DProxy, camera);
 			if (_usingSpecularMethod)
-				_methodSetup._specularMethod.setRenderState(_methodSetup._specularMethodVO, renderable, stage3DProxy, camera);
-			if (_methodSetup._colorTransformMethod)
-				_methodSetup._colorTransformMethod.setRenderState(_methodSetup._colorTransformMethodVO, renderable, stage3DProxy, camera);
+				_methodSetup.specularMethod.setRenderState(_methodSetup.specularMethodVO, renderable, stage3DProxy, camera);
+			if (_methodSetup.colorTransformMethod)
+				_methodSetup.colorTransformMethod.setRenderState(_methodSetup.colorTransformMethodVO, renderable, stage3DProxy, camera);
 
-			var methods:Vector.<MethodVOSet> = _methodSetup._methods;
+			var methods:Vector.<MethodVOSet> = _methodSetup.methods;
 			var len:uint = methods.length;
 			for (i = 0; i < len; ++i)
 			{
@@ -603,13 +603,13 @@ package away3d.materials.passes
 			super.deactivate(stage3DProxy);
 
 			if (_usesNormals)
-				_methodSetup._normalMethod.deactivate(_methodSetup._normalMethodVO, stage3DProxy);
-			_methodSetup._ambientMethod.deactivate(_methodSetup._ambientMethodVO, stage3DProxy);
-			if (_methodSetup._shadowMethod)
-				_methodSetup._shadowMethod.deactivate(_methodSetup._shadowMethodVO, stage3DProxy);
-			_methodSetup._diffuseMethod.deactivate(_methodSetup._diffuseMethodVO, stage3DProxy);
+				_methodSetup.normalMethod.deactivate(_methodSetup.normalMethodVO, stage3DProxy);
+			_methodSetup.ambientMethod.deactivate(_methodSetup.ambientMethodVO, stage3DProxy);
+			if (_methodSetup.shadowMethod)
+				_methodSetup.shadowMethod.deactivate(_methodSetup.shadowMethodVO, stage3DProxy);
+			_methodSetup.diffuseMethod.deactivate(_methodSetup.diffuseMethodVO, stage3DProxy);
 			if (_usingSpecularMethod)
-				_methodSetup._specularMethod.deactivate(_methodSetup._specularMethodVO, stage3DProxy);
+				_methodSetup.specularMethod.deactivate(_methodSetup.specularMethodVO, stage3DProxy);
 		}
 
 //		override protected function updateLights() : void

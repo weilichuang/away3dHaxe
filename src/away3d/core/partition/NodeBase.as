@@ -4,12 +4,12 @@ package away3d.core.partition
 
 	import flash.geom.Vector3D;
 
-	
+
 	import away3d.core.traverse.PartitionTraverser;
 	import away3d.entities.Entity;
 	import away3d.entities.primitives.WireframePrimitiveBase;
 
-	
+
 
 	/**
 	 * The NodeBase class is an abstract base class for any type of space partition tree node. The concrete
@@ -22,13 +22,16 @@ package away3d.core.partition
 	 */
 	public class NodeBase
 	{
-		public var _parent:NodeBase;
+		protected var _parent:NodeBase;
 		protected var _childNodes:Vector.<NodeBase>;
 		protected var _numChildNodes:uint;
 		protected var _debugPrimitive:WireframePrimitiveBase;
 
-		public var _numEntities:int;
-		public var _collectionMark:uint;
+		protected var _numEntities:int;
+		/**
+		 *internal use
+		 */
+		public var collectionMark:uint;
 
 		/**
 		 * Creates a new NodeBase object.
@@ -70,6 +73,11 @@ package away3d.core.partition
 		public function get parent():NodeBase
 		{
 			return _parent;
+		}
+
+		public function set parent(value:NodeBase):void
+		{
+			_parent = value;
 		}
 
 		/**

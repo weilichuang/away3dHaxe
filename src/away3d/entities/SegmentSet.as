@@ -9,7 +9,7 @@ package away3d.entities
 	import flash.geom.Vector3D;
 	import flash.utils.Dictionary;
 
-	
+
 	import away3d.animators.IAnimator;
 	import away3d.bounds.BoundingSphere;
 	import away3d.bounds.BoundingVolumeBase;
@@ -22,7 +22,7 @@ package away3d.entities
 	import away3d.materials.SegmentMaterial;
 	import away3d.entities.primitives.data.Segment;
 
-	
+
 
 	public class SegmentSet extends Entity implements IRenderable
 	{
@@ -254,12 +254,12 @@ package away3d.entities
 		public function updateSegment(segment:Segment):void
 		{
 			//to do: add support for curve segment
-			var start:Vector3D = segment._start;
-			var end:Vector3D = segment._end;
+			var start:Vector3D = segment.start;
+			var end:Vector3D = segment.end;
 			var startX:Number = start.x, startY:Number = start.y, startZ:Number = start.z;
 			var endX:Number = end.x, endY:Number = end.y, endZ:Number = end.z;
-			var startR:Number = segment._startR, startG:Number = segment._startG, startB:Number = segment._startB;
-			var endR:Number = segment._endR, endG:Number = segment._endG, endB:Number = segment._endB;
+			var startR:Number = segment.startR, startG:Number = segment.startG, startB:Number = segment.startB;
+			var endR:Number = segment.endR, endG:Number = segment.endG, endB:Number = segment.endB;
 			var index:uint = segment.index;
 			var t:Number = segment.thickness;
 
