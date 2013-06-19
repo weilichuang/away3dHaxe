@@ -191,8 +191,13 @@ package away3d.materials.passes
 
 			if (_methodSetup.colorTransformMethod)
 				_methodSetup.colorTransformMethod.deactivate(_methodSetup.colorTransformMethodVO, stage3DProxy);
+<<<<<<< HEAD
 
 			var mset:MethodVOSet;
+=======
+
+			var set:MethodVOSet;
+>>>>>>> 3ecb636698909469519bdfcd72e489148411a0f5
 			var methods:Vector.<MethodVOSet> = _methodSetup.methods;
 			var len:uint = methods.length;
 			for (var i:uint = 0; i < len; ++i)
