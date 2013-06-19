@@ -50,7 +50,7 @@ package away3d.core.traverse
 				var dz:Number = _entryPoint.z - entity.z;
 				item.zIndex = dx * _cameraForward.x + dy * _cameraForward.y + dz * _cameraForward.z;
 				item.renderSceneTransform = renderable.getRenderSceneTransform(_camera);
-				item.renderOrderId = material._depthPassId;
+				item.renderOrderId = material.depthPassId;
 				_opaqueRenderableHead = item;
 			}
 		}

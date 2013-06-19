@@ -4,10 +4,10 @@ package away3d.materials.compilation
 
 	public class LightingShaderCompiler extends ShaderCompiler
 	{
-		public var _pointLightFragmentConstants:Vector.<ShaderRegisterElement>;
-		public var _pointLightVertexConstants:Vector.<ShaderRegisterElement>;
-		public var _dirLightFragmentConstants:Vector.<ShaderRegisterElement>;
-		public var _dirLightVertexConstants:Vector.<ShaderRegisterElement>;
+		public var pointLightFragmentConstants:Vector.<ShaderRegisterElement>;
+		public var pointLightVertexConstants:Vector.<ShaderRegisterElement>;
+		public var dirLightFragmentConstants:Vector.<ShaderRegisterElement>;
+		public var dirLightVertexConstants:Vector.<ShaderRegisterElement>;
 		private var _lightVertexConstantIndex:int;
 		private var _shadowRegister:ShaderRegisterElement;
 
@@ -65,16 +65,16 @@ package away3d.materials.compilation
 		{
 			super.initLightData();
 
-			_pointLightVertexConstants = new Vector.<ShaderRegisterElement>(_numPointLights, true);
-			_pointLightFragmentConstants = new Vector.<ShaderRegisterElement>(_numPointLights * 2, true);
+			pointLightVertexConstants = new Vector.<ShaderRegisterElement>(_numPointLights, true);
+			pointLightFragmentConstants = new Vector.<ShaderRegisterElement>(_numPointLights * 2, true);
 			if (tangentSpace)
 			{
-				_dirLightVertexConstants = new Vector.<ShaderRegisterElement>(_numDirectionalLights, true);
-				_dirLightFragmentConstants = new Vector.<ShaderRegisterElement>(_numDirectionalLights * 2, true);
+				dirLightVertexConstants = new Vector.<ShaderRegisterElement>(_numDirectionalLights, true);
+				dirLightFragmentConstants = new Vector.<ShaderRegisterElement>(_numDirectionalLights * 2, true);
 			}
 			else
 			{
-				_dirLightFragmentConstants = new Vector.<ShaderRegisterElement>(_numDirectionalLights * 3, true);
+				dirLightFragmentConstants = new Vector.<ShaderRegisterElement>(_numDirectionalLights * 3, true);
 			}
 		}
 
@@ -258,39 +258,39 @@ package away3d.materials.compilation
 			// init these first so we're sure they're in sequence
 			var i:uint, len:uint;
 
-			if (_dirLightVertexConstants)
+			if (dirLightVertexConstants)
 			{
-				len = _dirLightVertexConstants.length;
+				len = dirLightVertexConstants.length;
 				for (i = 0; i < len; ++i)
 				{
-					_dirLightVertexConstants[i] = _registerCache.getFreeVertexConstant();
+					dirLightVertexConstants[i] = _registerCache.getFreeVertexConstant();
 					if (_lightVertexConstantIndex == -1)
-						_lightVertexConstantIndex = _dirLightVertexConstants[i].index * 4;
+						_lightVertexConstantIndex = dirLightVertexConstants[i].index * 4;
 				}
 			}
 
-			len = _pointLightVertexConstants.length;
+			len = pointLightVertexConstants.length;
 			for (i = 0; i < len; ++i)
 			{
-				_pointLightVertexConstants[i] = _registerCache.getFreeVertexConstant();
+				pointLightVertexConstants[i] = _registerCache.getFreeVertexConstant();
 				if (_lightVertexConstantIndex == -1)
-					_lightVertexConstantIndex = _pointLightVertexConstants[i].index * 4;
+					_lightVertexConstantIndex = pointLightVertexConstants[i].index * 4;
 			}
 
-			len = _dirLightFragmentConstants.length;
+			len = dirLightFragmentConstants.length;
 			for (i = 0; i < len; ++i)
 			{
-				_dirLightFragmentConstants[i] = _registerCache.getFreeFragmentConstant();
+				dirLightFragmentConstants[i] = _registerCache.getFreeFragmentConstant();
 				if (_lightFragmentConstantIndex == -1)
-					_lightFragmentConstantIndex = _dirLightFragmentConstants[i].index * 4;
+					_lightFragmentConstantIndex = dirLightFragmentConstants[i].index * 4;
 			}
 
-			len = _pointLightFragmentConstants.length;
+			len = pointLightFragmentConstants.length;
 			for (i = 0; i < len; ++i)
 			{
-				_pointLightFragmentConstants[i] = _registerCache.getFreeFragmentConstant();
+				pointLightFragmentConstants[i] = _registerCache.getFreeFragmentConstant();
 				if (_lightFragmentConstantIndex == -1)
-					_lightFragmentConstantIndex = _pointLightFragmentConstants[i].index * 4;
+					_lightFragmentConstantIndex = pointLightFragmentConstants[i].index * 4;
 			}
 		}
 
@@ -312,7 +312,7 @@ package away3d.materials.compilation
 
 				if (tangentSpace)
 				{
-					lightDirReg = _dirLightVertexConstants[vertexRegIndex++];
+					lightDirReg = dirLightVertexConstants[vertexRegIndex++];
 					var lightVarying:ShaderRegisterElement = _registerCache.getFreeVarying();
 
 					_vertexCode += "m33 " + lightVarying + ".xyz, " + lightDirReg + ", " + _sharedRegisters.animatedTangent + "\n" +
@@ -324,10 +324,10 @@ package away3d.materials.compilation
 					_fragmentCode += "mov " + lightDirReg + ".w, " + lightVarying + ".w\n";
 				}
 				else
-					lightDirReg = _dirLightFragmentConstants[fragmentRegIndex++];
+					lightDirReg = dirLightFragmentConstants[fragmentRegIndex++];
 
-				diffuseColorReg = _dirLightFragmentConstants[fragmentRegIndex++];
-				specularColorReg = _dirLightFragmentConstants[fragmentRegIndex++];
+				diffuseColorReg = dirLightFragmentConstants[fragmentRegIndex++];
+				specularColorReg = dirLightFragmentConstants[fragmentRegIndex++];
 				if (addDiff)
 					_fragmentCode += _methodSetup._diffuseMethod.getFragmentCodePerLight(_methodSetup._diffuseMethodVO, lightDirReg, diffuseColorReg, _registerCache);
 				if (addSpec)
@@ -354,9 +354,9 @@ package away3d.materials.compilation
 
 			for (var i:uint = 0; i < _numPointLights; ++i)
 			{
-				lightPosReg = _pointLightVertexConstants[vertexRegIndex++];
-				diffuseColorReg = _pointLightFragmentConstants[fragmentRegIndex++];
-				specularColorReg = _pointLightFragmentConstants[fragmentRegIndex++];
+				lightPosReg = pointLightVertexConstants[vertexRegIndex++];
+				diffuseColorReg = pointLightFragmentConstants[fragmentRegIndex++];
+				specularColorReg = pointLightFragmentConstants[fragmentRegIndex++];
 				lightDirReg = _registerCache.getFreeFragmentVectorTemp();
 				_registerCache.addFragmentTempUsages(lightDirReg, 1);
 

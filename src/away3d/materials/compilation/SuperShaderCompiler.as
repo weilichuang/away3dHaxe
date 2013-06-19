@@ -4,8 +4,8 @@ package away3d.materials.compilation
 
 	public class SuperShaderCompiler extends ShaderCompiler
 	{
-		public var _pointLightRegisters:Vector.<ShaderRegisterElement>;
-		public var _dirLightRegisters:Vector.<ShaderRegisterElement>;
+		public var pointLightRegisters:Vector.<ShaderRegisterElement>;
+		public var dirLightRegisters:Vector.<ShaderRegisterElement>;
 
 		
 
@@ -18,8 +18,8 @@ package away3d.materials.compilation
 		{
 			super.initLightData();
 
-			_pointLightRegisters = new Vector.<ShaderRegisterElement>(_numPointLights * 3, true);
-			_dirLightRegisters = new Vector.<ShaderRegisterElement>(_numDirectionalLights * 3, true);
+			pointLightRegisters = new Vector.<ShaderRegisterElement>(_numPointLights * 3, true);
+			dirLightRegisters = new Vector.<ShaderRegisterElement>(_numDirectionalLights * 3, true);
 		}
 
 		/**
@@ -269,20 +269,20 @@ package away3d.materials.compilation
 			// init these first so we're sure they're in sequence
 			var i:uint, len:uint;
 
-			len = _dirLightRegisters.length;
+			len = dirLightRegisters.length;
 			for (i = 0; i < len; ++i)
 			{
-				_dirLightRegisters[i] = _registerCache.getFreeFragmentConstant();
+				dirLightRegisters[i] = _registerCache.getFreeFragmentConstant();
 				if (_lightFragmentConstantIndex == -1)
-					_lightFragmentConstantIndex = _dirLightRegisters[i].index * 4;
+					_lightFragmentConstantIndex = dirLightRegisters[i].index * 4;
 			}
 
-			len = _pointLightRegisters.length;
+			len = pointLightRegisters.length;
 			for (i = 0; i < len; ++i)
 			{
-				_pointLightRegisters[i] = _registerCache.getFreeFragmentConstant();
+				pointLightRegisters[i] = _registerCache.getFreeFragmentConstant();
 				if (_lightFragmentConstantIndex == -1)
-					_lightFragmentConstantIndex = _pointLightRegisters[i].index * 4;
+					_lightFragmentConstantIndex = pointLightRegisters[i].index * 4;
 			}
 		}
 
@@ -300,9 +300,9 @@ package away3d.materials.compilation
 
 			for (var i:uint = 0; i < _numDirectionalLights; ++i)
 			{
-				lightDirReg = _dirLightRegisters[regIndex++];
-				diffuseColorReg = _dirLightRegisters[regIndex++];
-				specularColorReg = _dirLightRegisters[regIndex++];
+				lightDirReg = dirLightRegisters[regIndex++];
+				diffuseColorReg = dirLightRegisters[regIndex++];
+				specularColorReg = dirLightRegisters[regIndex++];
 				if (addDiff)
 					_fragmentCode += _methodSetup._diffuseMethod.getFragmentCodePerLight(_methodSetup._diffuseMethodVO, lightDirReg, diffuseColorReg, _registerCache);
 				if (addSpec)
@@ -325,9 +325,9 @@ package away3d.materials.compilation
 
 			for (var i:uint = 0; i < _numPointLights; ++i)
 			{
-				lightPosReg = _pointLightRegisters[regIndex++];
-				diffuseColorReg = _pointLightRegisters[regIndex++];
-				specularColorReg = _pointLightRegisters[regIndex++];
+				lightPosReg = pointLightRegisters[regIndex++];
+				diffuseColorReg = pointLightRegisters[regIndex++];
+				specularColorReg = pointLightRegisters[regIndex++];
 				lightDirReg = _registerCache.getFreeFragmentVectorTemp();
 				_registerCache.addFragmentTempUsages(lightDirReg, 1);
 

@@ -143,7 +143,7 @@ package away3d.core.pick
 
 			_hitRenderable = _interactives[_hitColor - 1];
 			_hitEntity = _hitRenderable.sourceEntity;
-			if (_onlyMouseEnabled && (!_hitEntity._ancestorsAllowMouseEnabled || !_hitEntity.mouseEnabled))
+			if (_onlyMouseEnabled && (!_hitEntity.ancestorsAllowMouseEnabled || !_hitEntity.mouseEnabled))
 				return null;
 
 			var _collisionVO:PickingCollisionVO = _hitEntity.pickingCollisionVO;

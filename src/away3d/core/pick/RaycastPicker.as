@@ -164,7 +164,7 @@ package away3d.core.pick
 
 		private function isIgnored(entity:Entity):Boolean
 		{
-			if (_onlyMouseEnabled && (!entity._ancestorsAllowMouseEnabled || !entity.mouseEnabled))
+			if (_onlyMouseEnabled && (!entity.ancestorsAllowMouseEnabled || !entity.mouseEnabled))
 				return true;
 
 			var ignoredEntity:Entity;
@@ -202,7 +202,7 @@ package away3d.core.pick
 			for (i = 0; i < _numEntities; ++i)
 			{
 				entity = _entities[i];
-				pickingCollisionVO = entity._pickingCollisionVO;
+				pickingCollisionVO = entity.pickingCollisionVO;
 				if (entity.pickingCollider)
 				{
 					// If a collision exists, update the collision data and stop all checks.

@@ -28,8 +28,9 @@ package away3d.materials.passes
 
 	public class CompiledPass extends MaterialPassBase
 	{
-		public var _passes:Vector.<MaterialPassBase>;
-		public var _passesDirty:Boolean;
+		//internal use
+		public var passes:Vector.<MaterialPassBase>;
+		public var passesDirty:Boolean;
 
 		protected var _specularLightSources:uint = 0x01;
 		protected var _diffuseLightSources:uint = 0x03;
@@ -342,23 +343,23 @@ package away3d.materials.passes
 		 */
 		public override function invalidateShaderProgram(updateMaterial:Boolean = true):void
 		{
-			var oldPasses:Vector.<MaterialPassBase> = _passes;
-			_passes = new Vector.<MaterialPassBase>();
+			var oldPasses:Vector.<MaterialPassBase> = passes;
+			passes = new Vector.<MaterialPassBase>();
 
 			if (_methodSetup)
 				addPassesFromMethods();
 
-			if (!oldPasses || _passes.length != oldPasses.length)
+			if (!oldPasses || passes.length != oldPasses.length)
 			{
-				_passesDirty = true;
+				passesDirty = true;
 				return;
 			}
 
-			for (var i:int = 0; i < _passes.length; ++i)
+			for (var i:int = 0; i < passes.length; ++i)
 			{
-				if (_passes[i] != oldPasses[i])
+				if (passes[i] != oldPasses[i])
 				{
-					_passesDirty = true;
+					passesDirty = true;
 					return;
 				}
 			}
@@ -394,7 +395,7 @@ package away3d.materials.passes
 			{
 				passes[i].material = material;
 				passes[i].lightPicker = _lightPicker;
-				_passes.push(passes[i]);
+				passes.push(passes[i]);
 			}
 		}
 

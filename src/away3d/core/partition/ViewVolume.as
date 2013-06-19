@@ -30,7 +30,7 @@ package away3d.core.partition
 		private var _maxX:Number;
 		private var _maxY:Number;
 		private var _maxZ:Number;
-		public var _active:Boolean;
+		public var active:Boolean;
 		private static var _entityWorldBounds:Vector.<Number>;
 
 		/**
@@ -72,7 +72,7 @@ package away3d.core.partition
 				if (_debugPrimitive)
 					traverser.applyRenderable(_debugPrimitive);
 
-				if (!_active)
+				if (!active)
 					return;
 
 				var entryPoint:Vector3D = traverser.entryPoint;

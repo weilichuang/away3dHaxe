@@ -31,12 +31,12 @@ package away3d.controllers
 				return;
 
 			if (_targetObject && _autoUpdate)
-				_targetObject._controller = null;
+				_targetObject.controller = null;
 
 			_targetObject = val;
 
 			if (_targetObject && _autoUpdate)
-				_targetObject._controller = this;
+				_targetObject.controller = this;
 
 			notifyUpdate();
 		}
@@ -59,9 +59,9 @@ package away3d.controllers
 			if (_targetObject)
 			{
 				if (_autoUpdate)
-					_targetObject._controller = this;
+					_targetObject.controller = this;
 				else
-					_targetObject._controller = null;
+					_targetObject.controller = null;
 			}
 		}
 

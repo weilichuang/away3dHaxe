@@ -74,8 +74,28 @@ package away3d.entities
 	public class ObjectContainer3D extends Object3D implements IAsset
 	{
 		/** @private */
-		public var _ancestorsAllowMouseEnabled:Boolean;
-		public var _isRoot:Boolean;
+		protected var _ancestorsAllowMouseEnabled:Boolean;
+		protected var _isRoot:Boolean;
+		
+		public function get ancestorsAllowMouseEnabled():Boolean
+		{
+			return _ancestorsAllowMouseEnabled;
+		}
+		
+		public function set ancestorsAllowMouseEnabled(value:Boolean):void
+		{
+			_ancestorsAllowMouseEnabled = value;
+		}
+		
+		public function get isRoot():Boolean
+		{
+			return _isRoot;
+		}
+		
+		public function set isRoot(value:Boolean):void
+		{
+			_isRoot = value;
+		}
 
 		protected var _scene:Scene3D;
 		protected var _parent:ObjectContainer3D;

@@ -69,10 +69,10 @@ package away3d.core.partition
 				if (node == t)
 					return;
 
-				t = t._updateQueueNext;
+				t = t.updateQueueNext;
 			}
 
-			node._updateQueueNext = _updateQueue;
+			node.updateQueueNext = _updateQueue;
 
 			_updateQueue = node;
 			_updatesMade = true;
@@ -91,17 +91,17 @@ package away3d.core.partition
 
 			// remove from update list if it's in
 			if (node == _updateQueue)
-				_updateQueue = node._updateQueueNext;
+				_updateQueue = node.updateQueueNext;
 			else
 			{
 				t = _updateQueue;
-				while (t && t._updateQueueNext != node)
-					t = t._updateQueueNext;
+				while (t && t.updateQueueNext != node)
+					t = t.updateQueueNext;
 				if (t)
-					t._updateQueueNext = node._updateQueueNext;
+					t.updateQueueNext = node.updateQueueNext;
 			}
 
-			node._updateQueueNext = null;
+			node.updateQueueNext = null;
 
 			// any updates have been made undone
 			if (!_updateQueue)
@@ -134,8 +134,8 @@ package away3d.core.partition
 					targetNode.addNode(node);
 				}
 
-				t = node._updateQueueNext;
-				node._updateQueueNext = null;
+				t = node.updateQueueNext;
+				node.updateQueueNext = null;
 
 				//call an internal update on the entity to fire any attached logic
 				node.entity.internalUpdate();

@@ -248,7 +248,7 @@ package away3d.core.base
 		 */
 		public function get mouseEnabled():Boolean
 		{
-			return _parentMesh.mouseEnabled || _parentMesh._ancestorsAllowMouseEnabled;
+			return _parentMesh.mouseEnabled || _parentMesh.ancestorsAllowMouseEnabled;
 		}
 
 		public function get castsShadows():Boolean

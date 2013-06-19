@@ -101,14 +101,14 @@ package away3d.io.loaders.parsers
 			if (_data is Bitmap)
 			{
 				asset = new BitmapTexture(Bitmap(_data).bitmapData);
-				finalizeAsset(asset, _fileName);
+				finalizeAsset(asset, fileName);
 				return PARSING_DONE;
 			}
 
 			if (_data is BitmapData)
 			{
 				asset = new BitmapTexture(_data as BitmapData);
-				finalizeAsset(asset, _fileName);
+				finalizeAsset(asset, fileName);
 				return PARSING_DONE;
 			}
 
@@ -119,7 +119,7 @@ package away3d.io.loaders.parsers
 				{
 					_byteData.position = 0;
 					asset = new ATFTexture(_byteData);
-					finalizeAsset(asset, _fileName);
+					finalizeAsset(asset, fileName);
 					return PARSING_DONE;
 				}
 				else
@@ -148,7 +148,7 @@ package away3d.io.loaders.parsers
 			if (!TextureUtils.isBitmapDataValid(bmp))
 			{
 				var bmdAsset:BitmapDataAsset = new BitmapDataAsset(bmp);
-				bmdAsset.name = _fileName;
+				bmdAsset.name = fileName;
 
 				dispatchEvent(new AssetEvent(AssetEvent.TEXTURE_SIZE_ERROR, bmdAsset));
 
@@ -167,7 +167,7 @@ package away3d.io.loaders.parsers
 			}
 
 			asset = new BitmapTexture(bmp);
-			finalizeAsset(asset, _fileName);
+			finalizeAsset(asset, fileName);
 			_doneParsing = true;
 		}
 	}

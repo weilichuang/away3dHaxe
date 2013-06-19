@@ -36,13 +36,14 @@ package away3d.materials
 
 		// can be used by other renderers to determine how to render this particular material
 		// in practice, this can be checked by a custom EntityCollector
-		public var _classification:String;
+		public var classification:String;
 
 		// this value is usually derived from other settings
-		public var _uniqueId:uint;
-
-		public var _renderOrderId:int;
-		public var _depthPassId:int;
+		protected var _uniqueId:uint;
+		
+		//内部使用
+		public var renderOrderId:int;
+		public var depthPassId:int;
 
 		private var _bothSides:Boolean;
 		private var _animationSet:IAnimationSet;
@@ -509,7 +510,7 @@ package away3d.materials
 			var ids:Vector.<int>;
 			var len:int;
 
-			_renderOrderId = 0;
+			renderOrderId = 0;
 
 			for (var i:int = 0; i < _numPasses; ++i)
 			{
@@ -519,7 +520,7 @@ package away3d.materials
 				{
 					if (ids[j] != -1)
 					{
-						_renderOrderId += mult * ids[j];
+						renderOrderId += mult * ids[j];
 						j = len;
 					}
 				}
@@ -532,13 +533,13 @@ package away3d.materials
 			var ids:Vector.<int> = _distancePass.getProgram3Dids();
 			var len:uint = ids.length;
 
-			_depthPassId = 0;
+			depthPassId = 0;
 
 			for (var j:int = 0; j < len; ++j)
 			{
 				if (ids[j] != -1)
 				{
-					_depthPassId += ids[j];
+					depthPassId += ids[j];
 					j = len;
 				}
 			}
@@ -549,13 +550,13 @@ package away3d.materials
 			var ids:Vector.<int> = _depthPass.getProgram3Dids();
 			var len:uint = ids.length;
 
-			_depthPassId = 0;
+			depthPassId = 0;
 
 			for (var j:int = 0; j < len; ++j)
 			{
 				if (ids[j] != -1)
 				{
-					_depthPassId += ids[j];
+					depthPassId += ids[j];
 					j = len;
 				}
 			}

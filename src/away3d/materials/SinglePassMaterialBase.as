@@ -367,18 +367,18 @@
 		 */
 		public override function updateMaterial(context:Context3D):void
 		{
-			if (_screenPass._passesDirty)
+			if (_screenPass.passesDirty)
 			{
 				clearPasses();
-				if (_screenPass._passes)
+				if (_screenPass.passes)
 				{
-					var len:uint = _screenPass._passes.length;
+					var len:uint = _screenPass.passes.length;
 					for (var i:uint = 0; i < len; ++i)
-						addPass(_screenPass._passes[i]);
+						addPass(_screenPass.passes[i]);
 				}
 
 				addPass(_screenPass);
-				_screenPass._passesDirty = false;
+				_screenPass.passesDirty = false;
 			}
 		}
 

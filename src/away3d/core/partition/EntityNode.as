@@ -25,7 +25,7 @@ package away3d.core.partition
 		 * The link to the next object in the list to be updated
 		 * @private
 		 */
-		public var _updateQueueNext:EntityNode;
+		public var updateQueueNext:EntityNode;
 
 		/**
 		 * Creates a new EntityNode object.

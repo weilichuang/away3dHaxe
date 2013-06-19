@@ -410,7 +410,7 @@ package away3d.io.loaders.misc
 				_parser.addEventListener(AssetEvent.SKELETON_POSE_COMPLETE, onAssetComplete);
 
 				if (_req && _req.url)
-					_parser._fileName = _req.url;
+					_parser.fileName = _req.url;
 				_parser.materialMode = _materialMode;
 				_parser.parseAsync(data);
 			}

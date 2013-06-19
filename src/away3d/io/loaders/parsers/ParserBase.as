@@ -150,7 +150,7 @@ package away3d.io.loaders.parsers
 	 */
 	public class ParserBase extends EventDispatcher
 	{
-		public var _fileName:String;
+		public var fileName:String;
 		protected var _dataFormat:String;
 		protected var _data:*;
 		protected var _frameLimit:Number;

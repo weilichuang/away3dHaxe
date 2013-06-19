@@ -373,24 +373,24 @@
 
 		override public function collidesBefore(shortestCollisionDistance:Number, findClosest:Boolean):Boolean
 		{
-			_pickingCollider.setLocalRay(_pickingCollisionVO.localRayPosition, _pickingCollisionVO.localRayDirection);
-			_pickingCollisionVO.renderable = null;
+			_pickingCollider.setLocalRay(pickingCollisionVO.localRayPosition, pickingCollisionVO.localRayDirection);
+			pickingCollisionVO.renderable = null;
 			var len:int = _subMeshes.length;
 			for (var i:int = 0; i < len; ++i)
 			{
 				var subMesh:SubMesh = _subMeshes[i];
 
 				//var ignoreFacesLookingAway:Boolean = _material ? !_material.bothSides : true;
-				if (_pickingCollider.testSubMeshCollision(subMesh, _pickingCollisionVO, shortestCollisionDistance))
+				if (_pickingCollider.testSubMeshCollision(subMesh, pickingCollisionVO, shortestCollisionDistance))
 				{
-					shortestCollisionDistance = _pickingCollisionVO.rayEntryDistance;
-					_pickingCollisionVO.renderable = subMesh;
+					shortestCollisionDistance = pickingCollisionVO.rayEntryDistance;
+					pickingCollisionVO.renderable = subMesh;
 					if (!findClosest)
 						return true;
 				}
 			}
 
-			return _pickingCollisionVO.renderable != null;
+			return pickingCollisionVO.renderable != null;
 		}
 	}
 }

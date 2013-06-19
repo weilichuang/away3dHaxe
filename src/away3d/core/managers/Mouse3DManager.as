@@ -150,7 +150,7 @@ package away3d.core.managers
 				event = _queuedEvents[i];
 				dispatcher = event.object;
 
-				while (dispatcher && !dispatcher._ancestorsAllowMouseEnabled)
+				while (dispatcher && !dispatcher.ancestorsAllowMouseEnabled)
 					dispatcher = dispatcher.parent;
 
 				if (dispatcher)

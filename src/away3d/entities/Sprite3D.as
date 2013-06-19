@@ -267,18 +267,18 @@ package away3d.entities
 			_pickingTransform.appendTranslation(scenePosition.x, scenePosition.y, scenePosition.z);
 			_pickingTransform.invert();
 
-			var localRayPosition:Vector3D = _pickingTransform.transformVector(_pickingCollisionVO.rayPosition);
-			var localRayDirection:Vector3D = _pickingTransform.deltaTransformVector(_pickingCollisionVO.rayDirection);
+			var localRayPosition:Vector3D = _pickingTransform.transformVector(pickingCollisionVO.rayPosition);
+			var localRayDirection:Vector3D = _pickingTransform.deltaTransformVector(pickingCollisionVO.rayDirection);
 
 			_pickingCollider.setLocalRay(localRayPosition, localRayDirection);
 
-			_pickingCollisionVO.renderable = null;
-			if (_pickingCollider.testSubMeshCollision(_pickingSubMesh, _pickingCollisionVO, shortestCollisionDistance))
+			pickingCollisionVO.renderable = null;
+			if (_pickingCollider.testSubMeshCollision(_pickingSubMesh, pickingCollisionVO, shortestCollisionDistance))
 			{
-				_pickingCollisionVO.renderable = _pickingSubMesh;
+				pickingCollisionVO.renderable = _pickingSubMesh;
 			}
 
-			return _pickingCollisionVO.renderable != null;
+			return pickingCollisionVO.renderable != null;
 		}
 
 		public function getRenderSceneTransform(camera:Camera3D):Matrix3D

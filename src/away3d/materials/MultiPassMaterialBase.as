@@ -423,19 +423,19 @@
 			if (pass)
 			{
 				addPass(pass);
-				pass._passesDirty = false;
+				pass.passesDirty = false;
 			}
 		}
 
 		private function isAnyScreenPassInvalid():Boolean
 		{
-			if ((_casterLightPass && _casterLightPass._passesDirty) ||
-				(_effectsPass && _effectsPass._passesDirty))
+			if ((_casterLightPass && _casterLightPass.passesDirty) ||
+				(_effectsPass && _effectsPass.passesDirty))
 				return true;
 
 			if (_nonCasterLightPasses)
 				for (var i:int = 0; i < _nonCasterLightPasses.length; ++i)
-					if (_nonCasterLightPasses[i]._passesDirty)
+					if (_nonCasterLightPasses[i].passesDirty)
 						return true;
 
 			return false;
@@ -446,11 +446,11 @@
 			if (!pass)
 				return;
 
-			if (pass._passes)
+			if (pass.passes)
 			{
-				var len:uint = pass._passes.length;
+				var len:uint = pass.passes.length;
 				for (var i:uint = 0; i < len; ++i)
-					addPass(pass._passes[i]);
+					addPass(pass.passes[i]);
 			}
 		}
 

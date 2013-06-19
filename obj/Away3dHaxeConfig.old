@@ -42,7 +42,7 @@
     </library-path>
   </compiler>
   <file-specs>
-    <path-element>E:\source\away3dHaxe\src\example\Intermediate_SpriteSheetAnimation.as</path-element>
+    <path-element>E:\source\away3dHaxe\src\example\Advanced_MultiPassSponzaDemo.as</path-element>
   </file-specs>
   <default-background-color>#FFFFFF</default-background-color>
   <default-frame-rate>60</default-frame-rate>

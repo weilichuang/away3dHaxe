@@ -81,7 +81,7 @@ package away3d.core.base
 	public class Object3D extends NamedAssetBase
 	{
 		/** @private */
-		public var _controller:ControllerBase;
+		public var controller:ControllerBase;
 
 		private var _smallestNumber:Number = 0.0000000000000000000001;
 		private var _transformDirty:Boolean = true;

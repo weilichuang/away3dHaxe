@@ -71,10 +71,10 @@ package away3d.core.partition
 				else if (volume != _activeVolume)
 				{
 					if (_activeVolume)
-						_activeVolume._active = false;
+						_activeVolume.active = false;
 					_activeVolume = volume;
 					if (_activeVolume)
-						_activeVolume._active = true;
+						_activeVolume.active = true;
 				}
 			}
 

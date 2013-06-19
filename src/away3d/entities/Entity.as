@@ -30,7 +30,7 @@ package away3d.entities
 		private var _boundsIsShown:Boolean = false;
 		private var _shaderPickingDetails:Boolean;
 
-		public var _pickingCollisionVO:PickingCollisionVO;
+		private var _pickingCollisionVO:PickingCollisionVO;
 		public var _pickingCollider:IPickingCollider;
 		public var _staticNode:Boolean;
 
@@ -88,6 +88,11 @@ package away3d.entities
 
 			return _pickingCollisionVO;
 		}
+		
+		//public function set pickingCollisionVO(value:PickingCollisionVO):void
+		//{
+			//_pickingCollisionVO = value;
+		//}
 
 		/**
 		 * Tests if a collision occurs before shortestCollisionDistance, using the data stored in PickingCollisionVO.
@@ -439,8 +444,8 @@ package away3d.entities
 
 		public function internalUpdate():void
 		{
-			if (_controller)
-				_controller.update();
+			if (controller)
+				controller.update();
 		}
 	}
 }

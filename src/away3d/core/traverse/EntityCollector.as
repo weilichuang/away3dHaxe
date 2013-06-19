@@ -230,8 +230,8 @@ package away3d.core.traverse
 			{
 				var item:RenderableListItem = _renderableListItemPool.getItem();
 				item.renderable = renderable;
-				item.materialId = material._uniqueId;
-				item.renderOrderId = material._renderOrderId;
+				item.materialId = material.uniqueId;
+				item.renderOrderId = material.renderOrderId;
 				item.cascaded = false;
 				var dx:Number = _entryPoint.x - entity.x;
 				var dy:Number = _entryPoint.y - entity.y;
