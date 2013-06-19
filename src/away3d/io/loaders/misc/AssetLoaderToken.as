@@ -136,14 +136,8 @@ package away3d.io.loaders.misc
 
 		public function AssetLoaderToken(loader:AssetLoader)
 		{
-<<<<<<< HEAD
 			super();
 			this.loader = loader;
-=======
-			super();
-
-			loader = loader;
->>>>>>> 3ecb636698909469519bdfcd72e489148411a0f5
 		}
 
 
