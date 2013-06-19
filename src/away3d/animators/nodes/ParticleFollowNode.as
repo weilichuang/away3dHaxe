@@ -1,6 +1,6 @@
 package away3d.animators.nodes
 {
-	import away3d.arcane;
+	
 	import away3d.animators.IAnimator;
 	import away3d.animators.ParticleAnimationSet;
 	import away3d.animators.data.AnimationRegisterCache;
@@ -9,7 +9,7 @@ package away3d.animators.nodes
 	import away3d.materials.compilation.ShaderRegisterElement;
 	import away3d.materials.passes.MaterialPassBase;
 
-	use namespace arcane;
+	
 
 	/**
 	 * A particle animation node used to create a follow behaviour on a particle system.
@@ -17,19 +17,19 @@ package away3d.animators.nodes
 	public class ParticleFollowNode extends ParticleNodeBase
 	{
 		/** @private */
-		arcane static const FOLLOW_POSITION_INDEX:uint = 0;
+		public static const FOLLOW_POSITION_INDEX:uint = 0;
 
 		/** @private */
-		arcane static const FOLLOW_ROTATION_INDEX:uint = 1;
+		public static const FOLLOW_ROTATION_INDEX:uint = 1;
 
 		/** @private */
-		arcane var _usesPosition:Boolean;
+		public var _usesPosition:Boolean;
 
 		/** @private */
-		arcane var _usesRotation:Boolean;
+		public var _usesRotation:Boolean;
 
 		/** @private */
-		arcane var _smooth:Boolean;
+		public var _smooth:Boolean;
 
 		/**
 		 * Creates a new <code>ParticleFollowNode</code>

@@ -1,6 +1,6 @@
 package away3d.materials.methods
 {
-	import away3d.arcane;
+	
 	import away3d.errors.AbstractMethodError;
 	import away3d.io.library.assets.AssetType;
 	import away3d.io.library.assets.IAsset;
@@ -9,7 +9,7 @@ package away3d.materials.methods
 	import away3d.materials.compilation.ShaderRegisterCache;
 	import away3d.materials.compilation.ShaderRegisterElement;
 
-	use namespace arcane;
+	
 
 	public class ShadowMapMethodBase extends ShadingMethodBase implements IAsset
 	{
@@ -58,7 +58,7 @@ package away3d.materials.methods
 			_epsilon = value;
 		}
 
-		arcane function getFragmentCode(vo:MethodVO, regCache:ShaderRegisterCache, targetReg:ShaderRegisterElement):String
+		public function getFragmentCode(vo:MethodVO, regCache:ShaderRegisterCache, targetReg:ShaderRegisterElement):String
 		{
 			throw new AbstractMethodError();
 			return null;

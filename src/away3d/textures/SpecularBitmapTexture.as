@@ -1,6 +1,6 @@
 package away3d.textures
 {
-	import away3d.arcane;
+	
 
 	import flash.display.BitmapData;
 	import flash.display.BitmapDataChannel;
@@ -8,7 +8,7 @@ package away3d.textures
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
 
-	use namespace arcane;
+	
 
 	/**
 	 * A convenience texture that encodes a specular map in the red channel, and the gloss map in the green channel, as expected by BasicSpecularMapMethod

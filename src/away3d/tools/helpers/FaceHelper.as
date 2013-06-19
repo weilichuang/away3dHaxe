@@ -1,6 +1,6 @@
 package away3d.tools.helpers
 {
-	import away3d.arcane;
+	
 	import away3d.core.base.CompactSubGeometry;
 	import away3d.core.base.ISubGeometry;
 	import away3d.core.base.SubGeometry;
@@ -8,7 +8,7 @@ package away3d.tools.helpers
 	import away3d.core.base.data.Vertex;
 	import away3d.entities.Mesh;
 
-	use namespace arcane;
+	
 
 	/**
 	* Helper Class for face manipulation<code>FaceHelper</code>

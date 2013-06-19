@@ -1,5 +1,15 @@
 package away3d.materials.passes
 {
+	import away3d.animators.data.AnimationRegisterCache;
+	import away3d.animators.IAnimationSet;
+	import away3d.core.base.IRenderable;
+	import away3d.core.managers.AGALProgram3DCache;
+	import away3d.core.managers.Stage3DProxy;
+	import away3d.entities.Camera3D;
+	import away3d.errors.AbstractMethodError;
+	import away3d.materials.lightpickers.LightPickerBase;
+	import away3d.materials.MaterialBase;
+	import away3d.utils.Debug;
 	import flash.display.BlendMode;
 	import flash.display3D.Context3D;
 	import flash.display3D.Context3DBlendFactor;
@@ -12,19 +22,6 @@ package away3d.materials.passes
 	import flash.geom.Matrix3D;
 	import flash.geom.Rectangle;
 
-	import away3d.arcane;
-	import away3d.animators.IAnimationSet;
-	import away3d.animators.data.AnimationRegisterCache;
-	import away3d.entities.Camera3D;
-	import away3d.core.base.IRenderable;
-	import away3d.core.managers.AGALProgram3DCache;
-	import away3d.core.managers.Stage3DProxy;
-	import away3d.utils.Debug;
-	import away3d.errors.AbstractMethodError;
-	import away3d.materials.MaterialBase;
-	import away3d.materials.lightpickers.LightPickerBase;
-
-	use namespace arcane;
 
 	/**
 	 * MaterialPassBase provides an abstract base class for material shader passes.
@@ -38,8 +35,8 @@ package away3d.materials.passes
 		protected var _material:MaterialBase;
 		protected var _animationSet:IAnimationSet;
 
-		arcane var _program3Ds:Vector.<Program3D> = new Vector.<Program3D>(8);
-		arcane var _program3Dids:Vector.<int> = Vector.<int>([-1, -1, -1, -1, -1, -1, -1, -1]);
+		protected var _program3Ds:Vector.<Program3D> = new Vector.<Program3D>(8);
+		protected var _program3Dids:Vector.<int> = Vector.<int>([-1, -1, -1, -1, -1, -1, -1, -1]);
 		private var _context3Ds:Vector.<Context3D> = new Vector.<Context3D>(8);
 
 		// agal props. these NEED to be set by subclasses!
@@ -101,7 +98,32 @@ package away3d.materials.passes
 			_numUsedStreams = 1;
 			_numUsedVertexConstants = 5;
 		}
+		
+		public function getProgram3Dids():Vector.<int>
+		{
+			return _program3Dids;
+		}
 
+		public function getProgram3Did(stageIndex:int):int
+		{
+			return _program3Dids[stageIndex];
+		}
+		
+		public function setProgram3Dids(stageIndex:int,value:int):void
+		{
+			_program3Dids[stageIndex] = value;
+		}
+		
+		public function getProgram3D(stageIndex:int):Program3D
+		{
+			return _program3Ds[stageIndex];
+		}
+		
+		public function setProgram3D(stageIndex:int,p:Program3D):void
+		{
+			_program3Ds[stageIndex] = p;
+		}
+		
 		/**
 		 * The material to which this pass belongs.
 		 */
@@ -286,7 +308,7 @@ package away3d.materials.passes
 		 *
 		 * @private
 		 */
-		arcane function updateAnimationState(renderable:IRenderable, stage3DProxy:Stage3DProxy, camera:Camera3D):void
+		public function updateAnimationState(renderable:IRenderable, stage3DProxy:Stage3DProxy, camera:Camera3D):void
 		{
 			renderable.animator.setRenderState(stage3DProxy, renderable, _numUsedVertexConstants, _numUsedStreams, camera);
 		}
@@ -296,17 +318,17 @@ package away3d.materials.passes
 		 *
 		 * @private
 		 */
-		arcane function render(renderable:IRenderable, stage3DProxy:Stage3DProxy, camera:Camera3D, viewProjection:Matrix3D):void
+		public function render(renderable:IRenderable, stage3DProxy:Stage3DProxy, camera:Camera3D, viewProjection:Matrix3D):void
 		{
 			throw new AbstractMethodError();
 		}
 
-		arcane function getVertexCode():String
+		public function getVertexCode():String
 		{
 			throw new AbstractMethodError();
 		}
 
-		arcane function getFragmentCode(fragmentAnimatorCode:String):String
+		public function getFragmentCode(fragmentAnimatorCode:String):String
 		{
 			throw new AbstractMethodError();
 		}
@@ -345,7 +367,7 @@ package away3d.materials.passes
 			}
 		}
 
-		arcane function activate(stage3DProxy:Stage3DProxy, camera:Camera3D):void
+		public function activate(stage3DProxy:Stage3DProxy, camera:Camera3D):void
 		{
 			// TODO: not used
 			camera = camera;
@@ -397,7 +419,7 @@ package away3d.materials.passes
 		 *
 		 * @private
 		 */
-		arcane function deactivate(stage3DProxy:Stage3DProxy):void
+		public function deactivate(stage3DProxy:Stage3DProxy):void
 		{
 			var index:uint = stage3DProxy.stage3DIndex;
 			_previousUsedStreams[index] = _numUsedStreams;
@@ -421,7 +443,7 @@ package away3d.materials.passes
 		 *
 		 * @param updateMaterial Indicates whether the invalidation should be performed on the entire material. Should always pass "true" unless it's called from the material itself.
 		 */
-		arcane function invalidateShaderProgram(updateMaterial:Boolean = true):void
+		public function invalidateShaderProgram(updateMaterial:Boolean = true):void
 		{
 			for (var i:uint = 0; i < 8; ++i)
 				_program3Ds[i] = null;
@@ -434,7 +456,7 @@ package away3d.materials.passes
 		 * Compiles the shader program.
 		 * @param polyOffsetReg An optional register that contains an amount by which to inflate the model (used in single object depth map rendering).
 		 */
-		arcane function updateProgram(stage3DProxy:Stage3DProxy):void
+		public function updateProgram(stage3DProxy:Stage3DProxy):void
 		{
 			var animatorCode:String = "";
 			var UVAnimatorCode:String = "";
@@ -476,12 +498,12 @@ package away3d.materials.passes
 			AGALProgram3DCache.getInstance(stage3DProxy).setProgram3D(this, vertexCode, fragmentCode);
 		}
 
-		arcane function get lightPicker():LightPickerBase
+		public function get lightPicker():LightPickerBase
 		{
 			return _lightPicker;
 		}
 
-		arcane function set lightPicker(value:LightPickerBase):void
+		public function set lightPicker(value:LightPickerBase):void
 		{
 			if (_lightPicker)
 				_lightPicker.removeEventListener(Event.CHANGE, onLightsChange);

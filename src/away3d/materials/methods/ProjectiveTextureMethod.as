@@ -1,6 +1,6 @@
 package away3d.materials.methods
 {
-	import away3d.arcane;
+	
 	import away3d.entities.Camera3D;
 	import away3d.core.base.IRenderable;
 	import away3d.core.managers.Stage3DProxy;
@@ -10,7 +10,7 @@ package away3d.materials.methods
 
 	import flash.geom.Matrix3D;
 
-	use namespace arcane;
+	
 
 	/**
 	 * ProjectiveTextureMethod is a material method used to project a texture unto the surface of an object.
@@ -43,7 +43,7 @@ package away3d.materials.methods
 			_mode = mode;
 		}
 
-		override arcane function initConstants(vo:MethodVO):void
+		override public function initConstants(vo:MethodVO):void
 		{
 			var index:int = vo.fragmentConstantsIndex;
 			var data:Vector.<Number> = vo.fragmentData;
@@ -53,7 +53,7 @@ package away3d.materials.methods
 			data[index + 3] = 1.0;
 		}
 
-		arcane override function cleanCompilationData():void
+		public override function cleanCompilationData():void
 		{
 			super.cleanCompilationData();
 			_uvVarying = null;
@@ -96,7 +96,7 @@ package away3d.materials.methods
 		/**
 		 * @inheritDoc
 		 */
-		arcane override function getVertexCode(vo:MethodVO, regCache:ShaderRegisterCache):String
+		public override function getVertexCode(vo:MethodVO, regCache:ShaderRegisterCache):String
 		{
 			var projReg:ShaderRegisterElement = regCache.getFreeVertexConstant();
 			regCache.getFreeVertexConstant();
@@ -112,7 +112,7 @@ package away3d.materials.methods
 		/**
 		 * @inheritDoc
 		 */
-		override arcane function getFragmentCode(vo:MethodVO, regCache:ShaderRegisterCache, targetReg:ShaderRegisterElement):String
+		override public function getFragmentCode(vo:MethodVO, regCache:ShaderRegisterCache, targetReg:ShaderRegisterElement):String
 		{
 			var code:String = "";
 			var mapRegister:ShaderRegisterElement = regCache.getFreeTextureReg();
@@ -144,7 +144,7 @@ package away3d.materials.methods
 			return code;
 		}
 
-		arcane override function setRenderState(vo:MethodVO, renderable:IRenderable, stage3DProxy:Stage3DProxy, camera:Camera3D):void
+		public override function setRenderState(vo:MethodVO, renderable:IRenderable, stage3DProxy:Stage3DProxy, camera:Camera3D):void
 		{
 			_projMatrix.copyFrom(_projector.viewProjection);
 			_projMatrix.prepend(renderable.getRenderSceneTransform(camera));
@@ -154,7 +154,7 @@ package away3d.materials.methods
 		/**
 		 * @inheritDoc
 		 */
-		override arcane function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):void
+		override public function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):void
 		{
 			stage3DProxy.context3D.setTextureAt(vo.texturesIndex, _projector.texture.getTextureForStage3D(stage3DProxy));
 		}

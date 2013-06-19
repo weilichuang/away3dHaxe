@@ -9,7 +9,7 @@ package away3d.entities
 	import flash.geom.Vector3D;
 	import flash.utils.Dictionary;
 
-	import away3d.arcane;
+	
 	import away3d.animators.IAnimator;
 	import away3d.bounds.BoundingSphere;
 	import away3d.bounds.BoundingVolumeBase;
@@ -22,7 +22,7 @@ package away3d.entities
 	import away3d.materials.SegmentMaterial;
 	import away3d.entities.primitives.data.Segment;
 
-	use namespace arcane;
+	
 
 	public class SegmentSet extends Entity implements IRenderable
 	{
@@ -246,12 +246,12 @@ package away3d.entities
 			return _indexSegments;
 		}
 
-		arcane function get subSetCount():uint
+		public function get subSetCount():uint
 		{
 			return _subSetCount;
 		}
 
-		arcane function updateSegment(segment:Segment):void
+		public function updateSegment(segment:Segment):void
 		{
 			//to do: add support for curve segment
 			var start:Vector3D = segment._start;
@@ -319,7 +319,7 @@ package away3d.entities
 			_boundsInvalid = true;
 		}
 
-		arcane function get hasData():Boolean
+		public function get hasData():Boolean
 		{
 			return _hasData;
 		}

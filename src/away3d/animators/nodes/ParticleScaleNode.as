@@ -2,7 +2,7 @@ package away3d.animators.nodes
 {
 	import flash.geom.Vector3D;
 
-	import away3d.arcane;
+	
 	import away3d.animators.IAnimator;
 	import away3d.animators.data.AnimationRegisterCache;
 	import away3d.animators.data.ParticleProperties;
@@ -11,7 +11,7 @@ package away3d.animators.nodes
 	import away3d.materials.compilation.ShaderRegisterElement;
 	import away3d.materials.passes.MaterialPassBase;
 
-	use namespace arcane;
+	
 
 	/**
 	 * A particle animation node used to control the scale variation of a particle over time.
@@ -19,22 +19,22 @@ package away3d.animators.nodes
 	public class ParticleScaleNode extends ParticleNodeBase
 	{
 		/** @private */
-		arcane static const SCALE_INDEX:uint = 0;
+		public static const SCALE_INDEX:uint = 0;
 
 		/** @private */
-		arcane var _usesCycle:Boolean;
+		public var _usesCycle:Boolean;
 
 		/** @private */
-		arcane var _usesPhase:Boolean;
+		public var _usesPhase:Boolean;
 
 		/** @private */
-		arcane var _minScale:Number;
+		public var _minScale:Number;
 		/** @private */
-		arcane var _maxScale:Number;
+		public var _maxScale:Number;
 		/** @private */
-		arcane var _cycleDuration:Number;
+		public var _cycleDuration:Number;
 		/** @private */
-		arcane var _cyclePhase:Number;
+		public var _cyclePhase:Number;
 
 		/**
 		 * Reference for scale node properties on a single particle (when in local property mode).
@@ -114,7 +114,7 @@ package away3d.animators.nodes
 		/**
 		 * @inheritDoc
 		 */
-		override arcane function generatePropertyOfOneParticle(param:ParticleProperties):void
+		override public function generatePropertyOfOneParticle(param:ParticleProperties):void
 		{
 			var scale:Vector3D = param[SCALE_VECTOR3D];
 			if (!scale)

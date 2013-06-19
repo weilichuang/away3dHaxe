@@ -2,13 +2,13 @@ package away3d.entities
 {
 	import flash.events.EventDispatcher;
 	
-	import away3d.arcane;
+	
 	import away3d.core.partition.NodeBase;
 	import away3d.core.partition.Partition3D;
 	import away3d.core.traverse.PartitionTraverser;
 	import away3d.events.Scene3DEvent;
 
-	use namespace arcane;
+	
 
 	/**
 	 * The Scene3D class represents an independent 3D scene in which 3D objects can be created and manipulated.
@@ -20,7 +20,7 @@ package away3d.entities
 	 */
 	public class Scene3D extends EventDispatcher
 	{
-		arcane var _sceneGraphRoot:ObjectContainer3D;
+		public var _sceneGraphRoot:ObjectContainer3D;
 		private var _partitions:Vector.<Partition3D>;
 
 		/**
@@ -124,7 +124,7 @@ package away3d.entities
 		 * When an entity is added to the scene, or to one of its children, add it to the partition tree.
 		 * @private
 		 */
-		arcane function registerEntity(entity:Entity):void
+		public function registerEntity(entity:Entity):void
 		{
 			var partition:Partition3D = entity.implicitPartition;
 			addPartitionUnique(partition);
@@ -136,7 +136,7 @@ package away3d.entities
 		 * When an entity is removed from the scene, or from one of its children, remove it from its former partition tree.
 		 * @private
 		 */
-		arcane function unregisterEntity(entity:Entity):void
+		public function unregisterEntity(entity:Entity):void
 		{
 			entity.implicitPartition.removeEntity(entity);
 		}
@@ -144,7 +144,7 @@ package away3d.entities
 		/**
 		 * When an entity has moved or changed size, update its position in its partition tree.
 		 */
-		arcane function invalidateEntityBounds(entity:Entity):void
+		public function invalidateEntityBounds(entity:Entity):void
 		{
 			entity.implicitPartition.markForUpdate(entity);
 		}
@@ -152,7 +152,7 @@ package away3d.entities
 		/**
 		 * When a partition is assigned to an object somewhere in the scene graph, add the partition to the list if it isn't in there yet
 		 */
-		arcane function registerPartition(entity:Entity):void
+		public function registerPartition(entity:Entity):void
 		{
 			addPartitionUnique(entity.implicitPartition);
 		}
@@ -160,7 +160,7 @@ package away3d.entities
 		/**
 		 * When a partition is removed from an object somewhere in the scene graph, remove the partition from the list
 		 */
-		arcane function unregisterPartition(entity:Entity):void
+		public function unregisterPartition(entity:Entity):void
 		{
 			// todo: wait... is this even correct?
 			// shouldn't we check the number of children in implicitPartition and remove partition if 0?

@@ -2,7 +2,7 @@ package away3d.animators.nodes
 {
 	import flash.geom.ColorTransform;
 
-	import away3d.arcane;
+	
 	import away3d.animators.ParticleAnimationSet;
 	import away3d.animators.data.AnimationRegisterCache;
 	import away3d.animators.data.ColorSegmentPoint;
@@ -11,31 +11,31 @@ package away3d.animators.nodes
 	import away3d.materials.compilation.ShaderRegisterElement;
 	import away3d.materials.passes.MaterialPassBase;
 
-	use namespace arcane;
+	
 
 	public class ParticleSegmentedColorNode extends ParticleNodeBase
 	{
 		/** @private */
-		arcane static const START_MULTIPLIER_INDEX:uint = 0;
+		public static const START_MULTIPLIER_INDEX:uint = 0;
 
 		/** @private */
-		arcane static const START_OFFSET_INDEX:uint = 1;
+		public static const START_OFFSET_INDEX:uint = 1;
 
 		/** @private */
-		arcane static const TIME_DATA_INDEX:uint = 2;
+		public static const TIME_DATA_INDEX:uint = 2;
 
 		/** @private */
-		arcane var _usesMultiplier:Boolean;
+		public var _usesMultiplier:Boolean;
 		/** @private */
-		arcane var _usesOffset:Boolean;
+		public var _usesOffset:Boolean;
 		/** @private */
-		arcane var _startColor:ColorTransform;
+		public var _startColor:ColorTransform;
 		/** @private */
-		arcane var _endColor:ColorTransform;
+		public var _endColor:ColorTransform;
 		/** @private */
-		arcane var _numSegmentPoint:int;
+		public var _numSegmentPoint:int;
 		/** @private */
-		arcane var _segmentPoints:Vector.<ColorSegmentPoint>;
+		public var _segmentPoints:Vector.<ColorSegmentPoint>;
 
 		public function ParticleSegmentedColorNode(usesMultiplier:Boolean, usesOffset:Boolean, numSegmentPoint:int, startColor:ColorTransform, endColor:ColorTransform, segmentPoints:Vector.<ColorSegmentPoint>)
 		{
@@ -57,7 +57,7 @@ package away3d.animators.nodes
 		/**
 		 * @inheritDoc
 		 */
-		override arcane function processAnimationSetting(particleAnimationSet:ParticleAnimationSet):void
+		override public function processAnimationSetting(particleAnimationSet:ParticleAnimationSet):void
 		{
 			if (_usesMultiplier)
 				particleAnimationSet.hasColorMulNode = true;

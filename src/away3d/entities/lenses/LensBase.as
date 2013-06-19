@@ -5,11 +5,11 @@ package away3d.entities.lenses
 	import flash.geom.Rectangle;
 	import flash.geom.Vector3D;
 
-	import away3d.arcane;
+	
 	import away3d.errors.AbstractMethodError;
 	import away3d.events.LensEvent;
 
-	use namespace arcane;
+	
 
 	/**
 	 * An abstract base class for all lens classes. Lens objects provides a projection matrix that transforms 3D geometry to normalized homogeneous coordinates.
@@ -157,12 +157,12 @@ package away3d.entities.lenses
 		 * The aspect ratio (width/height) of the view. Set by the renderer.
 		 * @private
 		 */
-		arcane function get aspectRatio():Number
+		public function get aspectRatio():Number
 		{
 			return _aspectRatio;
 		}
 
-		arcane function set aspectRatio(value:Number):void
+		public function set aspectRatio(value:Number):void
 		{
 			if (_aspectRatio == value)
 				return;
@@ -191,7 +191,7 @@ package away3d.entities.lenses
 			throw new AbstractMethodError();
 		}
 
-		arcane function updateScissorRect(x:Number, y:Number, width:Number, height:Number):void
+		public function updateScissorRect(x:Number, y:Number, width:Number, height:Number):void
 		{
 			_scissorRect.x = x;
 			_scissorRect.y = y;
@@ -201,7 +201,7 @@ package away3d.entities.lenses
 		}
 
 
-		arcane function updateViewport(x:Number, y:Number, width:Number, height:Number):void
+		public function updateViewport(x:Number, y:Number, width:Number, height:Number):void
 		{
 			_viewPort.x = x;
 			_viewPort.y = y;

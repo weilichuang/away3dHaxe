@@ -1,10 +1,10 @@
 package away3d.tools.commands
 {
-	import away3d.arcane;
+	
 	import away3d.entities.Mesh;
 	import away3d.tools.utils.Bounds;
 
-	use namespace arcane;
+	
 
 	/**
 	* Class Aligns an arrays of Object3Ds, Vector3D's or Vertexes compaired to each other.<code>Align</code>

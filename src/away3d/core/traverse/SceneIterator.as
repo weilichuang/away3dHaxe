@@ -1,10 +1,10 @@
 package away3d.core.traverse
 {
-	import away3d.arcane;
+	
 	import away3d.entities.ObjectContainer3D;
 	import away3d.entities.Scene3D;
 
-	use namespace arcane;
+	
 
 	public class SceneIterator
 	{

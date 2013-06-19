@@ -4,7 +4,7 @@ package away3d.core.base
 	import flash.geom.Matrix;
 	import flash.geom.Matrix3D;
 
-	import away3d.arcane;
+	
 	import away3d.animators.IAnimator;
 	import away3d.animators.data.AnimationSubGeometry;
 	import away3d.bounds.BoundingVolumeBase;
@@ -14,7 +14,7 @@ package away3d.core.base
 	import away3d.entities.Mesh;
 	import away3d.materials.MaterialBase;
 
-	use namespace arcane;
+	
 
 	/**
 	 * SubMesh wraps a SubGeometry as a scene graph instantiation. A SubMesh is owned by a Mesh object.
@@ -24,10 +24,10 @@ package away3d.core.base
 	 */
 	public class SubMesh implements IRenderable
 	{
-		arcane var _material:MaterialBase;
+		public var _material:MaterialBase;
 		private var _parentMesh:Mesh;
 		private var _subGeometry:ISubGeometry;
-		arcane var _index:uint;
+		public var _index:uint;
 		private var _uvTransform:Matrix;
 		private var _uvTransformDirty:Boolean;
 		private var _uvRotation:Number = 0;
@@ -261,12 +261,12 @@ package away3d.core.base
 		 *
 		 * @private
 		 */
-		arcane function get parentMesh():Mesh
+		public function get parentMesh():Mesh
 		{
 			return _parentMesh;
 		}
 
-		arcane function set parentMesh(value:Mesh):void
+		public function set parentMesh(value:Mesh):void
 		{
 			_parentMesh = value;
 		}

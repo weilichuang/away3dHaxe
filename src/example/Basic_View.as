@@ -48,7 +48,7 @@ package example
 	public class Basic_View extends BasicApplication
 	{
 		//plane texture
-		[Embed(source = "/../embeds/floor_diffuse.jpg")]
+		[Embed(source = "../embeds/floor_diffuse.jpg")]
 		public static var FloorDiffuse:Class;
 
 		//scene objects

@@ -1,9 +1,9 @@
 package away3d.materials
 {
-	import away3d.arcane;
+	
 	import away3d.textures.Texture2DBase;
 
-	use namespace arcane;
+	
 
 	/**
 	* SpriteSheetMaterial is a material required for a SpriteSheetAnimator if you have an animation spreaded over more maps
@@ -86,7 +86,7 @@ package away3d.materials
 
 		}
 
-		arcane function swap(mapID:uint = 0):Boolean
+		public function swap(mapID:uint = 0):Boolean
 		{
 
 			if (_currentMapID != mapID)

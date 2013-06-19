@@ -1,12 +1,12 @@
 package away3d.materials.methods
 {
-	import away3d.arcane;
+	
 	import away3d.core.managers.Stage3DProxy;
 	import away3d.materials.compilation.ShaderRegisterCache;
 	import away3d.materials.compilation.ShaderRegisterElement;
 	import away3d.textures.Texture2DBase;
 
-	use namespace arcane;
+	
 
 	public class LightMapDiffuseMethod extends CompositeDiffuseMethod
 	{
@@ -25,7 +25,7 @@ package away3d.materials.methods
 			this.blendMode = blendMode;
 		}
 
-		override arcane function initVO(vo:MethodVO):void
+		override public function initVO(vo:MethodVO):void
 		{
 			vo.needsSecondaryUV = _useSecondaryUV;
 			vo.needsUV = !_useSecondaryUV;
@@ -56,13 +56,13 @@ package away3d.materials.methods
 			_texture = value;
 		}
 
-		arcane override function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):void
+		public override function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):void
 		{
 			stage3DProxy.context3D.setTextureAt(vo.secondaryTexturesIndex, _texture.getTextureForStage3D(stage3DProxy));
 			super.activate(vo, stage3DProxy);
 		}
 
-		arcane override function getFragmentPostLightingCode(vo:MethodVO, regCache:ShaderRegisterCache, targetReg:ShaderRegisterElement):String
+		public override function getFragmentPostLightingCode(vo:MethodVO, regCache:ShaderRegisterCache, targetReg:ShaderRegisterElement):String
 		{
 			var code:String;
 			var lightMapReg:ShaderRegisterElement = regCache.getFreeTextureReg();

@@ -3,7 +3,7 @@ package away3d.animators
 	import flash.display3D.Context3D;
 	import flash.utils.Dictionary;
 
-	import away3d.arcane;
+	
 	import away3d.animators.data.AnimationRegisterCache;
 	import away3d.animators.data.AnimationSubGeometry;
 	import away3d.animators.data.ParticleAnimationData;
@@ -20,7 +20,7 @@ package away3d.animators
 	import away3d.entities.Mesh;
 	import away3d.materials.passes.MaterialPassBase;
 
-	use namespace arcane;
+	
 
 	/**
 	 * The animation data set used by particle-based animators, containing particle animation data.
@@ -30,7 +30,7 @@ package away3d.animators
 	public class ParticleAnimationSet extends AnimationSetBase implements IAnimationSet
 	{
 		/** @private */
-		arcane var _animationRegisterCache:AnimationRegisterCache;
+		public var _animationRegisterCache:AnimationRegisterCache;
 
 		//all other nodes dependent on it
 		private var _timeNode:ParticleTimeNode;
@@ -267,7 +267,7 @@ package away3d.animators
 		}
 
 		/** @private */
-		arcane function generateAnimationSubGeometries(mesh:Mesh):void
+		public function generateAnimationSubGeometries(mesh:Mesh):void
 		{
 			if (initParticleFunc == null)
 				throw(new Error("no initParticleFunc set"));

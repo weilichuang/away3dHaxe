@@ -3,7 +3,7 @@
 	import flash.geom.Matrix3D;
 	import flash.geom.Vector3D;
 
-	import away3d.arcane;
+	
 	import away3d.bounds.BoundingVolumeBase;
 	import away3d.bounds.NullBounds;
 	import away3d.core.base.IRenderable;
@@ -13,7 +13,7 @@
 	import away3d.entities.lights.shadowmaps.ShadowMapperBase;
 	import away3d.math.Matrix3DUtils;
 
-	use namespace arcane;
+	
 
 	/**
 	 * DirectionalLight represents an idealized light "at infinity", to be used for distant light sources such as the sun.
@@ -112,7 +112,7 @@
 		/**
 		 * @inheritDoc
 		 */
-		override arcane function getObjectProjectionMatrix(renderable:IRenderable, target:Matrix3D = null):Matrix3D
+		override public function getObjectProjectionMatrix(renderable:IRenderable, target:Matrix3D = null):Matrix3D
 		{
 			var raw:Vector.<Number> = Matrix3DUtils.RAW_DATA_CONTAINER;
 			var bounds:BoundingVolumeBase = renderable.sourceEntity.bounds;

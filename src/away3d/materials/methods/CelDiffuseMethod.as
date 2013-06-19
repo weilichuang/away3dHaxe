@@ -1,12 +1,12 @@
 package away3d.materials.methods
 {
-	import away3d.arcane;
+	
 	import away3d.core.managers.Stage3DProxy;
 	import away3d.materials.compilation.ShaderRegisterCache;
 	import away3d.materials.compilation.ShaderRegisterData;
 	import away3d.materials.compilation.ShaderRegisterElement;
 
-	use namespace arcane;
+	
 
 	/**
 	 * CelDiffuseMethod provides a shading method to add specular cel (cartoon) shading.
@@ -29,7 +29,7 @@ package away3d.materials.methods
 			_levels = levels;
 		}
 
-		override arcane function initConstants(vo:MethodVO):void
+		override public function initConstants(vo:MethodVO):void
 		{
 			var data:Vector.<Number> = vo.fragmentData;
 			var index:int = vo.secondaryFragmentConstantsIndex;
@@ -64,7 +64,7 @@ package away3d.materials.methods
 		/**
 		 * @inheritDoc
 		 */
-		arcane override function cleanCompilationData():void
+		public override function cleanCompilationData():void
 		{
 			super.cleanCompilationData();
 			_dataReg = null;
@@ -73,7 +73,7 @@ package away3d.materials.methods
 		/**
 		 * @inheritDoc
 		 */
-		override arcane function getFragmentPreLightingCode(vo:MethodVO, regCache:ShaderRegisterCache):String
+		override public function getFragmentPreLightingCode(vo:MethodVO, regCache:ShaderRegisterCache):String
 		{
 			_dataReg = regCache.getFreeFragmentConstant();
 			vo.secondaryFragmentConstantsIndex = _dataReg.index * 4;
@@ -83,7 +83,7 @@ package away3d.materials.methods
 		/**
 		 * @inheritDoc
 		 */
-		override arcane function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):void
+		override public function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):void
 		{
 			super.activate(vo, stage3DProxy);
 			var data:Vector.<Number> = vo.fragmentData;

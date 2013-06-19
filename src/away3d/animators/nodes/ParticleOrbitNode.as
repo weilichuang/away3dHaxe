@@ -2,7 +2,7 @@ package away3d.animators.nodes
 {
 	import flash.geom.Vector3D;
 
-	import away3d.arcane;
+	
 	import away3d.animators.IAnimator;
 	import away3d.animators.data.AnimationRegisterCache;
 	import away3d.animators.data.ParticleProperties;
@@ -11,7 +11,7 @@ package away3d.animators.nodes
 	import away3d.materials.compilation.ShaderRegisterElement;
 	import away3d.materials.passes.MaterialPassBase;
 
-	use namespace arcane;
+	
 
 	/**
 	 * A particle animation node used to control the position of a particle over time around a circular orbit.
@@ -19,28 +19,28 @@ package away3d.animators.nodes
 	public class ParticleOrbitNode extends ParticleNodeBase
 	{
 		/** @private */
-		arcane static const ORBIT_INDEX:uint = 0;
+		public static const ORBIT_INDEX:uint = 0;
 
 		/** @private */
-		arcane static const EULERS_INDEX:uint = 1;
+		public static const EULERS_INDEX:uint = 1;
 
 		/** @private */
-		arcane var _usesEulers:Boolean;
+		public var _usesEulers:Boolean;
 
 		/** @private */
-		arcane var _usesCycle:Boolean;
+		public var _usesCycle:Boolean;
 
 		/** @private */
-		arcane var _usesPhase:Boolean;
+		public var _usesPhase:Boolean;
 
 		/** @private */
-		arcane var _radius:Number;
+		public var _radius:Number;
 		/** @private */
-		arcane var _cycleDuration:Number;
+		public var _cycleDuration:Number;
 		/** @private */
-		arcane var _cyclePhase:Number;
+		public var _cyclePhase:Number;
 		/** @private */
-		arcane var _eulers:Vector3D;
+		public var _eulers:Vector3D;
 
 		/**
 		 * Reference for orbit node properties on a single particle (when in local property mode).
@@ -157,7 +157,7 @@ package away3d.animators.nodes
 		/**
 		 * @inheritDoc
 		 */
-		override arcane function generatePropertyOfOneParticle(param:ParticleProperties):void
+		override public function generatePropertyOfOneParticle(param:ParticleProperties):void
 		{
 			//Vector3D.x is radius, Vector3D.y is cycle duration, Vector3D.z is phase
 			var orbit:Vector3D = param[ORBIT_VECTOR3D];

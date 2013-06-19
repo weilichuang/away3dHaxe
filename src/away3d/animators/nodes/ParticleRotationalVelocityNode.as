@@ -2,7 +2,7 @@ package away3d.animators.nodes
 {
 	import flash.geom.Vector3D;
 
-	import away3d.arcane;
+	
 	import away3d.animators.IAnimator;
 	import away3d.animators.data.AnimationRegisterCache;
 	import away3d.animators.data.ParticleProperties;
@@ -11,7 +11,7 @@ package away3d.animators.nodes
 	import away3d.materials.compilation.ShaderRegisterElement;
 	import away3d.materials.passes.MaterialPassBase;
 
-	use namespace arcane;
+	
 
 	/**
 	 * A particle animation node used to set the starting rotational velocity of a particle.
@@ -19,10 +19,10 @@ package away3d.animators.nodes
 	public class ParticleRotationalVelocityNode extends ParticleNodeBase
 	{
 		/** @private */
-		arcane static const ROTATIONALVELOCITY_INDEX:uint = 0;
+		public static const ROTATIONALVELOCITY_INDEX:uint = 0;
 
 		/** @private */
-		arcane var _rotationalVelocity:Vector3D;
+		public var _rotationalVelocity:Vector3D;
 
 		/**
 		 * Reference for rotational velocity node properties on a single particle (when in local property mode).
@@ -142,7 +142,7 @@ package away3d.animators.nodes
 		/**
 		 * @inheritDoc
 		 */
-		override arcane function generatePropertyOfOneParticle(param:ParticleProperties):void
+		override public function generatePropertyOfOneParticle(param:ParticleProperties):void
 		{
 			//(Vector3d.x,Vector3d.y,Vector3d.z) is rotation axis,Vector3d.w is cycle duration
 			var rotate:Vector3D = param[ROTATIONALVELOCITY_VECTOR3D];

@@ -1,9 +1,9 @@
 package away3d.entities.primitives
 {
-	import away3d.arcane;
+	
 	import away3d.core.base.CompactSubGeometry;
 
-	use namespace arcane;
+	
 
 	/**
 	 * A Plane primitive mesh.

@@ -1,12 +1,12 @@
 package away3d.materials.methods
 {
-	import away3d.arcane;
+	
 	import away3d.entities.lights.DirectionalLight;
 	import away3d.entities.lights.PointLight;
 	import away3d.materials.compilation.ShaderRegisterCache;
 	import away3d.materials.compilation.ShaderRegisterElement;
 
-	use namespace arcane;
+	
 
 	[Deprecated(message = "Please consider any of the superior shadow map methods: SoftShadowMapMethod or DitheredShadowMapMethod")]
 	public class TripleFilteredShadowMapMethod extends SimpleShadowMapMethodBase
@@ -23,7 +23,7 @@ package away3d.materials.methods
 				throw new Error("FilteredShadowMapMethod not supported for Point Lights");
 		}
 
-		override arcane function initConstants(vo:MethodVO):void
+		override public function initConstants(vo:MethodVO):void
 		{
 			super.initConstants(vo);
 			var fragmentData:Vector.<Number> = vo.fragmentData;

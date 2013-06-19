@@ -6,7 +6,7 @@ package away3d.animators
 	import flash.utils.Dictionary;
 	import flash.utils.getTimer;
 
-	import away3d.arcane;
+	
 	import away3d.animators.nodes.AnimationNodeBase;
 	import away3d.animators.states.AnimationStateBase;
 	import away3d.animators.states.IAnimationState;
@@ -16,7 +16,7 @@ package away3d.animators
 	import away3d.io.library.assets.IAsset;
 	import away3d.io.library.assets.NamedAssetBase;
 
-	use namespace arcane;
+	
 
 
 	/**

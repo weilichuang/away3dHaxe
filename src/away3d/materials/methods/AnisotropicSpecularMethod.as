@@ -3,11 +3,11 @@
  */
 package away3d.materials.methods
 {
-	import away3d.arcane;
+	
 	import away3d.materials.compilation.ShaderRegisterCache;
 	import away3d.materials.compilation.ShaderRegisterElement;
 
-	use namespace arcane;
+	
 
 	public class AnisotropicSpecularMethod extends BasicSpecularMethod
 	{
@@ -16,13 +16,13 @@ package away3d.materials.methods
 			super();
 		}
 
-		override arcane function initVO(vo:MethodVO):void
+		override public function initVO(vo:MethodVO):void
 		{
 			vo.needsTangents = true;
 			vo.needsView = true;
 		}
 
-		arcane override function getFragmentCodePerLight(vo:MethodVO, lightDirReg:ShaderRegisterElement, lightColReg:ShaderRegisterElement, regCache:ShaderRegisterCache):String
+		public override function getFragmentCodePerLight(vo:MethodVO, lightDirReg:ShaderRegisterElement, lightColReg:ShaderRegisterElement, regCache:ShaderRegisterCache):String
 		{
 			var code:String = "";
 			var t:ShaderRegisterElement;

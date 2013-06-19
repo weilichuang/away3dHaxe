@@ -2,7 +2,7 @@ package away3d.animators.states
 {
 	import flash.geom.Vector3D;
 
-	import away3d.arcane;
+	
 	import away3d.animators.IAnimator;
 	import away3d.animators.data.JointPose;
 	import away3d.animators.data.Skeleton;
@@ -10,7 +10,7 @@ package away3d.animators.states
 	import away3d.animators.nodes.SkeletonNaryLERPNode;
 	import away3d.math.Quaternion;
 
-	use namespace arcane;
+	
 
 	/**
 	 *

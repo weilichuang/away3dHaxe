@@ -3,7 +3,7 @@ package away3d.io.loaders
 	import flash.events.EventDispatcher;
 	import flash.net.URLRequest;
 	
-	import away3d.arcane;
+	
 	import away3d.events.AssetEvent;
 	import away3d.events.LoaderEvent;
 	import away3d.events.ParserEvent;
@@ -13,7 +13,7 @@ package away3d.io.loaders
 	import away3d.io.loaders.misc.SingleFileLoader;
 	import away3d.io.loaders.parsers.ParserBase;
 
-	use namespace arcane;
+	
 
 	/**
 	 * Dispatched when a full resource (including dependencies) finishes loading.
@@ -659,14 +659,14 @@ package away3d.io.loaders
 		 * return true, the AssetLoader knows that the event wasn't handled and will throw an RTE.
 		*/
 
-		arcane function addParseErrorHandler(handler:Function):void
+		public function addParseErrorHandler(handler:Function):void
 		{
 			if (_parseErrorHandlers.indexOf(handler) < 0)
 				_parseErrorHandlers.push(handler);
 
 		}
 
-		arcane function addErrorHandler(handler:Function):void
+		public function addErrorHandler(handler:Function):void
 		{
 			if (_errorHandlers.indexOf(handler) < 0)
 			{

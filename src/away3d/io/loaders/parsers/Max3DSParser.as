@@ -6,7 +6,7 @@ package away3d.io.loaders.parsers
 	import flash.utils.ByteArray;
 	import flash.utils.Endian;
 	
-	import away3d.arcane;
+	
 	import away3d.core.base.Geometry;
 	import away3d.core.base.ISubGeometry;
 	import away3d.entities.Mesh;
@@ -26,7 +26,7 @@ package away3d.io.loaders.parsers
 	import away3d.textures.Texture2DBase;
 	import away3d.tools.utils.GeomUtil;
 
-	use namespace arcane;
+	
 
 	public class Max3DSParser extends ParserBase
 	{
@@ -73,7 +73,7 @@ package away3d.io.loaders.parsers
 		}
 
 
-		arcane override function resolveDependency(resourceDependency:ResourceDependency):void
+		public override function resolveDependency(resourceDependency:ResourceDependency):void
 		{
 			if (resourceDependency.assets.length == 1)
 			{
@@ -91,7 +91,7 @@ package away3d.io.loaders.parsers
 		}
 
 
-		arcane override function resolveDependencyFailure(resourceDependency:ResourceDependency):void
+		public override function resolveDependencyFailure(resourceDependency:ResourceDependency):void
 		{
 			// TODO: Implement
 		}

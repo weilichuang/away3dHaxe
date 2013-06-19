@@ -4,7 +4,7 @@
 	import flash.display3D.Context3D;
 	import flash.geom.ColorTransform;
 
-	import away3d.arcane;
+	
 	import away3d.entities.Camera3D;
 	import away3d.core.managers.Stage3DProxy;
 	import away3d.materials.lightpickers.LightPickerBase;
@@ -17,7 +17,7 @@
 	import away3d.materials.passes.SuperShaderPass;
 	import away3d.textures.Texture2DBase;
 
-	use namespace arcane;
+	
 
 	/**
 	 * SinglePassMaterialBase forms an abstract base class for the default single-pass materials provided by Away3D, using material methods
@@ -80,7 +80,7 @@
 			_screenPass.depthCompareMode = value;
 		}
 
-		arcane override function activateForDepth(stage3DProxy:Stage3DProxy, camera:Camera3D, distanceBased:Boolean = false):void
+		public override function activateForDepth(stage3DProxy:Stage3DProxy, camera:Camera3D, distanceBased:Boolean = false):void
 		{
 			if (distanceBased)
 				_distancePass.alphaMask = _screenPass.diffuseMethod.texture;
@@ -365,7 +365,7 @@
 		/**
 		 * @inheritDoc
 		 */
-		arcane override function updateMaterial(context:Context3D):void
+		public override function updateMaterial(context:Context3D):void
 		{
 			if (_screenPass._passesDirty)
 			{

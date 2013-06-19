@@ -1,6 +1,6 @@
 package away3d.materials.methods
 {
-	import away3d.arcane;
+	
 	import away3d.core.managers.Stage3DProxy;
 	import away3d.materials.compilation.ShaderRegisterCache;
 	import away3d.materials.compilation.ShaderRegisterElement;
@@ -9,7 +9,7 @@ package away3d.materials.methods
 
 	import flash.display3D.Context3D;
 
-	use namespace arcane;
+	
 
 	public class FresnelEnvMapMethod extends EffectMethodBase
 	{
@@ -26,14 +26,14 @@ package away3d.materials.methods
 			_alpha = alpha;
 		}
 
-		override arcane function initVO(vo:MethodVO):void
+		override public function initVO(vo:MethodVO):void
 		{
 			vo.needsNormals = true;
 			vo.needsView = true;
 			vo.needsUV = _mask != null;
 		}
 
-		override arcane function initConstants(vo:MethodVO):void
+		override public function initConstants(vo:MethodVO):void
 		{
 			vo.fragmentData[vo.fragmentConstantsIndex + 3] = 1;
 		}
@@ -104,7 +104,7 @@ package away3d.materials.methods
 			_normalReflectance = value;
 		}
 
-		arcane override function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):void
+		public override function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):void
 		{
 			var data:Vector.<Number> = vo.fragmentData;
 			var index:int = vo.fragmentConstantsIndex;
@@ -117,7 +117,7 @@ package away3d.materials.methods
 				context.setTextureAt(vo.texturesIndex + 1, _mask.getTextureForStage3D(stage3DProxy));
 		}
 
-		arcane override function getFragmentCode(vo:MethodVO, regCache:ShaderRegisterCache, targetReg:ShaderRegisterElement):String
+		public override function getFragmentCode(vo:MethodVO, regCache:ShaderRegisterCache, targetReg:ShaderRegisterElement):String
 		{
 			var dataRegister:ShaderRegisterElement = regCache.getFreeFragmentConstant();
 			var temp:ShaderRegisterElement = regCache.getFreeFragmentVectorTemp();

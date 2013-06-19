@@ -1,11 +1,11 @@
 package away3d.materials.methods
 {
-	import away3d.arcane;
+	
 	import away3d.core.managers.Stage3DProxy;
 	import away3d.materials.compilation.ShaderRegisterCache;
 	import away3d.materials.compilation.ShaderRegisterElement;
 
-	use namespace arcane;
+	
 
 	public class FogMethod extends EffectMethodBase
 	{
@@ -24,12 +24,12 @@ package away3d.materials.methods
 			this.fogColor = fogColor;
 		}
 
-		override arcane function initVO(vo:MethodVO):void
+		override public function initVO(vo:MethodVO):void
 		{
 			vo.needsProjection = true;
 		}
 
-		override arcane function initConstants(vo:MethodVO):void
+		override public function initConstants(vo:MethodVO):void
 		{
 			var data:Vector.<Number> = vo.fragmentData;
 			var index:int = vo.fragmentConstantsIndex;
@@ -71,7 +71,7 @@ package away3d.materials.methods
 			_fogB = (value & 0xff) / 0xff;
 		}
 
-		arcane override function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):void
+		public override function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):void
 		{
 			var data:Vector.<Number> = vo.fragmentData;
 			var index:int = vo.fragmentConstantsIndex;
@@ -82,7 +82,7 @@ package away3d.materials.methods
 			data[index + 5] = 1 / (_maxDistance - _minDistance);
 		}
 
-		arcane override function getFragmentCode(vo:MethodVO, regCache:ShaderRegisterCache, targetReg:ShaderRegisterElement):String
+		public override function getFragmentCode(vo:MethodVO, regCache:ShaderRegisterCache, targetReg:ShaderRegisterElement):String
 		{
 			var fogColor:ShaderRegisterElement = regCache.getFreeFragmentConstant();
 			var fogData:ShaderRegisterElement = regCache.getFreeFragmentConstant();

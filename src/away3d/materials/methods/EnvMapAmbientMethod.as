@@ -1,13 +1,13 @@
 package away3d.materials.methods
 {
-	import away3d.arcane;
+	
 	import away3d.core.managers.Stage3DProxy;
 	import away3d.materials.methods.MethodVO;
 	import away3d.materials.compilation.ShaderRegisterCache;
 	import away3d.materials.compilation.ShaderRegisterElement;
 	import away3d.textures.CubeTextureBase;
 
-	use namespace arcane;
+	
 
 	/**
 	 * EnvMapDiffuseMethod provides a diffuse shading method that uses a diffuse irradiance environment map to
@@ -27,7 +27,7 @@ package away3d.materials.methods
 			_cubeTexture = envMap;
 		}
 
-		override arcane function initVO(vo:MethodVO):void
+		override public function initVO(vo:MethodVO):void
 		{
 			super.initVO(vo);
 			vo.needsNormals = true;
@@ -56,7 +56,7 @@ package away3d.materials.methods
 		/**
 		 * @inheritDoc
 		 */
-		arcane override function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):void
+		public override function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):void
 		{
 			super.activate(vo, stage3DProxy);
 
@@ -66,7 +66,7 @@ package away3d.materials.methods
 		/**
 		 * @inheritDoc
 		 */
-		arcane override function getFragmentCode(vo:MethodVO, regCache:ShaderRegisterCache, targetReg:ShaderRegisterElement):String
+		public override function getFragmentCode(vo:MethodVO, regCache:ShaderRegisterCache, targetReg:ShaderRegisterElement):String
 		{
 			var code:String = "";
 			var cubeMapReg:ShaderRegisterElement = regCache.getFreeTextureReg();

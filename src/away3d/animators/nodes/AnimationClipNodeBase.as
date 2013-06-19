@@ -2,9 +2,9 @@ package away3d.animators.nodes
 {
 	import flash.geom.Vector3D;
 
-	import away3d.arcane;
+	
 
-	use namespace arcane;
+	
 
 	/**
 	 * Provides an abstract base class for nodes with time-based animation data in an animation blend tree.

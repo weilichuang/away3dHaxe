@@ -40,10 +40,10 @@ package example
 		}
 
 
-		private function onEnterFrame(ev:Event):void
+		override protected function render():void
 		{
 			_cube.rotationY += 2;
-			_view.render();
+			super.render();
 		}
 	}
 }

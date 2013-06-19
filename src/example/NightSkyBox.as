@@ -11,17 +11,17 @@ package example
 	public class NightSkyBox extends SkyBox
 	{
 		//skybox
-		[Embed(source = "/../embeds/skybox/grimnight_posX.png")]
+		[Embed(source = "../embeds/skybox/grimnight_posX.png")]
 		private var EnvPosX:Class;
-		[Embed(source = "/../embeds/skybox/grimnight_posY.png")]
+		[Embed(source = "../embeds/skybox/grimnight_posY.png")]
 		private var EnvPosY:Class;
-		[Embed(source = "/../embeds/skybox/grimnight_posZ.png")]
+		[Embed(source = "../embeds/skybox/grimnight_posZ.png")]
 		private var EnvPosZ:Class;
-		[Embed(source = "/../embeds/skybox/grimnight_negX.png")]
+		[Embed(source = "../embeds/skybox/grimnight_negX.png")]
 		private var EnvNegX:Class;
-		[Embed(source = "/../embeds/skybox/grimnight_negY.png")]
+		[Embed(source = "../embeds/skybox/grimnight_negY.png")]
 		private var EnvNegY:Class;
-		[Embed(source = "/../embeds/skybox/grimnight_negZ.png")]
+		[Embed(source = "../embeds/skybox/grimnight_negZ.png")]
 		private var EnvNegZ:Class;
 
 		public var cubeTexture:BitmapCubeTexture;

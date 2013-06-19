@@ -1,27 +1,24 @@
 package away3d.materials.methods
 {
-	import away3d.arcane;
 	import away3d.events.ShadingMethodEvent;
-
 	import flash.events.EventDispatcher;
 
-	use namespace arcane;
 
 	public class ShaderMethodSetup extends EventDispatcher
 	{
-		arcane var _colorTransformMethod:ColorTransformMethod;
-		arcane var _colorTransformMethodVO:MethodVO;
-		arcane var _normalMethod:BasicNormalMethod;
-		arcane var _normalMethodVO:MethodVO;
-		arcane var _ambientMethod:BasicAmbientMethod;
-		arcane var _ambientMethodVO:MethodVO;
-		arcane var _shadowMethod:ShadowMapMethodBase;
-		arcane var _shadowMethodVO:MethodVO;
-		arcane var _diffuseMethod:BasicDiffuseMethod;
-		arcane var _diffuseMethodVO:MethodVO;
-		arcane var _specularMethod:BasicSpecularMethod;
-		arcane var _specularMethodVO:MethodVO;
-		arcane var _methods:Vector.<MethodVOSet>;
+		public var _colorTransformMethod:ColorTransformMethod;
+		public var _colorTransformMethodVO:MethodVO;
+		public var _normalMethod:BasicNormalMethod;
+		public var _normalMethodVO:MethodVO;
+		public var _ambientMethod:BasicAmbientMethod;
+		public var _ambientMethodVO:MethodVO;
+		public var _shadowMethod:ShadowMapMethodBase;
+		public var _shadowMethodVO:MethodVO;
+		public var _diffuseMethod:BasicDiffuseMethod;
+		public var _diffuseMethodVO:MethodVO;
+		public var _specularMethod:BasicSpecularMethod;
+		public var _specularMethodVO:MethodVO;
+		public var _methods:Vector.<MethodVOSet>;
 
 		public function ShaderMethodSetup()
 		{
@@ -177,12 +174,12 @@ package away3d.materials.methods
 		/**
 		 * @private
 		 */
-		arcane function get colorTransformMethod():ColorTransformMethod
+		public function get colorTransformMethod():ColorTransformMethod
 		{
 			return _colorTransformMethod;
 		}
 
-		arcane function set colorTransformMethod(value:ColorTransformMethod):void
+		public function set colorTransformMethod(value:ColorTransformMethod):void
 		{
 			if (_colorTransformMethod == value)
 				return;

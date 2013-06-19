@@ -2,14 +2,14 @@ package away3d.io.loaders.parsers
 {
 	import flash.geom.Vector3D;
 
-	import away3d.arcane;
+	
 	import away3d.animators.data.JointPose;
 	import away3d.animators.data.SkeletonPose;
 	import away3d.animators.nodes.SkeletonClipNode;
 	import away3d.math.Quaternion;
 
 
-	use namespace arcane;
+	
 
 	// todo: create animation system, parse skeleton
 

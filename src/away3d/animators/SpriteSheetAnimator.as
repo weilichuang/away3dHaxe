@@ -4,7 +4,7 @@ package away3d.animators
 	import flash.utils.getTimer;
 	import flash.utils.setTimeout;
 
-	import away3d.arcane;
+	
 	import away3d.animators.data.SpriteSheetAnimationFrame;
 	import away3d.animators.states.ISpriteSheetAnimationState;
 	import away3d.animators.states.SpriteSheetAnimationState;
@@ -18,7 +18,7 @@ package away3d.animators
 	import away3d.materials.TextureMaterial;
 	import away3d.materials.passes.MaterialPassBase;
 
-	use namespace arcane;
+	
 
 	/**
 	 * Provides an interface for assigning uv-based sprite sheet animation data sets to mesh-based entity objects

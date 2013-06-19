@@ -67,19 +67,19 @@ package example
 	public class Intermediate_Head extends BasicApplication
 	{
 		//Infinite, 3D head model
-		[Embed(source = "/../embeds/head.obj", mimeType = "application/octet-stream")]
+		[Embed(source = "../embeds/head.obj", mimeType = "application/octet-stream")]
 		private var HeadModel:Class;
 
 		//Diffuse map texture
-		[Embed(source = "/../embeds/head_diffuse.jpg")]
+		[Embed(source = "../embeds/head_diffuse.jpg")]
 		private var Diffuse:Class;
 
 		//Specular map texture
-		[Embed(source = "/../embeds/head_specular.jpg")]
+		[Embed(source = "../embeds/head_specular.jpg")]
 		private var Specular:Class;
 
 		//Normal map texture
-		[Embed(source = "/../embeds/head_normals.jpg")]
+		[Embed(source = "../embeds/head_normals.jpg")]
 		private var Normal:Class;
 
 		//engine variables

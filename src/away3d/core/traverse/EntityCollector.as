@@ -2,7 +2,7 @@ package away3d.core.traverse
 {
 	import flash.geom.Vector3D;
 
-	import away3d.arcane;
+	
 	import away3d.entities.Camera3D;
 	import away3d.core.base.IRenderable;
 	import away3d.core.data.EntityListItem;
@@ -18,7 +18,7 @@ package away3d.core.traverse
 	import away3d.materials.MaterialBase;
 	import away3d.math.Plane3D;
 
-	use namespace arcane;
+	
 
 	/**
 	 * The EntityCollector class is a traverser for scene partitions that collects all scene graph entities that are

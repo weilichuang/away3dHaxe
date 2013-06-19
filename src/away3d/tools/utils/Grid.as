@@ -1,13 +1,13 @@
 package away3d.tools.utils
 {
-	import away3d.arcane;
+	
 	import away3d.core.base.Geometry;
 	import away3d.core.base.ISubGeometry;
 	import away3d.core.base.SubGeometry;
 	import away3d.entities.Mesh;
 	import away3d.entities.ObjectContainer3D;
 
-	use namespace arcane;
+	
 
 	/**
 	 * Class Grid snaps vertexes or meshes according to a given grid unit.<code>Grid</code>

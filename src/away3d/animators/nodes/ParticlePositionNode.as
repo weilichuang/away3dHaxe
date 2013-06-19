@@ -2,7 +2,7 @@ package away3d.animators.nodes
 {
 	import flash.geom.Vector3D;
 
-	import away3d.arcane;
+	
 	import away3d.animators.IAnimator;
 	import away3d.animators.data.AnimationRegisterCache;
 	import away3d.animators.data.ParticleProperties;
@@ -11,7 +11,7 @@ package away3d.animators.nodes
 	import away3d.materials.compilation.ShaderRegisterElement;
 	import away3d.materials.passes.MaterialPassBase;
 
-	use namespace arcane;
+	
 
 	/**
 	 * A particle animation node used to set the starting position of a particle.
@@ -19,10 +19,10 @@ package away3d.animators.nodes
 	public class ParticlePositionNode extends ParticleNodeBase
 	{
 		/** @private */
-		arcane static const POSITION_INDEX:uint = 0;
+		public static const POSITION_INDEX:uint = 0;
 
 		/** @private */
-		arcane var _position:Vector3D;
+		public var _position:Vector3D;
 
 		/**
 		 * Reference for position node properties on a single particle (when in local property mode).
@@ -68,7 +68,7 @@ package away3d.animators.nodes
 		/**
 		 * @inheritDoc
 		 */
-		override arcane function generatePropertyOfOneParticle(param:ParticleProperties):void
+		override public function generatePropertyOfOneParticle(param:ParticleProperties):void
 		{
 			var offset:Vector3D = param[POSITION_VECTOR3D];
 			if (!offset)

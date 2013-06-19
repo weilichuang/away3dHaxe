@@ -12,7 +12,7 @@
 	import flash.geom.Vector3D;
 	import flash.utils.getTimer;
 
-	import away3d.arcane;
+	
 	import away3d.core.managers.Mouse3DManager;
 	import away3d.core.managers.RTTBufferManager;
 	import away3d.core.managers.Stage3DManager;
@@ -30,7 +30,7 @@
 	import away3d.textures.Texture2DBase;
 
 
-	use namespace arcane;
+	
 
 	public class View3D extends Sprite
 	{
@@ -860,7 +860,7 @@
 		 * @see away3d.core.traverse.EntityCollector
 		 * @private
 		 */
-		arcane function get entityCollector():EntityCollector
+		public function get entityCollector():EntityCollector
 		{
 			return _entityCollector;
 		}

@@ -4,13 +4,13 @@ package away3d.animators.utils
 	import flash.geom.Orientation3D;
 	import flash.geom.Vector3D;
 
-	import away3d.arcane;
+	
 	import away3d.animators.data.JointPose;
 	import away3d.animators.data.SkeletonPose;
 	import away3d.animators.nodes.SkeletonClipNode;
 
 
-	use namespace arcane;
+	
 
 	public class SkeletonUtils
 	{

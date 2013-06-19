@@ -2,13 +2,13 @@ package away3d.core.base
 {
 	import flash.geom.Matrix3D;
 
-	import away3d.arcane;
+	
 	import away3d.events.GeometryEvent;
 	import away3d.io.library.assets.AssetType;
 	import away3d.io.library.assets.IAsset;
 	import away3d.io.library.assets.NamedAssetBase;
 
-	use namespace arcane;
+	
 
 	/**
 	 * Geometry is a collection of SubGeometries, each of which contain the actual geometrical data such as vertices,
@@ -164,12 +164,12 @@ package away3d.core.base
 			}
 		}
 
-		arcane function validate():void
+		public function validate():void
 		{
 			// To be overridden when necessary
 		}
 
-		arcane function invalidateBounds(subGeom:ISubGeometry):void
+		public function invalidateBounds(subGeom:ISubGeometry):void
 		{
 			if (hasEventListener(GeometryEvent.BOUNDS_INVALID))
 				dispatchEvent(new GeometryEvent(GeometryEvent.BOUNDS_INVALID, subGeom));

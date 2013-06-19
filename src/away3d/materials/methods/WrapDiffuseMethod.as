@@ -1,11 +1,11 @@
 package away3d.materials.methods
 {
-	import away3d.arcane;
+	
 	import away3d.core.managers.Stage3DProxy;
 	import away3d.materials.compilation.ShaderRegisterCache;
 	import away3d.materials.compilation.ShaderRegisterElement;
 
-	use namespace arcane;
+	
 
 	/**
 	 * WrapDiffuseMethod is an alternative to BasicDiffuseMethod in which the light is allowed to be "wrapped around" the normally dark area, to some extent.
@@ -26,7 +26,7 @@ package away3d.materials.methods
 			this.wrapFactor = wrapFactor;
 		}
 
-		arcane override function cleanCompilationData():void
+		public override function cleanCompilationData():void
 		{
 			super.cleanCompilationData();
 			_wrapDataRegister = null;
@@ -43,7 +43,7 @@ package away3d.materials.methods
 			_wrapFactor = 1 / (value + 1);
 		}
 
-		arcane override function getFragmentPreLightingCode(vo:MethodVO, regCache:ShaderRegisterCache):String
+		public override function getFragmentPreLightingCode(vo:MethodVO, regCache:ShaderRegisterCache):String
 		{
 			var code:String = super.getFragmentPreLightingCode(vo, regCache);
 			_isFirstLight = true;
@@ -53,7 +53,7 @@ package away3d.materials.methods
 			return code;
 		}
 
-		arcane override function getFragmentCodePerLight(vo:MethodVO, lightDirReg:ShaderRegisterElement, lightColReg:ShaderRegisterElement, regCache:ShaderRegisterCache):String
+		public override function getFragmentCodePerLight(vo:MethodVO, lightDirReg:ShaderRegisterElement, lightColReg:ShaderRegisterElement, regCache:ShaderRegisterCache):String
 		{
 			var code:String = "";
 			var t:ShaderRegisterElement;
@@ -89,7 +89,7 @@ package away3d.materials.methods
 			return code;
 		}
 
-		arcane override function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):void
+		public override function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):void
 		{
 			super.activate(vo, stage3DProxy);
 			var index:int = vo.secondaryFragmentConstantsIndex;

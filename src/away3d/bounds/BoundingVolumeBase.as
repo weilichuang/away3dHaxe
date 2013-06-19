@@ -3,14 +3,14 @@ package away3d.bounds
 	import flash.geom.Matrix3D;
 	import flash.geom.Vector3D;
 
-	import away3d.arcane;
+	
 	import away3d.core.base.Geometry;
 	import away3d.core.base.ISubGeometry;
 	import away3d.errors.AbstractMethodError;
 	import away3d.math.Plane3D;
 	import away3d.entities.primitives.WireframePrimitiveBase;
 
-	use namespace arcane;
+	
 
 	/**
 	 * An abstract base class for all bounding volume classes. It should not be instantiated directly.

@@ -2,10 +2,10 @@ package away3d.tools.serialize
 {
 	import flash.geom.Vector3D;
 
-	import away3d.arcane;
+	
 	import away3d.math.Quaternion;
 
-	use namespace arcane;
+	
 
 	/**
 	 * TraceSerializer is a concrete Serializer that will output its results to trace().  It has user settable tabSize and separator vars.

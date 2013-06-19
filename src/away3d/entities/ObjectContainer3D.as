@@ -4,7 +4,7 @@ package away3d.entities
 	import flash.geom.Matrix3D;
 	import flash.geom.Vector3D;
 	
-	import away3d.arcane;
+	
 	import away3d.core.base.Object3D;
 	import away3d.core.partition.Partition3D;
 	import away3d.events.Object3DEvent;
@@ -12,7 +12,7 @@ package away3d.entities
 	import away3d.io.library.assets.AssetType;
 	import away3d.io.library.assets.IAsset;
 
-	use namespace arcane;
+	
 
 	/**
 	 * Dispatched when the scene transform matrix of the 3d object changes.
@@ -74,8 +74,8 @@ package away3d.entities
 	public class ObjectContainer3D extends Object3D implements IAsset
 	{
 		/** @private */
-		arcane var _ancestorsAllowMouseEnabled:Boolean;
-		arcane var _isRoot:Boolean;
+		public var _ancestorsAllowMouseEnabled:Boolean;
+		public var _isRoot:Boolean;
 
 		protected var _scene:Scene3D;
 		protected var _parent:ObjectContainer3D;
@@ -128,12 +128,12 @@ package away3d.entities
 		 * @private
 		 * The space partition used for this object, possibly inherited from its parent.
 		 */
-		arcane function get implicitPartition():Partition3D
+		public function get implicitPartition():Partition3D
 		{
 			return _implicitPartition;
 		}
 
-		arcane function set implicitPartition(value:Partition3D):void
+		public function set implicitPartition(value:Partition3D):void
 		{
 			if (value == _implicitPartition)
 				return;
@@ -155,13 +155,13 @@ package away3d.entities
 		}
 
 		/** @private */
-		arcane function get isVisible():Boolean
+		public function get isVisible():Boolean
 		{
 			return _implicitVisibility && _explicitVisibility;
 		}
 
 		/** @private */
-		arcane function setParent(value:ObjectContainer3D):void
+		public function setParent(value:ObjectContainer3D):void
 		{
 			_parent = value;
 
@@ -257,7 +257,7 @@ package away3d.entities
 		/**
 		 * @inheritDoc
 		 */
-		override arcane function invalidateTransform():void
+		override public function invalidateTransform():void
 		{
 			super.invalidateTransform();
 

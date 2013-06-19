@@ -3,14 +3,14 @@ package away3d.bounds
 	import flash.geom.Matrix3D;
 	import flash.geom.Vector3D;
 
-	import away3d.arcane;
+	
 	import away3d.math.Matrix3DUtils;
 	import away3d.math.Plane3D;
 	import away3d.math.PlaneClassification;
 	import away3d.entities.primitives.WireframePrimitiveBase;
 	import away3d.entities.primitives.WireframeSphere;
 
-	use namespace arcane;
+	
 
 	/**
 	 * BoundingSphere represents a spherical bounding volume defined by a center point and a radius.

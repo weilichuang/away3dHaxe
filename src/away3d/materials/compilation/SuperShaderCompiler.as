@@ -1,13 +1,13 @@
 package away3d.materials.compilation
 {
-	import away3d.arcane;
+	
 
 	public class SuperShaderCompiler extends ShaderCompiler
 	{
 		public var _pointLightRegisters:Vector.<ShaderRegisterElement>;
 		public var _dirLightRegisters:Vector.<ShaderRegisterElement>;
 
-		use namespace arcane;
+		
 
 		public function SuperShaderCompiler(profile:String)
 		{

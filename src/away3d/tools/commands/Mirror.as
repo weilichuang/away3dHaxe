@@ -2,7 +2,7 @@ package away3d.tools.commands
 {
 	import flash.geom.Matrix3D;
 
-	import away3d.arcane;
+	
 	import away3d.bounds.BoundingVolumeBase;
 	import away3d.core.base.Geometry;
 	import away3d.core.base.ISubGeometry;
@@ -10,7 +10,7 @@ package away3d.tools.commands
 	import away3d.entities.ObjectContainer3D;
 	import away3d.tools.utils.GeomUtil;
 
-	use namespace arcane;
+	
 
 	public class Mirror
 	{

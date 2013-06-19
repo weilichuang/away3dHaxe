@@ -2,11 +2,11 @@ package away3d.animators
 {
 	import flash.display3D.Context3D;
 
-	import away3d.arcane;
+	
 	import away3d.core.managers.Stage3DProxy;
 	import away3d.materials.passes.MaterialPassBase;
 
-	use namespace arcane;
+	
 
 	/**
 	 * The animation data set used by skeleton-based animators, containing skeleton animation data.

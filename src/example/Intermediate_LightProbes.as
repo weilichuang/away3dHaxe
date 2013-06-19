@@ -74,30 +74,30 @@ package example
 	public class Intermediate_LightProbes extends BasicApplication
 	{
 		// cornell baked lighting map
-		[Embed(source = "/../embeds/cornell.obj", mimeType = "application/octet-stream")]
+		[Embed(source = "../embeds/cornell.obj", mimeType = "application/octet-stream")]
 		private var CornellOBJ:Class;
 
-		[Embed(source = "/../embeds/head.obj", mimeType = "application/octet-stream")]
+		[Embed(source = "../embeds/head.obj", mimeType = "application/octet-stream")]
 		private var HeadOBJ:Class;
 
 		// cornell map with baked AO and irradiance
-		[Embed(source = "/../embeds/cornell_baked.jpg")]
+		[Embed(source = "../embeds/cornell_baked.jpg")]
 		private var CornellTexture:Class;
 
 		// cornell map with baked AO and irradiance
-		[Embed(source = "/../embeds/cornellWallNormals.jpg")]
+		[Embed(source = "../embeds/cornellWallNormals.jpg")]
 		private var CornellNormals:Class;
 
-		[Embed(source = "/../embeds/head_diffuse.jpg")]
+		[Embed(source = "../embeds/head_diffuse.jpg")]
 		private var HeadAlbedo:Class;
 
-		[Embed(source = "/../embeds/head_normals.jpg")]
+		[Embed(source = "../embeds/head_normals.jpg")]
 		private var HeadNormals:Class;
 
-		[Embed(source = "/../embeds/head_specular.jpg")]
+		[Embed(source = "../embeds/head_specular.jpg")]
 		private var HeadSpecular:Class;
 
-		[Embed(source = "/../embeds/head_AO.jpg")]
+		[Embed(source = "../embeds/head_AO.jpg")]
 		private var HeadOcclusion:Class;
 
 		//engine variables

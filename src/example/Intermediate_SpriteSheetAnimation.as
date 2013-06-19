@@ -77,24 +77,23 @@ package example
 	public class Intermediate_SpriteSheetAnimation extends BasicApplication
 	{
 		//the swf file holding timeline animations
-		[Embed(source = "/../embeds/spritesheets/digits.swf", mimeType = "application/octet-stream")]
+		[Embed(source = "../embeds/spritesheets/digits.swf", mimeType = "application/octet-stream")]
 		private var SourceSWF:Class;
 
-		[Embed(source = "/../embeds/spritesheets/textures/back_CB0.jpg")]
+		[Embed(source = "../embeds/spritesheets/textures/back_CB0.jpg")]
 		private var Back_CB0_Bitmap:Class;
-		[Embed(source = "/../embeds/spritesheets/textures/back_CB1.jpg")]
+		[Embed(source = "../embeds/spritesheets/textures/back_CB1.jpg")]
 		private var Back_CB1_Bitmap:Class;
-		[Embed(source = "/../embeds/spritesheets/textures/back_CB2.jpg")]
+		[Embed(source = "../embeds/spritesheets/textures/back_CB2.jpg")]
 		private var Back_CB2_Bitmap:Class;
-		[Embed(source = "/../embeds/spritesheets/textures/back_CB3.jpg")]
+		[Embed(source = "../embeds/spritesheets/textures/back_CB3.jpg")]
 		private var Back_CB3_Bitmap:Class;
-		[Embed(source = "/../embeds/spritesheets/textures/back_CB4.jpg")]
+		[Embed(source = "../embeds/spritesheets/textures/back_CB4.jpg")]
 		private var Back_CB4_Bitmap:Class;
-		[Embed(source = "/../embeds/spritesheets/textures/back_CB5.jpg")]
+		[Embed(source = "../embeds/spritesheets/textures/back_CB5.jpg")]
 		private var Back_CB5_Bitmap:Class;
 
 		//engine variables
-		private var _view:View3D;
 		private var _loader:Loader3D;
 		private var _origin:Vector3D;
 		private var _staticLightPicker:StaticLightPicker;
@@ -123,36 +122,36 @@ package example
 		public function Intermediate_SpriteSheetAnimation()
 		{
 			super();
-
-			//view setup
-			setUpView();
-
-			//setup spritesheets and materials
-			setUpSpriteSheets();
-
-			//setting up some lights
-			setUpLights();
-
-			stage.addEventListener(Event.RESIZE, onResize);
-			onResize();
+			
+			init();
 		}
-
-		private function setUpView():void
+		
+		/**
+		 * Global initialise function
+		 */
+		private function init():void
 		{
-			//setup the view
-			_view = new View3D();
+			initEngine();
+			initLights();
+			initObjects();
+		}
+		
+		/**
+		 * Initialise the engine
+		 */
+		override protected function initEngine():void
+		{
+			super.initEngine();
 
-			addChild(_view);
-
-			_view.antiAlias = 2;
-			_view.backgroundColor = 0x10c14;
+			view.antiAlias = 2;
+			view.backgroundColor = 0x10c14;
 
 			//setup the camera
-			_view.camera.lens.near = 1000;
-			_view.camera.lens.far = 100000;
-			_view.camera.x = -17850;
-			_view.camera.y = 12390;
-			_view.camera.z = -9322;
+			view.camera.lens.near = 1000;
+			view.camera.lens.far = 100000;
+			view.camera.x = -17850;
+			view.camera.y = 12390;
+			view.camera.z = -9322;
 
 			//saving the origin, as we look at it on enterframe
 			_origin = new Vector3D();
@@ -161,7 +160,7 @@ package example
 		/**
 		 * Lights setup
 		 */
-		private function setUpLights():void
+		private function initLights():void
 		{
 			//Note that in 4.0, you could define the radius and falloff as Number.maxValue.
 			//this is no longer the case in 4.1. As the default values are high enough, we do not need to declare them for light 1
@@ -174,7 +173,7 @@ package example
 			plight1.ambientColor = 0x18235B;
 			plight1.color = 0x2E71FF;
 			plight1.specular = 0.4;
-			_view.scene.addChild(plight1);
+			view.scene.addChild(plight1);
 
 			var plight2:PointLight = new PointLight();
 			plight2.x = -20250;
@@ -187,7 +186,7 @@ package example
 			plight2.color = 0xFFA825;
 			plight2.fallOff = 6759;
 			plight2.specular = 0.1;
-			_view.scene.addChild(plight2);
+			view.scene.addChild(plight2);
 
 			var plight3:PointLight = new PointLight();
 			plight3.x = -7031;
@@ -200,7 +199,7 @@ package example
 			plight3.color = 0xFF0500;
 			plight3.fallOff = 6759;
 			plight3.specular = 0;
-			_view.scene.addChild(plight3);
+			view.scene.addChild(plight3);
 
 			_staticLightPicker = new StaticLightPicker([plight1, plight2, plight3]);
 		}
@@ -208,7 +207,7 @@ package example
 		/**
 		 * In this example the sprite sheets are genererated runtime, the data is stored into different movieclips in an swf file.
 		 */
-		private function setUpSpriteSheets():void
+		private function initObjects():void
 		{
 			var loader:Loader = new Loader();
 			loader.contentLoaderInfo.addEventListener(Event.COMPLETE, setUpAnimators);
@@ -394,9 +393,10 @@ package example
 		{
 			clearListeners();
 
-			_view.scene.addChild(ObjectContainer3D(event.currentTarget));
-			addEventListener(Event.ENTER_FRAME, _onEnterFrame);
+			view.scene.addChild(ObjectContainer3D(event.currentTarget));
 
+			initListeners();
+			
 			startTween();
 		}
 
@@ -437,7 +437,7 @@ package example
 			var destY:Number = Math.random() * 16000;
 			var destZ:Number = 3000 + Math.random() * 18000;
 
-			Tweener.addTween(_view.camera, {x: destX, y: destY, z: -destZ,
+			Tweener.addTween(view.camera, {x: destX, y: destY, z: -destZ,
 					time: 4 + (Math.random() * 2),
 					transition: "easeInOutQuad",
 					onComplete: startTween});
@@ -446,20 +446,11 @@ package example
 		/**
 		 * render loop
 		 */
-		private function _onEnterFrame(e:Event):void
+		override protected function render():void
 		{
 			updateClock();
-			_view.camera.lookAt(_origin);
-			_view.render();
-		}
-
-		/**
-		 * stage listener for resize events
-		 */
-		private function onResize(event:Event = null):void
-		{
-			_view.width = stage.stageWidth;
-			_view.height = stage.stageHeight;
+			view.camera.lookAt(_origin);
+			super.render();
 		}
 	}
 }

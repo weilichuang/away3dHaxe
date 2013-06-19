@@ -1,8 +1,8 @@
 package away3d.entities.lenses
 {
-	import away3d.arcane;
+	
 
-	use namespace arcane;
+	
 
 	/**
 	 * FreeMatrixLens provides a projection lens that exposes a full projection matrix, rather than provide one through
@@ -29,7 +29,7 @@ package away3d.entities.lenses
 			_far = value;
 		}
 
-		arcane override function set aspectRatio(value:Number):void
+		public override function set aspectRatio(value:Number):void
 		{
 			_aspectRatio = value;
 		}

@@ -1,11 +1,11 @@
 ﻿package away3d.entities.primitives
 {
 	import away3d.core.base.CompactSubGeometry;
-	import away3d.arcane;
+	
 	import away3d.entities.primitives.data.NURBSVertex;
 	import flash.geom.Vector3D;
 
-	use namespace arcane;
+	
 
 	/**
 	 * A NURBS primitive geometry.

@@ -7,7 +7,7 @@ package away3d.core.render
 	import flash.geom.Rectangle;
 	import flash.geom.Vector3D;
 
-	import away3d.arcane;
+	
 	import away3d.entities.Camera3D;
 	import away3d.core.base.IRenderable;
 	import away3d.core.data.RenderableListItem;
@@ -19,7 +19,7 @@ package away3d.core.render
 	import away3d.entities.lights.shadowmaps.ShadowMapperBase;
 	import away3d.materials.MaterialBase;
 
-	use namespace arcane;
+	
 
 	/**
 	 * The DefaultRenderer class provides the default rendering method. It renders the scene graph objects using the
@@ -47,7 +47,7 @@ package away3d.core.render
 			_distanceRenderer = new DepthRenderer(false, true);
 		}
 
-		arcane override function set stage3DProxy(value:Stage3DProxy):void
+		public override function set stage3DProxy(value:Stage3DProxy):void
 		{
 			super.stage3DProxy = value;
 			_distanceRenderer.stage3DProxy = _depthRenderer.stage3DProxy = value;
@@ -214,7 +214,7 @@ package away3d.core.render
 		}
 
 
-		arcane override function dispose():void
+		public override function dispose():void
 		{
 			super.dispose();
 			_depthRenderer.dispose();

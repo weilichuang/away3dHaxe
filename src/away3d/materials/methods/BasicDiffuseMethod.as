@@ -1,12 +1,12 @@
 package away3d.materials.methods
 {
-	import away3d.arcane;
+	
 	import away3d.core.managers.Stage3DProxy;
 	import away3d.materials.compilation.ShaderRegisterCache;
 	import away3d.materials.compilation.ShaderRegisterElement;
 	import away3d.textures.Texture2DBase;
 
-	use namespace arcane;
+	
 
 	/**
 	 * BasicDiffuseMethod provides the default shading method for Lambert (dot3) diffuse lighting.
@@ -15,12 +15,12 @@ package away3d.materials.methods
 	{
 		private var _useAmbientTexture:Boolean;
 
-		arcane function get useAmbientTexture():Boolean
+		public function get useAmbientTexture():Boolean
 		{
 			return _useAmbientTexture;
 		}
 
-		arcane function set useAmbientTexture(value:Boolean):void
+		public function set useAmbientTexture(value:Boolean):void
 		{
 			if (_useAmbientTexture == value)
 				return;
@@ -52,7 +52,7 @@ package away3d.materials.methods
 			super();
 		}
 
-		override arcane function initVO(vo:MethodVO):void
+		override public function initVO(vo:MethodVO):void
 		{
 			vo.needsUV = _useTexture;
 			vo.needsNormals = vo.numLights > 0;
@@ -155,7 +155,7 @@ package away3d.materials.methods
 			diffuseColor = diff.diffuseColor;
 		}
 
-		arcane override function cleanCompilationData():void
+		public override function cleanCompilationData():void
 		{
 			super.cleanCompilationData();
 			_shadowRegister = null;
@@ -166,7 +166,7 @@ package away3d.materials.methods
 		/**
 		 * @inheritDoc
 		 */
-		override arcane function getFragmentPreLightingCode(vo:MethodVO, regCache:ShaderRegisterCache):String
+		override public function getFragmentPreLightingCode(vo:MethodVO, regCache:ShaderRegisterCache):String
 		{
 			var code:String = "";
 
@@ -184,7 +184,7 @@ package away3d.materials.methods
 		/**
 		 * @inheritDoc
 		 */
-		override arcane function getFragmentCodePerLight(vo:MethodVO, lightDirReg:ShaderRegisterElement, lightColReg:ShaderRegisterElement, regCache:ShaderRegisterCache):String
+		override public function getFragmentCodePerLight(vo:MethodVO, lightDirReg:ShaderRegisterElement, lightColReg:ShaderRegisterElement, regCache:ShaderRegisterCache):String
 		{
 			var code:String = "";
 			var t:ShaderRegisterElement;
@@ -224,7 +224,7 @@ package away3d.materials.methods
 		/**
 		 * @inheritDoc
 		 */
-		arcane override function getFragmentCodePerProbe(vo:MethodVO, cubeMapReg:ShaderRegisterElement, weightRegister:String, regCache:ShaderRegisterCache):String
+		public override function getFragmentCodePerProbe(vo:MethodVO, cubeMapReg:ShaderRegisterElement, weightRegister:String, regCache:ShaderRegisterCache):String
 		{
 			var code:String = "";
 			var t:ShaderRegisterElement;
@@ -258,7 +258,7 @@ package away3d.materials.methods
 		/**
 		 * @inheritDoc
 		 */
-		override arcane function getFragmentPostLightingCode(vo:MethodVO, regCache:ShaderRegisterCache, targetReg:ShaderRegisterElement):String
+		override public function getFragmentPostLightingCode(vo:MethodVO, regCache:ShaderRegisterCache, targetReg:ShaderRegisterElement):String
 		{
 			var code:String = "";
 			var albedo:ShaderRegisterElement;
@@ -340,7 +340,7 @@ package away3d.materials.methods
 		/**
 		 * @inheritDoc
 		 */
-		override arcane function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):void
+		override public function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):void
 		{
 			if (_useTexture)
 			{
@@ -370,7 +370,7 @@ package away3d.materials.methods
 			_diffuseB = (_diffuseColor & 0xff) / 0xff;
 		}
 
-		arcane function set shadowRegister(value:ShaderRegisterElement):void
+		public function set shadowRegister(value:ShaderRegisterElement):void
 		{
 			_shadowRegister = value;
 		}

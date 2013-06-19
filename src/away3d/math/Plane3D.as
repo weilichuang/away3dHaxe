@@ -1,10 +1,10 @@
 package away3d.math
 {
-	import away3d.arcane;
+	
 
 	import flash.geom.Vector3D;
 
-	use namespace arcane;
+	
 
 	public class Plane3D
 	{
@@ -28,7 +28,7 @@ package away3d.math
 		 */
 		public var d:Number;
 
-		arcane var _alignment:int;
+		public var _alignment:int;
 
 		// indicates the alignment of the plane
 		public static const ALIGN_ANY:int = 0;

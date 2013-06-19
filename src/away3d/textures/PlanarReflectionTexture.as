@@ -1,6 +1,6 @@
 package away3d.textures
 {
-	import away3d.arcane;
+	
 	import away3d.entities.Camera3D;
 	import away3d.entities.lenses.ObliqueNearPlaneLens;
 	import away3d.entities.View3D;
@@ -18,7 +18,7 @@ package away3d.textures
 	import flash.geom.Rectangle;
 	import flash.geom.Vector3D;
 
-	use namespace arcane;
+	
 
 	/**
 	 * PlanarReflectionTexture is a Texture that can be used for material-based planar reflections, as provided by PlanarReflectionMethod, FresnelPlanarReflectionMethod.
@@ -160,12 +160,12 @@ package away3d.textures
 			_mockBitmapData.dispose();
 		}
 
-		arcane function get textureRatioX():Number
+		public function get textureRatioX():Number
 		{
 			return _renderer.textureRatioX;
 		}
 
-		arcane function get textureRatioY():Number
+		public function get textureRatioY():Number
 		{
 			return _renderer.textureRatioY;
 		}

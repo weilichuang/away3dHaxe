@@ -69,31 +69,31 @@ package example
 	public class Advanced_TerrainDemo extends BasicApplication
 	{
 		//water normal map
-		[Embed(source = "/../embeds/water_normals.jpg")]
+		[Embed(source = "../embeds/water_normals.jpg")]
 		private var WaterNormals:Class;
 
 		// terrain height map
-		[Embed(source = "/../embeds/terrain/terrain_heights.jpg")]
+		[Embed(source = "../embeds/terrain/terrain_heights.jpg")]
 		private var HeightMap:Class;
 
 		// terrain texture map
-		[Embed(source = "/../embeds/terrain/terrain_diffuse.jpg")]
+		[Embed(source = "../embeds/terrain/terrain_diffuse.jpg")]
 		private var Albedo:Class;
 
 		// terrain normal map
-		[Embed(source = "/../embeds/terrain/terrain_normals.jpg")]
+		[Embed(source = "../embeds/terrain/terrain_normals.jpg")]
 		private var Normals:Class;
 
 		//splat texture maps
-		[Embed(source = "/../embeds/terrain/grass.jpg")]
+		[Embed(source = "../embeds/terrain/grass.jpg")]
 		private var Grass:Class;
-		[Embed(source = "/../embeds/terrain/rock.jpg")]
+		[Embed(source = "../embeds/terrain/rock.jpg")]
 		private var Rock:Class;
-		[Embed(source = "/../embeds/terrain/beach.jpg")]
+		[Embed(source = "../embeds/terrain/beach.jpg")]
 		private var Beach:Class;
 
 		//splat blend map
-		[Embed(source = "/../embeds/terrain/terrain_splats.png")]
+		[Embed(source = "../embeds/terrain/terrain_splats.png")]
 		private var Blend:Class;
 
 		//engine variables

@@ -1,10 +1,10 @@
 package away3d.materials
 {
-	import away3d.arcane;
+	
 	import away3d.entities.Camera3D;
 	import away3d.core.managers.Stage3DProxy;
 
-	use namespace arcane;
+	
 
 	/**
 	 * OcclusionMaterial is a ColorMaterial for an object, that hides all other objects behind itself.
@@ -41,7 +41,7 @@ package away3d.materials
 		/**
 		 * @inheritDoc
 		 */
-		override arcane function activatePass(index:uint, stage3DProxy:Stage3DProxy, camera:Camera3D):void
+		override public function activatePass(index:uint, stage3DProxy:Stage3DProxy, camera:Camera3D):void
 		{
 			if (occlude)
 			{
@@ -53,7 +53,7 @@ package away3d.materials
 		/**
 		 * @inheritDoc
 		 */
-		override arcane function deactivatePass(index:uint, stage3DProxy:Stage3DProxy):void
+		override public function deactivatePass(index:uint, stage3DProxy:Stage3DProxy):void
 		{
 			super.deactivatePass(index, stage3DProxy);
 			stage3DProxy._context3D.setColorMask(true, true, true, true);

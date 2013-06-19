@@ -2,7 +2,7 @@ package away3d.animators.nodes
 {
 	import flash.geom.Vector3D;
 
-	import away3d.arcane;
+	
 	import away3d.animators.IAnimator;
 	import away3d.animators.ParticleAnimationSet;
 	import away3d.animators.data.AnimationRegisterCache;
@@ -12,7 +12,7 @@ package away3d.animators.nodes
 	import away3d.materials.compilation.ShaderRegisterElement;
 	import away3d.materials.passes.MaterialPassBase;
 
-	use namespace arcane;
+	
 
 	/**
 	 * A particle animation node used when a spritesheet texture is required to animate the particle.
@@ -21,27 +21,27 @@ package away3d.animators.nodes
 	public class ParticleSpriteSheetNode extends ParticleNodeBase
 	{
 		/** @private */
-		arcane static const UV_INDEX_0:uint = 0;
+		public static const UV_INDEX_0:uint = 0;
 
 		/** @private */
-		arcane static const UV_INDEX_1:uint = 1;
+		public static const UV_INDEX_1:uint = 1;
 
 		/** @private */
-		arcane var _usesCycle:Boolean;
+		public var _usesCycle:Boolean;
 
 		/** @private */
-		arcane var _usesPhase:Boolean;
+		public var _usesPhase:Boolean;
 
 		/** @private */
-		arcane var _totalFrames:int;
+		public var _totalFrames:int;
 		/** @private */
-		arcane var _numColumns:int;
+		public var _numColumns:int;
 		/** @private */
-		arcane var _numRows:int;
+		public var _numRows:int;
 		/** @private */
-		arcane var _cycleDuration:Number;
+		public var _cycleDuration:Number;
 		/** @private */
-		arcane var _cyclePhase:Number;
+		public var _cyclePhase:Number;
 
 		/**
 		 * Reference for spritesheet node properties on a single particle (when in local property mode).
@@ -195,7 +195,7 @@ package away3d.animators.nodes
 		/**
 		 * @inheritDoc
 		 */
-		override arcane function processAnimationSetting(particleAnimationSet:ParticleAnimationSet):void
+		override public function processAnimationSetting(particleAnimationSet:ParticleAnimationSet):void
 		{
 			particleAnimationSet.hasUVNode = true;
 		}
@@ -203,7 +203,7 @@ package away3d.animators.nodes
 		/**
 		 * @inheritDoc
 		 */
-		override arcane function generatePropertyOfOneParticle(param:ParticleProperties):void
+		override public function generatePropertyOfOneParticle(param:ParticleProperties):void
 		{
 			if (_usesCycle)
 			{

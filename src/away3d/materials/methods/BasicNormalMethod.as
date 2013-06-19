@@ -1,12 +1,12 @@
 package away3d.materials.methods
 {
-	import away3d.arcane;
+	
 	import away3d.core.managers.Stage3DProxy;
 	import away3d.materials.compilation.ShaderRegisterCache;
 	import away3d.materials.compilation.ShaderRegisterElement;
 	import away3d.textures.Texture2DBase;
 
-	use namespace arcane;
+	
 
 	public class BasicNormalMethod extends ShadingMethodBase
 	{
@@ -20,12 +20,12 @@ package away3d.materials.methods
 		}
 
 
-		override arcane function initVO(vo:MethodVO):void
+		override public function initVO(vo:MethodVO):void
 		{
 			vo.needsUV = Boolean(_texture);
 		}
 
-		arcane function get tangentSpace():Boolean
+		public function get tangentSpace():Boolean
 		{
 			return true;
 		}
@@ -33,7 +33,7 @@ package away3d.materials.methods
 		/**
 		 * Override this is normal method output is not based on a texture (if not, it will usually always return true)
 		 */
-		arcane function get hasOutput():Boolean
+		public function get hasOutput():Boolean
 		{
 			return _useTexture;
 		}
@@ -57,7 +57,7 @@ package away3d.materials.methods
 			_texture = value;
 		}
 
-		arcane override function cleanCompilationData():void
+		public override function cleanCompilationData():void
 		{
 			super.cleanCompilationData();
 			_normalTextureRegister = null;
@@ -69,13 +69,13 @@ package away3d.materials.methods
 				_texture = null;
 		}
 
-		arcane override function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):void
+		public override function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):void
 		{
 			if (vo.texturesIndex >= 0)
 				stage3DProxy.context3D.setTextureAt(vo.texturesIndex, _texture.getTextureForStage3D(stage3DProxy));
 		}
 
-		arcane function getFragmentCode(vo:MethodVO, regCache:ShaderRegisterCache, targetReg:ShaderRegisterElement):String
+		public function getFragmentCode(vo:MethodVO, regCache:ShaderRegisterCache, targetReg:ShaderRegisterElement):String
 		{
 			_normalTextureRegister = regCache.getFreeTextureReg();
 			vo.texturesIndex = _normalTextureRegister.index;

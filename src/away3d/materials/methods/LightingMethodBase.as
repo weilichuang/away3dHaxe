@@ -1,10 +1,10 @@
 package away3d.materials.methods
 {
-	import away3d.arcane;
+	
 	import away3d.materials.compilation.ShaderRegisterCache;
 	import away3d.materials.compilation.ShaderRegisterElement;
 
-	use namespace arcane;
+	
 
 	/**
 	 * LightingMethodBase provides an abstract base method for shading methods that uses lights.
@@ -15,7 +15,7 @@ package away3d.materials.methods
 		/**
 		 * A method that is exposed to wrappers in case the strength needs to be controlled
 		 */
-		arcane var _modulateMethod:Function;
+		public var _modulateMethod:Function;
 
 		public function LightingMethodBase()
 		{
@@ -27,7 +27,7 @@ package away3d.materials.methods
 		 * @param regCache The register cache used during the compilation.
 		 * @private
 		 */
-		arcane function getFragmentPreLightingCode(vo:MethodVO, regCache:ShaderRegisterCache):String
+		public function getFragmentPreLightingCode(vo:MethodVO, regCache:ShaderRegisterCache):String
 		{
 			vo = vo;
 			regCache = regCache;
@@ -37,7 +37,7 @@ package away3d.materials.methods
 		/**
 		 * Get the fragment shader code that will generate the code relevant to a single light.
 		 */
-		arcane function getFragmentCodePerLight(vo:MethodVO, lightDirReg:ShaderRegisterElement, lightColReg:ShaderRegisterElement, regCache:ShaderRegisterCache):String
+		public function getFragmentCodePerLight(vo:MethodVO, lightDirReg:ShaderRegisterElement, lightColReg:ShaderRegisterElement, regCache:ShaderRegisterCache):String
 		{
 			vo = vo;
 			lightDirReg = lightDirReg;
@@ -52,7 +52,7 @@ package away3d.materials.methods
 		 * @param weightRegister A string representation of the register + component containing the current weight
 		 * @param regCache The register cache providing any necessary registers to the shader
 		 */
-		arcane function getFragmentCodePerProbe(vo:MethodVO, cubeMapReg:ShaderRegisterElement, weightRegister:String, regCache:ShaderRegisterCache):String
+		public function getFragmentCodePerProbe(vo:MethodVO, cubeMapReg:ShaderRegisterElement, weightRegister:String, regCache:ShaderRegisterCache):String
 		{
 			vo = vo;
 			cubeMapReg = cubeMapReg;
@@ -66,7 +66,7 @@ package away3d.materials.methods
 		 * @param regCache The register cache used during the compilation.
 		 * @private
 		 */
-		arcane function getFragmentPostLightingCode(vo:MethodVO, regCache:ShaderRegisterCache, targetReg:ShaderRegisterElement):String
+		public function getFragmentPostLightingCode(vo:MethodVO, regCache:ShaderRegisterCache, targetReg:ShaderRegisterElement):String
 		{
 			vo = vo;
 			regCache = regCache;

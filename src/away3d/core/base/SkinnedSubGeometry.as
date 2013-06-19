@@ -4,10 +4,10 @@ package away3d.core.base
 	import flash.display3D.VertexBuffer3D;
 	import flash.utils.Dictionary;
 
-	import away3d.arcane;
+	
 	import away3d.core.managers.Stage3DProxy;
 
-	use namespace arcane;
+	
 
 	/**
 	 * SkinnedSubGeometry provides a SubGeometry extension that contains data needed to skin vertices. In particular,
@@ -163,7 +163,7 @@ package away3d.core.base
 
 		/**
 		 */
-		arcane function condenseIndexData():void
+		public function condenseIndexData():void
 		{
 			var len:int = _jointIndexData.length;
 			var oldIndex:int;
@@ -196,12 +196,12 @@ package away3d.core.base
 		/**
 		 * The raw joint weights data.
 		 */
-		arcane function get jointWeightsData():Vector.<Number>
+		public function get jointWeightsData():Vector.<Number>
 		{
 			return _jointWeightsData;
 		}
 
-		arcane function updateJointWeightsData(value:Vector.<Number>):void
+		public function updateJointWeightsData(value:Vector.<Number>):void
 		{
 			// invalidate condensed stuff
 			_numCondensedJoints = 0;
@@ -215,12 +215,12 @@ package away3d.core.base
 		/**
 		 * The raw joint index data.
 		 */
-		arcane function get jointIndexData():Vector.<Number>
+		public function get jointIndexData():Vector.<Number>
 		{
 			return _jointIndexData;
 		}
 
-		arcane function updateJointIndexData(value:Vector.<Number>):void
+		public function updateJointIndexData(value:Vector.<Number>):void
 		{
 			_jointIndexData = value;
 			invalidateBuffers(_jointIndicesInvalid);

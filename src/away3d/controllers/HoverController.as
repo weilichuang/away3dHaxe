@@ -2,12 +2,12 @@ package away3d.controllers
 {
 	import flash.geom.Vector3D;
 
-	import away3d.arcane;
+	
 	import away3d.entities.Entity;
 	import away3d.entities.ObjectContainer3D;
 	import away3d.math.MathUtil;
 
-	use namespace arcane;
+	
 
 	/**
 	 * Extended camera used to hover round a specified target object.
@@ -16,8 +16,8 @@ package away3d.controllers
 	 */
 	public class HoverController extends LookAtController
 	{
-		arcane var _currentPanAngle:Number = 0;
-		arcane var _currentTiltAngle:Number = 90;
+		public var _currentPanAngle:Number = 0;
+		public var _currentTiltAngle:Number = 90;
 
 		private var _panAngle:Number = 0;
 		private var _tiltAngle:Number = 90;

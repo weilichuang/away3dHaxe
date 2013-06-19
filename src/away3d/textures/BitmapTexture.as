@@ -4,11 +4,11 @@
 	import flash.display3D.textures.Texture;
 	import flash.display3D.textures.TextureBase;
 
-	import away3d.arcane;
+	
 	import away3d.materials.utils.MipmapGenerator;
 	import away3d.tools.utils.TextureUtils;
 
-	use namespace arcane;
+	
 
 	public class BitmapTexture extends Texture2DBase
 	{

@@ -7,13 +7,13 @@ package away3d.materials.passes
 	import flash.geom.Matrix3D;
 	import flash.geom.Vector3D;
 
-	import away3d.arcane;
+	
 	import away3d.entities.Camera3D;
 	import away3d.core.base.IRenderable;
 	import away3d.core.managers.Stage3DProxy;
 	import away3d.textures.CubeTextureBase;
 
-	use namespace arcane;
+	
 
 	/**
 	 * SkyBoxPass provides a material pass exclusively used to render sky boxes from a cube texture.
@@ -50,7 +50,7 @@ package away3d.materials.passes
 		/**
 		 * @inheritDoc
 		 */
-		arcane override function getVertexCode():String
+		public override function getVertexCode():String
 		{
 			return "mul vt0, va0, vc5		\n" +
 				"add vt0, vt0, vc4		\n" +
@@ -61,7 +61,7 @@ package away3d.materials.passes
 		/**
 		 * @inheritDoc
 		 */
-		arcane override function getFragmentCode(animationCode:String):String
+		public override function getFragmentCode(animationCode:String):String
 		{
 			var format:String;
 			switch (_cubeTexture.format)
@@ -84,7 +84,7 @@ package away3d.materials.passes
 				"mov oc, ft0							\n";
 		}
 
-		override arcane function render(renderable:IRenderable, stage3DProxy:Stage3DProxy, camera:Camera3D, viewProjection:Matrix3D):void
+		override public function render(renderable:IRenderable, stage3DProxy:Stage3DProxy, camera:Camera3D, viewProjection:Matrix3D):void
 		{
 			var context:Context3D = stage3DProxy.context3D;
 			var pos:Vector3D = camera.scenePosition;
@@ -101,7 +101,7 @@ package away3d.materials.passes
 		/**
 		 * @inheritDoc
 		 */
-		override arcane function activate(stage3DProxy:Stage3DProxy, camera:Camera3D):void
+		override public function activate(stage3DProxy:Stage3DProxy, camera:Camera3D):void
 		{
 			super.activate(stage3DProxy, camera);
 			var context:Context3D = stage3DProxy.context3D;

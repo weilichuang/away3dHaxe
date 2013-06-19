@@ -1,5 +1,6 @@
 package away3d.utils
 {
+	import away3d.entities.View3D;
 	import flash.display.BitmapData;
 	import flash.display.CapsStyle;
 	import flash.display.Graphics;
@@ -12,13 +13,9 @@ package away3d.utils
 	import flash.text.TextField;
 	import flash.text.TextFieldAutoSize;
 	import flash.text.TextFormat;
-	import flash.utils.Timer;
 	import flash.utils.getTimer;
+	import flash.utils.Timer;
 	
-	import away3d.arcane;
-	import away3d.entities.View3D;
-	
-	use namespace arcane;
 
 	/**
 	 * <p>Stats monitor for Away3D or general use in any project. The widget was designed to

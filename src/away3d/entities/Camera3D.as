@@ -3,7 +3,7 @@ package away3d.entities
 	import flash.geom.Matrix3D;
 	import flash.geom.Vector3D;
 
-	import away3d.arcane;
+	
 	import away3d.bounds.BoundingVolumeBase;
 	import away3d.bounds.NullBounds;
 	import away3d.entities.lenses.LensBase;
@@ -16,7 +16,7 @@ package away3d.entities
 	import away3d.math.Matrix3DUtils;
 	import away3d.math.Plane3D;
 
-	use namespace arcane;
+	
 
 	/**
 	 * A Camera3D object represents a virtual camera through which we view the scene.

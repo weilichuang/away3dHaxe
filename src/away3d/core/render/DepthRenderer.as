@@ -5,7 +5,7 @@ package away3d.core.render
 	import flash.display3D.textures.TextureBase;
 	import flash.geom.Rectangle;
 	
-	import away3d.arcane;
+	
 	import away3d.entities.Camera3D;
 	import away3d.core.base.IRenderable;
 	import away3d.core.data.RenderableListItem;
@@ -14,7 +14,7 @@ package away3d.core.render
 	import away3d.materials.MaterialBase;
 	import away3d.math.Plane3D;
 
-	use namespace arcane;
+	
 
 	/**
 	 * The DepthRenderer class renders 32-bit depth information encoded as RGBA
@@ -51,19 +51,19 @@ package away3d.core.render
 			_disableColor = value;
 		}
 
-		arcane override function set backgroundR(value:Number):void
+		public override function set backgroundR(value:Number):void
 		{
 		}
 
-		arcane override function set backgroundG(value:Number):void
+		public override function set backgroundG(value:Number):void
 		{
 		}
 
-		arcane override function set backgroundB(value:Number):void
+		public override function set backgroundB(value:Number):void
 		{
 		}
 
-		arcane function renderCascades(entityCollector:EntityCollector, target:TextureBase, numCascades:uint, scissorRects:Vector.<Rectangle>, cameras:Vector.<Camera3D>):void
+		public function renderCascades(entityCollector:EntityCollector, target:TextureBase, numCascades:uint, scissorRects:Vector.<Rectangle>, cameras:Vector.<Camera3D>):void
 		{
 			_renderTarget = target;
 			_renderTargetSurface = 0;

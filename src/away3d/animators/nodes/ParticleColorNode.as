@@ -2,7 +2,7 @@ package away3d.animators.nodes
 {
 	import flash.geom.ColorTransform;
 
-	import away3d.arcane;
+	
 	import away3d.animators.IAnimator;
 	import away3d.animators.ParticleAnimationSet;
 	import away3d.animators.data.AnimationRegisterCache;
@@ -13,7 +13,7 @@ package away3d.animators.nodes
 	import away3d.materials.passes.MaterialPassBase;
 
 
-	use namespace arcane;
+	
 
 	/**
 	 * A particle animation node used to control the color variation of a particle over time.
@@ -21,40 +21,40 @@ package away3d.animators.nodes
 	public class ParticleColorNode extends ParticleNodeBase
 	{
 		/** @private */
-		arcane static const START_MULTIPLIER_INDEX:uint = 0;
+		public static const START_MULTIPLIER_INDEX:uint = 0;
 
 
 		/** @private */
-		arcane static const DELTA_MULTIPLIER_INDEX:uint = 1;
+		public static const DELTA_MULTIPLIER_INDEX:uint = 1;
 
 
 		/** @private */
-		arcane static const START_OFFSET_INDEX:uint = 2;
+		public static const START_OFFSET_INDEX:uint = 2;
 
 
 		/** @private */
-		arcane static const DELTA_OFFSET_INDEX:uint = 3;
+		public static const DELTA_OFFSET_INDEX:uint = 3;
 
 		/** @private */
-		arcane static const CYCLE_INDEX:uint = 4;
+		public static const CYCLE_INDEX:uint = 4;
 
 		//default values used when creating states
 		/** @private */
-		arcane var _usesMultiplier:Boolean;
+		public var _usesMultiplier:Boolean;
 		/** @private */
-		arcane var _usesOffset:Boolean;
+		public var _usesOffset:Boolean;
 		/** @private */
-		arcane var _usesCycle:Boolean;
+		public var _usesCycle:Boolean;
 		/** @private */
-		arcane var _usesPhase:Boolean;
+		public var _usesPhase:Boolean;
 		/** @private */
-		arcane var _startColor:ColorTransform;
+		public var _startColor:ColorTransform;
 		/** @private */
-		arcane var _endColor:ColorTransform;
+		public var _endColor:ColorTransform;
 		/** @private */
-		arcane var _cycleDuration:Number;
+		public var _cycleDuration:Number;
 		/** @private */
-		arcane var _cyclePhase:Number;
+		public var _cyclePhase:Number;
 
 		/**
 		 * Reference for color node properties on a single particle (when in local property mode).
@@ -168,7 +168,7 @@ package away3d.animators.nodes
 		/**
 		 * @inheritDoc
 		 */
-		override arcane function processAnimationSetting(particleAnimationSet:ParticleAnimationSet):void
+		override public function processAnimationSetting(particleAnimationSet:ParticleAnimationSet):void
 		{
 			if (_usesMultiplier)
 				particleAnimationSet.hasColorMulNode = true;
@@ -179,7 +179,7 @@ package away3d.animators.nodes
 		/**
 		 * @inheritDoc
 		 */
-		override arcane function generatePropertyOfOneParticle(param:ParticleProperties):void
+		override public function generatePropertyOfOneParticle(param:ParticleProperties):void
 		{
 			var startColor:ColorTransform = param[COLOR_START_COLORTRANSFORM];
 			if (!startColor)

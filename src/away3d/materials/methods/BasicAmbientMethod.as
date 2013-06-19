@@ -1,6 +1,6 @@
 package away3d.materials.methods
 {
-	import away3d.arcane;
+	
 	import away3d.entities.Camera3D;
 	import away3d.core.base.IRenderable;
 	import away3d.core.managers.Stage3DProxy;
@@ -8,7 +8,7 @@ package away3d.materials.methods
 	import away3d.materials.compilation.ShaderRegisterElement;
 	import away3d.textures.Texture2DBase;
 
-	use namespace arcane;
+	
 
 	/**
 	 * BasicAmbientMethod provides the default shading method for uniform ambient lighting.
@@ -25,9 +25,9 @@ package away3d.materials.methods
 		private var _ambientColor:uint = 0xffffff;
 		private var _ambientR:Number = 0, _ambientG:Number = 0, _ambientB:Number = 0;
 		private var _ambient:Number = 1;
-		arcane var _lightAmbientR:Number = 0;
-		arcane var _lightAmbientG:Number = 0;
-		arcane var _lightAmbientB:Number = 0;
+		public var _lightAmbientR:Number = 0;
+		public var _lightAmbientG:Number = 0;
+		public var _lightAmbientB:Number = 0;
 
 
 		/**
@@ -38,12 +38,12 @@ package away3d.materials.methods
 			super();
 		}
 
-		override arcane function initVO(vo:MethodVO):void
+		override public function initVO(vo:MethodVO):void
 		{
 			vo.needsUV = _useTexture;
 		}
 
-		override arcane function initConstants(vo:MethodVO):void
+		override public function initConstants(vo:MethodVO):void
 		{
 			vo.fragmentData[vo.fragmentConstantsIndex + 3] = 1;
 		}
@@ -101,7 +101,7 @@ package away3d.materials.methods
 			ambientColor = diff.ambientColor;
 		}
 
-		arcane override function cleanCompilationData():void
+		public override function cleanCompilationData():void
 		{
 			super.cleanCompilationData();
 			_ambientInputRegister = null;
@@ -110,7 +110,7 @@ package away3d.materials.methods
 		/**
 		 * @inheritDoc
 		 */
-		arcane function getFragmentCode(vo:MethodVO, regCache:ShaderRegisterCache, targetReg:ShaderRegisterElement):String
+		public function getFragmentCode(vo:MethodVO, regCache:ShaderRegisterCache, targetReg:ShaderRegisterElement):String
 		{
 			var code:String = "";
 
@@ -135,7 +135,7 @@ package away3d.materials.methods
 		/**
 		 * @inheritDoc
 		 */
-		override arcane function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):void
+		override public function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):void
 		{
 			if (_useTexture)
 				stage3DProxy.context3D.setTextureAt(vo.texturesIndex, _texture.getTextureForStage3D(stage3DProxy));
@@ -152,7 +152,7 @@ package away3d.materials.methods
 		}
 
 
-		override arcane function setRenderState(vo:MethodVO, renderable:IRenderable, stage3DProxy:Stage3DProxy, camera:Camera3D):void
+		override public function setRenderState(vo:MethodVO, renderable:IRenderable, stage3DProxy:Stage3DProxy, camera:Camera3D):void
 		{
 			updateAmbient();
 

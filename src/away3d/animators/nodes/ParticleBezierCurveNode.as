@@ -2,7 +2,7 @@ package away3d.animators.nodes
 {
 	import flash.geom.Vector3D;
 
-	import away3d.arcane;
+	
 	import away3d.animators.IAnimator;
 	import away3d.animators.data.AnimationRegisterCache;
 	import away3d.animators.data.ParticleProperties;
@@ -11,7 +11,7 @@ package away3d.animators.nodes
 	import away3d.materials.compilation.ShaderRegisterElement;
 	import away3d.materials.passes.MaterialPassBase;
 
-	use namespace arcane;
+	
 
 	/**
 	 * A particle animation node used to control the position of a particle over time along a bezier curve.
@@ -19,15 +19,15 @@ package away3d.animators.nodes
 	public class ParticleBezierCurveNode extends ParticleNodeBase
 	{
 		/** @private */
-		arcane static const BEZIER_CONTROL_INDEX:int = 0;
+		public static const BEZIER_CONTROL_INDEX:int = 0;
 
 		/** @private */
-		arcane static const BEZIER_END_INDEX:int = 1;
+		public static const BEZIER_END_INDEX:int = 1;
 
 		/** @private */
-		arcane var _controlPoint:Vector3D;
+		public var _controlPoint:Vector3D;
 		/** @private */
-		arcane var _endPoint:Vector3D;
+		public var _endPoint:Vector3D;
 
 		/**
 		 * Reference for bezier curve node properties on a single particle (when in local property mode).
@@ -116,7 +116,7 @@ package away3d.animators.nodes
 		/**
 		 * @inheritDoc
 		 */
-		override arcane function generatePropertyOfOneParticle(param:ParticleProperties):void
+		override public function generatePropertyOfOneParticle(param:ParticleProperties):void
 		{
 			var bezierControl:Vector3D = param[BEZIER_CONTROL_VECTOR3D];
 			if (!bezierControl)

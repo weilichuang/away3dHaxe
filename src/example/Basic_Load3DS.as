@@ -65,15 +65,15 @@ package example
 	public class Basic_Load3DS extends BasicApplication
 	{
 		//solider ant texture
-		[Embed(source = "/../embeds/soldier_ant.jpg")]
+		[Embed(source = "../embeds/soldier_ant.jpg")]
 		public static var AntTexture:Class;
 
 		//solider ant model
-		[Embed(source = "/../embeds/soldier_ant.3ds", mimeType = "application/octet-stream")]
+		[Embed(source = "../embeds/soldier_ant.3ds", mimeType = "application/octet-stream")]
 		public static var AntModel:Class;
 
 		//ground texture
-		[Embed(source = "/../embeds/CoarseRedSand.jpg")]
+		[Embed(source = "../embeds/CoarseRedSand.jpg")]
 		public static var SandTexture:Class;
 
 		//engine variables

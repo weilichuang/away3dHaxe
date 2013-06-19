@@ -1,16 +1,15 @@
 package away3d.events
 {
-	import flash.events.Event;
-	import flash.geom.Point;
-	import flash.geom.Vector3D;
-	
-	import away3d.arcane;
 	import away3d.core.base.IRenderable;
 	import away3d.entities.ObjectContainer3D;
 	import away3d.entities.View3D;
 	import away3d.materials.MaterialBase;
+	import flash.events.Event;
+	import flash.geom.Point;
+	import flash.geom.Vector3D;
+	
 
-	use namespace arcane;
+	
 
 	/**
 	 * A MouseEvent3D is dispatched when a mouse event occurs over a mouseEnabled object in View3D.
@@ -19,8 +18,8 @@ package away3d.events
 	public class MouseEvent3D extends Event
 	{
 		// Private.
-		arcane var _allowedToPropagate:Boolean = true;
-		arcane var _parentEvent:MouseEvent3D;
+		public var _allowedToPropagate:Boolean = true;
+		public var _parentEvent:MouseEvent3D;
 
 		/**
 		 * Defines the value of the type property of a mouseOver3d event object.

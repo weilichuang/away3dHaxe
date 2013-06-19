@@ -3,7 +3,7 @@ package away3d.io.loaders.parsers
 	import flash.geom.Vector3D;
 	import flash.utils.Dictionary;
 
-	import away3d.arcane;
+	
 	import away3d.core.base.CompactSubGeometry;
 	import away3d.core.base.Geometry;
 	import away3d.entities.Mesh;
@@ -14,7 +14,7 @@ package away3d.io.loaders.parsers
 	import away3d.materials.MaterialBase;
 	import away3d.entities.primitives.LineSegment;
 
-	use namespace arcane;
+	
 
 	/**
 	* DXFParser provides a parser for the dxf 3D renderable data.

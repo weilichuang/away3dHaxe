@@ -2,7 +2,7 @@ package away3d.animators.nodes
 {
 	import flash.geom.Vector3D;
 
-	import away3d.arcane;
+	
 	import away3d.animators.IAnimator;
 	import away3d.animators.data.AnimationRegisterCache;
 	import away3d.animators.data.ParticleProperties;
@@ -11,7 +11,7 @@ package away3d.animators.nodes
 	import away3d.materials.compilation.ShaderRegisterElement;
 	import away3d.materials.passes.MaterialPassBase;
 
-	use namespace arcane;
+	
 
 	/**
 	 * A particle animation node used to control the rotation of a particle to face to a position
@@ -19,12 +19,12 @@ package away3d.animators.nodes
 	public class ParticleRotateToPositionNode extends ParticleNodeBase
 	{
 		/** @private */
-		arcane static const MATRIX_INDEX:int = 0;
+		public static const MATRIX_INDEX:int = 0;
 		/** @private */
-		arcane static const POSITION_INDEX:int = 1;
+		public static const POSITION_INDEX:int = 1;
 
 		/** @private */
-		arcane var _position:Vector3D;
+		public var _position:Vector3D;
 
 		/**
 		 * Reference for the position the particle will rotate to face for a single particle (when in local property mode).
@@ -220,7 +220,7 @@ package away3d.animators.nodes
 		/**
 		 * @inheritDoc
 		 */
-		override arcane function generatePropertyOfOneParticle(param:ParticleProperties):void
+		override public function generatePropertyOfOneParticle(param:ParticleProperties):void
 		{
 			var offset:Vector3D = param[POSITION_VECTOR3D];
 			if (!offset)

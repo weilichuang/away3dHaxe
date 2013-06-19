@@ -1,17 +1,17 @@
 package away3d.animators.nodes
 {
-	import away3d.arcane;
+	
 	import away3d.animators.IAnimator;
 	import away3d.animators.states.SkeletonNaryLERPState;
 
-	use namespace arcane;
+	
 
 	/**
 	 * A skeleton animation node that uses an n-dimensional array of animation node inputs to blend a lineraly interpolated output of a skeleton pose.
 	 */
 	public class SkeletonNaryLERPNode extends AnimationNodeBase
 	{
-		arcane var _inputs:Vector.<AnimationNodeBase> = new Vector.<AnimationNodeBase>();
+		public var _inputs:Vector.<AnimationNodeBase> = new Vector.<AnimationNodeBase>();
 		private var _numInputs:uint;
 
 		public function get numInputs():uint

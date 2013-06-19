@@ -16,7 +16,7 @@ package away3d.core.pick
 	import flash.geom.Rectangle;
 	import flash.geom.Vector3D;
 
-	import away3d.arcane;
+	
 	import away3d.entities.Camera3D;
 	import away3d.core.base.IRenderable;
 	import away3d.core.base.ISubGeometry;
@@ -30,7 +30,7 @@ package away3d.core.pick
 	import away3d.math.Matrix3DUtils;
 	import away3d.tools.utils.GeomUtil;
 
-	use namespace arcane;
+	
 
 	/**
 	 * Picks a 3d object from a view or scene by performing a separate render pass on the scene around the area being picked using key color values,

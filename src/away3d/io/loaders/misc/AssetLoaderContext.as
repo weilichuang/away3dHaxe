@@ -1,7 +1,5 @@
 package away3d.io.loaders.misc
 {
-	import away3d.arcane;
-
 	public class AssetLoaderContext
 	{
 		public static const UNDEFINED:uint = 0;
@@ -146,7 +144,7 @@ package away3d.io.loaders.misc
 		 * @private
 		 * Defines whether embedded data has been mapped to a particular URL.
 		*/
-		arcane function hasDataForUrl(url:String):Boolean
+		public function hasDataForUrl(url:String):Boolean
 		{
 			return _embeddedDataByUrl.hasOwnProperty(url);
 		}
@@ -156,7 +154,7 @@ package away3d.io.loaders.misc
 		 * @private
 		 * Returns embedded data for a particular URL.
 		*/
-		arcane function getDataForUrl(url:String):*
+		public function getDataForUrl(url:String):*
 		{
 			return _embeddedDataByUrl[url];
 		}
@@ -166,7 +164,7 @@ package away3d.io.loaders.misc
 		 * @private
 		 * Defines whether a replacement URL has been mapped to a particular URL.
 		*/
-		arcane function hasMappingForUrl(url:String):Boolean
+		public function hasMappingForUrl(url:String):Boolean
 		{
 			return _remappedUrls.hasOwnProperty(url);
 		}
@@ -176,7 +174,7 @@ package away3d.io.loaders.misc
 		 * @private
 		 * Returns new (replacement) URL for a particular original URL.
 		*/
-		arcane function getRemappedUrl(originalUrl:String):String
+		public function getRemappedUrl(originalUrl:String):String
 		{
 			return _remappedUrls[originalUrl];
 		}

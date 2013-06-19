@@ -1,6 +1,6 @@
 package away3d.materials.methods
 {
-	import away3d.arcane;
+	
 	import away3d.core.managers.Stage3DProxy;
 	import away3d.events.ShadingMethodEvent;
 	import away3d.materials.compilation.ShaderRegisterCache;
@@ -9,7 +9,7 @@ package away3d.materials.methods
 	import away3d.materials.passes.MaterialPassBase;
 	import away3d.textures.Texture2DBase;
 
-	use namespace arcane;
+	
 
 	/**
 	 * CompositeSpecularMethod provides a base class for specular methods that wrap a specular method to alter the strength
@@ -32,12 +32,12 @@ package away3d.materials.methods
 			_baseMethod.addEventListener(ShadingMethodEvent.SHADER_INVALIDATED, onShaderInvalidated);
 		}
 
-		override arcane function initVO(vo:MethodVO):void
+		override public function initVO(vo:MethodVO):void
 		{
 			_baseMethod.initVO(vo);
 		}
 
-		override arcane function initConstants(vo:MethodVO):void
+		override public function initConstants(vo:MethodVO):void
 		{
 			_baseMethod.initConstants(vo);
 		}
@@ -119,12 +119,12 @@ package away3d.materials.methods
 		/**
 		 * @inheritDoc
 		 */
-		override arcane function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):void
+		override public function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):void
 		{
 			_baseMethod.activate(vo, stage3DProxy);
 		}
 
-		arcane override function deactivate(vo:MethodVO, stage3DProxy:Stage3DProxy):void
+		public override function deactivate(vo:MethodVO, stage3DProxy:Stage3DProxy):void
 		{
 			_baseMethod.deactivate(vo, stage3DProxy);
 		}
@@ -132,7 +132,7 @@ package away3d.materials.methods
 		/**
 		 * @inheritDoc
 		 */
-		override arcane function set sharedRegisters(value:ShaderRegisterData):void
+		override public function set sharedRegisters(value:ShaderRegisterData):void
 		{
 			super.sharedRegisters = _baseMethod.sharedRegisters = value;
 		}
@@ -140,7 +140,7 @@ package away3d.materials.methods
 		/**
 		 * @inheritDoc
 		 */
-		override arcane function getVertexCode(vo:MethodVO, regCache:ShaderRegisterCache):String
+		override public function getVertexCode(vo:MethodVO, regCache:ShaderRegisterCache):String
 		{
 			return _baseMethod.getVertexCode(vo, regCache);
 		}
@@ -148,7 +148,7 @@ package away3d.materials.methods
 		/**
 		 * @inheritDoc
 		 */
-		override arcane function getFragmentPreLightingCode(vo:MethodVO, regCache:ShaderRegisterCache):String
+		override public function getFragmentPreLightingCode(vo:MethodVO, regCache:ShaderRegisterCache):String
 		{
 			return _baseMethod.getFragmentPreLightingCode(vo, regCache);
 		}
@@ -156,7 +156,7 @@ package away3d.materials.methods
 		/**
 		 * @inheritDoc
 		 */
-		override arcane function getFragmentCodePerLight(vo:MethodVO, lightDirReg:ShaderRegisterElement, lightColReg:ShaderRegisterElement, regCache:ShaderRegisterCache):String
+		override public function getFragmentCodePerLight(vo:MethodVO, lightDirReg:ShaderRegisterElement, lightColReg:ShaderRegisterElement, regCache:ShaderRegisterCache):String
 		{
 			return _baseMethod.getFragmentCodePerLight(vo, lightDirReg, lightColReg, regCache);
 		}
@@ -165,7 +165,7 @@ package away3d.materials.methods
 		 * @inheritDoc
 		 * @return
 		 */
-		arcane override function getFragmentCodePerProbe(vo:MethodVO, cubeMapReg:ShaderRegisterElement, weightRegister:String, regCache:ShaderRegisterCache):String
+		public override function getFragmentCodePerProbe(vo:MethodVO, cubeMapReg:ShaderRegisterElement, weightRegister:String, regCache:ShaderRegisterCache):String
 		{
 			return _baseMethod.getFragmentCodePerProbe(vo, cubeMapReg, weightRegister, regCache);
 		}
@@ -173,7 +173,7 @@ package away3d.materials.methods
 		/**
 		 * @inheritDoc
 		 */
-		override arcane function getFragmentPostLightingCode(vo:MethodVO, regCache:ShaderRegisterCache, targetReg:ShaderRegisterElement):String
+		override public function getFragmentPostLightingCode(vo:MethodVO, regCache:ShaderRegisterCache, targetReg:ShaderRegisterElement):String
 		{
 			return _baseMethod.getFragmentPostLightingCode(vo, regCache, targetReg);
 		}
@@ -181,18 +181,18 @@ package away3d.materials.methods
 		/**
 		 * @inheritDoc
 		 */
-		arcane override function reset():void
+		public override function reset():void
 		{
 			_baseMethod.reset();
 		}
 
-		arcane override function cleanCompilationData():void
+		public override function cleanCompilationData():void
 		{
 			super.cleanCompilationData();
 			_baseMethod.cleanCompilationData();
 		}
 
-		override arcane function set shadowRegister(value:ShaderRegisterElement):void
+		override public function set shadowRegister(value:ShaderRegisterElement):void
 		{
 			super.shadowRegister = value;
 			_baseMethod.shadowRegister = value;

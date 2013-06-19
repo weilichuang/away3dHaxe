@@ -2,7 +2,7 @@ package away3d.materials.lightpickers
 {
 	import flash.geom.Vector3D;
 	
-	import away3d.arcane;
+	
 	import away3d.core.base.IRenderable;
 	import away3d.core.traverse.EntityCollector;
 	import away3d.io.library.assets.AssetType;
@@ -13,7 +13,7 @@ package away3d.materials.lightpickers
 	import away3d.entities.lights.LightProbe;
 	import away3d.entities.lights.PointLight;
 
-	use namespace arcane;
+	
 
 	public class LightPickerBase extends NamedAssetBase implements IAsset
 	{

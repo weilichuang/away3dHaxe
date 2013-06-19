@@ -7,7 +7,7 @@ package away3d.entities.lights.shadowmaps
 	import flash.geom.Matrix3D;
 	import flash.geom.Rectangle;
 	
-	import away3d.arcane;
+	
 	import away3d.entities.Camera3D;
 	import away3d.entities.lenses.FreeMatrixLens;
 	import away3d.entities.lenses.LensBase;
@@ -15,7 +15,7 @@ package away3d.entities.lights.shadowmaps
 	import away3d.entities.Scene3D;
 	import away3d.math.Matrix3DUtils;
 
-	use namespace arcane;
+	
 
 	public class CascadeShadowMapper extends DirectionalShadowMapper implements IEventDispatcher
 	{
@@ -277,7 +277,7 @@ package away3d.entities.lights.shadowmaps
 			return _changeDispatcher.willTrigger(type);
 		}
 
-		arcane function get nearPlaneDistances():Vector.<Number>
+		public function get nearPlaneDistances():Vector.<Number>
 		{
 			return _nearPlaneDistances;
 		}

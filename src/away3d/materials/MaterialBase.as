@@ -6,7 +6,7 @@ package away3d.materials
 	import flash.events.Event;
 	import flash.geom.Matrix3D;
 
-	import away3d.arcane;
+	
 	import away3d.animators.IAnimationSet;
 	import away3d.entities.Camera3D;
 	import away3d.core.base.IMaterialOwner;
@@ -21,7 +21,7 @@ package away3d.materials
 	import away3d.materials.passes.DistanceMapPass;
 	import away3d.materials.passes.MaterialPassBase;
 
-	use namespace arcane;
+	
 
 	/**
 	 * MaterialBase forms an abstract base class for any material.
@@ -36,13 +36,13 @@ package away3d.materials
 
 		// can be used by other renderers to determine how to render this particular material
 		// in practice, this can be checked by a custom EntityCollector
-		arcane var _classification:String;
+		public var _classification:String;
 
 		// this value is usually derived from other settings
-		arcane var _uniqueId:uint;
+		public var _uniqueId:uint;
 
-		arcane var _renderOrderId:int;
-		arcane var _depthPassId:int;
+		public var _renderOrderId:int;
+		public var _depthPassId:int;
 
 		private var _bothSides:Boolean;
 		private var _animationSet:IAnimationSet;
@@ -257,17 +257,17 @@ package away3d.materials
 		 *
 		 * @private
 		 */
-		arcane function get numPasses():uint
+		public function get numPasses():uint
 		{
 			return _numPasses;
 		}
 
-		arcane function hasDepthAlphaThreshold():Boolean
+		public function hasDepthAlphaThreshold():Boolean
 		{
 			return _depthPass.alphaThreshold > 0;
 		}
 
-		arcane function activateForDepth(stage3DProxy:Stage3DProxy, camera:Camera3D, distanceBased:Boolean = false):void
+		public function activateForDepth(stage3DProxy:Stage3DProxy, camera:Camera3D, distanceBased:Boolean = false):void
 		{
 			_distanceBasedDepthRender = distanceBased;
 
@@ -277,7 +277,7 @@ package away3d.materials
 				_depthPass.activate(stage3DProxy, camera);
 		}
 
-		arcane function deactivateForDepth(stage3DProxy:Stage3DProxy):void
+		public function deactivateForDepth(stage3DProxy:Stage3DProxy):void
 		{
 			if (_distanceBasedDepthRender)
 				_distancePass.deactivate(stage3DProxy);
@@ -285,7 +285,7 @@ package away3d.materials
 				_depthPass.deactivate(stage3DProxy);
 		}
 
-		arcane function renderDepth(renderable:IRenderable, stage3DProxy:Stage3DProxy, camera:Camera3D, viewProjection:Matrix3D):void
+		public function renderDepth(renderable:IRenderable, stage3DProxy:Stage3DProxy, camera:Camera3D, viewProjection:Matrix3D):void
 		{
 			if (_distanceBasedDepthRender)
 			{
@@ -301,7 +301,7 @@ package away3d.materials
 			}
 		}
 
-		arcane function passRendersToTexture(index:uint):Boolean
+		public function passRendersToTexture(index:uint):Boolean
 		{
 			return _passes[index].renderToTexture;
 		}
@@ -313,7 +313,7 @@ package away3d.materials
 		 * @param camera The camera from which the scene is viewed.
 		 * @private
 		 */
-		arcane function activatePass(index:uint, stage3DProxy:Stage3DProxy, camera:Camera3D):void
+		public function activatePass(index:uint, stage3DProxy:Stage3DProxy, camera:Camera3D):void
 		{
 			_passes[index].activate(stage3DProxy, camera);
 		}
@@ -324,7 +324,7 @@ package away3d.materials
 		 * @param context The Context3D object that is currently rendering.
 		 * @private
 		 */
-		arcane function deactivatePass(index:uint, stage3DProxy:Stage3DProxy):void
+		public function deactivatePass(index:uint, stage3DProxy:Stage3DProxy):void
 		{
 			_passes[index].deactivate(stage3DProxy);
 		}
@@ -334,7 +334,7 @@ package away3d.materials
 		 * @param index The pass to render with.
 		 * @private
 		 */
-		arcane function renderPass(index:uint, renderable:IRenderable, stage3DProxy:Stage3DProxy, entityCollector:EntityCollector, viewProjection:Matrix3D):void
+		public function renderPass(index:uint, renderable:IRenderable, stage3DProxy:Stage3DProxy, entityCollector:EntityCollector, viewProjection:Matrix3D):void
 		{
 			if (_lightPicker)
 				_lightPicker.collectLights(renderable, entityCollector);
@@ -360,7 +360,7 @@ package away3d.materials
 		 *
 		 * @private
 		 */
-		arcane function addOwner(owner:IMaterialOwner):void
+		public function addOwner(owner:IMaterialOwner):void
 		{
 			_owners.push(owner);
 
@@ -390,7 +390,7 @@ package away3d.materials
 		 * @param owner
 		 * @private
 		 */
-		arcane function removeOwner(owner:IMaterialOwner):void
+		public function removeOwner(owner:IMaterialOwner):void
 		{
 			_owners.splice(_owners.indexOf(owner), 1);
 			if (_owners.length == 0)
@@ -408,7 +408,7 @@ package away3d.materials
 		 * A list of the IMaterialOwners that use this material
 		 * @private
 		 */
-		arcane function get owners():Vector.<IMaterialOwner>
+		public function get owners():Vector.<IMaterialOwner>
 		{
 			return _owners;
 		}
@@ -418,7 +418,7 @@ package away3d.materials
 		 *
 		 * @private
 		 */
-		arcane function updateMaterial(context:Context3D):void
+		public function updateMaterial(context:Context3D):void
 		{
 
 		}
@@ -427,7 +427,7 @@ package away3d.materials
 		 * Deactivates the material (in effect, its last pass)
 		 * @private
 		 */
-		arcane function deactivate(stage3DProxy:Stage3DProxy):void
+		public function deactivate(stage3DProxy:Stage3DProxy):void
 		{
 			_passes[_numPasses - 1].deactivate(stage3DProxy);
 		}
@@ -436,7 +436,7 @@ package away3d.materials
 		 * Marks the depth shader programs as invalid, so it will be recompiled before the next render.
 		 * @param triggerPass The pass triggering the invalidation, if any, so no infinite loop will occur.
 		 */
-		arcane function invalidatePasses(triggerPass:MaterialPassBase):void
+		public function invalidatePasses(triggerPass:MaterialPassBase):void
 		{
 			var owner:IMaterialOwner;
 
@@ -513,7 +513,7 @@ package away3d.materials
 
 			for (var i:int = 0; i < _numPasses; ++i)
 			{
-				ids = _passes[i]._program3Dids;
+				ids = _passes[i].getProgram3Dids();
 				len = ids.length;
 				for (var j:int = 0; j < len; ++j)
 				{
@@ -529,7 +529,7 @@ package away3d.materials
 
 		private function onDistancePassChange(event:Event):void
 		{
-			var ids:Vector.<int> = _distancePass._program3Dids;
+			var ids:Vector.<int> = _distancePass.getProgram3Dids();
 			var len:uint = ids.length;
 
 			_depthPassId = 0;
@@ -546,7 +546,7 @@ package away3d.materials
 
 		private function onDepthPassChange(event:Event):void
 		{
-			var ids:Vector.<int> = _depthPass._program3Dids;
+			var ids:Vector.<int> = _depthPass.getProgram3Dids();
 			var len:uint = ids.length;
 
 			_depthPassId = 0;

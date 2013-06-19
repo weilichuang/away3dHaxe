@@ -93,7 +93,7 @@ package example
 		private var _textureDictionary:Dictionary = new Dictionary();
 
 		//
-		[Embed(source = "/../embeds/diffuseGradient.jpg")]
+		[Embed(source = "../embeds/diffuseGradient.jpg")]
 		private var DiffuseGradient:Class;
 
 		//engine variables

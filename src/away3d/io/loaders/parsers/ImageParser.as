@@ -1,7 +1,7 @@
 package away3d.io.loaders.parsers
 
 {
-	import away3d.arcane;
+	
 	import away3d.events.AssetEvent;
 	import away3d.io.library.assets.BitmapDataAsset;
 	import away3d.textures.ATFTexture;
@@ -14,7 +14,7 @@ package away3d.io.loaders.parsers
 	import flash.events.Event;
 	import flash.utils.ByteArray;
 
-	use namespace arcane;
+	
 
 	/**
 	 * ImageParser provides a "parser" for natively supported image types (jpg, png). While it simply loads bytes into

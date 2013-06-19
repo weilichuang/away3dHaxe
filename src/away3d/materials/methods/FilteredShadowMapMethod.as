@@ -1,12 +1,12 @@
 package away3d.materials.methods
 {
-	import away3d.arcane;
+	
 	import away3d.core.managers.Stage3DProxy;
 	import away3d.entities.lights.DirectionalLight;
 	import away3d.materials.compilation.ShaderRegisterCache;
 	import away3d.materials.compilation.ShaderRegisterElement;
 
-	use namespace arcane;
+	
 
 	public class FilteredShadowMapMethod extends SimpleShadowMapMethodBase
 	{
@@ -20,7 +20,7 @@ package away3d.materials.methods
 			super(castingLight);
 		}
 
-		override arcane function initConstants(vo:MethodVO):void
+		override public function initConstants(vo:MethodVO):void
 		{
 			super.initConstants(vo);
 
@@ -102,7 +102,7 @@ package away3d.materials.methods
 			return code;
 		}
 
-		override arcane function activateForCascade(vo:MethodVO, stage3DProxy:Stage3DProxy):void
+		override public function activateForCascade(vo:MethodVO, stage3DProxy:Stage3DProxy):void
 		{
 			var size:int = _castingLight.shadowMapper.depthMapSize;
 			var index:int = vo.secondaryFragmentConstantsIndex;
@@ -112,7 +112,7 @@ package away3d.materials.methods
 		}
 
 
-		override arcane function getCascadeFragmentCode(vo:MethodVO, regCache:ShaderRegisterCache, decodeRegister:ShaderRegisterElement, depthTexture:ShaderRegisterElement, depthProjection:ShaderRegisterElement,
+		override public function getCascadeFragmentCode(vo:MethodVO, regCache:ShaderRegisterCache, decodeRegister:ShaderRegisterElement, depthTexture:ShaderRegisterElement, depthProjection:ShaderRegisterElement,
 			targetRegister:ShaderRegisterElement):String
 		{
 			var code:String;

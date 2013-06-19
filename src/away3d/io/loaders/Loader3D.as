@@ -4,7 +4,7 @@ package away3d.io.loaders
 	import flash.events.EventDispatcher;
 	import flash.net.URLRequest;
 	
-	import away3d.arcane;
+	
 	import away3d.entities.Mesh;
 	import away3d.entities.ObjectContainer3D;
 	import away3d.events.AssetEvent;
@@ -18,7 +18,7 @@ package away3d.io.loaders
 	import away3d.io.loaders.misc.SingleFileLoader;
 	import away3d.io.loaders.parsers.ParserBase;
 
-	use namespace arcane;
+	
 
 	/**
 	 * Dispatched when a full resource (including dependencies) finishes loading.

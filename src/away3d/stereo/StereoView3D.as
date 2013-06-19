@@ -1,6 +1,6 @@
 package away3d.stereo
 {
-	import away3d.arcane;
+	
 	import away3d.entities.Camera3D;
 	import away3d.entities.Scene3D;
 	import away3d.entities.View3D;
@@ -9,7 +9,7 @@ package away3d.stereo
 
 	import flash.display3D.textures.Texture;
 
-	use namespace arcane;
+	
 
 	public class StereoView3D extends View3D
 	{

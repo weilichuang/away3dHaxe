@@ -1,6 +1,6 @@
 package away3d.materials.methods
 {
-	import away3d.arcane;
+	
 	import away3d.core.managers.Stage3DProxy;
 	import away3d.entities.lights.DirectionalLight;
 	import away3d.materials.compilation.ShaderRegisterCache;
@@ -9,7 +9,7 @@ package away3d.materials.methods
 
 	import flash.display.BitmapData;
 
-	use namespace arcane;
+	
 
 	/**
 	 * DitheredShadowMapMethod provides a soft shadowing technique by randomly distributing sample points.
@@ -57,13 +57,13 @@ package away3d.materials.methods
 			invalidateShaderProgram();
 		}
 
-		override arcane function initVO(vo:MethodVO):void
+		override public function initVO(vo:MethodVO):void
 		{
 			super.initVO(vo);
 			vo.needsProjection = true;
 		}
 
-		override arcane function initConstants(vo:MethodVO):void
+		override public function initConstants(vo:MethodVO):void
 		{
 			super.initConstants(vo);
 
@@ -127,7 +127,7 @@ package away3d.materials.methods
 			}
 		}
 
-		arcane override function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):void
+		public override function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):void
 		{
 			super.activate(vo, stage3DProxy);
 			var data:Vector.<Number> = vo.fragmentData;
@@ -245,7 +245,7 @@ package away3d.materials.methods
 		}
 
 
-		override arcane function activateForCascade(vo:MethodVO, stage3DProxy:Stage3DProxy):void
+		override public function activateForCascade(vo:MethodVO, stage3DProxy:Stage3DProxy):void
 		{
 			var data:Vector.<Number> = vo.fragmentData;
 			var index:uint = vo.secondaryFragmentConstantsIndex;
@@ -256,7 +256,7 @@ package away3d.materials.methods
 			stage3DProxy.context3D.setTextureAt(vo.texturesIndex + 1, _grainTexture.getTextureForStage3D(stage3DProxy));
 		}
 
-		override arcane function getCascadeFragmentCode(vo:MethodVO, regCache:ShaderRegisterCache, decodeRegister:ShaderRegisterElement, depthTexture:ShaderRegisterElement, depthProjection:ShaderRegisterElement,
+		override public function getCascadeFragmentCode(vo:MethodVO, regCache:ShaderRegisterCache, decodeRegister:ShaderRegisterElement, depthTexture:ShaderRegisterElement, depthProjection:ShaderRegisterElement,
 			targetRegister:ShaderRegisterElement):String
 		{
 			_depthMapCoordReg = depthProjection;

@@ -3,11 +3,11 @@
  */
 package away3d.materials.methods
 {
-	import away3d.arcane;
+	
 	import away3d.materials.compilation.ShaderRegisterCache;
 	import away3d.materials.compilation.ShaderRegisterElement;
 
-	use namespace arcane;
+	
 
 	public class PhongSpecularMethod extends BasicSpecularMethod
 	{
@@ -19,7 +19,7 @@ package away3d.materials.methods
 			super();
 		}
 
-		arcane override function getFragmentCodePerLight(vo:MethodVO, lightDirReg:ShaderRegisterElement, lightColReg:ShaderRegisterElement, regCache:ShaderRegisterCache):String
+		public override function getFragmentCodePerLight(vo:MethodVO, lightDirReg:ShaderRegisterElement, lightColReg:ShaderRegisterElement, regCache:ShaderRegisterCache):String
 		{
 			var code:String = "";
 			var t:ShaderRegisterElement;

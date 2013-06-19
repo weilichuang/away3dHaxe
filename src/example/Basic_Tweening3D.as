@@ -16,11 +16,11 @@ package example
 	public class Basic_Tweening3D extends BasicApplication
 	{
 		//plane texture
-		[Embed(source = "/../embeds/floor_diffuse.jpg")]
+		[Embed(source = "../embeds/floor_diffuse.jpg")]
 		public static var FloorDiffuse:Class;
 
 		//cube texture jpg
-		[Embed(source = "/../embeds/trinket_diffuse.jpg")]
+		[Embed(source = "../embeds/trinket_diffuse.jpg")]
 		public static var TrinketDiffuse:Class;
 
 		//scene objects

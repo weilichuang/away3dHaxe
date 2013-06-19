@@ -7,7 +7,7 @@ package away3d.core.managers
 	import flash.geom.Vector3D;
 	import flash.utils.Dictionary;
 
-	import away3d.arcane;
+	
 	import away3d.core.pick.IPicker;
 	import away3d.core.pick.PickingCollisionVO;
 	import away3d.core.pick.PickingType;
@@ -15,7 +15,7 @@ package away3d.core.managers
 	import away3d.entities.View3D;
 	import away3d.events.MouseEvent3D;
 
-	use namespace arcane;
+	
 
 	/**
 	 * Mouse3DManager enforces a singleton pattern and is not intended to be instanced.

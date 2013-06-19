@@ -5,14 +5,14 @@
 	import flash.display3D.Context3DTextureFormat;
 	import flash.geom.Matrix3D;
 
-	import away3d.arcane;
+	
 	import away3d.entities.Camera3D;
 	import away3d.core.base.IRenderable;
 	import away3d.core.managers.Stage3DProxy;
 	import away3d.math.Matrix3DUtils;
 	import away3d.textures.Texture2DBase;
 
-	use namespace arcane;
+	
 
 	public class DepthMapPass extends MaterialPassBase
 	{
@@ -67,7 +67,7 @@
 		/**
 		 * @inheritDoc
 		 */
-		arcane override function getVertexCode():String
+		public override function getVertexCode():String
 		{
 			var code:String;
 			// project
@@ -95,7 +95,7 @@
 		/**
 		 * @inheritDoc
 		 */
-		arcane override function getFragmentCode(code:String):String
+		public override function getFragmentCode(code:String):String
 		{
 
 			var wrap:String = _repeat ? "wrap" : "clamp";
@@ -139,7 +139,7 @@
 		/**
 		 * @inheritDoc
 		 */
-		arcane override function render(renderable:IRenderable, stage3DProxy:Stage3DProxy, camera:Camera3D, viewProjection:Matrix3D):void
+		public override function render(renderable:IRenderable, stage3DProxy:Stage3DProxy, camera:Camera3D, viewProjection:Matrix3D):void
 		{
 			if (_alphaThreshold > 0)
 				renderable.activateUVBuffer(1, stage3DProxy);
@@ -156,7 +156,7 @@
 		/**
 		 * @inheritDoc
 		 */
-		override arcane function activate(stage3DProxy:Stage3DProxy, camera:Camera3D):void
+		override public function activate(stage3DProxy:Stage3DProxy, camera:Camera3D):void
 		{
 			var context:Context3D = stage3DProxy.context3D;
 			super.activate(stage3DProxy, camera);

@@ -4,7 +4,7 @@ package away3d.entities.lights.shadowmaps
 	import flash.geom.Matrix3D;
 	import flash.geom.Vector3D;
 	
-	import away3d.arcane;
+	
 	import away3d.entities.Camera3D;
 	import away3d.entities.lenses.FreeMatrixLens;
 	import away3d.core.render.DepthRenderer;
@@ -13,7 +13,7 @@ package away3d.entities.lights.shadowmaps
 	import away3d.math.Matrix3DUtils;
 	import away3d.math.Plane3D;
 
-	use namespace arcane;
+	
 
 	public class DirectionalShadowMapper extends ShadowMapperBase
 	{
@@ -63,7 +63,7 @@ package away3d.entities.lights.shadowmaps
 		/**
 		 * Depth projection matrix that projects from scene space to depth map.
 		 */
-		arcane function get depthProjection():Matrix3D
+		public function get depthProjection():Matrix3D
 		{
 			return _overallDepthCamera.viewProjection;
 		}
@@ -71,7 +71,7 @@ package away3d.entities.lights.shadowmaps
 		/**
 		 * Depth projection matrix that projects from scene space to depth map.
 		 */
-		arcane function get depth():Number
+		public function get depth():Number
 		{
 			return _maxZ - _minZ;
 		}

@@ -67,7 +67,7 @@ package example
 	public class Basic_Particles extends BasicApplication
 	{
 		//particle image
-		[Embed(source = "/../embeds/blue.png")]
+		[Embed(source = "../embeds/blue.png")]
 		private var ParticleImg:Class;
 
 		//engine variables

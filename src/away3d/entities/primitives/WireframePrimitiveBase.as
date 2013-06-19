@@ -1,6 +1,6 @@
 package away3d.entities.primitives
 {
-	import away3d.arcane;
+	
 	import away3d.bounds.BoundingVolumeBase;
 	import away3d.entities.SegmentSet;
 	import away3d.errors.AbstractMethodError;
@@ -8,7 +8,7 @@ package away3d.entities.primitives
 
 	import flash.geom.Vector3D;
 
-	use namespace arcane;
+	
 
 	public class WireframePrimitiveBase extends SegmentSet
 	{

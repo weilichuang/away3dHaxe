@@ -1,13 +1,13 @@
 package away3d.materials.methods
 {
-	import away3d.arcane;
+	
 	import away3d.core.managers.Stage3DProxy;
 	import away3d.materials.compilation.ShaderRegisterCache;
 	import away3d.materials.compilation.ShaderRegisterElement;
 
 	import flash.geom.ColorTransform;
 
-	use namespace arcane;
+	
 
 	/**
 	 * ColorTransformMethod provides a shading method that changes the colour of a material according to a ColorTransform
@@ -41,7 +41,7 @@ package away3d.materials.methods
 		/**
 		 * @inheritDoc
 		 */
-		override arcane function getFragmentCode(vo:MethodVO, regCache:ShaderRegisterCache, targetReg:ShaderRegisterElement):String
+		override public function getFragmentCode(vo:MethodVO, regCache:ShaderRegisterCache, targetReg:ShaderRegisterElement):String
 		{
 			var code:String = "";
 			var colorMultReg:ShaderRegisterElement = regCache.getFreeFragmentConstant();
@@ -55,7 +55,7 @@ package away3d.materials.methods
 		/**
 		 * @inheritDoc
 		 */
-		override arcane function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):void
+		override public function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):void
 		{
 			var inv:Number = 1 / 0xff;
 			var index:int = vo.fragmentConstantsIndex;

@@ -2,7 +2,7 @@ package away3d.animators
 {
 	import flash.display3D.Context3DProgramType;
 
-	import away3d.arcane;
+	
 	import away3d.animators.data.VertexAnimationMode;
 	import away3d.animators.states.IVertexAnimationState;
 	import away3d.animators.transitions.IAnimationTransition;
@@ -14,7 +14,7 @@ package away3d.animators
 	import away3d.core.managers.Stage3DProxy;
 	import away3d.materials.passes.MaterialPassBase;
 
-	use namespace arcane;
+	
 
 	/**
 	 * Provides an interface for assigning vertex-based animation data sets to mesh-based entity objects

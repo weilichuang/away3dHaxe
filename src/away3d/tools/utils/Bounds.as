@@ -4,12 +4,12 @@ package away3d.tools.utils
 	import flash.geom.Vector3D;
 	import flash.utils.Dictionary;
 
-	import away3d.arcane;
+	
 	import away3d.entities.Entity;
 	import away3d.entities.Mesh;
 	import away3d.entities.ObjectContainer3D;
 
-	use namespace arcane;
+	
 
 	/**
 	* Helper Class to retrieve objects bounds <code>Bounds</code>

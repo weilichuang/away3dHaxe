@@ -1,10 +1,10 @@
 package away3d.core.sort
 {
-	import away3d.arcane;
+	
 	import away3d.core.data.RenderableListItem;
 	import away3d.core.traverse.EntityCollector;
 
-	use namespace arcane;
+	
 
 	/**
 	 * RenderableSorter sorts the potentially visible IRenderable objects collected by EntityCollector for optimal

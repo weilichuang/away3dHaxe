@@ -2,7 +2,7 @@ package away3d.entities.lights
 {
 	import flash.geom.Matrix3D;
 	
-	import away3d.arcane;
+	
 	import away3d.bounds.BoundingVolumeBase;
 	import away3d.bounds.NullBounds;
 	import away3d.core.base.IRenderable;
@@ -10,7 +10,7 @@ package away3d.entities.lights
 	import away3d.core.partition.LightProbeNode;
 	import away3d.textures.CubeTextureBase;
 
-	use namespace arcane;
+	
 
 	public class LightProbe extends LightBase
 	{
@@ -73,7 +73,7 @@ package away3d.entities.lights
 		/**
 		 * @inheritDoc
 		 */
-		override arcane function getObjectProjectionMatrix(renderable:IRenderable, target:Matrix3D = null):Matrix3D
+		override public function getObjectProjectionMatrix(renderable:IRenderable, target:Matrix3D = null):Matrix3D
 		{
 			// TODO: not used
 			renderable = renderable;

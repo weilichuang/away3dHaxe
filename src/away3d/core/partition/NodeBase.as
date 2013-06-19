@@ -4,12 +4,12 @@ package away3d.core.partition
 
 	import flash.geom.Vector3D;
 
-	import away3d.arcane;
+	
 	import away3d.core.traverse.PartitionTraverser;
 	import away3d.entities.Entity;
 	import away3d.entities.primitives.WireframePrimitiveBase;
 
-	use namespace arcane;
+	
 
 	/**
 	 * The NodeBase class is an abstract base class for any type of space partition tree node. The concrete
@@ -22,13 +22,13 @@ package away3d.core.partition
 	 */
 	public class NodeBase
 	{
-		arcane var _parent:NodeBase;
+		public var _parent:NodeBase;
 		protected var _childNodes:Vector.<NodeBase>;
 		protected var _numChildNodes:uint;
 		protected var _debugPrimitive:WireframePrimitiveBase;
 
-		arcane var _numEntities:int;
-		arcane var _collectionMark:uint;
+		public var _numEntities:int;
+		public var _collectionMark:uint;
 
 		/**
 		 * Creates a new NodeBase object.
@@ -79,7 +79,7 @@ package away3d.core.partition
 		 *
 		 * @param node The node to be added as a child of the current node.
 		 */
-		arcane function addNode(node:NodeBase):void
+		public function addNode(node:NodeBase):void
 		{
 			node._parent = this;
 			_numEntities += node._numEntities;
@@ -100,7 +100,7 @@ package away3d.core.partition
 		 * Removes a child node from the tree.
 		 * @param node The child node to be removed.
 		 */
-		arcane function removeNode(node:NodeBase):void
+		public function removeNode(node:NodeBase):void
 		{
 			// a bit faster than splice(i, 1), works only if order is not important
 			// override item to be removed with the last in the list, then remove that last one

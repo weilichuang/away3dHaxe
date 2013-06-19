@@ -2,7 +2,7 @@ package away3d.animators.nodes
 {
 	import flash.geom.Vector3D;
 
-	import away3d.arcane;
+	
 	import away3d.animators.IAnimator;
 	import away3d.animators.data.AnimationRegisterCache;
 	import away3d.animators.data.ParticleProperties;
@@ -11,7 +11,7 @@ package away3d.animators.nodes
 	import away3d.materials.compilation.ShaderRegisterElement;
 	import away3d.materials.passes.MaterialPassBase;
 
-	use namespace arcane;
+	
 
 	/**
 	 * A particle animation node used to set the starting velocity of a particle.
@@ -19,10 +19,10 @@ package away3d.animators.nodes
 	public class ParticleVelocityNode extends ParticleNodeBase
 	{
 		/** @private */
-		arcane static const VELOCITY_INDEX:int = 0;
+		public static const VELOCITY_INDEX:int = 0;
 
 		/** @private */
-		arcane var _velocity:Vector3D;
+		public var _velocity:Vector3D;
 
 		/**
 		 * Reference for velocity node properties on a single particle (when in local property mode).
@@ -76,7 +76,7 @@ package away3d.animators.nodes
 		/**
 		 * @inheritDoc
 		 */
-		override arcane function generatePropertyOfOneParticle(param:ParticleProperties):void
+		override public function generatePropertyOfOneParticle(param:ParticleProperties):void
 		{
 			var _tempVelocity:Vector3D = param[VELOCITY_VECTOR3D];
 			if (!_tempVelocity)

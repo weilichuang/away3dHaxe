@@ -1,12 +1,12 @@
 package away3d.tools.utils
 {
-	import away3d.arcane;
+	
 	import away3d.core.base.CompactSubGeometry;
 	import away3d.core.base.ISubGeometry;
 	import away3d.core.base.SkinnedSubGeometry;
 	import away3d.core.base.SubMesh;
 
-	use namespace arcane;
+	
 
 	public class GeomUtil
 	{

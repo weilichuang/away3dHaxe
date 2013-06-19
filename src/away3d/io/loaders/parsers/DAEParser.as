@@ -5,7 +5,7 @@ package away3d.io.loaders.parsers
 	import flash.geom.Vector3D;
 	import flash.net.URLRequest;
 
-	import away3d.arcane;
+	
 	import away3d.animators.SkeletonAnimationSet;
 	import away3d.animators.data.JointPose;
 	import away3d.animators.data.Skeleton;
@@ -34,7 +34,7 @@ package away3d.io.loaders.parsers
 	import away3d.textures.BitmapTexture;
 	import away3d.textures.Texture2DBase;
 
-	use namespace arcane;
+	
 
 	/**
 	 * DAEParser provides a parser for the DAE data type.
@@ -125,7 +125,7 @@ package away3d.io.loaders.parsers
 			return false;
 		}
 
-		override arcane function resolveDependency(resourceDependency:ResourceDependency):void
+		override public function resolveDependency(resourceDependency:ResourceDependency):void
 		{
 			if (resourceDependency.assets.length != 1)
 				return;
@@ -144,7 +144,7 @@ package away3d.io.loaders.parsers
 				_parseState = DAEParserState.PARSE_MATERIALS;
 		}
 
-		override arcane function resolveDependencyFailure(resourceDependency:ResourceDependency):void
+		override public function resolveDependencyFailure(resourceDependency:ResourceDependency):void
 		{
 			_dependencyCount--;
 

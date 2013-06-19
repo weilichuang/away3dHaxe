@@ -1,6 +1,6 @@
 package away3d.animators.nodes
 {
-	import away3d.arcane;
+	
 	import away3d.animators.IAnimator;
 	import away3d.animators.data.AnimationRegisterCache;
 	import away3d.animators.data.ParticleProperties;
@@ -9,7 +9,7 @@ package away3d.animators.nodes
 	import away3d.materials.compilation.ShaderRegisterElement;
 	import away3d.materials.passes.MaterialPassBase;
 
-	use namespace arcane;
+	
 
 	/**
 	 * A particle animation node used as the base node for timekeeping inside a particle. Automatically added to a particle animation set on instatiation.
@@ -17,17 +17,17 @@ package away3d.animators.nodes
 	public class ParticleTimeNode extends ParticleNodeBase
 	{
 		/** @private */
-		arcane static const TIME_STREAM_INDEX:uint = 0;
+		public static const TIME_STREAM_INDEX:uint = 0;
 
 		/** @private */
-		arcane static const TIME_CONSTANT_INDEX:uint = 1;
+		public static const TIME_CONSTANT_INDEX:uint = 1;
 
 		/** @private */
-		arcane var _usesDuration:Boolean;
+		public var _usesDuration:Boolean;
 		/** @private */
-		arcane var _usesDelay:Boolean;
+		public var _usesDelay:Boolean;
 		/** @private */
-		arcane var _usesLooping:Boolean;
+		public var _usesLooping:Boolean;
 
 		/**
 		 * Creates a new <code>ParticleTimeNode</code>
@@ -106,7 +106,7 @@ package away3d.animators.nodes
 		/**
 		 * @inheritDoc
 		 */
-		override arcane function generatePropertyOfOneParticle(param:ParticleProperties):void
+		override public function generatePropertyOfOneParticle(param:ParticleProperties):void
 		{
 			_oneData[0] = param.startTime;
 			_oneData[1] = param.duration;

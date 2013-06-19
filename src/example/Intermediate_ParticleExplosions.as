@@ -72,11 +72,11 @@ package example
 		private const NUM_ANIMATORS:uint = 4;
 
 		//ADobe AIR image
-		[Embed(source = "/../embeds/air.png")]
+		[Embed(source = "../embeds/air.png")]
 		private var AIRImage:Class;
 
 		//Adobe Flash player image
-		[Embed(source = "/../embeds/player.png")]
+		[Embed(source = "../embeds/player.png")]
 		private var PlayerImage:Class;
 
 		//engine variables

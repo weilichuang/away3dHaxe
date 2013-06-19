@@ -2,7 +2,7 @@ package away3d.core.partition
 {
 	import flash.geom.Vector3D;
 	
-	import away3d.arcane;
+	
 	import away3d.core.traverse.PartitionTraverser;
 	import away3d.core.traverse.SceneIterator;
 	import away3d.entities.Entity;
@@ -11,7 +11,7 @@ package away3d.core.partition
 	import away3d.entities.primitives.WireframeCube;
 	import away3d.entities.primitives.WireframePrimitiveBase;
 
-	use namespace arcane;
+	
 
 	// todo: provide markVisibleVolume to pass in another view volume to find all statics in the scene that intersect with target ViewVolume, for constructing view volumes more easily
 	public class ViewVolume extends NodeBase
@@ -30,7 +30,7 @@ package away3d.core.partition
 		private var _maxX:Number;
 		private var _maxY:Number;
 		private var _maxZ:Number;
-		arcane var _active:Boolean;
+		public var _active:Boolean;
 		private static var _entityWorldBounds:Vector.<Number>;
 
 		/**

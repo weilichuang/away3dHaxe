@@ -27,23 +27,23 @@
 	public class Basic_LoadMD2 extends BasicApplication
 	{
 		//plane textures
-		[Embed(source = "/../embeds/floor_diffuse.jpg")]
+		[Embed(source = "../embeds/floor_diffuse.jpg")]
 		public static var FloorDiffuse:Class;
 
 		//ogre diffuse texture
-		[Embed(source = "/../embeds/ogre/ogre_diffuse.jpg")]
+		[Embed(source = "../embeds/ogre/ogre_diffuse.jpg")]
 		public static var OgreDiffuse:Class;
 
 		//ogre normal map texture
-		[Embed(source = "/../embeds/ogre/ogre_normals.png")]
+		[Embed(source = "../embeds/ogre/ogre_normals.png")]
 		public static var OgreNormals:Class;
 
 		//ogre specular map texture
-		[Embed(source = "/../embeds/ogre/ogre_specular.jpg")]
+		[Embed(source = "../embeds/ogre/ogre_specular.jpg")]
 		public static var OgreSpecular:Class;
 
 		//solider ant model
-		[Embed(source = "/../embeds/ogre/ogre.md2", mimeType = "application/octet-stream")]
+		[Embed(source = "../embeds/ogre/ogre.md2", mimeType = "application/octet-stream")]
 		public static var OgreModel:Class;
 
 		//pre-cached names of the states we want to use

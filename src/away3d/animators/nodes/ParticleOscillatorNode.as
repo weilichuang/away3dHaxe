@@ -2,7 +2,7 @@ package away3d.animators.nodes
 {
 	import flash.geom.Vector3D;
 
-	import away3d.arcane;
+	
 	import away3d.animators.IAnimator;
 	import away3d.animators.data.AnimationRegisterCache;
 	import away3d.animators.data.ParticleProperties;
@@ -11,7 +11,7 @@ package away3d.animators.nodes
 	import away3d.materials.compilation.ShaderRegisterElement;
 	import away3d.materials.passes.MaterialPassBase;
 
-	use namespace arcane;
+	
 
 	/**
 	 * A particle animation node used to control the position of a particle over time using simple harmonic motion.
@@ -19,10 +19,10 @@ package away3d.animators.nodes
 	public class ParticleOscillatorNode extends ParticleNodeBase
 	{
 		/** @private */
-		arcane static const OSCILLATOR_INDEX:uint = 0;
+		public static const OSCILLATOR_INDEX:uint = 0;
 
 		/** @private */
-		arcane var _oscillator:Vector3D;
+		public var _oscillator:Vector3D;
 
 		/**
 		 * Reference for ocsillator node properties on a single particle (when in local property mode).
@@ -89,7 +89,7 @@ package away3d.animators.nodes
 		/**
 		 * @inheritDoc
 		 */
-		override arcane function generatePropertyOfOneParticle(param:ParticleProperties):void
+		override public function generatePropertyOfOneParticle(param:ParticleProperties):void
 		{
 			//(Vector3D.x,Vector3D.y,Vector3D.z) is oscillator axis, Vector3D.w is oscillator cycle duration
 			var drift:Vector3D = param[OSCILLATOR_VECTOR3D];

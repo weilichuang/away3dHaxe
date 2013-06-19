@@ -4,7 +4,7 @@ package away3d.materials.passes
 	import flash.geom.Matrix3D;
 	import flash.geom.Vector3D;
 
-	import away3d.arcane;
+	
 	import away3d.entities.Camera3D;
 	import away3d.core.base.IRenderable;
 	import away3d.core.managers.Stage3DProxy;
@@ -16,7 +16,7 @@ package away3d.materials.passes
 	import away3d.materials.compilation.LightingShaderCompiler;
 	import away3d.materials.compilation.ShaderCompiler;
 
-	use namespace arcane;
+	
 
 	/**
 	 * DefaultScreenPass is a shader pass that uses shader methods to compile a complete program.
@@ -155,7 +155,7 @@ package away3d.materials.passes
 		}
 
 
-		override arcane function render(renderable:IRenderable, stage3DProxy:Stage3DProxy, camera:Camera3D, viewProjection:Matrix3D):void
+		override public function render(renderable:IRenderable, stage3DProxy:Stage3DProxy, camera:Camera3D, viewProjection:Matrix3D):void
 		{
 			renderable.inverseSceneTransform.copyRawDataTo(_inverseSceneMatrix);
 
@@ -176,7 +176,7 @@ package away3d.materials.passes
 		/**
 		 * @inheritDoc
 		 */
-		override arcane function activate(stage3DProxy:Stage3DProxy, camera:Camera3D):void
+		override public function activate(stage3DProxy:Stage3DProxy, camera:Camera3D):void
 		{
 			super.activate(stage3DProxy, camera);
 

@@ -1,12 +1,12 @@
 package away3d.materials.methods
 {
-	import away3d.arcane;
+	
 	import away3d.core.managers.Stage3DProxy;
 	import away3d.materials.compilation.ShaderRegisterCache;
 	import away3d.materials.compilation.ShaderRegisterElement;
 	import away3d.textures.Texture2DBase;
 
-	use namespace arcane;
+	
 
 	public class SimpleWaterNormalMethod extends BasicNormalMethod
 	{
@@ -25,7 +25,7 @@ package away3d.materials.methods
 			secondaryNormalMap = waveMap2;
 		}
 
-		override arcane function initConstants(vo:MethodVO):void
+		override public function initConstants(vo:MethodVO):void
 		{
 			var index:int = vo.fragmentConstantsIndex;
 			vo.fragmentData[index] = .5;
@@ -34,7 +34,7 @@ package away3d.materials.methods
 			vo.fragmentData[index + 3] = 1;
 		}
 
-		override arcane function initVO(vo:MethodVO):void
+		override public function initVO(vo:MethodVO):void
 		{
 			super.initVO(vo);
 
@@ -98,7 +98,7 @@ package away3d.materials.methods
 			_texture2 = value;
 		}
 
-		arcane override function cleanCompilationData():void
+		public override function cleanCompilationData():void
 		{
 			super.cleanCompilationData();
 			_normalTextureRegister2 = null;
@@ -110,7 +110,7 @@ package away3d.materials.methods
 			_texture2 = null;
 		}
 
-		arcane override function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):void
+		public override function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):void
 		{
 			super.activate(vo, stage3DProxy);
 
@@ -128,7 +128,7 @@ package away3d.materials.methods
 			}
 		}
 
-		arcane override function getFragmentCode(vo:MethodVO, regCache:ShaderRegisterCache, targetReg:ShaderRegisterElement):String
+		public override function getFragmentCode(vo:MethodVO, regCache:ShaderRegisterCache, targetReg:ShaderRegisterElement):String
 		{
 			var temp:ShaderRegisterElement = regCache.getFreeFragmentVectorTemp();
 			var dataReg:ShaderRegisterElement = regCache.getFreeFragmentConstant();

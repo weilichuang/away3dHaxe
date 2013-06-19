@@ -2,12 +2,12 @@ package away3d.core.partition
 {
 	import flash.geom.Vector3D;
 	
-	import away3d.arcane;
+	
 	import away3d.core.traverse.PartitionTraverser;
 	import away3d.entities.Entity;
 	import away3d.math.Plane3D;
 
-	use namespace arcane;
+	
 
 	/**
 	 * The EntityNode class provides an abstract base class for leaf nodes in a partition tree, containing
@@ -25,7 +25,7 @@ package away3d.core.partition
 		 * The link to the next object in the list to be updated
 		 * @private
 		 */
-		arcane var _updateQueueNext:EntityNode;
+		public var _updateQueueNext:EntityNode;
 
 		/**
 		 * Creates a new EntityNode object.

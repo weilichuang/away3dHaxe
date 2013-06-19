@@ -71,34 +71,34 @@ package example
 
 	public class Intermediate_PlanarReflections extends BasicApplication
 	{
-		[Embed(source = "/../embeds/r2d2_diffuse.jpg")]
+		[Embed(source = "../embeds/r2d2_diffuse.jpg")]
 		public static var R2D2Albedo:Class;
 
-		[Embed(source = "/../embeds/skybox/space_negX.jpg")]
+		[Embed(source = "../embeds/skybox/space_negX.jpg")]
 		public static var SkyBoxMinX:Class;
 
-		[Embed(source = "/../embeds/skybox/space_posX.jpg")]
+		[Embed(source = "../embeds/skybox/space_posX.jpg")]
 		public static var SkyBoxMaxX:Class;
 
-		[Embed(source = "/../embeds/skybox/space_negY.jpg")]
+		[Embed(source = "../embeds/skybox/space_negY.jpg")]
 		public static var SkyBoxMinY:Class;
 
-		[Embed(source = "/../embeds/skybox/space_posY.jpg")]
+		[Embed(source = "../embeds/skybox/space_posY.jpg")]
 		public static var SkyBoxMaxY:Class;
 
-		[Embed(source = "/../embeds/skybox/space_negZ.jpg")]
+		[Embed(source = "../embeds/skybox/space_negZ.jpg")]
 		public static var SkyBoxMinZ:Class;
 
-		[Embed(source = "/../embeds/skybox/space_posZ.jpg")]
+		[Embed(source = "../embeds/skybox/space_posZ.jpg")]
 		public static var SkyBoxMaxZ:Class;
 
-		[Embed(source = "/../embeds/desertsand.jpg")]
+		[Embed(source = "../embeds/desertsand.jpg")]
 		public static var DesertAlbedo:Class;
 
-		[Embed(source = "/../embeds/desertHeightMap.jpg")]
+		[Embed(source = "../embeds/desertHeightMap.jpg")]
 		public static var HeightMap:Class;
 
-		[Embed(source = "/../embeds/R2D2.obj", mimeType = "application/octet-stream")]
+		[Embed(source = "../embeds/R2D2.obj", mimeType = "application/octet-stream")]
 		public static var R2D2_Obj:Class;
 
 		public static const MAX_SPEED:Number = 1;

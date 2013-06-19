@@ -1,6 +1,6 @@
 package away3d.materials.compilation
 {
-	import away3d.arcane;
+	
 	import away3d.materials.LightSources;
 	import away3d.materials.methods.EffectMethodBase;
 	import away3d.materials.methods.MethodVO;
@@ -68,7 +68,7 @@ package away3d.materials.compilation
 
 		protected var _forceSeperateMVP:Boolean;
 
-		use namespace arcane;
+		
 
 		public function ShaderCompiler(profile:String)
 		{

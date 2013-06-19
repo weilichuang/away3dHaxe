@@ -1,10 +1,10 @@
 package away3d.materials.methods
 {
-	import away3d.arcane;
+	
 	import away3d.materials.compilation.ShaderRegisterCache;
 	import away3d.materials.compilation.ShaderRegisterElement;
 
-	use namespace arcane;
+	
 
 	/**
 	 * DepthDiffuseMethod provides a debug method to visualise depth maps
@@ -19,7 +19,7 @@ package away3d.materials.methods
 			super();
 		}
 
-		override arcane function initConstants(vo:MethodVO):void
+		override public function initConstants(vo:MethodVO):void
 		{
 			var data:Vector.<Number> = vo.fragmentData;
 			var index:int = vo.fragmentConstantsIndex;
@@ -32,7 +32,7 @@ package away3d.materials.methods
 		/**
 		 * @inheritDoc
 		 */
-		override arcane function getFragmentPostLightingCode(vo:MethodVO, regCache:ShaderRegisterCache, targetReg:ShaderRegisterElement):String
+		override public function getFragmentPostLightingCode(vo:MethodVO, regCache:ShaderRegisterCache, targetReg:ShaderRegisterElement):String
 		{
 			var code:String = "";
 			var temp:ShaderRegisterElement;

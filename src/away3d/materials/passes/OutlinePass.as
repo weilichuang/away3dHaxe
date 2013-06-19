@@ -7,7 +7,7 @@ package away3d.materials.passes
 	import flash.geom.Matrix3D;
 	import flash.utils.Dictionary;
 
-	import away3d.arcane;
+	
 	import away3d.entities.Camera3D;
 	import away3d.core.base.Geometry;
 	import away3d.core.base.IRenderable;
@@ -18,7 +18,7 @@ package away3d.materials.passes
 	import away3d.entities.Mesh;
 	import away3d.math.Matrix3DUtils;
 
-	use namespace arcane;
+	
 
 	public class OutlinePass extends MaterialPassBase
 	{
@@ -131,7 +131,7 @@ package away3d.materials.passes
 		/**
 		 * @inheritDoc
 		 */
-		arcane override function getVertexCode():String
+		public override function getVertexCode():String
 		{
 			var code:String;
 			// offset
@@ -147,7 +147,7 @@ package away3d.materials.passes
 		/**
 		 * @inheritDoc
 		 */
-		arcane override function getFragmentCode(animationCode:String):String
+		public override function getFragmentCode(animationCode:String):String
 		{
 			// TODO: not used
 			animationCode = animationCode;
@@ -157,7 +157,7 @@ package away3d.materials.passes
 		/**
 		 * @inheritDoc
 		 */
-		override arcane function activate(stage3DProxy:Stage3DProxy, camera:Camera3D):void
+		override public function activate(stage3DProxy:Stage3DProxy, camera:Camera3D):void
 		{
 			var context:Context3D = stage3DProxy.context3D;
 			super.activate(stage3DProxy, camera);
@@ -171,7 +171,7 @@ package away3d.materials.passes
 		}
 
 
-		arcane override function deactivate(stage3DProxy:Stage3DProxy):void
+		public override function deactivate(stage3DProxy:Stage3DProxy):void
 		{
 			super.deactivate(stage3DProxy);
 			if (!_showInnerLines)
@@ -179,7 +179,7 @@ package away3d.materials.passes
 		}
 
 
-		arcane override function render(renderable:IRenderable, stage3DProxy:Stage3DProxy, camera:Camera3D, viewProjection:Matrix3D):void
+		public override function render(renderable:IRenderable, stage3DProxy:Stage3DProxy, camera:Camera3D, viewProjection:Matrix3D):void
 		{
 			var mesh:Mesh, dedicatedRenderable:IRenderable;
 

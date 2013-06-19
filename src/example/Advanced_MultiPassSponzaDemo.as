@@ -56,11 +56,11 @@ package example
 	public class Advanced_MultiPassSponzaDemo extends BasicApplication
 	{
 		//skybox texture
-		[Embed(source = "/../embeds/skybox/hourglass_cubemap.atf", mimeType = "application/octet-stream")]
+		[Embed(source = "../embeds/skybox/hourglass_cubemap.atf", mimeType = "application/octet-stream")]
 		public static var SkyMapCubeTexture:Class;
 
 		//fire texture
-		[Embed(source = "/../embeds/fire.atf", mimeType = "application/octet-stream")]
+		[Embed(source = "../embeds/fire.atf", mimeType = "application/octet-stream")]
 		public static var FlameTexture:Class;
 
 		//root filepath for asset loading

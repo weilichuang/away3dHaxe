@@ -1,8 +1,8 @@
 package away3d.materials
 {
-	import away3d.arcane;
+	
 
-	use namespace arcane;
+	
 
 	/**
 	 * ColorMultiPassMaterial is a material that uses a flat colour as the surfaces diffuse.

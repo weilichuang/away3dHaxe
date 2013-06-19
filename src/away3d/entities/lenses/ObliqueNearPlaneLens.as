@@ -1,6 +1,6 @@
 package away3d.entities.lenses
 {
-	import away3d.arcane;
+	
 	import away3d.math.Plane3D;
 	import away3d.events.LensEvent;
 
@@ -8,7 +8,7 @@ package away3d.entities.lenses
 
 	import flash.geom.Vector3D;
 
-	use namespace arcane;
+	
 
 	public class ObliqueNearPlaneLens extends LensBase
 	{
@@ -46,12 +46,12 @@ package away3d.entities.lenses
 			_baseLens.far = value;
 		}
 
-		override arcane function get aspectRatio():Number
+		override public function get aspectRatio():Number
 		{
 			return _baseLens.aspectRatio;
 		}
 
-		override arcane function set aspectRatio(value:Number):void
+		override public function set aspectRatio(value:Number):void
 		{
 			_baseLens.aspectRatio = value;
 		}

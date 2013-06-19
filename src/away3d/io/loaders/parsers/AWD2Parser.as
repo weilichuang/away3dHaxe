@@ -11,7 +11,7 @@ package away3d.io.loaders.parsers
 	import flash.utils.ByteArray;
 	import flash.utils.Endian;
 	
-	import away3d.arcane;
+	
 	import away3d.animators.AnimationSetBase;
 	import away3d.animators.AnimatorBase;
 	import away3d.animators.SkeletonAnimationSet;
@@ -105,7 +105,7 @@ package away3d.io.loaders.parsers
 	import away3d.textures.TextureProxyBase;
 	import away3d.tools.utils.GeomUtil;
 
-	use namespace arcane;
+	
 
 	/**
 	 * AWDParser provides a parser for the AWD data type.
@@ -231,7 +231,7 @@ package away3d.io.loaders.parsers
 		/**
 		 * @inheritDoc
 		 */
-		override arcane function resolveDependency(resourceDependency:ResourceDependency):void
+		override public function resolveDependency(resourceDependency:ResourceDependency):void
 		{
 			// this function will be called when Dependency has finished loading.
 			// the Assets waiting for this Bitmap, can be Texture or CubeTexture.
@@ -301,7 +301,7 @@ package away3d.io.loaders.parsers
 		/**
 		 * @inheritDoc
 		 */
-		override arcane function resolveDependencyFailure(resourceDependency:ResourceDependency):void
+		override public function resolveDependencyFailure(resourceDependency:ResourceDependency):void
 		{
 			//not used - if a dependcy fails, the awaiting Texture or CubeTexture will never be finalized, and the default-bitmaps will be used.
 			// this means, that if one Bitmap of a CubeTexture fails, the CubeTexture will have the DefaultTexture applied for all six Bitmaps.
@@ -312,7 +312,7 @@ package away3d.io.loaders.parsers
 		 *
 		 * @param resourceDependency The dependency to be resolved.
 		 */
-		arcane override function resolveDependencyName(resourceDependency:ResourceDependency, asset:IAsset):String
+		public override function resolveDependencyName(resourceDependency:ResourceDependency, asset:IAsset):String
 		{
 			var oldName:String = asset.name;
 			if (asset)

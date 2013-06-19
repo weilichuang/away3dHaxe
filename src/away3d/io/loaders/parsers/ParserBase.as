@@ -1,14 +1,5 @@
 package away3d.io.loaders.parsers
 {
-	import flash.display.BitmapData;
-	import flash.events.EventDispatcher;
-	import flash.events.TimerEvent;
-	import flash.net.URLRequest;
-	import flash.utils.ByteArray;
-	import flash.utils.Timer;
-	import flash.utils.getTimer;
-	
-	import away3d.arcane;
 	import away3d.errors.AbstractMethodError;
 	import away3d.events.AssetEvent;
 	import away3d.events.ParserEvent;
@@ -17,8 +8,14 @@ package away3d.io.loaders.parsers
 	import away3d.io.loaders.misc.ResourceDependency;
 	import away3d.io.loaders.parsers.utils.ParserUtil;
 	import away3d.tools.utils.TextureUtils;
-
-	use namespace arcane;
+	import flash.display.BitmapData;
+	import flash.events.EventDispatcher;
+	import flash.events.TimerEvent;
+	import flash.net.URLRequest;
+	import flash.utils.ByteArray;
+	import flash.utils.getTimer;
+	import flash.utils.Timer;
+	
 
 
 	/**
@@ -153,7 +150,7 @@ package away3d.io.loaders.parsers
 	 */
 	public class ParserBase extends EventDispatcher
 	{
-		arcane var _fileName:String;
+		public var _fileName:String;
 		protected var _dataFormat:String;
 		protected var _data:*;
 		protected var _frameLimit:Number;
@@ -283,7 +280,7 @@ package away3d.io.loaders.parsers
 		 *
 		 * @param resourceDependency The dependency to be resolved.
 		 */
-		arcane function resolveDependency(resourceDependency:ResourceDependency):void
+		public function resolveDependency(resourceDependency:ResourceDependency):void
 		{
 			throw new AbstractMethodError();
 		}
@@ -293,7 +290,7 @@ package away3d.io.loaders.parsers
 		 *
 		 * @param resourceDependency The dependency to be resolved.
 		 */
-		arcane function resolveDependencyFailure(resourceDependency:ResourceDependency):void
+		public function resolveDependencyFailure(resourceDependency:ResourceDependency):void
 		{
 			throw new AbstractMethodError();
 		}
@@ -303,12 +300,12 @@ package away3d.io.loaders.parsers
 		 *
 		 * @param resourceDependency The dependency to be resolved.
 		 */
-		arcane function resolveDependencyName(resourceDependency:ResourceDependency, asset:IAsset):String
+		public function resolveDependencyName(resourceDependency:ResourceDependency, asset:IAsset):String
 		{
 			return asset.name;
 		}
 
-		arcane function resumeParsingAfterDependencies():void
+		public function resumeParsingAfterDependencies():void
 		{
 			_parsingPaused = false;
 			if (_timer)

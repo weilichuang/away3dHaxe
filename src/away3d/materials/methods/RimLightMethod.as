@@ -1,11 +1,11 @@
 package away3d.materials.methods
 {
-	import away3d.arcane;
+	
 	import away3d.core.managers.Stage3DProxy;
 	import away3d.materials.compilation.ShaderRegisterCache;
 	import away3d.materials.compilation.ShaderRegisterElement;
 
-	use namespace arcane;
+	
 
 	public class RimLightMethod extends EffectMethodBase
 	{
@@ -31,12 +31,12 @@ package away3d.materials.methods
 		}
 
 
-		override arcane function initConstants(vo:MethodVO):void
+		override public function initConstants(vo:MethodVO):void
 		{
 			vo.fragmentData[vo.fragmentConstantsIndex + 3] = 1;
 		}
 
-		override arcane function initVO(vo:MethodVO):void
+		override public function initVO(vo:MethodVO):void
 		{
 			vo.needsNormals = true;
 			vo.needsView = true;
@@ -75,7 +75,7 @@ package away3d.materials.methods
 			_power = value;
 		}
 
-		arcane override function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):void
+		public override function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):void
 		{
 			var index:int = vo.fragmentConstantsIndex;
 			var data:Vector.<Number> = vo.fragmentData;
@@ -86,7 +86,7 @@ package away3d.materials.methods
 			data[index + 5] = _power;
 		}
 
-		arcane override function getFragmentCode(vo:MethodVO, regCache:ShaderRegisterCache, targetReg:ShaderRegisterElement):String
+		public override function getFragmentCode(vo:MethodVO, regCache:ShaderRegisterCache, targetReg:ShaderRegisterElement):String
 		{
 			var dataRegister:ShaderRegisterElement = regCache.getFreeFragmentConstant();
 			var dataRegister2:ShaderRegisterElement = regCache.getFreeFragmentConstant();

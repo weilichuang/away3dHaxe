@@ -1,6 +1,6 @@
 package away3d.materials.methods
 {
-	import away3d.arcane;
+	
 	import away3d.entities.Camera3D;
 	import away3d.core.base.IRenderable;
 	import away3d.core.managers.Stage3DProxy;
@@ -11,7 +11,7 @@ package away3d.materials.methods
 	import away3d.materials.compilation.ShaderRegisterElement;
 
 
-	use namespace arcane;
+	
 
 	// TODO: shadow mappers references in materials should be an interface so that this class should NOT extend ShadowMapMethodBase just for some delegation work
 	public class NearShadowMapMethod extends SimpleShadowMapMethodBase
@@ -50,7 +50,7 @@ package away3d.materials.methods
 			_baseMethod.addEventListener(ShadingMethodEvent.SHADER_INVALIDATED, onShaderInvalidated);
 		}
 
-		override arcane function initConstants(vo:MethodVO):void
+		override public function initConstants(vo:MethodVO):void
 		{
 			super.initConstants(vo);
 			_baseMethod.initConstants(vo);
@@ -61,7 +61,7 @@ package away3d.materials.methods
 			fragmentData[index + 3] = 1;
 		}
 
-		override arcane function initVO(vo:MethodVO):void
+		override public function initVO(vo:MethodVO):void
 		{
 			_baseMethod.initVO(vo);
 			vo.needsProjection = true;
@@ -102,7 +102,7 @@ package away3d.materials.methods
 			_fadeRatio = value;
 		}
 
-		arcane override function getFragmentCode(vo:MethodVO, regCache:ShaderRegisterCache, targetReg:ShaderRegisterElement):String
+		public override function getFragmentCode(vo:MethodVO, regCache:ShaderRegisterCache, targetReg:ShaderRegisterElement):String
 		{
 			var code:String = _baseMethod.getFragmentCode(vo, regCache, targetReg);
 			var dataReg:ShaderRegisterElement = regCache.getFreeFragmentConstant();
@@ -124,17 +124,17 @@ package away3d.materials.methods
 		/**
 		 * @inheritDoc
 		 */
-		override arcane function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):void
+		override public function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):void
 		{
 			_baseMethod.activate(vo, stage3DProxy);
 		}
 
-		arcane override function deactivate(vo:MethodVO, stage3DProxy:Stage3DProxy):void
+		public override function deactivate(vo:MethodVO, stage3DProxy:Stage3DProxy):void
 		{
 			_baseMethod.deactivate(vo, stage3DProxy);
 		}
 
-		arcane override function setRenderState(vo:MethodVO, renderable:IRenderable, stage3DProxy:Stage3DProxy, camera:Camera3D):void
+		public override function setRenderState(vo:MethodVO, renderable:IRenderable, stage3DProxy:Stage3DProxy, camera:Camera3D):void
 		{
 			// todo: move this to activate (needs camera)
 			var near:Number = camera.lens.near;
@@ -155,7 +155,7 @@ package away3d.materials.methods
 		/**
 		 * @inheritDoc
 		 */
-		override arcane function getVertexCode(vo:MethodVO, regCache:ShaderRegisterCache):String
+		override public function getVertexCode(vo:MethodVO, regCache:ShaderRegisterCache):String
 		{
 			return _baseMethod.getVertexCode(vo, regCache);
 		}
@@ -164,13 +164,13 @@ package away3d.materials.methods
 		/**
 		 * @inheritDoc
 		 */
-		override arcane function reset():void
+		override public function reset():void
 		{
 			_baseMethod.reset();
 		}
 
 
-		arcane override function cleanCompilationData():void
+		public override function cleanCompilationData():void
 		{
 			super.cleanCompilationData();
 			_baseMethod.cleanCompilationData();
@@ -179,7 +179,7 @@ package away3d.materials.methods
 		/**
 		 * @inheritDoc
 		 */
-		override arcane function set sharedRegisters(value:ShaderRegisterData):void
+		override public function set sharedRegisters(value:ShaderRegisterData):void
 		{
 			super.sharedRegisters = _baseMethod.sharedRegisters = value;
 		}

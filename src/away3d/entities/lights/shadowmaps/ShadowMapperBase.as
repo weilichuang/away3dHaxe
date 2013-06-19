@@ -2,7 +2,7 @@ package away3d.entities.lights.shadowmaps
 {
 	import flash.display3D.textures.TextureBase;
 
-	import away3d.arcane;
+	
 	import away3d.entities.Camera3D;
 	import away3d.core.managers.Stage3DProxy;
 	import away3d.core.render.DepthRenderer;
@@ -14,7 +14,7 @@ package away3d.entities.lights.shadowmaps
 	import away3d.textures.RenderTexture;
 	import away3d.textures.TextureProxyBase;
 
-	use namespace arcane;
+	
 
 	public class ShadowMapperBase
 	{
@@ -25,7 +25,7 @@ package away3d.entities.lights.shadowmaps
 		protected var _light:LightBase;
 		private var _explicitDepthMap:Boolean;
 		private var _autoUpdateShadows:Boolean = true;
-		arcane var _shadowsInvalid:Boolean;
+		public var _shadowsInvalid:Boolean;
 
 
 		public function ShadowMapperBase()
@@ -57,7 +57,7 @@ package away3d.entities.lights.shadowmaps
 		 * This is used by renderers that can support depth maps to be shared across instances
 		 * @param depthMap
 		 */
-		arcane function setDepthMap(depthMap:TextureProxyBase):void
+		public function setDepthMap(depthMap:TextureProxyBase):void
 		{
 			if (_depthMap == depthMap)
 				return;
@@ -130,7 +130,7 @@ package away3d.entities.lights.shadowmaps
 		 * @param entityCollector The EntityCollector that contains the original scene data.
 		 * @param renderer The DepthRenderer to render the depth map.
 		 */
-		arcane function renderDepthMap(stage3DProxy:Stage3DProxy, entityCollector:EntityCollector, renderer:DepthRenderer):void
+		public function renderDepthMap(stage3DProxy:Stage3DProxy, entityCollector:EntityCollector, renderer:DepthRenderer):void
 		{
 			_shadowsInvalid = false;
 			updateDepthProjection(entityCollector.camera);

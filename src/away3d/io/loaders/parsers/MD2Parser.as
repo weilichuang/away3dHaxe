@@ -5,7 +5,7 @@ package away3d.io.loaders.parsers
 	import flash.utils.Dictionary;
 	import flash.utils.Endian;
 	
-	import away3d.arcane;
+	
 	import away3d.animators.VertexAnimationSet;
 	import away3d.animators.nodes.VertexClipNode;
 	import away3d.core.base.CompactSubGeometry;
@@ -19,7 +19,7 @@ package away3d.io.loaders.parsers
 	import away3d.materials.utils.DefaultMaterialManager;
 	import away3d.textures.Texture2DBase;
 
-	use namespace arcane;
+	
 
 	/**
 	 * MD2Parser provides a parser for the MD2 data type.
@@ -109,7 +109,7 @@ package away3d.io.loaders.parsers
 		/**
 		 * @inheritDoc
 		 */
-		override arcane function resolveDependency(resourceDependency:ResourceDependency):void
+		override public function resolveDependency(resourceDependency:ResourceDependency):void
 		{
 			if (resourceDependency.assets.length != 1)
 				return;
@@ -135,7 +135,7 @@ package away3d.io.loaders.parsers
 		/**
 		 * @inheritDoc
 		 */
-		override arcane function resolveDependencyFailure(resourceDependency:ResourceDependency):void
+		override public function resolveDependencyFailure(resourceDependency:ResourceDependency):void
 		{
 			// apply system default
 			if (materialMode < 2)

@@ -2,11 +2,11 @@ package away3d.core.partition
 {
 	import flash.geom.Vector3D;
 	
-	import away3d.arcane;
+	
 	import away3d.core.traverse.PartitionTraverser;
 	import away3d.entities.Entity;
 
-	use namespace arcane;
+	
 
 	public class ViewVolumeRootNode extends NodeBase
 	{

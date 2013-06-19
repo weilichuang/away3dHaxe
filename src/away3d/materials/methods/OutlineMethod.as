@@ -1,13 +1,13 @@
 package away3d.materials.methods
 {
-	import away3d.arcane;
+	
 	import away3d.core.managers.Stage3DProxy;
 	import away3d.materials.passes.MaterialPassBase;
 	import away3d.materials.passes.OutlinePass;
 	import away3d.materials.compilation.ShaderRegisterCache;
 	import away3d.materials.compilation.ShaderRegisterElement;
 
-	use namespace arcane;
+	
 
 	public class OutlineMethod extends EffectMethodBase
 	{
@@ -28,7 +28,7 @@ package away3d.materials.methods
 			_passes.push(_outlinePass);
 		}
 
-		override arcane function initVO(vo:MethodVO):void
+		override public function initVO(vo:MethodVO):void
 		{
 			vo.needsNormals = true;
 		}
@@ -74,16 +74,16 @@ package away3d.materials.methods
 			_outlinePass.outlineSize = value;
 		}
 
-		arcane override function reset():void
+		public override function reset():void
 		{
 			super.reset();
 		}
 
-		arcane override function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):void
+		public override function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):void
 		{
 		}
 
-		arcane override function getFragmentCode(vo:MethodVO, regCache:ShaderRegisterCache, targetReg:ShaderRegisterElement):String
+		public override function getFragmentCode(vo:MethodVO, regCache:ShaderRegisterCache, targetReg:ShaderRegisterElement):String
 		{
 			return "";
 		}

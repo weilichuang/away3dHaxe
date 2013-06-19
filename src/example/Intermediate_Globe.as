@@ -17,7 +17,7 @@ package example
 	import flash.text.TextFormat;
 	import flash.ui.Keyboard;
 
-	import away3d.arcane;
+	
 	import away3d.entities.Camera3D;
 	import away3d.entities.ObjectContainer3D;
 	import away3d.entities.Scene3D;
@@ -46,70 +46,70 @@ package example
 	import away3d.textures.BitmapTexture;
 	import away3d.utils.Cast;
 
-	use namespace arcane;
+	
 
 	public class Intermediate_Globe extends BasicApplication
 	{
 		//night map for globe
-		[Embed(source = "/../embeds/globe/land_lights_16384.jpg")]
+		[Embed(source = "../embeds/globe/land_lights_16384.jpg")]
 		public static var EarthNight:Class;
 
 		//diffuse map for globe
-		[Embed(source = "/../embeds/globe/land_ocean_ice_2048_match.jpg")]
+		[Embed(source = "../embeds/globe/land_ocean_ice_2048_match.jpg")]
 		public static var EarthDiffuse:Class;
 
 		//normal map for globe
-		[Embed(source = "/../embeds/globe/EarthNormal.png")]
+		[Embed(source = "../embeds/globe/EarthNormal.png")]
 		public static var EarthNormals:Class;
 
 		//specular map for globe
-		[Embed(source = "/../embeds/globe/earth_specular_2048.jpg")]
+		[Embed(source = "../embeds/globe/earth_specular_2048.jpg")]
 		public static var EarthSpecular:Class;
 
 		//diffuse map for globe
-		[Embed(source = "/../embeds/globe/cloud_combined_2048.jpg")]
+		[Embed(source = "../embeds/globe/cloud_combined_2048.jpg")]
 		public static var SkyDiffuse:Class;
 
 		//skybox textures
-		[Embed(source = "/../embeds/skybox/space_posX.jpg")]
+		[Embed(source = "../embeds/skybox/space_posX.jpg")]
 		private var PosX:Class;
-		[Embed(source = "/../embeds/skybox/space_negX.jpg")]
+		[Embed(source = "../embeds/skybox/space_negX.jpg")]
 		private var NegX:Class;
-		[Embed(source = "/../embeds/skybox/space_posY.jpg")]
+		[Embed(source = "../embeds/skybox/space_posY.jpg")]
 		private var PosY:Class;
-		[Embed(source = "/../embeds/skybox/space_negY.jpg")]
+		[Embed(source = "../embeds/skybox/space_negY.jpg")]
 		private var NegY:Class;
-		[Embed(source = "/../embeds/skybox/space_posZ.jpg")]
+		[Embed(source = "../embeds/skybox/space_posZ.jpg")]
 		private var PosZ:Class;
-		[Embed(source = "/../embeds/skybox/space_negZ.jpg")]
+		[Embed(source = "../embeds/skybox/space_negZ.jpg")]
 		private var NegZ:Class;
 
 		//lens flare
-		[Embed(source = "/../embeds/lensflare/flare0.jpg")]
+		[Embed(source = "../embeds/lensflare/flare0.jpg")]
 		private var Flare0:Class;
-		[Embed(source = "/../embeds/lensflare/flare1.jpg")]
+		[Embed(source = "../embeds/lensflare/flare1.jpg")]
 		private var Flare1:Class;
-		[Embed(source = "/../embeds/lensflare/flare2.jpg")]
+		[Embed(source = "../embeds/lensflare/flare2.jpg")]
 		private var Flare2:Class;
-		[Embed(source = "/../embeds/lensflare/flare3.jpg")]
+		[Embed(source = "../embeds/lensflare/flare3.jpg")]
 		private var Flare3:Class;
-		[Embed(source = "/../embeds/lensflare/flare4.jpg")]
+		[Embed(source = "../embeds/lensflare/flare4.jpg")]
 		private var Flare4:Class;
-		[Embed(source = "/../embeds/lensflare/flare5.jpg")]
+		[Embed(source = "../embeds/lensflare/flare5.jpg")]
 		private var Flare5:Class;
-		[Embed(source = "/../embeds/lensflare/flare6.jpg")]
+		[Embed(source = "../embeds/lensflare/flare6.jpg")]
 		private var Flare6:Class;
-		[Embed(source = "/../embeds/lensflare/flare7.jpg")]
+		[Embed(source = "../embeds/lensflare/flare7.jpg")]
 		private var Flare7:Class;
-		[Embed(source = "/../embeds/lensflare/flare8.jpg")]
+		[Embed(source = "../embeds/lensflare/flare8.jpg")]
 		private var Flare8:Class;
-		[Embed(source = "/../embeds/lensflare/flare9.jpg")]
+		[Embed(source = "../embeds/lensflare/flare9.jpg")]
 		private var Flare9:Class;
-		[Embed(source = "/../embeds/lensflare/flare10.jpg")]
+		[Embed(source = "../embeds/lensflare/flare10.jpg")]
 		private var Flare10:Class;
-		[Embed(source = "/../embeds/lensflare/flare11.jpg")]
+		[Embed(source = "../embeds/lensflare/flare11.jpg")]
 		private var Flare11:Class;
-		[Embed(source = "/../embeds/lensflare/flare12.jpg")]
+		[Embed(source = "../embeds/lensflare/flare12.jpg")]
 		private var Flare12:Class;
 
 		//engine variables
@@ -534,7 +534,7 @@ package example
 		/**
 		 * Key down listener for fullscreen
 		 */
-		private function onKeyDown(event:KeyboardEvent):void
+		override protected function onKeyDown(event:KeyboardEvent):void
 		{
 			switch (event.keyCode)
 			{

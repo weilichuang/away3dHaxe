@@ -2,7 +2,7 @@ package away3d.entities
 {
 	import flash.geom.Vector3D;
 	
-	import away3d.arcane;
+	
 	import away3d.bounds.AxisAlignedBoundingBox;
 	import away3d.bounds.BoundingVolumeBase;
 	import away3d.core.partition.EntityNode;
@@ -12,7 +12,7 @@ package away3d.entities
 	import away3d.errors.AbstractMethodError;
 	import away3d.io.library.assets.AssetType;
 
-	use namespace arcane;
+	
 
 	/**
 	 * The Entity class provides an abstract base class for all scene graph objects that are considered having a
@@ -30,9 +30,9 @@ package away3d.entities
 		private var _boundsIsShown:Boolean = false;
 		private var _shaderPickingDetails:Boolean;
 
-		arcane var _pickingCollisionVO:PickingCollisionVO;
-		arcane var _pickingCollider:IPickingCollider;
-		arcane var _staticNode:Boolean;
+		public var _pickingCollisionVO:PickingCollisionVO;
+		public var _pickingCollider:IPickingCollider;
+		public var _staticNode:Boolean;
 
 		protected var _bounds:BoundingVolumeBase;
 		protected var _boundsInvalid:Boolean = true;
@@ -94,7 +94,7 @@ package away3d.entities
 		 * @param shortestCollisionDistance
 		 * @return
 		 */
-		arcane function collidesBefore(shortestCollisionDistance:Number, findClosest:Boolean):Boolean
+		public function collidesBefore(shortestCollisionDistance:Number, findClosest:Boolean):Boolean
 		{
 			shortestCollisionDistance = shortestCollisionDistance;
 			findClosest = findClosest;
@@ -226,7 +226,7 @@ package away3d.entities
 		/**
 		 * @inheritDoc
 		 */
-		override arcane function set implicitPartition(value:Partition3D):void
+		override public function set implicitPartition(value:Partition3D):void
 		{
 			if (value == _implicitPartition)
 				return;
@@ -437,7 +437,7 @@ package away3d.entities
 			}
 		}
 
-		arcane function internalUpdate():void
+		public function internalUpdate():void
 		{
 			if (_controller)
 				_controller.update();

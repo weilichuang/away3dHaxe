@@ -1,10 +1,10 @@
 package away3d.core.partition
 {
-	import away3d.arcane;
+	
 	import away3d.core.traverse.PartitionTraverser;
 	import away3d.entities.Entity;
 
-	use namespace arcane;
+	
 
 	/**
 	 * Partition3D is the core of a space partition system. The space partition system typically subdivides the 3D scene
@@ -57,7 +57,7 @@ package away3d.core.partition
 		 * object's bounding box, upon the next traversal.
 		 * @param entity The entity to be updated in the tree.
 		 */
-		arcane function markForUpdate(entity:Entity):void
+		public function markForUpdate(entity:Entity):void
 		{
 			var node:EntityNode = entity.getEntityPartitionNode();
 			// already marked to be updated
@@ -82,7 +82,7 @@ package away3d.core.partition
 		 * Removes an entity from the partition tree.
 		 * @param entity The entity to be removed.
 		 */
-		arcane function removeEntity(entity:Entity):void
+		public function removeEntity(entity:Entity):void
 		{
 			var node:EntityNode = entity.getEntityPartitionNode();
 			var t:EntityNode;

@@ -4,7 +4,7 @@ package away3d.textures
 	import flash.display3D.textures.TextureBase;
 	import flash.geom.Vector3D;
 
-	import away3d.arcane;
+	
 	import away3d.entities.Camera3D;
 	import away3d.entities.lenses.PerspectiveLens;
 	import away3d.core.managers.Stage3DProxy;
@@ -14,7 +14,7 @@ package away3d.textures
 	import away3d.entities.Scene3D;
 	import away3d.entities.View3D;
 
-	use namespace arcane;
+	
 
 	/**
 	 * CubeReflectionTexture provides a cube map texture for real-time reflections, used for any method that uses environment maps,

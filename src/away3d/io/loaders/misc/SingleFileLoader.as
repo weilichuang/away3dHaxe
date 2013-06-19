@@ -7,7 +7,7 @@ package away3d.io.loaders.misc
 	import flash.net.URLLoaderDataFormat;
 	import flash.net.URLRequest;
 
-	import away3d.arcane;
+	
 	import away3d.events.AssetEvent;
 	import away3d.events.LoaderEvent;
 	import away3d.events.ParserEvent;
@@ -15,7 +15,7 @@ package away3d.io.loaders.misc
 	import away3d.io.loaders.parsers.ParserBase;
 	import away3d.io.loaders.parsers.ParserDataFormat;
 
-	use namespace arcane;
+	
 
 	/**
 	 * Dispatched when the dependency that this single-file loader was loading complets.

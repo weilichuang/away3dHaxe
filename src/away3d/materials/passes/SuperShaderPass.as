@@ -4,7 +4,7 @@ package away3d.materials.passes
 	import flash.geom.ColorTransform;
 	import flash.geom.Vector3D;
 
-	import away3d.arcane;
+	
 	import away3d.entities.Camera3D;
 	import away3d.core.managers.Stage3DProxy;
 	import away3d.entities.lights.DirectionalLight;
@@ -18,7 +18,7 @@ package away3d.materials.passes
 	import away3d.materials.methods.EffectMethodBase;
 	import away3d.materials.methods.MethodVOSet;
 
-	use namespace arcane;
+	
 
 	/**
 	 * DefaultScreenPass is a shader pass that uses shader methods to compile a complete program.
@@ -158,7 +158,7 @@ package away3d.materials.passes
 		/**
 		 * @inheritDoc
 		 */
-		override arcane function activate(stage3DProxy:Stage3DProxy, camera:Camera3D):void
+		override public function activate(stage3DProxy:Stage3DProxy, camera:Camera3D):void
 		{
 			super.activate(stage3DProxy, camera);
 
@@ -185,7 +185,7 @@ package away3d.materials.passes
 		/**
 		 * @inheritDoc
 		 */
-		arcane override function deactivate(stage3DProxy:Stage3DProxy):void
+		public override function deactivate(stage3DProxy:Stage3DProxy):void
 		{
 			super.deactivate(stage3DProxy);
 
@@ -366,12 +366,12 @@ package away3d.materials.passes
 			_fragmentConstantData[_probeWeightsIndex + 3] = weights[3];
 		}
 
-		arcane function set ignoreLights(ignoreLights:Boolean):void
+		public function set ignoreLights(ignoreLights:Boolean):void
 		{
 			_ignoreLights = ignoreLights;
 		}
 
-		arcane function get ignoreLights():Boolean
+		public function get ignoreLights():Boolean
 		{
 			return _ignoreLights;
 		}

@@ -1,6 +1,6 @@
 package away3d.entities.primitives
 {
-	import away3d.arcane;
+	
 	import away3d.core.base.CompactSubGeometry;
 	import away3d.core.base.Geometry;
 	import away3d.core.base.ISubGeometry;
@@ -8,7 +8,7 @@ package away3d.entities.primitives
 
 	import flash.geom.Matrix3D;
 
-	use namespace arcane;
+	
 
 	/**
 	 * PrimitiveBase is an abstract base class for mesh primitives, which are prebuilt simple meshes.
@@ -142,7 +142,7 @@ package away3d.entities.primitives
 		}
 
 
-		override arcane function validate():void
+		override public function validate():void
 		{
 			if (_geomDirty)
 				updateGeometry();

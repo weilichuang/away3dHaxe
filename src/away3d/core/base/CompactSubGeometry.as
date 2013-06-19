@@ -5,10 +5,10 @@ package away3d.core.base
 	import flash.display3D.VertexBuffer3D;
 	import flash.geom.Matrix3D;
 
-	import away3d.arcane;
+	
 	import away3d.core.managers.Stage3DProxy;
 
-	use namespace arcane;
+	
 
 	public class CompactSubGeometry extends SubGeometryBase implements ISubGeometry
 	{

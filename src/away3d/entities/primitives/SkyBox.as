@@ -2,7 +2,7 @@ package away3d.entities.primitives
 {
 
 	import away3d.animators.IAnimator;
-	import away3d.arcane;
+	
 	import away3d.bounds.BoundingVolumeBase;
 	import away3d.bounds.NullBounds;
 	import away3d.entities.Camera3D;
@@ -22,7 +22,7 @@ package away3d.entities.primitives
 	import flash.geom.Matrix;
 	import flash.geom.Matrix3D;
 
-	use namespace arcane;
+	
 
 	/**
 	 * A SkyBox class is used to render a sky in the scene. It's always considered static and 'at infinity', and as

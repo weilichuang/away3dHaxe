@@ -1,17 +1,14 @@
 package away3d.core.managers
 {
+	import away3d.events.Stage3DEvent;
+	import away3d.materials.passes.MaterialPassBase;
+	import away3d.utils.Debug;
 	import com.adobe.utils.AGALMiniAssembler;
-
 	import flash.display3D.Context3DProgramType;
 	import flash.display3D.Program3D;
 	import flash.utils.ByteArray;
 
-	import away3d.arcane;
-	import away3d.utils.Debug;
-	import away3d.events.Stage3DEvent;
-	import away3d.materials.passes.MaterialPassBase;
 
-	use namespace arcane;
 
 	public class AGALProgram3DCache
 	{
@@ -106,7 +103,7 @@ package away3d.core.managers
 				_program3Ds[key] = program;
 			}
 
-			var oldId:int = pass._program3Dids[stageIndex];
+			var oldId:int = pass.getProgram3Did(stageIndex);
 			var newId:int = _ids[key];
 
 			if (oldId != newId)
@@ -116,8 +113,8 @@ package away3d.core.managers
 				_usages[newId]++;
 			}
 
-			pass._program3Dids[stageIndex] = newId;
-			pass._program3Ds[stageIndex] = _program3Ds[key];
+			pass.setProgram3Dids(stageIndex, newId);
+			pass.setProgram3D(stageIndex, _program3Ds[key]);
 		}
 
 		public function freeProgram3D(programId:int):void

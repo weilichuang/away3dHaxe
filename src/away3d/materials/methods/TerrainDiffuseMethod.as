@@ -1,6 +1,6 @@
 package away3d.materials.methods
 {
-	import away3d.arcane;
+	
 	import away3d.core.managers.Stage3DProxy;
 	import away3d.materials.compilation.ShaderRegisterCache;
 	import away3d.materials.compilation.ShaderRegisterElement;
@@ -9,7 +9,7 @@ package away3d.materials.methods
 
 	import flash.display3D.Context3D;
 
-	use namespace arcane;
+	
 
 	public class TerrainDiffuseMethod extends BasicDiffuseMethod
 	{
@@ -35,7 +35,7 @@ package away3d.materials.methods
 				throw new Error("More than 4 splatting layers is not supported!");
 		}
 
-		override arcane function initConstants(vo:MethodVO):void
+		override public function initConstants(vo:MethodVO):void
 		{
 			var data:Vector.<Number> = vo.fragmentData;
 			var index:int = vo.fragmentConstantsIndex;
@@ -49,7 +49,7 @@ package away3d.materials.methods
 			}
 		}
 
-		arcane override function getFragmentPostLightingCode(vo:MethodVO, regCache:ShaderRegisterCache, targetReg:ShaderRegisterElement):String
+		public override function getFragmentPostLightingCode(vo:MethodVO, regCache:ShaderRegisterCache, targetReg:ShaderRegisterElement):String
 		{
 			var code:String = "";
 			var albedo:ShaderRegisterElement;
@@ -122,7 +122,7 @@ package away3d.materials.methods
 			return code;
 		}
 
-		arcane override function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):void
+		public override function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):void
 		{
 			var context:Context3D = stage3DProxy.context3D;
 			var i:int;

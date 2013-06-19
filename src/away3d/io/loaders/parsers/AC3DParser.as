@@ -5,7 +5,7 @@ package away3d.io.loaders.parsers
 	import flash.utils.ByteArray;
 	import flash.utils.Dictionary;
 	
-	import away3d.arcane;
+	
 	import away3d.core.base.CompactSubGeometry;
 	import away3d.core.base.Geometry;
 	import away3d.core.base.data.UV;
@@ -22,7 +22,7 @@ package away3d.io.loaders.parsers
 	import away3d.materials.utils.DefaultMaterialManager;
 	import away3d.textures.Texture2DBase;
 
-	use namespace arcane;
+	
 
 	/**
 	 * AC3DParser provides a parser for the AC3D data type.
@@ -109,7 +109,7 @@ package away3d.io.loaders.parsers
 		/**
 		 * @inheritDoc
 		 */
-		override arcane function resolveDependency(resourceDependency:ResourceDependency):void
+		override public function resolveDependency(resourceDependency:ResourceDependency):void
 		{
 			var mesh:Mesh;
 			var asset:Texture2DBase;
@@ -126,7 +126,7 @@ package away3d.io.loaders.parsers
 					TextureMultiPassMaterial(mesh.material).texture = asset;
 		}
 
-		override arcane function resolveDependencyFailure(resourceDependency:ResourceDependency):void
+		override public function resolveDependencyFailure(resourceDependency:ResourceDependency):void
 		{
 			//handled with default material
 		}

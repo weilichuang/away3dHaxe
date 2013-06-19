@@ -2,7 +2,7 @@ package away3d.io.library
 {
 	import flash.net.URLRequest;
 
-	import away3d.arcane;
+	
 	import away3d.io.library.assets.IAsset;
 	import away3d.io.library.naming.ConflictStrategyBase;
 	import away3d.io.library.utils.AssetLibraryIterator;
@@ -11,7 +11,7 @@ package away3d.io.library
 	import away3d.io.loaders.misc.SingleFileLoader;
 	import away3d.io.loaders.parsers.ParserBase;
 
-	use namespace arcane;
+	
 
 	/**
 	 * AssetLibrary enforces a singleton pattern and is not intended to be instanced.
@@ -20,7 +20,7 @@ package away3d.io.library
 	 */
 	public class AssetLibrary
 	{
-		arcane static var _instances:Object = {};
+		public static var _instances:Object = {};
 
 		/**
 		 * Creates a new <code>AssetLibrary</code> object.

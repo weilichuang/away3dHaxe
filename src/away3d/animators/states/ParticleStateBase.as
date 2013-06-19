@@ -3,7 +3,7 @@ package away3d.animators.states
 	import flash.geom.Vector3D;
 	import flash.utils.Dictionary;
 
-	import away3d.arcane;
+	
 	import away3d.animators.ParticleAnimator;
 	import away3d.animators.data.AnimationRegisterCache;
 	import away3d.animators.data.AnimationSubGeometry;
@@ -13,7 +13,7 @@ package away3d.animators.states
 	import away3d.core.base.IRenderable;
 	import away3d.core.managers.Stage3DProxy;
 
-	use namespace arcane;
+	
 
 	/**
 	 * ...

@@ -1,9 +1,9 @@
 package away3d.io.library.naming
 {
-	import away3d.arcane;
+	
 	import away3d.io.library.assets.IAsset;
 
-	use namespace arcane;
+	
 
 	public class NumSuffixConflictStrategy extends ConflictStrategyBase
 	{

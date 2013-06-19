@@ -1,12 +1,12 @@
 package away3d.stereo.methods
 {
-	import away3d.arcane;
+	
 	import away3d.core.managers.RTTBufferManager;
 	import away3d.core.managers.Stage3DProxy;
 
 	import flash.display3D.Context3DProgramType;
 
-	use namespace arcane;
+	
 
 	public class InterleavedStereoRenderMethod extends StereoRenderMethodBase
 	{

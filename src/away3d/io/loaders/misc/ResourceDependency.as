@@ -2,11 +2,11 @@
 {
 	import flash.net.URLRequest;
 
-	import away3d.arcane;
+	
 	import away3d.io.library.assets.IAsset;
 	import away3d.io.loaders.parsers.ParserBase;
 
-	use namespace arcane;
+	
 
 	/**
 	 * ResourceDependency represents the data required to load, parse and resolve additional files ("dependencies")
@@ -24,8 +24,8 @@
 		private var _suppressAssetEvents:Boolean;
 		private var _dependencies:Vector.<ResourceDependency>;
 
-		arcane var loader:SingleFileLoader;
-		arcane var success:Boolean;
+		public var loader:SingleFileLoader;
+		public var success:Boolean;
 
 
 		public function ResourceDependency(id:String, req:URLRequest, data:*, parentParser:ParserBase, retrieveAsRawData:Boolean = false, suppressAssetEvents:Boolean = false)
@@ -91,7 +91,7 @@
 		 * @private
 		 * Method to set data after having already created the dependency object, e.g. after load.
 		*/
-		arcane function setData(data:*):void
+		public function setData(data:*):void
 		{
 			_data = data;
 		}

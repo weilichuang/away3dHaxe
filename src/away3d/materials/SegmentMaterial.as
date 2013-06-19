@@ -1,9 +1,9 @@
 package away3d.materials
 {
-	import away3d.arcane;
+	
 	import away3d.materials.passes.SegmentPass;
 
-	use namespace arcane;
+	
 
 	/**
 	 * SegmentMaterial is a material exclusively used to render wireframe object

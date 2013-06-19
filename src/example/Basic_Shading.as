@@ -60,31 +60,31 @@ package example
 	public class Basic_Shading extends BasicApplication
 	{
 		//cube textures
-		[Embed(source = "/../embeds/trinket_diffuse.jpg")]
+		[Embed(source = "../embeds/trinket_diffuse.jpg")]
 		public static var TrinketDiffuse:Class;
-		[Embed(source = "/../embeds/trinket_specular.jpg")]
+		[Embed(source = "../embeds/trinket_specular.jpg")]
 		public static var TrinketSpecular:Class;
-		[Embed(source = "/../embeds/trinket_normal.jpg")]
+		[Embed(source = "../embeds/trinket_normal.jpg")]
 		public static var TrinketNormals:Class;
 
 		//sphere textures
-		[Embed(source = "/../embeds/beachball_diffuse.jpg")]
+		[Embed(source = "../embeds/beachball_diffuse.jpg")]
 		public static var BeachBallDiffuse:Class;
-		[Embed(source = "/../embeds/beachball_specular.jpg")]
+		[Embed(source = "../embeds/beachball_specular.jpg")]
 		public static var BeachBallSpecular:Class;
 
 		//torus textures
-		[Embed(source = "/../embeds/weave_diffuse.jpg")]
+		[Embed(source = "../embeds/weave_diffuse.jpg")]
 		public static var WeaveDiffuse:Class;
-		[Embed(source = "/../embeds/weave_normal.jpg")]
+		[Embed(source = "../embeds/weave_normal.jpg")]
 		public static var WeaveNormals:Class;
 
 		//plane textures
-		[Embed(source = "/../embeds/floor_diffuse.jpg")]
+		[Embed(source = "../embeds/floor_diffuse.jpg")]
 		public static var FloorDiffuse:Class;
-		[Embed(source = "/../embeds/floor_specular.jpg")]
+		[Embed(source = "../embeds/floor_specular.jpg")]
 		public static var FloorSpecular:Class;
-		[Embed(source = "/../embeds/floor_normal.jpg")]
+		[Embed(source = "../embeds/floor_normal.jpg")]
 		public static var FloorNormals:Class;
 
 		//engine variables

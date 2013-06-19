@@ -2,7 +2,7 @@ package away3d.materials.methods
 {
 	import flash.events.Event;
 	
-	import away3d.arcane;
+	
 	import away3d.entities.Camera3D;
 	import away3d.core.base.IRenderable;
 	import away3d.core.managers.Stage3DProxy;
@@ -13,7 +13,7 @@ package away3d.materials.methods
 	import away3d.materials.compilation.ShaderRegisterData;
 	import away3d.materials.compilation.ShaderRegisterElement;
 
-	use namespace arcane;
+	
 
 	public class CascadeShadowMapMethod extends ShadowMapMethodBase
 	{
@@ -55,7 +55,7 @@ package away3d.materials.methods
 			invalidateShaderProgram();
 		}
 
-		override arcane function initVO(vo:MethodVO):void
+		override public function initVO(vo:MethodVO):void
 		{
 			var tempVO:MethodVO = new MethodVO();
 			_baseMethod.initVO(tempVO);
@@ -63,13 +63,13 @@ package away3d.materials.methods
 			vo.needsProjection = true;
 		}
 
-		override arcane function set sharedRegisters(value:ShaderRegisterData):void
+		override public function set sharedRegisters(value:ShaderRegisterData):void
 		{
 			super.sharedRegisters = value;
 			_baseMethod.sharedRegisters = value;
 		}
 
-		override arcane function initConstants(vo:MethodVO):void
+		override public function initConstants(vo:MethodVO):void
 		{
 			var fragmentData:Vector.<Number> = vo.fragmentData;
 			var vertexData:Vector.<Number> = vo.vertexData;
@@ -88,14 +88,14 @@ package away3d.materials.methods
 			vertexData[index + 2] = 0;
 		}
 
-		arcane override function cleanCompilationData():void
+		public override function cleanCompilationData():void
 		{
 			super.cleanCompilationData();
 			_cascadeProjections = null;
 			_depthMapCoordVaryings = null;
 		}
 
-		override arcane function getVertexCode(vo:MethodVO, regCache:ShaderRegisterCache):String
+		override public function getVertexCode(vo:MethodVO, regCache:ShaderRegisterCache):String
 		{
 			var code:String = "";
 			var dataReg:ShaderRegisterElement = regCache.getFreeVertexConstant();
@@ -129,7 +129,7 @@ package away3d.materials.methods
 			}
 		}
 
-		override arcane function getFragmentCode(vo:MethodVO, regCache:ShaderRegisterCache, targetReg:ShaderRegisterElement):String
+		override public function getFragmentCode(vo:MethodVO, regCache:ShaderRegisterCache, targetReg:ShaderRegisterElement):String
 		{
 			var numCascades:int = _cascadeShadowMapper.numCascades;
 			var depthMapRegister:ShaderRegisterElement = regCache.getFreeTextureReg();
@@ -183,7 +183,7 @@ package away3d.materials.methods
 		/**
 		 * @inheritDoc
 		 */
-		override arcane function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):void
+		override public function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):void
 		{
 			stage3DProxy.context3D.setTextureAt(vo.texturesIndex, _castingLight.shadowMapper.depthMap.getTextureForStage3D(stage3DProxy));
 
@@ -214,7 +214,7 @@ package away3d.materials.methods
 			_baseMethod.activateForCascade(vo, stage3DProxy);
 		}
 
-		arcane override function setRenderState(vo:MethodVO, renderable:IRenderable, stage3DProxy:Stage3DProxy, camera:Camera3D):void
+		public override function setRenderState(vo:MethodVO, renderable:IRenderable, stage3DProxy:Stage3DProxy, camera:Camera3D):void
 		{
 		}
 

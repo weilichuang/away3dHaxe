@@ -7,13 +7,13 @@ package away3d.materials.passes
 	import flash.geom.Matrix3D;
 	import flash.utils.Dictionary;
 
-	import away3d.arcane;
+	
 	import away3d.entities.Camera3D;
 	import away3d.core.base.IRenderable;
 	import away3d.core.managers.Stage3DProxy;
 	import away3d.entities.lights.LightBase;
 
-	use namespace arcane;
+	
 
 	/**
 	 * The SingleObjectDepthPass provides a material pass that renders a single object to a depth map from the point
@@ -95,7 +95,7 @@ package away3d.materials.passes
 		/**
 		 * @inheritDoc
 		 */
-		arcane override function getVertexCode():String
+		public override function getVertexCode():String
 		{
 			var code:String;
 			// offset
@@ -115,7 +115,7 @@ package away3d.materials.passes
 		/**
 		 * @inheritDoc
 		 */
-		arcane override function getFragmentCode(animationCode:String):String
+		public override function getFragmentCode(animationCode:String):String
 		{
 			// TODO: not used
 			animationCode = animationCode;
@@ -136,7 +136,7 @@ package away3d.materials.passes
 		 * @param renderable The renderable for which to retrieve the depth maps
 		 * @return A list of depth map textures for all supported lights.
 		 */
-		arcane function getDepthMap(renderable:IRenderable, stage3DProxy:Stage3DProxy):Texture
+		public function getDepthMap(renderable:IRenderable, stage3DProxy:Stage3DProxy):Texture
 		{
 			return _textures[stage3DProxy.stage3DIndex][renderable];
 		}
@@ -146,7 +146,7 @@ package away3d.materials.passes
 		 * @param renderable The renderable for which to retrieve the projection maps.
 		 * @return A list of projection maps for all supported lights.
 		 */
-		arcane function getProjection(renderable:IRenderable):Matrix3D
+		public function getProjection(renderable:IRenderable):Matrix3D
 		{
 			return _projections[renderable];
 		}
@@ -154,7 +154,7 @@ package away3d.materials.passes
 		/**
 		 * @inheritDoc
 		 */
-		arcane override function render(renderable:IRenderable, stage3DProxy:Stage3DProxy, camera:Camera3D, viewProjection:Matrix3D):void
+		public override function render(renderable:IRenderable, stage3DProxy:Stage3DProxy, camera:Camera3D, viewProjection:Matrix3D):void
 		{
 			var matrix:Matrix3D;
 			var contextIndex:int = stage3DProxy.stage3DIndex;
@@ -189,7 +189,7 @@ package away3d.materials.passes
 		/**
 		 * @inheritDoc
 		 */
-		override arcane function activate(stage3DProxy:Stage3DProxy, camera:Camera3D):void
+		override public function activate(stage3DProxy:Stage3DProxy, camera:Camera3D):void
 		{
 			if (_projectionTexturesInvalid)
 				updateProjectionTextures();

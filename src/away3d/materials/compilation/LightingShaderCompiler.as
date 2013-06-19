@@ -1,6 +1,6 @@
 package away3d.materials.compilation
 {
-	import away3d.arcane;
+	
 
 	public class LightingShaderCompiler extends ShaderCompiler
 	{
@@ -11,7 +11,7 @@ package away3d.materials.compilation
 		private var _lightVertexConstantIndex:int;
 		private var _shadowRegister:ShaderRegisterElement;
 
-		use namespace arcane;
+		
 
 		public function LightingShaderCompiler(profile:String)
 		{

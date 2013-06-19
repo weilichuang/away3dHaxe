@@ -3,10 +3,10 @@
 	import flash.display.BlendMode;
 	import flash.geom.ColorTransform;
 	
-	import away3d.arcane;
+	
 	import away3d.textures.Texture2DBase;
 
-	use namespace arcane;
+	
 
 	/**
 	 * TextureMaterial is a material that uses a texture as the surface's diffuse colour.

@@ -6,7 +6,7 @@
 	import flash.display3D.Context3DCompareMode;
 	import flash.events.Event;
 
-	import away3d.arcane;
+	
 	import away3d.entities.Camera3D;
 	import away3d.core.managers.Stage3DProxy;
 	import away3d.materials.lightpickers.LightPickerBase;
@@ -23,7 +23,7 @@
 	import away3d.materials.passes.SuperShaderPass;
 	import away3d.textures.Texture2DBase;
 
-	use namespace arcane;
+	
 
 	/**
 	 * MultiPassMaterialBase forms an abstract base class for the default multi-pass materials provided by Away3D, using material methods
@@ -101,7 +101,7 @@
 			invalidateScreenPasses();
 		}
 
-		arcane override function activateForDepth(stage3DProxy:Stage3DProxy, camera:Camera3D, distanceBased:Boolean = false):void
+		public override function activateForDepth(stage3DProxy:Stage3DProxy, camera:Camera3D, distanceBased:Boolean = false):void
 		{
 			if (distanceBased)
 				_distancePass.alphaMask = _diffuseMethod.texture;
@@ -390,7 +390,7 @@
 		/**
 		 * @inheritDoc
 		 */
-		arcane override function updateMaterial(context:Context3D):void
+		public override function updateMaterial(context:Context3D):void
 		{
 			var passesInvalid:Boolean;
 
@@ -454,14 +454,14 @@
 			}
 		}
 
-		override arcane function activatePass(index:uint, stage3DProxy:Stage3DProxy, camera:Camera3D):void
+		override public function activatePass(index:uint, stage3DProxy:Stage3DProxy, camera:Camera3D):void
 		{
 			if (index == 0)
 				stage3DProxy.context3D.setBlendFactors(Context3DBlendFactor.ONE, Context3DBlendFactor.ZERO);
 			super.activatePass(index, stage3DProxy, camera);
 		}
 
-		override arcane function deactivate(stage3DProxy:Stage3DProxy):void
+		override public function deactivate(stage3DProxy:Stage3DProxy):void
 		{
 			super.deactivate(stage3DProxy);
 			stage3DProxy.context3D.setBlendFactors(Context3DBlendFactor.ONE, Context3DBlendFactor.ZERO);

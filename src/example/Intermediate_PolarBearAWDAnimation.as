@@ -98,41 +98,41 @@ package example
 	public class Intermediate_PolarBearAWDAnimation extends BasicApplication
 	{
 		//polar bear color map
-		[Embed(source = "/../embeds/snow_diffuse.png")]
+		[Embed(source = "../embeds/snow_diffuse.png")]
 		private var SnowDiffuse:Class;
 
 		//polar bear normal map
-		[Embed(source = "/../embeds/snow_normals.png")]
+		[Embed(source = "../embeds/snow_normals.png")]
 		private var SnowNormal:Class;
 
 		//polar bear specular map
-		[Embed(source = "/../embeds/snow_specular.png")]
+		[Embed(source = "../embeds/snow_specular.png")]
 		private var SnowSpecular:Class;
 
 		//snow color map
-		[Embed(source = "/../embeds/polarbear_diffuse.jpg")]
+		[Embed(source = "../embeds/polarbear_diffuse.jpg")]
 		private var BearDiffuse:Class;
 
 		//snow normal map
-		[Embed(source = "/../embeds/polarbear_normals.jpg")]
+		[Embed(source = "../embeds/polarbear_normals.jpg")]
 		private var BearNormal:Class;
 
 		//snow specular map
-		[Embed(source = "/../embeds/polarbear_specular.jpg")]
+		[Embed(source = "../embeds/polarbear_specular.jpg")]
 		private var BearSpecular:Class;
 
 		//skybox textures
-		[Embed(source = "/../embeds/skybox/sky_posX.jpg")]
+		[Embed(source = "../embeds/skybox/sky_posX.jpg")]
 		private var PosX:Class;
-		[Embed(source = "/../embeds/skybox/sky_negX.jpg")]
+		[Embed(source = "../embeds/skybox/sky_negX.jpg")]
 		private var NegX:Class;
-		[Embed(source = "/../embeds/skybox/sky_posY.jpg")]
+		[Embed(source = "../embeds/skybox/sky_posY.jpg")]
 		private var PosY:Class;
-		[Embed(source = "/../embeds/skybox/sky_negY.jpg")]
+		[Embed(source = "../embeds/skybox/sky_negY.jpg")]
 		private var NegY:Class;
-		[Embed(source = "/../embeds/skybox/sky_posZ.jpg")]
+		[Embed(source = "../embeds/skybox/sky_posZ.jpg")]
 		private var PosZ:Class;
-		[Embed(source = "/../embeds/skybox/sky_negZ.jpg")]
+		[Embed(source = "../embeds/skybox/sky_negZ.jpg")]
 		private var NegZ:Class;
 
 		//engine variables

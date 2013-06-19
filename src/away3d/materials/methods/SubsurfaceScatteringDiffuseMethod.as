@@ -1,6 +1,6 @@
 package away3d.materials.methods
 {
-	import away3d.arcane;
+	
 	import away3d.entities.Camera3D;
 	import away3d.core.base.IRenderable;
 	import away3d.core.managers.Stage3DProxy;
@@ -13,7 +13,7 @@ package away3d.materials.methods
 	import flash.display3D.textures.Texture;
 	import flash.geom.Matrix3D;
 
-	use namespace arcane;
+	
 
 	/**
 	 * SubsurfaceScatteringDiffuseMethod provides a depth map-based diffuse shading method that mimics the scattering of
@@ -51,7 +51,7 @@ package away3d.materials.methods
 			_translucency = 1;
 		}
 
-		override arcane function initConstants(vo:MethodVO):void
+		override public function initConstants(vo:MethodVO):void
 		{
 			super.initConstants(vo);
 			var data:Vector.<Number> = vo.vertexData;
@@ -72,7 +72,7 @@ package away3d.materials.methods
 			data[index + 11] = -.1;
 		}
 
-		arcane override function cleanCompilationData():void
+		public override function cleanCompilationData():void
 		{
 			super.cleanCompilationData();
 
@@ -130,7 +130,7 @@ package away3d.materials.methods
 		/**
 		 * @inheritDoc
 		 */
-		arcane override function getVertexCode(vo:MethodVO, regCache:ShaderRegisterCache):String
+		public override function getVertexCode(vo:MethodVO, regCache:ShaderRegisterCache):String
 		{
 			var code:String = super.getVertexCode(vo, regCache);
 			var lightProjection:ShaderRegisterElement;
@@ -159,7 +159,7 @@ package away3d.materials.methods
 		/**
 		 * @inheritDoc
 		 */
-		arcane override function getFragmentPreLightingCode(vo:MethodVO, regCache:ShaderRegisterCache):String
+		public override function getFragmentPreLightingCode(vo:MethodVO, regCache:ShaderRegisterCache):String
 		{
 			_colorReg = regCache.getFreeFragmentConstant();
 			_decReg = regCache.getFreeFragmentConstant();
@@ -172,7 +172,7 @@ package away3d.materials.methods
 		/**
 		 * @inheritDoc
 		 */
-		arcane override function getFragmentCodePerLight(vo:MethodVO, lightDirReg:ShaderRegisterElement, lightColReg:ShaderRegisterElement, regCache:ShaderRegisterCache):String
+		public override function getFragmentCodePerLight(vo:MethodVO, lightDirReg:ShaderRegisterElement, lightColReg:ShaderRegisterElement, regCache:ShaderRegisterCache):String
 		{
 			_isFirstLight = true;
 			_lightColorReg = lightColReg;
@@ -182,7 +182,7 @@ package away3d.materials.methods
 		/**
 		 * @inheritDoc
 		 */
-		arcane override function getFragmentPostLightingCode(vo:MethodVO, regCache:ShaderRegisterCache, targetReg:ShaderRegisterElement):String
+		public override function getFragmentPostLightingCode(vo:MethodVO, regCache:ShaderRegisterCache, targetReg:ShaderRegisterElement):String
 		{
 			var code:String = super.getFragmentPostLightingCode(vo, regCache, targetReg);
 			var temp:ShaderRegisterElement = regCache.getFreeFragmentVectorTemp();
@@ -200,7 +200,7 @@ package away3d.materials.methods
 		/**
 		 * @inheritDoc
 		 */
-		arcane override function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):void
+		public override function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):void
 		{
 			super.activate(vo, stage3DProxy);
 
@@ -213,7 +213,7 @@ package away3d.materials.methods
 			data[index + 9] = _translucency;
 		}
 
-		arcane override function setRenderState(vo:MethodVO, renderable:IRenderable, stage3DProxy:Stage3DProxy, camera:Camera3D):void
+		public override function setRenderState(vo:MethodVO, renderable:IRenderable, stage3DProxy:Stage3DProxy, camera:Camera3D):void
 		{
 			var depthMap:Texture = _depthPass.getDepthMap(renderable, stage3DProxy);
 			var projection:Matrix3D = _depthPass.getProjection(renderable);

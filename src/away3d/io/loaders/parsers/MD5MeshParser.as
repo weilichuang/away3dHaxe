@@ -3,7 +3,7 @@ package away3d.io.loaders.parsers
 	import flash.geom.Matrix3D;
 	import flash.geom.Vector3D;
 
-	import away3d.arcane;
+	
 	import away3d.animators.SkeletonAnimationSet;
 	import away3d.animators.data.Skeleton;
 	import away3d.animators.data.SkeletonJoint;
@@ -13,7 +13,7 @@ package away3d.io.loaders.parsers
 	import away3d.math.Quaternion;
 
 
-	use namespace arcane;
+	
 
 	// todo: create animation system, parse skeleton
 

@@ -1,13 +1,13 @@
 package away3d.materials.methods
 {
-	import away3d.arcane;
+	
 	import away3d.errors.AbstractMethodError;
 	import away3d.io.library.assets.AssetType;
 	import away3d.io.library.assets.IAsset;
 	import away3d.materials.compilation.ShaderRegisterCache;
 	import away3d.materials.compilation.ShaderRegisterElement;
 
-	use namespace arcane;
+	
 
 	/**
 	 * EffectMethodBase forms an abstract base class for shader methods that are not dependent on light sources,
@@ -30,7 +30,7 @@ package away3d.materials.methods
 		 * @param regCache The register cache used during the compilation.
 		 * @private
 		 */
-		arcane function getFragmentCode(vo:MethodVO, regCache:ShaderRegisterCache, targetReg:ShaderRegisterElement):String
+		public function getFragmentCode(vo:MethodVO, regCache:ShaderRegisterCache, targetReg:ShaderRegisterElement):String
 		{
 			throw new AbstractMethodError();
 			vo = vo;

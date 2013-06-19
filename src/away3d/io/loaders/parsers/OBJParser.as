@@ -2,7 +2,7 @@ package away3d.io.loaders.parsers
 {
 	import flash.net.URLRequest;
 	
-	import away3d.arcane;
+	
 	import away3d.core.base.Geometry;
 	import away3d.core.base.ISubGeometry;
 	import away3d.core.base.data.UV;
@@ -22,7 +22,7 @@ package away3d.io.loaders.parsers
 	import away3d.textures.Texture2DBase;
 	import away3d.tools.utils.GeomUtil;
 
-	use namespace arcane;
+	
 
 	/**
 	 * OBJParser provides a parser for the OBJ data type.
@@ -108,7 +108,7 @@ package away3d.io.loaders.parsers
 		/**
 		 * @inheritDoc
 		 */
-		override arcane function resolveDependency(resourceDependency:ResourceDependency):void
+		override public function resolveDependency(resourceDependency:ResourceDependency):void
 		{
 			if (resourceDependency.id == 'mtl')
 			{
@@ -143,7 +143,7 @@ package away3d.io.loaders.parsers
 		/**
 		* @inheritDoc
 		*/
-		override arcane function resolveDependencyFailure(resourceDependency:ResourceDependency):void
+		override public function resolveDependencyFailure(resourceDependency:ResourceDependency):void
 		{
 			if (resourceDependency.id == "mtl")
 			{

@@ -1,6 +1,6 @@
 package away3d.animators.nodes
 {
-	import away3d.arcane;
+	
 	import away3d.animators.IAnimator;
 	import away3d.animators.ParticleAnimationSet;
 	import away3d.animators.data.AnimationRegisterCache;
@@ -9,7 +9,7 @@ package away3d.animators.nodes
 	import away3d.materials.compilation.ShaderRegisterElement;
 	import away3d.materials.passes.MaterialPassBase;
 
-	use namespace arcane;
+	
 
 	/**
 	 * A particle animation node used to control the rotation of a particle to match its heading vector.
@@ -17,7 +17,7 @@ package away3d.animators.nodes
 	public class ParticleRotateToHeadingNode extends ParticleNodeBase
 	{
 		/** @private */
-		arcane static const MATRIX_INDEX:int = 0;
+		public static const MATRIX_INDEX:int = 0;
 
 		/**
 		 * Creates a new <code>ParticleBillboardNode</code>
@@ -201,7 +201,7 @@ package away3d.animators.nodes
 		/**
 		 * @inheritDoc
 		 */
-		override arcane function processAnimationSetting(particleAnimationSet:ParticleAnimationSet):void
+		override public function processAnimationSetting(particleAnimationSet:ParticleAnimationSet):void
 		{
 			particleAnimationSet.needVelocity = true;
 		}

@@ -1,12 +1,11 @@
 package away3d.io.loaders.parsers
 {
-	import away3d.arcane;
 	import away3d.events.AssetEvent;
 	import away3d.events.ParserEvent;
 	import away3d.io.library.assets.IAsset;
 	import away3d.io.loaders.misc.ResourceDependency;
 
-	use namespace arcane;
+	
 
 	/**
 	 * The AWDParser class is a wrapper for both AWD1Parser and AWD2Parser, and will
@@ -66,7 +65,7 @@ package away3d.io.loaders.parsers
 		 * @private
 		 * Delegate to the concrete parser.
 		*/
-		arcane override function resolveDependency(resourceDependency:ResourceDependency):void
+		public override function resolveDependency(resourceDependency:ResourceDependency):void
 		{
 			if (_parser)
 				_parser.resolveDependency(resourceDependency);
@@ -77,7 +76,7 @@ package away3d.io.loaders.parsers
 		 * @private
 		 * Delegate to the concrete parser.
 		*/
-		arcane override function resolveDependencyFailure(resourceDependency:ResourceDependency):void
+		public override function resolveDependencyFailure(resourceDependency:ResourceDependency):void
 		{
 			if (_parser)
 				_parser.resolveDependencyFailure(resourceDependency);
@@ -87,14 +86,14 @@ package away3d.io.loaders.parsers
 		 * @private
 		 * Delagate to the concrete parser.
 		 */
-		arcane override function resolveDependencyName(resourceDependency:ResourceDependency, asset:IAsset):String
+		public override function resolveDependencyName(resourceDependency:ResourceDependency, asset:IAsset):String
 		{
 			if (_parser)
 				return _parser.resolveDependencyName(resourceDependency, asset);
 			return asset.name;
 		}
 
-		arcane override function resumeParsingAfterDependencies():void
+		public override function resumeParsingAfterDependencies():void
 		{
 			if (_parser)
 				_parser.resumeParsingAfterDependencies();

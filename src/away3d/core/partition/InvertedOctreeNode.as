@@ -1,6 +1,6 @@
 package away3d.core.partition
 {
-	import away3d.arcane;
+	
 	import away3d.math.Plane3D;
 	import away3d.core.traverse.PartitionTraverser;
 	import away3d.entities.primitives.WireframeCube;
@@ -29,7 +29,7 @@ package away3d.core.partition
 		private var _halfExtentY:Number;
 		private var _halfExtentZ:Number;
 
-		use namespace arcane;
+		
 
 		public function InvertedOctreeNode(minBounds:Vector3D, maxBounds:Vector3D)
 		{
@@ -47,7 +47,7 @@ package away3d.core.partition
 			_halfExtentZ = (_maxZ - _minZ) * .5;
 		}
 
-		arcane function setParent(value:InvertedOctreeNode):void
+		public function setParent(value:InvertedOctreeNode):void
 		{
 			_parent = value;
 		}

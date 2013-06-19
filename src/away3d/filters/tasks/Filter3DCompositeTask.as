@@ -5,11 +5,11 @@ package away3d.filters.tasks
 	import flash.display3D.textures.Texture;
 	import flash.display3D.textures.TextureBase;
 
-	import away3d.arcane;
+	
 	import away3d.entities.Camera3D;
 	import away3d.core.managers.Stage3DProxy;
 
-	use namespace arcane;
+	
 
 	public class Filter3DCompositeTask extends Filter3DTaskBase
 	{

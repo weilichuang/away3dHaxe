@@ -3,14 +3,14 @@ package away3d.core.base
 	import flash.geom.Matrix3D;
 	import flash.geom.Vector3D;
 
-	import away3d.arcane;
+	
 	import away3d.controllers.ControllerBase;
 	import away3d.events.Object3DEvent;
 	import away3d.io.library.assets.NamedAssetBase;
 	import away3d.math.MathUtil;
 	import away3d.math.Matrix3DUtils;
 
-	use namespace arcane;
+	
 
 
 	/**
@@ -81,7 +81,7 @@ package away3d.core.base
 	public class Object3D extends NamedAssetBase
 	{
 		/** @private */
-		arcane var _controller:ControllerBase;
+		public var _controller:ControllerBase;
 
 		private var _smallestNumber:Number = 0.0000000000000000000001;
 		private var _transformDirty:Boolean = true;
@@ -885,7 +885,7 @@ package away3d.core.base
 		/**
 		 * Invalidates the transformation matrix, causing it to be updated upon the next request
 		 */
-		arcane function invalidateTransform():void
+		public function invalidateTransform():void
 		{
 			_transformDirty = true;
 		}

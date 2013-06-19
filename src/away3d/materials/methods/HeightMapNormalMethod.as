@@ -1,11 +1,11 @@
 package away3d.materials.methods
 {
-	import away3d.arcane;
+	
 	import away3d.materials.compilation.ShaderRegisterCache;
 	import away3d.materials.compilation.ShaderRegisterElement;
 	import away3d.textures.Texture2DBase;
 
-	use namespace arcane;
+	
 
 	public class HeightMapNormalMethod extends BasicNormalMethod
 	{
@@ -20,7 +20,7 @@ package away3d.materials.methods
 			_worldXZRatio = worldDepth / worldHeight;
 		}
 
-		override arcane function initConstants(vo:MethodVO):void
+		override public function initConstants(vo:MethodVO):void
 		{
 			var index:int = vo.fragmentConstantsIndex;
 			var data:Vector.<Number> = vo.fragmentData;
@@ -32,7 +32,7 @@ package away3d.materials.methods
 			data[index + 5] = _worldXZRatio;
 		}
 
-		override arcane function get tangentSpace():Boolean
+		override public function get tangentSpace():Boolean
 		{
 			return false;
 		}
@@ -41,7 +41,7 @@ package away3d.materials.methods
 		{
 		}
 
-		arcane override function getFragmentCode(vo:MethodVO, regCache:ShaderRegisterCache, targetReg:ShaderRegisterElement):String
+		public override function getFragmentCode(vo:MethodVO, regCache:ShaderRegisterCache, targetReg:ShaderRegisterElement):String
 		{
 			var temp:ShaderRegisterElement = regCache.getFreeFragmentVectorTemp();
 			var dataReg:ShaderRegisterElement = regCache.getFreeFragmentConstant();

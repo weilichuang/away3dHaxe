@@ -1,7 +1,7 @@
 package away3d.events
 {
 
-	import away3d.arcane;
+	
 	import away3d.entities.ObjectContainer3D;
 	import away3d.entities.View3D;
 	import away3d.core.base.IRenderable;
@@ -11,13 +11,13 @@ package away3d.events
 	import flash.geom.Point;
 	import flash.geom.Vector3D;
 
-	use namespace arcane;
+	
 
 	public class TouchEvent3D extends Event
 	{
 		// Private.
-		arcane var _allowedToPropagate:Boolean = true;
-		arcane var _parentEvent:TouchEvent3D;
+		public var _allowedToPropagate:Boolean = true;
+		public var _parentEvent:TouchEvent3D;
 
 		public static const TOUCH_END:String = "touchEnd3d";
 		public static const TOUCH_BEGIN:String = "touchBegin3d";

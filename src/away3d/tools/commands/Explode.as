@@ -1,13 +1,13 @@
 package away3d.tools.commands
 {
-	import away3d.arcane;
+	
 	import away3d.core.base.Geometry;
 	import away3d.core.base.ISubGeometry;
 	import away3d.entities.Mesh;
 	import away3d.entities.ObjectContainer3D;
 	import away3d.tools.utils.GeomUtil;
 
-	use namespace arcane;
+	
 
 	/**
 	* Class Explode make all vertices and uv's of a mesh unic<code>Explode</code>

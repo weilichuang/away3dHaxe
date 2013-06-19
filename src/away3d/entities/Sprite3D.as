@@ -5,7 +5,7 @@ package away3d.entities
 	import flash.geom.Matrix3D;
 	import flash.geom.Vector3D;
 
-	import away3d.arcane;
+	
 	import away3d.animators.IAnimator;
 	import away3d.bounds.AxisAlignedBoundingBox;
 	import away3d.bounds.BoundingVolumeBase;
@@ -19,7 +19,7 @@ package away3d.entities
 	import away3d.materials.MaterialBase;
 	import away3d.math.Matrix3DUtils;
 
-	use namespace arcane;
+	
 
 	/**
 	 * Sprite3D is a 3D billboard, a renderable rectangular area that is always aligned with the projection plane.
@@ -248,7 +248,7 @@ package away3d.entities
 			return _geometry.vertexTangentOffset;
 		}
 
-		override arcane function collidesBefore(shortestCollisionDistance:Number, findClosest:Boolean):Boolean
+		override public function collidesBefore(shortestCollisionDistance:Number, findClosest:Boolean):Boolean
 		{
 			findClosest = findClosest;
 			var viewTransform:Matrix3D = _camera.inverseSceneTransform.clone();

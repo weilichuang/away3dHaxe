@@ -2,7 +2,7 @@ package away3d.core.pick
 {
 	import flash.geom.Vector3D;
 	
-	import away3d.arcane;
+	
 	import away3d.core.data.EntityListItem;
 	import away3d.core.traverse.EntityCollector;
 	import away3d.core.traverse.RaycastCollector;
@@ -10,7 +10,7 @@ package away3d.core.pick
 	import away3d.entities.Scene3D;
 	import away3d.entities.View3D;
 
-	use namespace arcane;
+	
 
 	/**
 	 * Picks a 3d object from a view or scene by 3D raycast calculations.

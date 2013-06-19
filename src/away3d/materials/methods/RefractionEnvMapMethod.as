@@ -1,12 +1,12 @@
 package away3d.materials.methods
 {
-	import away3d.arcane;
+	
 	import away3d.core.managers.Stage3DProxy;
 	import away3d.materials.compilation.ShaderRegisterCache;
 	import away3d.materials.compilation.ShaderRegisterElement;
 	import away3d.textures.CubeTextureBase;
 
-	use namespace arcane;
+	
 
 	public class RefractionEnvMapMethod extends EffectMethodBase
 	{
@@ -31,7 +31,7 @@ package away3d.materials.methods
 			_refractionIndex = refractionIndex;
 		}
 
-		override arcane function initConstants(vo:MethodVO):void
+		override public function initConstants(vo:MethodVO):void
 		{
 			var index:int = vo.fragmentConstantsIndex;
 			var data:Vector.<Number> = vo.fragmentData;
@@ -40,7 +40,7 @@ package away3d.materials.methods
 			data[index + 7] = 1;
 		}
 
-		override arcane function initVO(vo:MethodVO):void
+		override public function initVO(vo:MethodVO):void
 		{
 			vo.needsNormals = true;
 			vo.needsView = true;
@@ -130,7 +130,7 @@ package away3d.materials.methods
 			_alpha = value;
 		}
 
-		arcane override function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):void
+		public override function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):void
 		{
 			var index:int = vo.fragmentConstantsIndex;
 			var data:Vector.<Number> = vo.fragmentData;
@@ -144,7 +144,7 @@ package away3d.materials.methods
 			stage3DProxy.context3D.setTextureAt(vo.texturesIndex, _envMap.getTextureForStage3D(stage3DProxy));
 		}
 
-		arcane override function getFragmentCode(vo:MethodVO, regCache:ShaderRegisterCache, targetReg:ShaderRegisterElement):String
+		public override function getFragmentCode(vo:MethodVO, regCache:ShaderRegisterCache, targetReg:ShaderRegisterElement):String
 		{
 			// todo: data2.x could use common reg, so only 1 reg is used
 			var data:ShaderRegisterElement = regCache.getFreeFragmentConstant();

@@ -6,11 +6,11 @@ package away3d.core.base
 	import flash.geom.Matrix3D;
 	import flash.geom.Vector3D;
 
-	import away3d.arcane;
+	
 	import away3d.core.managers.Stage3DProxy;
 	import away3d.errors.AbstractMethodError;
 
-	use namespace arcane;
+	
 
 	public class SubGeometryBase
 	{

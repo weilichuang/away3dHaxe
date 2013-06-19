@@ -5,9 +5,9 @@
 	import flash.display3D.textures.TextureBase;
 	import flash.utils.ByteArray;
 
-	import away3d.arcane;
+	
 
-	use namespace arcane;
+	
 
 	public class ATFTexture extends Texture2DBase
 	{

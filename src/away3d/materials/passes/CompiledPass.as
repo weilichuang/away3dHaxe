@@ -5,7 +5,7 @@ package away3d.materials.passes
 	import flash.geom.Matrix;
 	import flash.geom.Matrix3D;
 
-	import away3d.arcane;
+	
 	import away3d.entities.Camera3D;
 	import away3d.core.base.IRenderable;
 	import away3d.core.managers.Stage3DProxy;
@@ -24,12 +24,12 @@ package away3d.materials.passes
 	import away3d.math.Matrix3DUtils;
 	import away3d.textures.Texture2DBase;
 
-	use namespace arcane;
+	
 
 	public class CompiledPass extends MaterialPassBase
 	{
-		arcane var _passes:Vector.<MaterialPassBase>;
-		arcane var _passesDirty:Boolean;
+		public var _passes:Vector.<MaterialPassBase>;
+		public var _passesDirty:Boolean;
 
 		protected var _specularLightSources:uint = 0x01;
 		protected var _diffuseLightSources:uint = 0x03;
@@ -104,17 +104,17 @@ package away3d.materials.passes
 			_forceSeparateMVP = value;
 		}
 
-		arcane function get numPointLights():uint
+		public function get numPointLights():uint
 		{
 			return _numPointLights;
 		}
 
-		arcane function get numDirectionalLights():uint
+		public function get numDirectionalLights():uint
 		{
 			return _numDirectionalLights;
 		}
 
-		arcane function get numLightProbes():uint
+		public function get numLightProbes():uint
 		{
 			return _numLightProbes;
 		}
@@ -122,7 +122,7 @@ package away3d.materials.passes
 		/**
 		 * @inheritDoc
 		 */
-		override arcane function updateProgram(stage3DProxy:Stage3DProxy):void
+		override public function updateProgram(stage3DProxy:Stage3DProxy):void
 		{
 			reset(stage3DProxy.profile);
 			super.updateProgram(stage3DProxy);
@@ -340,7 +340,7 @@ package away3d.materials.passes
 		/**
 		 * Marks the shader program as invalid, so it will be recompiled before the next render.
 		 */
-		arcane override function invalidateShaderProgram(updateMaterial:Boolean = true):void
+		public override function invalidateShaderProgram(updateMaterial:Boolean = true):void
 		{
 			var oldPasses:Vector.<MaterialPassBase> = _passes;
 			_passes = new Vector.<MaterialPassBase>();
@@ -457,7 +457,7 @@ package away3d.materials.passes
 		/**
 		 * @inheritDoc
 		 */
-		arcane override function getVertexCode():String
+		public override function getVertexCode():String
 		{
 			return _vertexCode;
 		}
@@ -465,7 +465,7 @@ package away3d.materials.passes
 		/**
 		 * @inheritDoc
 		 */
-		arcane override function getFragmentCode(animatorCode:String):String
+		public override function getFragmentCode(animatorCode:String):String
 		{
 			return _fragmentLightCode + animatorCode + _framentPostLightCode;
 		}
@@ -475,7 +475,7 @@ package away3d.materials.passes
 		/**
 		 * @inheritDoc
 		 */
-		override arcane function activate(stage3DProxy:Stage3DProxy, camera:Camera3D):void
+		override public function activate(stage3DProxy:Stage3DProxy, camera:Camera3D):void
 		{
 			super.activate(stage3DProxy, camera);
 
@@ -492,7 +492,7 @@ package away3d.materials.passes
 		/**
 		 * @inheritDoc
 		 */
-		arcane override function render(renderable:IRenderable, stage3DProxy:Stage3DProxy, camera:Camera3D, viewProjection:Matrix3D):void
+		public override function render(renderable:IRenderable, stage3DProxy:Stage3DProxy, camera:Camera3D, viewProjection:Matrix3D):void
 		{
 			var i:uint;
 			var context:Context3D = stage3DProxy.context3D;
@@ -597,7 +597,7 @@ package away3d.materials.passes
 		/**
 		 * @inheritDoc
 		 */
-		arcane override function deactivate(stage3DProxy:Stage3DProxy):void
+		public override function deactivate(stage3DProxy:Stage3DProxy):void
 		{
 			super.deactivate(stage3DProxy);
 

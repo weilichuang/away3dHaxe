@@ -5,11 +5,11 @@ package away3d.materials.utils
 	import flash.display.Sprite;
 	import flash.display.TriangleCulling;
 	
-	import away3d.arcane;
+	
 	import away3d.core.base.ISubGeometry;
 	import away3d.entities.Mesh;
 
-	use namespace arcane;
+	
 
 	/**
 	 * WireframeMapGenerator is a utility class to generate a wireframe texture for uniquely mapped meshes.

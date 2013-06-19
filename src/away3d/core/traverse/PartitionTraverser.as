@@ -2,7 +2,7 @@ package away3d.core.traverse
 {
 	import flash.geom.Vector3D;
 	
-	import away3d.arcane;
+	
 	import away3d.core.base.IRenderable;
 	import away3d.core.partition.NodeBase;
 	import away3d.entities.Entity;
@@ -13,7 +13,7 @@ package away3d.core.traverse
 	import away3d.entities.lights.LightProbe;
 	import away3d.entities.lights.PointLight;
 
-	use namespace arcane;
+	
 
 	/**
 	 * IPartitionTraverser is a hierarchical visitor pattern that traverses through a Partition3D data structure.
@@ -27,12 +27,12 @@ package away3d.core.traverse
 		 */
 		public var scene:Scene3D;
 
-		arcane var _entryPoint:Vector3D;
+		public var _entryPoint:Vector3D;
 
 		/**
 		 * A property that can be used to avoid processing a partition more than once.
 		 */
-		arcane static var _collectionMark:uint;
+		public static var _collectionMark:uint;
 
 		public function PartitionTraverser()
 		{

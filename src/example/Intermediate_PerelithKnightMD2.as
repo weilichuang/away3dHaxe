@@ -75,27 +75,27 @@ package example
 	public class Intermediate_PerelithKnightMD2 extends BasicApplication
 	{
 		//plane textures
-		[Embed(source = "/../embeds/floor_diffuse.jpg")]
+		[Embed(source = "../embeds/floor_diffuse.jpg")]
 		public static var FloorDiffuse:Class;
 
 		//Perelith Knight diffuse texture 1
-		[Embed(source = "/../embeds/pknight/pknight1.png")]
+		[Embed(source = "../embeds/pknight/pknight1.png")]
 		public static var PKnightTexture1:Class;
 
 		//Perelith Knight diffuse texture 2
-		[Embed(source = "/../embeds/pknight/pknight2.png")]
+		[Embed(source = "../embeds/pknight/pknight2.png")]
 		public static var PKnightTexture2:Class;
 
 		//Perelith Knight diffuse texture 3
-		[Embed(source = "/../embeds/pknight/pknight3.png")]
+		[Embed(source = "../embeds/pknight/pknight3.png")]
 		public static var PKnightTexture3:Class;
 
 		//Perelith Knight diffuse texture 4
-		[Embed(source = "/../embeds/pknight/pknight4.png")]
+		[Embed(source = "../embeds/pknight/pknight4.png")]
 		public static var PKnightTexture4:Class;
 
 		//Perelith Knight model
-		[Embed(source = "/../embeds/pknight/pknight.md2", mimeType = "application/octet-stream")]
+		[Embed(source = "../embeds/pknight/pknight.md2", mimeType = "application/octet-stream")]
 		public static var PKnightModel:Class;
 
 		//array of textures for random sampling

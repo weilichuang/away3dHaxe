@@ -2,13 +2,13 @@ package away3d.animators.nodes
 {
 	import flash.utils.getQualifiedClassName;
 
-	import away3d.arcane;
+	
 	import away3d.animators.ParticleAnimationSet;
 	import away3d.animators.data.AnimationRegisterCache;
 	import away3d.animators.data.ParticleProperties;
 	import away3d.materials.passes.MaterialPassBase;
 
-	use namespace arcane;
+	
 
 	/**
 	 * Provides an abstract base class for particle animation nodes.
@@ -21,7 +21,7 @@ package away3d.animators.nodes
 		protected var _dataLength:uint = 3;
 		protected var _oneData:Vector.<Number>;
 
-		arcane var dataOffset:uint;
+		public var dataOffset:uint;
 
 		/**
 		 * Returns the property mode of the particle animation node. Typically set in the node constructor
@@ -155,7 +155,7 @@ package away3d.animators.nodes
 		 *
 		 * @see away3d.animators.ParticleAnimationSet#initParticleFunc
 		 */
-		arcane function generatePropertyOfOneParticle(param:ParticleProperties):void
+		public function generatePropertyOfOneParticle(param:ParticleProperties):void
 		{
 
 		}
@@ -163,7 +163,7 @@ package away3d.animators.nodes
 		/**
 		 * Called internally by the particle animation set when determining the requirements of the particle animation node AGAL.
 		 */
-		arcane function processAnimationSetting(particleAnimationSet:ParticleAnimationSet):void
+		public function processAnimationSetting(particleAnimationSet:ParticleAnimationSet):void
 		{
 
 		}

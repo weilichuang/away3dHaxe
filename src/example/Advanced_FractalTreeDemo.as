@@ -81,17 +81,17 @@ package example
 	public class Advanced_FractalTreeDemo extends BasicApplication
 	{
 		//skybox
-		[Embed(source = "/../embeds/skybox/grimnight_posX.png")]
+		[Embed(source = "../embeds/skybox/grimnight_posX.png")]
 		private var EnvPosX:Class;
-		[Embed(source = "/../embeds/skybox/grimnight_posY.png")]
+		[Embed(source = "../embeds/skybox/grimnight_posY.png")]
 		private var EnvPosY:Class;
-		[Embed(source = "/../embeds/skybox/grimnight_posZ.png")]
+		[Embed(source = "../embeds/skybox/grimnight_posZ.png")]
 		private var EnvPosZ:Class;
-		[Embed(source = "/../embeds/skybox/grimnight_negX.png")]
+		[Embed(source = "../embeds/skybox/grimnight_negX.png")]
 		private var EnvNegX:Class;
-		[Embed(source = "/../embeds/skybox/grimnight_negY.png")]
+		[Embed(source = "../embeds/skybox/grimnight_negY.png")]
 		private var EnvNegY:Class;
-		[Embed(source = "/../embeds/skybox/grimnight_negZ.png")]
+		[Embed(source = "../embeds/skybox/grimnight_negZ.png")]
 		private var EnvNegZ:Class;
 
 		//tree diffuse map
@@ -111,9 +111,9 @@ package example
 		public var LeafDiffuse:Class;
 
 		//splat texture maps
-		[Embed(source = "/../embeds/terrain/grass.jpg")]
+		[Embed(source = "../embeds/terrain/grass.jpg")]
 		private var Grass:Class;
-		[Embed(source = "/../embeds/terrain/rock.jpg")]
+		[Embed(source = "../embeds/terrain/rock.jpg")]
 		private var Rock:Class;
 
 		//engine variables

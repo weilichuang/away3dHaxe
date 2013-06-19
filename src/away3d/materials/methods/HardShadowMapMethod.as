@@ -1,12 +1,12 @@
 package away3d.materials.methods
 {
-	import away3d.arcane;
+	
 	import away3d.core.managers.Stage3DProxy;
 	import away3d.entities.lights.LightBase;
 	import away3d.materials.compilation.ShaderRegisterCache;
 	import away3d.materials.compilation.ShaderRegisterElement;
 
-	use namespace arcane;
+	
 
 	public class HardShadowMapMethod extends SimpleShadowMapMethodBase
 	{
@@ -73,7 +73,7 @@ package away3d.materials.methods
 		}
 
 
-		override arcane function getCascadeFragmentCode(vo:MethodVO, regCache:ShaderRegisterCache, decodeRegister:ShaderRegisterElement, depthTexture:ShaderRegisterElement, depthProjection:ShaderRegisterElement,
+		override public function getCascadeFragmentCode(vo:MethodVO, regCache:ShaderRegisterCache, decodeRegister:ShaderRegisterElement, depthTexture:ShaderRegisterElement, depthProjection:ShaderRegisterElement,
 			targetRegister:ShaderRegisterElement):String
 		{
 			var temp:ShaderRegisterElement = regCache.getFreeFragmentVectorTemp();
@@ -82,7 +82,7 @@ package away3d.materials.methods
 				"slt " + targetRegister + ".w, " + depthProjection + ".z, " + temp + ".z\n"; // 0 if in shadow
 		}
 
-		override arcane function activateForCascade(vo:MethodVO, stage3DProxy:Stage3DProxy):void
+		override public function activateForCascade(vo:MethodVO, stage3DProxy:Stage3DProxy):void
 		{
 		}
 	}

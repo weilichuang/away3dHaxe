@@ -2,7 +2,7 @@ package away3d.animators.nodes
 {
 	import flash.geom.Vector3D;
 
-	import away3d.arcane;
+	
 	import away3d.animators.IAnimator;
 	import away3d.animators.ParticleAnimationSet;
 	import away3d.animators.data.AnimationRegisterCache;
@@ -10,7 +10,7 @@ package away3d.animators.nodes
 	import away3d.materials.compilation.ShaderRegisterElement;
 	import away3d.materials.passes.MaterialPassBase;
 
-	use namespace arcane;
+	
 
 	/**
 	 * A particle animation node used to control the UV offset and scale of a particle over time.
@@ -18,10 +18,10 @@ package away3d.animators.nodes
 	public class ParticleUVNode extends ParticleNodeBase
 	{
 		/** @private */
-		arcane static const UV_INDEX:uint = 0;
+		public static const UV_INDEX:uint = 0;
 
 		/** @private */
-		arcane var _uvData:Vector3D;
+		public var _uvData:Vector3D;
 
 		/**
 		 * Used to set the time node into global property mode.
@@ -154,7 +154,7 @@ package away3d.animators.nodes
 		/**
 		 * @inheritDoc
 		 */
-		override arcane function processAnimationSetting(particleAnimationSet:ParticleAnimationSet):void
+		override public function processAnimationSetting(particleAnimationSet:ParticleAnimationSet):void
 		{
 			particleAnimationSet.hasUVNode = true;
 		}

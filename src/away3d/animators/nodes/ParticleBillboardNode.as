@@ -2,7 +2,7 @@ package away3d.animators.nodes
 {
 	import flash.geom.Vector3D;
 
-	import away3d.arcane;
+	
 	import away3d.animators.IAnimator;
 	import away3d.animators.ParticleAnimationSet;
 	import away3d.animators.data.AnimationRegisterCache;
@@ -11,7 +11,7 @@ package away3d.animators.nodes
 	import away3d.materials.compilation.ShaderRegisterElement;
 	import away3d.materials.passes.MaterialPassBase;
 
-	use namespace arcane;
+	
 
 	/**
 	 * A particle animation node that controls the rotation of a particle to always face the camera.
@@ -19,10 +19,10 @@ package away3d.animators.nodes
 	public class ParticleBillboardNode extends ParticleNodeBase
 	{
 		/** @private */
-		arcane static const MATRIX_INDEX:int = 0;
+		public static const MATRIX_INDEX:int = 0;
 
 		/** @private */
-		arcane var _billboardAxis:Vector3D;
+		public var _billboardAxis:Vector3D;
 
 		/**
 		 * Creates a new <code>ParticleBillboardNode</code>
@@ -68,7 +68,7 @@ package away3d.animators.nodes
 		/**
 		 * @inheritDoc
 		 */
-		override arcane function processAnimationSetting(particleAnimationSet:ParticleAnimationSet):void
+		override public function processAnimationSetting(particleAnimationSet:ParticleAnimationSet):void
 		{
 			particleAnimationSet.hasBillboard = true;
 		}

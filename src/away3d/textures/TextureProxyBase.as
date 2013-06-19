@@ -4,14 +4,14 @@ package away3d.textures
 	import flash.display3D.Context3DTextureFormat;
 	import flash.display3D.textures.TextureBase;
 
-	import away3d.arcane;
+	
 	import away3d.core.managers.Stage3DProxy;
 	import away3d.errors.AbstractMethodError;
 	import away3d.io.library.assets.AssetType;
 	import away3d.io.library.assets.IAsset;
 	import away3d.io.library.assets.NamedAssetBase;
 
-	use namespace arcane;
+	
 
 	public class TextureProxyBase extends NamedAssetBase implements IAsset
 	{

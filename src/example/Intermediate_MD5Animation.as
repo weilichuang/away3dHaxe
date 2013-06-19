@@ -82,67 +82,67 @@ package example
 	public class Intermediate_MD5Animation extends BasicApplication
 	{
 		//floor diffuse map
-		[Embed(source = "/../embeds/rockbase_diffuse.jpg")]
+		[Embed(source = "../embeds/rockbase_diffuse.jpg")]
 		private var FloorDiffuse:Class;
 
 		//floor normal map
-		[Embed(source = "/../embeds/rockbase_normals.png")]
+		[Embed(source = "../embeds/rockbase_normals.png")]
 		private var FloorNormals:Class;
 
 		//floor specular map
-		[Embed(source = "/../embeds/rockbase_specular.png")]
+		[Embed(source = "../embeds/rockbase_specular.png")]
 		private var FloorSpecular:Class;
 
 		//body diffuse map
-		[Embed(source = "/../embeds/hellknight/hellknight_diffuse.jpg")]
+		[Embed(source = "../embeds/hellknight/hellknight_diffuse.jpg")]
 		private var BodyDiffuse:Class;
 
 		//body normal map
-		[Embed(source = "/../embeds/hellknight/hellknight_normals.png")]
+		[Embed(source = "../embeds/hellknight/hellknight_normals.png")]
 		private var BodyNormals:Class;
 
 		//bidy specular map
-		[Embed(source = "/../embeds/hellknight/hellknight_specular.png")]
+		[Embed(source = "../embeds/hellknight/hellknight_specular.png")]
 		private var BodySpecular:Class;
 
 
 
 		//billboard texture for red light
-		[Embed(source = "/../embeds/redlight.png")]
+		[Embed(source = "../embeds/redlight.png")]
 		private var RedLight:Class;
 
 		//billboard texture for blue light
-		[Embed(source = "/../embeds/bluelight.png")]
+		[Embed(source = "../embeds/bluelight.png")]
 		private var BlueLight:Class;
 
 		//hellknight mesh
-		[Embed(source = "/../embeds/hellknight/hellknight.md5mesh", mimeType = "application/octet-stream")]
+		[Embed(source = "../embeds/hellknight/hellknight.md5mesh", mimeType = "application/octet-stream")]
 		private var HellKnight_Mesh:Class;
 
 		//hellknight animations
-		[Embed(source = "/../embeds/hellknight/idle2.md5anim", mimeType = "application/octet-stream")]
+		[Embed(source = "../embeds/hellknight/idle2.md5anim", mimeType = "application/octet-stream")]
 		private var HellKnight_Idle2:Class;
-		[Embed(source = "/../embeds/hellknight/walk7.md5anim", mimeType = "application/octet-stream")]
+		[Embed(source = "../embeds/hellknight/walk7.md5anim", mimeType = "application/octet-stream")]
 		private var HellKnight_Walk7:Class;
-		[Embed(source = "/../embeds/hellknight/attack3.md5anim", mimeType = "application/octet-stream")]
+		[Embed(source = "../embeds/hellknight/attack3.md5anim", mimeType = "application/octet-stream")]
 		private var HellKnight_Attack3:Class;
-		[Embed(source = "/../embeds/hellknight/turret_attack.md5anim", mimeType = "application/octet-stream")]
+		[Embed(source = "../embeds/hellknight/turret_attack.md5anim", mimeType = "application/octet-stream")]
 		private var HellKnight_TurretAttack:Class;
-		[Embed(source = "/../embeds/hellknight/attack2.md5anim", mimeType = "application/octet-stream")]
+		[Embed(source = "../embeds/hellknight/attack2.md5anim", mimeType = "application/octet-stream")]
 		private var HellKnight_Attack2:Class;
-		[Embed(source = "/../embeds/hellknight/chest.md5anim", mimeType = "application/octet-stream")]
+		[Embed(source = "../embeds/hellknight/chest.md5anim", mimeType = "application/octet-stream")]
 		private var HellKnight_Chest:Class;
-		[Embed(source = "/../embeds/hellknight/roar1.md5anim", mimeType = "application/octet-stream")]
+		[Embed(source = "../embeds/hellknight/roar1.md5anim", mimeType = "application/octet-stream")]
 		private var HellKnight_Roar1:Class;
-		[Embed(source = "/../embeds/hellknight/leftslash.md5anim", mimeType = "application/octet-stream")]
+		[Embed(source = "../embeds/hellknight/leftslash.md5anim", mimeType = "application/octet-stream")]
 		private var HellKnight_LeftSlash:Class;
-		[Embed(source = "/../embeds/hellknight/headpain.md5anim", mimeType = "application/octet-stream")]
+		[Embed(source = "../embeds/hellknight/headpain.md5anim", mimeType = "application/octet-stream")]
 		private var HellKnight_HeadPain:Class;
-		[Embed(source = "/../embeds/hellknight/pain1.md5anim", mimeType = "application/octet-stream")]
+		[Embed(source = "../embeds/hellknight/pain1.md5anim", mimeType = "application/octet-stream")]
 		private var HellKnight_Pain1:Class;
-		[Embed(source = "/../embeds/hellknight/pain_luparm.md5anim", mimeType = "application/octet-stream")]
+		[Embed(source = "../embeds/hellknight/pain_luparm.md5anim", mimeType = "application/octet-stream")]
 		private var HellKnight_PainLUPArm:Class;
-		[Embed(source = "/../embeds/hellknight/range_attack2.md5anim", mimeType = "application/octet-stream")]
+		[Embed(source = "../embeds/hellknight/range_attack2.md5anim", mimeType = "application/octet-stream")]
 		private var HellKnight_RangeAttack2:Class;
 
 		//engine variables

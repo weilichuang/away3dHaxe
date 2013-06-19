@@ -3,7 +3,7 @@ package away3d.entities.lights
 	import flash.geom.Matrix3D;
 	import flash.geom.Vector3D;
 	
-	import away3d.arcane;
+	
 	import away3d.bounds.BoundingSphere;
 	import away3d.bounds.BoundingVolumeBase;
 	import away3d.core.base.IRenderable;
@@ -13,7 +13,7 @@ package away3d.entities.lights
 	import away3d.entities.lights.shadowmaps.ShadowMapperBase;
 	import away3d.math.Matrix3DUtils;
 
-	use namespace arcane;
+	
 
 	/**
 	 * PointLight represents an omni-directional light. The light is emitted from a given position in the scene.
@@ -21,9 +21,9 @@ package away3d.entities.lights
 	public class PointLight extends LightBase
 	{
 		//private static var _pos : Vector3D = new Vector3D();
-		arcane var _radius:Number = 90000;
-		arcane var _fallOff:Number = 100000;
-		arcane var _fallOffFactor:Number;
+		public var _radius:Number = 90000;
+		public var _fallOff:Number = 100000;
+		public var _fallOffFactor:Number;
 
 		/**
 		 * Creates a new PointLight object.
@@ -67,7 +67,7 @@ package away3d.entities.lights
 			_fallOffFactor = 1 / (_fallOff * _fallOff - _radius * _radius);
 		}
 
-		arcane function fallOffFactor():Number
+		public function fallOffFactor():Number
 		{
 			return _fallOffFactor;
 		}
@@ -113,7 +113,7 @@ package away3d.entities.lights
 		/**
 		 * @inheritDoc
 		 */
-		override arcane function getObjectProjectionMatrix(renderable:IRenderable, target:Matrix3D = null):Matrix3D
+		override public function getObjectProjectionMatrix(renderable:IRenderable, target:Matrix3D = null):Matrix3D
 		{
 			var raw:Vector.<Number> = Matrix3DUtils.RAW_DATA_CONTAINER;
 			var bounds:BoundingVolumeBase = renderable.sourceEntity.bounds;

@@ -1,6 +1,6 @@
 package away3d.core.traverse
 {
-	import away3d.arcane;
+	
 	import away3d.core.base.IRenderable;
 	import away3d.core.data.RenderableListItem;
 	import away3d.entities.Entity;
@@ -10,7 +10,7 @@ package away3d.core.traverse
 	import away3d.entities.lights.PointLight;
 	import away3d.materials.MaterialBase;
 
-	use namespace arcane;
+	
 
 
 	/**

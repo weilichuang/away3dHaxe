@@ -2,12 +2,12 @@ package away3d.io.loaders.misc
 {
 	import flash.events.EventDispatcher;
 	
-	import away3d.arcane;
+	
 	import away3d.events.AssetEvent;
 	import away3d.events.LoaderEvent;
 	import away3d.io.loaders.AssetLoader;
 
-	use namespace arcane;
+	
 
 	/**
 	 * Dispatched when a full resource (including dependencies) finishes loading.
@@ -132,7 +132,7 @@ package away3d.io.loaders.misc
 	*/
 	public class AssetLoaderToken extends EventDispatcher
 	{
-		arcane var _loader:AssetLoader;
+		public var _loader:AssetLoader;
 
 		public function AssetLoaderToken(loader:AssetLoader)
 		{

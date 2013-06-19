@@ -2,7 +2,7 @@ package away3d.tools.serialize
 {
 	import flash.utils.getQualifiedClassName;
 
-	import away3d.arcane;
+	
 	import away3d.animators.IAnimator;
 	import away3d.animators.data.JointPose;
 	import away3d.animators.data.Skeleton;
@@ -18,7 +18,7 @@ package away3d.tools.serialize
 	import away3d.materials.lightpickers.StaticLightPicker;
 
 
-	use namespace arcane;
+	
 
 	public class Serialize
 	{

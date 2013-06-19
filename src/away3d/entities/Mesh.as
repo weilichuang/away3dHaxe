@@ -1,6 +1,6 @@
 ﻿package away3d.entities
 {
-	import away3d.arcane;
+	
 	import away3d.animators.IAnimator;
 	import away3d.core.base.Geometry;
 	import away3d.core.base.IMaterialOwner;
@@ -16,7 +16,7 @@
 	import away3d.materials.MaterialBase;
 	import away3d.materials.utils.DefaultMaterialManager;
 
-	use namespace arcane;
+	
 
 	/**
 	 * Mesh is an instance of a Geometry, augmenting it with a presence in the scene graph, a material, and an animation
@@ -371,7 +371,7 @@
 			return _subMeshes[_geometry.subGeometries.indexOf(subGeometry)];
 		}
 
-		override arcane function collidesBefore(shortestCollisionDistance:Number, findClosest:Boolean):Boolean
+		override public function collidesBefore(shortestCollisionDistance:Number, findClosest:Boolean):Boolean
 		{
 			_pickingCollider.setLocalRay(_pickingCollisionVO.localRayPosition, _pickingCollisionVO.localRayDirection);
 			_pickingCollisionVO.renderable = null;

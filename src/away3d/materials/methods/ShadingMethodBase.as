@@ -2,7 +2,7 @@ package away3d.materials.methods
 {
 	import flash.display3D.Context3DTextureFormat;
 	
-	import away3d.arcane;
+	
 	import away3d.entities.Camera3D;
 	import away3d.core.base.IRenderable;
 	import away3d.core.managers.Stage3DProxy;
@@ -14,7 +14,7 @@ package away3d.materials.methods
 	import away3d.materials.passes.MaterialPassBase;
 	import away3d.textures.TextureProxyBase;
 
-	use namespace arcane;
+	
 
 	/**
 	 * ShadingMethodBase provides an abstract base method for shading methods, used by DefaultScreenPass to compile
@@ -34,22 +34,22 @@ package away3d.materials.methods
 		{
 		}
 
-		arcane function initVO(vo:MethodVO):void
+		public function initVO(vo:MethodVO):void
 		{
 
 		}
 
-		arcane function initConstants(vo:MethodVO):void
+		public function initConstants(vo:MethodVO):void
 		{
 
 		}
 
-		arcane function get sharedRegisters():ShaderRegisterData
+		public function get sharedRegisters():ShaderRegisterData
 		{
 			return _sharedRegisters;
 		}
 
-		arcane function set sharedRegisters(value:ShaderRegisterData):void
+		public function set sharedRegisters(value:ShaderRegisterData):void
 		{
 			_sharedRegisters = value;
 		}
@@ -74,12 +74,12 @@ package away3d.materials.methods
 		/**
 		 * Creates a data container that contains material-dependent data. Provided as a factory method so a custom subtype can be overridden when needed.
 		 */
-		arcane function createMethodVO():MethodVO
+		public function createMethodVO():MethodVO
 		{
 			return new MethodVO();
 		}
 
-		arcane function reset():void
+		public function reset():void
 		{
 			cleanCompilationData();
 		}
@@ -88,7 +88,7 @@ package away3d.materials.methods
 		 * Resets the method's state for compilation.
 		 * @private
 		 */
-		arcane function cleanCompilationData():void
+		public function cleanCompilationData():void
 		{
 		}
 
@@ -97,7 +97,7 @@ package away3d.materials.methods
 		 * @param regCache The register cache used during the compilation.
 		 * @private
 		 */
-		arcane function getVertexCode(vo:MethodVO, regCache:ShaderRegisterCache):String
+		public function getVertexCode(vo:MethodVO, regCache:ShaderRegisterCache):String
 		{
 			return "";
 		}
@@ -107,7 +107,7 @@ package away3d.materials.methods
 		 * @param context The Context3D currently used for rendering.
 		 * @private
 		 */
-		arcane function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):void
+		public function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):void
 		{
 
 		}
@@ -115,7 +115,7 @@ package away3d.materials.methods
 		/**
 		 * Sets the render state for a single renderable.
 		 */
-		arcane function setRenderState(vo:MethodVO, renderable:IRenderable, stage3DProxy:Stage3DProxy, camera:Camera3D):void
+		public function setRenderState(vo:MethodVO, renderable:IRenderable, stage3DProxy:Stage3DProxy, camera:Camera3D):void
 		{
 
 		}
@@ -125,7 +125,7 @@ package away3d.materials.methods
 		 * @param context The Context3D currently used for rendering.
 		 * @private
 		 */
-		arcane function deactivate(vo:MethodVO, stage3DProxy:Stage3DProxy):void
+		public function deactivate(vo:MethodVO, stage3DProxy:Stage3DProxy):void
 		{
 
 		}

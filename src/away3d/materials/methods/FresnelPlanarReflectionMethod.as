@@ -1,12 +1,12 @@
 package away3d.materials.methods
 {
-	import away3d.arcane;
+	
 	import away3d.core.managers.Stage3DProxy;
 	import away3d.materials.compilation.ShaderRegisterCache;
 	import away3d.materials.compilation.ShaderRegisterElement;
 	import away3d.textures.PlanarReflectionTexture;
 
-	use namespace arcane;
+	
 
 	/**
 	 * Allows the use of an additional texture to specify the alpha value of the material. When used with the secondary uv
@@ -60,7 +60,7 @@ package away3d.materials.methods
 			_normalReflectance = value;
 		}
 
-		override arcane function initVO(vo:MethodVO):void
+		override public function initVO(vo:MethodVO):void
 		{
 			vo.needsProjection = true;
 			vo.needsNormals = true;
@@ -91,7 +91,7 @@ package away3d.materials.methods
 			_normalDisplacement = value;
 		}
 
-		arcane override function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):void
+		public override function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):void
 		{
 			stage3DProxy._context3D.setTextureAt(vo.texturesIndex, _texture.getTextureForStage3D(stage3DProxy));
 			vo.fragmentData[vo.fragmentConstantsIndex] = _texture.textureRatioX * .5;
@@ -107,7 +107,7 @@ package away3d.materials.methods
 			}
 		}
 
-		arcane override function getFragmentCode(vo:MethodVO, regCache:ShaderRegisterCache, targetReg:ShaderRegisterElement):String
+		public override function getFragmentCode(vo:MethodVO, regCache:ShaderRegisterCache, targetReg:ShaderRegisterElement):String
 		{
 			var textureReg:ShaderRegisterElement = regCache.getFreeTextureReg();
 			var temp:ShaderRegisterElement = regCache.getFreeFragmentVectorTemp();

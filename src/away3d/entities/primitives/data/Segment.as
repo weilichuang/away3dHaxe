@@ -1,24 +1,24 @@
 package away3d.entities.primitives.data
 {
-	import away3d.arcane;
+	
 	import away3d.entities.SegmentSet;
 
 	import flash.geom.Vector3D;
 
-	use namespace arcane;
+	
 
 	public class Segment
 	{
-		arcane var _segmentsBase:SegmentSet;
-		arcane var _thickness:Number;
-		arcane var _start:Vector3D;
-		arcane var _end:Vector3D;
-		arcane var _startR:Number;
-		arcane var _startG:Number;
-		arcane var _startB:Number;
-		arcane var _endR:Number;
-		arcane var _endG:Number;
-		arcane var _endB:Number;
+		public var _segmentsBase:SegmentSet;
+		public var _thickness:Number;
+		public var _start:Vector3D;
+		public var _end:Vector3D;
+		public var _startR:Number;
+		public var _startG:Number;
+		public var _startB:Number;
+		public var _endR:Number;
+		public var _endG:Number;
+		public var _endB:Number;
 
 		private var _index:int = -1;
 		private var _subSetIndex:int = -1;
@@ -142,27 +142,27 @@ package away3d.entities.primitives.data
 			_end = null;
 		}
 
-		arcane function get index():int
+		public function get index():int
 		{
 			return _index;
 		}
 
-		arcane function set index(ind:int):void
+		public function set index(ind:int):void
 		{
 			_index = ind;
 		}
 
-		arcane function get subSetIndex():int
+		public function get subSetIndex():int
 		{
 			return _subSetIndex;
 		}
 
-		arcane function set subSetIndex(ind:int):void
+		public function set subSetIndex(ind:int):void
 		{
 			_subSetIndex = ind;
 		}
 
-		arcane function set segmentsBase(segBase:SegmentSet):void
+		public function set segmentsBase(segBase:SegmentSet):void
 		{
 			_segmentsBase = segBase;
 		}

@@ -4,7 +4,7 @@ package away3d.tools.helpers
 	import flash.geom.Vector3D;
 	import flash.utils.Dictionary;
 
-	import away3d.arcane;
+	
 	import away3d.core.base.CompactSubGeometry;
 	import away3d.core.base.Geometry;
 	import away3d.core.base.ISubGeometry;
@@ -19,7 +19,7 @@ package away3d.tools.helpers
 	import away3d.tools.utils.Bounds;
 	import away3d.tools.utils.GeomUtil;
 
-	use namespace arcane;
+	
 
 	/**
 	 * Helper Class for the Mesh object <code>MeshHelper</code>

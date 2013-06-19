@@ -1,6 +1,6 @@
 package away3d.entities.lights
 {
-	import away3d.arcane;
+	
 	import away3d.core.base.IRenderable;
 	import away3d.core.partition.EntityNode;
 	import away3d.core.partition.LightNode;
@@ -12,7 +12,7 @@ package away3d.entities.lights
 
 	import flash.geom.Matrix3D;
 
-	use namespace arcane;
+	
 
 	/**
 	 * LightBase provides an abstract base class for subtypes representing lights.
@@ -26,19 +26,19 @@ package away3d.entities.lights
 
 		private var _ambientColor:uint = 0xffffff;
 		private var _ambient:Number = 0;
-		arcane var _ambientR:Number = 0;
-		arcane var _ambientG:Number = 0;
-		arcane var _ambientB:Number = 0;
+		public var _ambientR:Number = 0;
+		public var _ambientG:Number = 0;
+		public var _ambientB:Number = 0;
 
 		private var _specular:Number = 1;
-		arcane var _specularR:Number = 1;
-		arcane var _specularG:Number = 1;
-		arcane var _specularB:Number = 1;
+		public var _specularR:Number = 1;
+		public var _specularG:Number = 1;
+		public var _specularB:Number = 1;
 
 		private var _diffuse:Number = 1;
-		arcane var _diffuseR:Number = 1;
-		arcane var _diffuseG:Number = 1;
-		arcane var _diffuseB:Number = 1;
+		public var _diffuseR:Number = 1;
+		public var _diffuseG:Number = 1;
+		public var _diffuseB:Number = 1;
 
 		private var _castsShadows:Boolean;
 
@@ -182,7 +182,7 @@ package away3d.entities.lights
 		 * @param target An optional target Matrix3D object. If not provided, an instance will be created.
 		 * @return A Matrix3D object containing the projection transformation.
 		 */
-		arcane function getObjectProjectionMatrix(renderable:IRenderable, target:Matrix3D = null):Matrix3D
+		public function getObjectProjectionMatrix(renderable:IRenderable, target:Matrix3D = null):Matrix3D
 		{
 			throw new AbstractMethodError();
 		}

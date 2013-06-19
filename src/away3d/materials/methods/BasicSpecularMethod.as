@@ -1,12 +1,12 @@
 package away3d.materials.methods
 {
-	import away3d.arcane;
+	
 	import away3d.core.managers.Stage3DProxy;
 	import away3d.materials.compilation.ShaderRegisterCache;
 	import away3d.materials.compilation.ShaderRegisterElement;
 	import away3d.textures.Texture2DBase;
 
-	use namespace arcane;
+	
 
 	/**
 	 * BasicSpecularMethod provides the default shading method for Blinn-Phong specular highlights.
@@ -24,7 +24,7 @@ package away3d.materials.methods
 		private var _gloss:int = 50;
 		private var _specular:Number = 1;
 		private var _specularColor:uint = 0xffffff;
-		arcane var _specularR:Number = 1, _specularG:Number = 1, _specularB:Number = 1;
+		public var _specularR:Number = 1, _specularG:Number = 1, _specularB:Number = 1;
 		private var _shadowRegister:ShaderRegisterElement;
 		protected var _isFirstLight:Boolean;
 
@@ -37,7 +37,7 @@ package away3d.materials.methods
 			super();
 		}
 
-		override arcane function initVO(vo:MethodVO):void
+		override public function initVO(vo:MethodVO):void
 		{
 			vo.needsUV = _useTexture;
 			vo.needsNormals = vo.numLights > 0;
@@ -128,7 +128,7 @@ package away3d.materials.methods
 		/**
 		 * @inheritDoc
 		 */
-		arcane override function cleanCompilationData():void
+		public override function cleanCompilationData():void
 		{
 			super.cleanCompilationData();
 			_shadowRegister = null;
@@ -141,7 +141,7 @@ package away3d.materials.methods
 		/**
 		 * @inheritDoc
 		 */
-		override arcane function getFragmentPreLightingCode(vo:MethodVO, regCache:ShaderRegisterCache):String
+		override public function getFragmentPreLightingCode(vo:MethodVO, regCache:ShaderRegisterCache):String
 		{
 			var code:String = "";
 
@@ -173,7 +173,7 @@ package away3d.materials.methods
 		/**
 		 * @inheritDoc
 		 */
-		override arcane function getFragmentCodePerLight(vo:MethodVO, lightDirReg:ShaderRegisterElement, lightColReg:ShaderRegisterElement, regCache:ShaderRegisterCache):String
+		override public function getFragmentCodePerLight(vo:MethodVO, lightDirReg:ShaderRegisterElement, lightColReg:ShaderRegisterElement, regCache:ShaderRegisterCache):String
 		{
 			var code:String = "";
 			var t:ShaderRegisterElement;
@@ -228,7 +228,7 @@ package away3d.materials.methods
 		/**
 		 * @inheritDoc
 		 */
-		arcane override function getFragmentCodePerProbe(vo:MethodVO, cubeMapReg:ShaderRegisterElement, weightRegister:String, regCache:ShaderRegisterCache):String
+		public override function getFragmentCodePerProbe(vo:MethodVO, cubeMapReg:ShaderRegisterElement, weightRegister:String, regCache:ShaderRegisterCache):String
 		{
 			var code:String = "";
 			var t:ShaderRegisterElement;
@@ -269,7 +269,7 @@ package away3d.materials.methods
 		/**
 		 * @inheritDoc
 		 */
-		override arcane function getFragmentPostLightingCode(vo:MethodVO, regCache:ShaderRegisterCache, targetReg:ShaderRegisterElement):String
+		override public function getFragmentPostLightingCode(vo:MethodVO, regCache:ShaderRegisterCache, targetReg:ShaderRegisterElement):String
 		{
 			var code:String = "";
 
@@ -297,7 +297,7 @@ package away3d.materials.methods
 		/**
 		 * @inheritDoc
 		 */
-		arcane override function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):void
+		public override function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):void
 		{
 			//var context : Context3D = stage3DProxy._context3D;
 
@@ -324,7 +324,7 @@ package away3d.materials.methods
 			_specularB = (_specularColor & 0xff) / 0xff * _specular;
 		}
 
-		arcane function set shadowRegister(shadowReg:ShaderRegisterElement):void
+		public function set shadowRegister(shadowReg:ShaderRegisterElement):void
 		{
 			_shadowRegister = shadowReg;
 		}

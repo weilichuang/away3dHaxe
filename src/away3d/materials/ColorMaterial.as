@@ -2,9 +2,9 @@ package away3d.materials
 {
 	import flash.display.BlendMode;
 	
-	import away3d.arcane;
+	
 
-	use namespace arcane;
+	
 
 	/**
 	 * ColorMaterial is a material that uses a flat colour as the surfaces diffuse.

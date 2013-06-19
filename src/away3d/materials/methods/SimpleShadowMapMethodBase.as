@@ -2,7 +2,7 @@ package away3d.materials.methods
 {
 	import flash.geom.Vector3D;
 
-	import away3d.arcane;
+	
 	import away3d.entities.Camera3D;
 	import away3d.core.base.IRenderable;
 	import away3d.core.managers.Stage3DProxy;
@@ -13,7 +13,7 @@ package away3d.materials.methods
 	import away3d.materials.compilation.ShaderRegisterCache;
 	import away3d.materials.compilation.ShaderRegisterElement;
 
-	use namespace arcane;
+	
 
 	public class SimpleShadowMapMethodBase extends ShadowMapMethodBase
 	{
@@ -26,7 +26,7 @@ package away3d.materials.methods
 			super(castingLight);
 		}
 
-		override arcane function initVO(vo:MethodVO):void
+		override public function initVO(vo:MethodVO):void
 		{
 			vo.needsView = true;
 			vo.needsGlobalVertexPos = true;
@@ -34,7 +34,7 @@ package away3d.materials.methods
 			vo.needsNormals = vo.numLights > 0;
 		}
 
-		override arcane function initConstants(vo:MethodVO):void
+		override public function initConstants(vo:MethodVO):void
 		{
 			var fragmentData:Vector.<Number> = vo.fragmentData;
 			var vertexData:Vector.<Number> = vo.vertexData;
@@ -68,24 +68,24 @@ package away3d.materials.methods
 		/**
 		 * Wrappers that override the vertex shader need to set this explicitly
 		 */
-		arcane function get depthMapCoordReg():ShaderRegisterElement
+		public function get depthMapCoordReg():ShaderRegisterElement
 		{
 			return _depthMapCoordReg;
 		}
 
-		arcane function set depthMapCoordReg(value:ShaderRegisterElement):void
+		public function set depthMapCoordReg(value:ShaderRegisterElement):void
 		{
 			_depthMapCoordReg = value;
 		}
 
-		arcane override function cleanCompilationData():void
+		public override function cleanCompilationData():void
 		{
 			super.cleanCompilationData();
 
 			_depthMapCoordReg = null;
 		}
 
-		arcane override function getVertexCode(vo:MethodVO, regCache:ShaderRegisterCache):String
+		public override function getVertexCode(vo:MethodVO, regCache:ShaderRegisterCache):String
 		{
 			return _usePoint ? getPointVertexCode(vo, regCache) : getPlanarVertexCode(vo, regCache);
 		}
@@ -118,7 +118,7 @@ package away3d.materials.methods
 			return code;
 		}
 
-		override arcane function getFragmentCode(vo:MethodVO, regCache:ShaderRegisterCache, targetReg:ShaderRegisterElement):String
+		override public function getFragmentCode(vo:MethodVO, regCache:ShaderRegisterCache, targetReg:ShaderRegisterElement):String
 		{
 			var code:String = _usePoint ? getPointFragmentCode(vo, regCache, targetReg) : getPlanarFragmentCode(vo, regCache, targetReg);
 			code += "add " + targetReg + ".w, " + targetReg + ".w, fc" + (vo.fragmentConstantsIndex / 4 + 1) + ".y\n" +
@@ -144,13 +144,13 @@ package away3d.materials.methods
 			return "";
 		}
 
-		arcane override function setRenderState(vo:MethodVO, renderable:IRenderable, stage3DProxy:Stage3DProxy, camera:Camera3D):void
+		public override function setRenderState(vo:MethodVO, renderable:IRenderable, stage3DProxy:Stage3DProxy, camera:Camera3D):void
 		{
 			if (!_usePoint)
 				DirectionalShadowMapper(_shadowMapper).depthProjection.copyRawDataTo(vo.vertexData, vo.vertexConstantsIndex + 4, true);
 		}
 
-		arcane function getCascadeFragmentCode(vo:MethodVO, regCache:ShaderRegisterCache, decodeRegister:ShaderRegisterElement, depthTexture:ShaderRegisterElement, depthProjection:ShaderRegisterElement,
+		public function getCascadeFragmentCode(vo:MethodVO, regCache:ShaderRegisterCache, decodeRegister:ShaderRegisterElement, depthTexture:ShaderRegisterElement, depthProjection:ShaderRegisterElement,
 			targetRegister:ShaderRegisterElement):String
 		{
 			throw new Error("This shadow method is incompatible with cascade shadows");
@@ -159,7 +159,7 @@ package away3d.materials.methods
 		/**
 		 * @inheritDoc
 		 */
-		override arcane function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):void
+		override public function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):void
 		{
 			var fragmentData:Vector.<Number> = vo.fragmentData;
 			var index:int = vo.fragmentConstantsIndex;
@@ -183,7 +183,7 @@ package away3d.materials.methods
 			stage3DProxy.context3D.setTextureAt(vo.texturesIndex, _castingLight.shadowMapper.depthMap.getTextureForStage3D(stage3DProxy));
 		}
 
-		arcane function activateForCascade(vo:MethodVO, stage3DProxy:Stage3DProxy):void
+		public function activateForCascade(vo:MethodVO, stage3DProxy:Stage3DProxy):void
 		{
 			throw new Error("This shadow method is incompatible with cascade shadows");
 		}

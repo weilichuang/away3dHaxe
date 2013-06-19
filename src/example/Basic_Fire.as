@@ -79,11 +79,11 @@ package example
 		public static var FireTexture:Class;
 
 		//plane textures
-		[Embed(source = "/../embeds/floor_diffuse.jpg")]
+		[Embed(source = "../embeds/floor_diffuse.jpg")]
 		public static var FloorDiffuse:Class;
-		[Embed(source = "/../embeds/floor_specular.jpg")]
+		[Embed(source = "../embeds/floor_specular.jpg")]
 		public static var FloorSpecular:Class;
-		[Embed(source = "/../embeds/floor_normal.jpg")]
+		[Embed(source = "../embeds/floor_normal.jpg")]
 		public static var FloorNormals:Class;
 
 		//engine variables

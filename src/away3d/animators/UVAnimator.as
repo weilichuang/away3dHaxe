@@ -3,7 +3,7 @@ package away3d.animators
 	import flash.display3D.Context3DProgramType;
 	import flash.geom.Matrix;
 
-	import away3d.arcane;
+	
 	import away3d.animators.data.UVAnimationFrame;
 	import away3d.animators.states.IUVAnimationState;
 	import away3d.animators.transitions.IAnimationTransition;
@@ -15,7 +15,7 @@ package away3d.animators
 	import away3d.materials.passes.MaterialPassBase;
 	import away3d.math.MathUtil;
 
-	use namespace arcane;
+	
 
 	/**
 	* Provides an interface for assigning uv-based animation data sets to mesh-based entity objects

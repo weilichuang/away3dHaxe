@@ -8,7 +8,7 @@ package away3d.core.render
 	import flash.geom.Matrix3D;
 	import flash.geom.Rectangle;
 
-	import away3d.arcane;
+	
 	import away3d.core.managers.Stage3DProxy;
 	import away3d.core.sort.IEntitySorter;
 	import away3d.core.sort.RenderableMergeSort;
@@ -17,7 +17,7 @@ package away3d.core.render
 	import away3d.events.Stage3DEvent;
 	import away3d.textures.Texture2DBase;
 
-	use namespace arcane;
+	
 
 	/**
 	 * RendererBase forms an abstract base class for classes that are used in the rendering pipeline to render geometry
@@ -65,32 +65,32 @@ package away3d.core.render
 			_renderToTexture = renderToTexture;
 		}
 
-		arcane function createEntityCollector():EntityCollector
+		public function createEntityCollector():EntityCollector
 		{
 			return new EntityCollector();
 		}
 
-		arcane function get viewWidth():Number
+		public function get viewWidth():Number
 		{
 			return _viewWidth;
 		}
 
-		arcane function set viewWidth(value:Number):void
+		public function set viewWidth(value:Number):void
 		{
 			_viewWidth = value;
 		}
 
-		arcane function get viewHeight():Number
+		public function get viewHeight():Number
 		{
 			return _viewHeight;
 		}
 
-		arcane function set viewHeight(value:Number):void
+		public function set viewHeight(value:Number):void
 		{
 			_viewHeight = value;
 		}
 
-		arcane function get renderToTexture():Boolean
+		public function get renderToTexture():Boolean
 		{
 			return _renderToTexture;
 		}
@@ -105,12 +105,12 @@ package away3d.core.render
 			_renderableSorter = value;
 		}
 
-		arcane function get clearOnRender():Boolean
+		public function get clearOnRender():Boolean
 		{
 			return _clearOnRender;
 		}
 
-		arcane function set clearOnRender(value:Boolean):void
+		public function set clearOnRender(value:Boolean):void
 		{
 			_clearOnRender = value;
 		}
@@ -120,12 +120,12 @@ package away3d.core.render
 		 *
 		 * @private
 		 */
-		arcane function get backgroundR():Number
+		public function get backgroundR():Number
 		{
 			return _backgroundR;
 		}
 
-		arcane function set backgroundR(value:Number):void
+		public function set backgroundR(value:Number):void
 		{
 			_backgroundR = value;
 		}
@@ -135,12 +135,12 @@ package away3d.core.render
 		 *
 		 * @private
 		 */
-		arcane function get backgroundG():Number
+		public function get backgroundG():Number
 		{
 			return _backgroundG;
 		}
 
-		arcane function set backgroundG(value:Number):void
+		public function set backgroundG(value:Number):void
 		{
 			_backgroundG = value;
 		}
@@ -150,12 +150,12 @@ package away3d.core.render
 		 *
 		 * @private
 		 */
-		arcane function get backgroundB():Number
+		public function get backgroundB():Number
 		{
 			return _backgroundB;
 		}
 
-		arcane function set backgroundB(value:Number):void
+		public function set backgroundB(value:Number):void
 		{
 			_backgroundB = value;
 		}
@@ -165,12 +165,12 @@ package away3d.core.render
 		 *
 		 * @private
 		 */
-		arcane function get stage3DProxy():Stage3DProxy
+		public function get stage3DProxy():Stage3DProxy
 		{
 			return _stage3DProxy;
 		}
 
-		arcane function set stage3DProxy(value:Stage3DProxy):void
+		public function set stage3DProxy(value:Stage3DProxy):void
 		{
 			if (value == _stage3DProxy)
 				return;
@@ -204,12 +204,12 @@ package away3d.core.render
 		 *
 		 * @private
 		 */
-		arcane function get shareContext():Boolean
+		public function get shareContext():Boolean
 		{
 			return _shareContext;
 		}
 
-		arcane function set shareContext(value:Boolean):void
+		public function set shareContext(value:Boolean):void
 		{
 			_shareContext = value;
 		}
@@ -219,7 +219,7 @@ package away3d.core.render
 		 *
 		 * @private
 		 */
-		arcane function dispose():void
+		public function dispose():void
 		{
 			stage3DProxy = null;
 			if (_backgroundImageRenderer)
@@ -236,7 +236,7 @@ package away3d.core.render
 		 * @param surfaceSelector The index of a CubeTexture's face to render to.
 		 * @param additionalClearMask Additional clear mask information, in case extra clear channels are to be omitted.
 		 */
-		arcane function render(entityCollector:EntityCollector, target:TextureBase = null, scissorRect:Rectangle = null, surfaceSelector:int = 0):void
+		public function render(entityCollector:EntityCollector, target:TextureBase = null, scissorRect:Rectangle = null, surfaceSelector:int = 0):void
 		{
 			if (!_stage3DProxy || !_context)
 				return;
@@ -330,22 +330,22 @@ package away3d.core.render
 			_context = _stage3DProxy.context3D;
 		}
 
-		arcane function get backgroundAlpha():Number
+		public function get backgroundAlpha():Number
 		{
 			return _backgroundAlpha;
 		}
 
-		arcane function set backgroundAlpha(value:Number):void
+		public function set backgroundAlpha(value:Number):void
 		{
 			_backgroundAlpha = value;
 		}
 
-		arcane function get background():Texture2DBase
+		public function get background():Texture2DBase
 		{
 			return _background;
 		}
 
-		arcane function set background(value:Texture2DBase):void
+		public function set background(value:Texture2DBase):void
 		{
 			if (_backgroundImageRenderer && !value)
 			{
@@ -377,22 +377,22 @@ package away3d.core.render
 			_antiAlias = antiAlias;
 		}
 
-		arcane function get textureRatioX():Number
+		public function get textureRatioX():Number
 		{
 			return _textureRatioX;
 		}
 
-		arcane function set textureRatioX(value:Number):void
+		public function set textureRatioX(value:Number):void
 		{
 			_textureRatioX = value;
 		}
 
-		arcane function get textureRatioY():Number
+		public function get textureRatioY():Number
 		{
 			return _textureRatioY;
 		}
 
-		arcane function set textureRatioY(value:Number):void
+		public function set textureRatioY(value:Number):void
 		{
 			_textureRatioY = value;
 		}

@@ -2,12 +2,12 @@ package away3d.tools.commands
 {
 	import flash.geom.Vector3D;
 
-	import away3d.arcane;
+	
 	import away3d.bounds.BoundingVolumeBase;
 	import away3d.core.base.ISubGeometry;
 	import away3d.entities.Mesh;
 	import away3d.entities.ObjectContainer3D;
-	use namespace arcane;
+	
 
 	/**
 	* Class SphereMaker transforms a Mesh into a Sphere unic<code>SphereMaker</code>

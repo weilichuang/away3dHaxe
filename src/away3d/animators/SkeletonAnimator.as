@@ -4,7 +4,7 @@ package away3d.animators
 	import flash.geom.Vector3D;
 	import flash.utils.Dictionary;
 
-	import away3d.arcane;
+	
 	import away3d.animators.data.JointPose;
 	import away3d.animators.data.Skeleton;
 	import away3d.animators.data.SkeletonJoint;
@@ -20,7 +20,7 @@ package away3d.animators
 	import away3d.materials.passes.MaterialPassBase;
 	import away3d.math.Quaternion;
 
-	use namespace arcane;
+	
 
 	/**
 	 * Provides an interface for assigning skeleton-based animation data sets to mesh-based entity objects

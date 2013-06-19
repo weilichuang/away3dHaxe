@@ -1,9 +1,9 @@
 package away3d.entities.lights.shadowmaps
 {
-	import away3d.arcane;
+	
 	import away3d.entities.Camera3D;
 
-	use namespace arcane;
+	
 
 	public class NearDirectionalShadowMapper extends DirectionalShadowMapper
 	{

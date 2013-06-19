@@ -81,37 +81,37 @@ package example
 		public static const ROTATION:Number = .5;
 
 		// R2D2 Model
-		[Embed(source = "/../embeds/R2D2.obj", mimeType = "application/octet-stream")]
+		[Embed(source = "../embeds/R2D2.obj", mimeType = "application/octet-stream")]
 		public static var R2D2Model:Class;
 
 		// R2D2 Texture
-		[Embed(source = "/../embeds/r2d2_diffuse.jpg")]
+		[Embed(source = "../embeds/r2d2_diffuse.jpg")]
 		public static var R2D2Texture:Class;
 
 		//skybox textures
-		[Embed(source = "/../embeds/skybox/sky_posX.jpg")]
+		[Embed(source = "../embeds/skybox/sky_posX.jpg")]
 		private var PosX:Class;
-		[Embed(source = "/../embeds/skybox/sky_negX.jpg")]
+		[Embed(source = "../embeds/skybox/sky_negX.jpg")]
 		private var NegX:Class;
-		[Embed(source = "/../embeds/skybox/sky_posY.jpg")]
+		[Embed(source = "../embeds/skybox/sky_posY.jpg")]
 		private var PosY:Class;
-		[Embed(source = "/../embeds/skybox/sky_negY.jpg")]
+		[Embed(source = "../embeds/skybox/sky_negY.jpg")]
 		private var NegY:Class;
-		[Embed(source = "/../embeds/skybox/sky_posZ.jpg")]
+		[Embed(source = "../embeds/skybox/sky_posZ.jpg")]
 		private var PosZ:Class;
-		[Embed(source = "/../embeds/skybox/sky_negZ.jpg")]
+		[Embed(source = "../embeds/skybox/sky_negZ.jpg")]
 		private var NegZ:Class;
 
 		// desert texture
-		[Embed(source = "/../embeds/arid.jpg")]
+		[Embed(source = "../embeds/arid.jpg")]
 		public static var DesertTexture:Class;
 
 		//desert height map
-		[Embed(source = "/../embeds/desertHeightMap.jpg")]
+		[Embed(source = "../embeds/desertHeightMap.jpg")]
 		public static var DesertHeightMap:Class;
 
 		// head Model
-		[Embed(source = "/../embeds/head.obj", mimeType = "application/octet-stream")]
+		[Embed(source = "../embeds/head.obj", mimeType = "application/octet-stream")]
 		public static var HeadModel:Class;
 
 		//engine variables
@@ -297,20 +297,6 @@ package example
 			AssetLibrary.addEventListener(AssetEvent.ASSET_COMPLETE, onAssetComplete);
 			AssetLibrary.loadData(new HeadModel());
 			AssetLibrary.loadData(new R2D2Model());
-		}
-
-		/**
-		 * Initialise the listeners
-		 */
-		private function initListeners():void
-		{
-			addEventListener(Event.ENTER_FRAME, onEnterFrame);
-			stage.addEventListener(MouseEvent.MOUSE_DOWN, onMouseDown);
-			stage.addEventListener(MouseEvent.MOUSE_UP, onMouseUp);
-			stage.addEventListener(Event.RESIZE, onResize);
-			stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown);
-			stage.addEventListener(KeyboardEvent.KEY_UP, onKeyUp);
-			onResize();
 		}
 
 		/**

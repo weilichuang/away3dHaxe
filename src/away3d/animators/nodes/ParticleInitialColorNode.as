@@ -2,7 +2,7 @@ package away3d.animators.nodes
 {
 	import flash.geom.ColorTransform;
 
-	import away3d.arcane;
+	
 	import away3d.animators.ParticleAnimationSet;
 	import away3d.animators.data.AnimationRegisterCache;
 	import away3d.animators.data.ParticleProperties;
@@ -11,23 +11,23 @@ package away3d.animators.nodes
 	import away3d.materials.compilation.ShaderRegisterElement;
 	import away3d.materials.passes.MaterialPassBase;
 
-	use namespace arcane;
+	
 
 
 	public class ParticleInitialColorNode extends ParticleNodeBase
 	{
 		/** @private */
-		arcane static const MULTIPLIER_INDEX:uint = 0;
+		public static const MULTIPLIER_INDEX:uint = 0;
 		/** @private */
-		arcane static const OFFSET_INDEX:uint = 1;
+		public static const OFFSET_INDEX:uint = 1;
 
 		//default values used when creating states
 		/** @private */
-		arcane var _usesMultiplier:Boolean;
+		public var _usesMultiplier:Boolean;
 		/** @private */
-		arcane var _usesOffset:Boolean;
+		public var _usesOffset:Boolean;
 		/** @private */
-		arcane var _initialColor:ColorTransform;
+		public var _initialColor:ColorTransform;
 
 		/**
 		 * Reference for color node properties on a single particle (when in local property mode).
@@ -79,7 +79,7 @@ package away3d.animators.nodes
 		/**
 		 * @inheritDoc
 		 */
-		override arcane function processAnimationSetting(particleAnimationSet:ParticleAnimationSet):void
+		override public function processAnimationSetting(particleAnimationSet:ParticleAnimationSet):void
 		{
 			if (_usesMultiplier)
 				particleAnimationSet.hasColorMulNode = true;
@@ -90,7 +90,7 @@ package away3d.animators.nodes
 		/**
 		 * @inheritDoc
 		 */
-		override arcane function generatePropertyOfOneParticle(param:ParticleProperties):void
+		override public function generatePropertyOfOneParticle(param:ParticleProperties):void
 		{
 			var initialColor:ColorTransform = param[COLOR_INITIAL_COLORTRANSFORM];
 			if (!initialColor)
