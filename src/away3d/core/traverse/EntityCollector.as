@@ -2,7 +2,7 @@ package away3d.core.traverse
 {
 	import flash.geom.Vector3D;
 
-	
+
 	import away3d.entities.Camera3D;
 	import away3d.core.base.IRenderable;
 	import away3d.core.data.EntityListItem;
@@ -18,7 +18,7 @@ package away3d.core.traverse
 	import away3d.materials.MaterialBase;
 	import away3d.math.Plane3D;
 
-	
+
 
 	/**
 	 * The EntityCollector class is a traverser for scene partitions that collects all scene graph entities that are
@@ -199,8 +199,8 @@ package away3d.core.traverse
 		 */
 		override public function enterNode(node:NodeBase):Boolean
 		{
-			var enter:Boolean = _collectionMark != node._collectionMark && node.isInFrustum(_cullPlanes, _numCullPlanes);
-			node._collectionMark = _collectionMark;
+			var enter:Boolean = _collectionMark != node.collectionMark && node.isInFrustum(_cullPlanes, _numCullPlanes);
+			node.collectionMark = _collectionMark;
 			return enter;
 		}
 

@@ -1,12 +1,12 @@
 package away3d.materials.methods
 {
-	
+
 	import away3d.core.managers.Stage3DProxy;
 	import away3d.materials.compilation.ShaderRegisterCache;
 	import away3d.materials.compilation.ShaderRegisterElement;
 	import away3d.textures.Texture2DBase;
 
-	
+
 
 	/**
 	 * BasicSpecularMethod provides the default shading method for Blinn-Phong specular highlights.
@@ -24,7 +24,7 @@ package away3d.materials.methods
 		private var _gloss:int = 50;
 		private var _specular:Number = 1;
 		private var _specularColor:uint = 0xffffff;
-		public var _specularR:Number = 1, _specularG:Number = 1, _specularB:Number = 1;
+		public var specularR:Number = 1, specularG:Number = 1, specularB:Number = 1;
 		private var _shadowRegister:ShaderRegisterElement;
 		protected var _isFirstLight:Boolean;
 
@@ -209,8 +209,8 @@ package away3d.materials.methods
 			if (vo.useLightFallOff)
 				code += "mul " + t + ".w, " + t + ".w, " + lightDirReg + ".w\n";
 
-			if (_modulateMethod != null)
-				code += _modulateMethod(vo, t, regCache, _sharedRegisters);
+			if (modulateMethod != null)
+				code += modulateMethod(vo, t, regCache, _sharedRegisters);
 
 			code += "mul " + t + ".xyz, " + lightColReg + ", " + t + ".w\n";
 
@@ -251,8 +251,8 @@ package away3d.materials.methods
 				"tex " + t + ", " + t + ", " + cubeMapReg + " <cube," + (vo.useSmoothTextures ? "linear" : "nearest") + ",miplinear>\n" +
 				"mul " + t + ".xyz, " + t + ", " + weightRegister + "\n";
 
-			if (_modulateMethod != null)
-				code += _modulateMethod(vo, t, regCache, _sharedRegisters);
+			if (modulateMethod != null)
+				code += modulateMethod(vo, t, regCache, _sharedRegisters);
 
 			if (!_isFirstLight)
 			{
@@ -308,9 +308,9 @@ package away3d.materials.methods
 				stage3DProxy.context3D.setTextureAt(vo.texturesIndex, _texture.getTextureForStage3D(stage3DProxy));
 			var index:int = vo.fragmentConstantsIndex;
 			var data:Vector.<Number> = vo.fragmentData;
-			data[index] = _specularR;
-			data[index + 1] = _specularG;
-			data[index + 2] = _specularB;
+			data[index] = specularR;
+			data[index + 1] = specularG;
+			data[index + 2] = specularB;
 			data[index + 3] = _gloss;
 		}
 
@@ -319,9 +319,9 @@ package away3d.materials.methods
 		 */
 		private function updateSpecular():void
 		{
-			_specularR = ((_specularColor >> 16) & 0xff) / 0xff * _specular;
-			_specularG = ((_specularColor >> 8) & 0xff) / 0xff * _specular;
-			_specularB = (_specularColor & 0xff) / 0xff * _specular;
+			specularR = ((_specularColor >> 16) & 0xff) / 0xff * _specular;
+			specularG = ((_specularColor >> 8) & 0xff) / 0xff * _specular;
+			specularB = (_specularColor & 0xff) / 0xff * _specular;
 		}
 
 		public function set shadowRegister(shadowReg:ShaderRegisterElement):void

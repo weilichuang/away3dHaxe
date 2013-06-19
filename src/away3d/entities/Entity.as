@@ -1,8 +1,8 @@
 package away3d.entities
 {
 	import flash.geom.Vector3D;
-	
-	
+
+
 	import away3d.bounds.AxisAlignedBoundingBox;
 	import away3d.bounds.BoundingVolumeBase;
 	import away3d.core.partition.EntityNode;
@@ -12,7 +12,7 @@ package away3d.entities
 	import away3d.errors.AbstractMethodError;
 	import away3d.io.library.assets.AssetType;
 
-	
+
 
 	/**
 	 * The Entity class provides an abstract base class for all scene graph objects that are considered having a
@@ -31,8 +31,8 @@ package away3d.entities
 		private var _shaderPickingDetails:Boolean;
 
 		private var _pickingCollisionVO:PickingCollisionVO;
-		public var _pickingCollider:IPickingCollider;
-		public var _staticNode:Boolean;
+		protected var _pickingCollider:IPickingCollider;
+		protected var _staticNode:Boolean;
 
 		protected var _bounds:BoundingVolumeBase;
 		protected var _boundsInvalid:Boolean = true;
@@ -88,10 +88,10 @@ package away3d.entities
 
 			return _pickingCollisionVO;
 		}
-		
+
 		//public function set pickingCollisionVO(value:PickingCollisionVO):void
 		//{
-			//_pickingCollisionVO = value;
+		//_pickingCollisionVO = value;
 		//}
 
 		/**

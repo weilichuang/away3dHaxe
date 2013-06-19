@@ -1,10 +1,10 @@
 package away3d.controllers
 {
-	
+
 	import away3d.entities.Entity;
 	import away3d.math.MathUtil;
 
-	
+
 
 	/**
 	 * Extended camera used to hover round a specified target object.
@@ -13,8 +13,8 @@ package away3d.controllers
 	 */
 	public class FirstPersonController extends ControllerBase
 	{
-		public var _currentPanAngle:Number = 0;
-		public var _currentTiltAngle:Number = 90;
+		public var currentPanAngle:Number = 0;
+		public var currentTiltAngle:Number = 90;
 
 		private var _panAngle:Number = 0;
 		private var _tiltAngle:Number = 90;
@@ -143,8 +143,8 @@ package away3d.controllers
 			this.steps = steps;
 
 			//values passed in contrustor are applied immediately
-			_currentPanAngle = _panAngle;
-			_currentTiltAngle = _tiltAngle;
+			currentPanAngle = _panAngle;
+			currentTiltAngle = _tiltAngle;
 		}
 
 		/**
@@ -160,24 +160,24 @@ package away3d.controllers
 		 */
 		public override function update(interpolate:Boolean = true):void
 		{
-			if (_tiltAngle != _currentTiltAngle || _panAngle != _currentPanAngle)
+			if (_tiltAngle != currentTiltAngle || _panAngle != currentPanAngle)
 			{
 
 				notifyUpdate();
 
 				if (interpolate)
 				{
-					_currentTiltAngle += (_tiltAngle - _currentTiltAngle) / (steps + 1);
-					_currentPanAngle += (_panAngle - _currentPanAngle) / (steps + 1);
+					currentTiltAngle += (_tiltAngle - currentTiltAngle) / (steps + 1);
+					currentPanAngle += (_panAngle - currentPanAngle) / (steps + 1);
 				}
 				else
 				{
-					_currentTiltAngle = _tiltAngle;
-					_currentPanAngle = _panAngle;
+					currentTiltAngle = _tiltAngle;
+					currentPanAngle = _panAngle;
 				}
 
 				//snap coords if angle differences are close
-				if ((Math.abs(tiltAngle - _currentTiltAngle) < 0.01) && (Math.abs(_panAngle - _currentPanAngle) < 0.01))
+				if ((Math.abs(tiltAngle - currentTiltAngle) < 0.01) && (Math.abs(_panAngle - currentPanAngle) < 0.01))
 				{
 
 					if (Math.abs(_panAngle) > 360)
@@ -189,13 +189,13 @@ package away3d.controllers
 							panAngle = _panAngle % 360;
 					}
 
-					_currentTiltAngle = _tiltAngle;
-					_currentPanAngle = _panAngle;
+					currentTiltAngle = _tiltAngle;
+					currentPanAngle = _panAngle;
 				}
 			}
 
-			targetObject.rotationX = _currentTiltAngle;
-			targetObject.rotationY = _currentPanAngle;
+			targetObject.rotationX = currentTiltAngle;
+			targetObject.rotationY = currentPanAngle;
 
 			if (_walkIncrement)
 			{

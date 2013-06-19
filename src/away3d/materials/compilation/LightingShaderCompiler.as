@@ -1,6 +1,6 @@
 package away3d.materials.compilation
 {
-	
+
 
 	public class LightingShaderCompiler extends ShaderCompiler
 	{
@@ -11,7 +11,7 @@ package away3d.materials.compilation
 		private var _lightVertexConstantIndex:int;
 		private var _shadowRegister:ShaderRegisterElement;
 
-		
+
 
 		public function LightingShaderCompiler(profile:String)
 		{
@@ -58,7 +58,8 @@ package away3d.materials.compilation
 
 		public function get tangentSpace():Boolean
 		{
-			return _numLightProbes == 0 && methodSetup._normalMethod.hasOutput && _methodSetup._normalMethod.tangentSpace;
+			return _numLightProbes == 0 && methodSetup.normalMethod.hasOutput &&
+				_methodSetup.normalMethod.tangentSpace;
 		}
 
 		override protected function initLightData():void
@@ -93,10 +94,10 @@ package away3d.materials.compilation
 			_sharedRegisters.normalFragment = _registerCache.getFreeFragmentVectorTemp();
 			_registerCache.addFragmentTempUsages(_sharedRegisters.normalFragment, _dependencyCounter.normalDependencies);
 
-			if (_methodSetup._normalMethod.hasOutput && !_methodSetup._normalMethod.tangentSpace)
+			if (_methodSetup.normalMethod.hasOutput && !_methodSetup.normalMethod.tangentSpace)
 			{
-				_vertexCode += _methodSetup._normalMethod.getVertexCode(_methodSetup._normalMethodVO, _registerCache);
-				_fragmentCode += _methodSetup._normalMethod.getFragmentCode(_methodSetup._normalMethodVO, _registerCache, _sharedRegisters.normalFragment);
+				_vertexCode += _methodSetup.normalMethod.getVertexCode(_methodSetup.normalMethodVO, _registerCache);
+				_fragmentCode += _methodSetup.normalMethod.getFragmentCode(_methodSetup.normalMethodVO, _registerCache, _sharedRegisters.normalFragment);
 				return;
 			}
 
@@ -137,11 +138,11 @@ package away3d.materials.compilation
 				"nrm " + _sharedRegisters.animatedTangent + ".xyz, " + _sharedRegisters.animatedTangent + "\n";
 			_vertexCode += "crs " + _sharedRegisters.bitangent + ".xyz, " + _sharedRegisters.animatedNormal + ", " + _sharedRegisters.animatedTangent + "\n";
 
-			_fragmentCode += _methodSetup._normalMethod.getFragmentCode(_methodSetup._normalMethodVO, _registerCache, _sharedRegisters.normalFragment);
+			_fragmentCode += _methodSetup.normalMethod.getFragmentCode(_methodSetup.normalMethodVO, _registerCache, _sharedRegisters.normalFragment);
 
-			if (_methodSetup._normalMethodVO.needsView)
+			if (_methodSetup.normalMethodVO.needsView)
 				_registerCache.removeFragmentTempUsage(_sharedRegisters.viewDirFragment);
-			if (_methodSetup._normalMethodVO.needsGlobalFragmentPos || _methodSetup._normalMethodVO.needsGlobalVertexPos)
+			if (_methodSetup.normalMethodVO.needsGlobalFragmentPos || _methodSetup.normalMethodVO.needsGlobalVertexPos)
 				_registerCache.removeVertexTempUsage(_sharedRegisters.globalPositionVertex);
 		}
 
@@ -173,21 +174,21 @@ package away3d.materials.compilation
 
 		override protected function compileLightingCode():void
 		{
-			if (_methodSetup._shadowMethod)
+			if (_methodSetup.shadowMethod)
 				compileShadowCode();
 
-			_methodSetup._diffuseMethod.shadowRegister = _shadowRegister;
+			_methodSetup.diffuseMethod.shadowRegister = _shadowRegister;
 
 			_sharedRegisters.shadedTarget = _registerCache.getFreeFragmentVectorTemp();
 			_registerCache.addFragmentTempUsages(_sharedRegisters.shadedTarget, 1);
 
-			_vertexCode += _methodSetup._diffuseMethod.getVertexCode(_methodSetup._diffuseMethodVO, _registerCache);
-			_fragmentCode += _methodSetup._diffuseMethod.getFragmentPreLightingCode(_methodSetup._diffuseMethodVO, _registerCache);
+			_vertexCode += _methodSetup.diffuseMethod.getVertexCode(_methodSetup.diffuseMethodVO, _registerCache);
+			_fragmentCode += _methodSetup.diffuseMethod.getFragmentPreLightingCode(_methodSetup.diffuseMethodVO, _registerCache);
 
 			if (_usingSpecularMethod)
 			{
-				_vertexCode += _methodSetup._specularMethod.getVertexCode(_methodSetup._specularMethodVO, _registerCache);
-				_fragmentCode += _methodSetup._specularMethod.getFragmentPreLightingCode(_methodSetup._specularMethodVO, _registerCache);
+				_vertexCode += _methodSetup.specularMethod.getVertexCode(_methodSetup.specularMethodVO, _registerCache);
+				_fragmentCode += _methodSetup.specularMethod.getFragmentPreLightingCode(_methodSetup.specularMethodVO, _registerCache);
 			}
 
 			if (usesLights())
@@ -201,14 +202,14 @@ package away3d.materials.compilation
 				compileLightProbeCode();
 
 			// only need to create and reserve _shadedTargetReg here, no earlier?
-			_vertexCode += _methodSetup._ambientMethod.getVertexCode(_methodSetup._ambientMethodVO, _registerCache);
-			_fragmentCode += _methodSetup._ambientMethod.getFragmentCode(_methodSetup._ambientMethodVO, _registerCache, _sharedRegisters.shadedTarget);
-			if (_methodSetup._ambientMethodVO.needsNormals)
+			_vertexCode += _methodSetup.ambientMethod.getVertexCode(_methodSetup.ambientMethodVO, _registerCache);
+			_fragmentCode += _methodSetup.ambientMethod.getFragmentCode(_methodSetup.ambientMethodVO, _registerCache, _sharedRegisters.shadedTarget);
+			if (_methodSetup.ambientMethodVO.needsNormals)
 				_registerCache.removeFragmentTempUsage(_sharedRegisters.normalFragment);
-			if (_methodSetup._ambientMethodVO.needsView)
+			if (_methodSetup.ambientMethodVO.needsView)
 				_registerCache.removeFragmentTempUsage(_sharedRegisters.viewDirFragment);
 
-			_fragmentCode += _methodSetup._diffuseMethod.getFragmentPostLightingCode(_methodSetup._diffuseMethodVO, _registerCache, _sharedRegisters.shadedTarget);
+			_fragmentCode += _methodSetup.diffuseMethod.getFragmentPostLightingCode(_methodSetup.diffuseMethodVO, _registerCache, _sharedRegisters.shadedTarget);
 
 			if (_alphaPremultiplied)
 			{
@@ -219,22 +220,22 @@ package away3d.materials.compilation
 			}
 
 			// resolve other dependencies as well?
-			if (_methodSetup._diffuseMethodVO.needsNormals)
+			if (_methodSetup.diffuseMethodVO.needsNormals)
 				_registerCache.removeFragmentTempUsage(_sharedRegisters.normalFragment);
-			if (_methodSetup._diffuseMethodVO.needsView)
+			if (_methodSetup.diffuseMethodVO.needsView)
 				_registerCache.removeFragmentTempUsage(_sharedRegisters.viewDirFragment);
 
 			if (_usingSpecularMethod)
 			{
-				_methodSetup._specularMethod.shadowRegister = _shadowRegister;
-				_fragmentCode += _methodSetup._specularMethod.getFragmentPostLightingCode(_methodSetup._specularMethodVO, _registerCache, _sharedRegisters.shadedTarget);
-				if (_methodSetup._specularMethodVO.needsNormals)
+				_methodSetup.specularMethod.shadowRegister = _shadowRegister;
+				_fragmentCode += _methodSetup.specularMethod.getFragmentPostLightingCode(_methodSetup.specularMethodVO, _registerCache, _sharedRegisters.shadedTarget);
+				if (_methodSetup.specularMethodVO.needsNormals)
 					_registerCache.removeFragmentTempUsage(_sharedRegisters.normalFragment);
-				if (_methodSetup._specularMethodVO.needsView)
+				if (_methodSetup.specularMethodVO.needsView)
 					_registerCache.removeFragmentTempUsage(_sharedRegisters.viewDirFragment);
 			}
 
-			if (_methodSetup._shadowMethod)
+			if (_methodSetup.shadowMethod)
 				_registerCache.removeFragmentTempUsage(_shadowRegister);
 		}
 
@@ -248,8 +249,8 @@ package away3d.materials.compilation
 				_shadowRegister = _registerCache.getFreeFragmentVectorTemp();
 			_registerCache.addFragmentTempUsages(_shadowRegister, 1);
 
-			_vertexCode += _methodSetup._shadowMethod.getVertexCode(_methodSetup._shadowMethodVO, _registerCache);
-			_fragmentCode += _methodSetup._shadowMethod.getFragmentCode(_methodSetup._shadowMethodVO, _registerCache, _shadowRegister);
+			_vertexCode += _methodSetup.shadowMethod.getVertexCode(_methodSetup.shadowMethodVO, _registerCache);
+			_fragmentCode += _methodSetup.shadowMethod.getFragmentCode(_methodSetup.shadowMethodVO, _registerCache, _shadowRegister);
 		}
 
 
@@ -329,9 +330,9 @@ package away3d.materials.compilation
 				diffuseColorReg = dirLightFragmentConstants[fragmentRegIndex++];
 				specularColorReg = dirLightFragmentConstants[fragmentRegIndex++];
 				if (addDiff)
-					_fragmentCode += _methodSetup._diffuseMethod.getFragmentCodePerLight(_methodSetup._diffuseMethodVO, lightDirReg, diffuseColorReg, _registerCache);
+					_fragmentCode += _methodSetup.diffuseMethod.getFragmentCodePerLight(_methodSetup.diffuseMethodVO, lightDirReg, diffuseColorReg, _registerCache);
 				if (addSpec)
-					_fragmentCode += _methodSetup._specularMethod.getFragmentCodePerLight(_methodSetup._specularMethodVO, lightDirReg, specularColorReg, _registerCache);
+					_fragmentCode += _methodSetup.specularMethod.getFragmentCodePerLight(_methodSetup.specularMethodVO, lightDirReg, specularColorReg, _registerCache);
 
 				if (tangentSpace)
 					_registerCache.removeVertexTempUsage(lightDirReg);
@@ -399,10 +400,10 @@ package away3d.materials.compilation
 					_lightFragmentConstantIndex = lightPosReg.index * 4;
 
 				if (addDiff)
-					_fragmentCode += _methodSetup._diffuseMethod.getFragmentCodePerLight(_methodSetup._diffuseMethodVO, lightDirReg, diffuseColorReg, _registerCache);
+					_fragmentCode += _methodSetup.diffuseMethod.getFragmentCodePerLight(_methodSetup.diffuseMethodVO, lightDirReg, diffuseColorReg, _registerCache);
 
 				if (addSpec)
-					_fragmentCode += _methodSetup._specularMethod.getFragmentCodePerLight(_methodSetup._specularMethodVO, lightDirReg, specularColorReg, _registerCache);
+					_fragmentCode += _methodSetup.specularMethod.getFragmentCodePerLight(_methodSetup.specularMethodVO, lightDirReg, specularColorReg, _registerCache);
 
 				_registerCache.removeFragmentTempUsage(lightDirReg);
 
@@ -443,14 +444,14 @@ package away3d.materials.compilation
 				{
 					texReg = _registerCache.getFreeTextureReg();
 					_lightProbeDiffuseIndices[i] = texReg.index;
-					_fragmentCode += _methodSetup._diffuseMethod.getFragmentCodePerProbe(_methodSetup._diffuseMethodVO, texReg, weightReg, _registerCache);
+					_fragmentCode += _methodSetup.diffuseMethod.getFragmentCodePerProbe(_methodSetup.diffuseMethodVO, texReg, weightReg, _registerCache);
 				}
 
 				if (addSpec)
 				{
 					texReg = _registerCache.getFreeTextureReg();
 					_lightProbeSpecularIndices[i] = texReg.index;
-					_fragmentCode += _methodSetup._specularMethod.getFragmentCodePerProbe(_methodSetup._specularMethodVO, texReg, weightReg, _registerCache);
+					_fragmentCode += _methodSetup.specularMethod.getFragmentCodePerProbe(_methodSetup.specularMethodVO, texReg, weightReg, _registerCache);
 				}
 			}
 		}

@@ -201,7 +201,7 @@ package away3d.io.loaders
 			token.addEventListener(AssetEvent.SKELETON_POSE_COMPLETE, onAssetComplete);
 
 			// Error are handled separately (see documentation for addErrorHandler)
-			token._loader.addErrorHandler(onLoadError);
+			token.loader.addErrorHandler(onLoadError);
 
 			return token;
 		}
@@ -247,7 +247,7 @@ package away3d.io.loaders
 			token.addEventListener(AssetEvent.SKELETON_POSE_COMPLETE, onAssetComplete);
 
 			// Error are handled separately (see documentation for addErrorHandler)
-			token._loader.addErrorHandler(onLoadError);
+			token.loader.addErrorHandler(onLoadError);
 
 			return token;
 		}

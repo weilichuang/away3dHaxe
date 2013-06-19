@@ -2,19 +2,18 @@ package away3d.entities.lights.shadowmaps
 {
 	import flash.display3D.textures.TextureBase;
 
-	
-	import away3d.entities.Camera3D;
 	import away3d.core.managers.Stage3DProxy;
 	import away3d.core.render.DepthRenderer;
 	import away3d.core.traverse.EntityCollector;
 	import away3d.core.traverse.ShadowCasterCollector;
+	import away3d.entities.Camera3D;
 	import away3d.entities.Scene3D;
-	import away3d.errors.AbstractMethodError;
 	import away3d.entities.lights.LightBase;
+	import away3d.errors.AbstractMethodError;
 	import away3d.textures.RenderTexture;
 	import away3d.textures.TextureProxyBase;
 
-	
+
 
 	public class ShadowMapperBase
 	{
@@ -25,8 +24,17 @@ package away3d.entities.lights.shadowmaps
 		protected var _light:LightBase;
 		private var _explicitDepthMap:Boolean;
 		private var _autoUpdateShadows:Boolean = true;
-		public var _shadowsInvalid:Boolean;
+		protected var _shadowsInvalid:Boolean;
 
+		public function get shadowsInvalid():Boolean
+		{
+			return _shadowsInvalid;
+		}
+
+//		public function set shadowsInvalid(value:Boolean):void
+//		{
+//			_shadowsInvalid = value;
+//		}
 
 		public function ShadowMapperBase()
 		{

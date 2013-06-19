@@ -3,7 +3,6 @@ package away3d.animators
 	import flash.display3D.Context3D;
 	import flash.utils.Dictionary;
 
-	
 	import away3d.animators.data.AnimationRegisterCache;
 	import away3d.animators.data.AnimationSubGeometry;
 	import away3d.animators.data.ParticleAnimationData;
@@ -20,7 +19,7 @@ package away3d.animators
 	import away3d.entities.Mesh;
 	import away3d.materials.passes.MaterialPassBase;
 
-	
+
 
 	/**
 	 * The animation data set used by particle-based animators, containing particle animation data.
@@ -29,8 +28,7 @@ package away3d.animators
 	 */
 	public class ParticleAnimationSet extends AnimationSetBase implements IAnimationSet
 	{
-		/** @private */
-		public var _animationRegisterCache:AnimationRegisterCache;
+		private var _animationRegisterCache:AnimationRegisterCache;
 
 		//all other nodes dependent on it
 		private var _timeNode:ParticleTimeNode;
@@ -61,6 +59,20 @@ package away3d.animators
 		public var hasColorMulNode:Boolean;
 		//set if has an node which will apply color add operation
 		public var hasColorAddNode:Boolean;
+
+		/** @private */
+		public function get animationRegisterCache():AnimationRegisterCache
+		{
+			return _animationRegisterCache;
+		}
+
+		/**
+		 * @private
+		 */
+		public function set animationRegisterCache(value:AnimationRegisterCache):void
+		{
+			_animationRegisterCache = value;
+		}
 
 		/**
 		 * Initialiser function for static particle properties. Needs to reference a function with teh following format

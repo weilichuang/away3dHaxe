@@ -2,7 +2,7 @@ package away3d.materials.methods
 {
 	import flash.geom.Vector3D;
 
-	
+
 	import away3d.entities.Camera3D;
 	import away3d.core.base.IRenderable;
 	import away3d.core.managers.Stage3DProxy;
@@ -13,7 +13,7 @@ package away3d.materials.methods
 	import away3d.materials.compilation.ShaderRegisterCache;
 	import away3d.materials.compilation.ShaderRegisterElement;
 
-	
+
 
 	public class SimpleShadowMapMethodBase extends ShadowMapMethodBase
 	{
@@ -177,7 +177,7 @@ package away3d.materials.methods
 				fragmentData[index + 9] = pos.y;
 				fragmentData[index + 10] = pos.z;
 				// used to decompress distance
-				var f:Number = PointLight(_castingLight)._fallOff;
+				var f:Number = PointLight(_castingLight).fallOff;
 				fragmentData[index + 11] = 1 / (2 * f * f);
 			}
 			stage3DProxy.context3D.setTextureAt(vo.texturesIndex, _castingLight.shadowMapper.depthMap.getTextureForStage3D(stage3DProxy));

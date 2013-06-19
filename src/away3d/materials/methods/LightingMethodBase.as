@@ -1,10 +1,10 @@
 package away3d.materials.methods
 {
-	
+
 	import away3d.materials.compilation.ShaderRegisterCache;
 	import away3d.materials.compilation.ShaderRegisterElement;
 
-	
+
 
 	/**
 	 * LightingMethodBase provides an abstract base method for shading methods that uses lights.
@@ -15,7 +15,7 @@ package away3d.materials.methods
 		/**
 		 * A method that is exposed to wrappers in case the strength needs to be controlled
 		 */
-		public var _modulateMethod:Function;
+		public var modulateMethod:Function;
 
 		public function LightingMethodBase()
 		{

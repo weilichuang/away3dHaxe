@@ -1,6 +1,6 @@
 package away3d.materials.methods
 {
-	
+
 	import away3d.entities.Camera3D;
 	import away3d.core.base.IRenderable;
 	import away3d.core.managers.Stage3DProxy;
@@ -8,7 +8,7 @@ package away3d.materials.methods
 	import away3d.materials.compilation.ShaderRegisterElement;
 	import away3d.textures.Texture2DBase;
 
-	
+
 
 	/**
 	 * BasicAmbientMethod provides the default shading method for uniform ambient lighting.
@@ -25,9 +25,9 @@ package away3d.materials.methods
 		private var _ambientColor:uint = 0xffffff;
 		private var _ambientR:Number = 0, _ambientG:Number = 0, _ambientB:Number = 0;
 		private var _ambient:Number = 1;
-		public var _lightAmbientR:Number = 0;
-		public var _lightAmbientG:Number = 0;
-		public var _lightAmbientB:Number = 0;
+		public var lightAmbientR:Number = 0;
+		public var lightAmbientG:Number = 0;
+		public var lightAmbientB:Number = 0;
 
 
 		/**
@@ -146,9 +146,9 @@ package away3d.materials.methods
 		 */
 		private function updateAmbient():void
 		{
-			_ambientR = ((_ambientColor >> 16) & 0xff) / 0xff * _ambient * _lightAmbientR;
-			_ambientG = ((_ambientColor >> 8) & 0xff) / 0xff * _ambient * _lightAmbientG;
-			_ambientB = (_ambientColor & 0xff) / 0xff * _ambient * _lightAmbientB;
+			_ambientR = ((_ambientColor >> 16) & 0xff) / 0xff * _ambient * lightAmbientR;
+			_ambientG = ((_ambientColor >> 8) & 0xff) / 0xff * _ambient * lightAmbientG;
+			_ambientB = (_ambientColor & 0xff) / 0xff * _ambient * lightAmbientB;
 		}
 
 

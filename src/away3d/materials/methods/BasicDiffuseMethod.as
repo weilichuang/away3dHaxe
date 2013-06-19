@@ -204,8 +204,8 @@ package away3d.materials.methods
 			if (vo.useLightFallOff)
 				code += "mul " + t + ".w, " + t + ".w, " + lightDirReg + ".w\n";
 
-			if (_modulateMethod != null)
-				code += _modulateMethod(vo, t, regCache, _sharedRegisters);
+			if (modulateMethod != null)
+				code += modulateMethod(vo, t, regCache, _sharedRegisters);
 
 			code += "mul " + t + ", " + t + ".w, " + lightColReg + "\n";
 
@@ -241,8 +241,8 @@ package away3d.materials.methods
 			code += "tex " + t + ", " + _sharedRegisters.normalFragment + ", " + cubeMapReg + " <cube,linear,miplinear>\n" +
 				"mul " + t + ".xyz, " + t + ".xyz, " + weightRegister + "\n";
 
-			if (_modulateMethod != null)
-				code += _modulateMethod(vo, t, regCache, _sharedRegisters);
+			if (modulateMethod != null)
+				code += modulateMethod(vo, t, regCache, _sharedRegisters);
 
 			if (!_isFirstLight)
 			{

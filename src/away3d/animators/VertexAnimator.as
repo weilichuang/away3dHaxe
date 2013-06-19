@@ -2,7 +2,7 @@ package away3d.animators
 {
 	import flash.display3D.Context3DProgramType;
 
-	
+
 	import away3d.animators.data.VertexAnimationMode;
 	import away3d.animators.states.IVertexAnimationState;
 	import away3d.animators.transitions.IAnimationTransition;
@@ -14,7 +14,7 @@ package away3d.animators
 	import away3d.core.managers.Stage3DProxy;
 	import away3d.materials.passes.MaterialPassBase;
 
-	
+
 
 	/**
 	 * Provides an interface for assigning vertex-based animation data sets to mesh-based entity objects
@@ -126,7 +126,7 @@ package away3d.animators
 			if (_blendMode == VertexAnimationMode.ABSOLUTE)
 			{
 				i = 1;
-				subGeom = _poses[uint(0)].subGeometries[subMesh._index];
+				subGeom = _poses[0].subGeometries[subMesh.index];
 				// set the base sub-geometry so the material can simply pick up on this data
 				if (subGeom)
 					subMesh.subGeometry = subGeom;
@@ -136,7 +136,7 @@ package away3d.animators
 
 			for (; i < len; ++i)
 			{
-				subGeom = _poses[i].subGeometries[subMesh._index] || subMesh.subGeometry;
+				subGeom = _poses[i].subGeometries[subMesh.index] || subMesh.subGeometry;
 
 				subGeom.activateVertexBuffer(vertexStreamOffset++, stage3DProxy);
 

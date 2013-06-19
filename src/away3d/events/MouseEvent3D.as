@@ -7,9 +7,9 @@ package away3d.events
 	import flash.events.Event;
 	import flash.geom.Point;
 	import flash.geom.Vector3D;
-	
 
-	
+
+
 
 	/**
 	 * A MouseEvent3D is dispatched when a mouse event occurs over a mouseEnabled object in View3D.
@@ -17,9 +17,14 @@ package away3d.events
 	 */
 	public class MouseEvent3D extends Event
 	{
-		// Private.
-		public var _allowedToPropagate:Boolean = true;
-		public var _parentEvent:MouseEvent3D;
+		/**
+		 *internal use
+		 */
+		public var allowedToPropagate:Boolean = true;
+		/**
+		 *internal use
+		 */
+		public var parentEvent:MouseEvent3D;
 
 		/**
 		 * Defines the value of the type property of a mouseOver3d event object.
@@ -160,8 +165,8 @@ package away3d.events
 		 */
 		public override function get bubbles():Boolean
 		{
-			var doesBubble:Boolean = super.bubbles && _allowedToPropagate;
-			_allowedToPropagate = true;
+			var doesBubble:Boolean = super.bubbles && allowedToPropagate;
+			allowedToPropagate = true;
 			// Don't bubble if propagation has been stopped.
 			return doesBubble;
 		}
@@ -172,10 +177,10 @@ package away3d.events
 		public override function stopPropagation():void
 		{
 			super.stopPropagation();
-			_allowedToPropagate = false;
-			if (_parentEvent)
+			allowedToPropagate = false;
+			if (parentEvent)
 			{
-				_parentEvent.stopPropagation();
+				parentEvent.stopPropagation();
 			}
 		}
 
@@ -185,10 +190,10 @@ package away3d.events
 		public override function stopImmediatePropagation():void
 		{
 			super.stopImmediatePropagation();
-			_allowedToPropagate = false;
-			if (_parentEvent)
+			allowedToPropagate = false;
+			if (parentEvent)
 			{
-				_parentEvent.stopImmediatePropagation();
+				parentEvent.stopImmediatePropagation();
 			}
 		}
 
@@ -220,8 +225,8 @@ package away3d.events
 			result.ctrlKey = ctrlKey;
 			result.shiftKey = shiftKey;
 
-			result._parentEvent = this;
-			result._allowedToPropagate = _allowedToPropagate;
+			result.parentEvent = this;
+			result.allowedToPropagate = allowedToPropagate;
 
 			return result;
 		}

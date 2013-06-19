@@ -1,6 +1,6 @@
 package away3d.entities.lights
 {
-	
+
 	import away3d.core.base.IRenderable;
 	import away3d.core.partition.EntityNode;
 	import away3d.core.partition.LightNode;
@@ -12,7 +12,7 @@ package away3d.entities.lights
 
 	import flash.geom.Matrix3D;
 
-	
+
 
 	/**
 	 * LightBase provides an abstract base class for subtypes representing lights.
@@ -26,19 +26,19 @@ package away3d.entities.lights
 
 		private var _ambientColor:uint = 0xffffff;
 		private var _ambient:Number = 0;
-		public var _ambientR:Number = 0;
-		public var _ambientG:Number = 0;
-		public var _ambientB:Number = 0;
+		public var ambientR:Number = 0;
+		public var ambientG:Number = 0;
+		public var ambientB:Number = 0;
 
 		private var _specular:Number = 1;
-		public var _specularR:Number = 1;
-		public var _specularG:Number = 1;
-		public var _specularB:Number = 1;
+		public var specularR:Number = 1;
+		public var specularG:Number = 1;
+		public var specularB:Number = 1;
 
 		private var _diffuse:Number = 1;
-		public var _diffuseR:Number = 1;
-		public var _diffuseG:Number = 1;
-		public var _diffuseB:Number = 1;
+		public var diffuseR:Number = 1;
+		public var diffuseG:Number = 1;
+		public var diffuseB:Number = 1;
 
 		private var _castsShadows:Boolean;
 
@@ -171,9 +171,9 @@ package away3d.entities.lights
 
 		private function updateAmbient():void
 		{
-			_ambientR = ((_ambientColor >> 16) & 0xff) / 0xff * _ambient;
-			_ambientG = ((_ambientColor >> 8) & 0xff) / 0xff * _ambient;
-			_ambientB = (_ambientColor & 0xff) / 0xff * _ambient;
+			ambientR = ((_ambientColor >> 16) & 0xff) / 0xff * _ambient;
+			ambientG = ((_ambientColor >> 8) & 0xff) / 0xff * _ambient;
+			ambientB = (_ambientColor & 0xff) / 0xff * _ambient;
 		}
 
 		/**
@@ -209,9 +209,9 @@ package away3d.entities.lights
 		 */
 		private function updateSpecular():void
 		{
-			_specularR = _colorR * _specular;
-			_specularG = _colorG * _specular;
-			_specularB = _colorB * _specular;
+			specularR = _colorR * _specular;
+			specularG = _colorG * _specular;
+			specularB = _colorB * _specular;
 		}
 
 		/**
@@ -219,9 +219,9 @@ package away3d.entities.lights
 		 */
 		private function updateDiffuse():void
 		{
-			_diffuseR = _colorR * _diffuse;
-			_diffuseG = _colorG * _diffuse;
-			_diffuseB = _colorB * _diffuse;
+			diffuseR = _colorR * _diffuse;
+			diffuseG = _colorG * _diffuse;
+			diffuseB = _colorB * _diffuse;
 		}
 
 		public function get shadowMapper():ShadowMapperBase

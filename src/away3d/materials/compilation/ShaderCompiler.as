@@ -1,6 +1,6 @@
 package away3d.materials.compilation
 {
-	
+
 	import away3d.materials.LightSources;
 	import away3d.materials.methods.EffectMethodBase;
 	import away3d.materials.methods.MethodVO;
@@ -68,7 +68,7 @@ package away3d.materials.compilation
 
 		protected var _forceSeperateMVP:Boolean;
 
-		
+
 
 		public function ShaderCompiler(profile:String)
 		{
@@ -341,12 +341,12 @@ package away3d.materials.compilation
 			_numLights = _numPointLights + _numDirectionalLights;
 			_numProbeRegisters = Math.ceil(_numLightProbes / 4);
 
-			if (_methodSetup._specularMethod)
+			if (_methodSetup.specularMethod)
 				_combinedLightSources = _specularLightSources | _diffuseLightSources;
 			else
 				_combinedLightSources = _diffuseLightSources;
 
-			_usingSpecularMethod = Boolean(_methodSetup._specularMethod && (
+			_usingSpecularMethod = Boolean(_methodSetup.specularMethod && (
 				usesLightsForSpecular() ||
 				usesProbesForSpecular()));
 		}
@@ -361,24 +361,24 @@ package away3d.materials.compilation
 		{
 			_dependencyCounter.reset();
 
-			var methods:Vector.<MethodVOSet> = _methodSetup._methods;
+			var methods:Vector.<MethodVOSet> = _methodSetup.methods;
 			var len:uint;
 
-			setupAndCountMethodDependencies(_methodSetup._diffuseMethod, _methodSetup._diffuseMethodVO);
-			if (_methodSetup._shadowMethod)
-				setupAndCountMethodDependencies(_methodSetup._shadowMethod, _methodSetup._shadowMethodVO);
-			setupAndCountMethodDependencies(_methodSetup._ambientMethod, _methodSetup._ambientMethodVO);
+			setupAndCountMethodDependencies(_methodSetup.diffuseMethod, _methodSetup.diffuseMethodVO);
+			if (_methodSetup.shadowMethod)
+				setupAndCountMethodDependencies(_methodSetup.shadowMethod, _methodSetup.shadowMethodVO);
+			setupAndCountMethodDependencies(_methodSetup.ambientMethod, _methodSetup.ambientMethodVO);
 			if (_usingSpecularMethod)
-				setupAndCountMethodDependencies(_methodSetup._specularMethod, _methodSetup._specularMethodVO);
-			if (_methodSetup._colorTransformMethod)
-				setupAndCountMethodDependencies(_methodSetup._colorTransformMethod, _methodSetup._colorTransformMethodVO);
+				setupAndCountMethodDependencies(_methodSetup.specularMethod, _methodSetup.specularMethodVO);
+			if (_methodSetup.colorTransformMethod)
+				setupAndCountMethodDependencies(_methodSetup.colorTransformMethod, _methodSetup.colorTransformMethodVO);
 
 			len = methods.length;
 			for (var i:uint = 0; i < len; ++i)
 				setupAndCountMethodDependencies(methods[i].method, methods[i].data);
 
 			if (usesNormals)
-				setupAndCountMethodDependencies(_methodSetup._normalMethod, _methodSetup._normalMethodVO);
+				setupAndCountMethodDependencies(_methodSetup.normalMethod, _methodSetup.normalMethodVO);
 
 			// todo: add spotlights to count check
 			_dependencyCounter.setPositionedLights(_numPointLights, _combinedLightSources);
@@ -411,17 +411,17 @@ package away3d.materials.compilation
 
 		private function updateMethodRegisters():void
 		{
-			_methodSetup._normalMethod.sharedRegisters = _sharedRegisters;
-			_methodSetup._diffuseMethod.sharedRegisters = _sharedRegisters;
-			if (_methodSetup._shadowMethod)
-				_methodSetup._shadowMethod.sharedRegisters = _sharedRegisters;
-			_methodSetup._ambientMethod.sharedRegisters = _sharedRegisters;
-			if (_methodSetup._specularMethod)
-				_methodSetup._specularMethod.sharedRegisters = _sharedRegisters;
-			if (_methodSetup._colorTransformMethod)
-				_methodSetup._colorTransformMethod.sharedRegisters = _sharedRegisters;
+			_methodSetup.normalMethod.sharedRegisters = _sharedRegisters;
+			_methodSetup.diffuseMethod.sharedRegisters = _sharedRegisters;
+			if (_methodSetup.shadowMethod)
+				_methodSetup.shadowMethod.sharedRegisters = _sharedRegisters;
+			_methodSetup.ambientMethod.sharedRegisters = _sharedRegisters;
+			if (_methodSetup.specularMethod)
+				_methodSetup.specularMethod.sharedRegisters = _sharedRegisters;
+			if (_methodSetup.colorTransformMethod)
+				_methodSetup.colorTransformMethod.sharedRegisters = _sharedRegisters;
 
-			var methods:Vector.<MethodVOSet> = _methodSetup._methods;
+			var methods:Vector.<MethodVOSet> = _methodSetup.methods;
 			var len:int = methods.length;
 			for (var i:uint = 0; i < len; ++i)
 				methods[i].method.sharedRegisters = _sharedRegisters;
@@ -472,20 +472,20 @@ package away3d.materials.compilation
 
 		private function cleanUpMethods():void
 		{
-			if (_methodSetup._normalMethod)
-				_methodSetup._normalMethod.cleanCompilationData();
-			if (_methodSetup._diffuseMethod)
-				_methodSetup._diffuseMethod.cleanCompilationData();
-			if (_methodSetup._ambientMethod)
-				_methodSetup._ambientMethod.cleanCompilationData();
-			if (_methodSetup._specularMethod)
-				_methodSetup._specularMethod.cleanCompilationData();
-			if (_methodSetup._shadowMethod)
-				_methodSetup._shadowMethod.cleanCompilationData();
-			if (_methodSetup._colorTransformMethod)
-				_methodSetup._colorTransformMethod.cleanCompilationData();
+			if (_methodSetup.normalMethod)
+				_methodSetup.normalMethod.cleanCompilationData();
+			if (_methodSetup.diffuseMethod)
+				_methodSetup.diffuseMethod.cleanCompilationData();
+			if (_methodSetup.ambientMethod)
+				_methodSetup.ambientMethod.cleanCompilationData();
+			if (_methodSetup.specularMethod)
+				_methodSetup.specularMethod.cleanCompilationData();
+			if (_methodSetup.shadowMethod)
+				_methodSetup.shadowMethod.cleanCompilationData();
+			if (_methodSetup.colorTransformMethod)
+				_methodSetup.colorTransformMethod.cleanCompilationData();
 
-			var methods:Vector.<MethodVOSet> = _methodSetup._methods;
+			var methods:Vector.<MethodVOSet> = _methodSetup.methods;
 			var len:uint = methods.length;
 			for (var i:uint = 0; i < len; ++i)
 				methods[i].method.cleanCompilationData();
@@ -653,7 +653,7 @@ package away3d.materials.compilation
 
 		public function get usesNormals():Boolean
 		{
-			return _dependencyCounter.normalDependencies > 0 && _methodSetup._normalMethod.hasOutput;
+			return _dependencyCounter.normalDependencies > 0 && _methodSetup.normalMethod.hasOutput;
 		}
 
 		protected function usesLights():Boolean
@@ -663,7 +663,7 @@ package away3d.materials.compilation
 
 		protected function compileMethods():void
 		{
-			var methods:Vector.<MethodVOSet> = _methodSetup._methods;
+			var methods:Vector.<MethodVOSet> = _methodSetup.methods;
 			var numMethods:uint = methods.length;
 			var method:EffectMethodBase;
 			var data:MethodVO;
@@ -697,10 +697,10 @@ package away3d.materials.compilation
 				_registerCache.removeFragmentTempUsage(alphaReg);
 			}
 
-			if (_methodSetup._colorTransformMethod)
+			if (_methodSetup.colorTransformMethod)
 			{
-				_vertexCode += _methodSetup._colorTransformMethod.getVertexCode(_methodSetup._colorTransformMethodVO, _registerCache);
-				_fragmentCode += _methodSetup._colorTransformMethod.getFragmentCode(_methodSetup._colorTransformMethodVO, _registerCache, _sharedRegisters.shadedTarget);
+				_vertexCode += _methodSetup.colorTransformMethod.getVertexCode(_methodSetup.colorTransformMethodVO, _registerCache);
+				_fragmentCode += _methodSetup.colorTransformMethod.getFragmentCode(_methodSetup.colorTransformMethodVO, _registerCache, _sharedRegisters.shadedTarget);
 			}
 		}
 

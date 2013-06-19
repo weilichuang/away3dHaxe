@@ -1,23 +1,19 @@
 package away3d.events
 {
-
-	
-	import away3d.entities.ObjectContainer3D;
-	import away3d.entities.View3D;
-	import away3d.core.base.IRenderable;
-	import away3d.materials.MaterialBase;
-
 	import flash.events.Event;
 	import flash.geom.Point;
 	import flash.geom.Vector3D;
 
-	
+	import away3d.core.base.IRenderable;
+	import away3d.entities.ObjectContainer3D;
+	import away3d.entities.View3D;
+	import away3d.materials.MaterialBase;
 
 	public class TouchEvent3D extends Event
 	{
 		// Private.
-		public var _allowedToPropagate:Boolean = true;
-		public var _parentEvent:TouchEvent3D;
+		public var allowedToPropagate:Boolean = true;
+		public var parentEvent:TouchEvent3D;
 
 		public static const TOUCH_END:String = "touchEnd3d";
 		public static const TOUCH_BEGIN:String = "touchBegin3d";
@@ -112,7 +108,7 @@ package away3d.events
 		public override function get bubbles():Boolean
 		{
 			// Don't bubble if propagation has been stopped.
-			return super.bubbles && _allowedToPropagate;
+			return super.bubbles && allowedToPropagate;
 		}
 
 		/**
@@ -121,10 +117,10 @@ package away3d.events
 		public override function stopPropagation():void
 		{
 			super.stopPropagation();
-			_allowedToPropagate = false;
-			if (_parentEvent)
+			allowedToPropagate = false;
+			if (parentEvent)
 			{
-				_parentEvent._allowedToPropagate = false;
+				parentEvent.allowedToPropagate = false;
 			}
 		}
 
@@ -134,10 +130,10 @@ package away3d.events
 		public override function stopImmediatePropagation():void
 		{
 			super.stopImmediatePropagation();
-			_allowedToPropagate = false;
-			if (_parentEvent)
+			allowedToPropagate = false;
+			if (parentEvent)
 			{
-				_parentEvent._allowedToPropagate = false;
+				parentEvent.allowedToPropagate = false;
 			}
 		}
 
@@ -167,7 +163,7 @@ package away3d.events
 			result.ctrlKey = ctrlKey;
 			result.shiftKey = shiftKey;
 
-			result._parentEvent = this;
+			result.parentEvent = this;
 
 			return result;
 		}

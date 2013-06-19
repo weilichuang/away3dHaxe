@@ -2,7 +2,6 @@ package away3d.animators.nodes
 {
 	import flash.geom.Vector3D;
 
-	
 	import away3d.animators.IAnimator;
 	import away3d.animators.data.AnimationRegisterCache;
 	import away3d.animators.data.ParticleProperties;
@@ -10,8 +9,6 @@ package away3d.animators.nodes
 	import away3d.animators.states.ParticleAccelerationState;
 	import away3d.materials.compilation.ShaderRegisterElement;
 	import away3d.materials.passes.MaterialPassBase;
-
-	
 
 	/**
 	 * A particle animation node used to apply a constant acceleration vector to the motion of a particle.
@@ -91,9 +88,9 @@ package away3d.animators.nodes
 			if (!tempAcceleration)
 				throw new Error("there is no " + ACCELERATION_VECTOR3D + " in param!");
 
-			_oneData[0] = tempAcceleration.x / 2;
-			_oneData[1] = tempAcceleration.y / 2;
-			_oneData[2] = tempAcceleration.z / 2;
+			_oneData[0] = tempAcceleration.x * 0.5;
+			_oneData[1] = tempAcceleration.y * 0.5;
+			_oneData[2] = tempAcceleration.z * 0.5;
 		}
 	}
 }
