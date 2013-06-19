@@ -1,27 +1,22 @@
 ﻿package example
 {
-	import flash.display.Sprite;
-	import flash.display.StageAlign;
-	import flash.display.StageScaleMode;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
 
 	import away3d.animators.VertexAnimationSet;
 	import away3d.animators.VertexAnimator;
-	import away3d.entities.View3D;
 	import away3d.controllers.HoverController;
-	import away3d.utils.AwayStats;
 	import away3d.entities.Mesh;
+	import away3d.entities.lights.DirectionalLight;
+	import away3d.entities.primitives.PlaneGeometry;
 	import away3d.events.AssetEvent;
 	import away3d.io.library.AssetLibrary;
 	import away3d.io.library.assets.AssetType;
-	import away3d.entities.lights.DirectionalLight;
 	import away3d.io.loaders.misc.AssetLoaderContext;
 	import away3d.io.loaders.parsers.MD2Parser;
 	import away3d.materials.TextureMaterial;
 	import away3d.materials.lightpickers.StaticLightPicker;
 	import away3d.materials.methods.FilteredShadowMapMethod;
-	import away3d.entities.primitives.PlaneGeometry;
 	import away3d.utils.Cast;
 
 	public class Basic_LoadMD2 extends BasicApplication

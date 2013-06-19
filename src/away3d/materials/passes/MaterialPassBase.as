@@ -98,7 +98,7 @@ package away3d.materials.passes
 			_numUsedStreams = 1;
 			_numUsedVertexConstants = 5;
 		}
-		
+
 		public function getProgram3Dids():Vector.<int>
 		{
 			return _program3Dids;
@@ -108,22 +108,22 @@ package away3d.materials.passes
 		{
 			return _program3Dids[stageIndex];
 		}
-		
-		public function setProgram3Dids(stageIndex:int,value:int):void
+
+		public function setProgram3Dids(stageIndex:int, value:int):void
 		{
 			_program3Dids[stageIndex] = value;
 		}
-		
+
 		public function getProgram3D(stageIndex:int):Program3D
 		{
 			return _program3Ds[stageIndex];
 		}
-		
-		public function setProgram3D(stageIndex:int,p:Program3D):void
+
+		public function setProgram3D(stageIndex:int, p:Program3D):void
 		{
 			_program3Ds[stageIndex] = p;
 		}
-		
+
 		/**
 		 * The material to which this pass belongs.
 		 */
@@ -370,7 +370,7 @@ package away3d.materials.passes
 		public function activate(stage3DProxy:Stage3DProxy, camera:Camera3D):void
 		{
 			// TODO: not used
-			camera = camera;
+			//camera = camera;
 
 			var contextIndex:int = stage3DProxy.stage3DIndex;
 			var context:Context3D = stage3DProxy.context3D;

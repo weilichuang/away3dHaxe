@@ -169,8 +169,8 @@ package away3d.materials.passes
 			var len:uint = methods.length;
 			for (var i:int = 0; i < len; ++i)
 			{
-				var set:MethodVOSet = methods[i];
-				set.method.activate(set.data, stage3DProxy);
+				var mset:MethodVOSet = methods[i];
+				mset.method.activate(mset.data, stage3DProxy);
 			}
 
 			if (_cameraPositionIndex >= 0)
@@ -192,13 +192,13 @@ package away3d.materials.passes
 			if (_methodSetup.colorTransformMethod)
 				_methodSetup.colorTransformMethod.deactivate(_methodSetup.colorTransformMethodVO, stage3DProxy);
 
-			var set:MethodVOSet;
+			var mset:MethodVOSet;
 			var methods:Vector.<MethodVOSet> = _methodSetup.methods;
 			var len:uint = methods.length;
 			for (var i:uint = 0; i < len; ++i)
 			{
-				set = methods[i];
-				set.method.deactivate(set.data, stage3DProxy);
+				mset = methods[i];
+				mset.method.deactivate(mset.data, stage3DProxy);
 			}
 		}
 

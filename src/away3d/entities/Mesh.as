@@ -279,7 +279,7 @@
 			var len:int = _subMeshes.length;
 			for (var i:int = 0; i < len; ++i)
 			{
-				clone._subMeshes[i]._material = _subMeshes[i]._material;
+				clone._subMeshes[i].material = _subMeshes[i].material;
 			}
 
 			len = numChildren;

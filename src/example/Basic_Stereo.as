@@ -1,14 +1,13 @@
 package example
 {
+	import flash.events.Event;
+
 	import away3d.entities.Mesh;
-	import away3d.materials.ColorMaterial;
 	import away3d.entities.primitives.CubeGeometry;
+	import away3d.materials.ColorMaterial;
 	import away3d.stereo.StereoCamera3D;
 	import away3d.stereo.StereoView3D;
 	import away3d.stereo.methods.AnaglyphStereoRenderMethod;
-
-	import flash.display.Sprite;
-	import flash.events.Event;
 
 	public class Basic_Stereo extends BasicApplication
 	{
@@ -43,7 +42,7 @@ package example
 		override protected function render():void
 		{
 			_cube.rotationY += 2;
-			super.render();
+			_view.render();
 		}
 	}
 }

@@ -33,38 +33,37 @@
     <sourceAttachmentPath/>
   </compiler>
   <applications>
-    <application path="example/Basic_Shading.as"/>
-    <application path="example/Basic_SkyBox.as"/>
-    <application path="example/Intermediate_Globe.as"/>
-    <application path="example/Intermediate_RealTimeEnvMap.as"/>
-    <application path="example/Basic_UVAnimation.as"/>
-    <application path="example/Intermediate_Head.as"/>
-    <application path="example/Basic_Load3DS.as"/>
-    <application path="example/Intermediate_LightProbes.as"/>
-    <application path="example/Basic_LoadMD2.as"/>
-    <application path="example/Intermediate_MouseInteraction.as"/>
-    <application path="example/Intermediate_OnkbaAWDAnimation.as"/>
-    <application path="example/Basic_SpriteSheetAnimation.as"/>
-    <application path="example/Intermediate_ParticleExplosions.as"/>
-    <application path="example/Intermediate_PolarBearAWDAnimation.as"/>
-    <application path="example/Intermediate_MD5Animation.as"/>
-    <application path="example/NightSkyBox.as"/>
-    <application path="example/Intermediate_ParticleTrails.as"/>
     <application path="example/Basic_Tweening3D.as"/>
-    <application path="example/Intermediate_PlanarReflections.as"/>
-    <application path="example/Advanced_FractalTreeDemo.as"/>
-    <application path="example/Basic_Fire.as"/>
-    <application path="example/BasicApplication.as"/>
+    <application path="example/Intermediate_MouseInteraction.as"/>
     <application path="example/Basic_Particles.as"/>
-    <application path="example/Intermediate_SpriteSheetAnimation.as"/>
-    <application path="example/Basic_View.as"/>
-    <application path="example/Intermediate_PerelithKnightMD2.as"/>
+    <application path="example/Intermediate_ParticleTrails.as"/>
+    <application path="example/Intermediate_RealTimeEnvMap.as"/>
     <application path="example/Advanced_TerrainDemo.as"/>
     <application path="example/Intermediate_MonsterHeadShading.as"/>
+    <application path="example/Basic_Load3DS.as"/>
+    <application path="example/Intermediate_LightProbes.as"/>
     <application path="example/Advanced_ShallowWaterDemo.as"/>
+    <application path="example/Intermediate_PerelithKnightMD2.as"/>
+    <application path="example/NightSkyBox.as"/>
+    <application path="example/Intermediate_ParticleExplosions.as"/>
+    <application path="example/Intermediate_MD5Animation.as"/>
+    <application path="example/Intermediate_PlanarReflections.as"/>
+    <application path="example/Basic_View.as"/>
     <application path="example/Advanced_MultiPassSponzaDemo.as"/>
-    <application path="example/Basic_Stereo.as"/>
+    <application path="example/Intermediate_SpriteSheetAnimation.as"/>
+    <application path="example/Intermediate_PolarBearAWDAnimation.as"/>
     <application path="example/SnowSkyBox.as"/>
+    <application path="example/Basic_SkyBox.as"/>
+    <application path="example/Basic_SpriteSheetAnimation.as"/>
+    <application path="example/Intermediate_OnkbaAWDAnimation.as"/>
+    <application path="example/Intermediate_Head.as"/>
+    <application path="example/Basic_Stereo.as"/>
+    <application path="example/Basic_Fire.as"/>
+    <application path="example/Intermediate_Globe.as"/>
+    <application path="example/Advanced_FractalTreeDemo.as"/>
+    <application path="example/Basic_Shading.as"/>
+    <application path="example/Basic_LoadMD2.as"/>
+    <application path="example/Basic_UVAnimation.as"/>
   </applications>
   <modules/>
   <workers/>

@@ -1,8 +1,8 @@
 package away3d.materials.lightpickers
 {
 	import flash.geom.Vector3D;
-	
-	
+
+
 	import away3d.core.base.IRenderable;
 	import away3d.core.traverse.EntityCollector;
 	import away3d.io.library.assets.AssetType;
@@ -13,7 +13,7 @@ package away3d.materials.lightpickers
 	import away3d.entities.lights.LightProbe;
 	import away3d.entities.lights.PointLight;
 
-	
+
 
 	public class LightPickerBase extends NamedAssetBase implements IAsset
 	{
@@ -124,7 +124,7 @@ package away3d.materials.lightpickers
 		 */
 		public function collectLights(renderable:IRenderable, entityCollector:EntityCollector):void
 		{
-			entityCollector = entityCollector;
+//			entityCollector = entityCollector;
 			updateProbeWeights(renderable);
 		}
 

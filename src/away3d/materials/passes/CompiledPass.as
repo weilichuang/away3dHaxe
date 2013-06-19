@@ -574,8 +574,8 @@ package away3d.materials.passes
 			var len:uint = methods.length;
 			for (i = 0; i < len; ++i)
 			{
-				var set:MethodVOSet = methods[i];
-				set.method.setRenderState(set.data, renderable, stage3DProxy, camera);
+				var mset:MethodVOSet = methods[i];
+				mset.method.setRenderState(mset.data, renderable, stage3DProxy, camera);
 			}
 
 			context.setProgramConstantsFromVector(Context3DProgramType.VERTEX, 0, _vertexConstantData, _numUsedVertexConstants);
