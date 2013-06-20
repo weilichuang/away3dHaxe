@@ -152,7 +152,7 @@ package away3d.io.loaders.parsers
 		/**
 		 * @inheritDoc
 		 */
-		protected override function proceedParsing():Boolean
+		override protected function proceedParsing():Boolean
 		{
 			if (!_startedParsing)
 			{

@@ -72,7 +72,7 @@
 		/**
 		 * @inheritDoc
 		 */
-		public override function getVertexCode():String
+		override public function getVertexCode():String
 		{
 			var code:String;
 			code = "m44 op, vt0, vc0		\n" +
@@ -97,7 +97,7 @@
 		/**
 		 * @inheritDoc
 		 */
-		public override function getFragmentCode(animationCode:String):String
+		override public function getFragmentCode(animationCode:String):String
 		{
 			// TODO: not used
 			animationCode = animationCode;
@@ -143,7 +143,7 @@
 		/**
 		 * @inheritDoc
 		 */
-		public override function render(renderable:IRenderable, stage3DProxy:Stage3DProxy, camera:Camera3D, viewProjection:Matrix3D):void
+		override public function render(renderable:IRenderable, stage3DProxy:Stage3DProxy, camera:Camera3D, viewProjection:Matrix3D):void
 		{
 			var context:Context3D = stage3DProxy.context3D;
 			var pos:Vector3D = camera.scenePosition;

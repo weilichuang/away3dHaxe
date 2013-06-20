@@ -91,7 +91,7 @@ package away3d.materials.methods
 			_normalDisplacement = value;
 		}
 
-		public override function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):void
+		override public function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):void
 		{
 			stage3DProxy._context3D.setTextureAt(vo.texturesIndex, _texture.getTextureForStage3D(stage3DProxy));
 			vo.fragmentData[vo.fragmentConstantsIndex] = _texture.textureRatioX * .5;
@@ -107,7 +107,7 @@ package away3d.materials.methods
 			}
 		}
 
-		public override function getFragmentCode(vo:MethodVO, regCache:ShaderRegisterCache, targetReg:ShaderRegisterElement):String
+		override public function getFragmentCode(vo:MethodVO, regCache:ShaderRegisterCache, targetReg:ShaderRegisterElement):String
 		{
 			var textureReg:ShaderRegisterElement = regCache.getFreeTextureReg();
 			var temp:ShaderRegisterElement = regCache.getFreeFragmentVectorTemp();

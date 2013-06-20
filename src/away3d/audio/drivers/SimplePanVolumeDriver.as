@@ -67,21 +67,21 @@ package away3d.audio.drivers
 
 
 
-		public override function set volume(val:Number):void
+		override public function set volume(val:Number):void
 		{
 			_volume = val;
 			_st3D.volume = val;
 		}
 
 
-		public override function set scale(val:Number):void
+		override public function set scale(val:Number):void
 		{
 			_scale = val;
 			_st3D.scale = scale;
 		}
 
 
-		public override function updateReferenceVector(v:Vector3D):void
+		override public function updateReferenceVector(v:Vector3D):void
 		{
 			super.updateReferenceVector(v);
 

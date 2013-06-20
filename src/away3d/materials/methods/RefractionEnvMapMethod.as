@@ -130,7 +130,7 @@ package away3d.materials.methods
 			_alpha = value;
 		}
 
-		public override function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):void
+		override public function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):void
 		{
 			var index:int = vo.fragmentConstantsIndex;
 			var data:Vector.<Number> = vo.fragmentData;
@@ -144,7 +144,7 @@ package away3d.materials.methods
 			stage3DProxy.context3D.setTextureAt(vo.texturesIndex, _envMap.getTextureForStage3D(stage3DProxy));
 		}
 
-		public override function getFragmentCode(vo:MethodVO, regCache:ShaderRegisterCache, targetReg:ShaderRegisterElement):String
+		override public function getFragmentCode(vo:MethodVO, regCache:ShaderRegisterCache, targetReg:ShaderRegisterElement):String
 		{
 			// todo: data2.x could use common reg, so only 1 reg is used
 			var data:ShaderRegisterElement = regCache.getFreeFragmentConstant();

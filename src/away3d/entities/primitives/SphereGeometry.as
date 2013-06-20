@@ -35,7 +35,7 @@ package away3d.entities.primitives
 		/**
 		 * @inheritDoc
 		 */
-		protected override function buildGeometry(target:CompactSubGeometry):void
+		override protected function buildGeometry(target:CompactSubGeometry):void
 		{
 			var vertices:Vector.<Number>;
 			var indices:Vector.<uint>;
@@ -166,7 +166,7 @@ package away3d.entities.primitives
 		/**
 		 * @inheritDoc
 		 */
-		protected override function buildUVs(target:CompactSubGeometry):void
+		override protected function buildUVs(target:CompactSubGeometry):void
 		{
 			var i:int, j:int;
 			var stride:uint = target.UVStride;

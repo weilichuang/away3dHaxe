@@ -72,7 +72,7 @@ package away3d.materials.methods
 			data[index + 11] = -.1;
 		}
 
-		public override function cleanCompilationData():void
+		override public function cleanCompilationData():void
 		{
 			super.cleanCompilationData();
 
@@ -130,7 +130,7 @@ package away3d.materials.methods
 		/**
 		 * @inheritDoc
 		 */
-		public override function getVertexCode(vo:MethodVO, regCache:ShaderRegisterCache):String
+		override public function getVertexCode(vo:MethodVO, regCache:ShaderRegisterCache):String
 		{
 			var code:String = super.getVertexCode(vo, regCache);
 			var lightProjection:ShaderRegisterElement;
@@ -159,7 +159,7 @@ package away3d.materials.methods
 		/**
 		 * @inheritDoc
 		 */
-		public override function getFragmentPreLightingCode(vo:MethodVO, regCache:ShaderRegisterCache):String
+		override public function getFragmentPreLightingCode(vo:MethodVO, regCache:ShaderRegisterCache):String
 		{
 			_colorReg = regCache.getFreeFragmentConstant();
 			_decReg = regCache.getFreeFragmentConstant();
@@ -172,7 +172,7 @@ package away3d.materials.methods
 		/**
 		 * @inheritDoc
 		 */
-		public override function getFragmentCodePerLight(vo:MethodVO, lightDirReg:ShaderRegisterElement, lightColReg:ShaderRegisterElement, regCache:ShaderRegisterCache):String
+		override public function getFragmentCodePerLight(vo:MethodVO, lightDirReg:ShaderRegisterElement, lightColReg:ShaderRegisterElement, regCache:ShaderRegisterCache):String
 		{
 			_isFirstLight = true;
 			_lightColorReg = lightColReg;
@@ -182,7 +182,7 @@ package away3d.materials.methods
 		/**
 		 * @inheritDoc
 		 */
-		public override function getFragmentPostLightingCode(vo:MethodVO, regCache:ShaderRegisterCache, targetReg:ShaderRegisterElement):String
+		override public function getFragmentPostLightingCode(vo:MethodVO, regCache:ShaderRegisterCache, targetReg:ShaderRegisterElement):String
 		{
 			var code:String = super.getFragmentPostLightingCode(vo, regCache, targetReg);
 			var temp:ShaderRegisterElement = regCache.getFreeFragmentVectorTemp();
@@ -200,7 +200,7 @@ package away3d.materials.methods
 		/**
 		 * @inheritDoc
 		 */
-		public override function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):void
+		override public function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):void
 		{
 			super.activate(vo, stage3DProxy);
 
@@ -213,7 +213,7 @@ package away3d.materials.methods
 			data[index + 9] = _translucency;
 		}
 
-		public override function setRenderState(vo:MethodVO, renderable:IRenderable, stage3DProxy:Stage3DProxy, camera:Camera3D):void
+		override public function setRenderState(vo:MethodVO, renderable:IRenderable, stage3DProxy:Stage3DProxy, camera:Camera3D):void
 		{
 			var depthMap:Texture = _depthPass.getDepthMap(renderable, stage3DProxy);
 			var projection:Matrix3D = _depthPass.getProjection(renderable);

@@ -75,7 +75,7 @@ package away3d.materials.methods
 			_power = value;
 		}
 
-		public override function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):void
+		override public function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):void
 		{
 			var index:int = vo.fragmentConstantsIndex;
 			var data:Vector.<Number> = vo.fragmentData;
@@ -86,7 +86,7 @@ package away3d.materials.methods
 			data[index + 5] = _power;
 		}
 
-		public override function getFragmentCode(vo:MethodVO, regCache:ShaderRegisterCache, targetReg:ShaderRegisterElement):String
+		override public function getFragmentCode(vo:MethodVO, regCache:ShaderRegisterCache, targetReg:ShaderRegisterElement):String
 		{
 			var dataRegister:ShaderRegisterElement = regCache.getFreeFragmentConstant();
 			var dataRegister2:ShaderRegisterElement = regCache.getFreeFragmentConstant();

@@ -22,7 +22,7 @@ package away3d.materials.methods
 			vo.needsView = true;
 		}
 
-		public override function getFragmentCodePerLight(vo:MethodVO, lightDirReg:ShaderRegisterElement, lightColReg:ShaderRegisterElement, regCache:ShaderRegisterCache):String
+		override public function getFragmentCodePerLight(vo:MethodVO, lightDirReg:ShaderRegisterElement, lightColReg:ShaderRegisterElement, regCache:ShaderRegisterCache):String
 		{
 			var code:String = "";
 			var t:ShaderRegisterElement;

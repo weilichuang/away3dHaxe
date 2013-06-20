@@ -67,7 +67,7 @@ package away3d.entities.lights
 			_fallOffFactor = 1 / (_fallOff * _fallOff - _radius * _radius);
 		}
 
-		public function fallOffFactor():Number
+		public function get fallOffFactor():Number
 		{
 			return _fallOffFactor;
 		}

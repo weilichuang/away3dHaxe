@@ -266,7 +266,7 @@ package away3d.controllers
 		 * @see	#panAngle
 		 * @see	#steps
 		 */
-		public override function update(interpolate:Boolean = true):void
+		override public function update(interpolate:Boolean = true):void
 		{
 			if (_tiltAngle != currentTiltAngle || _panAngle != currentPanAngle)
 			{

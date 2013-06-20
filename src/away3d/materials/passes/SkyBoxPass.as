@@ -50,7 +50,7 @@ package away3d.materials.passes
 		/**
 		 * @inheritDoc
 		 */
-		public override function getVertexCode():String
+		override public function getVertexCode():String
 		{
 			return "mul vt0, va0, vc5		\n" +
 				"add vt0, vt0, vc4		\n" +
@@ -61,7 +61,7 @@ package away3d.materials.passes
 		/**
 		 * @inheritDoc
 		 */
-		public override function getFragmentCode(animationCode:String):String
+		override public function getFragmentCode(animationCode:String):String
 		{
 			var format:String;
 			switch (_cubeTexture.format)

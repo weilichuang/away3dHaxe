@@ -71,7 +71,7 @@ package away3d.materials.methods
 			_fogB = (value & 0xff) / 0xff;
 		}
 
-		public override function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):void
+		override public function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):void
 		{
 			var data:Vector.<Number> = vo.fragmentData;
 			var index:int = vo.fragmentConstantsIndex;
@@ -82,7 +82,7 @@ package away3d.materials.methods
 			data[index + 5] = 1 / (_maxDistance - _minDistance);
 		}
 
-		public override function getFragmentCode(vo:MethodVO, regCache:ShaderRegisterCache, targetReg:ShaderRegisterElement):String
+		override public function getFragmentCode(vo:MethodVO, regCache:ShaderRegisterCache, targetReg:ShaderRegisterElement):String
 		{
 			var fogColor:ShaderRegisterElement = regCache.getFreeFragmentConstant();
 			var fogData:ShaderRegisterElement = regCache.getFreeFragmentConstant();

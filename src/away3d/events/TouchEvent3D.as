@@ -105,7 +105,7 @@ package away3d.events
 		/**
 		 * @inheritDoc
 		 */
-		public override function get bubbles():Boolean
+		override public function get bubbles():Boolean
 		{
 			// Don't bubble if propagation has been stopped.
 			return super.bubbles && allowedToPropagate;
@@ -114,7 +114,7 @@ package away3d.events
 		/**
 		 * @inheritDoc
 		 */
-		public override function stopPropagation():void
+		override public function stopPropagation():void
 		{
 			super.stopPropagation();
 			allowedToPropagate = false;
@@ -127,7 +127,7 @@ package away3d.events
 		/**
 		 * @inheritDoc
 		 */
-		public override function stopImmediatePropagation():void
+		override public function stopImmediatePropagation():void
 		{
 			super.stopImmediatePropagation();
 			allowedToPropagate = false;
@@ -140,7 +140,7 @@ package away3d.events
 		/**
 		 * Creates a copy of the TouchEvent3D object and sets the value of each property to match that of the original.
 		 */
-		public override function clone():Event
+		override public function clone():Event
 		{
 			var result:TouchEvent3D = new TouchEvent3D(type);
 

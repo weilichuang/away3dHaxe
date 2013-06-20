@@ -23,7 +23,7 @@ package away3d.events
 			super(type);
 		}
 
-		public override function clone():Event
+		override public function clone():Event
 		{
 			return new Scene3DEvent(type, objectContainer3D);
 		}

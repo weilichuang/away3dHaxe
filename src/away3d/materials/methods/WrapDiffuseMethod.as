@@ -26,7 +26,7 @@ package away3d.materials.methods
 			this.wrapFactor = wrapFactor;
 		}
 
-		public override function cleanCompilationData():void
+		override public function cleanCompilationData():void
 		{
 			super.cleanCompilationData();
 			_wrapDataRegister = null;
@@ -43,7 +43,7 @@ package away3d.materials.methods
 			_wrapFactor = 1 / (value + 1);
 		}
 
-		public override function getFragmentPreLightingCode(vo:MethodVO, regCache:ShaderRegisterCache):String
+		override public function getFragmentPreLightingCode(vo:MethodVO, regCache:ShaderRegisterCache):String
 		{
 			var code:String = super.getFragmentPreLightingCode(vo, regCache);
 			_isFirstLight = true;
@@ -53,7 +53,7 @@ package away3d.materials.methods
 			return code;
 		}
 
-		public override function getFragmentCodePerLight(vo:MethodVO, lightDirReg:ShaderRegisterElement, lightColReg:ShaderRegisterElement, regCache:ShaderRegisterCache):String
+		override public function getFragmentCodePerLight(vo:MethodVO, lightDirReg:ShaderRegisterElement, lightColReg:ShaderRegisterElement, regCache:ShaderRegisterCache):String
 		{
 			var code:String = "";
 			var t:ShaderRegisterElement;
@@ -89,7 +89,7 @@ package away3d.materials.methods
 			return code;
 		}
 
-		public override function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):void
+		override public function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):void
 		{
 			super.activate(vo, stage3DProxy);
 			var index:int = vo.secondaryFragmentConstantsIndex;

@@ -51,15 +51,15 @@ package away3d.core.render
 			_disableColor = value;
 		}
 
-		public override function set backgroundR(value:Number):void
+		override public function set backgroundR(value:Number):void
 		{
 		}
 
-		public override function set backgroundG(value:Number):void
+		override public function set backgroundG(value:Number):void
 		{
 		}
 
-		public override function set backgroundB(value:Number):void
+		override public function set backgroundB(value:Number):void
 		{
 		}
 

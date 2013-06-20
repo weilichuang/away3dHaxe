@@ -57,7 +57,7 @@ package away3d.entities
 			return new NullBounds();
 		}
 
-		public override function get assetType():String
+		override public function get assetType():String
 		{
 			return AssetType.CAMERA;
 		}

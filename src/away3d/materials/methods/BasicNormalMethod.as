@@ -57,7 +57,7 @@ package away3d.materials.methods
 			_texture = value;
 		}
 
-		public override function cleanCompilationData():void
+		override public function cleanCompilationData():void
 		{
 			super.cleanCompilationData();
 			_normalTextureRegister = null;
@@ -69,7 +69,7 @@ package away3d.materials.methods
 				_texture = null;
 		}
 
-		public override function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):void
+		override public function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):void
 		{
 			if (vo.texturesIndex >= 0)
 				stage3DProxy.context3D.setTextureAt(vo.texturesIndex, _texture.getTextureForStage3D(stage3DProxy));

@@ -102,7 +102,7 @@ package away3d.materials.methods
 			_fadeRatio = value;
 		}
 
-		public override function getFragmentCode(vo:MethodVO, regCache:ShaderRegisterCache, targetReg:ShaderRegisterElement):String
+		override public function getFragmentCode(vo:MethodVO, regCache:ShaderRegisterCache, targetReg:ShaderRegisterElement):String
 		{
 			var code:String = _baseMethod.getFragmentCode(vo, regCache, targetReg);
 			var dataReg:ShaderRegisterElement = regCache.getFreeFragmentConstant();
@@ -129,12 +129,12 @@ package away3d.materials.methods
 			_baseMethod.activate(vo, stage3DProxy);
 		}
 
-		public override function deactivate(vo:MethodVO, stage3DProxy:Stage3DProxy):void
+		override public function deactivate(vo:MethodVO, stage3DProxy:Stage3DProxy):void
 		{
 			_baseMethod.deactivate(vo, stage3DProxy);
 		}
 
-		public override function setRenderState(vo:MethodVO, renderable:IRenderable, stage3DProxy:Stage3DProxy, camera:Camera3D):void
+		override public function setRenderState(vo:MethodVO, renderable:IRenderable, stage3DProxy:Stage3DProxy, camera:Camera3D):void
 		{
 			// todo: move this to activate (needs camera)
 			var near:Number = camera.lens.near;
@@ -170,7 +170,7 @@ package away3d.materials.methods
 		}
 
 
-		public override function cleanCompilationData():void
+		override public function cleanCompilationData():void
 		{
 			super.cleanCompilationData();
 			_baseMethod.cleanCompilationData();

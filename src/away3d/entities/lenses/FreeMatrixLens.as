@@ -29,7 +29,7 @@ package away3d.entities.lenses
 			_far = value;
 		}
 
-		public override function set aspectRatio(value:Number):void
+		override public function set aspectRatio(value:Number):void
 		{
 			_aspectRatio = value;
 		}

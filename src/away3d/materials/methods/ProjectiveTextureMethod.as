@@ -53,7 +53,7 @@ package away3d.materials.methods
 			data[index + 3] = 1.0;
 		}
 
-		public override function cleanCompilationData():void
+		override public function cleanCompilationData():void
 		{
 			super.cleanCompilationData();
 			_uvVarying = null;
@@ -96,7 +96,7 @@ package away3d.materials.methods
 		/**
 		 * @inheritDoc
 		 */
-		public override function getVertexCode(vo:MethodVO, regCache:ShaderRegisterCache):String
+		override public function getVertexCode(vo:MethodVO, regCache:ShaderRegisterCache):String
 		{
 			var projReg:ShaderRegisterElement = regCache.getFreeVertexConstant();
 			regCache.getFreeVertexConstant();
@@ -144,7 +144,7 @@ package away3d.materials.methods
 			return code;
 		}
 
-		public override function setRenderState(vo:MethodVO, renderable:IRenderable, stage3DProxy:Stage3DProxy, camera:Camera3D):void
+		override public function setRenderState(vo:MethodVO, renderable:IRenderable, stage3DProxy:Stage3DProxy, camera:Camera3D):void
 		{
 			_projMatrix.copyFrom(_projector.viewProjection);
 			_projMatrix.prepend(renderable.getRenderSceneTransform(camera));

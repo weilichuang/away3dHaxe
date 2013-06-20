@@ -44,7 +44,7 @@ package away3d.events
 
 
 
-		public override function clone():Event
+		override public function clone():Event
 		{
 			return new ParserEvent(type, message);
 		}

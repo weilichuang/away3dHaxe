@@ -54,7 +54,7 @@
 			transform.identity();
 		}
 
-		public override function get assetType():String
+		override public function get assetType():String
 		{
 			return AssetType.MESH;
 		}

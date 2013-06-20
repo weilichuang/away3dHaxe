@@ -128,7 +128,7 @@ package away3d.materials.methods
 		/**
 		 * @inheritDoc
 		 */
-		public override function cleanCompilationData():void
+		override public function cleanCompilationData():void
 		{
 			super.cleanCompilationData();
 			_shadowRegister = null;
@@ -228,7 +228,7 @@ package away3d.materials.methods
 		/**
 		 * @inheritDoc
 		 */
-		public override function getFragmentCodePerProbe(vo:MethodVO, cubeMapReg:ShaderRegisterElement, weightRegister:String, regCache:ShaderRegisterCache):String
+		override public function getFragmentCodePerProbe(vo:MethodVO, cubeMapReg:ShaderRegisterElement, weightRegister:String, regCache:ShaderRegisterCache):String
 		{
 			var code:String = "";
 			var t:ShaderRegisterElement;
@@ -297,7 +297,7 @@ package away3d.materials.methods
 		/**
 		 * @inheritDoc
 		 */
-		public override function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):void
+		override public function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):void
 		{
 			//var context : Context3D = stage3DProxy._context3D;
 

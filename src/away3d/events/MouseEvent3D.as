@@ -163,7 +163,7 @@ package away3d.events
 		/**
 		 * @inheritDoc
 		 */
-		public override function get bubbles():Boolean
+		override public function get bubbles():Boolean
 		{
 			var doesBubble:Boolean = super.bubbles && allowedToPropagate;
 			allowedToPropagate = true;
@@ -174,7 +174,7 @@ package away3d.events
 		/**
 		 * @inheritDoc
 		 */
-		public override function stopPropagation():void
+		override public function stopPropagation():void
 		{
 			super.stopPropagation();
 			allowedToPropagate = false;
@@ -187,7 +187,7 @@ package away3d.events
 		/**
 		 * @inheritDoc
 		 */
-		public override function stopImmediatePropagation():void
+		override public function stopImmediatePropagation():void
 		{
 			super.stopImmediatePropagation();
 			allowedToPropagate = false;
@@ -201,7 +201,7 @@ package away3d.events
 		/**
 		 * Creates a copy of the MouseEvent3D object and sets the value of each property to match that of the original.
 		 */
-		public override function clone():Event
+		override public function clone():Event
 		{
 			var result:MouseEvent3D = new MouseEvent3D(type);
 

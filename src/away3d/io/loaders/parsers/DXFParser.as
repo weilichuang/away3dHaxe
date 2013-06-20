@@ -120,7 +120,7 @@ package away3d.io.loaders.parsers
 		/**
 		 * @inheritDoc
 		 */
-		protected override function proceedParsing():Boolean
+		override protected function proceedParsing():Boolean
 		{
 			var line:String;
 			var _vSet:uint;

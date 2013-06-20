@@ -254,7 +254,7 @@ package away3d.core.managers
 		 * @param priority The priority level of the event listener. The priority is designated by a signed 32-bit integer. The higher the number, the higher the priority. All listeners with priority n are processed before listeners of priority n-1. If two or more listeners share the same priority, they are processed in the order in which they were added. The default priority is 0.
 		 * @param useWeakReference Determines whether the reference to the listener is strong or weak. A strong reference (the default) prevents your listener from being garbage-collected. A weak reference does not.
 		 */
-		public override function addEventListener(type:String, listener:Function, useCapture:Boolean = false, priority:int = 0, useWeakReference:Boolean = false):void
+		override public function addEventListener(type:String, listener:Function, useCapture:Boolean = false, priority:int = 0, useWeakReference:Boolean = false):void
 		{
 			super.addEventListener(type, listener, useCapture, priority, useWeakReference);
 
@@ -270,7 +270,7 @@ package away3d.core.managers
 		 * @param listener The listener object to remove.
 		 * @param useCapture Specifies whether the listener was registered for the capture phase or the target and bubbling phases. If the listener was registered for both the capture phase and the target and bubbling phases, two calls to removeEventListener() are required to remove both, one call with useCapture() set to true, and another call with useCapture() set to false.
 		 */
-		public override function removeEventListener(type:String, listener:Function, useCapture:Boolean = false):void
+		override public function removeEventListener(type:String, listener:Function, useCapture:Boolean = false):void
 		{
 			super.removeEventListener(type, listener, useCapture);
 

@@ -130,7 +130,7 @@ package away3d.entities.primitives
 			throw new AbstractMethodError("Unsupported method!");
 		}
 
-		public override function get assetType():String
+		override public function get assetType():String
 		{
 			return AssetType.SKYBOX;
 		}

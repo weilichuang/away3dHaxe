@@ -49,7 +49,7 @@ package away3d.materials.methods
 			}
 		}
 
-		public override function getFragmentPostLightingCode(vo:MethodVO, regCache:ShaderRegisterCache, targetReg:ShaderRegisterElement):String
+		override public function getFragmentPostLightingCode(vo:MethodVO, regCache:ShaderRegisterCache, targetReg:ShaderRegisterElement):String
 		{
 			var code:String = "";
 			var albedo:ShaderRegisterElement;
@@ -122,7 +122,7 @@ package away3d.materials.methods
 			return code;
 		}
 
-		public override function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):void
+		override public function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):void
 		{
 			var context:Context3D = stage3DProxy.context3D;
 			var i:int;

@@ -78,14 +78,14 @@ package away3d.materials.methods
 			_depthMapCoordReg = value;
 		}
 
-		public override function cleanCompilationData():void
+		override public function cleanCompilationData():void
 		{
 			super.cleanCompilationData();
 
 			_depthMapCoordReg = null;
 		}
 
-		public override function getVertexCode(vo:MethodVO, regCache:ShaderRegisterCache):String
+		override public function getVertexCode(vo:MethodVO, regCache:ShaderRegisterCache):String
 		{
 			return _usePoint ? getPointVertexCode(vo, regCache) : getPlanarVertexCode(vo, regCache);
 		}
@@ -144,7 +144,7 @@ package away3d.materials.methods
 			return "";
 		}
 
-		public override function setRenderState(vo:MethodVO, renderable:IRenderable, stage3DProxy:Stage3DProxy, camera:Camera3D):void
+		override public function setRenderState(vo:MethodVO, renderable:IRenderable, stage3DProxy:Stage3DProxy, camera:Camera3D):void
 		{
 			if (!_usePoint)
 				DirectionalShadowMapper(_shadowMapper).depthProjection.copyRawDataTo(vo.vertexData, vo.vertexConstantsIndex + 4, true);

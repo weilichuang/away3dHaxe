@@ -179,7 +179,7 @@ package example
 			subsurfaceMethod.scatterColor = 0xff7733;
 			subsurfaceMethod.scattering = 0.05;
 			subsurfaceMethod.translucency = 4;
-			headMaterial.diffuseMethod = subsurfaceMethod;
+			headMaterial.diffuseMethod = diffuseMethod;// subsurfaceMethod;
 
 			//create fresnel specular method
 			fresnelMethod = new FresnelSpecularMethod(true);

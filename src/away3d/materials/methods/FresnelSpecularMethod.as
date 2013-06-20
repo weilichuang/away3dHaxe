@@ -65,7 +65,7 @@ package away3d.materials.methods
 			_fresnelPower = value;
 		}
 
-		public override function cleanCompilationData():void
+		override public function cleanCompilationData():void
 		{
 			super.cleanCompilationData();
 			_dataReg = null;

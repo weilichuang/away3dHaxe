@@ -37,7 +37,7 @@ package away3d.io.loaders.parsers
 		/**
 		 * @inheritDoc
 		*/
-		public override function get dependencies():Vector.<ResourceDependency>
+		override public function get dependencies():Vector.<ResourceDependency>
 		{
 			return _parser ? _parser.dependencies : super.dependencies;
 		}
@@ -46,7 +46,7 @@ package away3d.io.loaders.parsers
 		/**
 		 * @inheritDoc
 		*/
-		public override function get parsingComplete():Boolean
+		override public function get parsingComplete():Boolean
 		{
 			return _parser ? _parser.parsingComplete : false;
 		}
@@ -55,7 +55,7 @@ package away3d.io.loaders.parsers
 		/**
 		 * @inheritDoc
 		*/
-		public override function get parsingPaused():Boolean
+		override public function get parsingPaused():Boolean
 		{
 			return _parser ? _parser.parsingPaused : false;
 		}
@@ -65,7 +65,7 @@ package away3d.io.loaders.parsers
 		 * @private
 		 * Delegate to the concrete parser.
 		*/
-		public override function resolveDependency(resourceDependency:ResourceDependency):void
+		override public function resolveDependency(resourceDependency:ResourceDependency):void
 		{
 			if (_parser)
 				_parser.resolveDependency(resourceDependency);
@@ -76,7 +76,7 @@ package away3d.io.loaders.parsers
 		 * @private
 		 * Delegate to the concrete parser.
 		*/
-		public override function resolveDependencyFailure(resourceDependency:ResourceDependency):void
+		override public function resolveDependencyFailure(resourceDependency:ResourceDependency):void
 		{
 			if (_parser)
 				_parser.resolveDependencyFailure(resourceDependency);
@@ -86,14 +86,14 @@ package away3d.io.loaders.parsers
 		 * @private
 		 * Delagate to the concrete parser.
 		 */
-		public override function resolveDependencyName(resourceDependency:ResourceDependency, asset:IAsset):String
+		override public function resolveDependencyName(resourceDependency:ResourceDependency, asset:IAsset):String
 		{
 			if (_parser)
 				return _parser.resolveDependencyName(resourceDependency, asset);
 			return asset.name;
 		}
 
-		public override function resumeParsingAfterDependencies():void
+		override public function resumeParsingAfterDependencies():void
 		{
 			if (_parser)
 				_parser.resumeParsingAfterDependencies();
@@ -104,7 +104,7 @@ package away3d.io.loaders.parsers
 		 * Find the right conrete parser (AWD1Parser or AWD2Parser) and delegate actual
 		 * parsing to it.
 		*/
-		protected override function proceedParsing():Boolean
+		override protected function proceedParsing():Boolean
 		{
 			if (!_parser)
 			{

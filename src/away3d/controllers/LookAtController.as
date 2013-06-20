@@ -81,7 +81,7 @@
 		/**
 		 * @inheritDoc
 		 */
-		public override function update(interpolate:Boolean = true):void
+		override public function update(interpolate:Boolean = true):void
 		{
 			interpolate = interpolate; // prevents unused warning
 

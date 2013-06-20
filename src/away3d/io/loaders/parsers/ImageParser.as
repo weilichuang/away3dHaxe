@@ -95,7 +95,7 @@ package away3d.io.loaders.parsers
 		/**
 		 * @inheritDoc
 		 */
-		protected override function proceedParsing():Boolean
+		override protected function proceedParsing():Boolean
 		{
 			var asset:Texture2DBase;
 			if (_data is Bitmap)

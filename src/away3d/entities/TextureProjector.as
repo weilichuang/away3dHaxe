@@ -66,7 +66,7 @@ package away3d.entities
 			_lens.fieldOfView = value;
 		}
 
-		public override function get assetType():String
+		override public function get assetType():String
 		{
 			return AssetType.TEXTURE_PROJECTOR;
 		}

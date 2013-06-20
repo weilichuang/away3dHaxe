@@ -185,7 +185,7 @@ package away3d.materials.passes
 		/**
 		 * @inheritDoc
 		 */
-		public override function deactivate(stage3DProxy:Stage3DProxy):void
+		override public function deactivate(stage3DProxy:Stage3DProxy):void
 		{
 			super.deactivate(stage3DProxy);
 

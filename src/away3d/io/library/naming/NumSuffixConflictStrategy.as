@@ -19,7 +19,7 @@ package away3d.io.library.naming
 		}
 
 
-		public override function resolveConflict(changedAsset:IAsset, oldAsset:IAsset, assetsDictionary:Object, precedence:String):void
+		override public function resolveConflict(changedAsset:IAsset, oldAsset:IAsset, assetsDictionary:Object, precedence:String):void
 		{
 			var orig:String;
 			var new_name:String;
@@ -62,7 +62,7 @@ package away3d.io.library.naming
 		}
 
 
-		public override function create():ConflictStrategyBase
+		override public function create():ConflictStrategyBase
 		{
 			return new NumSuffixConflictStrategy(_separator);
 		}

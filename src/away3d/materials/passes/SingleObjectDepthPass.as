@@ -95,7 +95,7 @@ package away3d.materials.passes
 		/**
 		 * @inheritDoc
 		 */
-		public override function getVertexCode():String
+		override public function getVertexCode():String
 		{
 			var code:String;
 			// offset
@@ -115,7 +115,7 @@ package away3d.materials.passes
 		/**
 		 * @inheritDoc
 		 */
-		public override function getFragmentCode(animationCode:String):String
+		override public function getFragmentCode(animationCode:String):String
 		{
 			// TODO: not used
 			animationCode = animationCode;
@@ -154,7 +154,7 @@ package away3d.materials.passes
 		/**
 		 * @inheritDoc
 		 */
-		public override function render(renderable:IRenderable, stage3DProxy:Stage3DProxy, camera:Camera3D, viewProjection:Matrix3D):void
+		override public function render(renderable:IRenderable, stage3DProxy:Stage3DProxy, camera:Camera3D, viewProjection:Matrix3D):void
 		{
 			var matrix:Matrix3D;
 			var contextIndex:int = stage3DProxy.stage3DIndex;

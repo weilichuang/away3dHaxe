@@ -127,7 +127,7 @@ package away3d.materials.methods
 			}
 		}
 
-		public override function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):void
+		override public function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):void
 		{
 			super.activate(vo, stage3DProxy);
 			var data:Vector.<Number> = vo.fragmentData;

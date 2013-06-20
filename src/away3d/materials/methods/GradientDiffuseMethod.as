@@ -41,13 +41,13 @@ package away3d.materials.methods
 			_gradient = value;
 		}
 
-		public override function cleanCompilationData():void
+		override public function cleanCompilationData():void
 		{
 			super.cleanCompilationData();
 			_gradientTextureRegister = null;
 		}
 
-		public override function getFragmentPreLightingCode(vo:MethodVO, regCache:ShaderRegisterCache):String
+		override public function getFragmentPreLightingCode(vo:MethodVO, regCache:ShaderRegisterCache):String
 		{
 			var code:String = super.getFragmentPreLightingCode(vo, regCache);
 			_isFirstLight = true;
@@ -58,7 +58,7 @@ package away3d.materials.methods
 			return code;
 		}
 
-		public override function getFragmentCodePerLight(vo:MethodVO, lightDirReg:ShaderRegisterElement, lightColReg:ShaderRegisterElement, regCache:ShaderRegisterCache):String
+		override public function getFragmentCodePerLight(vo:MethodVO, lightDirReg:ShaderRegisterElement, lightColReg:ShaderRegisterElement, regCache:ShaderRegisterCache):String
 		{
 			var code:String = "";
 			var t:ShaderRegisterElement;
@@ -105,7 +105,7 @@ package away3d.materials.methods
 				"mul " + _totalLightColorReg + ".xyz, " + _totalLightColorReg + ", " + t + "\n";
 		}
 
-		public override function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):void
+		override public function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):void
 		{
 			super.activate(vo, stage3DProxy);
 			stage3DProxy.context3D.setTextureAt(vo.secondaryTexturesIndex, _gradient.getTextureForStage3D(stage3DProxy));

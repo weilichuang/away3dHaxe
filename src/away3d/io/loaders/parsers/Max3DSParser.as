@@ -73,7 +73,7 @@ package away3d.io.loaders.parsers
 		}
 
 
-		public override function resolveDependency(resourceDependency:ResourceDependency):void
+		override public function resolveDependency(resourceDependency:ResourceDependency):void
 		{
 			if (resourceDependency.assets.length == 1)
 			{
@@ -91,13 +91,13 @@ package away3d.io.loaders.parsers
 		}
 
 
-		public override function resolveDependencyFailure(resourceDependency:ResourceDependency):void
+		override public function resolveDependencyFailure(resourceDependency:ResourceDependency):void
 		{
 			// TODO: Implement
 		}
 
 
-		protected override function proceedParsing():Boolean
+		override protected function proceedParsing():Boolean
 		{
 			if (!_byteData)
 			{

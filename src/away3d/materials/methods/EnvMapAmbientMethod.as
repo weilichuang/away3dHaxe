@@ -56,7 +56,7 @@ package away3d.materials.methods
 		/**
 		 * @inheritDoc
 		 */
-		public override function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):void
+		override public function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):void
 		{
 			super.activate(vo, stage3DProxy);
 
@@ -66,7 +66,7 @@ package away3d.materials.methods
 		/**
 		 * @inheritDoc
 		 */
-		public override function getFragmentCode(vo:MethodVO, regCache:ShaderRegisterCache, targetReg:ShaderRegisterElement):String
+		override public function getFragmentCode(vo:MethodVO, regCache:ShaderRegisterCache, targetReg:ShaderRegisterElement):String
 		{
 			var code:String = "";
 			var cubeMapReg:ShaderRegisterElement = regCache.getFreeTextureReg();

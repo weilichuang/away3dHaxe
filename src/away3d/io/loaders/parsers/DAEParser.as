@@ -152,7 +152,7 @@ package away3d.io.loaders.parsers
 				_parseState = DAEParserState.PARSE_MATERIALS;
 		}
 
-		protected override function proceedParsing():Boolean
+		override protected function proceedParsing():Boolean
 		{
 			if (!_defaultBitmapMaterial)
 				_defaultBitmapMaterial = buildDefaultMaterial();
@@ -1145,7 +1145,7 @@ class DAEImage extends DAEElement
 		super(element);
 	}
 
-	public override function deserialize(element:XML):void
+	override public function deserialize(element:XML):void
 	{
 		super.deserialize(element);
 		init_from = readText(element.ns::init_from[0]);
@@ -1162,7 +1162,7 @@ class DAEParam extends DAEElement
 		super(element);
 	}
 
-	public override function deserialize(element:XML):void
+	override public function deserialize(element:XML):void
 	{
 		super.deserialize(element);
 		this.type = element.@type.toString();
@@ -1181,7 +1181,7 @@ class DAEAccessor extends DAEElement
 		super(element);
 	}
 
-	public override function deserialize(element:XML):void
+	override public function deserialize(element:XML):void
 	{
 		super.deserialize(element);
 		this.params = new Vector.<DAEParam>();
@@ -1191,7 +1191,7 @@ class DAEAccessor extends DAEElement
 		traverseChildren(element, "param");
 	}
 
-	protected override function traverseChildHandler(child:XML, nodeName:String):void
+	override protected function traverseChildHandler(child:XML, nodeName:String):void
 	{
 		if (nodeName == "param")
 			this.params.push(new DAEParam(child));
@@ -1212,13 +1212,13 @@ class DAESource extends DAEElement
 		super(element);
 	}
 
-	public override function deserialize(element:XML):void
+	override public function deserialize(element:XML):void
 	{
 		super.deserialize(element);
 		traverseChildren(element);
 	}
 
-	protected override function traverseChildHandler(child:XML, nodeName:String):void
+	override protected function traverseChildHandler(child:XML, nodeName:String):void
 	{
 		switch (nodeName)
 		{
@@ -1256,7 +1256,7 @@ class DAEInput extends DAEElement
 		super(element);
 	}
 
-	public override function deserialize(element:XML):void
+	override public function deserialize(element:XML):void
 	{
 		super.deserialize(element);
 
@@ -1336,7 +1336,7 @@ class DAEPrimitive extends DAEElement
 		super(element);
 	}
 
-	public override function deserialize(element:XML):void
+	override public function deserialize(element:XML):void
 	{
 		super.deserialize(element);
 		this.type = element.name().localName;
@@ -1539,14 +1539,14 @@ class DAEVertices extends DAEElement
 		super(element);
 	}
 
-	public override function deserialize(element:XML):void
+	override public function deserialize(element:XML):void
 	{
 		super.deserialize(element);
 		this.inputs = new Vector.<DAEInput>();
 		traverseChildren(element, "input");
 	}
 
-	protected override function traverseChildHandler(child:XML, nodeName:String):void
+	override protected function traverseChildHandler(child:XML, nodeName:String):void
 	{
 		nodeName = nodeName;
 		this.inputs.push(new DAEInput(child));
@@ -1563,14 +1563,14 @@ class DAEGeometry extends DAEElement
 		super(element);
 	}
 
-	public override function deserialize(element:XML):void
+	override public function deserialize(element:XML):void
 	{
 		super.deserialize(element);
 		traverseChildren(element);
 		meshName = element.attribute("name");
 	}
 
-	protected override function traverseChildHandler(child:XML, nodeName:String):void
+	override protected function traverseChildHandler(child:XML, nodeName:String):void
 	{
 		if (nodeName == "mesh")
 			this.mesh = new DAEMesh(this, child); //case "spline"//case "convex_mesh":
@@ -1590,7 +1590,7 @@ class DAEMesh extends DAEElement
 		super(element);
 	}
 
-	public override function deserialize(element:XML):void
+	override public function deserialize(element:XML):void
 	{
 		super.deserialize(element);
 		this.sources = {};
@@ -1599,7 +1599,7 @@ class DAEMesh extends DAEElement
 		traverseChildren(element);
 	}
 
-	protected override function traverseChildHandler(child:XML, nodeName:String):void
+	override protected function traverseChildHandler(child:XML, nodeName:String):void
 	{
 		switch (nodeName)
 		{
@@ -1627,14 +1627,14 @@ class DAEBindMaterial extends DAEElement
 		super(element);
 	}
 
-	public override function deserialize(element:XML):void
+	override public function deserialize(element:XML):void
 	{
 		super.deserialize(element);
 		this.instance_material = new Vector.<DAEInstanceMaterial>();
 		traverseChildren(element);
 	}
 
-	protected override function traverseChildHandler(child:XML, nodeName:String):void
+	override protected function traverseChildHandler(child:XML, nodeName:String):void
 	{
 		if (nodeName == "technique_common")
 		{
@@ -1655,7 +1655,7 @@ class DAEBindVertexInput extends DAEElement
 		super(element);
 	}
 
-	public override function deserialize(element:XML):void
+	override public function deserialize(element:XML):void
 	{
 		super.deserialize(element);
 		this.semantic = element.@semantic.toString();
@@ -1673,7 +1673,7 @@ class DAEInstance extends DAEElement
 		super(element);
 	}
 
-	public override function deserialize(element:XML):void
+	override public function deserialize(element:XML):void
 	{
 		super.deserialize(element);
 		this.url = element.@url.toString().replace(/^#/, "");
@@ -1690,7 +1690,7 @@ class DAEInstanceController extends DAEInstance
 		super(element);
 	}
 
-	public override function deserialize(element:XML):void
+	override public function deserialize(element:XML):void
 	{
 		super.deserialize(element);
 		this.bind_material = null;
@@ -1698,7 +1698,7 @@ class DAEInstanceController extends DAEInstance
 		traverseChildren(element);
 	}
 
-	protected override function traverseChildHandler(child:XML, nodeName:String):void
+	override protected function traverseChildHandler(child:XML, nodeName:String):void
 	{
 		switch (nodeName)
 		{
@@ -1728,14 +1728,14 @@ class DAEInstanceGeometry extends DAEInstance
 		super(element);
 	}
 
-	public override function deserialize(element:XML):void
+	override public function deserialize(element:XML):void
 	{
 		super.deserialize(element);
 		this.bind_material = null;
 		traverseChildren(element);
 	}
 
-	protected override function traverseChildHandler(child:XML, nodeName:String):void
+	override protected function traverseChildHandler(child:XML, nodeName:String):void
 	{
 		if (nodeName == "bind_material")
 			this.bind_material = new DAEBindMaterial(child);
@@ -1753,7 +1753,7 @@ class DAEInstanceMaterial extends DAEInstance
 		super(element);
 	}
 
-	public override function deserialize(element:XML):void
+	override public function deserialize(element:XML):void
 	{
 		super.deserialize(element);
 		this.target = element.@target.toString().replace(/^#/, "");
@@ -1762,7 +1762,7 @@ class DAEInstanceMaterial extends DAEInstance
 		traverseChildren(element);
 	}
 
-	protected override function traverseChildHandler(child:XML, nodeName:String):void
+	override protected function traverseChildHandler(child:XML, nodeName:String):void
 	{
 		if (nodeName == "bind_vertex_input")
 			this.bind_vertex_input.push(new DAEBindVertexInput(child));
@@ -1832,7 +1832,7 @@ class DAEColorOrTexture extends DAEElement
 		super(element);
 	}
 
-	public override function deserialize(element:XML):void
+	override public function deserialize(element:XML):void
 	{
 		super.deserialize(element);
 		this.color = null;
@@ -1840,7 +1840,7 @@ class DAEColorOrTexture extends DAEElement
 		traverseChildren(element);
 	}
 
-	protected override function traverseChildHandler(child:XML, nodeName:String):void
+	override protected function traverseChildHandler(child:XML, nodeName:String):void
 	{
 		switch (nodeName)
 		{
@@ -1875,7 +1875,7 @@ class DAESurface extends DAEElement
 		super(element);
 	}
 
-	public override function deserialize(element:XML):void
+	override public function deserialize(element:XML):void
 	{
 		super.deserialize(element);
 		this.type = element.@type.toString();
@@ -1892,7 +1892,7 @@ class DAESampler2D extends DAEElement
 		super(element);
 	}
 
-	public override function deserialize(element:XML):void
+	override public function deserialize(element:XML):void
 	{
 		super.deserialize(element);
 		this.source = readText(element.ns::source[0]);
@@ -1909,7 +1909,7 @@ class DAEShader extends DAEElement
 		super(element);
 	}
 
-	public override function deserialize(element:XML):void
+	override public function deserialize(element:XML):void
 	{
 		super.deserialize(element);
 		this.type = element.name().localName;
@@ -1917,7 +1917,7 @@ class DAEShader extends DAEElement
 		traverseChildren(element);
 	}
 
-	protected override function traverseChildHandler(child:XML, nodeName:String):void
+	override protected function traverseChildHandler(child:XML, nodeName:String):void
 	{
 		switch (nodeName)
 		{
@@ -1953,7 +1953,7 @@ class DAEEffect extends DAEElement
 		super(element);
 	}
 
-	public override function deserialize(element:XML):void
+	override public function deserialize(element:XML):void
 	{
 		super.deserialize(element);
 		this.shader = null;
@@ -1962,7 +1962,7 @@ class DAEEffect extends DAEElement
 		traverseChildren(element);
 	}
 
-	protected override function traverseChildHandler(child:XML, nodeName:String):void
+	override protected function traverseChildHandler(child:XML, nodeName:String):void
 	{
 		if (nodeName == "profile_COMMON")
 			deserializeProfile(child);
@@ -2044,14 +2044,14 @@ class DAEMaterial extends DAEElement
 		super(element);
 	}
 
-	public override function deserialize(element:XML):void
+	override public function deserialize(element:XML):void
 	{
 		super.deserialize(element);
 		this.instance_effect = null;
 		traverseChildren(element);
 	}
 
-	protected override function traverseChildHandler(child:XML, nodeName:String):void
+	override protected function traverseChildHandler(child:XML, nodeName:String):void
 	{
 		if (nodeName == "instance_effect")
 			this.instance_effect = new DAEInstanceEffect(child);
@@ -2068,7 +2068,7 @@ class DAETransform extends DAEElement
 		super(element);
 	}
 
-	public override function deserialize(element:XML):void
+	override public function deserialize(element:XML):void
 	{
 		super.deserialize(element);
 		this.type = element.name().localName;
@@ -2122,7 +2122,7 @@ class DAENode extends DAEElement
 		super(element);
 	}
 
-	public override function deserialize(element:XML):void
+	override public function deserialize(element:XML):void
 	{
 		super.deserialize(element);
 
@@ -2136,7 +2136,7 @@ class DAENode extends DAEElement
 		traverseChildren(element);
 	}
 
-	protected override function traverseChildHandler(child:XML, nodeName:String):void
+	override protected function traverseChildHandler(child:XML, nodeName:String):void
 	{
 		var instances:XMLList;
 		var instance:DAEInstance;
@@ -2391,7 +2391,7 @@ class DAEVisualScene extends DAENode
 		super(parser, element);
 	}
 
-	public override function deserialize(element:XML):void
+	override public function deserialize(element:XML):void
 	{
 		super.deserialize(element);
 	}
@@ -2448,14 +2448,14 @@ class DAEScene extends DAEElement
 		super(element);
 	}
 
-	public override function deserialize(element:XML):void
+	override public function deserialize(element:XML):void
 	{
 		super.deserialize(element);
 		this.instance_visual_scene = null;
 		traverseChildren(element);
 	}
 
-	protected override function traverseChildHandler(child:XML, nodeName:String):void
+	override protected function traverseChildHandler(child:XML, nodeName:String):void
 	{
 		if (nodeName == "instance_visual_scene")
 			this.instance_visual_scene = new DAEInstanceVisualScene(child);
@@ -2474,7 +2474,7 @@ class DAEMorph extends DAEEffect
 		super(element);
 	}
 
-	public override function deserialize(element:XML):void
+	override public function deserialize(element:XML):void
 	{
 		super.deserialize(element);
 		this.source = element.@source.toString().replace(/^#/, "");
@@ -2539,7 +2539,7 @@ class DAESkin extends DAEElement
 		super(element);
 	}
 
-	public override function deserialize(element:XML):void
+	override public function deserialize(element:XML):void
 	{
 		super.deserialize(element);
 
@@ -2704,7 +2704,7 @@ class DAEController extends DAEElement
 		super(element);
 	}
 
-	public override function deserialize(element:XML):void
+	override public function deserialize(element:XML):void
 	{
 		super.deserialize(element);
 		this.skin = null;
@@ -2740,7 +2740,7 @@ class DAESampler extends DAEElement
 		super(element);
 	}
 
-	public override function deserialize(element:XML):void
+	override public function deserialize(element:XML):void
 	{
 		super.deserialize(element);
 		var list:XMLList = element.ns::input;
@@ -2873,7 +2873,7 @@ class DAEChannel extends DAEElement
 		super(element);
 	}
 
-	public override function deserialize(element:XML):void
+	override public function deserialize(element:XML):void
 	{
 		super.deserialize(element);
 
@@ -2921,7 +2921,7 @@ class DAEAnimation extends DAEElement
 		super(element);
 	}
 
-	public override function deserialize(element:XML):void
+	override public function deserialize(element:XML):void
 	{
 		super.deserialize(element);
 		this.samplers = new Vector.<DAESampler>();
@@ -2931,7 +2931,7 @@ class DAEAnimation extends DAEElement
 		setupChannels(this.sources);
 	}
 
-	protected override function traverseChildHandler(child:XML, nodeName:String):void
+	override protected function traverseChildHandler(child:XML, nodeName:String):void
 	{
 		switch (nodeName)
 		{
@@ -2973,13 +2973,13 @@ class DAELightType extends DAEElement
 		super(element);
 	}
 
-	public override function deserialize(element:XML):void
+	override public function deserialize(element:XML):void
 	{
 		super.deserialize(element);
 		traverseChildren(element);
 	}
 
-	protected override function traverseChildHandler(child:XML, nodeName:String):void
+	override protected function traverseChildHandler(child:XML, nodeName:String):void
 	{
 		if (nodeName == "color")
 		{

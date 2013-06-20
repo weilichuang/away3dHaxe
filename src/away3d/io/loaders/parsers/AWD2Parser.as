@@ -312,7 +312,7 @@ package away3d.io.loaders.parsers
 		 *
 		 * @param resourceDependency The dependency to be resolved.
 		 */
-		public override function resolveDependencyName(resourceDependency:ResourceDependency, asset:IAsset):String
+		override public function resolveDependencyName(resourceDependency:ResourceDependency, asset:IAsset):String
 		{
 			var oldName:String = asset.name;
 			if (asset)
@@ -340,7 +340,7 @@ package away3d.io.loaders.parsers
 		/**
 		 * @inheritDoc
 		 */
-		protected override function proceedParsing():Boolean
+		override protected function proceedParsing():Boolean
 		{
 			if (!_startedParsing)
 			{

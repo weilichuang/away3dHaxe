@@ -152,7 +152,7 @@ package away3d.entities.primitives
 		/**
 		 * @inheritDoc
 		 */
-		protected override function buildGeometry(target:CompactSubGeometry):void
+		override protected function buildGeometry(target:CompactSubGeometry):void
 		{
 			var data:Vector.<Number>;
 			var indices:Vector.<uint>;

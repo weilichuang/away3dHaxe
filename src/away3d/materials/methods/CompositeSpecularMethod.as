@@ -124,7 +124,7 @@ package away3d.materials.methods
 			_baseMethod.activate(vo, stage3DProxy);
 		}
 
-		public override function deactivate(vo:MethodVO, stage3DProxy:Stage3DProxy):void
+		override public function deactivate(vo:MethodVO, stage3DProxy:Stage3DProxy):void
 		{
 			_baseMethod.deactivate(vo, stage3DProxy);
 		}
@@ -165,7 +165,7 @@ package away3d.materials.methods
 		 * @inheritDoc
 		 * @return
 		 */
-		public override function getFragmentCodePerProbe(vo:MethodVO, cubeMapReg:ShaderRegisterElement, weightRegister:String, regCache:ShaderRegisterCache):String
+		override public function getFragmentCodePerProbe(vo:MethodVO, cubeMapReg:ShaderRegisterElement, weightRegister:String, regCache:ShaderRegisterCache):String
 		{
 			return _baseMethod.getFragmentCodePerProbe(vo, cubeMapReg, weightRegister, regCache);
 		}
@@ -181,12 +181,12 @@ package away3d.materials.methods
 		/**
 		 * @inheritDoc
 		 */
-		public override function reset():void
+		override public function reset():void
 		{
 			_baseMethod.reset();
 		}
 
-		public override function cleanCompilationData():void
+		override public function cleanCompilationData():void
 		{
 			super.cleanCompilationData();
 			_baseMethod.cleanCompilationData();

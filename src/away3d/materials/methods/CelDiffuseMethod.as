@@ -64,7 +64,7 @@ package away3d.materials.methods
 		/**
 		 * @inheritDoc
 		 */
-		public override function cleanCompilationData():void
+		override public function cleanCompilationData():void
 		{
 			super.cleanCompilationData();
 			_dataReg = null;

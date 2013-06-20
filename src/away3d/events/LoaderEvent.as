@@ -73,7 +73,7 @@
 		/**
 		 * @inheritDoc
 		 */
-		public override function preventDefault():void
+		override public function preventDefault():void
 		{
 			_isDefaultPrevented = true;
 		}
@@ -82,7 +82,7 @@
 		/**
 		 * @inheritDoc
 		 */
-		public override function isDefaultPrevented():Boolean
+		override public function isDefaultPrevented():Boolean
 		{
 			return _isDefaultPrevented;
 		}
@@ -93,7 +93,7 @@
 		 * Clones the current event.
 		 * @return An exact duplicate of the current event.
 		 */
-		public override function clone():Event
+		override public function clone():Event
 		{
 			return new LoaderEvent(type, _url, _isDependency, _message);
 		}

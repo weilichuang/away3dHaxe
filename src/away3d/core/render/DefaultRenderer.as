@@ -47,13 +47,13 @@ package away3d.core.render
 			_distanceRenderer = new DepthRenderer(false, true);
 		}
 
-		public override function set stage3DProxy(value:Stage3DProxy):void
+		override public function set stage3DProxy(value:Stage3DProxy):void
 		{
 			super.stage3DProxy = value;
 			_distanceRenderer.stage3DProxy = _depthRenderer.stage3DProxy = value;
 		}
 
-		protected override function executeRender(entityCollector:EntityCollector, target:TextureBase = null, scissorRect:Rectangle = null, surfaceSelector:int = 0):void
+		override protected function executeRender(entityCollector:EntityCollector, target:TextureBase = null, scissorRect:Rectangle = null, surfaceSelector:int = 0):void
 		{
 			updateLights(entityCollector);
 
@@ -214,7 +214,7 @@ package away3d.core.render
 		}
 
 
-		public override function dispose():void
+		override public function dispose():void
 		{
 			super.dispose();
 			_depthRenderer.dispose();

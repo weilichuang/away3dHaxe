@@ -341,7 +341,7 @@ package away3d.materials.passes
 		/**
 		 * Marks the shader program as invalid, so it will be recompiled before the next render.
 		 */
-		public override function invalidateShaderProgram(updateMaterial:Boolean = true):void
+		override public function invalidateShaderProgram(updateMaterial:Boolean = true):void
 		{
 			var oldPasses:Vector.<MaterialPassBase> = passes;
 			passes = new Vector.<MaterialPassBase>();
@@ -458,7 +458,7 @@ package away3d.materials.passes
 		/**
 		 * @inheritDoc
 		 */
-		public override function getVertexCode():String
+		override public function getVertexCode():String
 		{
 			return _vertexCode;
 		}
@@ -466,7 +466,7 @@ package away3d.materials.passes
 		/**
 		 * @inheritDoc
 		 */
-		public override function getFragmentCode(animatorCode:String):String
+		override public function getFragmentCode(animatorCode:String):String
 		{
 			return _fragmentLightCode + animatorCode + _framentPostLightCode;
 		}
@@ -493,7 +493,7 @@ package away3d.materials.passes
 		/**
 		 * @inheritDoc
 		 */
-		public override function render(renderable:IRenderable, stage3DProxy:Stage3DProxy, camera:Camera3D, viewProjection:Matrix3D):void
+		override public function render(renderable:IRenderable, stage3DProxy:Stage3DProxy, camera:Camera3D, viewProjection:Matrix3D):void
 		{
 			var i:uint;
 			var context:Context3D = stage3DProxy.context3D;
@@ -598,7 +598,7 @@ package away3d.materials.passes
 		/**
 		 * @inheritDoc
 		 */
-		public override function deactivate(stage3DProxy:Stage3DProxy):void
+		override public function deactivate(stage3DProxy:Stage3DProxy):void
 		{
 			super.deactivate(stage3DProxy);
 

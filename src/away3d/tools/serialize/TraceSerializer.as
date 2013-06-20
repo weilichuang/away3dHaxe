@@ -29,7 +29,7 @@ package away3d.tools.serialize
 		/**
 		 * @inheritDoc
 		 */
-		public override function beginObject(className:String, instanceName:String):void
+		override public function beginObject(className:String, instanceName:String):void
 		{
 			writeString(className, instanceName);
 			_indent += tabSize;
@@ -38,7 +38,7 @@ package away3d.tools.serialize
 		/**
 			 * @inheritDoc
 		 */
-		public override function writeInt(name:String, value:int):void
+		override public function writeInt(name:String, value:int):void
 		{
 			var outputString:String = _indentString();
 			outputString += name;
@@ -50,7 +50,7 @@ package away3d.tools.serialize
 		/**
 		 * @inheritDoc
 		 */
-		public override function writeUint(name:String, value:uint):void
+		override public function writeUint(name:String, value:uint):void
 		{
 			var outputString:String = _indentString();
 			outputString += name;
@@ -62,7 +62,7 @@ package away3d.tools.serialize
 		/**
 		 * @inheritDoc
 		 */
-		public override function writeBoolean(name:String, value:Boolean):void
+		override public function writeBoolean(name:String, value:Boolean):void
 		{
 			var outputString:String = _indentString();
 			outputString += name;
@@ -74,7 +74,7 @@ package away3d.tools.serialize
 		/**
 		 * @inheritDoc
 		 */
-		public override function writeString(name:String, value:String):void
+		override public function writeString(name:String, value:String):void
 		{
 			var outputString:String = _indentString();
 			outputString += name;
@@ -89,7 +89,7 @@ package away3d.tools.serialize
 		/**
 		 * @inheritDoc
 		 */
-		public override function writeVector3D(name:String, value:Vector3D):void
+		override public function writeVector3D(name:String, value:Vector3D):void
 		{
 			var outputString:String = _indentString();
 			outputString += name;
@@ -104,7 +104,7 @@ package away3d.tools.serialize
 		/**
 		 * @inheritDoc
 		 */
-		public override function writeTransform(name:String, value:Vector.<Number>):void
+		override public function writeTransform(name:String, value:Vector.<Number>):void
 		{
 			var outputString:String = _indentString();
 			outputString += name;
@@ -137,7 +137,7 @@ package away3d.tools.serialize
 		/**
 		 * @inheritDoc
 		 */
-		public override function writeQuaternion(name:String, value:Quaternion):void
+		override public function writeQuaternion(name:String, value:Quaternion):void
 		{
 			var outputString:String = _indentString();
 			outputString += name;
@@ -152,7 +152,7 @@ package away3d.tools.serialize
 		/**
 		 * @inheritDoc
 		 */
-		public override function endObject():void
+		override public function endObject():void
 		{
 			_indent -= tabSize;
 		}

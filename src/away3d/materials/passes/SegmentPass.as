@@ -36,7 +36,7 @@
 		/**
 		 * @inheritDoc
 		 */
-		public override function getVertexCode():String
+		override public function getVertexCode():String
 		{
 			return "m44 vt0, va0, vc8			\n" + // transform Q0 to eye space
 				"m44 vt1, va1, vc8			\n" + // transform Q1 to eye space
@@ -102,7 +102,7 @@
 		/**
 		 * @inheritDoc
 		 */
-		public override function getFragmentCode(animationCode:String):String
+		override public function getFragmentCode(animationCode:String):String
 		{
 			animationCode = animationCode;
 			return "mov oc, v0\n";
@@ -112,7 +112,7 @@
 		 * @inheritDoc
 		 * todo: keep maps in dictionary per renderable
 		 */
-		public override function render(renderable:IRenderable, stage3DProxy:Stage3DProxy, camera:Camera3D, viewProjection:Matrix3D):void
+		override public function render(renderable:IRenderable, stage3DProxy:Stage3DProxy, camera:Camera3D, viewProjection:Matrix3D):void
 		{
 			viewProjection = viewProjection;
 			var context:Context3D = stage3DProxy.context3D;
@@ -163,7 +163,7 @@
 		/**
 		 * @inheritDoc
 		 */
-		public override function deactivate(stage3DProxy:Stage3DProxy):void
+		override public function deactivate(stage3DProxy:Stage3DProxy):void
 		{
 			var context:Context3D = stage3DProxy.context3D;
 			context.setVertexBufferAt(0, null);

@@ -88,7 +88,7 @@ package away3d.materials.methods
 			vertexData[index + 2] = 0;
 		}
 
-		public override function cleanCompilationData():void
+		override public function cleanCompilationData():void
 		{
 			super.cleanCompilationData();
 			_cascadeProjections = null;
@@ -214,7 +214,7 @@ package away3d.materials.methods
 			_baseMethod.activateForCascade(vo, stage3DProxy);
 		}
 
-		public override function setRenderState(vo:MethodVO, renderable:IRenderable, stage3DProxy:Stage3DProxy, camera:Camera3D):void
+		override public function setRenderState(vo:MethodVO, renderable:IRenderable, stage3DProxy:Stage3DProxy, camera:Camera3D):void
 		{
 		}
 

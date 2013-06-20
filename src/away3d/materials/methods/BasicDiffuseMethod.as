@@ -155,7 +155,7 @@ package away3d.materials.methods
 			diffuseColor = diff.diffuseColor;
 		}
 
-		public override function cleanCompilationData():void
+		override public function cleanCompilationData():void
 		{
 			super.cleanCompilationData();
 			_shadowRegister = null;
@@ -224,7 +224,7 @@ package away3d.materials.methods
 		/**
 		 * @inheritDoc
 		 */
-		public override function getFragmentCodePerProbe(vo:MethodVO, cubeMapReg:ShaderRegisterElement, weightRegister:String, regCache:ShaderRegisterCache):String
+		override public function getFragmentCodePerProbe(vo:MethodVO, cubeMapReg:ShaderRegisterElement, weightRegister:String, regCache:ShaderRegisterCache):String
 		{
 			var code:String = "";
 			var t:ShaderRegisterElement;

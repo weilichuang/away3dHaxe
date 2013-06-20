@@ -74,16 +74,16 @@ package away3d.materials.methods
 			_outlinePass.outlineSize = value;
 		}
 
-		public override function reset():void
+		override public function reset():void
 		{
 			super.reset();
 		}
 
-		public override function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):void
+		override public function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):void
 		{
 		}
 
-		public override function getFragmentCode(vo:MethodVO, regCache:ShaderRegisterCache, targetReg:ShaderRegisterElement):String
+		override public function getFragmentCode(vo:MethodVO, regCache:ShaderRegisterCache, targetReg:ShaderRegisterElement):String
 		{
 			return "";
 		}

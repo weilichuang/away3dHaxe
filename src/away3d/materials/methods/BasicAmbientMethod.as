@@ -101,7 +101,7 @@ package away3d.materials.methods
 			ambientColor = diff.ambientColor;
 		}
 
-		public override function cleanCompilationData():void
+		override public function cleanCompilationData():void
 		{
 			super.cleanCompilationData();
 			_ambientInputRegister = null;

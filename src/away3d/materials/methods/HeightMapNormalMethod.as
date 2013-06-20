@@ -41,7 +41,7 @@ package away3d.materials.methods
 		{
 		}
 
-		public override function getFragmentCode(vo:MethodVO, regCache:ShaderRegisterCache, targetReg:ShaderRegisterElement):String
+		override public function getFragmentCode(vo:MethodVO, regCache:ShaderRegisterCache, targetReg:ShaderRegisterElement):String
 		{
 			var temp:ShaderRegisterElement = regCache.getFreeFragmentVectorTemp();
 			var dataReg:ShaderRegisterElement = regCache.getFreeFragmentConstant();

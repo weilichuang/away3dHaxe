@@ -56,7 +56,7 @@ package away3d.entities.primitives
 		/**
 		 * @inheritDoc
 		 */
-		protected override function buildGeometry(target:CompactSubGeometry):void
+		override protected function buildGeometry(target:CompactSubGeometry):void
 		{
 			var i:uint, j:uint;
 			var x:Number, y:Number, z:Number, radius:Number, revolutionAngle:Number;
@@ -310,7 +310,7 @@ package away3d.entities.primitives
 		/**
 		 * @inheritDoc
 		 */
-		protected override function buildUVs(target:CompactSubGeometry):void
+		override protected function buildUVs(target:CompactSubGeometry):void
 		{
 			var i:int, j:int;
 			var x:Number, y:Number, revolutionAngle:Number;

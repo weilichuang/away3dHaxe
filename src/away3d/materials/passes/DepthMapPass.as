@@ -67,7 +67,7 @@
 		/**
 		 * @inheritDoc
 		 */
-		public override function getVertexCode():String
+		override public function getVertexCode():String
 		{
 			var code:String;
 			// project
@@ -95,7 +95,7 @@
 		/**
 		 * @inheritDoc
 		 */
-		public override function getFragmentCode(code:String):String
+		override public function getFragmentCode(code:String):String
 		{
 
 			var wrap:String = _repeat ? "wrap" : "clamp";
@@ -139,7 +139,7 @@
 		/**
 		 * @inheritDoc
 		 */
-		public override function render(renderable:IRenderable, stage3DProxy:Stage3DProxy, camera:Camera3D, viewProjection:Matrix3D):void
+		override public function render(renderable:IRenderable, stage3DProxy:Stage3DProxy, camera:Camera3D, viewProjection:Matrix3D):void
 		{
 			if (_alphaThreshold > 0)
 				renderable.activateUVBuffer(1, stage3DProxy);

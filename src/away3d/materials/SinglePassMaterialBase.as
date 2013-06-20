@@ -80,7 +80,7 @@
 			_screenPass.depthCompareMode = value;
 		}
 
-		public override function activateForDepth(stage3DProxy:Stage3DProxy, camera:Camera3D, distanceBased:Boolean = false):void
+		override public function activateForDepth(stage3DProxy:Stage3DProxy, camera:Camera3D, distanceBased:Boolean = false):void
 		{
 			if (distanceBased)
 				_distancePass.alphaMask = _screenPass.diffuseMethod.texture;
@@ -365,7 +365,7 @@
 		/**
 		 * @inheritDoc
 		 */
-		public override function updateMaterial(context:Context3D):void
+		override public function updateMaterial(context:Context3D):void
 		{
 			if (_screenPass.passesDirty)
 			{

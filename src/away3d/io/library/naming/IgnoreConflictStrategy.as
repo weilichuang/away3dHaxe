@@ -10,14 +10,14 @@ package away3d.io.library.naming
 		}
 
 
-		public override function resolveConflict(changedAsset:IAsset, oldAsset:IAsset, assetsDictionary:Object, precedence:String):void
+		override public function resolveConflict(changedAsset:IAsset, oldAsset:IAsset, assetsDictionary:Object, precedence:String):void
 		{
 			// Do nothing, ignore the fact that there is a conflict.
 			return;
 		}
 
 
-		public override function create():ConflictStrategyBase
+		override public function create():ConflictStrategyBase
 		{
 			return new IgnoreConflictStrategy();
 		}
