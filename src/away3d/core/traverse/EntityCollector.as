@@ -199,8 +199,8 @@ package away3d.core.traverse
 		 */
 		override public function enterNode(node:NodeBase):Boolean
 		{
-			var enter:Boolean = _collectionMark != node.collectionMark && node.isInFrustum(_cullPlanes, _numCullPlanes);
-			node.collectionMark = _collectionMark;
+			var enter:Boolean = collectionMark != node.collectionMark && node.isInFrustum(_cullPlanes, _numCullPlanes);
+			node.collectionMark = collectionMark;
 			return enter;
 		}
 

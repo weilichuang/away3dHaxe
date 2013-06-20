@@ -32,7 +32,7 @@ package away3d.core.traverse
 		/**
 		 * A property that can be used to avoid processing a partition more than once.
 		 */
-		public static var _collectionMark:uint;
+		public static var collectionMark:uint;
 
 		public function PartitionTraverser()
 		{

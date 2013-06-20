@@ -395,7 +395,7 @@ package away3d.materials.passes
 			{
 				passes[i].material = material;
 				passes[i].lightPicker = _lightPicker;
-				passes.push(passes[i]);
+				this.passes.push(passes[i]);
 			}
 		}
 

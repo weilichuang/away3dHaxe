@@ -47,7 +47,7 @@ package away3d.core.partition
 			if (_updatesMade)
 				updateEntities();
 
-			++PartitionTraverser._collectionMark;
+			++PartitionTraverser.collectionMark;
 
 			_rootNode.acceptTraverser(traverser);
 		}
