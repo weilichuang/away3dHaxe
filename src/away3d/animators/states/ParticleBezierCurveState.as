@@ -55,8 +55,8 @@ package away3d.animators.states
 			super(animator, particleBezierCurveNode);
 
 			_particleBezierCurveNode = particleBezierCurveNode;
-			_controlPoint = _particleBezierCurveNode._controlPoint;
-			_endPoint = _particleBezierCurveNode._endPoint;
+			_controlPoint = _particleBezierCurveNode.controlPoint;
+			_endPoint = _particleBezierCurveNode.endPoint;
 		}
 
 

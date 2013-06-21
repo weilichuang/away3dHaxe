@@ -23,11 +23,11 @@ package away3d.animators.nodes
 
 		//default values used when creating states
 		/** @private */
-		public var _usesMultiplier:Boolean;
+		public var usesMultiplier:Boolean;
 		/** @private */
-		public var _usesOffset:Boolean;
+		public var usesOffset:Boolean;
 		/** @private */
-		public var _initialColor:ColorTransform;
+		public var initialColor:ColorTransform;
 
 		/**
 		 * Reference for color node properties on a single particle (when in local property mode).
@@ -39,10 +39,10 @@ package away3d.animators.nodes
 		{
 			_stateClass = ParticleInitialColorState;
 
-			_usesMultiplier = usesMultiplier;
-			_usesOffset = usesOffset;
-			_initialColor = initialColor || new ColorTransform();
-			super("ParticleInitialColor", mode, (_usesMultiplier && _usesOffset) ? 8 : 4, ParticleAnimationSet.COLOR_PRIORITY);
+			this.usesMultiplier = usesMultiplier;
+			this.usesOffset = usesOffset;
+			this.initialColor = initialColor || new ColorTransform();
+			super("ParticleInitialColor", mode, (usesMultiplier && usesOffset) ? 8 : 4, ParticleAnimationSet.COLOR_PRIORITY);
 		}
 
 		/**
@@ -56,7 +56,7 @@ package away3d.animators.nodes
 			if (animationRegisterCache.needFragmentAnimation)
 			{
 
-				if (_usesMultiplier)
+				if (usesMultiplier)
 				{
 					var multiplierValue:ShaderRegisterElement = (_mode == ParticlePropertiesMode.GLOBAL) ? animationRegisterCache.getFreeVertexConstant() : animationRegisterCache.getFreeVertexAttribute();
 					animationRegisterCache.setRegisterIndex(this, MULTIPLIER_INDEX, multiplierValue.index);
@@ -64,7 +64,7 @@ package away3d.animators.nodes
 					code += "mul " + animationRegisterCache.colorMulTarget + "," + multiplierValue + "," + animationRegisterCache.colorMulTarget + "\n";
 				}
 
-				if (_usesOffset)
+				if (usesOffset)
 				{
 					var offsetValue:ShaderRegisterElement = (_mode == ParticlePropertiesMode.LOCAL_STATIC) ? animationRegisterCache.getFreeVertexAttribute() : animationRegisterCache.getFreeVertexConstant();
 					animationRegisterCache.setRegisterIndex(this, OFFSET_INDEX, offsetValue.index);
@@ -81,9 +81,9 @@ package away3d.animators.nodes
 		 */
 		override public function processAnimationSetting(particleAnimationSet:ParticleAnimationSet):void
 		{
-			if (_usesMultiplier)
+			if (usesMultiplier)
 				particleAnimationSet.hasColorMulNode = true;
-			if (_usesOffset)
+			if (usesOffset)
 				particleAnimationSet.hasColorAddNode = true;
 		}
 
@@ -99,7 +99,7 @@ package away3d.animators.nodes
 			var i:uint;
 
 			//multiplier
-			if (_usesMultiplier)
+			if (usesMultiplier)
 			{
 				_oneData[i++] = initialColor.redMultiplier;
 				_oneData[i++] = initialColor.greenMultiplier;
@@ -107,7 +107,7 @@ package away3d.animators.nodes
 				_oneData[i++] = initialColor.alphaMultiplier;
 			}
 			//offset
-			if (_usesOffset)
+			if (usesOffset)
 			{
 				_oneData[i++] = initialColor.redOffset / 255;
 				_oneData[i++] = initialColor.greenOffset / 255;

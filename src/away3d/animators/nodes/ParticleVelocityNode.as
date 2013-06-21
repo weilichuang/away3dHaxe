@@ -22,7 +22,7 @@ package away3d.animators.nodes
 		public static const VELOCITY_INDEX:int = 0;
 
 		/** @private */
-		public var _velocity:Vector3D;
+		public var velocity:Vector3D;
 
 		/**
 		 * Reference for velocity node properties on a single particle (when in local property mode).
@@ -42,7 +42,7 @@ package away3d.animators.nodes
 
 			_stateClass = ParticleVelocityState;
 
-			_velocity = velocity || new Vector3D();
+			this.velocity = velocity || new Vector3D();
 		}
 
 		/**

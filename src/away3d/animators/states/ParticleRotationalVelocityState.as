@@ -60,7 +60,7 @@ package away3d.animators.states
 			super(animator, particleRotationNode);
 
 			_particleRotationalVelocityNode = particleRotationNode;
-			_rotationalVelocity = _particleRotationalVelocityNode._rotationalVelocity;
+			_rotationalVelocity = _particleRotationalVelocityNode.rotationalVelocity;
 
 			updateRotationalVelocityData();
 		}

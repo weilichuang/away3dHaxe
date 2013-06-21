@@ -23,13 +23,13 @@ package away3d.animators.nodes
 		public static const FOLLOW_ROTATION_INDEX:uint = 1;
 
 		/** @private */
-		public var _usesPosition:Boolean;
+		public var usesPosition:Boolean;
 
 		/** @private */
-		public var _usesRotation:Boolean;
+		public var usesRotation:Boolean;
 
 		/** @private */
-		public var _smooth:Boolean;
+		public var smooth:Boolean;
 
 		/**
 		 * Creates a new <code>ParticleFollowNode</code>
@@ -42,11 +42,11 @@ package away3d.animators.nodes
 		{
 			_stateClass = ParticleFollowState;
 
-			_usesPosition = usesPosition;
-			_usesRotation = usesRotation;
-			_smooth = smooth;
+			this.usesPosition = usesPosition;
+			this.usesRotation = usesRotation;
+			this.smooth = smooth;
 
-			super("ParticleFollow", ParticlePropertiesMode.LOCAL_DYNAMIC, (_usesPosition && _usesRotation) ? 6 : 3, ParticleAnimationSet.POST_PRIORITY);
+			super("ParticleFollow", ParticlePropertiesMode.LOCAL_DYNAMIC, (usesPosition && usesRotation) ? 6 : 3, ParticleAnimationSet.POST_PRIORITY);
 		}
 
 		/**
@@ -58,7 +58,7 @@ package away3d.animators.nodes
 
 			//TODO: use Quaternion to implement this function
 			var code:String = "";
-			if (_usesRotation)
+			if (usesRotation)
 			{
 				var rotationAttribute:ShaderRegisterElement = animationRegisterCache.getFreeVertexAttribute();
 				animationRegisterCache.setRegisterIndex(this, FOLLOW_ROTATION_INDEX, rotationAttribute.index);
@@ -157,7 +157,7 @@ package away3d.animators.nodes
 
 			}
 
-			if (_usesPosition)
+			if (usesPosition)
 			{
 				var positionAttribute:ShaderRegisterElement = animationRegisterCache.getFreeVertexAttribute();
 				animationRegisterCache.setRegisterIndex(this, FOLLOW_POSITION_INDEX, positionAttribute.index);

@@ -23,11 +23,11 @@ package away3d.animators.nodes
 		public static const TIME_CONSTANT_INDEX:uint = 1;
 
 		/** @private */
-		public var _usesDuration:Boolean;
+		public var usesDuration:Boolean;
 		/** @private */
-		public var _usesDelay:Boolean;
+		public var usesDelay:Boolean;
 		/** @private */
-		public var _usesLooping:Boolean;
+		public var usesLooping:Boolean;
 
 		/**
 		 * Creates a new <code>ParticleTimeNode</code>
@@ -40,9 +40,9 @@ package away3d.animators.nodes
 		{
 			_stateClass = ParticleTimeState;
 
-			_usesDuration = usesDuration;
-			_usesLooping = usesLooping;
-			_usesDelay = usesDelay;
+			this.usesDuration = usesDuration;
+			this.usesLooping = usesLooping;
+			this.usesDelay = usesDelay;
 
 			super("ParticleTime", ParticlePropertiesMode.LOCAL_STATIC, 4, 0);
 		}
@@ -64,12 +64,12 @@ package away3d.animators.nodes
 			var temp:ShaderRegisterElement = animationRegisterCache.getFreeVertexSingleTemp();
 			code += "sge " + temp + "," + animationRegisterCache.vertexTime + "," + animationRegisterCache.vertexZeroConst + "\n";
 			code += "mul " + animationRegisterCache.scaleAndRotateTarget + ".xyz," + animationRegisterCache.scaleAndRotateTarget + ".xyz," + temp + "\n";
-			if (_usesDuration)
+			if (usesDuration)
 			{
-				if (_usesLooping)
+				if (usesLooping)
 				{
 					var div:ShaderRegisterElement = animationRegisterCache.getFreeVertexSingleTemp();
-					if (_usesDelay)
+					if (usesDelay)
 					{
 						code += "div " + div + "," + animationRegisterCache.vertexTime + "," + timeStreamRegister + ".z\n";
 						code += "frc " + div + "," + div + "\n";

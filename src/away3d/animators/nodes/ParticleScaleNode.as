@@ -22,19 +22,19 @@ package away3d.animators.nodes
 		public static const SCALE_INDEX:uint = 0;
 
 		/** @private */
-		public var _usesCycle:Boolean;
+		public var usesCycle:Boolean;
 
 		/** @private */
-		public var _usesPhase:Boolean;
+		public var usesPhase:Boolean;
 
 		/** @private */
-		public var _minScale:Number;
+		public var minScale:Number;
 		/** @private */
-		public var _maxScale:Number;
+		public var maxScale:Number;
 		/** @private */
-		public var _cycleDuration:Number;
+		public var cycleDuration:Number;
 		/** @private */
-		public var _cyclePhase:Number;
+		public var cyclePhase:Number;
 
 		/**
 		 * Reference for scale node properties on a single particle (when in local property mode).
@@ -64,13 +64,13 @@ package away3d.animators.nodes
 
 			_stateClass = ParticleScaleState;
 
-			_usesCycle = usesCycle;
-			_usesPhase = usesPhase;
+			this.usesCycle = usesCycle;
+			this.usesPhase = usesPhase;
 
-			_minScale = minScale;
-			_maxScale = maxScale;
-			_cycleDuration = cycleDuration;
-			_cyclePhase = cyclePhase;
+			this.minScale = minScale;
+			this.maxScale = maxScale;
+			this.cycleDuration = cycleDuration;
+			this.cyclePhase = cyclePhase;
 		}
 
 		/**
@@ -86,17 +86,17 @@ package away3d.animators.nodes
 			var scaleRegister:ShaderRegisterElement = (_mode == ParticlePropertiesMode.GLOBAL) ? animationRegisterCache.getFreeVertexConstant() : animationRegisterCache.getFreeVertexAttribute();
 			animationRegisterCache.setRegisterIndex(this, SCALE_INDEX, scaleRegister.index);
 
-			if (_usesCycle)
+			if (usesCycle)
 			{
 				code += "mul " + temp + "," + animationRegisterCache.vertexTime + "," + scaleRegister + ".z\n";
 
-				if (_usesPhase)
+				if (usesPhase)
 					code += "add " + temp + "," + temp + "," + scaleRegister + ".w\n";
 
 				code += "sin " + temp + "," + temp + "\n";
 			}
 
-			code += "mul " + temp + "," + scaleRegister + ".y," + ((_usesCycle) ? temp : animationRegisterCache.vertexLife) + "\n";
+			code += "mul " + temp + "," + scaleRegister + ".y," + ((usesCycle) ? temp : animationRegisterCache.vertexLife) + "\n";
 			code += "add " + temp + "," + scaleRegister + ".x," + temp + "\n";
 			code += "mul " + animationRegisterCache.scaleAndRotateTarget + ".xyz," + animationRegisterCache.scaleAndRotateTarget + ".xyz," + temp + "\n";
 
@@ -120,14 +120,14 @@ package away3d.animators.nodes
 			if (!scale)
 				throw(new Error("there is no " + SCALE_VECTOR3D + " in param!"));
 
-			if (_usesCycle)
+			if (usesCycle)
 			{
 				_oneData[0] = (scale.x + scale.y) / 2;
 				_oneData[1] = Math.abs(scale.x - scale.y) / 2;
 				if (scale.z <= 0)
 					throw(new Error("the cycle duration must be greater than zero"));
 				_oneData[2] = Math.PI * 2 / scale.z;
-				if (_usesPhase)
+				if (usesPhase)
 					_oneData[3] = scale.w * Math.PI / 180;
 			}
 			else

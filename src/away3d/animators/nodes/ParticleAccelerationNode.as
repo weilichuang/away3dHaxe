@@ -19,7 +19,7 @@ package away3d.animators.nodes
 		public static const ACCELERATION_INDEX:int = 0;
 
 		/** @private */
-		public var _acceleration:Vector3D;
+		public var acceleration:Vector3D;
 
 		/**
 		 * Reference for acceleration node properties on a single particle (when in local property mode).
@@ -39,7 +39,7 @@ package away3d.animators.nodes
 
 			_stateClass = ParticleAccelerationState;
 
-			_acceleration = acceleration || new Vector3D();
+			acceleration = acceleration || new Vector3D();
 		}
 
 		/**

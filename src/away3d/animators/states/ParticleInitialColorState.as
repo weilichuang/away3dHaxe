@@ -31,9 +31,9 @@ package away3d.animators.states
 			super(animator, particleInitialColorNode);
 
 			_particleInitialColorNode = particleInitialColorNode;
-			_usesMultiplier = particleInitialColorNode._usesMultiplier;
-			_usesOffset = particleInitialColorNode._usesOffset;
-			_initialColor = particleInitialColorNode._initialColor;
+			_usesMultiplier = particleInitialColorNode.usesMultiplier;
+			_usesOffset = particleInitialColorNode.usesOffset;
+			_initialColor = particleInitialColorNode.initialColor;
 
 			updateColorData();
 		}

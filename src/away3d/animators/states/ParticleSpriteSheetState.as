@@ -65,13 +65,13 @@ package away3d.animators.states
 
 			_particleSpriteSheetNode = particleSpriteSheetNode;
 
-			_usesCycle = _particleSpriteSheetNode._usesCycle;
-			_usesPhase = _particleSpriteSheetNode._usesPhase;
+			_usesCycle = _particleSpriteSheetNode.usesCycle;
+			_usesPhase = _particleSpriteSheetNode.usesPhase;
 			_totalFrames = _particleSpriteSheetNode._totalFrames;
-			_numColumns = _particleSpriteSheetNode._numColumns;
-			_numRows = _particleSpriteSheetNode._numRows;
-			_cycleDuration = _particleSpriteSheetNode._cycleDuration;
-			_cyclePhase = _particleSpriteSheetNode._cyclePhase;
+			_numColumns = _particleSpriteSheetNode.numColumns;
+			_numRows = _particleSpriteSheetNode.numRows;
+			_cycleDuration = _particleSpriteSheetNode.cycleDuration;
+			_cyclePhase = _particleSpriteSheetNode.cyclePhase;
 
 			updateSpriteSheetData();
 		}

@@ -25,17 +25,17 @@ package away3d.animators.nodes
 		public static const TIME_DATA_INDEX:uint = 2;
 
 		/** @private */
-		public var _usesMultiplier:Boolean;
+		public var usesMultiplier:Boolean;
 		/** @private */
-		public var _usesOffset:Boolean;
+		public var usesOffset:Boolean;
 		/** @private */
-		public var _startColor:ColorTransform;
+		public var startColor:ColorTransform;
 		/** @private */
-		public var _endColor:ColorTransform;
+		public var endColor:ColorTransform;
 		/** @private */
-		public var _numSegmentPoint:int;
+		public var numSegmentPoint:int;
 		/** @private */
-		public var _segmentPoints:Vector.<ColorSegmentPoint>;
+		public var segmentPoints:Vector.<ColorSegmentPoint>;
 
 		public function ParticleSegmentedColorNode(usesMultiplier:Boolean, usesOffset:Boolean, numSegmentPoint:int, startColor:ColorTransform, endColor:ColorTransform, segmentPoints:Vector.<ColorSegmentPoint>)
 		{
@@ -46,12 +46,12 @@ package away3d.animators.nodes
 
 			if (numSegmentPoint > 4)
 				throw(new Error("the numSegmentPoint must be less or equal 4"));
-			_usesMultiplier = usesMultiplier;
-			_usesOffset = usesOffset;
-			_numSegmentPoint = numSegmentPoint;
-			_startColor = startColor;
-			_endColor = endColor;
-			_segmentPoints = segmentPoints;
+			this.usesMultiplier = usesMultiplier;
+			this.usesOffset = usesOffset;
+			this.numSegmentPoint = numSegmentPoint;
+			this.startColor = startColor;
+			this.endColor = endColor;
+			this.segmentPoints = segmentPoints;
 		}
 
 		/**
@@ -59,9 +59,9 @@ package away3d.animators.nodes
 		 */
 		override public function processAnimationSetting(particleAnimationSet:ParticleAnimationSet):void
 		{
-			if (_usesMultiplier)
+			if (usesMultiplier)
 				particleAnimationSet.hasColorMulNode = true;
-			if (_usesOffset)
+			if (usesOffset)
 				particleAnimationSet.hasColorAddNode = true;
 		}
 
@@ -77,7 +77,7 @@ package away3d.animators.nodes
 			{
 				var accMultiplierColor:ShaderRegisterElement;
 				//var accOffsetColor:ShaderRegisterElement;
-				if (_usesMultiplier)
+				if (usesMultiplier)
 				{
 					accMultiplierColor = animationRegisterCache.getFreeVertexVectorTemp();
 					animationRegisterCache.addVertexTempUsages(accMultiplierColor, 1);
@@ -90,7 +90,7 @@ package away3d.animators.nodes
 				var accTime:ShaderRegisterElement = new ShaderRegisterElement(temp.regName, temp.index, 0);
 				var tempTime:ShaderRegisterElement = new ShaderRegisterElement(temp.regName, temp.index, 1);
 
-				if (_usesMultiplier)
+				if (usesMultiplier)
 					animationRegisterCache.removeVertexTempUsage(accMultiplierColor);
 
 				animationRegisterCache.removeVertexTempUsage(tempColor);
@@ -103,12 +103,12 @@ package away3d.animators.nodes
 
 				var startMulValue:ShaderRegisterElement;
 				var deltaMulValues:Vector.<ShaderRegisterElement>;
-				if (_usesMultiplier)
+				if (usesMultiplier)
 				{
 					startMulValue = animationRegisterCache.getFreeVertexConstant();
 					animationRegisterCache.setRegisterIndex(this, START_MULTIPLIER_INDEX, startMulValue.index);
 					deltaMulValues = new Vector.<ShaderRegisterElement>;
-					for (i = 0; i < _numSegmentPoint + 1; i++)
+					for (i = 0; i < numSegmentPoint + 1; i++)
 					{
 						deltaMulValues.push(animationRegisterCache.getFreeVertexConstant());
 					}
@@ -116,24 +116,24 @@ package away3d.animators.nodes
 
 				var startOffsetValue:ShaderRegisterElement;
 				var deltaOffsetValues:Vector.<ShaderRegisterElement>;
-				if (_usesOffset)
+				if (usesOffset)
 				{
 					startOffsetValue = animationRegisterCache.getFreeVertexConstant();
 					animationRegisterCache.setRegisterIndex(this, START_OFFSET_INDEX, startOffsetValue.index);
 					deltaOffsetValues = new Vector.<ShaderRegisterElement>;
-					for (i = 0; i < _numSegmentPoint + 1; i++)
+					for (i = 0; i < numSegmentPoint + 1; i++)
 					{
 						deltaOffsetValues.push(animationRegisterCache.getFreeVertexConstant());
 					}
 				}
 
 
-				if (_usesMultiplier)
+				if (usesMultiplier)
 					code += "mov " + accMultiplierColor + "," + startMulValue + "\n";
-				if (_usesOffset)
+				if (usesOffset)
 					code += "add " + animationRegisterCache.colorAddTarget + "," + animationRegisterCache.colorAddTarget + "," + startOffsetValue + "\n";
 
-				for (i = 0; i < _numSegmentPoint; i++)
+				for (i = 0; i < numSegmentPoint; i++)
 				{
 					switch (i)
 					{
@@ -156,12 +156,12 @@ package away3d.animators.nodes
 							code += "min " + tempTime + "," + tempTime + "," + lifeTimeRegister + ".w\n";
 							break;
 					}
-					if (_usesMultiplier)
+					if (usesMultiplier)
 					{
 						code += "mul " + tempColor + "," + tempTime + "," + deltaMulValues[i] + "\n";
 						code += "add " + accMultiplierColor + "," + accMultiplierColor + "," + tempColor + "\n";
 					}
-					if (_usesOffset)
+					if (usesOffset)
 					{
 						code += "mul " + tempColor + "," + tempTime + "," + deltaOffsetValues[i] + "\n";
 						code += "add " + animationRegisterCache.colorAddTarget + "," + animationRegisterCache.colorAddTarget + "," + tempColor + "\n";
@@ -169,11 +169,11 @@ package away3d.animators.nodes
 				}
 
 				//for the last segment:
-				if (_numSegmentPoint == 0)
+				if (numSegmentPoint == 0)
 					tempTime = animationRegisterCache.vertexLife;
 				else
 				{
-					switch (_numSegmentPoint)
+					switch (numSegmentPoint)
 					{
 						case 1:
 							code += "sub " + accTime + "," + animationRegisterCache.vertexLife + "," + lifeTimeRegister + ".x\n";
@@ -190,15 +190,15 @@ package away3d.animators.nodes
 					}
 					code += "max " + tempTime + "," + accTime + "," + animationRegisterCache.vertexZeroConst + "\n";
 				}
-				if (_usesMultiplier)
+				if (usesMultiplier)
 				{
-					code += "mul " + tempColor + "," + tempTime + "," + deltaMulValues[_numSegmentPoint] + "\n";
+					code += "mul " + tempColor + "," + tempTime + "," + deltaMulValues[numSegmentPoint] + "\n";
 					code += "add " + accMultiplierColor + "," + accMultiplierColor + "," + tempColor + "\n";
 					code += "mul " + animationRegisterCache.colorMulTarget + "," + animationRegisterCache.colorMulTarget + "," + accMultiplierColor + "\n";
 				}
-				if (_usesOffset)
+				if (usesOffset)
 				{
-					code += "mul " + tempColor + "," + tempTime + "," + deltaOffsetValues[_numSegmentPoint] + "\n";
+					code += "mul " + tempColor + "," + tempTime + "," + deltaOffsetValues[numSegmentPoint] + "\n";
 					code += "add " + animationRegisterCache.colorAddTarget + "," + animationRegisterCache.colorAddTarget + "," + tempColor + "\n";
 				}
 

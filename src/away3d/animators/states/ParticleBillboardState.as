@@ -31,7 +31,7 @@ package away3d.animators.states
 		public function ParticleBillboardState(animator:ParticleAnimator, particleNode:ParticleBillboardNode)
 		{
 			super(animator, particleNode);
-			billboardAxis = particleNode._billboardAxis;
+			billboardAxis = particleNode.billboardAxis;
 		}
 
 

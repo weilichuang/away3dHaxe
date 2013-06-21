@@ -25,22 +25,22 @@ package away3d.animators.nodes
 		public static const EULERS_INDEX:uint = 1;
 
 		/** @private */
-		public var _usesEulers:Boolean;
+		public var usesEulers:Boolean;
 
 		/** @private */
-		public var _usesCycle:Boolean;
+		public var usesCycle:Boolean;
 
 		/** @private */
-		public var _usesPhase:Boolean;
+		public var usesPhase:Boolean;
 
 		/** @private */
-		public var _radius:Number;
+		public var radius:Number;
 		/** @private */
-		public var _cycleDuration:Number;
+		public var cycleDuration:Number;
 		/** @private */
-		public var _cyclePhase:Number;
+		public var cyclePhase:Number;
 		/** @private */
-		public var _eulers:Vector3D;
+		public var eulers:Vector3D;
 
 		/**
 		 * Reference for orbit node properties on a single particle (when in local property mode).
@@ -70,14 +70,14 @@ package away3d.animators.nodes
 
 			_stateClass = ParticleOrbitState;
 
-			_usesEulers = usesEulers;
-			_usesCycle = usesCycle;
-			_usesPhase = usesPhase;
+			this.usesEulers = usesEulers;
+			this.usesCycle = usesCycle;
+			this.usesPhase = usesPhase;
 
-			_radius = radius;
-			_cycleDuration = cycleDuration;
-			_cyclePhase = cyclePhase;
-			_eulers = eulers || new Vector3D();
+			this.radius = radius;
+			this.cycleDuration = cycleDuration;
+			this.cyclePhase = cyclePhase;
+			this.eulers = eulers || new Vector3D();
 		}
 
 		/**
@@ -109,11 +109,11 @@ package away3d.animators.nodes
 
 			var code:String = "";
 
-			if (_usesCycle)
+			if (usesCycle)
 			{
 				code += "mul " + degree + "," + animationRegisterCache.vertexTime + "," + orbitRegister + ".y\n";
 
-				if (_usesPhase)
+				if (usesPhase)
 					code += "add " + degree + "," + degree + "," + orbitRegister + ".w\n";
 			}
 			else
@@ -126,7 +126,7 @@ package away3d.animators.nodes
 			code += "mul " + distance + ".x," + cos + "," + orbitRegister + ".x\n";
 			code += "mul " + distance + ".y," + sin + "," + orbitRegister + ".x\n";
 			code += "mov " + distance + ".wz" + animationRegisterCache.vertexZeroConst + "\n";
-			if (_usesEulers)
+			if (usesEulers)
 				code += "m44 " + distance + "," + distance + "," + eulersMatrixRegister + "\n";
 			code += "add " + animationRegisterCache.positionTarget + ".xyz," + distance + ".xyz," + animationRegisterCache.positionTarget + ".xyz\n";
 
@@ -135,11 +135,11 @@ package away3d.animators.nodes
 				code += "neg " + distance + ".x," + sin + "\n";
 				code += "mov " + distance + ".y," + cos + "\n";
 				code += "mov " + distance + ".zw," + animationRegisterCache.vertexZeroConst + "\n";
-				if (_usesEulers)
+				if (usesEulers)
 					code += "m44 " + distance + "," + distance + "," + eulersMatrixRegister + "\n";
 				code += "mul " + distance + "," + distance + "," + orbitRegister + ".z\n";
 				code += "div " + distance + "," + distance + "," + orbitRegister + ".y\n";
-				if (!_usesCycle)
+				if (!usesCycle)
 					code += "div " + distance + "," + distance + "," + animationRegisterCache.vertexLife + "\n";
 				code += "add " + animationRegisterCache.velocityTarget + ".xyz," + animationRegisterCache.velocityTarget + ".xyz," + distance + ".xyz\n";
 			}
@@ -165,11 +165,11 @@ package away3d.animators.nodes
 				throw new Error("there is no " + ORBIT_VECTOR3D + " in param!");
 
 			_oneData[0] = orbit.x;
-			if (_usesCycle && orbit.y <= 0)
+			if (usesCycle && orbit.y <= 0)
 				throw(new Error("the cycle duration must be greater than zero"));
-			_oneData[1] = Math.PI * 2 / (!_usesCycle ? 1 : orbit.y);
+			_oneData[1] = Math.PI * 2 / (!usesCycle ? 1 : orbit.y);
 			_oneData[2] = orbit.x * Math.PI * 2;
-			if (_usesPhase)
+			if (usesPhase)
 				_oneData[3] = orbit.z * Math.PI / 180;
 		}
 	}

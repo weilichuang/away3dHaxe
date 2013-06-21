@@ -27,21 +27,21 @@ package away3d.animators.nodes
 		public static const UV_INDEX_1:uint = 1;
 
 		/** @private */
-		public var _usesCycle:Boolean;
+		public var usesCycle:Boolean;
 
 		/** @private */
-		public var _usesPhase:Boolean;
+		public var usesPhase:Boolean;
 
 		/** @private */
-		public var _totalFrames:int;
+		private var _totalFrames:int;
 		/** @private */
-		public var _numColumns:int;
+		public var numColumns:int;
 		/** @private */
-		public var _numRows:int;
+		public var numRows:int;
 		/** @private */
-		public var _cycleDuration:Number;
+		public var cycleDuration:Number;
 		/** @private */
-		public var _cyclePhase:Number;
+		public var cyclePhase:Number;
 
 		/**
 		 * Reference for spritesheet node properties on a single particle (when in local property mode).
@@ -54,7 +54,7 @@ package away3d.animators.nodes
 		 */
 		public function get numColumns():Number
 		{
-			return _numColumns;
+			return numColumns;
 		}
 
 		/**
@@ -62,7 +62,7 @@ package away3d.animators.nodes
 		 */
 		public function get numRows():Number
 		{
-			return _numRows;
+			return numRows;
 		}
 
 		/**
@@ -98,14 +98,14 @@ package away3d.animators.nodes
 
 			_stateClass = ParticleSpriteSheetState;
 
-			_usesCycle = usesCycle;
-			_usesPhase = usesPhase;
+			this.usesCycle = usesCycle;
+			this.usesPhase = usesPhase;
 
-			_numColumns = numColumns;
-			_numRows = numRows;
-			_cyclePhase = cyclePhase;
-			_cycleDuration = cycleDuration;
-			_totalFrames = Math.min(totalFrames, numColumns * numRows);
+			this.numColumns = numColumns;
+			this.numRows = numRows;
+			this.cyclePhase = cyclePhase;
+			this.cycleDuration = cycleDuration;
+			this._totalFrames = Math.min(totalFrames, numColumns * numRows);
 		}
 
 		/**
@@ -143,12 +143,12 @@ package away3d.animators.nodes
 			var code:String = "";
 			//scale uv
 			code += "mul " + u + "," + u + "," + uStep + "\n";
-			if (_numRows > 1)
+			if (numRows > 1)
 				code += "mul " + v + "," + v + "," + vStep + "\n";
 
-			if (_usesCycle)
+			if (usesCycle)
 			{
-				if (_usesPhase)
+				if (usesPhase)
 					code += "add " + time + "," + animationRegisterCache.vertexTime + "," + phaseTime + "\n";
 				else
 					code += "mov " + time + "," + animationRegisterCache.vertexTime + "\n";
@@ -164,7 +164,7 @@ package away3d.animators.nodes
 
 
 
-			if (_numRows > 1)
+			if (numRows > 1)
 			{
 				code += "frc " + temp2 + "," + temp + "\n";
 				code += "sub " + vOffset + "," + temp + "," + temp2 + "\n";
@@ -177,7 +177,7 @@ package away3d.animators.nodes
 			code += "sub " + temp2 + "," + temp2 + "," + temp + "\n";
 			code += "mul " + temp + "," + temp2 + "," + uStep + "\n";
 
-			if (_numRows > 1)
+			if (numRows > 1)
 				code += "frc " + temp + "," + temp + "\n";
 			code += "add " + u + "," + u + "," + temp + "\n";
 
@@ -205,17 +205,17 @@ package away3d.animators.nodes
 		 */
 		override public function generatePropertyOfOneParticle(param:ParticleProperties):void
 		{
-			if (_usesCycle)
+			if (usesCycle)
 			{
 				var uvCycle:Vector3D = param[UV_VECTOR3D];
 				if (!uvCycle)
 					throw(new Error("there is no " + UV_VECTOR3D + " in param!"));
 				if (uvCycle.x <= 0)
 					throw(new Error("the cycle duration must be greater than zero"));
-				var uTotal:Number = _totalFrames / _numColumns;
+				var uTotal:Number = _totalFrames / numColumns;
 				_oneData[0] = uTotal / uvCycle.x;
 				_oneData[1] = uvCycle.x;
-				if (_usesPhase)
+				if (usesPhase)
 					_oneData[2] = uvCycle.y;
 			}
 		}

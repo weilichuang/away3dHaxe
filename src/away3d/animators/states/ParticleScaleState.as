@@ -94,12 +94,12 @@ package away3d.animators.states
 			super(animator, particleScaleNode);
 
 			_particleScaleNode = particleScaleNode;
-			_usesCycle = _particleScaleNode._usesCycle;
-			_usesPhase = _particleScaleNode._usesPhase;
-			_minScale = _particleScaleNode._minScale;
-			_maxScale = _particleScaleNode._maxScale;
-			_cycleDuration = _particleScaleNode._cycleDuration;
-			_cyclePhase = _particleScaleNode._cyclePhase;
+			_usesCycle = _particleScaleNode.usesCycle;
+			_usesPhase = _particleScaleNode.usesPhase;
+			_minScale = _particleScaleNode.minScale;
+			_maxScale = _particleScaleNode.maxScale;
+			_cycleDuration = _particleScaleNode.cycleDuration;
+			_cyclePhase = _particleScaleNode.cyclePhase;
 
 			updateScaleData();
 		}

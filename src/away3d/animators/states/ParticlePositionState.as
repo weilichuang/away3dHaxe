@@ -58,7 +58,7 @@ package away3d.animators.states
 			super(animator, particlePositionNode);
 
 			_particlePositionNode = particlePositionNode;
-			_position = _particlePositionNode._position;
+			_position = _particlePositionNode.position;
 		}
 
 		/**

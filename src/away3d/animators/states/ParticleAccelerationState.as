@@ -46,7 +46,7 @@ package away3d.animators.states
 			super(animator, particleAccelerationNode);
 
 			_particleAccelerationNode = particleAccelerationNode;
-			_acceleration = _particleAccelerationNode._acceleration;
+			_acceleration = _particleAccelerationNode.acceleration;
 
 			updateAccelerationData();
 		}

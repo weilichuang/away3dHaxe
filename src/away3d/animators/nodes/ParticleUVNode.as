@@ -21,7 +21,7 @@ package away3d.animators.nodes
 		public static const UV_INDEX:uint = 0;
 
 		/** @private */
-		public var _uvData:Vector3D;
+		public var uvData:Vector3D;
 
 		/**
 		 * Used to set the time node into global property mode.
@@ -148,7 +148,7 @@ package away3d.animators.nodes
 
 		private function updateUVData():void
 		{
-			_uvData = new Vector3D(Math.PI * 2 / _cycle, _scale, 0, 0);
+			uvData = new Vector3D(Math.PI * 2 / _cycle, _scale, 0, 0);
 		}
 
 		/**

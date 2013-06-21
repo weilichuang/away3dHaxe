@@ -95,12 +95,12 @@ package away3d.animators.states
 		{
 			super(animator, particleSegmentedColorNode);
 
-			_usesMultiplier = particleSegmentedColorNode._usesMultiplier;
-			_usesOffset = particleSegmentedColorNode._usesOffset;
-			_startColor = particleSegmentedColorNode._startColor;
-			_endColor = particleSegmentedColorNode._endColor;
-			_segmentPoints = particleSegmentedColorNode._segmentPoints;
-			_numSegmentPoint = particleSegmentedColorNode._numSegmentPoint;
+			_usesMultiplier = particleSegmentedColorNode.usesMultiplier;
+			_usesOffset = particleSegmentedColorNode.usesOffset;
+			_startColor = particleSegmentedColorNode.startColor;
+			_endColor = particleSegmentedColorNode.endColor;
+			_segmentPoints = particleSegmentedColorNode.segmentPoints;
+			_numSegmentPoint = particleSegmentedColorNode.numSegmentPoint;
 			updateColorData();
 		}
 

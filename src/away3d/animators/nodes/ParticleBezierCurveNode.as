@@ -25,9 +25,9 @@ package away3d.animators.nodes
 		public static const BEZIER_END_INDEX:int = 1;
 
 		/** @private */
-		public var _controlPoint:Vector3D;
+		public var controlPoint:Vector3D;
 		/** @private */
-		public var _endPoint:Vector3D;
+		public var endPoint:Vector3D;
 
 		/**
 		 * Reference for bezier curve node properties on a single particle (when in local property mode).
@@ -55,8 +55,8 @@ package away3d.animators.nodes
 
 			_stateClass = ParticleBezierCurveState;
 
-			_controlPoint = controlPoint || new Vector3D();
-			_endPoint = endPoint || new Vector3D();
+			this.controlPoint = controlPoint || new Vector3D();
+			this.endPoint = endPoint || new Vector3D();
 		}
 
 		/**

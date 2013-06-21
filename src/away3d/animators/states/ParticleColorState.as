@@ -102,14 +102,14 @@ package away3d.animators.states
 			super(animator, particleColorNode);
 
 			_particleColorNode = particleColorNode;
-			_usesMultiplier = _particleColorNode._usesMultiplier;
-			_usesOffset = _particleColorNode._usesOffset;
-			_usesCycle = _particleColorNode._usesCycle;
-			_usesPhase = _particleColorNode._usesPhase;
-			_startColor = _particleColorNode._startColor;
-			_endColor = _particleColorNode._endColor;
-			_cycleDuration = _particleColorNode._cycleDuration;
-			_cyclePhase = _particleColorNode._cyclePhase;
+			_usesMultiplier = _particleColorNode.usesMultiplier;
+			_usesOffset = _particleColorNode.usesOffset;
+			_usesCycle = _particleColorNode.usesCycle;
+			_usesPhase = _particleColorNode.usesPhase;
+			_startColor = _particleColorNode.startColor;
+			_endColor = _particleColorNode.endColor;
+			_cycleDuration = _particleColorNode.cycleDuration;
+			_cyclePhase = _particleColorNode.cyclePhase;
 
 			updateColorData();
 		}

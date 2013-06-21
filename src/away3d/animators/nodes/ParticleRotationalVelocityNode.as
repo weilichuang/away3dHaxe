@@ -22,7 +22,7 @@ package away3d.animators.nodes
 		public static const ROTATIONALVELOCITY_INDEX:uint = 0;
 
 		/** @private */
-		public var _rotationalVelocity:Vector3D;
+		public var rotationalVelocity:Vector3D;
 
 		/**
 		 * Reference for rotational velocity node properties on a single particle (when in local property mode).
@@ -41,7 +41,7 @@ package away3d.animators.nodes
 
 			super("ParticleRotationalVelocity", mode, 4);
 
-			_rotationalVelocity = rotationalVelocity || new Vector3D();
+			rotationalVelocity = rotationalVelocity || new Vector3D();
 		}
 
 		/**

@@ -40,21 +40,21 @@ package away3d.animators.nodes
 
 		//default values used when creating states
 		/** @private */
-		public var _usesMultiplier:Boolean;
+		public var usesMultiplier:Boolean;
 		/** @private */
-		public var _usesOffset:Boolean;
+		public var usesOffset:Boolean;
 		/** @private */
-		public var _usesCycle:Boolean;
+		public var usesCycle:Boolean;
 		/** @private */
-		public var _usesPhase:Boolean;
+		public var usesPhase:Boolean;
 		/** @private */
-		public var _startColor:ColorTransform;
+		public var startColor:ColorTransform;
 		/** @private */
-		public var _endColor:ColorTransform;
+		public var endColor:ColorTransform;
 		/** @private */
-		public var _cycleDuration:Number;
+		public var cycleDuration:Number;
 		/** @private */
-		public var _cyclePhase:Number;
+		public var cyclePhase:Number;
 
 		/**
 		 * Reference for color node properties on a single particle (when in local property mode).
@@ -86,17 +86,17 @@ package away3d.animators.nodes
 		{
 			_stateClass = ParticleColorState;
 
-			_usesMultiplier = usesMultiplier;
-			_usesOffset = usesOffset;
-			_usesCycle = usesCycle;
-			_usesPhase = usesPhase;
+			this.usesMultiplier = usesMultiplier;
+			this.usesOffset = usesOffset;
+			this.usesCycle = usesCycle;
+			this.usesPhase = usesPhase;
 
-			_startColor = startColor || new ColorTransform();
-			_endColor = endColor || new ColorTransform();
-			_cycleDuration = cycleDuration;
-			_cyclePhase = cyclePhase;
+			this.startColor = startColor || new ColorTransform();
+			this.endColor = endColor || new ColorTransform();
+			this.cycleDuration = cycleDuration;
+			this.cyclePhase = cyclePhase;
 
-			super("ParticleColor", mode, (_usesMultiplier && _usesOffset) ? 16 : 8, ParticleAnimationSet.COLOR_PRIORITY);
+			super("ParticleColor", mode, (usesMultiplier && usesOffset) ? 16 : 8, ParticleAnimationSet.COLOR_PRIORITY);
 		}
 
 		/**
@@ -110,7 +110,7 @@ package away3d.animators.nodes
 			{
 				var temp:ShaderRegisterElement = animationRegisterCache.getFreeVertexVectorTemp();
 
-				if (_usesCycle)
+				if (usesCycle)
 				{
 					var cycleConst:ShaderRegisterElement = animationRegisterCache.getFreeVertexConstant();
 					animationRegisterCache.setRegisterIndex(this, CYCLE_INDEX, cycleConst.index);
@@ -121,13 +121,13 @@ package away3d.animators.nodes
 
 					code += "mul " + sin + "," + animationRegisterCache.vertexTime + "," + cycleConst + ".x\n";
 
-					if (_usesPhase)
+					if (usesPhase)
 						code += "add " + sin + "," + sin + "," + cycleConst + ".y\n";
 
 					code += "sin " + sin + "," + sin + "\n";
 				}
 
-				if (_usesMultiplier)
+				if (usesMultiplier)
 				{
 					var startMultiplierValue:ShaderRegisterElement = (_mode == ParticlePropertiesMode.GLOBAL) ? animationRegisterCache.getFreeVertexConstant() : animationRegisterCache.getFreeVertexAttribute();
 					var deltaMultiplierValue:ShaderRegisterElement = (_mode == ParticlePropertiesMode.GLOBAL) ? animationRegisterCache.getFreeVertexConstant() : animationRegisterCache.getFreeVertexAttribute();
@@ -135,12 +135,12 @@ package away3d.animators.nodes
 					animationRegisterCache.setRegisterIndex(this, START_MULTIPLIER_INDEX, startMultiplierValue.index);
 					animationRegisterCache.setRegisterIndex(this, DELTA_MULTIPLIER_INDEX, deltaMultiplierValue.index);
 
-					code += "mul " + temp + "," + deltaMultiplierValue + "," + (_usesCycle ? sin : animationRegisterCache.vertexLife) + "\n";
+					code += "mul " + temp + "," + deltaMultiplierValue + "," + (usesCycle ? sin : animationRegisterCache.vertexLife) + "\n";
 					code += "add " + temp + "," + temp + "," + startMultiplierValue + "\n";
 					code += "mul " + animationRegisterCache.colorMulTarget + "," + temp + "," + animationRegisterCache.colorMulTarget + "\n";
 				}
 
-				if (_usesOffset)
+				if (usesOffset)
 				{
 					var startOffsetValue:ShaderRegisterElement = (_mode == ParticlePropertiesMode.LOCAL_STATIC) ? animationRegisterCache.getFreeVertexAttribute() : animationRegisterCache.getFreeVertexConstant();
 					var deltaOffsetValue:ShaderRegisterElement = (_mode == ParticlePropertiesMode.LOCAL_STATIC) ? animationRegisterCache.getFreeVertexAttribute() : animationRegisterCache.getFreeVertexConstant();
@@ -148,7 +148,7 @@ package away3d.animators.nodes
 					animationRegisterCache.setRegisterIndex(this, START_OFFSET_INDEX, startOffsetValue.index);
 					animationRegisterCache.setRegisterIndex(this, DELTA_OFFSET_INDEX, deltaOffsetValue.index);
 
-					code += "mul " + temp + "," + deltaOffsetValue + "," + (_usesCycle ? sin : animationRegisterCache.vertexLife) + "\n";
+					code += "mul " + temp + "," + deltaOffsetValue + "," + (usesCycle ? sin : animationRegisterCache.vertexLife) + "\n";
 					code += "add " + temp + "," + temp + "," + startOffsetValue + "\n";
 					code += "add " + animationRegisterCache.colorAddTarget + "," + temp + "," + animationRegisterCache.colorAddTarget + "\n";
 				}
@@ -170,9 +170,9 @@ package away3d.animators.nodes
 		 */
 		override public function processAnimationSetting(particleAnimationSet:ParticleAnimationSet):void
 		{
-			if (_usesMultiplier)
+			if (usesMultiplier)
 				particleAnimationSet.hasColorMulNode = true;
-			if (_usesOffset)
+			if (usesOffset)
 				particleAnimationSet.hasColorAddNode = true;
 		}
 
@@ -191,10 +191,10 @@ package away3d.animators.nodes
 
 			var i:uint;
 
-			if (!_usesCycle)
+			if (!usesCycle)
 			{
 				//multiplier
-				if (_usesMultiplier)
+				if (usesMultiplier)
 				{
 					_oneData[i++] = startColor.redMultiplier;
 					_oneData[i++] = startColor.greenMultiplier;
@@ -207,7 +207,7 @@ package away3d.animators.nodes
 				}
 
 				//offset
-				if (_usesOffset)
+				if (usesOffset)
 				{
 					_oneData[i++] = startColor.redOffset / 255;
 					_oneData[i++] = startColor.greenOffset / 255;
@@ -222,7 +222,7 @@ package away3d.animators.nodes
 			else
 			{
 				//multiplier
-				if (_usesMultiplier)
+				if (usesMultiplier)
 				{
 					_oneData[i++] = (startColor.redMultiplier + endColor.redMultiplier) / 2;
 					_oneData[i++] = (startColor.greenMultiplier + endColor.greenMultiplier) / 2;
@@ -235,7 +235,7 @@ package away3d.animators.nodes
 				}
 
 				//offset
-				if (_usesOffset)
+				if (usesOffset)
 				{
 					_oneData[i++] = (startColor.redOffset + endColor.redOffset) / (255 * 2);
 					_oneData[i++] = (startColor.greenOffset + endColor.greenOffset) / (255 * 2);

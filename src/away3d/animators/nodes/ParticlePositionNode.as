@@ -22,7 +22,7 @@ package away3d.animators.nodes
 		public static const POSITION_INDEX:uint = 0;
 
 		/** @private */
-		public var _position:Vector3D;
+		public var position:Vector3D;
 
 		/**
 		 * Reference for position node properties on a single particle (when in local property mode).
@@ -42,7 +42,7 @@ package away3d.animators.nodes
 
 			_stateClass = ParticlePositionState;
 
-			_position = position || new Vector3D();
+			this.position = position || new Vector3D();
 		}
 
 		/**

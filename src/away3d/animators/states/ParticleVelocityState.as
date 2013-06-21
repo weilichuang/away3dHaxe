@@ -57,7 +57,7 @@ package away3d.animators.states
 			super(animator, particleVelocityNode);
 
 			_particleVelocityNode = particleVelocityNode;
-			_velocity = _particleVelocityNode._velocity;
+			_velocity = _particleVelocityNode.velocity;
 		}
 
 		override public function setRenderState(stage3DProxy:Stage3DProxy, renderable:IRenderable, animationSubGeometry:AnimationSubGeometry, animationRegisterCache:AnimationRegisterCache, camera:Camera3D):void

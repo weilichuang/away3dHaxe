@@ -44,7 +44,7 @@ package away3d.animators.states
 			super(animator, particleRotateToPositionNode);
 
 			_particleRotateToPositionNode = particleRotateToPositionNode;
-			_position = _particleRotateToPositionNode._position;
+			_position = _particleRotateToPositionNode.position;
 		}
 
 		override public function setRenderState(stage3DProxy:Stage3DProxy, renderable:IRenderable, animationSubGeometry:AnimationSubGeometry, animationRegisterCache:AnimationRegisterCache, camera:Camera3D):void

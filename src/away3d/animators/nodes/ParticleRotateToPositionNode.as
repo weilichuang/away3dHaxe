@@ -24,7 +24,7 @@ package away3d.animators.nodes
 		public static const POSITION_INDEX:int = 1;
 
 		/** @private */
-		public var _position:Vector3D;
+		public var position:Vector3D;
 
 		/**
 		 * Reference for the position the particle will rotate to face for a single particle (when in local property mode).
@@ -41,7 +41,7 @@ package away3d.animators.nodes
 
 			_stateClass = ParticleRotateToPositionState;
 
-			_position = position || new Vector3D();
+			this.position = position || new Vector3D();
 		}
 
 		/**

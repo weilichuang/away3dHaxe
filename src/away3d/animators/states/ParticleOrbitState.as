@@ -98,13 +98,13 @@ package away3d.animators.states
 			super(animator, particleOrbitNode);
 
 			_particleOrbitNode = particleOrbitNode;
-			_usesEulers = _particleOrbitNode._usesEulers;
-			_usesCycle = _particleOrbitNode._usesCycle;
-			_usesPhase = _particleOrbitNode._usesPhase;
-			_eulers = _particleOrbitNode._eulers;
-			_radius = _particleOrbitNode._radius;
-			_cycleDuration = _particleOrbitNode._cycleDuration;
-			_cyclePhase = _particleOrbitNode._cyclePhase;
+			_usesEulers = _particleOrbitNode.usesEulers;
+			_usesCycle = _particleOrbitNode.usesCycle;
+			_usesPhase = _particleOrbitNode.usesPhase;
+			_eulers = _particleOrbitNode.eulers;
+			_radius = _particleOrbitNode.radius;
+			_cycleDuration = _particleOrbitNode.cycleDuration;
+			_cyclePhase = _particleOrbitNode.cyclePhase;
 			updateOrbitData();
 		}
 

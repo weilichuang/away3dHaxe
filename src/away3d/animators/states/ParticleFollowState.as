@@ -39,7 +39,7 @@ package away3d.animators.states
 			super(animator, particleFollowNode, true);
 
 			_particleFollowNode = particleFollowNode;
-			_smooth = particleFollowNode._smooth;
+			_smooth = particleFollowNode.smooth;
 		}
 
 		public function get followTarget():Object3D
@@ -73,14 +73,14 @@ package away3d.animators.states
 
 			if (_followTarget)
 			{
-				if (_particleFollowNode._usesPosition)
+				if (_particleFollowNode.usesPosition)
 				{
 					_targetPos.x = _followTarget.position.x / renderable.sourceEntity.scaleX;
 					_targetPos.y = _followTarget.position.y / renderable.sourceEntity.scaleY;
 					_targetPos.z = _followTarget.position.z / renderable.sourceEntity.scaleZ;
 
 				}
-				if (_particleFollowNode._usesRotation)
+				if (_particleFollowNode.usesRotation)
 				{
 					_targetEuler.x = _followTarget.rotationX;
 					_targetEuler.y = _followTarget.rotationY;
@@ -100,7 +100,7 @@ package away3d.animators.states
 
 			var needProcess:Boolean = previousTime != currentTime;
 
-			if (_particleFollowNode._usesPosition && _particleFollowNode._usesRotation)
+			if (_particleFollowNode.usesPosition && _particleFollowNode.usesRotation)
 			{
 				if (needProcess)
 					processPositionAndRotation(currentTime, deltaTime, animationSubGeometry);
@@ -110,7 +110,7 @@ package away3d.animators.states
 				animationSubGeometry.activateVertexBuffer(animationRegisterCache.getRegisterIndex(_animationNode, ParticleFollowNode.FOLLOW_ROTATION_INDEX), _particleFollowNode.dataOffset + 3, stage3DProxy,
 					Context3DVertexBufferFormat.FLOAT_3);
 			}
-			else if (_particleFollowNode._usesPosition)
+			else if (_particleFollowNode.usesPosition)
 			{
 				if (needProcess)
 					processPosition(currentTime, deltaTime, animationSubGeometry);
@@ -118,7 +118,7 @@ package away3d.animators.states
 				animationSubGeometry.activateVertexBuffer(animationRegisterCache.getRegisterIndex(_animationNode, ParticleFollowNode.FOLLOW_POSITION_INDEX), _particleFollowNode.dataOffset, stage3DProxy,
 					Context3DVertexBufferFormat.FLOAT_3);
 			}
-			else if (_particleFollowNode._usesRotation)
+			else if (_particleFollowNode.usesRotation)
 			{
 				if (needProcess)
 					precessRotation(currentTime, deltaTime, animationSubGeometry);

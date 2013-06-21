@@ -44,7 +44,7 @@ package away3d.animators.states
 			super(animator, particleOscillatorNode);
 
 			_particleOscillatorNode = particleOscillatorNode;
-			_oscillator = _particleOscillatorNode._oscillator;
+			_oscillator = _particleOscillatorNode.oscillator;
 
 			updateOscillatorData();
 		}

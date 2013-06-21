@@ -22,7 +22,7 @@ package away3d.animators.nodes
 		public static const OSCILLATOR_INDEX:uint = 0;
 
 		/** @private */
-		public var _oscillator:Vector3D;
+		public var oscillator:Vector3D;
 
 		/**
 		 * Reference for ocsillator node properties on a single particle (when in local property mode).
@@ -42,7 +42,7 @@ package away3d.animators.nodes
 
 			_stateClass = ParticleOscillatorState;
 
-			_oscillator = oscillator || new Vector3D();
+			this.oscillator = oscillator || new Vector3D();
 		}
 
 		/**

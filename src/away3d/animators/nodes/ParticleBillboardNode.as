@@ -22,7 +22,7 @@ package away3d.animators.nodes
 		public static const MATRIX_INDEX:int = 0;
 
 		/** @private */
-		public var _billboardAxis:Vector3D;
+		public var billboardAxis:Vector3D;
 
 		/**
 		 * Creates a new <code>ParticleBillboardNode</code>
@@ -33,7 +33,7 @@ package away3d.animators.nodes
 
 			_stateClass = ParticleBillboardState;
 
-			_billboardAxis = billboardAxis;
+			this.billboardAxis = billboardAxis;
 		}
 
 		/**
