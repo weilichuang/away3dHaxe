@@ -425,7 +425,7 @@ package example
 		/**
 		 * Listener for keyboard down events
 		 */
-		private function onKeyDown(event:KeyboardEvent):void
+		override protected function onKeyDown(event:KeyboardEvent):void
 		{
 			switch (event.keyCode)
 			{
@@ -451,7 +451,7 @@ package example
 		/**
 		 * Listener for keyboard up events
 		 */
-		private function onKeyUp(event:KeyboardEvent):void
+		override protected function onKeyUp(event:KeyboardEvent):void
 		{
 			switch (event.keyCode)
 			{
