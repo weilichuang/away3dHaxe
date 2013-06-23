@@ -720,7 +720,7 @@ package a3d.entities.extrusions
 						if (v.z > _axis1Max)
 							_axis1Max = v.z;
 					}
-					break;
+					
 
 				case PLANE_XY:
 					_sortProp = "y";
@@ -737,8 +737,6 @@ package a3d.entities.extrusions
 						if (v.y > _axis1Max)
 							_axis1Max = v.y;
 					}
-					break;
-
 				case PLANE_ZY:
 					_sortProp = "y";
 					_loopProp = "z";

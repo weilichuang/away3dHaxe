@@ -160,7 +160,8 @@
 			raw[1] = raw[2] = raw[3] = raw[4] = raw[6] = raw[7] = raw[8] = raw[9] = raw[11] = 0;
 			raw[15] = 1;
 
-			target ||= new Matrix3D();
+			if (target == null)
+				target = new Matrix3D();
 			target.copyRawDataFrom(raw);
 			target.prepend(m);
 

@@ -1,104 +1,103 @@
-package a3d.animators.data
+package a3d.animators.data;
+
+import a3d.io.library.assets.AssetType;
+import a3d.io.library.assets.IAsset;
+import a3d.io.library.assets.NamedAssetBase;
+
+/**
+ * A Skeleton object is a hierarchical grouping of joint objects that can be used for skeletal animation.
+ *
+ * @see a3d.animators.data.SkeletonJoint
+ */
+class Skeleton extends NamedAssetBase implements IAsset
 {
-	import a3d.io.library.assets.AssetType;
-	import a3d.io.library.assets.IAsset;
-	import a3d.io.library.assets.NamedAssetBase;
+	/**
+	 * A flat list of joint objects that comprise the skeleton. Every joint except for the root has a parentIndex
+	 * property that is an index into this list.
+	 * A child joint should always have a higher index than its parent.
+	 */
+	public var joints:Vector<SkeletonJoint>;
 
 	/**
-	 * A Skeleton object is a hierarchical grouping of joint objects that can be used for skeletal animation.
-	 *
-	 * @see a3d.animators.data.SkeletonJoint
+	 * The total number of joints in the skeleton.
 	 */
-	class Skeleton extends NamedAssetBase implements IAsset
+	private inline function get_numJoints():UInt
 	{
-		/**
-		 * A flat list of joint objects that comprise the skeleton. Every joint except for the root has a parentIndex
-		 * property that is an index into this list.
-		 * A child joint should always have a higher index than its parent.
-		 */
-		public var joints:Vector<SkeletonJoint>;
+		return joints.length;
+	}
 
-		/**
-		 * The total number of joints in the skeleton.
-		 */
-		private inline function get_numJoints():UInt
+	/**
+	 * Creates a new <code>Skeleton</code> object
+	 */
+	public function Skeleton()
+	{
+		// in the long run, it might be a better idea to not store Joint objects, but keep all data in Vectors, that we can upload easily?
+		joints = new Vector<SkeletonJoint>();
+	}
+
+	/**
+	 * Returns the joint object in the skeleton with the given name, otherwise returns a null object.
+	 *
+	 * @param jointName The name of the joint object to be found.
+	 * @return The joint object with the given name.
+	 *
+	 * @see #joints
+	 */
+	public function jointFromName(jointName:String):SkeletonJoint
+	{
+		var jointIndex:Int = jointIndexFromName(jointName);
+		if (jointIndex != -1)
 		{
-			return joints.length;
+			return joints[jointIndex];
 		}
-
-		/**
-		 * Creates a new <code>Skeleton</code> object
-		 */
-		public function Skeleton()
+		else
 		{
-			// in the long run, it might be a better idea to not store Joint objects, but keep all data in Vectors, that we can upload easily?
-			joints = new Vector<SkeletonJoint>();
+			return null;
 		}
+	}
 
-		/**
-		 * Returns the joint object in the skeleton with the given name, otherwise returns a null object.
-		 *
-		 * @param jointName The name of the joint object to be found.
-		 * @return The joint object with the given name.
-		 *
-		 * @see #joints
-		 */
-		public function jointFromName(jointName:String):SkeletonJoint
+	/**
+	 * Returns the joint index, given the joint name. -1 is returned if the joint name is not found.
+	 *
+	 * @param jointName The name of the joint object to be found.
+	 * @return The index of the joint object in the joints vector.
+	 *
+	 * @see #joints
+	 */
+	public function jointIndexFromName(jointName:String):Int
+	{
+		// this function is implemented as a linear search, rather than a possibly
+		// more optimal method (Dictionary lookup, for example) because:
+		// a) it is assumed that it will be called once for each joint
+		// b) it is assumed that it will be called only during load, and not during main loop
+		// c) maintaining a dictionary (for safety) would dictate an interface to access SkeletonJoints,
+		//    rather than direct array access.  this would be sub-optimal.
+		var jointIndex:Int;
+		for each (var joint:SkeletonJoint in joints)
 		{
-			var jointIndex:Int = jointIndexFromName(jointName);
-			if (jointIndex != -1)
+			if (joint.name == jointName)
 			{
-				return joints[jointIndex];
+				return jointIndex;
 			}
-			else
-			{
-				return null;
-			}
+			jointIndex++;
 		}
 
-		/**
-		 * Returns the joint index, given the joint name. -1 is returned if the joint name is not found.
-		 *
-		 * @param jointName The name of the joint object to be found.
-		 * @return The index of the joint object in the joints vector.
-		 *
-		 * @see #joints
-		 */
-		public function jointIndexFromName(jointName:String):Int
-		{
-			// this function is implemented as a linear search, rather than a possibly
-			// more optimal method (Dictionary lookup, for example) because:
-			// a) it is assumed that it will be called once for each joint
-			// b) it is assumed that it will be called only during load, and not during main loop
-			// c) maintaining a dictionary (for safety) would dictate an interface to access SkeletonJoints,
-			//    rather than direct array access.  this would be sub-optimal.
-			var jointIndex:Int;
-			for each (var joint:SkeletonJoint in joints)
-			{
-				if (joint.name == jointName)
-				{
-					return jointIndex;
-				}
-				jointIndex++;
-			}
+		return -1;
+	}
 
-			return -1;
-		}
+	/**
+	 * @inheritDoc
+	*/
+	public function dispose():Void
+	{
+		joints.length = 0;
+	}
 
-		/**
-		 * @inheritDoc
-		*/
-		public function dispose():Void
-		{
-			joints.length = 0;
-		}
-
-		/**
-		 * @inheritDoc
-		*/
-		private inline function get_assetType():String
-		{
-			return AssetType.SKELETON;
-		}
+	/**
+	 * @inheritDoc
+	*/
+	private inline function get_assetType():String
+	{
+		return AssetType.SKELETON;
 	}
 }

@@ -300,7 +300,9 @@ class Entity extends ObjectContainer3D
 	 */
 	public function getEntityPartitionNode():EntityNode
 	{
-		return _partitionNode ||= createEntityPartitionNode();
+		if (_partitionNode == null)
+			_partitionNode = createEntityPartitionNode();
+		return _partitionNode;
 	}
 
 	public function isIntersectingRay(rayPosition:Vector3D, rayDirection:Vector3D):Bool
@@ -310,7 +312,9 @@ class Entity extends ObjectContainer3D
 		var localRayDirection:Vector3D = inverseSceneTransform.deltaTransformVector(rayDirection);
 
 		// check for ray-bounds collision
-		var rayEntryDistance:Float = bounds.rayIntersection(localRayPosition, localRayDirection, pickingCollisionVO.localNormal ||= new Vector3D());
+		if (pickingCollisionVO.localNormal == null)
+			pickingCollisionVO.localNormal = new Vector3D()
+		var rayEntryDistance:Float = bounds.rayIntersection(localRayPosition, localRayDirection, pickingCollisionVO.localNormal);
 
 		if (rayEntryDistance < 0)
 			return false;

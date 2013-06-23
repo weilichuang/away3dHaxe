@@ -906,14 +906,12 @@ package a3d.entities.extrusions
 								prop1 = X_AXIS;
 								prop2 = Z_AXIS;
 								prop3 = Y_AXIS;
-								break;
-
+								
 							case Y_AXIS:
 								prop1 = Y_AXIS;
 								prop2 = X_AXIS;
 								prop3 = Z_AXIS;
-								break;
-
+								
 							case Z_AXIS:
 								prop1 = Z_AXIS;
 								prop2 = Y_AXIS;
@@ -1030,14 +1028,12 @@ package a3d.entities.extrusions
 									val = (_profile[i].z < 0) ? halft : -halft;
 									tmprofile1.push(new Vector3D(_profile[i].x, _profile[i].y, _profile[i].z - val));
 									tmprofile2.push(new Vector3D(_profile[i].x, _profile[i].y, _profile[i].z + val));
-									break;
-
+									
 								case Y_AXIS:
 									val = (_profile[i].x < 0) ? halft : -halft;
 									tmprofile1.push(new Vector3D(_profile[i].x - val, _profile[i].y, _profile[i].z));
 									tmprofile2.push(new Vector3D(_profile[i].x + val, _profile[i].y, _profile[i].z));
-									break;
-
+									
 								case Z_AXIS:
 									val = (_profile[i].y < 0) ? halft : -halft;
 									tmprofile1.push(new Vector3D(_profile[i].x, _profile[i].y - val, _profile[i].z));
@@ -1618,19 +1614,19 @@ package a3d.entities.extrusions
 				{
 					case 1:
 						prop = "back";
-						break;
+					
 					case 2:
 						prop = "left";
-						break;
+					
 					case 3:
 						prop = "right";
-						break;
+				
 					case 4:
 						prop = "top";
-						break;
+					
 					case 5:
 						prop = "bottom";
-						break;
+					
 					default:
 						prop = "front";
 				}

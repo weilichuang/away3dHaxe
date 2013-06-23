@@ -1,37 +1,36 @@
-package a3d.animators.nodes
+package a3d.animators.nodes;
+
+import a3d.animators.IAnimator;
+import a3d.animators.states.SkeletonBinaryLERPState;
+
+/**
+ * A skeleton animation node that uses two animation node inputs to blend a lineraly interpolated output of a skeleton pose.
+ */
+class SkeletonBinaryLERPNode extends AnimationNodeBase
 {
-	import a3d.animators.IAnimator;
-	import a3d.animators.states.SkeletonBinaryLERPState;
+	/**
+	 * Defines input node A to use for the blended output.
+	 */
+	public var inputA:AnimationNodeBase;
 
 	/**
-	 * A skeleton animation node that uses two animation node inputs to blend a lineraly interpolated output of a skeleton pose.
+	 * Defines input node B to use for the blended output.
 	 */
-	class SkeletonBinaryLERPNode extends AnimationNodeBase
+	public var inputB:AnimationNodeBase;
+
+	/**
+	 * Creates a new <code>SkeletonBinaryLERPNode</code> object.
+	 */
+	public function SkeletonBinaryLERPNode()
 	{
-		/**
-		 * Defines input node A to use for the blended output.
-		 */
-		public var inputA:AnimationNodeBase;
+		_stateClass = SkeletonBinaryLERPState;
+	}
 
-		/**
-		 * Defines input node B to use for the blended output.
-		 */
-		public var inputB:AnimationNodeBase;
-
-		/**
-		 * Creates a new <code>SkeletonBinaryLERPNode</code> object.
-		 */
-		public function SkeletonBinaryLERPNode()
-		{
-			_stateClass = SkeletonBinaryLERPState;
-		}
-
-		/**
-		 * @inheritDoc
-		 */
-		public function getAnimationState(animator:IAnimator):SkeletonBinaryLERPState
-		{
-			return animator.getAnimationState(this) as SkeletonBinaryLERPState;
-		}
+	/**
+	 * @inheritDoc
+	 */
+	public function getAnimationState(animator:IAnimator):SkeletonBinaryLERPState
+	{
+		return animator.getAnimationState(this) as SkeletonBinaryLERPState;
 	}
 }

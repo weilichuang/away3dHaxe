@@ -46,7 +46,7 @@ package a3d.tools.utils
 		*/
 		public function snapVertices(vertices:Vector<Float>):Vector<Float>
 		{
-			for (var i:UInt = 0; i < vertices.length; ++i)
+			for (i in 0...vertices.length)
 				vertices[i] -= vertices[i] % _unit;
 
 			return vertices;
@@ -108,7 +108,7 @@ package a3d.tools.utils
 			if (object3d is Mesh && object3d.numChildren == 0 && dovert)
 				snap(Mesh(object3d));
 
-			for (var i:UInt = 0; i < object3d.numChildren; ++i)
+			for (i in 0...object3d.numChildren)
 			{
 				child = object3d.getChildAt(i);
 				parse(child, dovert);
@@ -122,24 +122,27 @@ package a3d.tools.utils
 			var numSubGeoms:Int = geometries.length;
 
 			var vertices:Vector<Float>;
-			var j:UInt;
-			var i:UInt;
+			var j:Int;
+			var i:Int;
 			var vecLength:UInt;
 			var subGeom:SubGeometry;
 			var stride:UInt;
 
-			for (i = 0; i < numSubGeoms; ++i)
+			for (i in 0...numSubGeoms)
 			{
 				subGeom = SubGeometry(geometries[i]);
 				vertices = subGeom.vertexData;
 				vecLength = vertices.length;
 				stride = subGeom.vertexStride;
-
-				for (j = subGeom.vertexOffset; j < vecLength; j += stride)
+				
+				j = subGeom.vertexOffset
+				while (j < vecLength)
 				{
 					vertices[j] -= vertices[j] % _unit;
 					vertices[j + 1] -= vertices[j + 1] % _unit;
 					vertices[j + 2] -= vertices[j + 2] % _unit;
+					
+					j += stride;
 				}
 
 				subGeom.updateVertexData(vertices);

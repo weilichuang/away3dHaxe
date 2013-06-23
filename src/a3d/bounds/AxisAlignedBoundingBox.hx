@@ -237,7 +237,8 @@ class AxisAlignedBoundingBox extends BoundingVolumeBase
 	public function closestPointToPoint(point:Vector3D, target:Vector3D = null):Vector3D
 	{
 		var p:Float;
-		target ||= new Vector3D();
+		if (target == null)
+			target = new Vector3D();
 
 		p = point.x;
 		if (p < _min.x)

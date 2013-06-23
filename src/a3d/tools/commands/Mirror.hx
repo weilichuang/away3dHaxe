@@ -352,14 +352,12 @@ package a3d.tools.commands
 					ox = (_axis & X_AXIS) ? 2 * bounds.min.x : 0;
 					oy = (_axis & Y_AXIS) ? 2 * bounds.min.y : 0;
 					oz = (_axis & Z_AXIS) ? 2 * bounds.min.z : 0;
-					break;
-
+				
 				case MAX_BOUND:
 					ox = (_axis & X_AXIS) ? 2 * bounds.max.x : 0;
 					oy = (_axis & Y_AXIS) ? 2 * bounds.max.y : 0;
 					oz = (_axis & Z_AXIS) ? 2 * bounds.max.z : 0;
-					break;
-
+				
 				default:
 					ox = oy = oz = 0;
 			}

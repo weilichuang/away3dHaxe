@@ -163,7 +163,9 @@ package a3d.animators.states
 					firstPose = poses;
 					for (i = 0; i < numJoints; ++i)
 					{
-						endPose = endPoses[i] ||= new JointPose();
+						if (endPoses[i] == null)
+							endPoses[i] = new JointPose();
+						endPose = endPoses[i];
 						pose = poses[i];
 						q = pose.orientation;
 						tr = pose.translation;

@@ -62,7 +62,7 @@ package a3d.tools.utils
 			if (obj is Mesh && obj.numChildren == 0)
 				remapMesh(Mesh(obj));
 
-			for (var i:UInt = 0; i < obj.numChildren; ++i)
+			for (i in 0...obj.numChildren)
 			{
 				child = obj.getChildAt(i);
 				parse(child);
@@ -162,7 +162,7 @@ package a3d.tools.utils
 			var offsetU:Float;
 			var offsetV:Float;
 
-			for (i = 0; i < numSubGeoms; ++i)
+			for (i in 0...numSubGeoms)
 			{
 				sub_geom = geometries[i];
 
@@ -183,67 +183,62 @@ package a3d.tools.utils
 					case FRONT:
 						offsetU = _offsetW + position.x;
 						offsetV = _offsetH + position.y;
-						for (j = 0; j < numIndices; ++j)
+						for (j in 0...numIndices)
 						{
 							vIndex = vertexOffset + vertexStride * indices[j];
 							uvIndex = uvOffset + uvStride * indices[j];
 							uvs[uvIndex] = (vertices[vIndex] + offsetU) / _width;
 							uvs[uvIndex + 1] = 1 - (vertices[vIndex + 1] + offsetV) / _height;
 						}
-						break;
-
+						
 					case BACK:
 						offsetU = _offsetW + position.x;
 						offsetV = _offsetH + position.y;
-						for (j = 0; j < numIndices; ++j)
+						for (j in 0...numIndices)
 						{
 							vIndex = vertexOffset + vertexStride * indices[j];
 							uvIndex = uvOffset + uvStride * indices[j];
 							uvs[uvIndex] = 1 - (vertices[vIndex] + offsetU) / _width;
 							uvs[uvIndex + 1] = 1 - (vertices[vIndex + 1] + offsetV) / _height;
 						}
-						break;
-
+					
 					case RIGHT:
 						offsetU = _offsetW + position.z;
 						offsetV = _offsetH + position.y;
-						for (j = 0; j < numIndices; ++j)
+						for (j in 0...numIndices)
 						{
 							vIndex = vertexOffset + vertexStride * indices[j] + 1;
 							uvIndex = uvOffset + uvStride * indices[j];
 							uvs[uvIndex] = (vertices[vIndex + 1] + offsetU) / _width;
 							uvs[uvIndex + 1] = 1 - (vertices[vIndex] + offsetV) / _height;
 						}
-						break;
-
+					
 					case LEFT:
 						offsetU = _offsetW + position.z;
 						offsetV = _offsetH + position.y;
-						for (j = 0; j < numIndices; ++j)
+						for (j in 0...numIndices)
 						{
 							vIndex = vertexOffset + vertexStride * indices[j] + 1;
 							uvIndex = uvOffset + uvStride * indices[j];
 							uvs[uvIndex] = 1 - (vertices[vIndex + 1] + offsetU) / _width;
 							uvs[uvIndex + 1] = 1 - (vertices[vIndex] + offsetV) / _height;
 						}
-						break;
-
+						
 					case TOP:
 						offsetU = _offsetW + position.x;
 						offsetV = _offsetH + position.z;
-						for (j = 0; j < numIndices; ++j)
+						for (j in 0...numIndices)
 						{
 							vIndex = vertexOffset + vertexStride * indices[j];
 							uvIndex = uvOffset + uvStride * indices[j];
 							uvs[uvIndex] = (vertices[vIndex] + offsetU) / _width;
 							uvs[uvIndex + 1] = 1 - (vertices[vIndex + 2] + offsetV) / _height;
 						}
-						break;
-
+					
 					case BOTTOM:
 						offsetU = _offsetW + position.x;
 						offsetV = _offsetH + position.z;
-						for (j = 0; j < numIndices; ++j)
+						for (j in 0...numIndices)
 						{
 							vIndex = vertexOffset + vertexStride * indices[j];
 							uvIndex = uvOffset + uvStride * indices[j];
@@ -281,7 +276,7 @@ package a3d.tools.utils
 			var numIndices:UInt;
 			var offset:Float;
 
-			for (i = 0; i < numSubGeoms; ++i)
+			for (i in 0...numSubGeoms)
 			{
 				sub_geom = geometries[i];
 
@@ -303,29 +298,27 @@ package a3d.tools.utils
 					case CYLINDRICAL_X:
 
 						offset = _offsetW + position.x;
-						for (j = 0; j < numIndices; ++j)
+						for (j in 0...numIndices)
 						{
 							vIndex = vertexOffset + vertexStride * indices[j];
 							uvIndex = uvOffset + uvStride * indices[j];
 							uvs[uvIndex] = (vertices[vIndex] + offset) / _width;
 							uvs[uvIndex + 1] = (PI + Math.atan2(vertices[vIndex + 1], vertices[vIndex + 2])) / DOUBLEPI;
 						}
-						break;
-
+					
 					case CYLINDRICAL_Y:
 						offset = _offsetD + position.y;
-						for (j = 0; j < numIndices; ++j)
+						for (j in 0...numIndices)
 						{
 							vIndex = vertexOffset + vertexStride * indices[j];
 							uvIndex = uvOffset + uvStride * indices[j];
 							uvs[uvIndex] = (PI + Math.atan2(vertices[vIndex], vertices[vIndex + 2])) / DOUBLEPI;
 							uvs[uvIndex + 1] = 1 - (vertices[vIndex + 1] + offset) / _depth;
 						}
-						break;
-
+					
 					case CYLINDRICAL_Z:
 						offset = _offsetW + position.z;
-						for (j = 0; j < numIndices; ++j)
+						for (j in 0...numIndices)
 						{
 							vIndex = vertexOffset + vertexStride * indices[j];
 							uvIndex = uvOffset + uvStride * indices[j];
@@ -367,7 +360,7 @@ package a3d.tools.utils
 			var uvIndex:UInt;
 			var numIndices:UInt;
 
-			for (i = 0; i < numSubGeoms; ++i)
+			for (i in 0...numSubGeoms)
 			{
 				sub_geom = geometries[i];
 
@@ -385,7 +378,7 @@ package a3d.tools.utils
 
 				numIndices = indices.length;
 
-				for (j = 0; j < numIndices; ++j)
+				for (j in 0...numIndices)
 				{
 					vIndex = vertexOffset + vertexStride * indices[j];
 					uvIndex = uvOffset + uvStride * indices[j];

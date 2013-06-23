@@ -284,7 +284,8 @@ class SubMesh implements IRenderable
 
 	private function updateUVTransform():Void
 	{
-		_uvTransform ||= new Matrix();
+		if (_uvTransform == null)
+			_uvTransform = new Matrix();
 		_uvTransform.identity();
 		if (_uvRotation != 0)
 			_uvTransform.rotate(_uvRotation);

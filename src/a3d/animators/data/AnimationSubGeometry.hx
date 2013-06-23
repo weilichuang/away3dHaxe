@@ -1,94 +1,93 @@
-package a3d.animators.data
+package a3d.animators.data;
+
+import a3d.core.managers.Stage3DProxy;
+
+import flash.display3D.Context3D;
+import flash.display3D.VertexBuffer3D;
+
+/**
+ * ...
+ */
+class AnimationSubGeometry
 {
-	import a3d.core.managers.Stage3DProxy;
+	private var _vertexData:Vector<Float>;
 
-	import flash.display3D.Context3D;
-	import flash.display3D.VertexBuffer3D;
+	private var _vertexBuffer:Vector<VertexBuffer3D> = new Vector<VertexBuffer3D>(8);
+	private var _bufferContext:Vector<Context3D> = new Vector<Context3D>(8);
+	private var _bufferDirty:Vector<Bool> = new Vector<Bool>(8);
 
-	/**
-	 * ...
-	 */
-	class AnimationSubGeometry
+	private var _numVertices:UInt;
+
+	private var _totalLenOfOneVertex:UInt;
+
+	public var numProcessedVertices:Int = 0;
+
+	public var previousTime:Float = Number.NEGATIVE_INFINITY;
+
+	public var animationParticles:Vector<ParticleAnimationData> = new Vector<ParticleAnimationData>();
+
+	public function AnimationSubGeometry()
 	{
-		private var _vertexData:Vector<Float>;
+		for (var i:Int = 0; i < 8; i++)
+			_bufferDirty[i] = true;
+	}
 
-		private var _vertexBuffer:Vector<VertexBuffer3D> = new Vector<VertexBuffer3D>(8);
-		private var _bufferContext:Vector<Context3D> = new Vector<Context3D>(8);
-		private var _bufferDirty:Vector<Bool> = new Vector<Bool>(8);
+	public function createVertexData(numVertices:UInt, totalLenOfOneVertex:UInt):Void
+	{
+		_numVertices = numVertices;
+		_totalLenOfOneVertex = totalLenOfOneVertex;
+		_vertexData = new Vector<Float>(numVertices * totalLenOfOneVertex, true);
+	}
 
-		private var _numVertices:UInt;
+	public function activateVertexBuffer(index:Int, bufferOffset:Int, stage3DProxy:Stage3DProxy, format:String):Void
+	{
+		var contextIndex:Int = stage3DProxy.stage3DIndex;
+		var context:Context3D = stage3DProxy.context3D;
 
-		private var _totalLenOfOneVertex:UInt;
-
-		public var numProcessedVertices:Int = 0;
-
-		public var previousTime:Float = Number.NEGATIVE_INFINITY;
-
-		public var animationParticles:Vector<ParticleAnimationData> = new Vector<ParticleAnimationData>();
-
-		public function AnimationSubGeometry()
+		var buffer:VertexBuffer3D = _vertexBuffer[contextIndex];
+		if (buffer == null || _bufferContext[contextIndex] != context)
 		{
-			for (var i:Int = 0; i < 8; i++)
-				_bufferDirty[i] = true;
+			buffer = _vertexBuffer[contextIndex] = context.createVertexBuffer(_numVertices, _totalLenOfOneVertex);
+			_bufferContext[contextIndex] = context;
+			_bufferDirty[contextIndex] = true;
 		}
-
-		public function createVertexData(numVertices:UInt, totalLenOfOneVertex:UInt):Void
+		if (_bufferDirty[contextIndex])
 		{
-			_numVertices = numVertices;
-			_totalLenOfOneVertex = totalLenOfOneVertex;
-			_vertexData = new Vector<Float>(numVertices * totalLenOfOneVertex, true);
+			buffer.uploadFromVector(_vertexData, 0, _numVertices);
+			_bufferDirty[contextIndex] = false;
 		}
+		context.setVertexBufferAt(index, buffer, bufferOffset, format);
+	}
 
-		public function activateVertexBuffer(index:Int, bufferOffset:Int, stage3DProxy:Stage3DProxy, format:String):Void
+	public function dispose():Void
+	{
+		while (_vertexBuffer.length)
 		{
-			var contextIndex:Int = stage3DProxy.stage3DIndex;
-			var context:Context3D = stage3DProxy.context3D;
+			var vertexBuffer:VertexBuffer3D = _vertexBuffer.pop()
 
-			var buffer:VertexBuffer3D = _vertexBuffer[contextIndex];
-			if (buffer == null || _bufferContext[contextIndex] != context)
-			{
-				buffer = _vertexBuffer[contextIndex] = context.createVertexBuffer(_numVertices, _totalLenOfOneVertex);
-				_bufferContext[contextIndex] = context;
-				_bufferDirty[contextIndex] = true;
-			}
-			if (_bufferDirty[contextIndex])
-			{
-				buffer.uploadFromVector(_vertexData, 0, _numVertices);
-				_bufferDirty[contextIndex] = false;
-			}
-			context.setVertexBufferAt(index, buffer, bufferOffset, format);
+			if (vertexBuffer)
+				vertexBuffer.dispose();
 		}
+	}
 
-		public function dispose():Void
-		{
-			while (_vertexBuffer.length)
-			{
-				var vertexBuffer:VertexBuffer3D = _vertexBuffer.pop()
+	public function invalidateBuffer():Void
+	{
+		for (var i:Int = 0; i < 8; i++)
+			_bufferDirty[i] = true;
+	}
 
-				if (vertexBuffer)
-					vertexBuffer.dispose();
-			}
-		}
+	private inline function get_vertexData():Vector<Float>
+	{
+		return _vertexData;
+	}
 
-		public function invalidateBuffer():Void
-		{
-			for (var i:Int = 0; i < 8; i++)
-				_bufferDirty[i] = true;
-		}
+	private inline function get_numVertices():UInt
+	{
+		return _numVertices;
+	}
 
-		private inline function get_vertexData():Vector<Float>
-		{
-			return _vertexData;
-		}
-
-		private inline function get_numVertices():UInt
-		{
-			return _numVertices;
-		}
-
-		private inline function get_totalLenOfOneVertex():UInt
-		{
-			return _totalLenOfOneVertex;
-		}
+	private inline function get_totalLenOfOneVertex():UInt
+	{
+		return _totalLenOfOneVertex;
 	}
 }

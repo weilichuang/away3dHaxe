@@ -69,7 +69,7 @@ package a3d.materials.methods
 			var len:UInt = _numSamples << 1;
 
 			for (var i:Int = 0; i < len; ++i)
-				data[uint(index + i)] = _offsets[i] * texRange;
+				data[index + i] = _offsets[i] * texRange;
 		}
 
 		/**
@@ -108,15 +108,15 @@ package a3d.materials.methods
 			var index:UInt = vo.secondaryFragmentConstantsIndex;
 			var len:UInt = _numSamples << 1;
 			data[index] = 1 / _numSamples;
-			data[uint(index + 1)] = 0;
+			data[index + 1] = 0;
 			index += 2;
 			for (var i:Int = 0; i < len; ++i)
-				data[uint(index + i)] = _offsets[i] * texRange;
+				data[index + i] = _offsets[i] * texRange;
 
 			if (len % 4 == 0)
 			{
-				data[uint(index + len)] = 0;
-				data[uint(index + len + 1)] = 0;
+				data[index + len] = 0;
+				data[index + len + 1] = 0;
 			}
 		}
 

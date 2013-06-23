@@ -178,7 +178,9 @@ package a3d.animators.states
 
 		private function notifyPlaybackComplete():Void
 		{
-			_animationClipNode.dispatchEvent(_animationStatePlaybackComplete ||= new AnimationStateEvent(AnimationStateEvent.PLAYBACK_COMPLETE, _animator, this, _animationClipNode));
+			if (_animationStatePlaybackComplete == null)
+				_animationStatePlaybackComplete = new AnimationStateEvent(AnimationStateEvent.PLAYBACK_COMPLETE, _animator, this, _animationClipNode);
+			_animationClipNode.dispatchEvent(_animationStatePlaybackComplete);
 		}
 	}
 }

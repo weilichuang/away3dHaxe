@@ -78,10 +78,10 @@ package a3d.materials.methods
 			{
 				case MULTIPLY:
 					code += "mul " + targetReg + ", " + targetReg + ", " + temp + "\n";
-					break;
+					
 				case ADD:
 					code += "add " + targetReg + ", " + targetReg + ", " + temp + "\n";
-					break;
+					
 			}
 
 			return code;

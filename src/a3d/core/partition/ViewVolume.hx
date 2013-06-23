@@ -101,7 +101,8 @@ package a3d.core.partition
 				throw new Error("Entity being added as a visible static object must have static set to true");
 
 			var index:Int = getCellIndex(indexX, indexY, indexZ);
-			_cells[index].visibleStatics ||= new Vector<EntityNode>();
+			if (_cells[index].visibleStatics == null)
+				_cells[index].visibleStatics = new Vector<EntityNode>();
 			_cells[index].visibleStatics.push(entity.getEntityPartitionNode());
 			updateNumEntities(_numEntities + 1);
 		}
@@ -109,7 +110,8 @@ package a3d.core.partition
 		public function addVisibleDynamicCell(cell:InvertedOctreeNode, indexX:UInt = 0, indexY:UInt = 0, indexZ:UInt = 0):Void
 		{
 			var index:Int = getCellIndex(indexX, indexY, indexZ);
-			_cells[index].visibleDynamics ||= new Vector<InvertedOctreeNode>();
+			if (_cells[index].visibleDynamics == null)
+				_cells[index].visibleDynamics = new Vector<InvertedOctreeNode>();
 			_cells[index].visibleDynamics.push(cell);
 			updateNumEntities(_numEntities + 1);
 		}
@@ -167,7 +169,8 @@ package a3d.core.partition
 		public function markCellAccessible(indexX:UInt, indexY:UInt, indexZ:UInt):Void
 		{
 			var index:Int = getCellIndex(indexX, indexY, indexZ);
-			_cells[index] ||= new ViewCell();
+			if (_cells[index] == null)
+				_cells[index] = new ViewCell();
 		}
 
 		/**
@@ -320,7 +323,9 @@ package a3d.core.partition
 		private function addStaticsForRegion(scene:Scene3D, minBounds:Vector3D, maxBounds:Vector3D, cell:ViewCell):Void
 		{
 			var iterator:SceneIterator = new SceneIterator(scene);
-			var visibleStatics:Vector<EntityNode> = cell.visibleStatics ||= new Vector<EntityNode>();
+			if (cell.visibleStatics == null)
+				cell.visibleStatics = new Vector<EntityNode>();
+			var visibleStatics:Vector<EntityNode> = cell.visibleStatics;
 			var object:ObjectContainer3D;
 			var numAdded:Int = 0;
 
@@ -347,7 +352,8 @@ package a3d.core.partition
 		private function addDynamicsForRegion(dynamicGrid:DynamicGrid, minBounds:Vector3D, maxBounds:Vector3D, cell:ViewCell):Void
 		{
 			var cells:Vector<InvertedOctreeNode> = dynamicGrid.getCellsIntersecting(minBounds, maxBounds);
-			cell.visibleDynamics ||= new Vector<InvertedOctreeNode>();
+			if(cell.visibleDynamics == null)
+				cell.visibleDynamics = new Vector<InvertedOctreeNode>();
 			cell.visibleDynamics = cell.visibleDynamics.concat(cells);
 			updateNumEntities(_numEntities + cells.length);
 		}
@@ -370,8 +376,8 @@ package a3d.core.partition
 			for (var i:UInt = 3; i < 24; i += 3)
 			{
 				var x:Float = _entityWorldBounds[i];
-				var y:Float = _entityWorldBounds[uint(i + 1)];
-				var z:Float = _entityWorldBounds[uint(i + 2)];
+				var y:Float = _entityWorldBounds[i + 1];
+				var z:Float = _entityWorldBounds[i + 2];
 				if (x < minX)
 					minX = x;
 				else if (x > maxX)

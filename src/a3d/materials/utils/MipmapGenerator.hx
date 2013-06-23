@@ -1,62 +1,63 @@
-package a3d.materials.utils
+package a3d.materials.utils;
+
+import flash.display.BitmapData;
+import flash.display3D.textures.CubeTexture;
+import flash.display3D.textures.Texture;
+import flash.display3D.textures.TextureBase;
+import flash.geom.Matrix;
+import flash.geom.Rectangle;
+import flash.Lib;
+
+/**
+ * MipmapGenerator is a helper class that uploads BitmapData to a Texture including mipmap levels.
+ */
+class MipmapGenerator
 {
-	import flash.display.BitmapData;
-	import flash.display3D.textures.CubeTexture;
-	import flash.display3D.textures.Texture;
-	import flash.display3D.textures.TextureBase;
-	import flash.geom.Matrix;
-	import flash.geom.Rectangle;
+	private static var _matrix:Matrix = new Matrix();
+	private static var _rect:Rectangle = new Rectangle();
 
 	/**
-	 * MipmapGenerator is a helper class that uploads BitmapData to a Texture including mipmap levels.
+	 * Uploads a BitmapData with mip maps to a target Texture object.
+	 * @param source The source BitmapData to upload.
+	 * @param target The target Texture to upload to.
+	 * @param mipmap An optional mip map holder to avoids creating new instances for fe animated materials.
+	 * @param alpha Indicate whether or not the uploaded bitmapData is transparent.
 	 */
-	class MipmapGenerator
+	public static function generateMipMaps(source:BitmapData, target:TextureBase, mipmap:BitmapData = null, alpha:Bool = false, side:Int = -1):Void
 	{
-		private static var _matrix:Matrix = new Matrix();
-		private static var _rect:Rectangle = new Rectangle();
+		var w:UInt = source.width,
+			h:UInt = source.height;
+		var i:UInt;
+		var regen:Bool = mipmap != null;
+		if (mipmap == null)
+			mipmap = new BitmapData(w, h, alpha);
 
-		/**
-		 * Uploads a BitmapData with mip maps to a target Texture object.
-		 * @param source The source BitmapData to upload.
-		 * @param target The target Texture to upload to.
-		 * @param mipmap An optional mip map holder to avoids creating new instances for fe animated materials.
-		 * @param alpha Indicate whether or not the uploaded bitmapData is transparent.
-		 */
-		public static function generateMipMaps(source:BitmapData, target:TextureBase, mipmap:BitmapData = null, alpha:Bool = false, side:Int = -1):Void
+		_rect.width = w;
+		_rect.height = h;
+
+		while (w >= 1 || h >= 1)
 		{
-			var w:UInt = source.width,
-				h:UInt = source.height;
-			var i:UInt;
-			var regen:Bool = mipmap != null;
-			mipmap ||= new BitmapData(w, h, alpha);
+			if (alpha)
+				mipmap.fillRect(_rect, 0);
 
-			_rect.width = w;
-			_rect.height = h;
+			_matrix.a = _rect.width / source.width;
+			_matrix.d = _rect.height / source.height;
 
-			while (w >= 1 || h >= 1)
-			{
-				if (alpha)
-					mipmap.fillRect(_rect, 0);
+			mipmap.draw(source, _matrix, null, null, null, true);
 
-				_matrix.a = _rect.width / source.width;
-				_matrix.d = _rect.height / source.height;
+			if (Std.is(target,Texture))
+				Lib.as(target,Texture).uploadFromBitmapData(mipmap, i++);
+			else
+				Lib.as(target,CubeTexture).uploadFromBitmapData(mipmap, side, i++);
 
-				mipmap.draw(source, _matrix, null, null, null, true);
+			w >>= 1;
+			h >>= 1;
 
-				if (target is Texture)
-					Texture(target).uploadFromBitmapData(mipmap, i++);
-				else
-					CubeTexture(target).uploadFromBitmapData(mipmap, side, i++);
-
-				w >>= 1;
-				h >>= 1;
-
-				_rect.width = w > 1 ? w : 1;
-				_rect.height = h > 1 ? h : 1;
-			}
-
-			if (!regen)
-				mipmap.dispose();
+			_rect.width = w > 1 ? w : 1;
+			_rect.height = h > 1 ? h : 1;
 		}
+
+		if (!regen)
+			mipmap.dispose();
 	}
 }

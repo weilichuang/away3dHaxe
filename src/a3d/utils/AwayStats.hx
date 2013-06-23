@@ -301,7 +301,7 @@ package a3d.utils
 				var i:Int;
 
 				_mean_data = [];
-				for (i = 0; i < _mean_data_length; i++)
+				for (i in 0..._mean_data_length)
 				{
 					_mean_data[i] = 0.0;
 				}
@@ -757,7 +757,7 @@ package a3d.utils
 			_max_ram = 0;
 
 			// Reset RAM usage log
-			for (i = 0; i < _WIDTH / 5; i++)
+			for (i in 0..._WIDTH / 5)
 			{
 				_mem_points[i] = 0;
 			}
@@ -765,7 +765,7 @@ package a3d.utils
 			// Reset FPS log if any
 			if (_mean_data)
 			{
-				for (i = 0; i < _mean_data.length; i++)
+				for (i in 0..._mean_data.length)
 				{
 					_mean_data[i] = 0.0;
 				}
@@ -839,7 +839,7 @@ package a3d.utils
 
 
 				// Sum up poly counts across all registered views
-				for (i = 0; i < _views.length; i++)
+				for (i in 0..._views.length)
 				{
 					_rfaces += _views[i].renderedFacesCount;
 						//_tfaces += 0;// TODO: total faces
@@ -910,7 +910,7 @@ package a3d.utils
 
 				if (_mean_data)
 				{
-					for (i = 0; i < _mean_data.length; i++)
+					for (i in 0..._mean_data.length)
 					{
 						_mean_data[i] = 0.0;
 					}

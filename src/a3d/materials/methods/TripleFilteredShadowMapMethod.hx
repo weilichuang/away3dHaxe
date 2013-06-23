@@ -8,7 +8,7 @@ package a3d.materials.methods
 
 	
 
-	[Deprecated(message = "Please consider any of the superior shadow map methods: SoftShadowMapMethod or DitheredShadowMapMethod")]
+	//[Deprecated(message = "Please consider any of the superior shadow map methods: SoftShadowMapMethod or DitheredShadowMapMethod")]
 	class TripleFilteredShadowMapMethod extends SimpleShadowMapMethodBase
 	{
 		/**

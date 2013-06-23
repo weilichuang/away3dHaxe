@@ -75,7 +75,9 @@ package a3d.animators
 		{
 			var className:Class = node.stateClass;
 
-			return _animationStates[node] ||= new className(this, node);
+			if (_animationStates[node] == null)
+				_animationStates[node] = new className(this, node);
+			return _animationStates[node];
 		}
 
 		public function getAnimationStateByName(name:String):AnimationStateBase
@@ -219,7 +221,9 @@ package a3d.animators
 			if (!hasEventListener(AnimatorEvent.START))
 				return;
 
-			dispatchEvent(_startEvent ||= new AnimatorEvent(AnimatorEvent.START, this));
+			if (_startEvent == null)
+				_startEvent = new AnimatorEvent(AnimatorEvent.START, this)
+			dispatchEvent(_startEvent);
 		}
 
 		/**

@@ -147,8 +147,8 @@ package a3d.entities.lights.shadowmaps
 			while (i < 24)
 			{
 				x = _localFrustum[i];
-				y = _localFrustum[uint(i + 1)];
-				z = _localFrustum[uint(i + 2)];
+				y = _localFrustum[i + 1];
+				z = _localFrustum[i + 2];
 				if (x < minX)
 					minX = x;
 				if (x > maxX)

@@ -1,52 +1,51 @@
-package a3d.textures
+package a3d.textures;
+
+import flash.display3D.Context3D;
+import flash.display3D.textures.CubeTexture;
+import flash.display3D.textures.TextureBase;
+import flash.Lib;
+import flash.utils.ByteArray;
+
+class ATFCubeTexture extends CubeTextureBase
 {
-	import flash.display3D.Context3D;
-	import flash.display3D.textures.CubeTexture;
-	import flash.display3D.textures.TextureBase;
-	import flash.utils.ByteArray;
+	private var _atfData:ATFData;
 
-	
-
-	
-
-	class ATFCubeTexture extends CubeTextureBase
+	public function new(byteArray:ByteArray)
 	{
-		private var _atfData:ATFData;
-
-		public function ATFCubeTexture(byteArray:ByteArray)
+		super();
+		atfData = new ATFData(byteArray);
+		if (atfData.type != ATFData.TYPE_CUBE)
 		{
-			super();
-			atfData = new ATFData(byteArray);
-			if (atfData.type != ATFData.TYPE_CUBE)
-			{
-				throw new Error("ATF isn't cubetexture");
-			}
-			_format = atfData.format;
-			_hasMipmaps = _atfData.numTextures > 1;
+			throw new Error("ATF isn't cubetexture");
 		}
+		_format = atfData.format;
+		_hasMipmaps = _atfData.numTextures > 1;
+	}
 
-		private inline function get_atfData():ATFData
-		{
-			return _atfData;
-		}
+	public var atfData(get, set):ATFData;
+	private inline function get_atfData():ATFData
+	{
+		return _atfData;
+	}
 
-		private inline function set_atfData(value:ATFData):Void
-		{
-			_atfData = value;
+	private inline function set_atfData(value:ATFData):ATFData
+	{
+		_atfData = value;
 
-			invalidateContent();
+		invalidateContent();
 
-			setSize(value.width, value.height);
-		}
+		setSize(value.width, value.height);
+		
+		return _atfData;
+	}
 
-		override private function uploadContent(texture:TextureBase):Void
-		{
-			CubeTexture(texture).uploadCompressedTextureFromByteArray(_atfData.data, 0, false);
-		}
+	override private function uploadContent(texture:TextureBase):Void
+	{
+		Lib.as(texture,CubeTexture).uploadCompressedTextureFromByteArray(_atfData.data, 0, false);
+	}
 
-		override private function createTexture(context:Context3D):TextureBase
-		{
-			return context.createCubeTexture(_atfData.width, _atfData.format, false);
-		}
+	override private function createTexture(context:Context3D):TextureBase
+	{
+		return context.createCubeTexture(_atfData.width, _atfData.format, false);
 	}
 }

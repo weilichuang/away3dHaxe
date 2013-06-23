@@ -1,76 +1,75 @@
-package a3d.animators.nodes
+package a3d.animators.nodes;
+
+import flash.geom.Vector3D;
+
+
+import a3d.animators.IAnimator;
+import a3d.animators.ParticleAnimationSet;
+import a3d.animators.data.AnimationRegisterCache;
+import a3d.animators.data.ParticlePropertiesMode;
+import a3d.animators.states.ParticleBillboardState;
+import a3d.materials.compilation.ShaderRegisterElement;
+import a3d.materials.passes.MaterialPassBase;
+
+
+
+/**
+ * A particle animation node that controls the rotation of a particle to always face the camera.
+ */
+class ParticleBillboardNode extends ParticleNodeBase
 {
-	import flash.geom.Vector3D;
+	/** @private */
+	public static inline var MATRIX_INDEX:Int = 0;
 
-	
-	import a3d.animators.IAnimator;
-	import a3d.animators.ParticleAnimationSet;
-	import a3d.animators.data.AnimationRegisterCache;
-	import a3d.animators.data.ParticlePropertiesMode;
-	import a3d.animators.states.ParticleBillboardState;
-	import a3d.materials.compilation.ShaderRegisterElement;
-	import a3d.materials.passes.MaterialPassBase;
-
-	
+	/** @private */
+	public var billboardAxis:Vector3D;
 
 	/**
-	 * A particle animation node that controls the rotation of a particle to always face the camera.
+	 * Creates a new <code>ParticleBillboardNode</code>
 	 */
-	class ParticleBillboardNode extends ParticleNodeBase
+	public function ParticleBillboardNode(billboardAxis:Vector3D = null)
 	{
-		/** @private */
-		public static inline var MATRIX_INDEX:Int = 0;
+		super("ParticleBillboard", ParticlePropertiesMode.GLOBAL, 0, 4);
 
-		/** @private */
-		public var billboardAxis:Vector3D;
+		_stateClass = ParticleBillboardState;
 
-		/**
-		 * Creates a new <code>ParticleBillboardNode</code>
-		 */
-		public function ParticleBillboardNode(billboardAxis:Vector3D = null)
-		{
-			super("ParticleBillboard", ParticlePropertiesMode.GLOBAL, 0, 4);
+		this.billboardAxis = billboardAxis;
+	}
 
-			_stateClass = ParticleBillboardState;
+	/**
+	 * @inheritDoc
+	 */
+	override public function getAGALVertexCode(pass:MaterialPassBase, animationRegisterCache:AnimationRegisterCache):String
+	{
+		pass = pass;
+		var rotationMatrixRegister:ShaderRegisterElement = animationRegisterCache.getFreeVertexConstant();
+		animationRegisterCache.setRegisterIndex(this, MATRIX_INDEX, rotationMatrixRegister.index);
+		animationRegisterCache.getFreeVertexConstant();
+		animationRegisterCache.getFreeVertexConstant();
+		animationRegisterCache.getFreeVertexConstant();
 
-			this.billboardAxis = billboardAxis;
-		}
+		var code:String = "m33 " + animationRegisterCache.scaleAndRotateTarget + ".xyz," + animationRegisterCache.scaleAndRotateTarget + ".xyz," + rotationMatrixRegister + "\n";
 
-		/**
-		 * @inheritDoc
-		 */
-		override public function getAGALVertexCode(pass:MaterialPassBase, animationRegisterCache:AnimationRegisterCache):String
-		{
-			pass = pass;
-			var rotationMatrixRegister:ShaderRegisterElement = animationRegisterCache.getFreeVertexConstant();
-			animationRegisterCache.setRegisterIndex(this, MATRIX_INDEX, rotationMatrixRegister.index);
-			animationRegisterCache.getFreeVertexConstant();
-			animationRegisterCache.getFreeVertexConstant();
-			animationRegisterCache.getFreeVertexConstant();
+		var shaderRegisterElement:ShaderRegisterElement;
+		for each (shaderRegisterElement in animationRegisterCache.rotationRegisters)
+			code += "m33 " + shaderRegisterElement.regName + shaderRegisterElement.index + ".xyz," + shaderRegisterElement + "," + rotationMatrixRegister + "\n";
 
-			var code:String = "m33 " + animationRegisterCache.scaleAndRotateTarget + ".xyz," + animationRegisterCache.scaleAndRotateTarget + ".xyz," + rotationMatrixRegister + "\n";
+		return code;
+	}
 
-			var shaderRegisterElement:ShaderRegisterElement;
-			for each (shaderRegisterElement in animationRegisterCache.rotationRegisters)
-				code += "m33 " + shaderRegisterElement.regName + shaderRegisterElement.index + ".xyz," + shaderRegisterElement + "," + rotationMatrixRegister + "\n";
+	/**
+	 * @inheritDoc
+	 */
+	public function getAnimationState(animator:IAnimator):ParticleBillboardState
+	{
+		return animator.getAnimationState(this) as ParticleBillboardState;
+	}
 
-			return code;
-		}
-
-		/**
-		 * @inheritDoc
-		 */
-		public function getAnimationState(animator:IAnimator):ParticleBillboardState
-		{
-			return animator.getAnimationState(this) as ParticleBillboardState;
-		}
-
-		/**
-		 * @inheritDoc
-		 */
-		override public function processAnimationSetting(particleAnimationSet:ParticleAnimationSet):Void
-		{
-			particleAnimationSet.hasBillboard = true;
-		}
+	/**
+	 * @inheritDoc
+	 */
+	override public function processAnimationSetting(particleAnimationSet:ParticleAnimationSet):Void
+	{
+		particleAnimationSet.hasBillboard = true;
 	}
 }

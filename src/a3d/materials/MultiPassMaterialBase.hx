@@ -237,7 +237,8 @@
 			*/
 		public function addMethod(method:EffectMethodBase):Void
 		{
-			_effectsPass ||= new SuperShaderPass(this);
+			if (_effectsPass == null)
+				_effectsPass = new SuperShaderPass(this);
 			_effectsPass.addMethod(method);
 			invalidateScreenPasses();
 		}
@@ -264,7 +265,8 @@
 		*/
 		public function addMethodAt(method:EffectMethodBase, index:Int):Void
 		{
-			_effectsPass ||= new SuperShaderPass(this);
+			if (_effectsPass == null)
+				_effectsPass = new SuperShaderPass(this);
 			_effectsPass.addMethodAt(method, index);
 			invalidateScreenPasses();
 		}
@@ -544,7 +546,8 @@
 
 		private function initCasterLightPass():Void
 		{
-			_casterLightPass ||= new ShadowCasterPass(this);
+			if (_casterLightPass == null)
+				_casterLightPass = new ShadowCasterPass(this);
 			_casterLightPass.diffuseMethod = null;
 			_casterLightPass.ambientMethod = null;
 			_casterLightPass.normalMethod = null;
@@ -638,7 +641,8 @@
 
 		private function initEffectsPass():SuperShaderPass
 		{
-			_effectsPass ||= new SuperShaderPass(this);
+			if (_effectsPass == null)
+				_effectsPass = new SuperShaderPass(this);
 			_effectsPass.enableLightFallOff = _enableLightFallOff;
 			if (numLights == 0)
 			{

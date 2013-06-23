@@ -304,8 +304,8 @@ class AssetLibraryBundle extends EventDispatcher
 
 		if (_assetDictDirty)
 			rehashAssetDict();
-
-		ns ||= NamedAssetBase.DEFAULT_NAMESPACE;
+		if (ns == null)
+			ns = NamedAssetBase.DEFAULT_NAMESPACE;
 		if (!_assetDictionary.hasOwnProperty(ns))
 			return null;
 
@@ -430,7 +430,8 @@ class AssetLibraryBundle extends EventDispatcher
 		old_assets = _assets.concat();
 		_assets.length = 0;
 
-		ns ||= NamedAssetBase.DEFAULT_NAMESPACE;
+		if (ns == null)
+			ns = NamedAssetBase.DEFAULT_NAMESPACE;
 		for each (asset in old_assets)
 		{
 			// Remove from dict if in the supplied namespace. If not,

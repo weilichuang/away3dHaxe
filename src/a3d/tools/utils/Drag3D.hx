@@ -375,21 +375,18 @@ package a3d.tools.utils
 					case PLANE_XZ:
 						_red.alpha = highA;
 						_green.alpha = _blue.alpha = lowA;
-						break;
-
+					
 					case "yx":
 						_planeid = PLANE_XY;
 					case PLANE_XY:
 						_red.alpha = _blue.alpha = lowA;
 						_green.alpha = highA;
-						break;
-
+					
 					case "yz":
 						_planeid = PLANE_ZY;
 					case PLANE_ZY:
 						_red.alpha = _green.alpha = lowA;
 						_blue.alpha = highA;
-						break;
 					default:
 						throw new Error("Unvalid plane description, use: Drag3D.PLANE_XZ, Drag3D.PLANE_XY, or Drag3D.PLANE_ZY");
 				}
@@ -431,19 +428,16 @@ package a3d.tools.utils
 						_np.x = obj.transform.rawData[4];
 						_np.y = obj.transform.rawData[5];
 						_np.z = obj.transform.rawData[6];
-						break;
-
+						
 					case PLANE_XY:
 						_np.x = obj.transform.rawData[8];
 						_np.y = obj.transform.rawData[9];
 						_np.z = obj.transform.rawData[10];
-						break;
-
+						
 					case PLANE_ZY:
 						_np.x = obj.transform.rawData[0];
 						_np.y = obj.transform.rawData[1];
 						_np.z = obj.transform.rawData[2];
-						break;
 				}
 
 				if (!_rotations)
@@ -478,19 +472,16 @@ package a3d.tools.utils
 						_np.x = 0;
 						_np.y = 1;
 						_np.z = 0;
-						break;
-
+						
 					case PLANE_XY:
 						_np.x = 0;
 						_np.y = 0;
 						_np.z = 1;
-						break;
-
+						
 					case PLANE_ZY:
 						_np.x = 1;
 						_np.y = 0;
 						_np.z = 0;
-						break;
 				}
 			}
 

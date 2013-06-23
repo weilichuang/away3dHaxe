@@ -341,27 +341,27 @@ package a3d.materials.passes
 					_blendFactorSource = Context3DBlendFactor.ONE;
 					_blendFactorDest = Context3DBlendFactor.ZERO;
 					_enableBlending = false;
-					break;
+					
 				case BlendMode.LAYER:
 					_blendFactorSource = Context3DBlendFactor.SOURCE_ALPHA;
 					_blendFactorDest = Context3DBlendFactor.ONE_MINUS_SOURCE_ALPHA;
 					_enableBlending = true;
-					break;
+					
 				case BlendMode.MULTIPLY:
 					_blendFactorSource = Context3DBlendFactor.ZERO;
 					_blendFactorDest = Context3DBlendFactor.SOURCE_COLOR;
 					_enableBlending = true;
-					break;
+					
 				case BlendMode.ADD:
 					_blendFactorSource = Context3DBlendFactor.SOURCE_ALPHA;
 					_blendFactorDest = Context3DBlendFactor.ONE;
 					_enableBlending = true;
-					break;
+					
 				case BlendMode.ALPHA:
 					_blendFactorSource = Context3DBlendFactor.ZERO;
 					_blendFactorDest = Context3DBlendFactor.SOURCE_ALPHA;
 					_enableBlending = true;
-					break;
+					
 				default:
 					throw new ArgumentError("Unsupported blend mode!");
 			}

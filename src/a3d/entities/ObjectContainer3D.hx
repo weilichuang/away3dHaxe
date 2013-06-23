@@ -797,10 +797,10 @@ package a3d.entities
 			{
 				case Object3DEvent.SCENETRANSFORM_CHANGED:
 					_listenToSceneTransformChanged = true;
-					break;
+					
 				case Object3DEvent.SCENE_CHANGED:
 					_listenToSceneChanged = true;
-					break;
+					
 			}
 		}
 
@@ -816,10 +816,10 @@ package a3d.entities
 			{
 				case Object3DEvent.SCENETRANSFORM_CHANGED:
 					_listenToSceneTransformChanged = false;
-					break;
+					
 				case Object3DEvent.SCENE_CHANGED:
 					_listenToSceneChanged = false;
-					break;
+					
 			}
 		}
 	}

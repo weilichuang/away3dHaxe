@@ -1,40 +1,39 @@
-package a3d.tools.utils
+package a3d.tools.utils;
+
+import flash.display.BitmapData;
+
+class TextureUtils
 {
-	import flash.display.BitmapData;
+	private static inline var MAX_SIZE:UInt = 2048;
 
-	class TextureUtils
+	public static function isBitmapDataValid(bitmapData:BitmapData):Bool
 	{
-		private static inline var MAX_SIZE:UInt = 2048;
+		if (bitmapData == null)
+			return true;
 
-		public static function isBitmapDataValid(bitmapData:BitmapData):Bool
-		{
-			if (bitmapData == null)
-				return true;
+		return isDimensionValid(bitmapData.width) && isDimensionValid(bitmapData.height);
+	}
 
-			return isDimensionValid(bitmapData.width) && isDimensionValid(bitmapData.height);
-		}
+	public static function isDimensionValid(d:UInt):Bool
+	{
+		return d >= 1 && d <= MAX_SIZE && isPowerOfTwo(d);
+	}
 
-		public static function isDimensionValid(d:UInt):Bool
-		{
-			return d >= 1 && d <= MAX_SIZE && isPowerOfTwo(d);
-		}
+	public static function isPowerOfTwo(value:Int):Bool
+	{
+		return value ? ((value & -value) == value) : false;
+	}
 
-		public static function isPowerOfTwo(value:Int):Bool
-		{
-			return value ? ((value & -value) == value) : false;
-		}
+	public static function getBestPowerOf2(value:UInt):Float
+	{
+		var p:UInt = 1;
 
-		public static function getBestPowerOf2(value:UInt):Float
-		{
-			var p:UInt = 1;
+		while (p < value)
+			p <<= 1;
 
-			while (p < value)
-				p <<= 1;
+		if (p > MAX_SIZE)
+			p = MAX_SIZE;
 
-			if (p > MAX_SIZE)
-				p = MAX_SIZE;
-
-			return p;
-		}
+		return p;
 	}
 }

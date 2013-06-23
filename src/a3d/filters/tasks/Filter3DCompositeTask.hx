@@ -56,17 +56,17 @@ package a3d.filters.tasks
 			{
 				case "multiply":
 					op = "mul";
-					break;
+				
 				case "add":
 					op = "add";
-					break;
+				
 				case "subtract":
 					op = "sub";
-					break;
+				
 				case "normal":
 					// for debugging purposes
 					op = "mov";
-					break;
+				
 				default:
 					throw new Error("Unknown blend mode");
 			}

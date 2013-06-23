@@ -206,16 +206,16 @@ package a3d.materials.utils
 					if (loop)
 						_ns.play(_src);
 
-					break;
+					
 				case "NetStream.Play.Play":
 					//this.dispatchEvent( new VideoEvent(VideoEvent.PLAY,_netStream, file) );
-					break;
+					
 				case "NetStream.Play.StreamNotFound":
 					trace("The file " + _src + " was not found", e);
-					break;
+					
 				case "NetConnection.Connect.Success":
 					trace("Connected to stream", e);
-					break;
+					
 			}
 		}
 

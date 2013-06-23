@@ -77,7 +77,8 @@ package a3d.animators
 		 */
 		public function setOffset(x:Float = 0, y:Float = 0, z:Float = 0):Void
 		{
-			_offset ||= new Vector3D();
+			if (_offset == null)
+				_offset = new Vector3D();
 
 			_offset.x = x;
 			_offset.y = y;

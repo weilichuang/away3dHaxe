@@ -1,11 +1,12 @@
-package a3d.errors
-{
+package a3d.errors;
+import flash.errors.Error;
 
-	class AnimationSetError extends Error
+
+class AnimationSetError extends Error
+{
+	public function new(message:String)
 	{
-		public function AnimationSetError(message:String)
-		{
-			super(message);
-		}
+		super(message);
 	}
 }
+

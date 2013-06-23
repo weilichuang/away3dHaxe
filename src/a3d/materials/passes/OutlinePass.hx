@@ -190,7 +190,9 @@ package a3d.materials.passes
 
 			if (_dedicatedMeshes)
 			{
-				mesh = _outlineMeshes[renderable] ||= createDedicatedMesh(SubMesh(renderable).subGeometry);
+				if (_outlineMeshes[renderable] == null)
+					_outlineMeshes[renderable] = createDedicatedMesh(SubMesh(renderable).subGeometry)
+				mesh = _outlineMeshes[renderable];
 				dedicatedRenderable = mesh.subMeshes[0];
 
 				context.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX, 0, matrix3D, true);

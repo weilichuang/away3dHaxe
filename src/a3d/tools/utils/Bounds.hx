@@ -193,7 +193,9 @@ package a3d.tools.utils
 			if (!obj.visible)
 				return;
 
-			var containerBounds:Vector<Float> = _containers[obj] ||= Vector<Float>([Infinity, Infinity, Infinity, -Infinity, -Infinity, -Infinity]);
+			if (_containers[obj] == null)
+				_containers[obj] = Vector.ofArray([Infinity, Infinity, Infinity, -Infinity, -Infinity, -Infinity]);
+			var containerBounds:Vector<Float> = _containers[obj];
 
 			var child:ObjectContainer3D;
 			var isEntity:Entity = obj as Entity;

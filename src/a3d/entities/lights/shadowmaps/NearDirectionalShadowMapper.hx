@@ -41,7 +41,7 @@ package a3d.entities.lights.shadowmaps
 			{
 				var v:Float = corners[i];
 				_localFrustum[i] = v;
-				_localFrustum[uint(i + 12)] = v + (corners[uint(i + 12)] - v) * _coverageRatio;
+				_localFrustum[i + 12] = v + (corners[i + 12] - v) * _coverageRatio;
 			}
 
 			updateProjectionFromFrustumCorners(viewCamera, _localFrustum, _matrix);

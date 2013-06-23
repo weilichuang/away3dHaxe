@@ -163,7 +163,8 @@ package a3d.materials.passes
 			var light:LightBase;
 			var lights:Vector<LightBase> = _lightPicker.allPickedLights;
 
-			_textures[contextIndex] ||= new Dictionary();
+			if (_textures[contextIndex] == null)
+				_textures[contextIndex] = new Dictionary();
 
 			if (!_projections[renderable])
 				_projections[renderable] = new Matrix3D();
@@ -175,7 +176,9 @@ package a3d.materials.passes
 			matrix = light.getObjectProjectionMatrix(renderable, _projections[renderable]);
 
 			// todo: use texture proxy?
-			var target:Texture = _textures[contextIndex][renderable] ||= context.createTexture(_textureSize, _textureSize, Context3DTextureFormat.BGRA, true);
+			if (_textures[contextIndex][renderable] == null)
+				_textures[contextIndex][renderable] = context.createTexture(_textureSize, _textureSize, Context3DTextureFormat.BGRA, true);
+			var target:Texture = _textures[contextIndex][renderable];
 
 			stage3DProxy.setRenderTarget(target, true);
 			context.clear(1.0, 1.0, 1.0);

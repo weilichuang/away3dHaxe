@@ -466,8 +466,8 @@
 					nV = nurbPoint(uinc, vinc);
 
 					data[vBase] = nV.x;
-					data[uint(vBase + 1)] = nV.y;
-					data[uint(vBase + 2)] = nV.z;
+					data[vBase + 1] = nV.y;
+					data[vBase + 2] = nV.z;
 					vBase += stride;
 				}
 			}
@@ -535,8 +535,8 @@
 			{
 				for (j = _uSegments; j >= 0; j--)
 				{
-					data[uint(uvBase)] = j / _uSegments;
-					data[uint(uvBase + 1)] = i / _vSegments;
+					data[uvBase] = j / _uSegments;
+					data[uvBase + 1] = i / _vSegments;
 					uvBase += stride;
 				}
 			}
@@ -561,10 +561,10 @@
 
 			for (var vBase:UInt = subGeom.vertexOffset; vBase < len; vBase += vertexStride)
 			{
-				nurbPoint(data[uvIndex], data[uint(uvIndex + 1)], nV);
+				nurbPoint(data[uvIndex], data[uvIndex + 1], nV);
 				data[vBase] = nV.x;
-				data[uint(vBase + 1)] = nV.y;
-				data[uint(vBase + 2)] = nV.z;
+				data[vBase + 1] = nV.y;
+				data[vBase + 2] = nV.z;
 				uvIndex += uvStride;
 			}
 

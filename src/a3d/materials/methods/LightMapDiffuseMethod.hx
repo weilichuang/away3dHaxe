@@ -75,10 +75,10 @@ package a3d.materials.methods
 			{
 				case MULTIPLY:
 					code += "mul " + _totalLightColorReg + ", " + _totalLightColorReg + ", " + temp + "\n";
-					break;
+				
 				case ADD:
 					code += "add " + _totalLightColorReg + ", " + _totalLightColorReg + ", " + temp + "\n";
-					break;
+				
 			}
 
 			code += super.getFragmentPostLightingCode(vo, regCache, targetReg);

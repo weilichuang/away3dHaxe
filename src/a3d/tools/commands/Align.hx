@@ -56,8 +56,7 @@ package a3d.tools.commands
 						m[_axis] = -val;
 						bounds[i] = null;
 					}
-
-					break;
+;
 
 				case NEGATIVE:
 					base = getMinBounds(bounds);
@@ -114,16 +113,13 @@ package a3d.tools.commands
 			{
 				case POSITIVE:
 					base = getMax(aObjs, _axis);
-					break;
-
+				
 				case NEGATIVE:
 					base = getMin(aObjs, _axis);
-					break;
-
+				
 				case AVERAGE:
 					base = getAverage(aObjs, _axis);
-					break;
-
+				
 				case "":
 					base = 0;
 			}
@@ -241,12 +237,10 @@ package a3d.tools.commands
 			{
 				case X_AXIS:
 					prop = (_condition == POSITIVE) ? "maxX" : "minX";
-					break;
-
+					
 				case Y_AXIS:
 					prop = (_condition == POSITIVE) ? "maxY" : "minY";
-					break;
-
+					
 				case Z_AXIS:
 					prop = (_condition == POSITIVE) ? "maxZ" : "minZ";
 			}
@@ -266,12 +260,10 @@ package a3d.tools.commands
 				{
 					case X_AXIS:
 						min = Math.min(mb.maxX + mb.mesh.x, min);
-						break;
-
+					
 					case Y_AXIS:
 						min = Math.min(mb.maxY + mb.mesh.y, min);
-						break;
-
+					
 					case Z_AXIS:
 						min = Math.min(mb.maxZ + mb.mesh.z, min);
 				}
@@ -292,12 +284,10 @@ package a3d.tools.commands
 				{
 					case X_AXIS:
 						max = Math.max(mb.maxX + mb.mesh.x, max);
-						break;
-
+					
 					case Y_AXIS:
 						max = Math.max(mb.maxY + mb.mesh.y, max);
-						break;
-
+					
 					case Z_AXIS:
 						max = Math.max(mb.maxZ + mb.mesh.z, max);
 				}

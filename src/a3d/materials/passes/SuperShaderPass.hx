@@ -70,7 +70,8 @@ package a3d.materials.passes
 		{
 			if (value)
 			{
-				colorTransformMethod ||= new ColorTransformMethod();
+				if (colorTransformMethod == null)
+					colorTransformMethod = new ColorTransformMethod();
 				_methodSetup.colorTransformMethod.colorTransform = value;
 			}
 			else if (!value)

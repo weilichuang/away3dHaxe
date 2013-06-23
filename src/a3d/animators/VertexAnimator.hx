@@ -95,9 +95,9 @@ package a3d.animators
 		{
 			super.updateDeltaTime(dt);
 
-			_poses[uint(0)] = _activeVertexState.currentGeometry;
-			_poses[uint(1)] = _activeVertexState.nextGeometry;
-			_weights[uint(0)] = 1 - (_weights[uint(1)] = _activeVertexState.blendWeight);
+			_poses[0] = _activeVertexState.currentGeometry;
+			_poses[1] = _activeVertexState.nextGeometry;
+			_weights[0] = 1 - (_weights[1] = _activeVertexState.blendWeight);
 		}
 
 

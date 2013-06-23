@@ -54,12 +54,12 @@ package a3d.core.traverse
 							_node = _node.getChildAt(_childIndex);
 							_traverseState = PRE;
 						}
-						break;
+						
 					case POST:
 						_node = _node.parent;
 						_childIndex = _childIndexStack[--_stackPos] + 1;
 						_traverseState = IN;
-						break;
+						
 				}
 			} while (!(_node == _scene._sceneGraphRoot && _traverseState == POST));
 

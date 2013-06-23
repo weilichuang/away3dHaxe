@@ -168,15 +168,15 @@ package a3d.entities.lenses
 			top = middle;
 			bottom = middle + (_maxLengthY - _minLengthY) * (_viewPort.height / _scissorRect.height);
 
-			raw[uint(0)] = 2 * _near / (right - left);
-			raw[uint(5)] = 2 * _near / (bottom - top);
-			raw[uint(8)] = (right + left) / (right - left);
-			raw[uint(9)] = (bottom + top) / (bottom - top);
-			raw[uint(10)] = (_far + _near) / (_far - _near);
-			raw[uint(11)] = 1;
-			raw[uint(1)] = raw[uint(2)] = raw[uint(3)] = raw[uint(4)] =
-				raw[uint(6)] = raw[uint(7)] = raw[uint(12)] = raw[uint(13)] = raw[uint(15)] = 0;
-			raw[uint(14)] = -2 * _far * _near / (_far - _near);
+			raw[0] = 2 * _near / (right - left);
+			raw[5] = 2 * _near / (bottom - top);
+			raw[8] = (right + left) / (right - left);
+			raw[9] = (bottom + top) / (bottom - top);
+			raw[10] = (_far + _near) / (_far - _near);
+			raw[11] = 1;
+			raw[1] = raw[2] = raw[3] = raw[4] =
+				raw[6] = raw[7] = raw[12] = raw[13] = raw[15] = 0;
+			raw[14] = -2 * _far * _near / (_far - _near);
 
 
 			_matrix.copyRawDataFrom(raw);

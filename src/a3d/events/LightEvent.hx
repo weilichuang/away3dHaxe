@@ -1,19 +1,18 @@
-package a3d.events
+package a3d.events;
+
+import flash.events.Event;
+
+class LightEvent extends Event
 {
-	import flash.events.Event;
+	public static inline var CASTS_SHADOW_CHANGE:String = "castsShadowChange";
 
-	class LightEvent extends Event
+	public function new(type:String)
 	{
-		public static inline var CASTS_SHADOW_CHANGE:String = "castsShadowChange";
+		super(type);
+	}
 
-		public function LightEvent(type:String)
-		{
-			super(type);
-		}
-
-		override public function clone():Event
-		{
-			return new LightEvent(type);
-		}
+	override public function clone():Event
+	{
+		return new LightEvent(type);
 	}
 }

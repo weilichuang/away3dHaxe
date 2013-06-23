@@ -72,7 +72,8 @@ public  class Quaternion
 
 	public function multiplyVector(vector:Vector3D, target:Quaternion = null):Quaternion
 	{
-		target ||= new Quaternion();
+		if (target == null)
+			target = new Quaternion();
 
 		var x2:Float = vector.x;
 		var y2:Float = vector.y;
@@ -213,7 +214,8 @@ public  class Quaternion
 	 */
 	public function toEulerAngles(target:Vector3D = null):Vector3D
 	{
-		target ||= new Vector3D();
+		if (target == null)
+			target = new Vector3D();
 		target.x = Math.atan2(2 * (w * x + y * z), 1 - 2 * (x * x + y * y));
 		target.y = Math.asin(2 * (w * y - z * x));
 		target.z = Math.atan2(2 * (w * z + x * y), 1 - 2 * (y * y + z * z));
@@ -343,7 +345,8 @@ public  class Quaternion
 		var x1:Float, y1:Float, z1:Float, w1:Float;
 		var x2:Float = vector.x, y2:Float = vector.y, z2:Float = vector.z;
 
-		target ||= new Vector3D();
+		if (target == null)
+			target = new Vector3D();
 
 		// p*q'
 		w1 = -x * x2 - y * y2 - z * z2;

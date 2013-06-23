@@ -128,7 +128,9 @@ package a3d.animators.states
 
 			for (var i:UInt = 0; i < numJoints; ++i)
 			{
-				endPose = endPoses[i] ||= new JointPose();
+				if (endPoses[i] == null)
+					endPoses[i] = new JointPose();
+				endPose = endPoses[i];
 				base = basePoses[i];
 				diff = diffPoses[i];
 				basePos = base.translation;

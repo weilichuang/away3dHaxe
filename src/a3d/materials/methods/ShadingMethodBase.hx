@@ -153,7 +153,8 @@ package a3d.materials.methods
 				filter = enableMipMaps ? "nearest,mipnearest" : "nearest";
 			}
 
-			uvReg ||= _sharedRegisters.uvVarying;
+			if (uvReg == null)
+				uvReg = _sharedRegisters.uvVarying;
 			return "tex " + targetReg + ", " + uvReg + ", " + inputReg + " <2d," + filter + "," + format + wrap + ">\n";
 		}
 
@@ -181,10 +182,10 @@ package a3d.materials.methods
 			{
 				case Context3DTextureFormat.COMPRESSED:
 					return "dxt1,";
-					break;
+					
 				case "compressedAlpha":
 					return "dxt5,";
-					break;
+					
 				default:
 					return "";
 			}

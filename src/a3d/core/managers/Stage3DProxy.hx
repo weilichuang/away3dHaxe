@@ -512,7 +512,7 @@ class Stage3DProxy extends EventDispatcher
 		// returned Context3D will be running software mode.
 		// If not, we can't be sure and should stick to the
 		// old value (will likely be same if re-requesting.)
-		_usesSoftwareRendering ||= forceSoftware;
+		_usesSoftwareRendering = forceSoftware;
 		_profile = profile;
 
 		// ugly stuff for backward compatibility

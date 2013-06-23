@@ -43,9 +43,9 @@ package a3d.materials.methods
 			for (var i:Int = 0; i < _numSplattingLayers; ++i)
 			{
 				if (i < 3)
-					data[uint(index + i + 1)] = _tileData ? _tileData[i + 1] : 50;
+					data[index + i + 1] = _tileData ? _tileData[i + 1] : 50;
 				else
-					data[uint(index + i - 4)] = _tileData ? _tileData[i + 1] : 50;
+					data[index + i - 4] = _tileData ? _tileData[i + 1] : 50;
 			}
 		}
 
@@ -143,7 +143,8 @@ package a3d.materials.methods
 
 		private function getSplatSampleCode(vo:MethodVO, targetReg:ShaderRegisterElement, inputReg:ShaderRegisterElement, texture:TextureProxyBase, uvReg:ShaderRegisterElement = null):String
 		{
-			uvReg ||= _sharedRegisters.uvVarying;
+			if (uvReg == null)
+				uvReg = _sharedRegisters.uvVarying;
 			return getTex2DSampleCode(vo, targetReg, inputReg, texture, uvReg, "wrap");
 		}
 	}

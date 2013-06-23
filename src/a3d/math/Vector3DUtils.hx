@@ -36,7 +36,7 @@ class Vector3DUtils
 		m1.copyRawDataTo(raw);
 
 		// Extract the first angle, rotationX
-		result.x = -Math.atan2(raw[uint(6)], raw[uint(10)]); // rot.x = Math<T>::atan2 (M[1][2], M[2][2]);
+		result.x = -Math.atan2(raw[6], raw[10]); // rot.x = Math<T>::atan2 (M[1][2], M[2][2]);
 
 		// Remove the rotationX rotation from m2, so that the remaining
 		// rotation, m2 is only around two axes, and gimbal lock cannot occur.
@@ -46,10 +46,10 @@ class Vector3DUtils
 		m2.copyRawDataTo(raw);
 
 		// Extract the other two angles, rot.y and rot.z, from m2.
-		var cy:Float = Math.sqrt(raw[uint(0)] * raw[uint(0)] + raw[uint(1)] * raw[uint(1)]); // T cy = Math<T>::sqrt (N[0][0]*N[0][0] + N[0][1]*N[0][1]);
+		var cy:Float = Math.sqrt(raw[0] * raw[0] + raw[1] * raw[1]); // T cy = Math<T>::sqrt (N[0][0]*N[0][0] + N[0][1]*N[0][1]);
 
-		result.y = Math.atan2(-raw[uint(2)], cy); // rot.y = Math<T>::atan2 (-N[0][2], cy);
-		result.z = Math.atan2(-raw[uint(4)], raw[uint(5)]); //rot.z = Math<T>::atan2 (-N[1][0], N[1][1]);
+		result.y = Math.atan2(-raw[2], cy); // rot.y = Math<T>::atan2 (-N[0][2], cy);
+		result.z = Math.atan2(-raw[4], raw[5]); //rot.z = Math<T>::atan2 (-N[1][0], N[1][1]);
 
 		// Fix angles
 		if (Math.round(result.z / MathPI) == 1)
@@ -162,9 +162,9 @@ class Vector3DUtils
 		var raw:Vector<Float> = Matrix3DUtils.RAW_DATA_CONTAINER;
 		m.copyRawDataTo(raw);
 
-		result.x = Math.sqrt(raw[uint(0)] * raw[uint(0)] + raw[uint(1)] * raw[uint(1)] + raw[uint(2)] * raw[uint(2)]);
-		result.y = Math.sqrt(raw[uint(4)] * raw[uint(4)] + raw[uint(5)] * raw[uint(5)] + raw[uint(6)] * raw[uint(6)]);
-		result.z = Math.sqrt(raw[uint(8)] * raw[uint(8)] + raw[uint(9)] * raw[uint(9)] + raw[uint(10)] * raw[uint(10)]);
+		result.x = Math.sqrt(raw[0] * raw[0] + raw[1] * raw[1] + raw[2] * raw[2]);
+		result.y = Math.sqrt(raw[4] * raw[4] + raw[5] * raw[5] + raw[6] * raw[6]);
+		result.z = Math.sqrt(raw[8] * raw[8] + raw[9] * raw[9] + raw[10] * raw[10]);
 
 		return result;
 	}

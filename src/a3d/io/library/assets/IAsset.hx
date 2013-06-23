@@ -4,7 +4,7 @@ import flash.events.IEventDispatcher;
 
 import a3d.utils.IDispose;
 
-interface IAsset extends IEventDispatcher, IDispose
+interface IAsset extends IEventDispatcher extends IDispose
 {
 	var name(get,set):String;
 	var id(get,set):String;

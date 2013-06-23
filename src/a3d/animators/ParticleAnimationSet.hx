@@ -167,7 +167,10 @@ package a3d.animators
 		public function getAGALVertexCode(pass:MaterialPassBase, sourceRegisters:Vector<String>, targetRegisters:Vector<String>, profile:String):String
 		{
 			//grab animationRegisterCache from the materialpassbase or create a new one if the first time
-			_animationRegisterCache = pass.animationRegisterCache ||= new AnimationRegisterCache(profile);
+			if (pass.animationRegisterCache == null)
+				pass.animationRegisterCache = new AnimationRegisterCache(profile)
+			
+			_animationRegisterCache = pass.animationRegisterCache;
 
 			//reset animationRegisterCache
 			_animationRegisterCache.vertexConstantOffset = pass.numUsedVertexConstants;

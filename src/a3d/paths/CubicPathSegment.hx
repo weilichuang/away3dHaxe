@@ -63,7 +63,8 @@ package a3d.paths
 			const c:Float = 3 * t_2 * td;
 			const t_3:Float = t_2 * phase;
 
-			target ||= new Vector3D();
+			if (target == null)
+				target = new Vector3D();
 			target.x = a * start.x + b * control1.x + c * control2.x + t_3 * end.x;
 			target.y = a * start.y + b * control1.y + c * control2.y + t_3 * end.y;
 			target.z = a * start.z + b * control1.z + c * control2.z + t_3 * end.z;

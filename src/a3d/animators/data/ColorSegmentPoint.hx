@@ -1,32 +1,30 @@
-package a3d.animators.data
+package a3d.animators.data;
+
+import flash.geom.ColorTransform;
+
+
+class ColorSegmentPoint
 {
-	import flash.geom.ColorTransform;
+	private var _color:ColorTransform;
+	private var _life:Float;
 
-
-	class ColorSegmentPoint
+	public function ColorSegmentPoint(life:Float, color:ColorTransform)
 	{
-		private var _color:ColorTransform;
-		private var _life:Float;
+		//0<life<1
+		if (life <= 0 || life >= 1)
+			throw(new Error("life exceeds range (0,1)"));
+		_life = life;
+		_color = color;
+	}
 
-		public function ColorSegmentPoint(life:Float, color:ColorTransform)
-		{
-			//0<life<1
-			if (life <= 0 || life >= 1)
-				throw(new Error("life exceeds range (0,1)"));
-			_life = life;
-			_color = color;
-		}
+	private inline function get_color():ColorTransform
+	{
+		return _color;
+	}
 
-		private inline function get_color():ColorTransform
-		{
-			return _color;
-		}
-
-		private inline function get_life():Float
-		{
-			return _life;
-		}
-
+	private inline function get_life():Float
+	{
+		return _life;
 	}
 
 }

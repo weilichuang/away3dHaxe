@@ -68,7 +68,8 @@ package a3d.entities.lights
 
 			if (value)
 			{
-				_shadowMapper ||= createShadowMapper();
+				if (_shadowMapper == null)
+					_shadowMapper = createShadowMapper();
 				_shadowMapper.light = this;
 			}
 			else

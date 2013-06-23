@@ -1,113 +1,116 @@
-package a3d.textures
+package a3d.textures;
+
+import flash.display.BitmapData;
+import flash.display.BitmapDataChannel;
+import flash.display3D.textures.TextureBase;
+import flash.geom.Point;
+import flash.geom.Rectangle;
+
+
+
+/**
+ * A convenience texture that encodes a specular map in the red channel, and the gloss map in the green channel, as expected by BasicSpecularMapMethod
+ */
+class SpecularBitmapTexture extends BitmapTexture
 {
-	
+	private var _specularMap:BitmapData;
+	private var _glossMap:BitmapData;
 
-	import flash.display.BitmapData;
-	import flash.display.BitmapDataChannel;
-	import flash.display3D.textures.TextureBase;
-	import flash.geom.Point;
-	import flash.geom.Rectangle;
-
-	
-
-	/**
-	 * A convenience texture that encodes a specular map in the red channel, and the gloss map in the green channel, as expected by BasicSpecularMapMethod
-	 */
-	class SpecularBitmapTexture extends BitmapTexture
+	public function new(specularMap:BitmapData = null, glossMap:BitmapData = null)
 	{
-		private var _specularMap:BitmapData;
-		private var _glossMap:BitmapData;
+		var bmd:BitmapData;
 
-		public function SpecularBitmapTexture(specularMap:BitmapData = null, glossMap:BitmapData = null)
+		if (specularMap != null)
+			bmd = specularMap;
+		else
+			bmd = glossMap;
+		bmd = bmd != null ? new BitmapData(bmd.width, bmd.height, false, 0xffffff) : new BitmapData(1, 1, false, 0xffffff);
+
+		super(bmd);
+
+		this.specularMap = specularMap;
+		this.glossMap = glossMap;
+	}
+
+	public var specularMap(get, set):BitmapData;
+	private inline function get_specularMap():BitmapData
+	{
+		return _specularMap;
+	}
+
+	private inline function set_specularMap(value:BitmapData):BitmapData
+	{
+		_specularMap = value;
+		invalidateContent();
+
+		testSize();
+		
+		return _specularMap;
+	}
+
+	public var glossMap(get, set):BitmapData;
+	private inline function get_glossMap():BitmapData
+	{
+		return _glossMap;
+	}
+
+	private inline function set_glossMap(value:BitmapData):BitmapData
+	{
+		_glossMap = value;
+		invalidateContent();
+
+		testSize();
+		
+		return _glossMap;
+	}
+
+	private function testSize():Void
+	{
+		var w:Float, h:Float;
+
+		if (_specularMap)
 		{
-			var bmd:BitmapData;
-
-			if (specularMap)
-				bmd = specularMap;
-			else
-				bmd = glossMap;
-			bmd = bmd ? new BitmapData(bmd.width, bmd.height, false, 0xffffff) : new BitmapData(1, 1, false, 0xffffff);
-
-			super(bmd);
-
-			this.specularMap = specularMap;
-			this.glossMap = glossMap;
+			w = _specularMap.width;
+			h = _specularMap.height;
+		}
+		else if (_glossMap)
+		{
+			w = _glossMap.width;
+			h = _glossMap.height;
+		}
+		else
+		{
+			w = 1;
+			h = 1;
 		}
 
-		private inline function get_specularMap():BitmapData
+		if (w != bitmapData.width && h != bitmapData.height)
 		{
-			return _specularMap;
+			var oldBitmap:BitmapData = bitmapData;
+			super.bitmapData = new BitmapData(_specularMap.width, specularMap.height, false, 0xffffff);
+			oldBitmap.dispose();
 		}
+	}
 
-		private inline function set_specularMap(value:BitmapData):Void
-		{
-			_specularMap = value;
-			invalidateContent();
+	override private function uploadContent(texture:TextureBase):Void
+	{
+		var rect:Rectangle = _specularMap.rect;
+		var origin:Point = new Point();
 
-			testSize();
-		}
+		bitmapData.fillRect(rect, 0xffffff);
 
-		private inline function get_glossMap():BitmapData
-		{
-			return _glossMap;
-		}
+		if (_glossMap != null)
+			bitmapData.copyChannel(_glossMap, rect, origin, BitmapDataChannel.GREEN, BitmapDataChannel.GREEN);
 
-		private inline function set_glossMap(value:BitmapData):Void
-		{
-			_glossMap = value;
-			invalidateContent();
+		if (_specularMap != null)
+			bitmapData.copyChannel(_specularMap, rect, origin, BitmapDataChannel.RED, BitmapDataChannel.RED);
 
-			testSize();
-		}
+		super.uploadContent(texture);
+	}
 
-		private function testSize():Void
-		{
-			var w:Float, h:Float;
-
-			if (_specularMap)
-			{
-				w = _specularMap.width;
-				h = _specularMap.height;
-			}
-			else if (_glossMap)
-			{
-				w = _glossMap.width;
-				h = _glossMap.height;
-			}
-			else
-			{
-				w = 1;
-				h = 1;
-			}
-
-			if (w != bitmapData.width && h != bitmapData.height)
-			{
-				var oldBitmap:BitmapData = bitmapData;
-				super.bitmapData = new BitmapData(_specularMap.width, specularMap.height, false, 0xffffff);
-				oldBitmap.dispose();
-			}
-		}
-
-		override private function uploadContent(texture:TextureBase):Void
-		{
-			var rect:Rectangle = _specularMap.rect;
-			var origin:Point = new Point();
-
-			bitmapData.fillRect(rect, 0xffffff);
-
-			if (_glossMap)
-				bitmapData.copyChannel(_glossMap, rect, origin, BitmapDataChannel.GREEN, BitmapDataChannel.GREEN);
-
-			if (_specularMap)
-				bitmapData.copyChannel(_specularMap, rect, origin, BitmapDataChannel.RED, BitmapDataChannel.RED);
-
-			super.uploadContent(texture);
-		}
-
-		override public function dispose():Void
-		{
-			bitmapData.dispose();
-			bitmapData = null;
-		}
+	override public function dispose():Void
+	{
+		bitmapData.dispose();
+		bitmapData = null;
 	}
 }

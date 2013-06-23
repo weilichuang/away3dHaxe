@@ -236,7 +236,9 @@ package a3d.core.pick
 
 		private function updateLocalPosition(pickingCollisionVO:PickingCollisionVO):Void
 		{
-			var collisionPos:Vector3D = pickingCollisionVO.localPosition ||= new Vector3D();
+			if (pickingCollisionVO.localPosition == null)
+				pickingCollisionVO.localPosition = new Vector3D();
+			var collisionPos:Vector3D = pickingCollisionVO.localPosition;
 			var rayDir:Vector3D = pickingCollisionVO.localRayDirection;
 			var rayPos:Vector3D = pickingCollisionVO.localRayPosition;
 			var t:Float = pickingCollisionVO.rayEntryDistance;

@@ -1,41 +1,40 @@
-package a3d.animators.nodes
+package a3d.animators.nodes;
+
+import a3d.io.library.assets.AssetType;
+import a3d.io.library.assets.IAsset;
+import a3d.io.library.assets.NamedAssetBase;
+
+/**
+ * Provides an abstract base class for nodes in an animation blend tree.
+ */
+class AnimationNodeBase extends NamedAssetBase implements IAsset
 {
-	import a3d.io.library.assets.AssetType;
-	import a3d.io.library.assets.IAsset;
-	import a3d.io.library.assets.NamedAssetBase;
+	private var _stateClass:Class;
+
+	private inline function get_stateClass():Class
+	{
+		return _stateClass;
+	}
 
 	/**
-	 * Provides an abstract base class for nodes in an animation blend tree.
+	 * Creates a new <code>AnimationNodeBase</code> object.
 	 */
-	class AnimationNodeBase extends NamedAssetBase implements IAsset
+	public function AnimationNodeBase()
 	{
-		private var _stateClass:Class;
+	}
 
-		private inline function get_stateClass():Class
-		{
-			return _stateClass;
-		}
+	/**
+	 * @inheritDoc
+	 */
+	public function dispose():Void
+	{
+	}
 
-		/**
-		 * Creates a new <code>AnimationNodeBase</code> object.
-		 */
-		public function AnimationNodeBase()
-		{
-		}
-
-		/**
-		 * @inheritDoc
-		 */
-		public function dispose():Void
-		{
-		}
-
-		/**
-		 * @inheritDoc
-		 */
-		private inline function get_assetType():String
-		{
-			return AssetType.ANIMATION_NODE;
-		}
+	/**
+	 * @inheritDoc
+	 */
+	private inline function get_assetType():String
+	{
+		return AssetType.ANIMATION_NODE;
 	}
 }

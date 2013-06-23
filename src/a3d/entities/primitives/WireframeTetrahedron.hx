@@ -102,21 +102,21 @@ package a3d.entities.primitives
 					bv2 = new Vector3D(hw, -hw, 0);
 					bv3 = new Vector3D(-hw, -hw, 0);
 					top = new Vector3D(0, 0, _height);
-					break;
+					
 				case ORIENTATION_XZ:
 					bv0 = new Vector3D(-hw, 0, hw);
 					bv1 = new Vector3D(hw, 0, hw);
 					bv2 = new Vector3D(hw, 0, -hw);
 					bv3 = new Vector3D(-hw, 0, -hw);
 					top = new Vector3D(0, _height, 0);
-					break;
+				
 				case ORIENTATION_YZ:
 					bv0 = new Vector3D(0, -hw, hw);
 					bv1 = new Vector3D(0, hw, hw);
 					bv2 = new Vector3D(0, hw, -hw);
 					bv3 = new Vector3D(0, -hw, -hw);
 					top = new Vector3D(_height, 0, 0);
-					break;
+				
 			}
 			//bottom
 			updateOrAddSegment(0, bv0, bv1);

@@ -59,8 +59,7 @@
 						v1.y = -bound;
 						v1.z = inc;
 						addSegment(new LineSegment(v0, v1, color, color, thickness ));
-						break;
-
+						
 					case PLANE_XY:
 						v0.x = bound;
 						v0.y = inc;
@@ -76,8 +75,7 @@
 						v1.y = -bound;
 						v1.z = 0;
 						addSegment(new LineSegment(v0, v1, color, color, thickness ));
-						break;
-
+						
 					default:
 						v0.x = bound;
 						v0.y = 0;

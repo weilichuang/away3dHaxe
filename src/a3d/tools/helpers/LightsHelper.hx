@@ -6,6 +6,7 @@ package a3d.tools.helpers
 	import a3d.entities.ObjectContainer3D;
 	import a3d.entities.lights.LightBase;
 	import a3d.materials.lightpickers.StaticLightPicker;
+	import flash.Lib;
 
 	/**
 	* Helper Class for the LightBase objects <code>LightsHelper</code>
@@ -97,11 +98,11 @@ package a3d.tools.helpers
 						picker = materialOwner.material.lightPicker as StaticLightPicker;
 						if (!picker || picker.lights != _lightsArray)
 							materialOwner.material.lightPicker = new StaticLightPicker(_lightsArray);
-						break;
-
+						
 					case 1:
-						materialOwner.material.lightPicker ||= new StaticLightPicker([]);
-						picker = materialOwner.material.lightPicker as StaticLightPicker;
+						if (materialOwner.material.lightPicker == null)
+							materialOwner.material.lightPicker = new StaticLightPicker([]);
+						picker = Lib.as(materialOwner.material.lightPicker, StaticLightPicker);
 						if (picker)
 						{
 							aLights = picker.lights;
@@ -134,10 +135,10 @@ package a3d.tools.helpers
 								picker.lights = [_light];
 							}
 						}
-						break;
-
+						
 					case 2:
-						materialOwner.material.lightPicker ||= new StaticLightPicker([]);
+						if (materialOwner.material.lightPicker == null)
+							materialOwner.material.lightPicker = new StaticLightPicker([]);
 						picker = materialOwner.material.lightPicker as StaticLightPicker;
 						if (picker)
 						{

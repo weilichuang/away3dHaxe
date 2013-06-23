@@ -44,7 +44,7 @@ package a3d.materials.compilation
 		 */
 		public function requestFreeVectorReg():ShaderRegisterElement
 		{
-			for (var i:Int = 0; i < _regCount; ++i)
+			for (i in 0..._regCount)
 				if (!isRegisterUsed(i))
 				{
 					if (_persistent)
@@ -60,11 +60,11 @@ package a3d.materials.compilation
 		 */
 		public function requestFreeRegComponent():ShaderRegisterElement
 		{
-			for (var i:Int = 0; i < _regCount; ++i)
+			for (i in 0..._regCount)
 			{
 				if (_usedVectorCount[i] > 0)
 					continue;
-				for (var j:Int = 0; j < 4; ++j)
+				for (j in 0...4)
 				{
 					if (_usedSingleCount[j][i] == 0)
 					{
@@ -130,7 +130,7 @@ package a3d.materials.compilation
 		 */
 		public function hasRegisteredRegs():Bool
 		{
-			for (var i:Int = 0; i < _regCount; ++i)
+			for (i in 0..._regCount)
 				if (isRegisterUsed(i))
 					return true;
 
@@ -171,11 +171,11 @@ package a3d.materials.compilation
 			var registerComponents:Array = [[], [], [], []];
 			_regCompsPool[hash] = registerComponents;
 
-			for (var i:Int = 0; i < regCount; ++i)
+			for (i in 0...regCount)
 			{
 				vectorRegisters[i] = new ShaderRegisterElement(regName, i);
 
-				for (var j:Int = 0; j < 4; ++j)
+				for (j in 0...4)
 				{
 					registerComponents[j][i] = new ShaderRegisterElement(regName, i, j);
 				}
@@ -190,7 +190,7 @@ package a3d.materials.compilation
 		{
 			if (_usedVectorCount[index] > 0)
 				return true;
-			for (var i:Int = 0; i < 4; ++i)
+			for (i in 0...4)
 				if (_usedSingleCount[i][index] > 0)
 					return true;
 

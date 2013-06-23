@@ -93,7 +93,9 @@ package a3d.entities.lights.shadowmaps
 
 		private inline function get_depthMap():TextureProxyBase
 		{
-			return _depthMap ||= createDepthTexture();
+			if (_depthMap == null)
+				_depthMap = createDepthTexture();
+			return _depthMap;
 		}
 
 		private inline function get_depthMapSize():UInt
@@ -142,7 +144,8 @@ package a3d.entities.lights.shadowmaps
 		{
 			_shadowsInvalid = false;
 			updateDepthProjection(entityCollector.camera);
-			_depthMap ||= createDepthTexture();
+			if (_depthMap == null)
+				_depthMap = createDepthTexture();
 			drawDepthMap(_depthMap.getTextureForStage3D(stage3DProxy), entityCollector.scene, renderer);
 		}
 

@@ -146,13 +146,13 @@ class Object3D extends NamedAssetBase
 		{
 			case Object3DEvent.POSITION_CHANGED:
 				_listenToPositionChanged = true;
-				break;
+				
 			case Object3DEvent.ROTATION_CHANGED:
 				_listenToRotationChanged = true;
-				break;
+				
 			case Object3DEvent.SCALE_CHANGED:
 				_listenToRotationChanged = true;
-				break;
+				
 		}
 	}
 
@@ -168,13 +168,13 @@ class Object3D extends NamedAssetBase
 		{
 			case Object3DEvent.POSITION_CHANGED:
 				_listenToPositionChanged = false;
-				break;
+				
 			case Object3DEvent.ROTATION_CHANGED:
 				_listenToRotationChanged = false;
-				break;
+				
 			case Object3DEvent.SCALE_CHANGED:
 				_listenToScaleChanged = false;
-				break;
+				
 		}
 	}
 
@@ -440,7 +440,7 @@ class Object3D extends NamedAssetBase
 		{
 			var raw:Vector<Float> = Matrix3DUtils.RAW_DATA_CONTAINER;
 			val.copyRawDataTo(raw);
-			raw[uint(0)] = _smallestNumber;
+			raw[0] = _smallestNumber;
 			val.copyRawDataFrom(raw);
 		}
 
@@ -689,7 +689,8 @@ class Object3D extends NamedAssetBase
 	 */
 	public function movePivot(dx:Float, dy:Float, dz:Float):Void
 	{
-		_pivotPoint ||= new Vector3D();
+		if (_pivotPoint == null)
+			_pivotPoint = new Vector3D();
 		_pivotPoint.x += dx;
 		_pivotPoint.y += dy;
 		_pivotPoint.z += dz;
@@ -817,7 +818,8 @@ class Object3D extends NamedAssetBase
 		var yAxis:Vector3D, zAxis:Vector3D, xAxis:Vector3D;
 		var raw:Vector<Float>;
 
-		upAxis ||= Vector3D.Y_AXIS;
+		if (upAxis == null)
+			upAxis = Vector3D.Y_AXIS;
 
 		zAxis = target.subtract(position);
 		zAxis.normalize();
@@ -834,25 +836,25 @@ class Object3D extends NamedAssetBase
 
 		raw = Matrix3DUtils.RAW_DATA_CONTAINER;
 
-		raw[uint(0)] = _scaleX * xAxis.x;
-		raw[uint(1)] = _scaleX * xAxis.y;
-		raw[uint(2)] = _scaleX * xAxis.z;
-		raw[uint(3)] = 0;
+		raw[0] = _scaleX * xAxis.x;
+		raw[1] = _scaleX * xAxis.y;
+		raw[2] = _scaleX * xAxis.z;
+		raw[3] = 0;
 
-		raw[uint(4)] = _scaleY * yAxis.x;
-		raw[uint(5)] = _scaleY * yAxis.y;
-		raw[uint(6)] = _scaleY * yAxis.z;
-		raw[uint(7)] = 0;
+		raw[4] = _scaleY * yAxis.x;
+		raw[5] = _scaleY * yAxis.y;
+		raw[6] = _scaleY * yAxis.z;
+		raw[7] = 0;
 
-		raw[uint(8)] = _scaleZ * zAxis.x;
-		raw[uint(9)] = _scaleZ * zAxis.y;
-		raw[uint(10)] = _scaleZ * zAxis.z;
-		raw[uint(11)] = 0;
+		raw[8] = _scaleZ * zAxis.x;
+		raw[9] = _scaleZ * zAxis.y;
+		raw[10] = _scaleZ * zAxis.z;
+		raw[11] = 0;
 
-		raw[uint(12)] = _x;
-		raw[uint(13)] = _y;
-		raw[uint(14)] = _z;
-		raw[uint(15)] = 1;
+		raw[12] = _x;
+		raw[13] = _y;
+		raw[14] = _z;
+		raw[15] = 1;
 
 		_transform.copyRawDataFrom(raw);
 

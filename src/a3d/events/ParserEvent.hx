@@ -1,52 +1,52 @@
-package a3d.events
+package a3d.events;
+
+import flash.events.Event;
+
+class ParserEvent extends Event
 {
-	import flash.events.Event;
+	private var _message:String;
 
-	class ParserEvent extends Event
+	/**
+	 * Dispatched when parsing of an asset completed.
+	*/
+	public static inline var PARSE_COMPLETE:String = 'parseComplete';
+
+	/**
+	 * Dispatched when an error occurs while parsing the data (e.g. because it's
+	 * incorrectly formatted.)
+	*/
+	public static inline var PARSE_ERROR:String = 'parseError';
+
+
+	/**
+	 * Dispatched when a parser is ready to have dependencies retrieved and resolved.
+	 * This is an internal event that should rarely (if ever) be listened for by
+	 * external classes.
+	*/
+	public static inline var READY_FOR_DEPENDENCIES:String = 'readyForDependencies';
+
+
+	public function new(type:String, message:String = '')
 	{
-		private var _message:String;
+		super(type);
 
-		/**
-		 * Dispatched when parsing of an asset completed.
-		*/
-		public static inline var PARSE_COMPLETE:String = 'parseComplete';
-
-		/**
-		 * Dispatched when an error occurs while parsing the data (e.g. because it's
-		 * incorrectly formatted.)
-		*/
-		public static inline var PARSE_ERROR:String = 'parseError';
+		_message = message;
+	}
 
 
-		/**
-		 * Dispatched when a parser is ready to have dependencies retrieved and resolved.
-		 * This is an internal event that should rarely (if ever) be listened for by
-		 * external classes.
-		*/
-		public static inline var READY_FOR_DEPENDENCIES:String = 'readyForDependencies';
-
-
-		public function ParserEvent(type:String, message:String = '')
-		{
-			super(type);
-
-			_message = message;
-		}
-
-
-		/**
-		 * Additional human-readable message. Usually supplied for PARSE_ERROR events.
-		*/
-		private inline function get_message():String
-		{
-			return _message;
-		}
+	/**
+	 * Additional human-readable message. Usually supplied for PARSE_ERROR events.
+	*/
+	public var message(get, null):String;
+	private inline function get_message():String
+	{
+		return _message;
+	}
 
 
 
-		override public function clone():Event
-		{
-			return new ParserEvent(type, message);
-		}
+	override public function clone():Event
+	{
+		return new ParserEvent(type, message);
 	}
 }

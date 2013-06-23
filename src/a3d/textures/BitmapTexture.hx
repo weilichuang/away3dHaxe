@@ -1,112 +1,114 @@
-﻿package a3d.textures
+﻿package a3d.textures;
+
+import flash.display.BitmapData;
+import flash.display3D.textures.Texture;
+import flash.display3D.textures.TextureBase;
+
+
+import a3d.materials.utils.MipmapGenerator;
+import a3d.tools.utils.TextureUtils;
+
+
+
+class BitmapTexture extends Texture2DBase
 {
-	import flash.display.BitmapData;
-	import flash.display3D.textures.Texture;
-	import flash.display3D.textures.TextureBase;
+	private static var _mipMaps:Array<Array<BitmapData>> = [];
+	private static var _mipMapUses:Array<Array<Int>> = [];
 
-	
-	import a3d.materials.utils.MipmapGenerator;
-	import a3d.tools.utils.TextureUtils;
+	private var _bitmapData:BitmapData;
+	private var _mipMapHolder:BitmapData;
+	private var _generateMipmaps:Bool;
 
-	
-
-	class BitmapTexture extends Texture2DBase
+	public function new(bitmapData:BitmapData, generateMipmaps:Bool = true)
 	{
-		private static var _mipMaps:Array = [];
-		private static var _mipMapUses:Array = [];
+		super();
 
-		private var _bitmapData:BitmapData;
-		private var _mipMapHolder:BitmapData;
-		private var _generateMipmaps:Bool;
+		this.bitmapData = bitmapData;
+		_generateMipmaps = generateMipmaps;
+	}
 
-		public function BitmapTexture(bitmapData:BitmapData, generateMipmaps:Bool = true)
+	public var bitmapData(get, set):BitmapData;
+	private inline function get_bitmapData():BitmapData
+	{
+		return _bitmapData;
+	}
+
+	private inline function set_bitmapData(value:BitmapData):BitmapData
+	{
+		if (value == _bitmapData)
+			return value;
+
+		if (!TextureUtils.isBitmapDataValid(value))
+			throw new Error("Invalid bitmapData: Width and height must be power of 2 and cannot exceed 2048");
+
+		invalidateContent();
+		setSize(value.width, value.height);
+
+		_bitmapData = value;
+
+		if (_generateMipmaps)
+			getMipMapHolder();
+			
+		return value;
+	}
+
+	override private function uploadContent(texture:TextureBase):Void
+	{
+		if (_generateMipmaps)
+			MipmapGenerator.generateMipMaps(_bitmapData, texture, _mipMapHolder, true);
+		else
+			Texture(texture).uploadFromBitmapData(_bitmapData, 0);
+	}
+
+	private function getMipMapHolder():Void
+	{
+		var newW:UInt, newH:UInt;
+
+		newW = _bitmapData.width;
+		newH = _bitmapData.height;
+
+		if (_mipMapHolder)
 		{
-			super();
-
-			this.bitmapData = bitmapData;
-			_generateMipmaps = generateMipmaps;
-		}
-
-		private inline function get_bitmapData():BitmapData
-		{
-			return _bitmapData;
-		}
-
-		private inline function set_bitmapData(value:BitmapData):Void
-		{
-			if (value == _bitmapData)
+			if (_mipMapHolder.width == newW && _bitmapData.height == newH)
 				return;
 
-			if (!TextureUtils.isBitmapDataValid(value))
-				throw new Error("Invalid bitmapData: Width and height must be power of 2 and cannot exceed 2048");
-
-			invalidateContent();
-			setSize(value.width, value.height);
-
-			_bitmapData = value;
-
-			if (_generateMipmaps)
-				getMipMapHolder();
+			freeMipMapHolder();
 		}
 
-		override private function uploadContent(texture:TextureBase):Void
+		if (_mipMaps[newW] == null)
 		{
-			if (_generateMipmaps)
-				MipmapGenerator.generateMipMaps(_bitmapData, texture, _mipMapHolder, true);
-			else
-				Texture(texture).uploadFromBitmapData(_bitmapData, 0);
+			_mipMaps[newW] = [];
+			_mipMapUses[newW] = [];
 		}
-
-		private function getMipMapHolder():Void
+		if (_mipMaps[newW][newH] == null)
 		{
-			var newW:UInt, newH:UInt;
-
-			newW = _bitmapData.width;
-			newH = _bitmapData.height;
-
-			if (_mipMapHolder)
-			{
-				if (_mipMapHolder.width == newW && _bitmapData.height == newH)
-					return;
-
-				freeMipMapHolder();
-			}
-
-			if (_mipMaps[newW] == null)
-			{
-				_mipMaps[newW] = [];
-				_mipMapUses[newW] = [];
-			}
-			if (_mipMaps[newW][newH] == null)
-			{
-				_mipMapHolder = _mipMaps[newW][newH] = new BitmapData(newW, newH, true);
-				_mipMapUses[newW][newH] = 1;
-			}
-			else
-			{
-				_mipMapUses[newW][newH] = _mipMapUses[newW][newH] + 1;
-				_mipMapHolder = _mipMaps[newW][newH];
-			}
+			_mipMapHolder = _mipMaps[newW][newH] = new BitmapData(newW, newH, true);
+			_mipMapUses[newW][newH] = 1;
 		}
-
-		private function freeMipMapHolder():Void
+		else
 		{
-			var holderWidth:UInt = _mipMapHolder.width;
-			var holderHeight:UInt = _mipMapHolder.height;
-
-			if (--_mipMapUses[holderWidth][holderHeight] == 0)
-			{
-				_mipMaps[holderWidth][holderHeight].dispose();
-				_mipMaps[holderWidth][holderHeight] = null;
-			}
+			_mipMapUses[newW][newH] = _mipMapUses[newW][newH] + 1;
+			_mipMapHolder = _mipMaps[newW][newH];
 		}
+	}
 
-		override public function dispose():Void
+	private function freeMipMapHolder():Void
+	{
+		var holderWidth:Int = _mipMapHolder.width;
+		var holderHeight:Int = _mipMapHolder.height;
+
+		if (--_mipMapUses[holderWidth][holderHeight] == 0)
 		{
-			super.dispose();
-
-			if (_mipMapHolder)
-				freeMipMapHolder();
+			_mipMaps[holderWidth][holderHeight].dispose();
+			_mipMaps[holderWidth][holderHeight] = null;
 		}
+	}
+
+	override public function dispose():Void
+	{
+		super.dispose();
+
+		if (_mipMapHolder)
+			freeMipMapHolder();
 	}
 }

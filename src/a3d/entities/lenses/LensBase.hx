@@ -123,7 +123,8 @@ package a3d.entities.lenses
 		{
 			if (_unprojectionInvalid)
 			{
-				_unprojection ||= new Matrix3D();
+				if (_unprojection == null)
+					_unprojection = new Matrix3D();
 				_unprojection.copyFrom(matrix);
 				_unprojection.invert();
 				_unprojectionInvalid = false;

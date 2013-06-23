@@ -64,8 +64,10 @@ class Filter3DRenderer
 		if (_filters == null)
 			return;
 
-		for (var i:Int = 0; i < _filters.length; ++i)
-			_requireDepthRender ||= Bool(_filters[i].requireDepthRender);
+		for (i in 0..._filters.length)
+		{
+			_requireDepthRender ||= _filters[i].requireDepthRender;
+		}
 
 
 		_filterSizesInvalid = true;

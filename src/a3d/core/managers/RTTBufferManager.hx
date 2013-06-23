@@ -19,9 +19,12 @@ class RTTBufferManager extends EventDispatcher
 		if (stage3DProxy == null)
 			throw new Error("stage3DProxy key cannot be null!");
 
-		_instances ||= new Dictionary();
+		if (_instances == null)
+			_instances = new Dictionary();
 
-		return _instances[stage3DProxy] ||= new RTTBufferManager(new SingletonEnforcer(), stage3DProxy);
+		if (_instances[stage3DProxy] == null)
+			_instances[stage3DProxy] = new RTTBufferManager(new SingletonEnforcer(), stage3DProxy);
+		return _instances[stage3DProxy];
 	}
 
 	private var _renderToTextureVertexBuffer:VertexBuffer3D;
@@ -179,8 +182,10 @@ class RTTBufferManager extends EventDispatcher
 		var screenVerts:Vector<Float>;
 		var x:Float, y:Float;
 
-		_renderToTextureVertexBuffer ||= context.createVertexBuffer(4, 5);
-		_renderToScreenVertexBuffer ||= context.createVertexBuffer(4, 5);
+		if (_renderToTextureVertexBuffer == null)
+			_renderToTextureVertexBuffer = context.createVertexBuffer(4, 5);
+		if (_renderToScreenVertexBuffer == null)
+			_renderToScreenVertexBuffer = context.createVertexBuffer(4, 5);
 
 		if (_indexBuffer == null)
 		{

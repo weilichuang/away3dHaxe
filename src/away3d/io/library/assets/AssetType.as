@@ -13,7 +13,7 @@ package away3d.io.library.assets
 		public static const SKELETON_POSE:String = 'skeletonPose';
 		public static const CONTAINER:String = 'container';
 		public static const TEXTURE:String = 'texture';
-		;
+
 		public static const TEXTURE_PROJECTOR:String = 'textureProjector';
 		public static const MATERIAL:String = 'material';
 		public static const ANIMATION_SET:String = 'animationSet';

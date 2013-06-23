@@ -1,11 +1,10 @@
-package a3d.errors
-{
+package a3d.errors;
+import flash.errors.Error;
 
-	class CastError extends Error
+class CastError extends Error
+{
+	public function new(message:String)
 	{
-		public function CastError(message:String)
-		{
-			super(message);
-		}
+		super(message);
 	}
 }

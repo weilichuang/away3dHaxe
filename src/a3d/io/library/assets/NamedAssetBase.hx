@@ -16,6 +16,8 @@ class NamedAssetBase extends EventDispatcher
 
 	public function new(name:String = null)
 	{
+		super();
+		
 		if (name == null)
 			name = 'null';
 
@@ -66,7 +68,7 @@ class NamedAssetBase extends EventDispatcher
 		updateFullPath();
 
 		if (hasEventListener(AssetEvent.ASSET_RENAME))
-			dispatchEvent(new AssetEvent(AssetEvent.ASSET_RENAME, IAsset(this), prev));
+			dispatchEvent(new AssetEvent(AssetEvent.ASSET_RENAME, cast(this, IAsset), prev));
 		
 		return _name;
 	}
@@ -77,7 +79,7 @@ class NamedAssetBase extends EventDispatcher
 		return _namespace;
 	}
 
-	public var assetFullPath(get, null):String;
+	public var assetFullPath(get, null):Array<String>;
 	private function get_assetFullPath():Array<String>
 	{
 		return _full_path;
@@ -86,14 +88,14 @@ class NamedAssetBase extends EventDispatcher
 
 	public function assetPathEquals(name:String, ns:String):Bool
 	{
-		return (_name == name && (!ns || _namespace == ns));
+		return (_name == name && (ns != null || _namespace == ns));
 	}
 
 
 	public function resetAssetPath(name:String, ns:String = null, overrideOriginal:Bool = true):Void
 	{
-		_name = name ? name : 'null';
-		_namespace = ns ? ns : DEFAULT_NAMESPACE;
+		_name = name != null ? name : 'null';
+		_namespace = ns != null ? ns : DEFAULT_NAMESPACE;
 		if (overrideOriginal)
 			_originalName = _name;
 

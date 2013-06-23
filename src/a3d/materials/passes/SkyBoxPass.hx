@@ -68,10 +68,10 @@ package a3d.materials.passes
 			{
 				case Context3DTextureFormat.COMPRESSED:
 					format = "dxt1,";
-					break;
+					
 				case "compressedAlpha":
 					format = "dxt5,";
-					break;
+					
 				default:
 					format = "";
 			}

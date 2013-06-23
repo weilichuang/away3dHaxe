@@ -202,13 +202,13 @@ package a3d.materials.methods
 
 			var fragmentData:Vector<Float> = vo.fragmentData;
 			var fragmentIndex:Int = vo.fragmentConstantsIndex;
-			fragmentData[uint(fragmentIndex + 5)] = 1 - _alpha;
+			fragmentData[fragmentIndex + 5] = 1 - _alpha;
 
 			var nearPlaneDistances:Vector<Float> = _cascadeShadowMapper.nearPlaneDistances;
 
 			fragmentIndex += 8;
-			for (var i:UInt = 0; i < numCascades; ++i)
-				fragmentData[uint(fragmentIndex + i)] = nearPlaneDistances[i];
+			for (i in 0...numCascades)
+				fragmentData[fragmentIndex + i] = nearPlaneDistances[i];
 
 
 			_baseMethod.activateForCascade(vo, stage3DProxy);

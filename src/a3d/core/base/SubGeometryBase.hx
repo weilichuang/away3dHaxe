@@ -5,6 +5,7 @@ import flash.display3D.IndexBuffer3D;
 import flash.display3D.VertexBuffer3D;
 import flash.geom.Matrix3D;
 import flash.geom.Vector3D;
+import flash.Vector;
 
 
 import a3d.core.managers.Stage3DProxy;
@@ -17,14 +18,14 @@ class SubGeometryBase
 	private var _parentGeometry:Geometry;
 	private var _vertexData:Vector<Float>;
 
-	private var _faceNormalsDirty:Bool = true;
-	private var _faceTangentsDirty:Bool = true;
+	private var _faceNormalsDirty:Bool;
+	private var _faceTangentsDirty:Bool;
 	private var _faceTangents:Vector<Float>;
 	private var _indices:Vector<UInt>;
-	private var _indexBuffer:Vector<IndexBuffer3D> = new Vector<IndexBuffer3D>(8);
+	private var _indexBuffer:Vector<IndexBuffer3D>;
 	private var _numIndices:UInt;
-	private var _indexBufferContext:Vector<Context3D> = new Vector<Context3D>(8);
-	private var _indicesInvalid:Vector<Bool> = new Vector<Bool>(8, true);
+	private var _indexBufferContext:Vector<Context3D>;
+	private var _indicesInvalid:Vector<Bool>;
 	private var _numTriangles:UInt;
 
 	private var _autoDeriveVertexNormals:Bool = true;
@@ -44,6 +45,24 @@ class SubGeometryBase
 
 	public function new()
 	{
+		_faceNormalsDirty = true;
+		_faceTangentsDirty = true;
+		
+		_indexBuffer = new Vector<IndexBuffer3D>(8);
+		_indexBufferContext = new Vector<Context3D>(8);
+		_indicesInvalid = new Vector<Bool>(8, true);
+		
+		_autoDeriveVertexNormals = true;
+		_autoDeriveVertexTangents = true;
+		_autoGenerateUVs = false;
+		_useFaceWeights = false;
+		_vertexNormalsDirty = true;
+		_vertexTangentsDirty = true;
+		
+		_scaleU = 1;
+		_scaleV = 1;
+		
+		_uvsDirty = true;
 	}
 
 
@@ -153,7 +172,8 @@ class SubGeometryBase
 		var texStride:Int = UVStride;
 		var texOffset:Int = UVOffset;
 
-		_faceTangents ||= new Vector<Float>(_indices.length, true);
+		if(_faceTangents == null)
+			_faceTangents = new Vector<Float>(_indices.length, true);
 
 		while (i < len)
 		{
@@ -170,16 +190,16 @@ class SubGeometryBase
 
 			vi = posOffset + index1 * posStride;
 			x0 = vertices[vi];
-			y0 = vertices[uint(vi + 1)];
-			z0 = vertices[uint(vi + 2)];
+			y0 = vertices[vi + 1];
+			z0 = vertices[vi + 2];
 			vi = posOffset + index2 * posStride;
-			dx1 = vertices[uint(vi)] - x0;
-			dy1 = vertices[uint(vi + 1)] - y0;
-			dz1 = vertices[uint(vi + 2)] - z0;
+			dx1 = vertices[vi] - x0;
+			dy1 = vertices[vi + 1] - y0;
+			dz1 = vertices[vi + 2] - z0;
 			vi = posOffset + index3 * posStride;
-			dx2 = vertices[uint(vi)] - x0;
-			dy2 = vertices[uint(vi + 1)] - y0;
-			dz2 = vertices[uint(vi + 2)] - z0;
+			dx2 = vertices[vi] - x0;
+			dy2 = vertices[vi + 1] - y0;
+			dz2 = vertices[vi + 2] - z0;
 
 			cx = dv2 * dx1 - dv1 * dx2;
 			cy = dv2 * dy1 - dv1 * dy2;
@@ -212,9 +232,13 @@ class SubGeometryBase
 		var posStride:Int = vertexStride;
 		var posOffset:Int = vertexOffset;
 
-		_faceNormals ||= new Vector<Float>(len, true);
+		if (_faceNormals == null)
+			_faceNormals = new Vector<Float>(len, true);
 		if (_useFaceWeights)
-			_faceWeights ||= new Vector<Float>(len / 3, true);
+		{
+			if (_faceWeights == null)
+				_faceWeights = new Vector<Float>(len / 3, true);
+		}
 
 		while (i < len)
 		{
@@ -271,7 +295,8 @@ class SubGeometryBase
 		var normalStride:Int = vertexNormalStride;
 		var normalOffset:Int = vertexNormalOffset;
 
-		target ||= new Vector<Float>(lenV, true);
+		if (target == null)
+			target = new Vector<Float>(lenV, true);
 		v1 = normalOffset;
 		while (v1 < lenV)
 		{
@@ -337,7 +362,8 @@ class SubGeometryBase
 		var tangentStride:Int = vertexTangentStride;
 		var tangentOffset:Int = vertexTangentOffset;
 
-		target ||= new Vector<Float>(lenV, true);
+		if (target == null)
+			target = new Vector<Float>(lenV, true);
 
 		i = tangentOffset;
 		while (i < lenV)
@@ -443,7 +469,7 @@ class SubGeometryBase
 	 */
 	private function disposeIndexBuffers(buffers:Vector<IndexBuffer3D>):Void
 	{
-		for (var i:Int = 0; i < 8; ++i)
+		for (i in 0...8)
 		{
 			if (buffers[i])
 			{

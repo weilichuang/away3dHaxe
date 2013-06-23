@@ -1,6 +1,7 @@
 package a3d.core.base;
 
 import flash.geom.Matrix3D;
+import flash.Vector.Vector;
 
 
 import a3d.events.GeometryEvent;
@@ -25,6 +26,15 @@ class Geometry extends NamedAssetBase implements IAsset
 {
 	private var _subGeometries:Vector<ISubGeometry>;
 
+	/**
+	 * Creates a new Geometry object.
+	 */
+	public function new()
+	{
+		_subGeometries = new Vector<ISubGeometry>();
+	}
+	
+	public var assetType(get, null):String;
 	private inline function get_assetType():String
 	{
 		return AssetType.GEOMETRY;
@@ -33,17 +43,10 @@ class Geometry extends NamedAssetBase implements IAsset
 	/**
 	 * A collection of SubGeometry objects, each of which contain geometrical data such as vertices, normals, etc.
 	 */
+	public var subGeometries(get, null):Vector<ISubGeometry>;
 	private inline function get_subGeometries():Vector<ISubGeometry>
 	{
 		return _subGeometries;
-	}
-
-	/**
-	 * Creates a new Geometry object.
-	 */
-	public function new()
-	{
-		_subGeometries = new Vector<ISubGeometry>();
 	}
 
 	public function applyTransformation(transform:Matrix3D):Void
@@ -64,6 +67,7 @@ class Geometry extends NamedAssetBase implements IAsset
 		_subGeometries.push(subGeometry);
 
 		subGeometry.parentGeometry = this;
+		
 		if (hasEventListener(GeometryEvent.SUB_GEOMETRY_ADDED))
 			dispatchEvent(new GeometryEvent(GeometryEvent.SUB_GEOMETRY_ADDED, subGeometry));
 
@@ -78,6 +82,7 @@ class Geometry extends NamedAssetBase implements IAsset
 	{
 		_subGeometries.splice(_subGeometries.indexOf(subGeometry), 1);
 		subGeometry.parentGeometry = null;
+		
 		if (hasEventListener(GeometryEvent.SUB_GEOMETRY_REMOVED))
 			dispatchEvent(new GeometryEvent(GeometryEvent.SUB_GEOMETRY_REMOVED, subGeometry));
 
@@ -150,14 +155,14 @@ class Geometry extends NamedAssetBase implements IAsset
 		for (i in 0...len)
 		{
 			subGeom = _subGeometries[i];
-			if (subGeom is SubGeometry)
+			if (Std.is(subGeom,SubGeometry))
 				continue;
 
 			_removableCompactSubGeometries.push(subGeom);
 			addSubGeometry(subGeom.cloneWithSeperateBuffers());
 		}
 
-		for each (var s:CompactSubGeometry in _removableCompactSubGeometries)
+		for(s in _removableCompactSubGeometries)
 		{
 			removeSubGeometry(s);
 			s.dispose();

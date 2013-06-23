@@ -29,7 +29,9 @@ package a3d.animators.transitions
 			if (blendWeight >= 1)
 			{
 				blendWeight = 1;
-				_skeletonAnimationNode.dispatchEvent(_animationStateTransitionComplete ||= new AnimationStateEvent(AnimationStateEvent.TRANSITION_COMPLETE, _animator, this, _skeletonAnimationNode));
+				if (_animationStateTransitionComplete == null)
+					_animationStateTransitionComplete = new AnimationStateEvent(AnimationStateEvent.TRANSITION_COMPLETE, _animator, this, _skeletonAnimationNode);
+				_skeletonAnimationNode.dispatchEvent(_animationStateTransitionComplete);
 			}
 
 			super.updateTime(time);

@@ -12,7 +12,7 @@ class AssetType
 	public static inline var SKELETON_POSE:String = 'skeletonPose';
 	public static inline var CONTAINER:String = 'container';
 	public static inline var TEXTURE:String = 'texture';
-	;
+	
 	public static inline var TEXTURE_PROJECTOR:String = 'textureProjector';
 	public static inline var MATERIAL:String = 'material';
 	public static inline var ANIMATION_SET:String = 'animationSet';

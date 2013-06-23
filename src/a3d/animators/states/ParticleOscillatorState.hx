@@ -68,7 +68,8 @@ package a3d.animators.states
 			{
 				if (_oscillator.w <= 0)
 					throw(new Error("the cycle duration must greater than zero"));
-				_oscillatorData ||= new Vector3D;
+				if (_oscillatorData == null)
+					_oscillatorData = new Vector3D();
 				_oscillatorData.x = _oscillator.x;
 				_oscillatorData.y = _oscillator.y;
 				_oscillatorData.z = _oscillator.z;

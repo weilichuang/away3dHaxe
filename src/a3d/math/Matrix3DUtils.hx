@@ -70,7 +70,8 @@ class Matrix3DUtils
 	*/
 	public static function getForward(m:Matrix3D, v:Vector3D = null):Vector3D
 	{
-		v ||= new Vector3D(0.0, 0.0, 0.0);
+		if (v == null)
+			v = new Vector3D(0.0, 0.0, 0.0);
 		m.copyColumnTo(2, v);
 		v.normalize();
 
@@ -85,7 +86,8 @@ class Matrix3DUtils
 	  */
 	public static function getUp(m:Matrix3D, v:Vector3D = null):Vector3D
 	{
-		v ||= new Vector3D(0.0, 0.0, 0.0);
+		if (v == null)
+			v = new Vector3D(0.0, 0.0, 0.0);
 		m.copyColumnTo(1, v);
 		v.normalize();
 
@@ -100,7 +102,8 @@ class Matrix3DUtils
 	  */
 	public static function getRight(m:Matrix3D, v:Vector3D = null):Vector3D
 	{
-		v ||= new Vector3D(0.0, 0.0, 0.0);
+		if (v == null)
+			v = new Vector3D(0.0, 0.0, 0.0);
 		m.copyColumnTo(0, v);
 		v.normalize();
 
@@ -163,7 +166,8 @@ class Matrix3DUtils
 
 	public static function reflection(plane:Plane3D, target:Matrix3D = null):Matrix3D
 	{
-		target ||= new Matrix3D();
+		if (target == null)
+			target = new Matrix3D();
 		var a:Float = plane.a, b:Float = plane.b, c:Float = plane.c, d:Float = plane.d;
 		var rawData:Vector<Float> = Matrix3DUtils.RAW_DATA_CONTAINER;
 		var ab2:Float = -2 * a * b;

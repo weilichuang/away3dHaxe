@@ -311,8 +311,7 @@ package a3d.tools.helpers
 					indices[vlength++] = indices[pointer + 1];
 					indices[vlength++] = targetIndice;
 					indices[vlength++] = indices[pointer + 2];
-					break;
-
+				
 				case 1:
 					vertices.push((v1.x + v2.x) * .5, (v1.y + v2.y) * .5, (v1.z + v2.z) * .5);
 					normals.push((n1.x + n2.x) * .5, (n1.y + n2.y) * .5, (n1.z + n2.z) * .5);
@@ -323,8 +322,7 @@ package a3d.tools.helpers
 					indices[vlength++] = (vertices.length - 1) / 3;
 					indices[vlength++] = indices[pointer + 2];
 					indices[vlength++] = indices[pointer];
-					break;
-
+				
 				default:
 					vertices.push((v2.x + v0.x) * .5, (v2.y + v0.y) * .5, (v2.z + v0.z) * .5);
 					normals.push((n2.x + n0.x) * .5, (n2.y + n0.y) * .5, (n2.z + n0.z) * .5);
@@ -618,13 +616,13 @@ package a3d.tools.helpers
 					{
 						case 2:
 							splitFace(mesh, faceIndex, i, 0);
-							break;
+							
 						case 3:
 							triFace(mesh, faceIndex, i);
-							break;
+							
 						case 4:
 							quarterFace(mesh, faceIndex, i);
-							break;
+							
 						default:
 							throw new Error("unknown method reference");
 					}

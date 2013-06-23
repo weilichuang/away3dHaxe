@@ -474,8 +474,7 @@
 						_baseMin = Math.abs(baseMaxZ) + Math.abs(baseMinZ);
 						offset = Math.abs(baseMinZ) + ((baseMaxZ < 0) ? -baseMaxZ : 0);
 					}
-					break;
-
+				
 				case Y_AXIS:
 					_baseMax = Math.abs(baseMaxY) - Math.abs(baseMinY);
 					if (baseMinX > 0 && baseMaxX > 0)
@@ -493,8 +492,7 @@
 						_baseMin = Math.abs(baseMaxX) + Math.abs(baseMinX);
 						offset = Math.abs(baseMinX) + ((baseMaxX < 0) ? -baseMaxX : 0);
 					}
-					break;
-
+				
 				case Z_AXIS:
 					_baseMax = Math.abs(baseMaxZ) - Math.abs(baseMinZ);
 					if (baseMinY > 0 && baseMaxY > 0)
@@ -512,7 +510,6 @@
 						_baseMin = Math.abs(baseMaxY) + Math.abs(baseMinY);
 						offset = Math.abs(baseMinY) + ((baseMaxY < 0) ? -baseMaxY : 0);
 					}
-					break;
 			}
 
 			var aLines:Array;
@@ -534,14 +531,12 @@
 						prop1 = Z_AXIS;
 						prop2 = Y_AXIS;
 						prop3 = X_AXIS;
-						break;
-
+						
 					case Y_AXIS:
 						prop1 = X_AXIS;
 						prop2 = Z_AXIS;
 						prop3 = Y_AXIS;
-						break;
-
+					
 					case Z_AXIS:
 						prop1 = Y_AXIS;
 						prop2 = X_AXIS;

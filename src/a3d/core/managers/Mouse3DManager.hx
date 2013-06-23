@@ -223,7 +223,8 @@ class Mouse3DManager
 		event.screenX = sourceEvent.localX;
 		event.screenY = sourceEvent.localY;
 
-		collider ||= _collidingObject;
+		if (collider == null)
+			collider = _collidingObject;
 
 		// 3D properties.
 		if (collider)

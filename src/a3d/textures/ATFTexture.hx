@@ -1,49 +1,47 @@
-﻿package a3d.textures
+﻿package a3d.textures;
+
+import flash.display3D.Context3D;
+import flash.display3D.textures.Texture;
+import flash.display3D.textures.TextureBase;
+import flash.utils.ByteArray;
+
+class ATFTexture extends Texture2DBase
 {
-	import flash.display3D.Context3D;
-	import flash.display3D.textures.Texture;
-	import flash.display3D.textures.TextureBase;
-	import flash.utils.ByteArray;
+	private var _atfData:ATFData;
 
-	
-
-	
-
-	class ATFTexture extends Texture2DBase
+	public function new(byteArray:ByteArray)
 	{
-		private var _atfData:ATFData;
+		super();
 
-		public function ATFTexture(byteArray:ByteArray)
-		{
-			super();
+		atfData = new ATFData(byteArray);
+		_format = atfData.format;
+		_hasMipmaps = _atfData.numTextures > 1;
+	}
 
-			atfData = new ATFData(byteArray);
-			_format = atfData.format;
-			_hasMipmaps = _atfData.numTextures > 1;
-		}
+	public var atfData(get, set):ATFData;
+	private inline function get_atfData():ATFData
+	{
+		return _atfData;
+	}
 
-		private inline function get_atfData():ATFData
-		{
-			return _atfData;
-		}
+	private inline function set_atfData(value:ATFData):ATFData
+	{
+		_atfData = value;
 
-		private inline function set_atfData(value:ATFData):Void
-		{
-			_atfData = value;
+		invalidateContent();
 
-			invalidateContent();
+		setSize(value.width, value.height);
+		
+		return _atfData;
+	}
 
-			setSize(value.width, value.height);
-		}
+	override private function uploadContent(texture:TextureBase):Void
+	{
+		Texture(texture).uploadCompressedTextureFromByteArray(_atfData.data, 0, false);
+	}
 
-		override private function uploadContent(texture:TextureBase):Void
-		{
-			Texture(texture).uploadCompressedTextureFromByteArray(_atfData.data, 0, false);
-		}
-
-		override private function createTexture(context:Context3D):TextureBase
-		{
-			return context.createTexture(_width, _height, atfData.format, false);
-		}
+	override private function createTexture(context:Context3D):TextureBase
+	{
+		return context.createTexture(_width, _height, atfData.format, false);
 	}
 }

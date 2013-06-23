@@ -51,7 +51,8 @@ package a3d.paths
 			const sz:Float = start.z;
 			const t2Inv:Float = 2 * (1 - t);
 
-			target ||= new Vector3D();
+			if (target == null)
+				target = new Vector3D();
 
 			target.x = sx + t * (t2Inv * (control.x - sx) + t * (end.x - sx));
 			target.y = sy + t * (t2Inv * (control.y - sy) + t * (end.y - sy));
