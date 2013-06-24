@@ -1,43 +1,42 @@
-package a3d.core.partition
+package a3d.core.partition;
+
+import a3d.core.traverse.PartitionTraverser;
+import a3d.entities.lights.DirectionalLight;
+
+/**
+ * LightNode is a space partitioning leaf node that contains a LightBase object.
+ */
+class DirectionalLightNode extends EntityNode
 {
-	import a3d.core.traverse.PartitionTraverser;
-	import a3d.entities.lights.DirectionalLight;
+	private var _light:DirectionalLight;
 
 	/**
-	 * LightNode is a space partitioning leaf node that contains a LightBase object.
+	 * Creates a new LightNode object.
+	 * @param light The light to be contained in the node.
 	 */
-	class DirectionalLightNode extends EntityNode
+	public function DirectionalLightNode(light:DirectionalLight)
 	{
-		private var _light:DirectionalLight;
+		super(light);
+		_light = light;
+	}
 
-		/**
-		 * Creates a new LightNode object.
-		 * @param light The light to be contained in the node.
-		 */
-		public function DirectionalLightNode(light:DirectionalLight)
-		{
-			super(light);
-			_light = light;
-		}
+	/**
+	 * The light object contained in this node.
+	 */
+	private inline function get_light():DirectionalLight
+	{
+		return _light;
+	}
 
-		/**
-		 * The light object contained in this node.
-		 */
-		private inline function get_light():DirectionalLight
+	/**
+	 * @inheritDoc
+	 */
+	override public function acceptTraverser(traverser:PartitionTraverser):Void
+	{
+		if (traverser.enterNode(this))
 		{
-			return _light;
-		}
-
-		/**
-		 * @inheritDoc
-		 */
-		override public function acceptTraverser(traverser:PartitionTraverser):Void
-		{
-			if (traverser.enterNode(this))
-			{
-				super.acceptTraverser(traverser);
-				traverser.applyDirectionalLight(_light);
-			}
+			super.acceptTraverser(traverser);
+			traverser.applyDirectionalLight(_light);
 		}
 	}
 }

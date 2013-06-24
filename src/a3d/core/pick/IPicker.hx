@@ -1,42 +1,41 @@
-package a3d.core.pick
+package a3d.core.pick;
+
+import flash.geom.Vector3D;
+
+import a3d.entities.Scene3D;
+import a3d.entities.View3D;
+
+/**
+ * Provides an interface for picking objects that can pick 3d objects from a view or scene.
+ */
+interface IPicker
 {
-	import flash.geom.Vector3D;
-	
-	import a3d.entities.Scene3D;
-	import a3d.entities.View3D;
+	/**
+	 * Gets the collision object from the screen coordinates of the picking ray.
+	 *
+	 * @param x The x coordinate of the picking ray in screen-space.
+	 * @param y The y coordinate of the picking ray in screen-space.
+	 * @param view The view on which the picking object acts.
+	 */
+	function getViewCollision(x:Float, y:Float, view:View3D):PickingCollisionVO;
 
 	/**
-	 * Provides an interface for picking objects that can pick 3d objects from a view or scene.
+	 * Gets the collision object from the scene position and direction of the picking ray.
+	 *
+	 * @param position The position of the picking ray in scene-space.
+	 * @param direction The direction of the picking ray in scene-space.
+	 * @param scene The scene on which the picking object acts.
 	 */
-	interface IPicker
-	{
-		/**
-		 * Gets the collision object from the screen coordinates of the picking ray.
-		 *
-		 * @param x The x coordinate of the picking ray in screen-space.
-		 * @param y The y coordinate of the picking ray in screen-space.
-		 * @param view The view on which the picking object acts.
-		 */
-		function getViewCollision(x:Float, y:Float, view:View3D):PickingCollisionVO;
+	function getSceneCollision(position:Vector3D, direction:Vector3D, scene:Scene3D):PickingCollisionVO;
 
-		/**
-		 * Gets the collision object from the scene position and direction of the picking ray.
-		 *
-		 * @param position The position of the picking ray in scene-space.
-		 * @param direction The direction of the picking ray in scene-space.
-		 * @param scene The scene on which the picking object acts.
-		 */
-		function getSceneCollision(position:Vector3D, direction:Vector3D, scene:Scene3D):PickingCollisionVO;
+	/**
+	 * Determines whether the picker takes account of the mouseEnabled properties of entities. Defaults to true.
+	 */
+	function get_onlyMouseEnabled():Bool;
+	function set_onlyMouseEnabled(value:Bool):Void;
 
-		/**
-		 * Determines whether the picker takes account of the mouseEnabled properties of entities. Defaults to true.
-		 */
-		function get_onlyMouseEnabled():Bool;
-		function set_onlyMouseEnabled(value:Bool):Void;
-
-		/**
-		 * Disposes memory used by the IPicker object
-		 */
-		function dispose():Void;
-	}
+	/**
+	 * Disposes memory used by the IPicker object
+	 */
+	function dispose():Void;
 }

@@ -1,14 +1,14 @@
-package a3d.core.partition
+package a3d.core.partition;
+
+
+
+
+
+class Octree extends Partition3D
 {
-	
-
-	
-
-	class Octree extends Partition3D
+	public function Octree(maxDepth:Int, size:Float)
 	{
-		public function Octree(maxDepth:Int, size:Float)
-		{
-			super(new OctreeNode(maxDepth, size));
-		}
+		super(new OctreeNode(maxDepth, size));
 	}
 }
+

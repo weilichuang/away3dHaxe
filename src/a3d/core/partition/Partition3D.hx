@@ -1,146 +1,145 @@
-package a3d.core.partition
-{
-	
-	import a3d.core.traverse.PartitionTraverser;
-	import a3d.entities.Entity;
+package a3d.core.partition;
 
 	
+import a3d.core.traverse.PartitionTraverser;
+import a3d.entities.Entity;
+
+
+
+/**
+ * Partition3D is the core of a space partition system. The space partition system typically subdivides the 3D scene
+ * hierarchically into a number of non-overlapping subspaces, forming a tree data structure. This is used to more
+ * efficiently perform frustum culling, potential visibility determination and collision detection.
+ */
+class Partition3D
+{
+	private var _rootNode:NodeBase;
+	private var _updatesMade:Bool;
+	private var _updateQueue:EntityNode;
 
 	/**
-	 * Partition3D is the core of a space partition system. The space partition system typically subdivides the 3D scene
-	 * hierarchically into a number of non-overlapping subspaces, forming a tree data structure. This is used to more
-	 * efficiently perform frustum culling, potential visibility determination and collision detection.
+	 * Creates a new Partition3D object.
+	 * @param rootNode The root node of the space partition system. This will indicate which type of data structure will be used.
 	 */
-	class Partition3D
+	public function Partition3D(rootNode:NodeBase)
 	{
-		private var _rootNode:NodeBase;
-		private var _updatesMade:Bool;
-		private var _updateQueue:EntityNode;
+		_rootNode = rootNode || new NullNode();
+	}
 
-		/**
-		 * Creates a new Partition3D object.
-		 * @param rootNode The root node of the space partition system. This will indicate which type of data structure will be used.
-		 */
-		public function Partition3D(rootNode:NodeBase)
+	private inline function get_showDebugBounds():Bool
+	{
+		return _rootNode.showDebugBounds;
+	}
+
+	private inline function set_showDebugBounds(value:Bool):Void
+	{
+		_rootNode.showDebugBounds = value;
+	}
+
+	/**
+	 * Sends a traverser through the partition tree.
+	 * @param traverser
+	 *
+	 * @see a3d.core.traverse.PartitionTraverser
+	 */
+	public function traverse(traverser:PartitionTraverser):Void
+	{
+		if (_updatesMade)
+			updateEntities();
+
+		++PartitionTraverser.collectionMark;
+
+		_rootNode.acceptTraverser(traverser);
+	}
+
+	/**
+	 * Mark a scene graph entity for updating. This will trigger a reassignment within the tree, based on the
+	 * object's bounding box, upon the next traversal.
+	 * @param entity The entity to be updated in the tree.
+	 */
+	public function markForUpdate(entity:Entity):Void
+	{
+		var node:EntityNode = entity.getEntityPartitionNode();
+		// already marked to be updated
+		var t:EntityNode = _updateQueue;
+
+		// if already marked for update
+		while (t)
 		{
-			_rootNode = rootNode || new NullNode();
+			if (node == t)
+				return;
+
+			t = t.updateQueueNext;
 		}
 
-		private inline function get_showDebugBounds():Bool
+		node.updateQueueNext = _updateQueue;
+
+		_updateQueue = node;
+		_updatesMade = true;
+	}
+
+	/**
+	 * Removes an entity from the partition tree.
+	 * @param entity The entity to be removed.
+	 */
+	public function removeEntity(entity:Entity):Void
+	{
+		var node:EntityNode = entity.getEntityPartitionNode();
+		var t:EntityNode;
+
+		node.removeFromParent();
+
+		// remove from update list if it's in
+		if (node == _updateQueue)
+			_updateQueue = node.updateQueueNext;
+		else
 		{
-			return _rootNode.showDebugBounds;
-		}
-
-		private inline function set_showDebugBounds(value:Bool):Void
-		{
-			_rootNode.showDebugBounds = value;
-		}
-
-		/**
-		 * Sends a traverser through the partition tree.
-		 * @param traverser
-		 *
-		 * @see a3d.core.traverse.PartitionTraverser
-		 */
-		public function traverse(traverser:PartitionTraverser):Void
-		{
-			if (_updatesMade)
-				updateEntities();
-
-			++PartitionTraverser.collectionMark;
-
-			_rootNode.acceptTraverser(traverser);
-		}
-
-		/**
-		 * Mark a scene graph entity for updating. This will trigger a reassignment within the tree, based on the
-		 * object's bounding box, upon the next traversal.
-		 * @param entity The entity to be updated in the tree.
-		 */
-		public function markForUpdate(entity:Entity):Void
-		{
-			var node:EntityNode = entity.getEntityPartitionNode();
-			// already marked to be updated
-			var t:EntityNode = _updateQueue;
-
-			// if already marked for update
-			while (t)
-			{
-				if (node == t)
-					return;
-
+			t = _updateQueue;
+			while (t && t.updateQueueNext != node)
 				t = t.updateQueueNext;
-			}
-
-			node.updateQueueNext = _updateQueue;
-
-			_updateQueue = node;
-			_updatesMade = true;
+			if (t)
+				t.updateQueueNext = node.updateQueueNext;
 		}
 
-		/**
-		 * Removes an entity from the partition tree.
-		 * @param entity The entity to be removed.
-		 */
-		public function removeEntity(entity:Entity):Void
+		node.updateQueueNext = null;
+
+		// any updates have been made undone
+		if (_updateQueue == null)
+			_updatesMade = false;
+	}
+
+	/**
+	 * Updates all entities that were marked for update.
+	 */
+	private function updateEntities():Void
+	{
+		var node:EntityNode = _updateQueue;
+		var targetNode:NodeBase;
+		var t:EntityNode;
+
+		// clear updateQueue early to allow for newly marked entity updates
+		_updateQueue = null;
+		_updatesMade = false;
+
+		do
 		{
-			var node:EntityNode = entity.getEntityPartitionNode();
-			var t:EntityNode;
+			targetNode = _rootNode.findPartitionForEntity(node.entity);
 
-			node.removeFromParent();
-
-			// remove from update list if it's in
-			if (node == _updateQueue)
-				_updateQueue = node.updateQueueNext;
-			else
+			// if changed, find and attach the mesh node to the best suited partition node
+			if (node.parent != targetNode)
 			{
-				t = _updateQueue;
-				while (t && t.updateQueueNext != node)
-					t = t.updateQueueNext;
-				if (t)
-					t.updateQueueNext = node.updateQueueNext;
+				if (node)
+					node.removeFromParent();
+
+				targetNode.addNode(node);
 			}
 
+			t = node.updateQueueNext;
 			node.updateQueueNext = null;
 
-			// any updates have been made undone
-			if (_updateQueue == null)
-				_updatesMade = false;
-		}
+			//call an internal update on the entity to fire any attached logic
+			node.entity.internalUpdate();
 
-		/**
-		 * Updates all entities that were marked for update.
-		 */
-		private function updateEntities():Void
-		{
-			var node:EntityNode = _updateQueue;
-			var targetNode:NodeBase;
-			var t:EntityNode;
-
-			// clear updateQueue early to allow for newly marked entity updates
-			_updateQueue = null;
-			_updatesMade = false;
-
-			do
-			{
-				targetNode = _rootNode.findPartitionForEntity(node.entity);
-
-				// if changed, find and attach the mesh node to the best suited partition node
-				if (node.parent != targetNode)
-				{
-					if (node)
-						node.removeFromParent();
-
-					targetNode.addNode(node);
-				}
-
-				t = node.updateQueueNext;
-				node.updateQueueNext = null;
-
-				//call an internal update on the entity to fire any attached logic
-				node.entity.internalUpdate();
-
-			} while ((node = t) != null);
-		}
+		} while ((node = t) != null);
 	}
 }

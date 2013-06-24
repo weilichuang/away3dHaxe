@@ -1,151 +1,150 @@
-package a3d.animators.states
+package a3d.animators.states;
+
+
+import a3d.animators.IAnimator;
+import a3d.animators.SpriteSheetAnimator;
+import a3d.animators.data.SpriteSheetAnimationFrame;
+import a3d.animators.nodes.SpriteSheetClipNode;
+
+
+
+class SpriteSheetAnimationState extends AnimationClipState implements ISpriteSheetAnimationState
 {
-	
-	import a3d.animators.IAnimator;
-	import a3d.animators.SpriteSheetAnimator;
-	import a3d.animators.data.SpriteSheetAnimationFrame;
-	import a3d.animators.nodes.SpriteSheetClipNode;
+	private var _frames:Vector<SpriteSheetAnimationFrame>;
+	private var _clipNode:SpriteSheetClipNode;
+	private var _currentFrameID:UInt = 0;
+	private var _reverse:Bool;
+	private var _back:Bool;
+	private var _backAndForth:Bool;
+	private var _forcedFrame:Bool;
 
-	
-
-	class SpriteSheetAnimationState extends AnimationClipState implements ISpriteSheetAnimationState
+	function SpriteSheetAnimationState(animator:IAnimator, clipNode:SpriteSheetClipNode)
 	{
-		private var _frames:Vector<SpriteSheetAnimationFrame>;
-		private var _clipNode:SpriteSheetClipNode;
-		private var _currentFrameID:UInt = 0;
-		private var _reverse:Bool;
-		private var _back:Bool;
-		private var _backAndForth:Bool;
-		private var _forcedFrame:Bool;
+		super(animator, clipNode);
 
-		function SpriteSheetAnimationState(animator:IAnimator, clipNode:SpriteSheetClipNode)
-		{
-			super(animator, clipNode);
+		_clipNode = clipNode;
+		_frames = _clipNode.frames;
+	}
 
-			_clipNode = clipNode;
-			_frames = _clipNode.frames;
-		}
+	private inline function set_reverse(b:Bool):Void
+	{
+		_back = false;
+		_reverse = b;
+	}
 
-		private inline function set_reverse(b:Bool):Void
-		{
-			_back = false;
-			_reverse = b;
-		}
+	private inline function set_backAndForth(b:Bool):Void
+	{
+		if (b)
+			_reverse = false;
+		_back = false;
+		_backAndForth = b;
+	}
 
-		private inline function set_backAndForth(b:Bool):Void
-		{
-			if (b)
-				_reverse = false;
-			_back = false;
-			_backAndForth = b;
-		}
+	/**
+	* @inheritDoc
+	*/
+	private inline function get_currentFrameData():SpriteSheetAnimationFrame
+	{
+		if (_framesDirty)
+			updateFrames();
 
-		/**
-		* @inheritDoc
+		return _frames[_currentFrameID];
+	}
+
+	/**
+	* returns current frame index of the animation.
+	* The index is zero based and counts from first frame of the defined animation.
+	*/
+	private inline function get_currentFrameNumber():UInt
+	{
+		return _currentFrameID;
+	}
+
+	private inline function set_currentFrameNumber(frameNumber:UInt):Void
+	{
+		_currentFrameID = (frameNumber > _frames.length - 1) ? _frames.length - 1 : frameNumber;
+		_forcedFrame = true;
+	}
+
+	/**
+		* returns the total frames for the current animation.
 		*/
-		private inline function get_currentFrameData():SpriteSheetAnimationFrame
-		{
-			if (_framesDirty)
-				updateFrames();
+	private inline function get_totalFrames():UInt
+	{
+		return (!_frames) ? 0 : _frames.length;
+	}
 
-			return _frames[_currentFrameID];
+	/**
+	* @inheritDoc
+	*/
+	override private function updateFrames():Void
+	{
+		if (_forcedFrame)
+		{
+			_forcedFrame = false;
+			return;
 		}
 
-		/**
-		* returns current frame index of the animation.
-		* The index is zero based and counts from first frame of the defined animation.
-		*/
-		private inline function get_currentFrameNumber():UInt
-		{
-			return _currentFrameID;
-		}
+		super.updateFrames();
 
-		private inline function set_currentFrameNumber(frameNumber:UInt):Void
+		if (_reverse)
 		{
-			_currentFrameID = (frameNumber > _frames.length - 1) ? _frames.length - 1 : frameNumber;
-			_forcedFrame = true;
-		}
 
-		/**
-			* returns the total frames for the current animation.
-			*/
-		private inline function get_totalFrames():UInt
-		{
-			return (!_frames) ? 0 : _frames.length;
-		}
-
-		/**
-		* @inheritDoc
-		*/
-		override private function updateFrames():Void
-		{
-			if (_forcedFrame)
+			if (_currentFrameID - 1 > -1)
 			{
-				_forcedFrame = false;
-				return;
-			}
-
-			super.updateFrames();
-
-			if (_reverse)
-			{
-
-				if (_currentFrameID - 1 > -1)
-				{
-					_currentFrameID--;
-
-				}
-				else
-				{
-
-					if (_clipNode.looping)
-					{
-
-						if (_backAndForth)
-						{
-							_reverse = false;
-							_currentFrameID++;
-						}
-						else
-						{
-							_currentFrameID = _frames.length - 1;
-						}
-					}
-
-					SpriteSheetAnimator(_animator).dispatchCycleEvent();
-				}
+				_currentFrameID--;
 
 			}
 			else
 			{
 
-				if (_currentFrameID < _frames.length - 1)
-				{
-					_currentFrameID++;
-
-				}
-				else
+				if (_clipNode.looping)
 				{
 
-					if (_clipNode.looping)
+					if (_backAndForth)
 					{
-
-						if (_backAndForth)
-						{
-							_reverse = true;
-							_currentFrameID--;
-						}
-						else
-						{
-							_currentFrameID = 0;
-						}
+						_reverse = false;
+						_currentFrameID++;
 					}
-
-					SpriteSheetAnimator(_animator).dispatchCycleEvent();
+					else
+					{
+						_currentFrameID = _frames.length - 1;
+					}
 				}
+
+				SpriteSheetAnimator(_animator).dispatchCycleEvent();
 			}
 
-
 		}
+		else
+		{
+
+			if (_currentFrameID < _frames.length - 1)
+			{
+				_currentFrameID++;
+
+			}
+			else
+			{
+
+				if (_clipNode.looping)
+				{
+
+					if (_backAndForth)
+					{
+						_reverse = true;
+						_currentFrameID--;
+					}
+					else
+					{
+						_currentFrameID = 0;
+					}
+				}
+
+				SpriteSheetAnimator(_animator).dispatchCycleEvent();
+			}
+		}
+
+
 	}
 }

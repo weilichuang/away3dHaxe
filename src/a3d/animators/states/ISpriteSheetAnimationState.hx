@@ -1,23 +1,22 @@
-package a3d.animators.states
+package a3d.animators.states;
+
+import a3d.animators.data.SpriteSheetAnimationFrame;
+
+/**
+ * Provides an interface for animation node classes that hold animation data for use in the SpriteSheetAnimator class.
+ *
+ * @see a3d.animators.SpriteSheetAnimator
+ */
+interface ISpriteSheetAnimationState extends IAnimationState
 {
-	import a3d.animators.data.SpriteSheetAnimationFrame;
+	/**
+	 * Returns the current SpriteSheetAnimationFrame of animation in the clip based on the internal playhead position.
+	 */
+	function get_currentFrameData():SpriteSheetAnimationFrame;
 
 	/**
-	 * Provides an interface for animation node classes that hold animation data for use in the SpriteSheetAnimator class.
-	 *
-	 * @see a3d.animators.SpriteSheetAnimator
+	 * Returns the current frame number.
 	 */
-	interface ISpriteSheetAnimationState extends IAnimationState
-	{
-		/**
-		 * Returns the current SpriteSheetAnimationFrame of animation in the clip based on the internal playhead position.
-		 */
-		function get_currentFrameData():SpriteSheetAnimationFrame;
+	function get_currentFrameNumber():UInt;
 
-		/**
-		 * Returns the current frame number.
-		 */
-		function get_currentFrameNumber():UInt;
-
-	}
 }
