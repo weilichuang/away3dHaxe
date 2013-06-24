@@ -485,9 +485,9 @@ class SubGeometryBase
 	 */
 	private function disposeVertexBuffers(buffers:Vector<VertexBuffer3D>):Void
 	{
-		for (var i:Int = 0; i < 8; ++i)
+		for (i in 0...8)
 		{
-			if (buffers[i])
+			if (buffers[i] != null)
 			{
 				buffers[i].dispose();
 				buffers[i] = null;

@@ -1,69 +1,68 @@
-package a3d.filters
+package a3d.filters;
+
+import a3d.filters.tasks.Filter3DHueSaturationTask;
+
+class HueSaturationFilter3D extends Filter3DBase
 {
-	import a3d.filters.tasks.Filter3DHueSaturationTask;
+	private var _hslTask:Filter3DHueSaturationTask;
 
-	class HueSaturationFilter3D extends Filter3DBase
+	public function HueSaturationFilter3D(saturation:Float = 1, r:Float = 1, g:Float = 1, b:Float = 1)
 	{
-		private var _hslTask:Filter3DHueSaturationTask;
+		super();
 
-		public function HueSaturationFilter3D(saturation:Float = 1, r:Float = 1, g:Float = 1, b:Float = 1)
-		{
-			super();
+		_hslTask = new Filter3DHueSaturationTask();
+		this.saturation = saturation;
+		this.r = r;
+		this.g = g;
+		this.b = b;
+		addTask(_hslTask);
+	}
 
-			_hslTask = new Filter3DHueSaturationTask();
-			this.saturation = saturation;
-			this.r = r;
-			this.g = g;
-			this.b = b;
-			addTask(_hslTask);
-		}
+	private inline function get_saturation():Float
+	{
+		return _hslTask.saturation;
+	}
 
-		private inline function get_saturation():Float
-		{
-			return _hslTask.saturation;
-		}
+	private inline function set_saturation(value:Float):Void
+	{
+		if (_hslTask.saturation == value)
+			return;
+		_hslTask.saturation = value;
+	}
 
-		private inline function set_saturation(value:Float):Void
-		{
-			if (_hslTask.saturation == value)
-				return;
-			_hslTask.saturation = value;
-		}
+	private inline function get_r():Float
+	{
+		return _hslTask.r;
+	}
 
-		private inline function get_r():Float
-		{
-			return _hslTask.r;
-		}
+	private inline function set_r(value:Float):Void
+	{
+		if (_hslTask.r == value)
+			return;
+		_hslTask.r = value;
+	}
 
-		private inline function set_r(value:Float):Void
-		{
-			if (_hslTask.r == value)
-				return;
-			_hslTask.r = value;
-		}
+	private inline function get_b():Float
+	{
+		return _hslTask.b;
+	}
 
-		private inline function get_b():Float
-		{
-			return _hslTask.b;
-		}
+	private inline function set_b(value:Float):Void
+	{
+		if (_hslTask.b == value)
+			return;
+		_hslTask.b = value;
+	}
 
-		private inline function set_b(value:Float):Void
-		{
-			if (_hslTask.b == value)
-				return;
-			_hslTask.b = value;
-		}
+	private inline function get_g():Float
+	{
+		return _hslTask.g;
+	}
 
-		private inline function get_g():Float
-		{
-			return _hslTask.g;
-		}
-
-		private inline function set_g(value:Float):Void
-		{
-			if (_hslTask.g == value)
-				return;
-			_hslTask.g = value;
-		}
+	private inline function set_g(value:Float):Void
+	{
+		if (_hslTask.g == value)
+			return;
+		_hslTask.g = value;
 	}
 }

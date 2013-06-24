@@ -1,484 +1,482 @@
-package a3d.entities.primitives
-{
-	
-	import a3d.core.base.CompactSubGeometry;
+package a3d.entities.primitives;
 
-	
+import a3d.core.base.CompactSubGeometry;
+
+
+
+/**
+ * A Cube primitive mesh.
+ */
+class CubeGeometry extends PrimitiveBase
+{
+	private var _width:Float;
+	private var _height:Float;
+	private var _depth:Float;
+	private var _tile6:Bool;
+
+	private var _segmentsW:Float;
+	private var _segmentsH:Float;
+	private var _segmentsD:Float;
 
 	/**
-	 * A Cube primitive mesh.
+	 * Creates a new Cube object.
+	 * @param width The size of the cube along its X-axis.
+	 * @param height The size of the cube along its Y-axis.
+	 * @param depth The size of the cube along its Z-axis.
+	 * @param segmentsW The number of segments that make up the cube along the X-axis.
+	 * @param segmentsH The number of segments that make up the cube along the Y-axis.
+	 * @param segmentsD The number of segments that make up the cube along the Z-axis.
+	 * @param tile6 The type of uv mapping to use. When true, a texture will be subdivided in a 2x3 grid, each used for a single face. When false, the entire image is mapped on each face.
 	 */
-	class CubeGeometry extends PrimitiveBase
+	public function CubeGeometry(width:Float = 100, height:Float = 100, depth:Float = 100,
+		segmentsW:UInt = 1, segmentsH:UInt = 1, segmentsD:UInt = 1, tile6:Bool = true)
 	{
-		private var _width:Float;
-		private var _height:Float;
-		private var _depth:Float;
-		private var _tile6:Bool;
+		super();
 
-		private var _segmentsW:Float;
-		private var _segmentsH:Float;
-		private var _segmentsD:Float;
+		_width = width;
+		_height = height;
+		_depth = depth;
+		_segmentsW = segmentsW;
+		_segmentsH = segmentsH;
+		_segmentsD = segmentsD;
+		_tile6 = tile6;
+	}
 
-		/**
-		 * Creates a new Cube object.
-		 * @param width The size of the cube along its X-axis.
-		 * @param height The size of the cube along its Y-axis.
-		 * @param depth The size of the cube along its Z-axis.
-		 * @param segmentsW The number of segments that make up the cube along the X-axis.
-		 * @param segmentsH The number of segments that make up the cube along the Y-axis.
-		 * @param segmentsD The number of segments that make up the cube along the Z-axis.
-		 * @param tile6 The type of uv mapping to use. When true, a texture will be subdivided in a 2x3 grid, each used for a single face. When false, the entire image is mapped on each face.
-		 */
-		public function CubeGeometry(width:Float = 100, height:Float = 100, depth:Float = 100,
-			segmentsW:UInt = 1, segmentsH:UInt = 1, segmentsD:UInt = 1, tile6:Bool = true)
+	/**
+	 * The size of the cube along its X-axis.
+	 */
+	private inline function get_width():Float
+	{
+		return _width;
+	}
+
+	private inline function set_width(value:Float):Void
+	{
+		_width = value;
+		invalidateGeometry();
+	}
+
+	/**
+	 * The size of the cube along its Y-axis.
+	 */
+	private inline function get_height():Float
+	{
+		return _height;
+	}
+
+	private inline function set_height(value:Float):Void
+	{
+		_height = value;
+		invalidateGeometry();
+	}
+
+	/**
+	 * The size of the cube along its Z-axis.
+	 */
+	private inline function get_depth():Float
+	{
+		return _depth;
+	}
+
+	private inline function set_depth(value:Float):Void
+	{
+		_depth = value;
+		invalidateGeometry();
+	}
+
+	/**
+	 * The type of uv mapping to use. When false, the entire image is mapped on each face.
+	 * When true, a texture will be subdivided in a 3x2 grid, each used for a single face.
+	 * Reading the tiles from left to right, top to bottom they represent the faces of the
+	 * cube in the following order: bottom, top, back, left, front, right. This creates
+	 * several shared edges (between the top, front, left and right faces) which simplifies
+	 * texture painting.
+	 */
+	private inline function get_tile6():Bool
+	{
+		return _tile6;
+	}
+
+	private inline function set_tile6(value:Bool):Void
+	{
+		_tile6 = value;
+		invalidateUVs();
+	}
+
+	/**
+	 * The number of segments that make up the cube along the X-axis. Defaults to 1.
+	 */
+	private inline function get_segmentsW():Float
+	{
+		return _segmentsW;
+	}
+
+	private inline function set_segmentsW(value:Float):Void
+	{
+		_segmentsW = value;
+		invalidateGeometry();
+		invalidateUVs();
+	}
+
+	/**
+	 * The number of segments that make up the cube along the Y-axis. Defaults to 1.
+	 */
+	private inline function get_segmentsH():Float
+	{
+		return _segmentsH;
+	}
+
+	private inline function set_segmentsH(value:Float):Void
+	{
+		_segmentsH = value;
+		invalidateGeometry();
+		invalidateUVs();
+	}
+
+	/**
+	 * The number of segments that make up the cube along the Z-axis. Defaults to 1.
+	 */
+	private inline function get_segmentsD():Float
+	{
+		return _segmentsD;
+	}
+
+	private inline function set_segmentsD(value:Float):Void
+	{
+		_segmentsD = value;
+		invalidateGeometry();
+		invalidateUVs();
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	override private function buildGeometry(target:CompactSubGeometry):Void
+	{
+		var data:Vector<Float>;
+		var indices:Vector<UInt>;
+
+		var tl:UInt, tr:UInt, bl:UInt, br:UInt;
+		var i:UInt, j:UInt, inc:UInt = 0;
+
+		var vidx:UInt, fidx:UInt; // indices
+		var hw:Float, hh:Float, hd:Float; // halves
+		var dw:Float, dh:Float, dd:Float; // deltas
+
+		var outer_pos:Float;
+
+		var numVerts:UInt = ((_segmentsW + 1) * (_segmentsH + 1) +
+			(_segmentsW + 1) * (_segmentsD + 1) +
+			(_segmentsH + 1) * (_segmentsD + 1)) * 2;
+
+		var stride:UInt = target.vertexStride;
+		var skip:UInt = stride - 9;
+
+		if (numVerts == target.numVertices)
 		{
-			super();
-
-			_width = width;
-			_height = height;
-			_depth = depth;
-			_segmentsW = segmentsW;
-			_segmentsH = segmentsH;
-			_segmentsD = segmentsD;
-			_tile6 = tile6;
+			data = target.vertexData;
+			indices = target.indexData || new Vector<UInt>((_segmentsW * _segmentsH + _segmentsW * _segmentsD + _segmentsH * _segmentsD) * 12, true);
 		}
-
-		/**
-		 * The size of the cube along its X-axis.
-		 */
-		private inline function get_width():Float
+		else
 		{
-			return _width;
-		}
-
-		private inline function set_width(value:Float):Void
-		{
-			_width = value;
-			invalidateGeometry();
-		}
-
-		/**
-		 * The size of the cube along its Y-axis.
-		 */
-		private inline function get_height():Float
-		{
-			return _height;
-		}
-
-		private inline function set_height(value:Float):Void
-		{
-			_height = value;
-			invalidateGeometry();
-		}
-
-		/**
-		 * The size of the cube along its Z-axis.
-		 */
-		private inline function get_depth():Float
-		{
-			return _depth;
-		}
-
-		private inline function set_depth(value:Float):Void
-		{
-			_depth = value;
-			invalidateGeometry();
-		}
-
-		/**
-		 * The type of uv mapping to use. When false, the entire image is mapped on each face.
-		 * When true, a texture will be subdivided in a 3x2 grid, each used for a single face.
-		 * Reading the tiles from left to right, top to bottom they represent the faces of the
-		 * cube in the following order: bottom, top, back, left, front, right. This creates
-		 * several shared edges (between the top, front, left and right faces) which simplifies
-		 * texture painting.
-		 */
-		private inline function get_tile6():Bool
-		{
-			return _tile6;
-		}
-
-		private inline function set_tile6(value:Bool):Void
-		{
-			_tile6 = value;
+			data = new Vector<Float>(numVerts * stride, true);
+			indices = new Vector<UInt>((_segmentsW * _segmentsH + _segmentsW * _segmentsD + _segmentsH * _segmentsD) * 12, true);
 			invalidateUVs();
 		}
 
-		/**
-		 * The number of segments that make up the cube along the X-axis. Defaults to 1.
-		 */
-		private inline function get_segmentsW():Float
+		// Indices
+		vidx = target.vertexOffset;
+		fidx = 0;
+
+		// half cube dimensions
+		hw = _width / 2;
+		hh = _height / 2;
+		hd = _depth / 2;
+
+		// Segment dimensions
+		dw = _width / _segmentsW;
+		dh = _height / _segmentsH;
+		dd = _depth / _segmentsD;
+
+		for (i = 0; i <= _segmentsW; i++)
 		{
-			return _segmentsW;
+			outer_pos = -hw + i * dw;
+
+			for (j = 0; j <= _segmentsH; j++)
+			{
+				// front
+				data[vidx++] = outer_pos;
+				data[vidx++] = -hh + j * dh;
+				data[vidx++] = -hd;
+				data[vidx++] = 0;
+				data[vidx++] = 0;
+				data[vidx++] = -1;
+				data[vidx++] = 1;
+				data[vidx++] = 0;
+				data[vidx++] = 0;
+				vidx += skip;
+
+				// back
+				data[vidx++] = outer_pos;
+				data[vidx++] = -hh + j * dh;
+				data[vidx++] = hd;
+				data[vidx++] = 0;
+				data[vidx++] = 0;
+				data[vidx++] = 1;
+				data[vidx++] = -1;
+				data[vidx++] = 0;
+				data[vidx++] = 0;
+				vidx += skip;
+
+				if (i && j)
+				{
+					tl = 2 * ((i - 1) * (_segmentsH + 1) + (j - 1));
+					tr = 2 * (i * (_segmentsH + 1) + (j - 1));
+					bl = tl + 2;
+					br = tr + 2;
+
+					indices[fidx++] = tl;
+					indices[fidx++] = bl;
+					indices[fidx++] = br;
+					indices[fidx++] = tl;
+					indices[fidx++] = br;
+					indices[fidx++] = tr;
+					indices[fidx++] = tr + 1;
+					indices[fidx++] = br + 1;
+					indices[fidx++] = bl + 1;
+					indices[fidx++] = tr + 1;
+					indices[fidx++] = bl + 1;
+					indices[fidx++] = tl + 1;
+				}
+			}
 		}
 
-		private inline function set_segmentsW(value:Float):Void
+		inc += 2 * (_segmentsW + 1) * (_segmentsH + 1);
+
+		for (i = 0; i <= _segmentsW; i++)
 		{
-			_segmentsW = value;
+			outer_pos = -hw + i * dw;
+
+			for (j = 0; j <= _segmentsD; j++)
+			{
+				// top
+				data[vidx++] = outer_pos;
+				data[vidx++] = hh;
+				data[vidx++] = -hd + j * dd;
+				data[vidx++] = 0;
+				data[vidx++] = 1;
+				data[vidx++] = 0;
+				data[vidx++] = 1;
+				data[vidx++] = 0;
+				data[vidx++] = 0;
+				vidx += skip;
+
+				// bottom
+				data[vidx++] = outer_pos;
+				data[vidx++] = -hh;
+				data[vidx++] = -hd + j * dd;
+				data[vidx++] = 0;
+				data[vidx++] = -1;
+				data[vidx++] = 0;
+				data[vidx++] = 1;
+				data[vidx++] = 0;
+				data[vidx++] = 0;
+				vidx += skip;
+
+				if (i && j)
+				{
+					tl = inc + 2 * ((i - 1) * (_segmentsD + 1) + (j - 1));
+					tr = inc + 2 * (i * (_segmentsD + 1) + (j - 1));
+					bl = tl + 2;
+					br = tr + 2;
+
+					indices[fidx++] = tl;
+					indices[fidx++] = bl;
+					indices[fidx++] = br;
+					indices[fidx++] = tl;
+					indices[fidx++] = br;
+					indices[fidx++] = tr;
+					indices[fidx++] = tr + 1;
+					indices[fidx++] = br + 1;
+					indices[fidx++] = bl + 1;
+					indices[fidx++] = tr + 1;
+					indices[fidx++] = bl + 1;
+					indices[fidx++] = tl + 1;
+				}
+			}
+		}
+
+		inc += 2 * (_segmentsW + 1) * (_segmentsD + 1);
+
+		for (i = 0; i <= _segmentsD; i++)
+		{
+			outer_pos = hd - i * dd;
+
+			for (j = 0; j <= _segmentsH; j++)
+			{
+				// left
+				data[vidx++] = -hw;
+				data[vidx++] = -hh + j * dh;
+				data[vidx++] = outer_pos;
+				data[vidx++] = -1;
+				data[vidx++] = 0;
+				data[vidx++] = 0;
+				data[vidx++] = 0;
+				data[vidx++] = 0;
+				data[vidx++] = -1;
+				vidx += skip;
+
+				// right
+				data[vidx++] = hw;
+				data[vidx++] = -hh + j * dh;
+				data[vidx++] = outer_pos;
+				data[vidx++] = 1;
+				data[vidx++] = 0;
+				data[vidx++] = 0;
+				data[vidx++] = 0;
+				data[vidx++] = 0;
+				data[vidx++] = 1;
+				vidx += skip;
+
+				if (i && j)
+				{
+					tl = inc + 2 * ((i - 1) * (_segmentsH + 1) + (j - 1));
+					tr = inc + 2 * (i * (_segmentsH + 1) + (j - 1));
+					bl = tl + 2;
+					br = tr + 2;
+
+					indices[fidx++] = tl;
+					indices[fidx++] = bl;
+					indices[fidx++] = br;
+					indices[fidx++] = tl;
+					indices[fidx++] = br;
+					indices[fidx++] = tr;
+					indices[fidx++] = tr + 1;
+					indices[fidx++] = br + 1;
+					indices[fidx++] = bl + 1;
+					indices[fidx++] = tr + 1;
+					indices[fidx++] = bl + 1;
+					indices[fidx++] = tl + 1;
+				}
+			}
+		}
+
+		target.updateData(data);
+		target.updateIndexData(indices);
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	override private function buildUVs(target:CompactSubGeometry):Void
+	{
+		var i:UInt, j:UInt, uidx:UInt;
+		var data:Vector<Float>;
+
+		var u_tile_dim:Float, v_tile_dim:Float;
+		var u_tile_step:Float, v_tile_step:Float;
+		var tl0u:Float, tl0v:Float;
+		var tl1u:Float, tl1v:Float;
+		var du:Float, dv:Float;
+		var stride:UInt = target.UVStride;
+		var numUvs:UInt = ((_segmentsW + 1) * (_segmentsH + 1) +
+			(_segmentsW + 1) * (_segmentsD + 1) +
+			(_segmentsH + 1) * (_segmentsD + 1)) * 2 * stride;
+		var skip:UInt = stride - 2;
+
+		if (target.UVData && numUvs == target.UVData.length)
+			data = target.UVData;
+		else
+		{
+			data = new Vector<Float>(numUvs, true);
 			invalidateGeometry();
-			invalidateUVs();
 		}
 
-		/**
-		 * The number of segments that make up the cube along the Y-axis. Defaults to 1.
-		 */
-		private inline function get_segmentsH():Float
+		if (_tile6)
 		{
-			return _segmentsH;
+			u_tile_dim = u_tile_step = 1 / 3;
+			v_tile_dim = v_tile_step = 1 / 2;
 		}
-
-		private inline function set_segmentsH(value:Float):Void
+		else
 		{
-			_segmentsH = value;
-			invalidateGeometry();
-			invalidateUVs();
+			u_tile_dim = v_tile_dim = 1;
+			u_tile_step = v_tile_step = 0;
 		}
 
-		/**
-		 * The number of segments that make up the cube along the Z-axis. Defaults to 1.
-		 */
-		private inline function get_segmentsD():Float
+		// Create planes two and two, the same way that they were
+		// constructed in the buildGeometry() function. First calculate
+		// the top-left UV coordinate for both planes, and then loop
+		// over the points, calculating the UVs from these numbers.
+
+		// When tile6 is true, the layout is as follows:
+		//       .-----.-----.-----. (1,1)
+		//       | Bot |  T  | Bak |
+		//       |-----+-----+-----|
+		//       |  L  |  F  |  R  |
+		// (0,0)'-----'-----'-----'
+
+		uidx = target.UVOffset;
+
+		// FRONT / BACK
+		tl0u = 1 * u_tile_step;
+		tl0v = 1 * v_tile_step;
+		tl1u = 2 * u_tile_step;
+		tl1v = 0 * v_tile_step;
+		du = u_tile_dim / _segmentsW;
+		dv = v_tile_dim / _segmentsH;
+		for (i = 0; i <= _segmentsW; i++)
 		{
-			return _segmentsD;
+			for (j = 0; j <= _segmentsH; j++)
+			{
+				data[uidx++] = tl0u + i * du;
+				data[uidx++] = tl0v + (v_tile_dim - j * dv);
+				uidx += skip;
+				data[uidx++] = tl1u + (u_tile_dim - i * du);
+				data[uidx++] = tl1v + (v_tile_dim - j * dv);
+				uidx += skip;
+			}
 		}
 
-		private inline function set_segmentsD(value:Float):Void
+		// TOP / BOTTOM
+		tl0u = 1 * u_tile_step;
+		tl0v = 0 * v_tile_step;
+		tl1u = 0 * u_tile_step;
+		tl1v = 0 * v_tile_step;
+		du = u_tile_dim / _segmentsW;
+		dv = v_tile_dim / _segmentsD;
+		for (i = 0; i <= _segmentsW; i++)
 		{
-			_segmentsD = value;
-			invalidateGeometry();
-			invalidateUVs();
+			for (j = 0; j <= _segmentsD; j++)
+			{
+				data[uidx++] = tl0u + i * du;
+				data[uidx++] = tl0v + (v_tile_dim - j * dv);
+				uidx += skip;
+				data[uidx++] = tl1u + i * du;
+				data[uidx++] = tl1v + j * dv;
+				uidx += skip;
+			}
 		}
 
-		/**
-		 * @inheritDoc
-		 */
-		override private function buildGeometry(target:CompactSubGeometry):Void
+		// LEFT / RIGHT
+		tl0u = 0 * u_tile_step;
+		tl0v = 1 * v_tile_step;
+		tl1u = 2 * u_tile_step;
+		tl1v = 1 * v_tile_step;
+		du = u_tile_dim / _segmentsD;
+		dv = v_tile_dim / _segmentsH;
+		for (i = 0; i <= _segmentsD; i++)
 		{
-			var data:Vector<Float>;
-			var indices:Vector<UInt>;
-
-			var tl:UInt, tr:UInt, bl:UInt, br:UInt;
-			var i:UInt, j:UInt, inc:UInt = 0;
-
-			var vidx:UInt, fidx:UInt; // indices
-			var hw:Float, hh:Float, hd:Float; // halves
-			var dw:Float, dh:Float, dd:Float; // deltas
-
-			var outer_pos:Float;
-
-			var numVerts:UInt = ((_segmentsW + 1) * (_segmentsH + 1) +
-				(_segmentsW + 1) * (_segmentsD + 1) +
-				(_segmentsH + 1) * (_segmentsD + 1)) * 2;
-
-			var stride:UInt = target.vertexStride;
-			var skip:UInt = stride - 9;
-
-			if (numVerts == target.numVertices)
+			for (j = 0; j <= _segmentsH; j++)
 			{
-				data = target.vertexData;
-				indices = target.indexData || new Vector<UInt>((_segmentsW * _segmentsH + _segmentsW * _segmentsD + _segmentsH * _segmentsD) * 12, true);
+				data[uidx++] = tl0u + i * du;
+				data[uidx++] = tl0v + (v_tile_dim - j * dv);
+				uidx += skip;
+				data[uidx++] = tl1u + (u_tile_dim - i * du);
+				data[uidx++] = tl1v + (v_tile_dim - j * dv);
+				uidx += skip;
 			}
-			else
-			{
-				data = new Vector<Float>(numVerts * stride, true);
-				indices = new Vector<UInt>((_segmentsW * _segmentsH + _segmentsW * _segmentsD + _segmentsH * _segmentsD) * 12, true);
-				invalidateUVs();
-			}
-
-			// Indices
-			vidx = target.vertexOffset;
-			fidx = 0;
-
-			// half cube dimensions
-			hw = _width / 2;
-			hh = _height / 2;
-			hd = _depth / 2;
-
-			// Segment dimensions
-			dw = _width / _segmentsW;
-			dh = _height / _segmentsH;
-			dd = _depth / _segmentsD;
-
-			for (i = 0; i <= _segmentsW; i++)
-			{
-				outer_pos = -hw + i * dw;
-
-				for (j = 0; j <= _segmentsH; j++)
-				{
-					// front
-					data[vidx++] = outer_pos;
-					data[vidx++] = -hh + j * dh;
-					data[vidx++] = -hd;
-					data[vidx++] = 0;
-					data[vidx++] = 0;
-					data[vidx++] = -1;
-					data[vidx++] = 1;
-					data[vidx++] = 0;
-					data[vidx++] = 0;
-					vidx += skip;
-
-					// back
-					data[vidx++] = outer_pos;
-					data[vidx++] = -hh + j * dh;
-					data[vidx++] = hd;
-					data[vidx++] = 0;
-					data[vidx++] = 0;
-					data[vidx++] = 1;
-					data[vidx++] = -1;
-					data[vidx++] = 0;
-					data[vidx++] = 0;
-					vidx += skip;
-
-					if (i && j)
-					{
-						tl = 2 * ((i - 1) * (_segmentsH + 1) + (j - 1));
-						tr = 2 * (i * (_segmentsH + 1) + (j - 1));
-						bl = tl + 2;
-						br = tr + 2;
-
-						indices[fidx++] = tl;
-						indices[fidx++] = bl;
-						indices[fidx++] = br;
-						indices[fidx++] = tl;
-						indices[fidx++] = br;
-						indices[fidx++] = tr;
-						indices[fidx++] = tr + 1;
-						indices[fidx++] = br + 1;
-						indices[fidx++] = bl + 1;
-						indices[fidx++] = tr + 1;
-						indices[fidx++] = bl + 1;
-						indices[fidx++] = tl + 1;
-					}
-				}
-			}
-
-			inc += 2 * (_segmentsW + 1) * (_segmentsH + 1);
-
-			for (i = 0; i <= _segmentsW; i++)
-			{
-				outer_pos = -hw + i * dw;
-
-				for (j = 0; j <= _segmentsD; j++)
-				{
-					// top
-					data[vidx++] = outer_pos;
-					data[vidx++] = hh;
-					data[vidx++] = -hd + j * dd;
-					data[vidx++] = 0;
-					data[vidx++] = 1;
-					data[vidx++] = 0;
-					data[vidx++] = 1;
-					data[vidx++] = 0;
-					data[vidx++] = 0;
-					vidx += skip;
-
-					// bottom
-					data[vidx++] = outer_pos;
-					data[vidx++] = -hh;
-					data[vidx++] = -hd + j * dd;
-					data[vidx++] = 0;
-					data[vidx++] = -1;
-					data[vidx++] = 0;
-					data[vidx++] = 1;
-					data[vidx++] = 0;
-					data[vidx++] = 0;
-					vidx += skip;
-
-					if (i && j)
-					{
-						tl = inc + 2 * ((i - 1) * (_segmentsD + 1) + (j - 1));
-						tr = inc + 2 * (i * (_segmentsD + 1) + (j - 1));
-						bl = tl + 2;
-						br = tr + 2;
-
-						indices[fidx++] = tl;
-						indices[fidx++] = bl;
-						indices[fidx++] = br;
-						indices[fidx++] = tl;
-						indices[fidx++] = br;
-						indices[fidx++] = tr;
-						indices[fidx++] = tr + 1;
-						indices[fidx++] = br + 1;
-						indices[fidx++] = bl + 1;
-						indices[fidx++] = tr + 1;
-						indices[fidx++] = bl + 1;
-						indices[fidx++] = tl + 1;
-					}
-				}
-			}
-
-			inc += 2 * (_segmentsW + 1) * (_segmentsD + 1);
-
-			for (i = 0; i <= _segmentsD; i++)
-			{
-				outer_pos = hd - i * dd;
-
-				for (j = 0; j <= _segmentsH; j++)
-				{
-					// left
-					data[vidx++] = -hw;
-					data[vidx++] = -hh + j * dh;
-					data[vidx++] = outer_pos;
-					data[vidx++] = -1;
-					data[vidx++] = 0;
-					data[vidx++] = 0;
-					data[vidx++] = 0;
-					data[vidx++] = 0;
-					data[vidx++] = -1;
-					vidx += skip;
-
-					// right
-					data[vidx++] = hw;
-					data[vidx++] = -hh + j * dh;
-					data[vidx++] = outer_pos;
-					data[vidx++] = 1;
-					data[vidx++] = 0;
-					data[vidx++] = 0;
-					data[vidx++] = 0;
-					data[vidx++] = 0;
-					data[vidx++] = 1;
-					vidx += skip;
-
-					if (i && j)
-					{
-						tl = inc + 2 * ((i - 1) * (_segmentsH + 1) + (j - 1));
-						tr = inc + 2 * (i * (_segmentsH + 1) + (j - 1));
-						bl = tl + 2;
-						br = tr + 2;
-
-						indices[fidx++] = tl;
-						indices[fidx++] = bl;
-						indices[fidx++] = br;
-						indices[fidx++] = tl;
-						indices[fidx++] = br;
-						indices[fidx++] = tr;
-						indices[fidx++] = tr + 1;
-						indices[fidx++] = br + 1;
-						indices[fidx++] = bl + 1;
-						indices[fidx++] = tr + 1;
-						indices[fidx++] = bl + 1;
-						indices[fidx++] = tl + 1;
-					}
-				}
-			}
-
-			target.updateData(data);
-			target.updateIndexData(indices);
 		}
 
-		/**
-		 * @inheritDoc
-		 */
-		override private function buildUVs(target:CompactSubGeometry):Void
-		{
-			var i:UInt, j:UInt, uidx:UInt;
-			var data:Vector<Float>;
-
-			var u_tile_dim:Float, v_tile_dim:Float;
-			var u_tile_step:Float, v_tile_step:Float;
-			var tl0u:Float, tl0v:Float;
-			var tl1u:Float, tl1v:Float;
-			var du:Float, dv:Float;
-			var stride:UInt = target.UVStride;
-			var numUvs:UInt = ((_segmentsW + 1) * (_segmentsH + 1) +
-				(_segmentsW + 1) * (_segmentsD + 1) +
-				(_segmentsH + 1) * (_segmentsD + 1)) * 2 * stride;
-			var skip:UInt = stride - 2;
-
-			if (target.UVData && numUvs == target.UVData.length)
-				data = target.UVData;
-			else
-			{
-				data = new Vector<Float>(numUvs, true);
-				invalidateGeometry();
-			}
-
-			if (_tile6)
-			{
-				u_tile_dim = u_tile_step = 1 / 3;
-				v_tile_dim = v_tile_step = 1 / 2;
-			}
-			else
-			{
-				u_tile_dim = v_tile_dim = 1;
-				u_tile_step = v_tile_step = 0;
-			}
-
-			// Create planes two and two, the same way that they were
-			// constructed in the buildGeometry() function. First calculate
-			// the top-left UV coordinate for both planes, and then loop
-			// over the points, calculating the UVs from these numbers.
-
-			// When tile6 is true, the layout is as follows:
-			//       .-----.-----.-----. (1,1)
-			//       | Bot |  T  | Bak |
-			//       |-----+-----+-----|
-			//       |  L  |  F  |  R  |
-			// (0,0)'-----'-----'-----'
-
-			uidx = target.UVOffset;
-
-			// FRONT / BACK
-			tl0u = 1 * u_tile_step;
-			tl0v = 1 * v_tile_step;
-			tl1u = 2 * u_tile_step;
-			tl1v = 0 * v_tile_step;
-			du = u_tile_dim / _segmentsW;
-			dv = v_tile_dim / _segmentsH;
-			for (i = 0; i <= _segmentsW; i++)
-			{
-				for (j = 0; j <= _segmentsH; j++)
-				{
-					data[uidx++] = tl0u + i * du;
-					data[uidx++] = tl0v + (v_tile_dim - j * dv);
-					uidx += skip;
-					data[uidx++] = tl1u + (u_tile_dim - i * du);
-					data[uidx++] = tl1v + (v_tile_dim - j * dv);
-					uidx += skip;
-				}
-			}
-
-			// TOP / BOTTOM
-			tl0u = 1 * u_tile_step;
-			tl0v = 0 * v_tile_step;
-			tl1u = 0 * u_tile_step;
-			tl1v = 0 * v_tile_step;
-			du = u_tile_dim / _segmentsW;
-			dv = v_tile_dim / _segmentsD;
-			for (i = 0; i <= _segmentsW; i++)
-			{
-				for (j = 0; j <= _segmentsD; j++)
-				{
-					data[uidx++] = tl0u + i * du;
-					data[uidx++] = tl0v + (v_tile_dim - j * dv);
-					uidx += skip;
-					data[uidx++] = tl1u + i * du;
-					data[uidx++] = tl1v + j * dv;
-					uidx += skip;
-				}
-			}
-
-			// LEFT / RIGHT
-			tl0u = 0 * u_tile_step;
-			tl0v = 1 * v_tile_step;
-			tl1u = 2 * u_tile_step;
-			tl1v = 1 * v_tile_step;
-			du = u_tile_dim / _segmentsD;
-			dv = v_tile_dim / _segmentsH;
-			for (i = 0; i <= _segmentsD; i++)
-			{
-				for (j = 0; j <= _segmentsH; j++)
-				{
-					data[uidx++] = tl0u + i * du;
-					data[uidx++] = tl0v + (v_tile_dim - j * dv);
-					uidx += skip;
-					data[uidx++] = tl1u + (u_tile_dim - i * du);
-					data[uidx++] = tl1v + (v_tile_dim - j * dv);
-					uidx += skip;
-				}
-			}
-
-			target.updateData(data);
-		}
+		target.updateData(data);
 	}
 }

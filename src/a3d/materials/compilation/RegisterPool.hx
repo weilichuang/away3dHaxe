@@ -7,7 +7,7 @@ package a3d.materials.compilation
 	 * currently used. Either entire registers can be requested and locked, or single components (x, y, z, w) of a
 	 * single register.
 	 */
-	internal class RegisterPool
+	class RegisterPool
 	{
 		private static inline var _regPool:Dictionary = new Dictionary();
 		private static inline var _regCompsPool:Dictionary = new Dictionary();
