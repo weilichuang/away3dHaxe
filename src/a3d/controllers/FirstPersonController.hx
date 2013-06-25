@@ -132,7 +132,7 @@ class FirstPersonController extends ControllerBase
 	/**
 	 * Creates a new <code>HoverController</code> object.
 	 */
-	public function FirstPersonController(targetObject:Entity = null, panAngle:Float = 0, tiltAngle:Float = 90, minTiltAngle:Float = -90, maxTiltAngle:Float = 90, steps:UInt = 8)
+	public function new(targetObject:Entity = null, panAngle:Float = 0, tiltAngle:Float = 90, minTiltAngle:Float = -90, maxTiltAngle:Float = 90, steps:UInt = 8)
 	{
 		super(targetObject);
 

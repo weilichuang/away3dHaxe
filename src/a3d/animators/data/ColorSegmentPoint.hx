@@ -8,7 +8,7 @@ class ColorSegmentPoint
 	private var _color:ColorTransform;
 	private var _life:Float;
 
-	public function ColorSegmentPoint(life:Float, color:ColorTransform)
+	public function new(life:Float, color:ColorTransform)
 	{
 		//0<life<1
 		if (life <= 0 || life >= 1)

@@ -10,7 +10,7 @@ class MotionBlurFilter3D extends Filter3DBase
 	private var _compositeTask:Filter3DXFadeCompositeTask;
 	private var _copyTask:Filter3DDoubleBufferCopyTask;
 
-	public function MotionBlurFilter3D(strength:Float = .65)
+	public function new(strength:Float = .65)
 	{
 		super();
 		_compositeTask = new Filter3DXFadeCompositeTask(strength);

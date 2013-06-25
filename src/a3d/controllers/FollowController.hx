@@ -12,7 +12,7 @@ import a3d.entities.ObjectContainer3D;
  */
 class FollowController extends HoverController
 {
-	public function FollowController(targetObject:Entity = null, lookAtObject:ObjectContainer3D = null, tiltAngle:Float = 45, distance:Float = 700)
+	public function new(targetObject:Entity = null, lookAtObject:ObjectContainer3D = null, tiltAngle:Float = 45, distance:Float = 700)
 	{
 		super(targetObject, lookAtObject, 0, tiltAngle, distance);
 	}

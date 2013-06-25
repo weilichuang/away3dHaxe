@@ -36,7 +36,7 @@ class ShadowMapperBase
 //			_shadowsInvalid = value;
 //		}
 
-	public function ShadowMapperBase()
+	public function new()
 	{
 		_casterCollector = createCasterCollector();
 	}

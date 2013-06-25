@@ -19,7 +19,7 @@ class AnimationNodeBase extends NamedAssetBase implements IAsset
 	/**
 	 * Creates a new <code>AnimationNodeBase</code> object.
 	 */
-	public function AnimationNodeBase()
+	public function new()
 	{
 	}
 

@@ -22,7 +22,7 @@ class ParticleRotateToHeadingNode extends ParticleNodeBase
 	/**
 	 * Creates a new <code>ParticleBillboardNode</code>
 	 */
-	public function ParticleRotateToHeadingNode()
+	public function new()
 	{
 		super("ParticleRotateToHeading", ParticlePropertiesMode.GLOBAL, 0, 3);
 

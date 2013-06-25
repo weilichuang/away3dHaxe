@@ -25,7 +25,7 @@ class WireframeCylinder extends WireframePrimitiveBase
 	 * @param color The color of the wireframe lines
 	 * @param thickness The thickness of the wireframe lines
 	 */
-	public function WireframeCylinder(topRadius:Float = 50, bottomRadius:Float = 50, height:Float = 100, segmentsW:UInt = 16, segmentsH:UInt = 1, color:UInt = 0xFFFFFF, thickness:Float = 1)
+	public function new(topRadius:Float = 50, bottomRadius:Float = 50, height:Float = 100, segmentsW:UInt = 16, segmentsH:UInt = 1, color:UInt = 0xFFFFFF, thickness:Float = 1)
 	{
 		super(color, thickness);
 		_topRadius = topRadius;

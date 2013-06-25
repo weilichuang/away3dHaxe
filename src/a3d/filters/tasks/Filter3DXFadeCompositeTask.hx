@@ -16,7 +16,7 @@ class Filter3DXFadeCompositeTask extends Filter3DTaskBase
 	private var _data:Vector<Float>;
 	private var _overlayTexture:TextureBase;
 
-	public function Filter3DXFadeCompositeTask(amount:Float)
+	public function new(amount:Float)
 	{
 		super();
 		if (amount < 0)

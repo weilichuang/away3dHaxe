@@ -26,7 +26,7 @@ class VertexClipNode extends AnimationClipNodeBase
 	/**
 	 * Creates a new <code>VertexClipNode</code> object.
 	 */
-	public function VertexClipNode()
+	public function new()
 	{
 		_stateClass = VertexClipState;
 	}

@@ -40,7 +40,7 @@ class ViewVolume extends NodeBase
 	 * @param maxBound The maximum boundaries of the view volume (the top-right-far corner)
 	 * @param cellSize The size of cell subdivisions for the view volume. The default value is -1, meaning the view volume will not be subdivided. This is the value that should usually be used when setting visibility info manually.
 	 */
-	public function ViewVolume(minBound:Vector3D, maxBound:Vector3D, cellSize:Float = -1)
+	public function new(minBound:Vector3D, maxBound:Vector3D, cellSize:Float = -1)
 	{
 		_minX = minBound.x;
 		_minY = minBound.y;

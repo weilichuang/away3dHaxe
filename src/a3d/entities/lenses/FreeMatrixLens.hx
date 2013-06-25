@@ -13,7 +13,7 @@ class FreeMatrixLens extends LensBase
 	/**
 	 * Creates a new FreeMatrixLens object.
 	 */
-	public function FreeMatrixLens()
+	public function new()
 	{
 		super();
 		_matrix.copyFrom(new PerspectiveLens().matrix);

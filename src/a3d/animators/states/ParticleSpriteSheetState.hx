@@ -59,7 +59,7 @@ class ParticleSpriteSheetState extends ParticleStateBase
 		updateSpriteSheetData();
 	}
 
-	public function ParticleSpriteSheetState(animator:ParticleAnimator, particleSpriteSheetNode:ParticleSpriteSheetNode)
+	public function new(animator:ParticleAnimator, particleSpriteSheetNode:ParticleSpriteSheetNode)
 	{
 		super(animator, particleSpriteSheetNode);
 

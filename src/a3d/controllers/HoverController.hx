@@ -234,7 +234,7 @@ class HoverController extends LookAtController
 	/**
 	 * Creates a new <code>HoverController</code> object.
 	 */
-	public function HoverController(targetObject:Entity = null, lookAtObject:ObjectContainer3D = null, panAngle:Float = 0, tiltAngle:Float = 90, distance:Float = 1000, minTiltAngle:Float = -90,
+	public function new(targetObject:Entity = null, lookAtObject:ObjectContainer3D = null, panAngle:Float = 0, tiltAngle:Float = 90, distance:Float = 1000, minTiltAngle:Float = -90,
 		maxTiltAngle:Float = 90, minPanAngle:Float = NaN, maxPanAngle:Float = NaN, steps:UInt = 8, yFactor:Float = 2, wrapPanAngle:Bool = false)
 	{
 		super(targetObject, lookAtObject);

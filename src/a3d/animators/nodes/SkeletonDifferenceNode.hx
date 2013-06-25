@@ -21,7 +21,7 @@ class SkeletonDifferenceNode extends AnimationNodeBase
 	/**
 	 * Creates a new <code>SkeletonAdditiveNode</code> object.
 	 */
-	public function SkeletonDifferenceNode()
+	public function new()
 	{
 		_stateClass = SkeletonDifferenceState;
 	}

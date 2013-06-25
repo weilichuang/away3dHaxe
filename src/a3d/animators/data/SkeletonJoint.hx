@@ -28,7 +28,7 @@ class SkeletonJoint
 	/**
 	 * Creates a new <code>SkeletonJoint</code> object
 	 */
-	public function SkeletonJoint()
+	public function new()
 	{
 	}
 }

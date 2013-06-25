@@ -25,7 +25,7 @@ class DynamicGrid
 	private var _cellDepth:Float;
 	private var _showDebugBounds:Bool;
 
-	public function DynamicGrid(minBounds:Vector3D, maxBounds:Vector3D, numCellsX:UInt, numCellsY:UInt, numCellsZ:UInt)
+	public function new(minBounds:Vector3D, maxBounds:Vector3D, numCellsX:UInt, numCellsY:UInt, numCellsZ:UInt)
 	{
 		_numCellsX = numCellsX;
 		_numCellsY = numCellsY;

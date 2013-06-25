@@ -31,7 +31,7 @@ class SkeletonClipNode extends AnimationClipNodeBase
 	/**
 	 * Creates a new <code>SkeletonClipNode</code> object.
 	 */
-	public function SkeletonClipNode()
+	public function new()
 	{
 		_stateClass = SkeletonClipState;
 	}

@@ -17,7 +17,7 @@ class Filter3DBloomCompositeTask extends Filter3DTaskBase
 	private var _overlayTexture:TextureBase;
 	private var _exposure:Float;
 
-	public function Filter3DBloomCompositeTask(exposure:Float)
+	public function new(exposure:Float)
 	{
 		super();
 		_data = Vector<Float>([0.299, 0.587, 0.114, 1]); // luminance projection, 1

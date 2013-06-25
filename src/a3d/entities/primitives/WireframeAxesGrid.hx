@@ -20,7 +20,7 @@ class WireframeAxesGrid extends SegmentSet
 	private static inline var PLANE_XY:String = "xy";
 	private static inline var PLANE_XZ:String = "xz";
 
-	public function WireframeAxesGrid(subDivision:UInt = 10, gridSize:UInt = 100, thickness:Float = 1, colorXY : uint = 0x0000FF, colorZY : uint = 0xFF0000, colorXZ : uint = 0x00FF00) {
+	public function new(subDivision:UInt = 10, gridSize:UInt = 100, thickness:Float = 1, colorXY : uint = 0x0000FF, colorZY : uint = 0xFF0000, colorXZ : uint = 0x00FF00) {
 		super();
 
 		if(subDivision == 0) subDivision = 1;

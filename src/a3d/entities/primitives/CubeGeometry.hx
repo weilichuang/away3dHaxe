@@ -28,7 +28,7 @@ class CubeGeometry extends PrimitiveBase
 	 * @param segmentsD The number of segments that make up the cube along the Z-axis.
 	 * @param tile6 The type of uv mapping to use. When true, a texture will be subdivided in a 2x3 grid, each used for a single face. When false, the entire image is mapped on each face.
 	 */
-	public function CubeGeometry(width:Float = 100, height:Float = 100, depth:Float = 100,
+	public function new(width:Float = 100, height:Float = 100, depth:Float = 100,
 		segmentsW:UInt = 1, segmentsH:UInt = 1, segmentsD:UInt = 1, tile6:Bool = true)
 	{
 		super();

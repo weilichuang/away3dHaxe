@@ -33,7 +33,7 @@ class CascadeShadowMapper extends DirectionalShadowMapper implements IEventDispa
 	private var _changeDispatcher:EventDispatcher;
 	private var _nearPlaneDistances:Vector<Float>;
 
-	public function CascadeShadowMapper(numCascades:UInt = 3)
+	public function new(numCascades:UInt = 3)
 	{
 		super();
 		if (numCascades < 1 || numCascades > 4)

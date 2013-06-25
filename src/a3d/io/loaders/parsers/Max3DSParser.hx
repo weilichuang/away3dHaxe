@@ -43,7 +43,7 @@ class Max3DSParser extends ParserBase
 	private var _cur_mat:MaterialVO;
 
 
-	public function Max3DSParser()
+	public function new()
 	{
 		super(ParserDataFormat.BINARY);
 	}
@@ -97,7 +97,7 @@ class Max3DSParser extends ParserBase
 	}
 
 
-	override protected function proceedParsing():Bool
+	override private function proceedParsing():Bool
 	{
 		if (!_byteData)
 		{

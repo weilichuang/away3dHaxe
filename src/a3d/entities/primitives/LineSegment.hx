@@ -20,7 +20,7 @@ class LineSegment extends Segment
 	 * @param color1 Ending colour of the line segment
 	 * @param thickness Thickness of the line
 	 */
-	public function LineSegment(v0:Vector3D, v1:Vector3D, color0:UInt = 0x333333, color1:UInt = 0x333333, thickness:Float = 1):Void
+	public function new(v0:Vector3D, v1:Vector3D, color0:UInt = 0x333333, color1:UInt = 0x333333, thickness:Float = 1):Void
 	{
 		super(v0, v1, null, color0, color1, thickness);
 	}

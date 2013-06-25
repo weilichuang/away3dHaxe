@@ -27,7 +27,7 @@ class PerspectiveOffCenterLens extends LensBase
 	 *
 	 * @param fieldOfView The vertical field of view of the projection.
 	 */
-	public function PerspectiveOffCenterLens(minAngleX:Float = -40, maxAngleX:Float = 40, minAngleY:Float = -40, maxAngleY:Float = 40)
+	public function new(minAngleX:Float = -40, maxAngleX:Float = 40, minAngleY:Float = -40, maxAngleY:Float = 40)
 	{
 		super();
 

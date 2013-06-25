@@ -51,7 +51,7 @@ class SkyBox extends Entity implements IRenderable
 	 * Create a new SkyBox object.
 	 * @param cubeMap The CubeMap to use for the sky box's texture.
 	 */
-	public function SkyBox(cubeMap:CubeTextureBase)
+	public function new(cubeMap:CubeTextureBase)
 	{
 		super();
 		_material = new SkyBoxMaterial(cubeMap);

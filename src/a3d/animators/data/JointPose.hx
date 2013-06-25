@@ -30,7 +30,7 @@ class JointPose
 	 */
 	public var translation:Vector3D = new Vector3D();
 
-	public function JointPose()
+	public function new()
 	{
 
 	}

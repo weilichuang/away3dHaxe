@@ -14,7 +14,7 @@ class ObliqueNearPlaneLens extends LensBase
 	private var _baseLens:LensBase;
 	private var _plane:Plane3D;
 
-	public function ObliqueNearPlaneLens(baseLens:LensBase, plane:Plane3D)
+	public function new(baseLens:LensBase, plane:Plane3D)
 	{
 		this.baseLens = baseLens;
 		this.plane = plane;

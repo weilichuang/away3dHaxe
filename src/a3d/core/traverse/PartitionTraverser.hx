@@ -34,7 +34,7 @@ class PartitionTraverser
 	 */
 	public static var collectionMark:UInt;
 
-	public function PartitionTraverser()
+	public function new()
 	{
 
 	}

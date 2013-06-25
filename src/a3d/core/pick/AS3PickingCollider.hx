@@ -19,7 +19,7 @@ class AS3PickingCollider extends PickingColliderBase implements IPickingCollider
 	 *
 	 * @param findClosestCollision Determines whether the picking collider searches for the closest collision along the ray. Defaults to false.
 	 */
-	public function AS3PickingCollider(findClosestCollision:Bool = false)
+	public function new(findClosestCollision:Bool = false)
 	{
 		_findClosestCollision = findClosestCollision;
 	}

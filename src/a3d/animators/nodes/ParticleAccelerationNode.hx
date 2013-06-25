@@ -33,7 +33,7 @@ class ParticleAccelerationNode extends ParticleNodeBase
 	 * @param               mode            Defines whether the mode of operation acts on local properties of a particle or global properties of the node.
 	 * @param    [optional] acceleration    Defines the default acceleration vector of the node, used when in global mode.
 	 */
-	public function ParticleAccelerationNode(mode:UInt, acceleration:Vector3D = null)
+	public function new(mode:UInt, acceleration:Vector3D = null)
 	{
 		super("ParticleAcceleration", mode, 3);
 

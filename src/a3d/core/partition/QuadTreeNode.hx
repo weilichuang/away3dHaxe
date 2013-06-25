@@ -26,7 +26,7 @@ class QuadTreeNode extends NodeBase
 	private var _halfExtentY:Float;
 
 
-	public function QuadTreeNode(maxDepth:Int = 5, size:Float = 10000, height:Float = 1000000, centerX:Float = 0, centerZ:Float = 0, depth:Int = 0)
+	public function new(maxDepth:Int = 5, size:Float = 10000, height:Float = 1000000, centerX:Float = 0, centerZ:Float = 0, depth:Int = 0)
 	{
 		var hs:Float = size * .5;
 

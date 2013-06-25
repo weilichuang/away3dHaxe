@@ -26,7 +26,7 @@ class AnimationSubGeometry
 
 	public var animationParticles:Vector<ParticleAnimationData> = new Vector<ParticleAnimationData>();
 
-	public function AnimationSubGeometry()
+	public function new()
 	{
 		for (var i:Int = 0; i < 8; i++)
 			_bufferDirty[i] = true;

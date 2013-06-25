@@ -18,7 +18,7 @@ class OrthographicOffCenterLens extends LensBase
 	 * Creates a new OrthogonalLens object.
 	 * @param fieldOfView The vertical field of view of the projection.
 	 */
-	public function OrthographicOffCenterLens(minX:Float, maxX:Float, minY:Float, maxY:Float)
+	public function new(minX:Float, maxX:Float, minY:Float, maxY:Float)
 	{
 		super();
 		_minX = minX;

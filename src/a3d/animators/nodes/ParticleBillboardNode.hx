@@ -27,7 +27,7 @@ class ParticleBillboardNode extends ParticleNodeBase
 	/**
 	 * Creates a new <code>ParticleBillboardNode</code>
 	 */
-	public function ParticleBillboardNode(billboardAxis:Vector3D = null)
+	public function new(billboardAxis:Vector3D = null)
 	{
 		super("ParticleBillboard", ParticlePropertiesMode.GLOBAL, 0, 4);
 

@@ -25,8 +25,10 @@ class Scene3D extends EventDispatcher
 	/**
 	 * Creates a new Scene3D object.
 	 */
-	public function Scene3D()
+	public function new()
 	{
+		super();
+		
 		_partitions = new Vector<Partition3D>();
 		_sceneGraphRoot = new ObjectContainer3D();
 		_sceneGraphRoot.scene = this;

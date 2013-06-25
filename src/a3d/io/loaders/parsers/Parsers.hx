@@ -5,7 +5,7 @@ import a3d.io.loaders.misc.SingleFileLoader;
 class Parsers
 {
 	/**
-	 * A list of all parsers that come bundled with Away3D. Use this to quickly
+	 * A list of all parsers that come bundled with a3d. Use this to quickly
 	 * enable support for all bundled parsers to the file format auto-detection
 	 * feature, using any of the enableParsers() methods on loaders, e.g.:
 	 *
@@ -35,7 +35,7 @@ class Parsers
 	 * <li>Images (.jpg, .png)</li>
 	 * </ul>
 	 *
-	 * @see away3d.loading.AssetLibrary.enableParser
+	 * @see a3d.loading.AssetLibrary.enableParser
 	*/
 	public static inline var ALL_BUNDLED:Vector<Class> = Vector<Class>([
 		AC3DParser, AWD1Parser, AWD2Parser, AWDParser, Max3DSParser, DXFParser,
@@ -51,7 +51,7 @@ class Parsers
 	 *
 	 * See notes about file size in the documentation for the ALL_BUNDLED constant.
 	 *
-	 * @see away3d.loaders.parsers.Parsers.ALL_BUNDLED
+	 * @see a3d.loaders.parsers.Parsers.ALL_BUNDLED
 	*/
 	public static function enableAllBundled():Void
 	{

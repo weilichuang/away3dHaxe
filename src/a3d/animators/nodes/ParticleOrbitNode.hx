@@ -60,7 +60,7 @@ class ParticleOrbitNode extends ParticleNodeBase
 	 * @param    [optional] cyclePhase      Defines the phase of the orbit in degrees, used as the starting offset of the cycle when in global mode. Defaults to 0.
 	 * @param    [optional] eulers          Defines the euler rotation in degrees, applied to the orientation of the orbit when in global mode.
 	 */
-	public function ParticleOrbitNode(mode:UInt, usesEulers:Bool = true, usesCycle:Bool = false, usesPhase:Bool = false, radius:Float = 100, cycleDuration:Float = 1, cyclePhase:Float =
+	public function new(mode:UInt, usesEulers:Bool = true, usesCycle:Bool = false, usesPhase:Bool = false, radius:Float = 100, cycleDuration:Float = 1, cyclePhase:Float =
 		0, eulers:Vector3D = null)
 	{
 		var len:Int = 3;

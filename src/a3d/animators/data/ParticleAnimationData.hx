@@ -16,7 +16,7 @@ class ParticleAnimationData
 	public var numVertices:UInt;
 
 
-	public function ParticleAnimationData(index:UInt, startTime:Float, duration:Float, delay:Float, particle:ParticleData)
+	public function new(index:UInt, startTime:Float, duration:Float, delay:Float, particle:ParticleData)
 	{
 		this.index = index;
 		this.startTime = startTime;

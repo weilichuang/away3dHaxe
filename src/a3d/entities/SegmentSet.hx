@@ -41,7 +41,7 @@ class SegmentSet extends Entity implements IRenderable
 	/**
 	 * Creates a new SegmentSet object.
 	 */
-	public function SegmentSet()
+	public function new()
 	{
 		super();
 

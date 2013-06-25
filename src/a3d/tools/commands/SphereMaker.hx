@@ -1,128 +1,127 @@
-package a3d.tools.commands
-{
-	import flash.geom.Vector3D;
+package a3d.tools.commands;
 
-	
-	import a3d.bounds.BoundingVolumeBase;
-	import a3d.core.base.ISubGeometry;
-	import a3d.entities.Mesh;
-	import a3d.entities.ObjectContainer3D;
-	
+import flash.geom.Vector3D;
+
+
+import a3d.bounds.BoundingVolumeBase;
+import a3d.core.base.ISubGeometry;
+import a3d.entities.Mesh;
+import a3d.entities.ObjectContainer3D;
+
+
+/**
+* Class SphereMaker transforms a Mesh into a Sphere unic<code>SphereMaker</code>
+*/
+class SphereMaker
+{
+
+	public static inline var RADIUS:Int = 1;
+	public static inline var USE_BOUNDS_MAX:Int = 2;
+	private var _weight:Float;
+	private var _radius:Float;
+	private var _radiusMode:Int;
+
+	public function new()
+	{
+	}
 
 	/**
-	* Class SphereMaker transforms a Mesh into a Sphere unic<code>SphereMaker</code>
+	*  Apply the SphereMaker code to a given ObjectContainer3D.
+	* @param	 container			Mesh. The target ObjectContainer3D.
+	* @param	 weight		        Number. The Strength of the effect between 0 and 1. Default is 1.
+	* @param	 radiusMode		    int. Defines which radius will be used. Can be RADIUS or USE_BOUNDS_MAX. Default is RADIUS
+	* @param	 radius		        Number. The Radius to use if radiusMode is RADIUS. Default is 100.
 	*/
-	class SphereMaker
+	public function applyToContainer(ctr:ObjectContainer3D, weight:Float = 1, radiusMode:Int = RADIUS, radius:Float = 100):Void
 	{
+		_weight = weight;
+		_radiusMode = radiusMode;
+		_radius = radius;
+		parse(ctr);
+	}
 
-		public static inline var RADIUS:Int = 1;
-		public static inline var USE_BOUNDS_MAX:Int = 2;
-		private var _weight:Float;
-		private var _radius:Float;
-		private var _radiusMode:Int;
+	/**
+	*  Apply the SphereMaker code to a given Mesh.
+	* @param	 mesh				Mesh. The target Mesh object.
+	* @param	 weight		        Number. The Strength of the effect between 0 and 1. Default is 1.
+	* @param	 radiusMode		    int. Defines which radius will be used. Can be RADIUS or USE_BOUNDS_MAX. Default is RADIUS
+	* @param	 radius		        Number. The Radius to use if radiusMode is RADIUS. Default is 100.
+	*/
+	public function apply(mesh:Mesh, weight:Float = 1, radiusMode:Int = RADIUS, radius:Float = 100):Void
+	{
+		var i:UInt;
 
-		public function SphereMaker()
+		_weight = weight;
+		_radiusMode = radiusMode;
+		_radius = radius;
+
+		if (_weight < 0)
 		{
+			_weight = 0;
 		}
-
-		/**
-		*  Apply the SphereMaker code to a given ObjectContainer3D.
-		* @param	 container			Mesh. The target ObjectContainer3D.
-		* @param	 weight		        Number. The Strength of the effect between 0 and 1. Default is 1.
-		* @param	 radiusMode		    int. Defines which radius will be used. Can be RADIUS or USE_BOUNDS_MAX. Default is RADIUS
-		* @param	 radius		        Number. The Radius to use if radiusMode is RADIUS. Default is 100.
-		*/
-		public function applyToContainer(ctr:ObjectContainer3D, weight:Float = 1, radiusMode:Int = RADIUS, radius:Float = 100):Void
+		if (_weight > 1)
 		{
-			_weight = weight;
-			_radiusMode = radiusMode;
-			_radius = radius;
-			parse(ctr);
+			_weight = 1;
 		}
-
-		/**
-		*  Apply the SphereMaker code to a given Mesh.
-		* @param	 mesh				Mesh. The target Mesh object.
-		* @param	 weight		        Number. The Strength of the effect between 0 and 1. Default is 1.
-		* @param	 radiusMode		    int. Defines which radius will be used. Can be RADIUS or USE_BOUNDS_MAX. Default is RADIUS
-		* @param	 radius		        Number. The Radius to use if radiusMode is RADIUS. Default is 100.
-		*/
-		public function apply(mesh:Mesh, weight:Float = 1, radiusMode:Int = RADIUS, radius:Float = 100):Void
+		if (_radiusMode == USE_BOUNDS_MAX)
 		{
-			var i:UInt;
-
-			_weight = weight;
-			_radiusMode = radiusMode;
-			_radius = radius;
-
-			if (_weight < 0)
-			{
-				_weight = 0;
-			}
-			if (_weight > 1)
-			{
-				_weight = 1;
-			}
-			if (_radiusMode == USE_BOUNDS_MAX)
-			{
-				var meshBounds:BoundingVolumeBase = mesh.bounds;
-				var vectorMax:Vector3D = new Vector3D(meshBounds.max.x, meshBounds.max.y, meshBounds.max.z);
-				var vectorMin:Vector3D = new Vector3D(meshBounds.min.x, meshBounds.min.y, meshBounds.min.z);
-				var vectorMaxlength:Float = vectorMax.length;
-				var vectorMinlength:Float = vectorMin.length;
-				_radius = vectorMaxlength;
-				if (_radius < vectorMinlength)
-					_radius = vectorMinlength;
-			}
-			for (i = 0; i < mesh.geometry.subGeometries.length; i++)
-			{
-				spherizeSubGeom(mesh.geometry.subGeometries[i]);
-			}
+			var meshBounds:BoundingVolumeBase = mesh.bounds;
+			var vectorMax:Vector3D = new Vector3D(meshBounds.max.x, meshBounds.max.y, meshBounds.max.z);
+			var vectorMin:Vector3D = new Vector3D(meshBounds.min.x, meshBounds.min.y, meshBounds.min.z);
+			var vectorMaxlength:Float = vectorMax.length;
+			var vectorMinlength:Float = vectorMin.length;
+			_radius = vectorMaxlength;
+			if (_radius < vectorMinlength)
+				_radius = vectorMinlength;
 		}
-
-		private function parse(object:ObjectContainer3D):Void
+		for (i = 0; i < mesh.geometry.subGeometries.length; i++)
 		{
-			var child:ObjectContainer3D;
-			if (object is Mesh)
-				apply(Mesh(object), _weight, _radiusMode, _radius);
-
-			for (var i:UInt = 0; i < object.numChildren; ++i)
-			{
-				child = object.getChildAt(i);
-				parse(child);
-			}
+			spherizeSubGeom(mesh.geometry.subGeometries[i]);
 		}
+	}
 
-		private function spherizeSubGeom(subGeom:ISubGeometry):Void
+	private function parse(object:ObjectContainer3D):Void
+	{
+		var child:ObjectContainer3D;
+		if (object is Mesh)
+			apply(Mesh(object), _weight, _radiusMode, _radius);
+
+		for (var i:UInt = 0; i < object.numChildren; ++i)
 		{
-			var i:UInt;
-			var len:UInt;
-			var vectorVert:Vector3D;
-			var vectorVertLength:Float;
-			var vectorNormal:Vector3D;
-			var vectordifference:Float;
-			var vd:Vector<Float> = subGeom.vertexData;
-			var vStride:UInt = subGeom.vertexStride;
-			var vOffs:UInt = subGeom.vertexOffset;
-			var nd:Vector<Float> = subGeom.vertexNormalData;
-			var nStride:UInt = subGeom.vertexNormalStride;
-			var nOffs:UInt = subGeom.vertexNormalOffset;
-			len = subGeom.numVertices;
-			for (i = 0; i < len; i++)
-			{
-				vectorVert = new Vector3D(vd[vOffs + i * vStride + 0], vd[vOffs + i * vStride + 1], vd[vOffs + i * vStride + 2]);
-				vectorVertLength = vectorVert.length;
-				vectorNormal = vectorVert.clone();
-				vectordifference = Number(_radius) - Number(vectorVertLength);
-				vectorNormal.normalize();
+			child = object.getChildAt(i);
+			parse(child);
+		}
+	}
 
-				vd[vOffs + i * vStride + 0] = vectorVert.x + ((vectorNormal.x * vectordifference) * _weight);
-				vd[vOffs + i * vStride + 1] = vectorVert.y + ((vectorNormal.y * vectordifference) * _weight);
-				vd[vOffs + i * vStride + 2] = vectorVert.z + ((vectorNormal.z * vectordifference) * _weight);
-				nd[nOffs + i * nStride + 0] = 0 + (nd[nOffs + i * nStride + 0] * (1 - _weight) + (vectorNormal.x * _weight));
-				nd[nOffs + i * nStride + 1] = 0 + (nd[nOffs + i * nStride + 1] * (1 - _weight) + (vectorNormal.y * _weight));
-				nd[nOffs + i * nStride + 2] = 0 + (nd[nOffs + i * nStride + 2] * (1 - _weight) + (vectorNormal.z * _weight));
-			}
+	private function spherizeSubGeom(subGeom:ISubGeometry):Void
+	{
+		var i:UInt;
+		var len:UInt;
+		var vectorVert:Vector3D;
+		var vectorVertLength:Float;
+		var vectorNormal:Vector3D;
+		var vectordifference:Float;
+		var vd:Vector<Float> = subGeom.vertexData;
+		var vStride:UInt = subGeom.vertexStride;
+		var vOffs:UInt = subGeom.vertexOffset;
+		var nd:Vector<Float> = subGeom.vertexNormalData;
+		var nStride:UInt = subGeom.vertexNormalStride;
+		var nOffs:UInt = subGeom.vertexNormalOffset;
+		len = subGeom.numVertices;
+		for (i = 0; i < len; i++)
+		{
+			vectorVert = new Vector3D(vd[vOffs + i * vStride + 0], vd[vOffs + i * vStride + 1], vd[vOffs + i * vStride + 2]);
+			vectorVertLength = vectorVert.length;
+			vectorNormal = vectorVert.clone();
+			vectordifference = Number(_radius) - Number(vectorVertLength);
+			vectorNormal.normalize();
+
+			vd[vOffs + i * vStride + 0] = vectorVert.x + ((vectorNormal.x * vectordifference) * _weight);
+			vd[vOffs + i * vStride + 1] = vectorVert.y + ((vectorNormal.y * vectordifference) * _weight);
+			vd[vOffs + i * vStride + 2] = vectorVert.z + ((vectorNormal.z * vectordifference) * _weight);
+			nd[nOffs + i * nStride + 0] = 0 + (nd[nOffs + i * nStride + 0] * (1 - _weight) + (vectorNormal.x * _weight));
+			nd[nOffs + i * nStride + 1] = 0 + (nd[nOffs + i * nStride + 1] * (1 - _weight) + (vectorNormal.y * _weight));
+			nd[nOffs + i * nStride + 2] = 0 + (nd[nOffs + i * nStride + 2] * (1 - _weight) + (vectorNormal.z * _weight));
 		}
 	}
 }

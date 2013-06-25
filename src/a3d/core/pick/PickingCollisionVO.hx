@@ -87,7 +87,7 @@ class PickingCollisionVO
 	 *
 	 * @param entity The entity to which this collision object belongs.
 	 */
-	function PickingCollisionVO(entity:Entity)
+	public function new(entity:Entity)
 	{
 		this.entity = entity;
 	}

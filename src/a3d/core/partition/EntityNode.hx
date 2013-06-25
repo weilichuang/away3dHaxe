@@ -31,7 +31,7 @@ class EntityNode extends NodeBase
 	 * Creates a new EntityNode object.
 	 * @param entity The Entity to be contained in this leaf node.
 	 */
-	public function EntityNode(entity:Entity)
+	public function new(entity:Entity)
 	{
 		super();
 		_entity = entity;

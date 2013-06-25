@@ -48,7 +48,7 @@ class SkinExtrude extends Mesh
 	*@param	coverAll			[optional] Bool. If the mapping is stretched over the entire mesh or from vector to vector. Default is false.
 	*@param	flip				[optional] Bool. If the faces need to be inverted. Default is false.
 	*/
-	public function SkinExtrude(material:MaterialBase, profiles:Vector<Vector<Vector3D>>, subdivision:UInt = 1, centerMesh:Bool = false, closeShape:Bool = false, coverAll:Bool = false, flip:Bool =
+	public function new(material:MaterialBase, profiles:Vector<Vector<Vector3D>>, subdivision:UInt = 1, centerMesh:Bool = false, closeShape:Bool = false, coverAll:Bool = false, flip:Bool =
 		false)
 	{
 		var geom:Geometry = new Geometry();

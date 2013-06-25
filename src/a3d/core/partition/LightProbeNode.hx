@@ -14,7 +14,7 @@ class LightProbeNode extends EntityNode
 	 * Creates a new LightNode object.
 	 * @param light The light to be contained in the node.
 	 */
-	public function LightProbeNode(light:LightProbe)
+	public function new(light:LightProbe)
 	{
 		super(light);
 		_light = light;

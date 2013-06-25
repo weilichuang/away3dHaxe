@@ -78,7 +78,7 @@ class LinearExtrude extends Mesh
 	 * @param		flip							[optional] Bool. If the faces must be reversed depending on Vector3D's orientation. Default is false.
 	 */
 
-	public function LinearExtrude(material:MaterialBase = null, vectors:Vector<Vector3D> = null, axis:String = LinearExtrude.Y_AXIS, offset:Float = 10, subdivision:UInt = 3, coverAll:Bool = false,
+	public function new(material:MaterialBase = null, vectors:Vector<Vector3D> = null, axis:String = LinearExtrude.Y_AXIS, offset:Float = 10, subdivision:UInt = 3, coverAll:Bool = false,
 		thickness:Float = 0, thicknessSubdivision:UInt = 3, materials:MultipleMaterials = null, centerMesh:Bool = false, closePath:Bool = false, ignoreSides:String = "", flip:Bool = false)
 	{
 		var geom:Geometry = new Geometry();

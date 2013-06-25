@@ -20,7 +20,7 @@ class CubeMapShadowMapper extends ShadowMapperBase
 	private var _lenses:Vector<PerspectiveLens>;
 	private var _needsRender:Vector<Bool>;
 
-	public function CubeMapShadowMapper()
+	public function new()
 	{
 		super();
 

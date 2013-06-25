@@ -19,7 +19,7 @@ class SceneIterator
 	private var _childIndexStack:Vector<Int>;
 	private var _stackPos:Int;
 
-	public function SceneIterator(scene:Scene3D)
+	public function new(scene:Scene3D)
 	{
 		_scene = scene;
 		reset();

@@ -53,7 +53,7 @@ class ParticlePositionState extends ParticleStateBase
 		_dynamicPropertiesDirty = new Dictionary(true);
 	}
 
-	public function ParticlePositionState(animator:ParticleAnimator, particlePositionNode:ParticlePositionNode)
+	public function new(animator:ParticleAnimator, particlePositionNode:ParticlePositionNode)
 	{
 		super(animator, particlePositionNode);
 

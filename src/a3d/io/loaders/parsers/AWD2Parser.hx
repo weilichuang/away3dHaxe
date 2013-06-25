@@ -183,7 +183,7 @@ class AWD2Parser extends ParserBase
 	 * @param uri The url or id of the data or file to be parsed.
 	 * @param extra The holder for extra contextual data that the parser might need.
 	 */
-	public function AWD2Parser()
+	public function new()
 	{
 		super(ParserDataFormat.BINARY);
 
@@ -340,7 +340,7 @@ class AWD2Parser extends ParserBase
 	/**
 	 * @inheritDoc
 	 */
-	override protected function proceedParsing():Bool
+	override private function proceedParsing():Bool
 	{
 		if (!_startedParsing)
 		{

@@ -93,7 +93,7 @@ class ParticleOrbitState extends ParticleStateBase
 
 	}
 
-	public function ParticleOrbitState(animator:ParticleAnimator, particleOrbitNode:ParticleOrbitNode)
+	public function new(animator:ParticleAnimator, particleOrbitNode:ParticleOrbitNode)
 	{
 		super(animator, particleOrbitNode);
 

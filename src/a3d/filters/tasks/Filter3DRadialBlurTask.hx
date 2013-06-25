@@ -23,7 +23,7 @@ class Filter3DRadialBlurTask extends Filter3DTaskBase
 	private var _cx:Float = 0.5;
 	private var _cy:Float = 0.5;
 
-	public function Filter3DRadialBlurTask(intensity:Float = 1.0, glowGamma:Float = 1.0, blurStart:Float = 1.0, blurWidth:Float = -0.3, cx:Float = 0.5, cy:Float = 0.5)
+	public function new(intensity:Float = 1.0, glowGamma:Float = 1.0, blurStart:Float = 1.0, blurWidth:Float = -0.3, cx:Float = 0.5, cy:Float = 0.5)
 	{
 		super();
 		_intensity = intensity;

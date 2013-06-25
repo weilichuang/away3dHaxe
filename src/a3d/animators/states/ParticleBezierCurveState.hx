@@ -50,7 +50,7 @@ class ParticleBezierCurveState extends ParticleStateBase
 		_endPoint = value;
 	}
 
-	public function ParticleBezierCurveState(animator:ParticleAnimator, particleBezierCurveNode:ParticleBezierCurveNode)
+	public function new(animator:ParticleAnimator, particleBezierCurveNode:ParticleBezierCurveNode)
 	{
 		super(animator, particleBezierCurveNode);
 

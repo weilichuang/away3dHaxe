@@ -39,7 +39,7 @@ class ParticleOscillatorState extends ParticleStateBase
 		updateOscillatorData();
 	}
 
-	public function ParticleOscillatorState(animator:ParticleAnimator, particleOscillatorNode:ParticleOscillatorNode)
+	public function new(animator:ParticleAnimator, particleOscillatorNode:ParticleOscillatorNode)
 	{
 		super(animator, particleOscillatorNode);
 

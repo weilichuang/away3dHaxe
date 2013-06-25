@@ -20,7 +20,7 @@ class LightProbe extends LightBase
 	/**
 	 * Creates a new LightProbe object.
 	 */
-	public function LightProbe(diffuseMap:CubeTextureBase, specularMap:CubeTextureBase = null)
+	public function new(diffuseMap:CubeTextureBase, specularMap:CubeTextureBase = null)
 	{
 		super();
 		_diffuseMap = diffuseMap;

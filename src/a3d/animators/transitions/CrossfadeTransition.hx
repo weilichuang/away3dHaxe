@@ -8,7 +8,7 @@ class CrossfadeTransition implements IAnimationTransition
 {
 	public var blendSpeed:Float = 0.5;
 
-	public function CrossfadeTransition(blendSpeed:Float)
+	public function new(blendSpeed:Float)
 	{
 		this.blendSpeed = blendSpeed;
 	}

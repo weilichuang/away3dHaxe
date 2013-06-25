@@ -15,7 +15,7 @@ class MeshNode extends EntityNode
 	 * Creates a new MeshNode object.
 	 * @param mesh The mesh to be contained in the node.
 	 */
-	public function MeshNode(mesh:Mesh)
+	public function new(mesh:Mesh)
 	{
 		super(mesh);
 		_mesh = mesh; // also keep a stronger typed reference

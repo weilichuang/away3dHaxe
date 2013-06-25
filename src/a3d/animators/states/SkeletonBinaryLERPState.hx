@@ -40,7 +40,7 @@ class SkeletonBinaryLERPState extends AnimationStateBase implements ISkeletonAni
 		_skeletonPoseDirty = true;
 	}
 
-	function SkeletonBinaryLERPState(animator:IAnimator, skeletonAnimationNode:SkeletonBinaryLERPNode)
+	public function new(animator:IAnimator, skeletonAnimationNode:SkeletonBinaryLERPNode)
 	{
 		super(animator, skeletonAnimationNode);
 

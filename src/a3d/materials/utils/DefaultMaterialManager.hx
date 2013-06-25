@@ -1,67 +1,66 @@
-package a3d.materials.utils
+package a3d.materials.utils;
+
+import flash.display.BitmapData;
+
+import a3d.core.base.IMaterialOwner;
+import a3d.materials.TextureMaterial;
+import a3d.textures.BitmapTexture;
+
+class DefaultMaterialManager
 {
-	import flash.display.BitmapData;
-	
-	import a3d.core.base.IMaterialOwner;
-	import a3d.materials.TextureMaterial;
-	import a3d.textures.BitmapTexture;
+	private static var _defaultTextureBitmapData:BitmapData;
+	private static var _defaultMaterial:TextureMaterial;
+	private static var _defaultTexture:BitmapTexture;
 
-	class DefaultMaterialManager
+	//private static var _defaultMaterialRenderables:Vector<IMaterialOwner> = new Vector<IMaterialOwner>();
+
+	public static function getDefaultMaterial(renderable:IMaterialOwner = null):TextureMaterial
 	{
-		private static var _defaultTextureBitmapData:BitmapData;
-		private static var _defaultMaterial:TextureMaterial;
-		private static var _defaultTexture:BitmapTexture;
+		if (!_defaultTexture)
+			createDefaultTexture();
 
-		//private static var _defaultMaterialRenderables:Vector<IMaterialOwner> = new Vector<IMaterialOwner>();
+		if (!_defaultMaterial)
+			createDefaultMaterial();
 
-		public static function getDefaultMaterial(renderable:IMaterialOwner = null):TextureMaterial
+		//_defaultMaterialRenderables.push(renderable);
+
+		return _defaultMaterial;
+	}
+
+	public static function getDefaultTexture(renderable:IMaterialOwner = null):BitmapTexture
+	{
+		if (!_defaultTexture)
+			createDefaultTexture();
+
+		//_defaultMaterialRenderables.push(renderable);
+
+		return _defaultTexture;
+	}
+
+	private static function createDefaultTexture():Void
+	{
+		_defaultTextureBitmapData = new BitmapData(8, 8, false, 0x0);
+
+		//create chekerboard
+		var i:UInt, j:UInt;
+		for (i = 0; i < 8; i++)
 		{
-			if (!_defaultTexture)
-				createDefaultTexture();
-
-			if (!_defaultMaterial)
-				createDefaultMaterial();
-
-			//_defaultMaterialRenderables.push(renderable);
-
-			return _defaultMaterial;
-		}
-
-		public static function getDefaultTexture(renderable:IMaterialOwner = null):BitmapTexture
-		{
-			if (!_defaultTexture)
-				createDefaultTexture();
-
-			//_defaultMaterialRenderables.push(renderable);
-
-			return _defaultTexture;
-		}
-
-		private static function createDefaultTexture():Void
-		{
-			_defaultTextureBitmapData = new BitmapData(8, 8, false, 0x0);
-
-			//create chekerboard
-			var i:UInt, j:UInt;
-			for (i = 0; i < 8; i++)
+			for (j = 0; j < 8; j++)
 			{
-				for (j = 0; j < 8; j++)
-				{
-					if ((j & 1) ^ (i & 1))
-						_defaultTextureBitmapData.setPixel(i, j, 0XFFFFFF);
-				}
+				if ((j & 1) ^ (i & 1))
+					_defaultTextureBitmapData.setPixel(i, j, 0XFFFFFF);
 			}
-
-			_defaultTexture = new BitmapTexture(_defaultTextureBitmapData);
-			_defaultTexture.name = "defaultTexture";
 		}
 
-		private static function createDefaultMaterial():Void
-		{
-			_defaultMaterial = new TextureMaterial(_defaultTexture);
-			_defaultMaterial.mipmap = false;
-			_defaultMaterial.smooth = false;
-			_defaultMaterial.name = "defaultMaterial";
-		}
+		_defaultTexture = new BitmapTexture(_defaultTextureBitmapData);
+		_defaultTexture.name = "defaultTexture";
+	}
+
+	private static function createDefaultMaterial():Void
+	{
+		_defaultMaterial = new TextureMaterial(_defaultTexture);
+		_defaultMaterial.mipmap = false;
+		_defaultMaterial.smooth = false;
+		_defaultMaterial.name = "defaultMaterial";
 	}
 }

@@ -21,7 +21,7 @@ import flash.utils.Timer;
 /**
  * Dispatched when the parsing finishes.
  *
- * @eventType away3d.events.ParserEvent
+ * @eventType a3d.events.ParserEvent
  */
 @:meta(Eventname = "parseComplete", type = "a3d.events.ParserEvent"))
 
@@ -30,14 +30,14 @@ import flash.utils.Timer;
  * loading of dependencies which are then returned to the parser through it's interface
  * in the arcane namespace.
  *
- * @eventType away3d.events.ParserEvent
+ * @eventType a3d.events.ParserEvent
  */
 @:meta(Eventname = "readyForDependencies", type = "a3d.events.ParserEvent"))
 
 /**
  * Dispatched if an error was caught during parsing.
  *
- * @eventType away3d.events.ParserEvent
+ * @eventType a3d.events.ParserEvent
  */
 @:meta(Eventname = "parseError", type = "a3d.events.ParserEvent"))
 
@@ -45,84 +45,84 @@ import flash.utils.Timer;
  * Dispatched when any asset finishes parsing. Also see specific events for each
  * individual asset type (meshes, materials et c.)
  *
- * @eventType away3d.events.AssetEvent
+ * @eventType a3d.events.AssetEvent
  */
 @:meta(Eventname = "assetComplete", type = "a3d.events.AssetEvent"))
 
 /**
  * Dispatched when a geometry asset has been constructed from a resource.
  *
- * @eventType away3d.events.AssetEvent
+ * @eventType a3d.events.AssetEvent
  */
 @:meta(Eventname = "geometryComplete", type = "a3d.events.AssetEvent"))
 
 /**
  * Dispatched when a skeleton asset has been constructed from a resource.
  *
- * @eventType away3d.events.AssetEvent
+ * @eventType a3d.events.AssetEvent
  */
 @:meta(Eventname = "skeletonComplete", type = "a3d.events.AssetEvent"))
 
 /**
  * Dispatched when a skeleton pose asset has been constructed from a resource.
  *
- * @eventType away3d.events.AssetEvent
+ * @eventType a3d.events.AssetEvent
  */
 @:meta(Eventname = "skeletonPoseComplete", type = "a3d.events.AssetEvent"))
 
 /**
  * Dispatched when a container asset has been constructed from a resource.
  *
- * @eventType away3d.events.AssetEvent
+ * @eventType a3d.events.AssetEvent
  */
 @:meta(Eventname = "containerComplete", type = "a3d.events.AssetEvent"))
 
 /**
  * Dispatched when an animation set has been constructed from a group of animation state resources.
  *
- * @eventType away3d.events.AssetEvent
+ * @eventType a3d.events.AssetEvent
  */
 @:meta(Eventname = "animationSetComplete", type = "a3d.events.AssetEvent"))
 
 /**
  * Dispatched when an animation state has been constructed from a group of animation node resources.
  *
- * @eventType away3d.events.AssetEvent
+ * @eventType a3d.events.AssetEvent
  */
 @:meta(Eventname = "animationStateComplete", type = "a3d.events.AssetEvent"))
 
 /**
  * Dispatched when an animation node has been constructed from a resource.
  *
- * @eventType away3d.events.AssetEvent
+ * @eventType a3d.events.AssetEvent
  */
 @:meta(Eventname = "animationNodeComplete", type = "a3d.events.AssetEvent"))
 
 /**
  * Dispatched when an animation state transition has been constructed from a group of animation node resources.
  *
- * @eventType away3d.events.AssetEvent
+ * @eventType a3d.events.AssetEvent
  */
 @:meta(Eventname = "stateTransitionComplete", type = "a3d.events.AssetEvent"))
 
 /**
  * Dispatched when a texture asset has been constructed from a resource.
  *
- * @eventType away3d.events.AssetEvent
+ * @eventType a3d.events.AssetEvent
  */
 @:meta(Eventname = "textureComplete", type = "a3d.events.AssetEvent"))
 
 /**
  * Dispatched when a material asset has been constructed from a resource.
  *
- * @eventType away3d.events.AssetEvent
+ * @eventType a3d.events.AssetEvent
  */
 @:meta(Eventname = "materialComplete", type = "a3d.events.AssetEvent"))
 
 /**
  * Dispatched when a animator asset has been constructed from a resource.
  *
- * @eventType away3d.events.AssetEvent
+ * @eventType a3d.events.AssetEvent
  */
 @:meta(Eventname = "animatorComplete", type = "a3d.events.AssetEvent"))
 
@@ -130,7 +130,7 @@ import flash.utils.Timer;
 
 /**
  * <code>ParserBase</code> provides an abstract base class for objects that convert blocks of data to data structures
- * supported by Away3D.
+ * supported by a3d.
  *
  * If used by <code>AssetLoader</code> to automatically determine the parser type, two static public methods should
  * be implemented, with the following signatures:
@@ -145,23 +145,23 @@ import flash.utils.Timer;
  * create the object that will contain the parsed data. This allows <code>ResourceManager</code> to return an object
  * handle regardless of whether the object was loaded or not.
  *
- * @see away3d.loading.parsers.AssetLoader
- * @see away3d.loading.ResourceManager
+ * @see a3d.loading.parsers.AssetLoader
+ * @see a3d.loading.ResourceManager
  */
 class ParserBase extends EventDispatcher
 {
 	public var fileName:String;
-	protected var _dataFormat:String;
-	protected var _data:*;
-	protected var _frameLimit:Float;
-	protected var _lastFrameTime:Float;
+	private var _dataFormat:String;
+	private var _data:*;
+	private var _frameLimit:Float;
+	private var _lastFrameTime:Float;
 
-	protected function getTextData():String
+	private function getTextData():String
 	{
 		return ParserUtil.toString(_data);
 	}
 
-	protected function getByteData():ByteArray
+	private function getByteData():ByteArray
 	{
 		return ParserUtil.toByteArray(_data);
 	}
@@ -176,21 +176,21 @@ class ParserBase extends EventDispatcher
 	/**
 	 * Returned by <code>proceedParsing</code> to indicate no more parsing is needed.
 	 */
-	protected static const PARSING_DONE:Bool = true;
+	private static const PARSING_DONE:Bool = true;
 
 	/**
 	 * Returned by <code>proceedParsing</code> to indicate more parsing is needed, allowing asynchronous parsing.
 	 */
-	protected static const MORE_TO_PARSE:Bool = false;
+	private static const MORE_TO_PARSE:Bool = false;
 
 
 	/**
 	 * Creates a new ParserBase object
 	 * @param format The data format of the file data to be parsed. Can be either <code>ParserDataFormat.BINARY</code> or <code>ParserDataFormat.PLAIN_TEXT</code>, and should be provided by the concrete subtype.
 	 *
-	 * @see away3d.loading.parsers.ParserDataFormat
+	 * @see a3d.loading.parsers.ParserDataFormat
 	 */
-	public function ParserBase(format:String)
+	public function new(format:String)
 	{
 		_materialMode = 0;
 		_dataFormat = format;
@@ -316,7 +316,7 @@ class ParserBase extends EventDispatcher
 
 
 
-	protected function finalizeAsset(asset:IAsset, name:String = null):Void
+	private function finalizeAsset(asset:IAsset, name:String = null):Void
 	{
 		var type_event:String;
 		var type_name:String;
@@ -430,13 +430,13 @@ class ParserBase extends EventDispatcher
 	 * @return Whether or not more data needs to be parsed. Can be <code>ParserBase.PARSING_DONE</code> or
 	 * <code>ParserBase.MORE_TO_PARSE</code>.
 	 */
-	protected function proceedParsing():Bool
+	private function proceedParsing():Bool
 	{
 		throw new AbstractMethodError();
 		return true;
 	}
 
-	protected function dieWithError(message:String = 'Unknown parsing error'):Void
+	private function dieWithError(message:String = 'Unknown parsing error'):Void
 	{
 		if (_timer)
 		{
@@ -448,13 +448,13 @@ class ParserBase extends EventDispatcher
 	}
 
 
-	protected function addDependency(id:String, req:URLRequest, retrieveAsRawData:Bool = false, data:* = null, suppressErrorEvents:Bool = false):Void
+	private function addDependency(id:String, req:URLRequest, retrieveAsRawData:Bool = false, data:* = null, suppressErrorEvents:Bool = false):Void
 	{
 		_dependencies.push(new ResourceDependency(id, req, data, this, retrieveAsRawData, suppressErrorEvents));
 	}
 
 
-	protected function pauseAndRetrieveDependencies():Void
+	private function pauseAndRetrieveDependencies():Void
 	{
 		if (_timer)
 			_timer.stop();
@@ -467,7 +467,7 @@ class ParserBase extends EventDispatcher
 	 * Tests whether or not there is still time left for parsing within the maximum allowed time frame per session.
 	 * @return True if there is still time left, false if the maximum allotted time was exceeded and parsing should be interrupted.
 	 */
-	protected function hasTime():Bool
+	private function hasTime():Bool
 	{
 		return ((getTimer() - _lastFrameTime) < _frameLimit);
 	}
@@ -475,7 +475,7 @@ class ParserBase extends EventDispatcher
 	/**
 	 * Called when the parsing pause interval has passed and parsing can proceed.
 	 */
-	protected function onInterval(event:TimerEvent = null):Void
+	private function onInterval(event:TimerEvent = null):Void
 	{
 		_lastFrameTime = getTimer();
 		if (proceedParsing() && !_parsingFailure)
@@ -498,7 +498,7 @@ class ParserBase extends EventDispatcher
 	/**
 	 * Finish parsing the data.
 	 */
-	protected function finishParsing():Void
+	private function finishParsing():Void
 	{
 		if (_timer)
 		{

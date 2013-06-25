@@ -12,7 +12,7 @@ class CameraNode extends EntityNode
 	 * Creates a new CameraNode object.
 	 * @param camera The camera to be contained in the node.
 	 */
-	public function CameraNode(camera:Camera3D)
+	public function new(camera:Camera3D)
 	{
 		super(camera);
 	}

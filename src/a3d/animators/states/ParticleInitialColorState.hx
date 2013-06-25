@@ -26,7 +26,7 @@ class ParticleInitialColorState extends ParticleStateBase
 	private var _multiplierData:Vector3D;
 	private var _offsetData:Vector3D;
 
-	public function ParticleInitialColorState(animator:ParticleAnimator, particleInitialColorNode:ParticleInitialColorNode)
+	public function new(animator:ParticleAnimator, particleInitialColorNode:ParticleInitialColorNode)
 	{
 		super(animator, particleInitialColorNode);
 

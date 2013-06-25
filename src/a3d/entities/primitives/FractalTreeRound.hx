@@ -29,7 +29,7 @@ class FractalTreeRound extends PrimitiveBase
 	private var _leafPositions:Vector<Float>;
 	private var _built:Bool;
 
-	public function FractalTreeRound(width:Float, height:Float, stretching:Float,
+	public function new(width:Float, height:Float, stretching:Float,
 		minAperture:Float, maxAperture:Float,
 		minTwist:Float, maxTwist:Float,
 		level:UInt)

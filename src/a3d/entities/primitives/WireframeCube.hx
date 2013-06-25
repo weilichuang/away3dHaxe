@@ -19,7 +19,7 @@ class WireframeCube extends WireframePrimitiveBase
 	 * @param color The colour of the wireframe lines
 	 * @param thickness The thickness of the wireframe lines
 	 */
-	public function WireframeCube(width:Float = 100, height:Float = 100, depth:Float = 100, color:UInt = 0xFFFFFF, thickness:Float = 1)
+	public function new(width:Float = 100, height:Float = 100, depth:Float = 100, color:UInt = 0xFFFFFF, thickness:Float = 1)
 	{
 		super(color, thickness);
 

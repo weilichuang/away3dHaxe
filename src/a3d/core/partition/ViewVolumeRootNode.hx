@@ -13,7 +13,7 @@ class ViewVolumeRootNode extends NodeBase
 	private var _activeVolume:ViewVolume;
 	private var _dynamicGrid:DynamicGrid;
 
-	public function ViewVolumeRootNode()
+	public function new()
 	{
 		_viewVolumes = new Vector<ViewVolume>();
 	}

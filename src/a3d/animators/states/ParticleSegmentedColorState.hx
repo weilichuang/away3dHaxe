@@ -91,7 +91,7 @@ class ParticleSegmentedColorState extends ParticleStateBase
 	}
 
 
-	public function ParticleSegmentedColorState(animator:ParticleAnimator, particleSegmentedColorNode:ParticleSegmentedColorNode)
+	public function new(animator:ParticleAnimator, particleSegmentedColorNode:ParticleSegmentedColorNode)
 	{
 		super(animator, particleSegmentedColorNode);
 

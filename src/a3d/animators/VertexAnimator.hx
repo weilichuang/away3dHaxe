@@ -35,7 +35,7 @@ class VertexAnimator extends AnimatorBase implements IAnimator
 	 *
 	 * @param vertexAnimationSet The animation data set containing the vertex animations used by the animator.
 	 */
-	public function VertexAnimator(vertexAnimationSet:VertexAnimationSet)
+	public function new(vertexAnimationSet:VertexAnimationSet)
 	{
 		super(vertexAnimationSet);
 

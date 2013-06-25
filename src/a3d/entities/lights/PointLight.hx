@@ -28,7 +28,7 @@ class PointLight extends LightBase
 	/**
 	 * Creates a new PointLight object.
 	 */
-	public function PointLight()
+	public function new()
 	{
 		super();
 		_fallOffFactor = 1 / (_fallOff * _fallOff - _radius * _radius);

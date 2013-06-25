@@ -15,7 +15,7 @@ class AWDParser extends ParserBase
 {
 	private var _parser:ParserBase;
 
-	public function AWDParser()
+	public function new()
 	{
 		super(ParserDataFormat.BINARY);
 	}
@@ -104,7 +104,7 @@ class AWDParser extends ParserBase
 	 * Find the right conrete parser (AWD1Parser or AWD2Parser) and delegate actual
 	 * parsing to it.
 	*/
-	override protected function proceedParsing():Bool
+	override private function proceedParsing():Bool
 	{
 		if (!_parser)
 		{

@@ -17,7 +17,7 @@ class BlurFilter3D extends Filter3DBase
 	 * @param blurY The amount of vertical blur to apply
 	 * @param stepSize The distance between samples. Set to -1 to autodetect with acceptable quality.
 	 */
-	public function BlurFilter3D(blurX:UInt = 3, blurY:UInt = 3, stepSize:Int = -1)
+	public function new(blurX:UInt = 3, blurY:UInt = 3, stepSize:Int = -1)
 	{
 		super();
 		addTask(_hBlurTask = new Filter3DHBlurTask(blurX, stepSize));

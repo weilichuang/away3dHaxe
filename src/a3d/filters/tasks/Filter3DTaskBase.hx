@@ -27,7 +27,7 @@ class Filter3DTaskBase
 	private var _requireDepthRender:Bool;
 	private var _textureScale:Int = 0;
 
-	public function Filter3DTaskBase(requireDepthRender:Bool = false)
+	public function new(requireDepthRender:Bool = false)
 	{
 		_requireDepthRender = requireDepthRender;
 	}

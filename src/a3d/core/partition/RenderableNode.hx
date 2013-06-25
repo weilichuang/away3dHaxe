@@ -16,7 +16,7 @@ class RenderableNode extends EntityNode
 	 * Creates a new RenderableNode object.
 	 * @param mesh The mesh to be contained in the node.
 	 */
-	public function RenderableNode(renderable:IRenderable)
+	public function new(renderable:IRenderable)
 	{
 		super(Entity(renderable));
 		_renderable = renderable; // also keep a stronger typed reference

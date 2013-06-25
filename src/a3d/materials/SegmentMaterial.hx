@@ -1,29 +1,28 @@
-package a3d.materials
-{
-	
-	import a3d.materials.passes.SegmentPass;
+package a3d.materials;
 
-	
+
+import a3d.materials.passes.SegmentPass;
+
+
+
+/**
+ * SegmentMaterial is a material exclusively used to render wireframe object
+ *
+ * @see a3d.entities.Lines
+ */
+class SegmentMaterial extends MaterialBase
+{
+	private var _screenPass:SegmentPass;
 
 	/**
-	 * SegmentMaterial is a material exclusively used to render wireframe object
-	 *
-	 * @see a3d.entities.Lines
+	 * Creates a new WireframeMaterial object.
 	 */
-	class SegmentMaterial extends MaterialBase
+	public function new(thickness:Float = 1.25)
 	{
-		private var _screenPass:SegmentPass;
+		super();
 
-		/**
-		 * Creates a new WireframeMaterial object.
-		 */
-		public function SegmentMaterial(thickness:Float = 1.25)
-		{
-			super();
-
-			bothSides = true;
-			addPass(_screenPass = new SegmentPass(thickness));
-			_screenPass.material = this;
-		}
+		bothSides = true;
+		addPass(_screenPass = new SegmentPass(thickness));
+		_screenPass.material = this;
 	}
 }

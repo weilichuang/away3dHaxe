@@ -9,7 +9,7 @@ class NearDirectionalShadowMapper extends DirectionalShadowMapper
 {
 	private var _coverageRatio:Float;
 
-	public function NearDirectionalShadowMapper(coverageRatio:Float = .5)
+	public function new(coverageRatio:Float = .5)
 	{
 		super();
 		this.coverageRatio = coverageRatio;

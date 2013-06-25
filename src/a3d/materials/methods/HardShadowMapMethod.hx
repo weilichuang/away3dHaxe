@@ -1,89 +1,88 @@
-package a3d.materials.methods
+package a3d.materials.methods;
+
+
+import a3d.core.managers.Stage3DProxy;
+import a3d.entities.lights.LightBase;
+import a3d.materials.compilation.ShaderRegisterCache;
+import a3d.materials.compilation.ShaderRegisterElement;
+
+
+
+class HardShadowMapMethod extends SimpleShadowMapMethodBase
 {
-	
-	import a3d.core.managers.Stage3DProxy;
-	import a3d.entities.lights.LightBase;
-	import a3d.materials.compilation.ShaderRegisterCache;
-	import a3d.materials.compilation.ShaderRegisterElement;
-
-	
-
-	class HardShadowMapMethod extends SimpleShadowMapMethodBase
+	/**
+	 * Creates a new HardShadowMapMethod object.
+	 */
+	public function new(castingLight:LightBase)
 	{
-		/**
-		 * Creates a new HardShadowMapMethod object.
-		 */
-		public function HardShadowMapMethod(castingLight:LightBase)
-		{
-			super(castingLight);
-		}
+		super(castingLight);
+	}
 
-		/**
-		 * @inheritDoc
-		 */
-		override private function getPlanarFragmentCode(vo:MethodVO, regCache:ShaderRegisterCache, targetReg:ShaderRegisterElement):String
-		{
-			var depthMapRegister:ShaderRegisterElement = regCache.getFreeTextureReg();
-			var decReg:ShaderRegisterElement = regCache.getFreeFragmentConstant();
-			// needs to be reserved anyway. DO NOT REMOVE
-			var dataReg:ShaderRegisterElement = regCache.getFreeFragmentConstant();
-			// TODO not used
-			dataReg = dataReg;
-			var depthCol:ShaderRegisterElement = regCache.getFreeFragmentVectorTemp();
-			var code:String = "";
+	/**
+	 * @inheritDoc
+	 */
+	override private function getPlanarFragmentCode(vo:MethodVO, regCache:ShaderRegisterCache, targetReg:ShaderRegisterElement):String
+	{
+		var depthMapRegister:ShaderRegisterElement = regCache.getFreeTextureReg();
+		var decReg:ShaderRegisterElement = regCache.getFreeFragmentConstant();
+		// needs to be reserved anyway. DO NOT REMOVE
+		var dataReg:ShaderRegisterElement = regCache.getFreeFragmentConstant();
+		// TODO not used
+		dataReg = dataReg;
+		var depthCol:ShaderRegisterElement = regCache.getFreeFragmentVectorTemp();
+		var code:String = "";
 
-			vo.fragmentConstantsIndex = decReg.index * 4;
-			vo.texturesIndex = depthMapRegister.index;
+		vo.fragmentConstantsIndex = decReg.index * 4;
+		vo.texturesIndex = depthMapRegister.index;
 
-			code += "tex " + depthCol + ", " + _depthMapCoordReg + ", " + depthMapRegister + " <2d, nearest, clamp>\n" +
-				"dp4 " + depthCol + ".z, " + depthCol + ", " + decReg + "\n" +
-				"slt " + targetReg + ".w, " + _depthMapCoordReg + ".z, " + depthCol + ".z\n"; // 0 if in shadow
+		code += "tex " + depthCol + ", " + _depthMapCoordReg + ", " + depthMapRegister + " <2d, nearest, clamp>\n" +
+			"dp4 " + depthCol + ".z, " + depthCol + ", " + decReg + "\n" +
+			"slt " + targetReg + ".w, " + _depthMapCoordReg + ".z, " + depthCol + ".z\n"; // 0 if in shadow
 
-			return code;
-		}
+		return code;
+	}
 
-		override private function getPointFragmentCode(vo:MethodVO, regCache:ShaderRegisterCache, targetReg:ShaderRegisterElement):String
-		{
-			var depthMapRegister:ShaderRegisterElement = regCache.getFreeTextureReg();
-			var decReg:ShaderRegisterElement = regCache.getFreeFragmentConstant();
-			var epsReg:ShaderRegisterElement = regCache.getFreeFragmentConstant();
-			var posReg:ShaderRegisterElement = regCache.getFreeFragmentConstant();
-			var depthSampleCol:ShaderRegisterElement = regCache.getFreeFragmentVectorTemp();
-			regCache.addFragmentTempUsages(depthSampleCol, 1);
-			var lightDir:ShaderRegisterElement = regCache.getFreeFragmentVectorTemp();
-			var code:String = "";
+	override private function getPointFragmentCode(vo:MethodVO, regCache:ShaderRegisterCache, targetReg:ShaderRegisterElement):String
+	{
+		var depthMapRegister:ShaderRegisterElement = regCache.getFreeTextureReg();
+		var decReg:ShaderRegisterElement = regCache.getFreeFragmentConstant();
+		var epsReg:ShaderRegisterElement = regCache.getFreeFragmentConstant();
+		var posReg:ShaderRegisterElement = regCache.getFreeFragmentConstant();
+		var depthSampleCol:ShaderRegisterElement = regCache.getFreeFragmentVectorTemp();
+		regCache.addFragmentTempUsages(depthSampleCol, 1);
+		var lightDir:ShaderRegisterElement = regCache.getFreeFragmentVectorTemp();
+		var code:String = "";
 
-			vo.fragmentConstantsIndex = decReg.index * 4;
-			vo.texturesIndex = depthMapRegister.index;
+		vo.fragmentConstantsIndex = decReg.index * 4;
+		vo.texturesIndex = depthMapRegister.index;
 
-			code += "sub " + lightDir + ", " + _sharedRegisters.globalPositionVarying + ", " + posReg + "\n" +
-				"dp3 " + lightDir + ".w, " + lightDir + ".xyz, " + lightDir + ".xyz\n" +
-				"mul " + lightDir + ".w, " + lightDir + ".w, " + posReg + ".w\n" +
-				"nrm " + lightDir + ".xyz, " + lightDir + ".xyz\n" +
+		code += "sub " + lightDir + ", " + _sharedRegisters.globalPositionVarying + ", " + posReg + "\n" +
+			"dp3 " + lightDir + ".w, " + lightDir + ".xyz, " + lightDir + ".xyz\n" +
+			"mul " + lightDir + ".w, " + lightDir + ".w, " + posReg + ".w\n" +
+			"nrm " + lightDir + ".xyz, " + lightDir + ".xyz\n" +
 
-				"tex " + depthSampleCol + ", " + lightDir + ", " + depthMapRegister + " <cube, nearest, clamp>\n" +
-				"dp4 " + depthSampleCol + ".z, " + depthSampleCol + ", " + decReg + "\n" +
-				"add " + targetReg + ".w, " + lightDir + ".w, " + epsReg + ".x\n" + // offset by epsilon
+			"tex " + depthSampleCol + ", " + lightDir + ", " + depthMapRegister + " <cube, nearest, clamp>\n" +
+			"dp4 " + depthSampleCol + ".z, " + depthSampleCol + ", " + decReg + "\n" +
+			"add " + targetReg + ".w, " + lightDir + ".w, " + epsReg + ".x\n" + // offset by epsilon
 
-				"slt " + targetReg + ".w, " + targetReg + ".w, " + depthSampleCol + ".z\n"; // 0 if in shadow
+			"slt " + targetReg + ".w, " + targetReg + ".w, " + depthSampleCol + ".z\n"; // 0 if in shadow
 
-			regCache.removeFragmentTempUsage(depthSampleCol);
+		regCache.removeFragmentTempUsage(depthSampleCol);
 
-			return code;
-		}
+		return code;
+	}
 
 
-		override public function getCascadeFragmentCode(vo:MethodVO, regCache:ShaderRegisterCache, decodeRegister:ShaderRegisterElement, depthTexture:ShaderRegisterElement, depthProjection:ShaderRegisterElement,
-			targetRegister:ShaderRegisterElement):String
-		{
-			var temp:ShaderRegisterElement = regCache.getFreeFragmentVectorTemp();
-			return "tex " + temp + ", " + depthProjection + ", " + depthTexture + " <2d, nearest, clamp>\n" +
-				"dp4 " + temp + ".z, " + temp + ", " + decodeRegister + "\n" +
-				"slt " + targetRegister + ".w, " + depthProjection + ".z, " + temp + ".z\n"; // 0 if in shadow
-		}
+	override public function getCascadeFragmentCode(vo:MethodVO, regCache:ShaderRegisterCache, decodeRegister:ShaderRegisterElement, depthTexture:ShaderRegisterElement, depthProjection:ShaderRegisterElement,
+		targetRegister:ShaderRegisterElement):String
+	{
+		var temp:ShaderRegisterElement = regCache.getFreeFragmentVectorTemp();
+		return "tex " + temp + ", " + depthProjection + ", " + depthTexture + " <2d, nearest, clamp>\n" +
+			"dp4 " + temp + ".z, " + temp + ", " + decodeRegister + "\n" +
+			"slt " + targetRegister + ".w, " + depthProjection + ".z, " + temp + ".z\n"; // 0 if in shadow
+	}
 
-		override public function activateForCascade(vo:MethodVO, stage3DProxy:Stage3DProxy):Void
-		{
-		}
+	override public function activateForCascade(vo:MethodVO, stage3DProxy:Stage3DProxy):Void
+	{
 	}
 }

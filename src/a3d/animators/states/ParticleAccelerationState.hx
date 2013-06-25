@@ -41,7 +41,7 @@ class ParticleAccelerationState extends ParticleStateBase
 		updateAccelerationData();
 	}
 
-	public function ParticleAccelerationState(animator:ParticleAnimator, particleAccelerationNode:ParticleAccelerationNode)
+	public function new(animator:ParticleAnimator, particleAccelerationNode:ParticleAccelerationNode)
 	{
 		super(animator, particleAccelerationNode);
 

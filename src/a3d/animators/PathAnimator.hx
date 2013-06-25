@@ -42,7 +42,7 @@ class PathAnimator extends EventDispatcher
 	 * @param                 [optional] lookAtTarget        An Object3D that the target will constantly look at during animation.
 	 * @param                 [optional] rotations           A Vector.&lt;Vector3D&gt; to define rotations per pathsegments. If PathExtrude is used to simulate the "road", use the very same rotations vector.
 	 */
-	function PathAnimator(path:IPath = null, target:Object3D = null, offset:Vector3D = null, alignToPath:Bool = true, lookAtTarget:Object3D = null, rotations:Vector<Vector3D> = null)
+	public function new(path:IPath = null, target:Object3D = null, offset:Vector3D = null, alignToPath:Bool = true, lookAtTarget:Object3D = null, rotations:Vector<Vector3D> = null)
 	{
 		_index = 0;
 		_time = _lastTime = 0;

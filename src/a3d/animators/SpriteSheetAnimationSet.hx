@@ -15,7 +15,7 @@ class SpriteSheetAnimationSet extends AnimationSetBase implements IAnimationSet
 {
 	private var _agalCode:String;
 
-	function SpriteSheetAnimationSet()
+	public function new()
 	{
 	}
 

@@ -78,7 +78,7 @@ class MD2Parser extends ParserBase
 	 * @param uri The url or id of the data or file to be parsed.
 	 * @param extra The holder for extra contextual data that the parser might need.
 	 */
-	public function MD2Parser(textureType:String = "jpg", ignoreTexturePath:Bool = true)
+	public function new(textureType:String = "jpg", ignoreTexturePath:Bool = true)
 	{
 		super(ParserDataFormat.BINARY);
 		_textureType = textureType;
@@ -152,7 +152,7 @@ class MD2Parser extends ParserBase
 	/**
 	 * @inheritDoc
 	 */
-	override protected function proceedParsing():Bool
+	override private function proceedParsing():Bool
 	{
 		if (!_startedParsing)
 		{

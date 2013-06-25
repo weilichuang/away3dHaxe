@@ -37,7 +37,7 @@ dynamic class ParticleProperties
 	public var delay:Float;
 
 
-	public function ParticleProperties()
+	public function new()
 	{
 
 	}

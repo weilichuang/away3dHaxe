@@ -29,7 +29,7 @@ class DirectionalShadowMapper extends ShadowMapperBase
 	private var _minZ:Float;
 	private var _maxZ:Float;
 
-	public function DirectionalShadowMapper()
+	public function new()
 	{
 		super();
 		_cullPlanes = new Vector<Plane3D>();

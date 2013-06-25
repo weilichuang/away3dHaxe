@@ -38,7 +38,7 @@ class Mesh extends Entity implements IMaterialOwner, IAsset
 	 * @param geometry					The geometry used by the mesh that provides it with its shape.
 	 * @param material	[optional]		The material with which to render the Mesh.
 	 */
-	public function Mesh(geometry:Geometry, material:MaterialBase = null)
+	public function new(geometry:Geometry, material:MaterialBase = null)
 	{
 		super();
 		_subMeshes = new Vector<SubMesh>();

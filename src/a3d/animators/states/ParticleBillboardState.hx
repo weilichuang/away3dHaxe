@@ -28,7 +28,7 @@ class ParticleBillboardState extends ParticleStateBase
 	/**
 	 *
 	 */
-	public function ParticleBillboardState(animator:ParticleAnimator, particleNode:ParticleBillboardNode)
+	public function new(animator:ParticleAnimator, particleNode:ParticleBillboardNode)
 	{
 		super(animator, particleNode);
 		billboardAxis = particleNode.billboardAxis;

@@ -2,7 +2,7 @@ package a3d.core.pick;
 
 
 /**
- * Options for the different 3D object picking approaches available in Away3D. Can be used for automatic mouse picking on the view.
+ * Options for the different 3D object picking approaches available in a3d. Can be used for automatic mouse picking on the view.
  *
  * @see a3d.containers.View3D#mousePicker
  */

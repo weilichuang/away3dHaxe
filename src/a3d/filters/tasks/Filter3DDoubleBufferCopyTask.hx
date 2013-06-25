@@ -14,7 +14,7 @@ class Filter3DDoubleBufferCopyTask extends Filter3DTaskBase
 {
 	private var _secondaryInputTexture:Texture;
 
-	public function Filter3DDoubleBufferCopyTask()
+	public function new()
 	{
 		super();
 	}

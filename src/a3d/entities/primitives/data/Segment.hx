@@ -25,7 +25,7 @@ class Segment
 	private var _startColor:UInt;
 	private var _endColor:UInt;
 
-	public function Segment(start:Vector3D, end:Vector3D, anchor:Vector3D, colorStart:UInt = 0x333333, colorEnd:UInt = 0x333333, thickness:Float = 1):Void
+	public function new(start:Vector3D, end:Vector3D, anchor:Vector3D, colorStart:UInt = 0x333333, colorEnd:UInt = 0x333333, thickness:Float = 1):Void
 	{
 		// TODO: not yet used: for CurveSegment support
 		anchor = null;

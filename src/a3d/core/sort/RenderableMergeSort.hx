@@ -17,7 +17,7 @@ class RenderableMergeSort implements IEntitySorter
 	/**
 	 * Creates a RenderableSorter objects
 	 */
-	public function RenderableMergeSort()
+	public function new()
 	{
 	}
 

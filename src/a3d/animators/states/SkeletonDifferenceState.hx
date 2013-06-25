@@ -42,7 +42,7 @@ class SkeletonDifferenceState extends AnimationStateBase implements ISkeletonAni
 		_skeletonPoseDirty = true;
 	}
 
-	function SkeletonDifferenceState(animator:IAnimator, skeletonAnimationNode:SkeletonDifferenceNode)
+	public function new(animator:IAnimator, skeletonAnimationNode:SkeletonDifferenceNode)
 	{
 		super(animator, skeletonAnimationNode);
 

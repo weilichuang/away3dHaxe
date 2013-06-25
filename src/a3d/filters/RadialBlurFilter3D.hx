@@ -6,7 +6,7 @@ class RadialBlurFilter3D extends Filter3DBase
 {
 	private var _blurTask:Filter3DRadialBlurTask;
 
-	public function RadialBlurFilter3D(intensity:Float = 8.0, glowGamma:Float = 1.6, blurStart:Float = 1.0, blurWidth:Float = -0.3, cx:Float = 0.5, cy:Float = 0.5)
+	public function new(intensity:Float = 8.0, glowGamma:Float = 1.6, blurStart:Float = 1.0, blurWidth:Float = -0.3, cx:Float = 0.5, cy:Float = 0.5)
 	{
 		super();
 		_blurTask = new Filter3DRadialBlurTask(intensity, glowGamma, blurStart, blurWidth, cx, cy);

@@ -21,7 +21,7 @@ class ParticleRotateToHeadingState extends ParticleStateBase
 
 	private var _matrix:Matrix3D = new Matrix3D;
 
-	public function ParticleRotateToHeadingState(animator:ParticleAnimator, particleNode:ParticleNodeBase)
+	public function new(animator:ParticleAnimator, particleNode:ParticleNodeBase)
 	{
 		super(animator, particleNode);
 	}

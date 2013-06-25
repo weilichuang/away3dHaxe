@@ -14,7 +14,7 @@ class PointLightNode extends EntityNode
 	 * Creates a new LightNode object.
 	 * @param light The light to be contained in the node.
 	 */
-	public function PointLightNode(light:PointLight)
+	public function new(light:PointLight)
 	{
 		super(light);
 		_light = light;

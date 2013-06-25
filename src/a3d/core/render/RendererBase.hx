@@ -59,7 +59,7 @@ class RendererBase
 	/**
 	 * Creates a new RendererBase object.
 	 */
-	public function RendererBase(renderToTexture:Bool = false)
+	public function new(renderToTexture:Bool = false)
 	{
 		_renderableSorter = new RenderableMergeSort();
 		_renderToTexture = renderToTexture;

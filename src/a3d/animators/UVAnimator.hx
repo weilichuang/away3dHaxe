@@ -42,7 +42,7 @@ class UVAnimator extends AnimatorBase implements IAnimator
 	*
 	* @param uvAnimationSet The animation data set containing the uv animations used by the animator.
 	*/
-	public function UVAnimator(uvAnimationSet:UVAnimationSet)
+	public function new(uvAnimationSet:UVAnimationSet)
 	{
 		super(uvAnimationSet);
 

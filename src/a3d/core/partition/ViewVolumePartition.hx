@@ -7,7 +7,7 @@ import a3d.entities.Entity;
 
 class ViewVolumePartition extends Partition3D
 {
-	public function ViewVolumePartition()
+	public function new()
 	{
 		super(new ViewVolumeRootNode());
 	}

@@ -35,7 +35,7 @@ class ParticleRotationalVelocityNode extends ParticleNodeBase
 	 *
 	 * @param               mode            Defines whether the mode of operation acts on local properties of a particle or global properties of the node.
 	 */
-	public function ParticleRotationalVelocityNode(mode:UInt, rotationalVelocity:Vector3D = null)
+	public function new(mode:UInt, rotationalVelocity:Vector3D = null)
 	{
 		_stateClass = ParticleRotationalVelocityState;
 

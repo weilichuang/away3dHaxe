@@ -18,7 +18,7 @@ import a3d.io.loaders.parsers.ParserBase;
 /**
  * Dispatched when a full resource (including dependencies) finishes loading.
  *
- * @eventType away3d.events.LoaderEvent
+ * @eventType a3d.events.LoaderEvent
  */
 @:meta(Eventname = "resourceComplete", type = "a3d.events.LoaderEvent"))
 
@@ -26,14 +26,14 @@ import a3d.io.loaders.parsers.ParserBase;
  * Dispatched when a single dependency (which may be the main file of a resource)
  * finishes loading.
  *
- * @eventType away3d.events.LoaderEvent
+ * @eventType a3d.events.LoaderEvent
  */
 @:meta(Eventname = "dependencyComplete", type = "a3d.events.LoaderEvent"))
 
 /**
  * Dispatched when an error occurs during loading.
  *
- * @eventType away3d.events.LoaderEvent
+ * @eventType a3d.events.LoaderEvent
  */
 @:meta(Eventname = "loadError", type = "a3d.events.LoaderEvent"))
 
@@ -41,91 +41,91 @@ import a3d.io.loaders.parsers.ParserBase;
  * Dispatched when any asset finishes parsing. Also see specific events for each
  * individual asset type (meshes, materials et c.)
  *
- * @eventType away3d.events.AssetEvent
+ * @eventType a3d.events.AssetEvent
  */
 @:meta(Eventname = "assetComplete", type = "a3d.events.AssetEvent"))
 
 /**
  * Dispatched when a geometry asset has been constructed from a resource.
  *
- * @eventType away3d.events.AssetEvent
+ * @eventType a3d.events.AssetEvent
  */
 @:meta(Eventname = "geometryComplete", type = "a3d.events.AssetEvent"))
 
 /**
  * Dispatched when a skeleton asset has been constructed from a resource.
  *
- * @eventType away3d.events.AssetEvent
+ * @eventType a3d.events.AssetEvent
  */
 @:meta(Eventname = "skeletonComplete", type = "a3d.events.AssetEvent"))
 
 /**
  * Dispatched when a skeleton pose asset has been constructed from a resource.
  *
- * @eventType away3d.events.AssetEvent
+ * @eventType a3d.events.AssetEvent
  */
 @:meta(Eventname = "skeletonPoseComplete", type = "a3d.events.AssetEvent"))
 
 /**
  * Dispatched when a container asset has been constructed from a resource.
  *
- * @eventType away3d.events.AssetEvent
+ * @eventType a3d.events.AssetEvent
  */
 @:meta(Eventname = "containerComplete", type = "a3d.events.AssetEvent"))
 
 /**
  * Dispatched when an animation set has been constructed from a group of animation state resources.
  *
- * @eventType away3d.events.AssetEvent
+ * @eventType a3d.events.AssetEvent
  */
 @:meta(Eventname = "animationNodeComplete", type = "a3d.events.AssetEvent"))
 
 /**
  * Dispatched when an animation state has been constructed from a group of animation node resources.
  *
- * @eventType away3d.events.AssetEvent
+ * @eventType a3d.events.AssetEvent
  */
 @:meta(Eventname = "animationStateComplete", type = "a3d.events.AssetEvent"))
 
 /**
  * Dispatched when an animation node has been constructed from a resource.
  *
- * @eventType away3d.events.AssetEvent
+ * @eventType a3d.events.AssetEvent
  */
 @:meta(Eventname = "animationSetComplete", type = "a3d.events.AssetEvent"))
 
 /**
  * Dispatched when an animation state transition has been constructed from a group of animation node resources.
  *
- * @eventType away3d.events.AssetEvent
+ * @eventType a3d.events.AssetEvent
  */
 @:meta(Eventname = "stateTransitionComplete", type = "a3d.events.AssetEvent"))
 
 /**
  * Dispatched when a texture asset has been constructed from a resource.
  *
- * @eventType away3d.events.AssetEvent
+ * @eventType a3d.events.AssetEvent
  */
 @:meta(Eventname = "textureComplete", type = "a3d.events.AssetEvent"))
 
 /**
  * Dispatched when a material asset has been constructed from a resource.
  *
- * @eventType away3d.events.AssetEvent
+ * @eventType a3d.events.AssetEvent
  */
 @:meta(Eventname = "materialComplete", type = "a3d.events.AssetEvent"))
 
 /**
  * Dispatched when a animator asset has been constructed from a resource.
  *
- * @eventType away3d.events.AssetEvent
+ * @eventType a3d.events.AssetEvent
  */
 @:meta(Eventname = "animatorComplete", type = "a3d.events.AssetEvent"))
 
 /**
  * Dispatched when an image asset dimensions are not a power of 2
  *
- * @eventType away3d.events.AssetEvent
+ * @eventType a3d.events.AssetEvent
  */
 @:meta(Eventname = "textureSizeError", type = "a3d.events.AssetEvent"))
 
@@ -139,8 +139,8 @@ import a3d.io.loaders.parsers.ParserBase;
  * events. To store assets and make them available at any point from any module in an application,
  * use the AssetLibrary to load and manage assets.
  *
- * @see away3d.loading.Loader3D
- * @see away3d.loading.AssetLibrary
+ * @see a3d.loading.Loader3D
+ * @see a3d.loading.AssetLibrary
  */
 class AssetLoader extends EventDispatcher
 {
@@ -159,7 +159,7 @@ class AssetLoader extends EventDispatcher
 	/**
 	 * Create a new ResourceLoadSession object.
 	 */
-	public function AssetLoader()
+	public function new()
 	{
 		_stack = new Vector<ResourceDependency>();
 		_errorHandlers = new Vector<Function>();

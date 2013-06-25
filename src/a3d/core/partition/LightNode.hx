@@ -14,7 +14,7 @@ class LightNode extends EntityNode
 	 * Creates a new LightNode object.
 	 * @param light The light to be contained in the node.
 	 */
-	public function LightNode(light:LightBase)
+	public function new(light:LightBase)
 	{
 		super(light);
 		_light = light;

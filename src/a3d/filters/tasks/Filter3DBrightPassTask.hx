@@ -11,7 +11,7 @@ class Filter3DBrightPassTask extends Filter3DTaskBase
 	private var _brightPassData:Vector<Float>;
 	private var _threshold:Float;
 
-	public function Filter3DBrightPassTask(threshold:Float = .75)
+	public function new(threshold:Float = .75)
 	{
 		super();
 		_threshold = threshold;

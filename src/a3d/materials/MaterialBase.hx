@@ -71,7 +71,7 @@ class MaterialBase extends NamedAssetBase implements IAsset
 	/**
 	 * Creates a new MaterialBase object.
 	 */
-	public function MaterialBase()
+	public function new()
 	{
 		_owners = new Vector<IMaterialOwner>();
 		_passes = new Vector<MaterialPassBase>();

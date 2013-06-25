@@ -90,7 +90,7 @@ class ShaderPicker implements IPicker
 	/**
 	 * Creates a new <code>ShaderPicker</code> object.
 	 */
-	public function ShaderPicker()
+	public function new()
 	{
 		_id = new Vector<Float>(4, true);
 		_viewportData = new Vector<Float>(4, true); // first 2 contain scale, last 2 translation

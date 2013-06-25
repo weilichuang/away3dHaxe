@@ -18,7 +18,7 @@ import a3d.tools.commands.Merge;
 
 class Trident extends Mesh
 {
-	public function Trident(length:Float = 1000, showLetters:Bool = true):Void
+	public function new(length:Float = 1000, showLetters:Bool = true):Void
 	{
 		super(new Geometry(), null);
 		buildTrident(Math.abs((length == 0) ? 10 : length), showLetters);

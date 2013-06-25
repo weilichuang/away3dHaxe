@@ -6,7 +6,7 @@ class HueSaturationFilter3D extends Filter3DBase
 {
 	private var _hslTask:Filter3DHueSaturationTask;
 
-	public function HueSaturationFilter3D(saturation:Float = 1, r:Float = 1, g:Float = 1, b:Float = 1)
+	public function new(saturation:Float = 1, r:Float = 1, g:Float = 1, b:Float = 1)
 	{
 		super();
 

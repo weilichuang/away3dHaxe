@@ -34,7 +34,7 @@ class DirectionalLight extends LightBase
 	 * @param yDir The y-component of the light's directional vector.
 	 * @param zDir The z-component of the light's directional vector.
 	 */
-	public function DirectionalLight(xDir:Float = 0, yDir:Float = -1, zDir:Float = 1)
+	public function new(xDir:Float = 0, yDir:Float = -1, zDir:Float = 1)
 	{
 		super();
 		direction = new Vector3D(xDir, yDir, zDir);

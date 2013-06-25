@@ -14,7 +14,7 @@ class DirectionalLightNode extends EntityNode
 	 * Creates a new LightNode object.
 	 * @param light The light to be contained in the node.
 	 */
-	public function DirectionalLightNode(light:DirectionalLight)
+	public function new(light:DirectionalLight)
 	{
 		super(light);
 		_light = light;

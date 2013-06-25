@@ -14,7 +14,7 @@ class CrossfadeTransitionNode extends SkeletonBinaryLERPNode
 	/**
 	 * Creates a new <code>CrossfadeTransitionNode</code> object.
 	 */
-	public function CrossfadeTransitionNode()
+	public function new()
 	{
 		_stateClass = CrossfadeTransitionState;
 	}

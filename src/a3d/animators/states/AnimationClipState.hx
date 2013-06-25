@@ -56,7 +56,7 @@ class AnimationClipState extends AnimationStateBase
 		return _nextFrame;
 	}
 
-	function AnimationClipState(animator:IAnimator, animationClipNode:AnimationClipNodeBase)
+	public function new(animator:IAnimator, animationClipNode:AnimationClipNodeBase)
 	{
 		super(animator, animationClipNode);
 

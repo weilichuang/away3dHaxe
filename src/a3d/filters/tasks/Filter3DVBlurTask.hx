@@ -19,7 +19,7 @@ class Filter3DVBlurTask extends Filter3DTaskBase
 	 * @param amount
 	 * @param stepSize The distance between samples. Set to -1 to autodetect with acceptable quality.
 	 */
-	public function Filter3DVBlurTask(amount:UInt, stepSize:Int = -1)
+	public function new(amount:UInt, stepSize:Int = -1)
 	{
 		super();
 		_amount = amount;

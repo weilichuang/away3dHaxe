@@ -575,7 +575,7 @@ class Object3D extends NamedAssetBase
 	/**
 	 * Creates an Object3D object.
 	 */
-	public function Object3D()
+	public function new()
 	{
 		// Cached vector of transformation components used when
 		// recomposing the transform matrix in updateTransform()

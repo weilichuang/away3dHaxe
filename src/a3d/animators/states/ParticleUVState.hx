@@ -21,7 +21,7 @@ class ParticleUVState extends ParticleStateBase
 
 	private var _particleUVNode:ParticleUVNode;
 
-	public function ParticleUVState(animator:ParticleAnimator, particleUVNode:ParticleUVNode)
+	public function new(animator:ParticleAnimator, particleUVNode:ParticleUVNode)
 	{
 		super(animator, particleUVNode);
 

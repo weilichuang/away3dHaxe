@@ -79,7 +79,7 @@ class DAEParser extends ParserBase
 	/**
 	 * @param    configFlags    Bitfield to configure the parser. @see DAEParser.CONFIG_USE_GPU etc.
 	 */
-	public function DAEParser(configFlags:UInt = 0)
+	public function new(configFlags:UInt = 0)
 	{
 		_configFlags = configFlags > 0 ? configFlags : CONFIG_DEFAULT;
 		_parseFlags = PARSE_DEFAULT;
@@ -152,7 +152,7 @@ class DAEParser extends ParserBase
 			_parseState = DAEParserState.PARSE_MATERIALS;
 	}
 
-	override protected function proceedParsing():Bool
+	override private function proceedParsing():Bool
 	{
 		if (!_defaultBitmapMaterial)
 			_defaultBitmapMaterial = buildDefaultMaterial();
@@ -1024,7 +1024,7 @@ class DAEElement
 	public var name:String;
 	public var sid:String;
 	public var userData:*;
-	protected var ns:Namespace;
+	private var ns:Namespace;
 
 	public function DAEElement(element:XML = null)
 	{
@@ -1044,11 +1044,11 @@ class DAEElement
 	{
 	}
 
-	protected function traverseChildHandler(child:XML, nodeName:String):Void
+	private function traverseChildHandler(child:XML, nodeName:String):Void
 	{
 	}
 
-	protected function traverseChildren(element:XML, name:String = null):Void
+	private function traverseChildren(element:XML, name:String = null):Void
 	{
 		var children:XMLList = name ? element.ns::[name] : element.children();
 		var count:int = children.length();
@@ -1057,7 +1057,7 @@ class DAEElement
 			traverseChildHandler(children[i], children[i].name().localName);
 	}
 
-	protected function convertMatrix(matrix:Matrix3D):Void
+	private function convertMatrix(matrix:Matrix3D):Void
 	{
 		var indices:Vector<int> = Vector<int>([2, 6, 8, 9, 11, 14]);
 		var raw:Vector<Number> = matrix.rawData;
@@ -1067,7 +1067,7 @@ class DAEElement
 		matrix.rawData = raw;
 	}
 
-	protected function getRootElement(element:XML):XML
+	private function getRootElement(element:XML):XML
 	{
 		var tmp:XML = element;
 		while (tmp.name().localName != "COLLADA")
@@ -1076,7 +1076,7 @@ class DAEElement
 		return (tmp.name().localName == "COLLADA" ? tmp : null);
 	}
 
-	protected function readFloatArray(element:XML):Vector<Number>
+	private function readFloatArray(element:XML):Vector<Number>
 	{
 		var raw:String = readText(element);
 		var parts:Array = raw.split(/\s+/);
@@ -1088,7 +1088,7 @@ class DAEElement
 		return floats;
 	}
 
-	protected function readIntArray(element:XML):Vector<int>
+	private function readIntArray(element:XML):Vector<int>
 	{
 		var raw:String = readText(element);
 		var parts:Array = raw.split(/\s+/);
@@ -1100,7 +1100,7 @@ class DAEElement
 		return ints;
 	}
 
-	protected function readStringArray(element:XML):Vector<String>
+	private function readStringArray(element:XML):Vector<String>
 	{
 		var raw:String = readText(element);
 		var parts:Array = raw.split(/\s+/);
@@ -1112,19 +1112,19 @@ class DAEElement
 		return strings;
 	}
 
-	protected function readIntAttr(element:XML, name:String, defaultValue:int = 0):int
+	private function readIntAttr(element:XML, name:String, defaultValue:int = 0):int
 	{
 		var v:int = parseInt(element.@[name], 10);
 		v = v == 0 ? defaultValue : v;
 		return v;
 	}
 
-	protected function readText(element:XML):String
+	private function readText(element:XML):String
 	{
 		return trimString(element.text().toString());
 	}
 
-	protected function trimString(s:String):String
+	private function trimString(s:String):String
 	{
 		return s.replace(/^\s+/, "").replace(/\s+$/, "");
 	}
@@ -1186,7 +1186,7 @@ class DAEAccessor extends DAEElement
 		traverseChildren(element, "param");
 	}
 
-	override protected function traverseChildHandler(child:XML, nodeName:String):Void
+	override private function traverseChildHandler(child:XML, nodeName:String):Void
 	{
 		if (nodeName == "param")
 			this.params.push(new DAEParam(child));
@@ -1213,7 +1213,7 @@ class DAESource extends DAEElement
 		traverseChildren(element);
 	}
 
-	override protected function traverseChildHandler(child:XML, nodeName:String):Void
+	override private function traverseChildHandler(child:XML, nodeName:String):Void
 	{
 		switch (nodeName)
 		{
@@ -1541,7 +1541,7 @@ class DAEVertices extends DAEElement
 		traverseChildren(element, "input");
 	}
 
-	override protected function traverseChildHandler(child:XML, nodeName:String):Void
+	override private function traverseChildHandler(child:XML, nodeName:String):Void
 	{
 		nodeName = nodeName;
 		this.inputs.push(new DAEInput(child));
@@ -1565,7 +1565,7 @@ class DAEGeometry extends DAEElement
 		meshName = element.attribute("name");
 	}
 
-	override protected function traverseChildHandler(child:XML, nodeName:String):Void
+	override private function traverseChildHandler(child:XML, nodeName:String):Void
 	{
 		if (nodeName == "mesh")
 			this.mesh = new DAEMesh(this, child); //case "spline"//case "convex_mesh":
@@ -1594,7 +1594,7 @@ class DAEMesh extends DAEElement
 		traverseChildren(element);
 	}
 
-	override protected function traverseChildHandler(child:XML, nodeName:String):Void
+	override private function traverseChildHandler(child:XML, nodeName:String):Void
 	{
 		switch (nodeName)
 		{
@@ -1629,7 +1629,7 @@ class DAEBindMaterial extends DAEElement
 		traverseChildren(element);
 	}
 
-	override protected function traverseChildHandler(child:XML, nodeName:String):Void
+	override private function traverseChildHandler(child:XML, nodeName:String):Void
 	{
 		if (nodeName == "technique_common")
 		{
@@ -1693,7 +1693,7 @@ class DAEInstanceController extends DAEInstance
 		traverseChildren(element);
 	}
 
-	override protected function traverseChildHandler(child:XML, nodeName:String):Void
+	override private function traverseChildHandler(child:XML, nodeName:String):Void
 	{
 		switch (nodeName)
 		{
@@ -1730,7 +1730,7 @@ class DAEInstanceGeometry extends DAEInstance
 		traverseChildren(element);
 	}
 
-	override protected function traverseChildHandler(child:XML, nodeName:String):Void
+	override private function traverseChildHandler(child:XML, nodeName:String):Void
 	{
 		if (nodeName == "bind_material")
 			this.bind_material = new DAEBindMaterial(child);
@@ -1757,7 +1757,7 @@ class DAEInstanceMaterial extends DAEInstance
 		traverseChildren(element);
 	}
 
-	override protected function traverseChildHandler(child:XML, nodeName:String):Void
+	override private function traverseChildHandler(child:XML, nodeName:String):Void
 	{
 		if (nodeName == "bind_vertex_input")
 			this.bind_vertex_input.push(new DAEBindVertexInput(child));
@@ -1835,7 +1835,7 @@ class DAEColorOrTexture extends DAEElement
 		traverseChildren(element);
 	}
 
-	override protected function traverseChildHandler(child:XML, nodeName:String):Void
+	override private function traverseChildHandler(child:XML, nodeName:String):Void
 	{
 		switch (nodeName)
 		{
@@ -1912,7 +1912,7 @@ class DAEShader extends DAEElement
 		traverseChildren(element);
 	}
 
-	override protected function traverseChildHandler(child:XML, nodeName:String):Void
+	override private function traverseChildHandler(child:XML, nodeName:String):Void
 	{
 		switch (nodeName)
 		{
@@ -1943,7 +1943,7 @@ class DAEEffect extends DAEElement
 	public var sampler:DAESampler2D;
 	public var material:*;
 
-	public function DAEEffect(element:XML = null)
+	public function new(element:XML = null)
 	{
 		super(element);
 	}
@@ -1957,7 +1957,7 @@ class DAEEffect extends DAEElement
 		traverseChildren(element);
 	}
 
-	override protected function traverseChildHandler(child:XML, nodeName:String):Void
+	override private function traverseChildHandler(child:XML, nodeName:String):Void
 	{
 		if (nodeName == "profile_COMMON")
 			deserializeProfile(child);
@@ -2034,7 +2034,7 @@ class DAEMaterial extends DAEElement
 {
 	public var instance_effect:DAEInstanceEffect;
 
-	public function DAEMaterial(element:XML = null)
+	public function new(element:XML = null)
 	{
 		super(element);
 	}
@@ -2046,7 +2046,7 @@ class DAEMaterial extends DAEElement
 		traverseChildren(element);
 	}
 
-	override protected function traverseChildHandler(child:XML, nodeName:String):Void
+	override private function traverseChildHandler(child:XML, nodeName:String):Void
 	{
 		if (nodeName == "instance_effect")
 			this.instance_effect = new DAEInstanceEffect(child);
@@ -2058,7 +2058,7 @@ class DAETransform extends DAEElement
 	public var type:String;
 	public var data:Vector<Number>;
 
-	public function DAETransform(element:XML = null)
+	public function new(element:XML = null)
 	{
 		super(element);
 	}
@@ -2131,7 +2131,7 @@ class DAENode extends DAEElement
 		traverseChildren(element);
 	}
 
-	override protected function traverseChildHandler(child:XML, nodeName:String):Void
+	override private function traverseChildHandler(child:XML, nodeName:String):Void
 	{
 		var instances:XMLList;
 		var instance:DAEInstance;
@@ -2450,7 +2450,7 @@ class DAEScene extends DAEElement
 		traverseChildren(element);
 	}
 
-	override protected function traverseChildHandler(child:XML, nodeName:String):Void
+	override private function traverseChildHandler(child:XML, nodeName:String):Void
 	{
 		if (nodeName == "instance_visual_scene")
 			this.instance_visual_scene = new DAEInstanceVisualScene(child);
@@ -2926,7 +2926,7 @@ class DAEAnimation extends DAEElement
 		setupChannels(this.sources);
 	}
 
-	override protected function traverseChildHandler(child:XML, nodeName:String):Void
+	override private function traverseChildHandler(child:XML, nodeName:String):Void
 	{
 		switch (nodeName)
 		{
@@ -2974,7 +2974,7 @@ class DAELightType extends DAEElement
 		traverseChildren(element);
 	}
 
-	override protected function traverseChildHandler(child:XML, nodeName:String):Void
+	override private function traverseChildHandler(child:XML, nodeName:String):Void
 	{
 		if (nodeName == "color")
 		{

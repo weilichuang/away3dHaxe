@@ -55,7 +55,7 @@ class ParticleRotationalVelocityState extends ParticleStateBase
 		_dynamicPropertiesDirty = new Dictionary(true);
 	}
 
-	public function ParticleRotationalVelocityState(animator:ParticleAnimator, particleRotationNode:ParticleRotationalVelocityNode)
+	public function new(animator:ParticleAnimator, particleRotationNode:ParticleRotationalVelocityNode)
 	{
 		super(animator, particleRotationNode);
 

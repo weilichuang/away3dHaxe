@@ -23,7 +23,7 @@ class Stage3DManager
 	 * @param stage The Stage object that contains the Stage3D objects to be managed.
 	 * @private
 	 */
-	public function Stage3DManager(stage:Stage)
+	public function new(stage:Stage)
 	{
 		_stage = stage;
 

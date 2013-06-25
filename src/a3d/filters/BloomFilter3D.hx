@@ -15,7 +15,7 @@ class BloomFilter3D extends Filter3DBase
 	private var _hBlurTask:Filter3DHBlurTask;
 	private var _compositeTask:Filter3DBloomCompositeTask;
 
-	public function BloomFilter3D(blurX:UInt = 15, blurY:UInt = 15, threshold:Float = .75, exposure:Float = 2, quality:Int = 3)
+	public function new(blurX:UInt = 15, blurY:UInt = 15, threshold:Float = .75, exposure:Float = 2, quality:Int = 3)
 	{
 		super();
 		_brightPassTask = new Filter3DBrightPassTask(threshold);

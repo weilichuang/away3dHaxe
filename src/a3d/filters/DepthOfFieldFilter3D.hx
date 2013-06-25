@@ -21,7 +21,7 @@ class DepthOfFieldFilter3D extends Filter3DBase
 	 * @param blurY The maximum amount of vertical blur to apply
 	 * @param stepSize The distance between samples. Set to -1 to auto-detect with acceptable quality.
 	 */
-	public function DepthOfFieldFilter3D(maxBlurX:UInt = 3, maxBlurY:UInt = 3, stepSize:Int = -1)
+	public function new(maxBlurX:UInt = 3, maxBlurY:UInt = 3, stepSize:Int = -1)
 	{
 		super();
 		_hDofTask = new Filter3DHDepthOfFFieldTask(maxBlurX, stepSize);

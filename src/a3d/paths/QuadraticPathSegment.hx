@@ -1,64 +1,63 @@
-package a3d.paths
+package a3d.paths;
+
+import flash.geom.Vector3D;
+
+/**
+* Creates a curved line segment definition required for the Path class.
+*/
+
+class QuadraticPathSegment implements IPathSegment
 {
-	import flash.geom.Vector3D;
+	/**
+	* Defines the first vector of the PathSegment
+	*/
+	public var start:Vector3D;
 
 	/**
-	* Creates a curved line segment definition required for the Path class.
+	* Defines the control vector of the PathSegment
 	*/
+	public var control:Vector3D;
 
-	class QuadraticPathSegment implements IPathSegment
+	/**
+	* Defines the control vector of the PathSegment
+	*/
+	public var end:Vector3D;
+
+
+	public function new(pStart:Vector3D, pControl:Vector3D, pEnd:Vector3D)
 	{
-		/**
-		* Defines the first vector of the PathSegment
-		*/
-		public var start:Vector3D;
+		this.start = pStart;
+		this.control = pControl;
+		this.end = pEnd;
+	}
 
-		/**
-		* Defines the control vector of the PathSegment
-		*/
-		public var control:Vector3D;
+	public function toString():String
+	{
+		return start + ", " + control + ", " + end;
+	}
 
-		/**
-		* Defines the control vector of the PathSegment
-		*/
-		public var end:Vector3D;
+	/**
+	* nulls the 3 vectors
+	*/
+	public function dispose():Void
+	{
+		start = control = end = null;
+	}
 
+	public function getPointOnSegment(t:Float, target:Vector3D = null):Vector3D
+	{
+		const sx:Float = start.x;
+		const sy:Float = start.y;
+		const sz:Float = start.z;
+		const t2Inv:Float = 2 * (1 - t);
 
-		public function QuadraticPathSegment(pStart:Vector3D, pControl:Vector3D, pEnd:Vector3D)
-		{
-			this.start = pStart;
-			this.control = pControl;
-			this.end = pEnd;
-		}
+		if (target == null)
+			target = new Vector3D();
 
-		public function toString():String
-		{
-			return start + ", " + control + ", " + end;
-		}
+		target.x = sx + t * (t2Inv * (control.x - sx) + t * (end.x - sx));
+		target.y = sy + t * (t2Inv * (control.y - sy) + t * (end.y - sy));
+		target.z = sz + t * (t2Inv * (control.z - sz) + t * (end.z - sz));
 
-		/**
-		* nulls the 3 vectors
-		*/
-		public function dispose():Void
-		{
-			start = control = end = null;
-		}
-
-		public function getPointOnSegment(t:Float, target:Vector3D = null):Vector3D
-		{
-			const sx:Float = start.x;
-			const sy:Float = start.y;
-			const sz:Float = start.z;
-			const t2Inv:Float = 2 * (1 - t);
-
-			if (target == null)
-				target = new Vector3D();
-
-			target.x = sx + t * (t2Inv * (control.x - sx) + t * (end.x - sx));
-			target.y = sy + t * (t2Inv * (control.y - sy) + t * (end.y - sy));
-			target.z = sz + t * (t2Inv * (control.z - sz) + t * (end.z - sz));
-
-			return target;
-		}
+		return target;
 	}
 }

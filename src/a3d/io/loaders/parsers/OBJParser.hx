@@ -59,7 +59,7 @@ class OBJParser extends ParserBase
 	 * @param uri The url or id of the data or file to be parsed.
 	 * @param extra The holder for extra contextual data that the parser might need.
 	 */
-	public function OBJParser(scale:Float = 1)
+	public function new(scale:Float = 1)
 	{
 		super(ParserDataFormat.PLAIN_TEXT);
 		_scale = scale;
@@ -164,7 +164,7 @@ class OBJParser extends ParserBase
 	/**
 	* @inheritDoc
 	*/
-	override protected function proceedParsing():Bool
+	override private function proceedParsing():Bool
 	{
 		var line:String;
 		var creturn:String = String.fromCharCode(10);

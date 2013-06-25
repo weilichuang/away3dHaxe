@@ -63,7 +63,7 @@ class AC3DParser extends ParserBase
 	 * @param extra The holder for extra contextual data that the parser might need.
 	 */
 
-	public function AC3DParser()
+	public function new()
 	{
 		super(ParserDataFormat.PLAIN_TEXT);
 	}
@@ -134,7 +134,7 @@ class AC3DParser extends ParserBase
 	/**
 	 * @inheritDoc
 	 */
-	override protected function proceedParsing():Bool
+	override private function proceedParsing():Bool
 	{
 		var line:String;
 

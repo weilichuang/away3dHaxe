@@ -21,7 +21,7 @@ class PerspectiveLens extends LensBase
 	 *
 	 * @param fieldOfView The vertical field of view of the projection.
 	 */
-	public function PerspectiveLens(fieldOfView:Float = 60)
+	public function new(fieldOfView:Float = 60)
 	{
 		super();
 		this.fieldOfView = fieldOfView;

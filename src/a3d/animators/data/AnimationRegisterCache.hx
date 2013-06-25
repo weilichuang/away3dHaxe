@@ -58,7 +58,7 @@ class AnimationRegisterCache extends ShaderRegisterCache
 	//set if has an node which will apply color add operation
 	public var hasColorAddNode:Bool;
 
-	public function AnimationRegisterCache(profile:String)
+	public function new(profile:String)
 	{
 		super(profile);
 	}

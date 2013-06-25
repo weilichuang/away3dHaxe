@@ -185,7 +185,7 @@ class AnimatorBase extends NamedAssetBase implements IAsset
 	 *
 	 * @param animationSet The animation data set to be used by the animator object.
 	 */
-	public function AnimatorBase(animationSet:IAnimationSet)
+	public function new(animationSet:IAnimationSet)
 	{
 		_animationSet = animationSet;
 	}

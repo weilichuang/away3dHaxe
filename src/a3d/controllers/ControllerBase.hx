@@ -70,7 +70,7 @@ class ControllerBase
 	 *
 	 * @param	targetObject	The 3D object on which to act.
 	 */
-	public function ControllerBase(targetObject:Entity = null):Void
+	public function new(targetObject:Entity = null):Void
 	{
 		this.targetObject = targetObject;
 	}

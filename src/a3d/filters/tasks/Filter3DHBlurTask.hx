@@ -19,7 +19,7 @@ class Filter3DHBlurTask extends Filter3DTaskBase
 	 * @param amount The maximum amount of blur to apply in pixels at the most out-of-focus areas
 	 * @param stepSize The distance between samples. Set to -1 to autodetect with acceptable quality.
 	 */
-	public function Filter3DHBlurTask(amount:UInt, stepSize:Int = -1)
+	public function new(amount:UInt, stepSize:Int = -1)
 	{
 		super();
 		_amount = amount;

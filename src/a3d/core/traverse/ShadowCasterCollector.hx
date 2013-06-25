@@ -25,7 +25,7 @@ class ShadowCasterCollector extends EntityCollector
 	/**
 	 * Creates a new EntityCollector object.
 	 */
-	public function ShadowCasterCollector()
+	public function new()
 	{
 		super();
 	}

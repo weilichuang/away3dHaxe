@@ -55,7 +55,7 @@ class EntityCollector extends PartitionTraverser
 	/**
 	 * Creates a new EntityCollector object.
 	 */
-	public function EntityCollector()
+	public function new()
 	{
 		init();
 	}

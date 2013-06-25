@@ -14,7 +14,7 @@ class Filter3DHueSaturationTask extends Filter3DTaskBase
 	private var _b:Float = 1;
 	private var _g:Float = 1;
 
-	public function Filter3DHueSaturationTask()
+	public function new()
 	{
 		super();
 		updateConstants();

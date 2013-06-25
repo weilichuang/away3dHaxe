@@ -92,7 +92,7 @@ class AnimationClipNodeBase extends AnimationNodeBase
 	/**
 	 * Creates a new <code>AnimationClipNodeBase</code> object.
 	 */
-	public function AnimationClipNodeBase()
+	public function new()
 	{
 		super();
 	}

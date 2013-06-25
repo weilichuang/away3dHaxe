@@ -15,7 +15,7 @@ class SkyBoxNode extends EntityNode
 	 * Creates a new SkyBoxNode object.
 	 * @param skyBox The SkyBox to be contained in the node.
 	 */
-	public function SkyBoxNode(skyBox:SkyBox)
+	public function new(skyBox:SkyBox)
 	{
 		super(skyBox);
 		_skyBox = skyBox;

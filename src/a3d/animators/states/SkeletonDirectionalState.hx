@@ -49,7 +49,7 @@ class SkeletonDirectionalState extends AnimationStateBase implements ISkeletonAn
 		return _direction;
 	}
 
-	function SkeletonDirectionalState(animator:IAnimator, skeletonAnimationNode:SkeletonDirectionalNode)
+	public function new(animator:IAnimator, skeletonAnimationNode:SkeletonDirectionalNode)
 	{
 		super(animator, skeletonAnimationNode);
 

@@ -216,7 +216,7 @@ class NURBSGeometry extends PrimitiveBase
 	 * @param init Init object for the mesh
 	 *
 	 */
-	public function NURBSGeometry(cNet:Vector<NURBSVertex>, uCtrlPnts:Int, vCtrlPnts:Int, uOrder:Int = 4, vOrder:Int = 4, uSegments:Int = 10, vSegments:Int = 10, uKnot:Vector<Float> = null, vKnot:Vector<Float> =
+	public function new(cNet:Vector<NURBSVertex>, uCtrlPnts:Int, vCtrlPnts:Int, uOrder:Int = 4, vOrder:Int = 4, uSegments:Int = 10, vSegments:Int = 10, uKnot:Vector<Float> = null, vKnot:Vector<Float> =
 		null)
 	{
 

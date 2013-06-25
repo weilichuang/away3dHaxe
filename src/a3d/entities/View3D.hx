@@ -91,7 +91,7 @@ class View3D extends Sprite
 	 * @param profile
 	 *
 	 */
-	public function View3D(scene:Scene3D = null, camera:Camera3D = null, renderer:RendererBase = null, forceSoftware:Bool = false, profile:String = "baseline")
+	public function new(scene:Scene3D = null, camera:Camera3D = null, renderer:RendererBase = null, forceSoftware:Bool = false, profile:String = "baseline")
 	{
 		super();
 

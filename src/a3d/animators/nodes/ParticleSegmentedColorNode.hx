@@ -37,7 +37,7 @@ class ParticleSegmentedColorNode extends ParticleNodeBase
 	/** @private */
 	public var segmentPoints:Vector<ColorSegmentPoint>;
 
-	public function ParticleSegmentedColorNode(usesMultiplier:Bool, usesOffset:Bool, numSegmentPoint:Int, startColor:ColorTransform, endColor:ColorTransform, segmentPoints:Vector<ColorSegmentPoint>)
+	public function new(usesMultiplier:Bool, usesOffset:Bool, numSegmentPoint:Int, startColor:ColorTransform, endColor:ColorTransform, segmentPoints:Vector<ColorSegmentPoint>)
 	{
 		_stateClass = ParticleSegmentedColorState;
 

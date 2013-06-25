@@ -11,7 +11,7 @@ class NullNode extends NodeBase
 	/**
 	 * Creates a new NullNode object.
 	 */
-	public function NullNode()
+	public function new()
 	{
 	}
 }

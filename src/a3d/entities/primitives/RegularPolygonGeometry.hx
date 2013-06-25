@@ -54,7 +54,7 @@ class RegularPolygonGeometry extends CylinderGeometry
 	 * @param sides Defines the number of sides of the regular polygon.
 	 * @param yUp Defines whether the regular polygon should lay on the Y-axis (true) or on the Z-axis (false).
 	 */
-	public function RegularPolygonGeometry(radius:Float = 100, sides:UInt = 16, yUp:Bool = true)
+	public function new(radius:Float = 100, sides:UInt = 16, yUp:Bool = true)
 	{
 		super(radius, 0, 0, sides, 1, true, false, false, yUp);
 	}

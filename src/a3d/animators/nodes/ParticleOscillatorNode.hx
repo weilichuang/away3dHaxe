@@ -36,7 +36,7 @@ class ParticleOscillatorNode extends ParticleNodeBase
 	 * @param               mode            Defines whether the mode of operation acts on local properties of a particle or global properties of the node.
 	 * @param    [optional] oscillator      Defines the default oscillator axis (x, y, z) and cycleDuration (w) of the node, used when in global mode.
 	 */
-	public function ParticleOscillatorNode(mode:UInt, oscillator:Vector3D = null)
+	public function new(mode:UInt, oscillator:Vector3D = null)
 	{
 		super("ParticleOscillator", mode, 4);
 

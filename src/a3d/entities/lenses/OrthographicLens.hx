@@ -16,7 +16,7 @@ class OrthographicLens extends LensBase
 	/**
 	 * Creates a new OrthogonalLens object.
 	 */
-	public function OrthographicLens(projectionHeight:Float = 500)
+	public function new(projectionHeight:Float = 500)
 	{
 		super();
 		_projectionHeight = projectionHeight;

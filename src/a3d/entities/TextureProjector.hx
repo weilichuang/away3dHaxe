@@ -31,7 +31,7 @@ class TextureProjector extends ObjectContainer3D
 	 * @param texture The texture to be projected on the geometry. Since any point that is projected out of the range
 	 * of the projector's cone is clamped to the texture's edges, the edges should be entirely neutral.
 	 */
-	public function TextureProjector(texture:Texture2DBase)
+	public function new(texture:Texture2DBase)
 	{
 		_lens = new PerspectiveLens();
 		_lens.addEventListener(LensEvent.MATRIX_CHANGED, onInvalidateLensMatrix, false, 0, true);

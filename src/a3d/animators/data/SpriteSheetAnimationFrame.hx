@@ -42,7 +42,7 @@ class SpriteSheetAnimationFrame
 	 * @param scaleV 	The v-component scale of the spritesheet frame.
 	 * @param mapID 	The v-component scale of the spritesheet frame.
 	 */
-	public function SpriteSheetAnimationFrame(offsetU:Float = 0, offsetV:Float = 0, scaleU:Float = 1, scaleV:Float = 1, mapID:UInt = 0)
+	public function new(offsetU:Float = 0, offsetV:Float = 0, scaleU:Float = 1, scaleV:Float = 1, mapID:UInt = 0)
 	{
 		this.offsetU = offsetU;
 		this.offsetV = offsetV;

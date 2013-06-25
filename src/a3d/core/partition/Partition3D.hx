@@ -21,7 +21,7 @@ class Partition3D
 	 * Creates a new Partition3D object.
 	 * @param rootNode The root node of the space partition system. This will indicate which type of data structure will be used.
 	 */
-	public function Partition3D(rootNode:NodeBase)
+	public function new(rootNode:NodeBase)
 	{
 		_rootNode = rootNode || new NullNode();
 	}

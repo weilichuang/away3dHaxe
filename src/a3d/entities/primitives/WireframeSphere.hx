@@ -19,7 +19,7 @@ class WireframeSphere extends WireframePrimitiveBase
 	 * @param color The colour of the wireframe lines
 	 * @param thickness The thickness of the wireframe lines
 	 */
-	public function WireframeSphere(radius:Float = 50, segmentsW:UInt = 16, segmentsH:UInt = 12, color:UInt = 0xFFFFFF, thickness:Float = 1)
+	public function new(radius:Float = 50, segmentsW:UInt = 16, segmentsH:UInt = 12, color:UInt = 0xFFFFFF, thickness:Float = 1)
 	{
 		super(color, thickness);
 

@@ -13,7 +13,7 @@ class SpriteSheetClipNode extends AnimationClipNodeBase
 	/**
 	 * Creates a new <code>SpriteSheetClipNode</code> object.
 	 */
-	public function SpriteSheetClipNode()
+	public function new()
 	{
 		_stateClass = SpriteSheetAnimationState;
 	}

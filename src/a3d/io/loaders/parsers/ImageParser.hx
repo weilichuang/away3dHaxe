@@ -31,7 +31,7 @@ class ImageParser extends ParserBase
 	 * @param uri The url or id of the data or file to be parsed.
 	 * @param extra The holder for extra contextual data that the parser might need.
 	 */
-	public function ImageParser()
+	public function new()
 	{
 		super(ParserDataFormat.BINARY);
 	}
@@ -93,7 +93,7 @@ class ImageParser extends ParserBase
 	/**
 	 * @inheritDoc
 	 */
-	override protected function proceedParsing():Bool
+	override private function proceedParsing():Bool
 	{
 		var asset:Texture2DBase;
 		if (_data is Bitmap)

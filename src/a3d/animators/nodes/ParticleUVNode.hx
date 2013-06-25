@@ -50,7 +50,7 @@ class ParticleUVNode extends ParticleNodeBase
 	 * @param    [optional] scale           Defines whether the time track is in loop mode. Defaults to false.
 	 * @param    [optional] axis            Defines whether the time track is in loop mode. Defaults to false.
 	 */
-	public function ParticleUVNode(mode:UInt, cycle:Float = 1, scale:Float = 1, axis:String = "x")
+	public function new(mode:UInt, cycle:Float = 1, scale:Float = 1, axis:String = "x")
 	{
 		super("ParticleUV", mode, 4, ParticleAnimationSet.POST_PRIORITY + 1);
 

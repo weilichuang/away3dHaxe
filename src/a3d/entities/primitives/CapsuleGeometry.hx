@@ -21,7 +21,7 @@ class CapsuleGeometry extends PrimitiveBase
 	 * @param segmentsH Defines the number of vertical segments that make up the capsule. Defaults to 15. Must be uneven value.
 	 * @param yUp Defines whether the capsule poles should lay on the Y-axis (true) or on the Z-axis (false).
 	 */
-	public function CapsuleGeometry(radius:Float = 50, height:Float = 100, segmentsW:UInt = 16, segmentsH:UInt = 15, yUp:Bool = true)
+	public function new(radius:Float = 50, height:Float = 100, segmentsW:UInt = 16, segmentsH:UInt = 15, yUp:Bool = true)
 	{
 		super();
 

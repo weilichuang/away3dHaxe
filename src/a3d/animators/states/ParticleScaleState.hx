@@ -89,7 +89,7 @@ class ParticleScaleState extends ParticleStateBase
 		updateScaleData();
 	}
 
-	public function ParticleScaleState(animator:ParticleAnimator, particleScaleNode:ParticleScaleNode)
+	public function new(animator:ParticleAnimator, particleScaleNode:ParticleScaleNode)
 	{
 		super(animator, particleScaleNode);
 

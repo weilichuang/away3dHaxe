@@ -25,7 +25,7 @@ class RaycastCollector extends EntityCollector
 	/**
 	 * Creates a new RaycastCollector object.
 	 */
-	public function RaycastCollector()
+	public function new()
 	{
 	}
 

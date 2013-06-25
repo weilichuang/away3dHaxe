@@ -34,7 +34,7 @@ class ParticleFollowState extends ParticleStateBase
 	//temporary vector3D for calculation
 	private var temp:Vector3D = new Vector3D();
 
-	public function ParticleFollowState(animator:ParticleAnimator, particleFollowNode:ParticleFollowNode)
+	public function new(animator:ParticleAnimator, particleFollowNode:ParticleFollowNode)
 	{
 		super(animator, particleFollowNode, true);
 

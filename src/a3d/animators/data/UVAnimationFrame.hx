@@ -42,7 +42,7 @@ class UVAnimationFrame
 	 * @param scaleV The v-component scale of the UV animation frame.
 	 * @param rotation The rotation value (in degrees) of the UV animation frame.
 	 */
-	public function UVAnimationFrame(offsetU:Float = 0, offsetV:Float = 0, scaleU:Float = 1, scaleV:Float = 1, rotation:Float = 0)
+	public function new(offsetU:Float = 0, offsetV:Float = 0, scaleU:Float = 1, scaleV:Float = 1, rotation:Float = 0)
 	{
 		this.offsetU = offsetU;
 		this.offsetV = offsetV;

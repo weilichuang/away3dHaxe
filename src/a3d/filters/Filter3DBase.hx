@@ -13,7 +13,7 @@ class Filter3DBase
 	private var _textureWidth:Int;
 	private var _textureHeight:Int;
 
-	public function Filter3DBase()
+	public function new()
 	{
 		_tasks = new Vector<Filter3DTaskBase>();
 	}

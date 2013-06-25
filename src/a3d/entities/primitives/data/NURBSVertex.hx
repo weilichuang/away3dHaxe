@@ -32,7 +32,7 @@ class NURBSVertex extends Vertex
 	 * @param	z	[optional]	The local z position of the vertex. Defaults to 0.
 	 * @param	w	[optional]	The local w weight of the vertex. Defaults to 1.
 	 */
-	public function NURBSVertex(x:Float = 0, y:Float = 0, z:Float = 0, w:Float = 1)
+	public function new(x:Float = 0, y:Float = 0, z:Float = 0, w:Float = 1)
 	{
 		_w = w;
 		super(x, y, z);

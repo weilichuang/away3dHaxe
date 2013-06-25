@@ -57,7 +57,7 @@ class VertexAnimationSet extends AnimationSetBase implements IAnimationSet
 	 *
 	 * @see a3d.animators.data.VertexAnimationMode
 	 */
-	public function VertexAnimationSet(numPoses:UInt = 2, blendMode:String = "absolute")
+	public function new(numPoses:UInt = 2, blendMode:String = "absolute")
 	{
 		super();
 		_numPoses = numPoses;

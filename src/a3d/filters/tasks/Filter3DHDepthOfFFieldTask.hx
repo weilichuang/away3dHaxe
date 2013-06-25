@@ -25,7 +25,7 @@ class Filter3DHDepthOfFFieldTask extends Filter3DTaskBase
 	 * @param amount The maximum amount of blur to apply in pixels at the most out-of-focus areas
 	 * @param stepSize The distance between samples. Set to -1 to autodetect with acceptable quality.
 	 */
-	public function Filter3DHDepthOfFFieldTask(maxBlur:UInt, stepSize:Int = -1)
+	public function new(maxBlur:UInt, stepSize:Int = -1)
 	{
 		super(true);
 		_maxBlur = maxBlur;

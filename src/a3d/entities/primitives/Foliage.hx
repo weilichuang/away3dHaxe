@@ -23,7 +23,7 @@ class Foliage extends PrimitiveBase
 
 	private var _pi:Float = Math.PI;
 
-	public function Foliage(positions:Vector<Float>, leafCount:UInt, leafSize:Float, radius:Float)
+	public function new(positions:Vector<Float>, leafCount:UInt, leafSize:Float, radius:Float)
 	{
 		super();
 		_leafCount = leafCount;

@@ -27,7 +27,7 @@ class ParticleStateBase extends AnimationStateBase
 
 	private var _needUpdateTime:Bool;
 
-	public function ParticleStateBase(animator:ParticleAnimator, particleNode:ParticleNodeBase, needUpdateTime:Bool = false)
+	public function new(animator:ParticleAnimator, particleNode:ParticleNodeBase, needUpdateTime:Bool = false)
 	{
 		super(animator, particleNode);
 

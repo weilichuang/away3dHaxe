@@ -1,145 +1,144 @@
-package a3d.paths
+package a3d.paths;
+
+import a3d.errors.AbstractMethodError;
+
+import flash.geom.Vector3D;
+
+class SegmentedPathBase implements IPath
 {
-	import a3d.errors.AbstractMethodError;
+	private var _pointsPerSegment:UInt;
+	private var _segments:Vector<IPathSegment>;
 
-	import flash.geom.Vector3D;
-
-	class SegmentedPathBase implements IPath
+	public function new(pointsPerSegment:UInt, data:Vector<Vector3D> = null)
 	{
-		private var _pointsPerSegment:UInt;
-		private var _segments:Vector<IPathSegment>;
+		_pointsPerSegment = pointsPerSegment;
+		if (data)
+			pointData = data;
+	}
 
-		public function SegmentedPathBase(pointsPerSegment:UInt, data:Vector<Vector3D> = null)
+	private inline function set_pointData(data:Vector<Vector3D>):Void
+	{
+		if (data.length < _pointsPerSegment)
+			throw new Error("Path Vector<Vector3D> must contain at least " + _pointsPerSegment + " Vector3D's");
+
+		if (data.length % _pointsPerSegment != 0)
+			throw new Error("Path Vector<Vector3D> must contain series of " + _pointsPerSegment + " Vector3D's per segment");
+
+		_segments = new Vector<IPathSegment>();
+		for (var i:UInt = 0, len:Int = data.length; i < len; i += _pointsPerSegment)
+			_segments.push(createSegmentFromArrayEntry(data, i));
+	}
+
+	// factory method
+	private function createSegmentFromArrayEntry(data:Vector<Vector3D>, offset:UInt):IPathSegment
+	{
+		throw new AbstractMethodError();
+	}
+
+	/**
+	 * The number of segments in the Path
+	 */
+	private inline function get_numSegments():UInt
+	{
+		return _segments.length;
+	}
+
+	/**
+	 * returns the Vector.&lt;PathSegment&gt; holding the elements (PathSegment) of the path
+	 *
+	 * @return	a Vector.&lt;PathSegment&gt;: holding the elements (PathSegment) of the path
+	 */
+	private inline function get_segments():Vector<IPathSegment>
+	{
+		return _segments;
+	}
+
+	/**
+	 * returns a given PathSegment from the path (PathSegment holds 3 Vector3D's)
+	 *
+	 * @param	 indice uint. the indice of a given PathSegment
+	 * @return	given PathSegment from the path
+	 */
+	public function getSegmentAt(index:UInt):IPathSegment
+	{
+		return _segments[index];
+	}
+
+	public function addSegment(segment:IPathSegment):Void
+	{
+		_segments.push(segment);
+	}
+
+	/**
+	 * removes a segment in the path according to id.
+	 *
+	 * @param	 index	int. The index in path of the to be removed curvesegment
+	 * @param	 join 		Bool. If true previous and next segments coordinates are reconnected
+	 */
+	public function removeSegment(index:UInt, join:Bool = false):Void
+	{
+		if (_segments.length == 0 || index >= _segments.length - 1)
+			return;
+
+		if (join && index > 0 && index < _segments.length - 1)
+			stitchSegment(_segments[index - 1], _segments[index], _segments[index + 1]);
+
+		_segments.splice(index, 1);
+	}
+
+	/**
+	 * Stitches two segments together based on a segment between them. This is an abstract method used by the template method removeSegment and must be overridden by concrete subclasses!
+	 * @param start The section of which the end points must be connected with "end"
+	 * @param middle The section that was removed and forms the position hint
+	 * @param end The section of which the start points must be connected with "start"
+	 */
+	private function stitchSegment(start:IPathSegment, middle:IPathSegment, end:IPathSegment):Void
+	{
+		throw new AbstractMethodError();
+	}
+
+	public function dispose():Void
+	{
+		for (var i:UInt, len:UInt = _segments.length; i < len; ++i)
+			_segments[i].dispose();
+
+		_segments = null;
+	}
+
+	public function getPointOnCurve(t:Float, target:Vector3D = null):Vector3D
+	{
+		var numSegments:Int = _segments.length;
+		t *= numSegments;
+		var segment:Int = int(t);
+
+		if (segment == numSegments)
 		{
-			_pointsPerSegment = pointsPerSegment;
-			if (data)
-				pointData = data;
+			segment = numSegments - 1;
+			t = 1;
 		}
+		else
+			t -= segment;
 
-		private inline function set_pointData(data:Vector<Vector3D>):Void
-		{
-			if (data.length < _pointsPerSegment)
-				throw new Error("Path Vector<Vector3D> must contain at least " + _pointsPerSegment + " Vector3D's");
+		return _segments[segment].getPointOnSegment(t, target);
+	}
 
-			if (data.length % _pointsPerSegment != 0)
-				throw new Error("Path Vector<Vector3D> must contain series of " + _pointsPerSegment + " Vector3D's per segment");
+	public function getPointsOnCurvePerSegment(subdivision:UInt):Vector<Vector<Vector3D>>
+	{
+		var points:Vector<Vector<Vector3D>> = new Vector<Vector<Vector3D>>();
 
-			_segments = new Vector<IPathSegment>();
-			for (var i:UInt = 0, len:Int = data.length; i < len; i += _pointsPerSegment)
-				_segments.push(createSegmentFromArrayEntry(data, i));
-		}
+		for (var i:UInt = 0, len:UInt = _segments.length; i < len; ++i)
+			points[i] = getSegmentPoints(_segments[i], subdivision, (i == len - 1));
 
-		// factory method
-		private function createSegmentFromArrayEntry(data:Vector<Vector3D>, offset:UInt):IPathSegment
-		{
-			throw new AbstractMethodError();
-		}
+		return points;
+	}
 
-		/**
-		 * The number of segments in the Path
-		 */
-		private inline function get_numSegments():UInt
-		{
-			return _segments.length;
-		}
+	private function getSegmentPoints(segment:IPathSegment, n:UInt, last:Bool):Vector<Vector3D>
+	{
+		var points:Vector<Vector3D> = new Vector<Vector3D>();
 
-		/**
-		 * returns the Vector.&lt;PathSegment&gt; holding the elements (PathSegment) of the path
-		 *
-		 * @return	a Vector.&lt;PathSegment&gt;: holding the elements (PathSegment) of the path
-		 */
-		private inline function get_segments():Vector<IPathSegment>
-		{
-			return _segments;
-		}
+		for (var i:UInt = 0; i < n + ((last) ? 1 : 0); ++i)
+			points[i] = segment.getPointOnSegment(i / n);
 
-		/**
-		 * returns a given PathSegment from the path (PathSegment holds 3 Vector3D's)
-		 *
-		 * @param	 indice uint. the indice of a given PathSegment
-		 * @return	given PathSegment from the path
-		 */
-		public function getSegmentAt(index:UInt):IPathSegment
-		{
-			return _segments[index];
-		}
-
-		public function addSegment(segment:IPathSegment):Void
-		{
-			_segments.push(segment);
-		}
-
-		/**
-		 * removes a segment in the path according to id.
-		 *
-		 * @param	 index	int. The index in path of the to be removed curvesegment
-		 * @param	 join 		Bool. If true previous and next segments coordinates are reconnected
-		 */
-		public function removeSegment(index:UInt, join:Bool = false):Void
-		{
-			if (_segments.length == 0 || index >= _segments.length - 1)
-				return;
-
-			if (join && index > 0 && index < _segments.length - 1)
-				stitchSegment(_segments[index - 1], _segments[index], _segments[index + 1]);
-
-			_segments.splice(index, 1);
-		}
-
-		/**
-		 * Stitches two segments together based on a segment between them. This is an abstract method used by the template method removeSegment and must be overridden by concrete subclasses!
-		 * @param start The section of which the end points must be connected with "end"
-		 * @param middle The section that was removed and forms the position hint
-		 * @param end The section of which the start points must be connected with "start"
-		 */
-		private function stitchSegment(start:IPathSegment, middle:IPathSegment, end:IPathSegment):Void
-		{
-			throw new AbstractMethodError();
-		}
-
-		public function dispose():Void
-		{
-			for (var i:UInt, len:UInt = _segments.length; i < len; ++i)
-				_segments[i].dispose();
-
-			_segments = null;
-		}
-
-		public function getPointOnCurve(t:Float, target:Vector3D = null):Vector3D
-		{
-			var numSegments:Int = _segments.length;
-			t *= numSegments;
-			var segment:Int = int(t);
-
-			if (segment == numSegments)
-			{
-				segment = numSegments - 1;
-				t = 1;
-			}
-			else
-				t -= segment;
-
-			return _segments[segment].getPointOnSegment(t, target);
-		}
-
-		public function getPointsOnCurvePerSegment(subdivision:UInt):Vector<Vector<Vector3D>>
-		{
-			var points:Vector<Vector<Vector3D>> = new Vector<Vector<Vector3D>>();
-
-			for (var i:UInt = 0, len:UInt = _segments.length; i < len; ++i)
-				points[i] = getSegmentPoints(_segments[i], subdivision, (i == len - 1));
-
-			return points;
-		}
-
-		private function getSegmentPoints(segment:IPathSegment, n:UInt, last:Bool):Vector<Vector3D>
-		{
-			var points:Vector<Vector3D> = new Vector<Vector3D>();
-
-			for (var i:UInt = 0; i < n + ((last) ? 1 : 0); ++i)
-				points[i] = segment.getPointOnSegment(i / n);
-
-			return points;
-		}
+		return points;
 	}
 }

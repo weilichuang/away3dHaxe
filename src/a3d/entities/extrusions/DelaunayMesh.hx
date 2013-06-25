@@ -61,7 +61,7 @@ class DelaunayMesh extends Mesh
 	*@param	flip					[optional] Bool. If the faces need to be inverted. Default is false.
 	*@param	smoothSurface	[optional] Bool. If the surface finished needs to smooth or flat. Default is true, a smooth finish.
 	*/
-	public function DelaunayMesh(material:MaterialBase, vectors:Vector<Vector3D>, plane:String = PLANE_XZ, centerMesh:Bool = false, flip:Bool = false, smoothSurface:Bool = true)
+	public function new(material:MaterialBase, vectors:Vector<Vector3D>, plane:String = PLANE_XZ, centerMesh:Bool = false, flip:Bool = false, smoothSurface:Bool = true)
 	{
 		var geom:Geometry = new Geometry();
 		_subGeometry = new SubGeometry();

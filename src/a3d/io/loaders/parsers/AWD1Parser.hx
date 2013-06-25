@@ -51,7 +51,7 @@ class AWD1Parser extends ParserBase
 	 * @param extra The holder for extra contextual data that the parser might need.
 	 */
 
-	public function AWD1Parser()
+	public function new()
 	{
 		super(ParserDataFormat.PLAIN_TEXT);
 	}
@@ -128,7 +128,7 @@ class AWD1Parser extends ParserBase
 	/**
 	 * @inheritDoc
 	 */
-	override protected function proceedParsing():Bool
+	override private function proceedParsing():Bool
 	{
 		var line:String;
 		var creturn:String = String.fromCharCode(10);

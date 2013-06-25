@@ -31,7 +31,7 @@ class InvertedOctreeNode extends NodeBase
 
 	
 
-	public function InvertedOctreeNode(minBounds:Vector3D, maxBounds:Vector3D)
+	public function new(minBounds:Vector3D, maxBounds:Vector3D)
 	{
 		_minX = minBounds.x;
 		_minY = minBounds.y;

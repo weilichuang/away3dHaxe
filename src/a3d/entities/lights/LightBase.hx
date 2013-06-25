@@ -48,7 +48,7 @@ class LightBase extends Entity
 	 * Create a new LightBase object.
 	 * @param positionBased Indicates whether or not the light has a valid position, or is "infinite" such as a DirectionalLight.
 	 */
-	public function LightBase()
+	public function new()
 	{
 		super();
 	}

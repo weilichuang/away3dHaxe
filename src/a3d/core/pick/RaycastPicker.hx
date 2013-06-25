@@ -49,7 +49,7 @@ class RaycastPicker implements IPicker
 	 * @param findClosestCollision Determines whether the picker searches for the closest bounds collision along the ray,
 	 * or simply returns the first collision encountered Defaults to false.
 	 */
-	public function RaycastPicker(findClosestCollision:Bool)
+	public function new(findClosestCollision:Bool)
 	{
 
 		_findClosestCollision = findClosestCollision;

@@ -17,7 +17,7 @@ class HDepthOfFieldFilter3D extends Filter3DBase
 	 * @param amount The amount of blur to apply in pixels
 	 * @param stepSize The distance between samples. Set to -1 to autodetect with acceptable quality.
 	 */
-	public function HDepthOfFieldFilter3D(maxBlur:UInt = 3, stepSize:Int = -1)
+	public function new(maxBlur:UInt = 3, stepSize:Int = -1)
 	{
 		super();
 		_dofTask = new Filter3DHDepthOfFFieldTask(maxBlur, stepSize);

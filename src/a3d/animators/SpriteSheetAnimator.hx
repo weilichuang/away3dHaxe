@@ -43,7 +43,7 @@ class SpriteSheetAnimator extends AnimatorBase implements IAnimator
 	 * Creates a new <code>SpriteSheetAnimator</code> object.
 	 * @param spriteSheetAnimationSet  The animation data set containing the sprite sheet animation states used by the animator.
 	 */
-	public function SpriteSheetAnimator(spriteSheetAnimationSet:SpriteSheetAnimationSet)
+	public function new(spriteSheetAnimationSet:SpriteSheetAnimationSet)
 	{
 		super(spriteSheetAnimationSet);
 		_spriteSheetAnimationSet = spriteSheetAnimationSet;

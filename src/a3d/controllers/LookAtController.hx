@@ -20,7 +20,7 @@ class LookAtController extends ControllerBase
 	/**
 	 * Creates a new <code>LookAtController</code> object.
 	 */
-	public function LookAtController(targetObject:Entity = null, lookAtObject:ObjectContainer3D = null)
+	public function new(targetObject:Entity = null, lookAtObject:ObjectContainer3D = null)
 	{
 		super(targetObject);
 

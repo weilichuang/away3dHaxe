@@ -108,7 +108,7 @@ class SkeletonAnimator extends AnimatorBase implements IAnimator
 	 * @param skeleton The skeleton object used for calculating the resulting global matrices for transforming skinned mesh data.
 	 * @param forceCPU Optional value that only allows the animator to perform calculation on the CPU. Defaults to false.
 	 */
-	public function SkeletonAnimator(animationSet:SkeletonAnimationSet, skeleton:Skeleton, forceCPU:Bool = false)
+	public function new(animationSet:SkeletonAnimationSet, skeleton:Skeleton, forceCPU:Bool = false)
 	{
 		super(animationSet);
 

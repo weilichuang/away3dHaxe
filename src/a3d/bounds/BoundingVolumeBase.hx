@@ -71,7 +71,7 @@ class BoundingVolumeBase
 	/**
 	 * Creates a new <code>BoundingVolumeBase</code> object
 	 */
-	public function BoundingVolumeBase()
+	public function new()
 	{
 		_min = new Vector3D();
 		_max = new Vector3D();

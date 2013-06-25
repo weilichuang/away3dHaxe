@@ -108,7 +108,7 @@ class ParticleNodeBase extends AnimationNodeBase
 	 * @param               dataLength      Defines the length of the data used by the node when in <code>LOCAL_STATIC</code> mode.
 	 * @param    [optional] priority        the priority of the particle animation node, used to order the agal generated in a particle animation set. Defaults to 1.
 	 */
-	public function ParticleNodeBase(name:String, mode:UInt, dataLength:UInt, priority:Int = 1)
+	public function new(name:String, mode:UInt, dataLength:UInt, priority:Int = 1)
 	{
 		name = name + MODES[mode];
 

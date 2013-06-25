@@ -11,7 +11,7 @@ class HBlurFilter3D extends Filter3DBase
 	 * @param amount The amount of blur in pixels
 	 * @param stepSize The distance between two blur samples. Set to -1 to autodetect with acceptable quality (default value).
 	 */
-	public function HBlurFilter3D(amount:UInt, stepSize:Int = -1)
+	public function new(amount:UInt, stepSize:Int = -1)
 	{
 		super();
 		_blurTask = new Filter3DHBlurTask(amount, stepSize);

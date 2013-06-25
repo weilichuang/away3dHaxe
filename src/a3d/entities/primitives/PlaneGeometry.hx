@@ -26,7 +26,7 @@ class PlaneGeometry extends PrimitiveBase
 	 * @param yUp Defines whether the normal vector of the plane should point along the Y-axis (true) or Z-axis (false).
 	 * @param doubleSided Defines whether the plane will be visible from both sides, with correct vertex normals.
 	 */
-	public function PlaneGeometry(width:Float = 100, height:Float = 100, segmentsW:UInt = 1, segmentsH:UInt = 1, yUp:Bool = true, doubleSided:Bool = false)
+	public function new(width:Float = 100, height:Float = 100, segmentsW:UInt = 1, segmentsH:UInt = 1, yUp:Bool = true, doubleSided:Bool = false)
 	{
 		super();
 

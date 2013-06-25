@@ -20,9 +20,9 @@ class AssetLoaderContext
 	 * Use it to configure how (and if) dependencies are loaded, or to map dependency URLs to
 	 * embedded data.
 	 *
-	 * @see away3d.loading.AssetLoader
+	 * @see a3d.loading.AssetLoader
 	*/
-	public function AssetLoaderContext(includeDependencies:Bool = true, dependencyBaseUrl:String = null)
+	public function new(includeDependencies:Bool = true, dependencyBaseUrl:String = null)
 	{
 		_includeDependencies = includeDependencies;
 		_dependencyBaseUrl = dependencyBaseUrl || '';

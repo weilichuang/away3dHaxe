@@ -20,7 +20,7 @@ class AnimationSetBase extends NamedAssetBase implements IAsset
 	private var _animationNames:Vector<String> = new Vector<String>();
 	private var _animationDictionary:Dictionary = new Dictionary(true);
 
-	public function AnimationSetBase()
+	public function new()
 	{
 
 	}

@@ -97,7 +97,7 @@ class ParticleColorState extends ParticleStateBase
 		updateColorData();
 	}
 
-	public function ParticleColorState(animator:ParticleAnimator, particleColorNode:ParticleColorNode)
+	public function new(animator:ParticleAnimator, particleColorNode:ParticleColorNode)
 	{
 		super(animator, particleColorNode);
 

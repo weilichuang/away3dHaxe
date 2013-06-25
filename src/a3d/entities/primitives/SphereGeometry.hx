@@ -22,7 +22,7 @@ class SphereGeometry extends PrimitiveBase
 	 * @param segmentsH Defines the number of vertical segments that make up the sphere.
 	 * @param yUp Defines whether the sphere poles should lay on the Y-axis (true) or on the Z-axis (false).
 	 */
-	public function SphereGeometry(radius:Float = 50, segmentsW:UInt = 16, segmentsH:UInt = 12, yUp:Bool = true)
+	public function new(radius:Float = 50, segmentsW:UInt = 16, segmentsH:UInt = 12, yUp:Bool = true)
 	{
 		super();
 

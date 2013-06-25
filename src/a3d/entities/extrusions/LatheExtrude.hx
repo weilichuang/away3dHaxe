@@ -89,7 +89,7 @@ class LatheExtrude extends Mesh
 	* @param		tweek				[optional] Object. To build springs like shapes, rotation must be higher than 1. Properties of the tweek object are x,y,z, radius and rotation. Default is null.
 	* @param		smoothSurface	[optional]	An optional Bool. Defines if the surface of the mesh must be smoothed or not.
 	*/
-	public function LatheExtrude(material:MaterialBase = null, profile:Vector<Vector3D> = null, axis:String = LatheExtrude.Y_AXIS, revolutions:Float = 1, subdivision:UInt = 10, coverall:Bool =
+	public function new(material:MaterialBase = null, profile:Vector<Vector3D> = null, axis:String = LatheExtrude.Y_AXIS, revolutions:Float = 1, subdivision:UInt = 10, coverall:Bool =
 		true, centerMesh:Bool = false,
 		flip:Bool = false, thickness:Float = 0, preciseThickness:Bool = true, offsetRadius:Float = 0, materials:MultipleMaterials = null, ignoreSides:String = "", tweek:Object = null, smoothSurface:Bool =
 		true)

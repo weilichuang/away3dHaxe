@@ -36,7 +36,7 @@ class NodeBase
 	/**
 	 * Creates a new NodeBase object.
 	 */
-	public function NodeBase()
+	public function new()
 	{
 		_childNodes = new Vector<NodeBase>();
 	}

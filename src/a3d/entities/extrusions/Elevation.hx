@@ -40,7 +40,7 @@ class Elevation extends Mesh
 	* @param	smoothMap	[optional] Bool. If surface tracking is used, an internal smoothed version of the map is generated,
 	* prevents irregular height readings if original map is blowed up or is having noise. Default is false.
 	*/
-	public function Elevation(material:MaterialBase, heightMap:BitmapData, width:Float = 1000, height:Float = 100, depth:Float = 1000, segmentsW:UInt = 30, segmentsH:UInt = 30, maxElevation:UInt =
+	public function new(material:MaterialBase, heightMap:BitmapData, width:Float = 1000, height:Float = 100, depth:Float = 1000, segmentsW:UInt = 30, segmentsH:UInt = 30, maxElevation:UInt =
 		255, minElevation:UInt = 0, smoothMap:Bool = false)
 	{
 		_subGeometry = new SubGeometry();

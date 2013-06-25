@@ -27,7 +27,7 @@ class AssetLibrary
 	 *
 	 * @param se A singleton enforcer for the AssetLibrary ensuring it cannnot be instanced.
 	 */
-	public function AssetLibrary(se:AssetLibrarySingletonEnforcer)
+	public function new(se:AssetLibrarySingletonEnforcer)
 	{
 		se = se;
 	}

@@ -27,7 +27,7 @@ class WireframePlane extends WireframePrimitiveBase
 	 * @param thickness The thickness of the wireframe lines
 	 * @param orientation The orientaion in which the plane lies.
 	 */
-	public function WireframePlane(width:Float, height:Float, segmentsW:Int = 10, segmentsH:Int = 10, color:UInt = 0xFFFFFF, thickness:Float = 1, orientation:String = "yz")
+	public function new(width:Float, height:Float, segmentsW:Int = 10, segmentsH:Int = 10, color:UInt = 0xFFFFFF, thickness:Float = 1, orientation:String = "yz")
 	{
 		super(color, thickness);
 

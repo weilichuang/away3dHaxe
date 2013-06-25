@@ -39,7 +39,7 @@ class ParticleRotateToPositionState extends ParticleStateBase
 		_position = value;
 	}
 
-	public function ParticleRotateToPositionState(animator:ParticleAnimator, particleRotateToPositionNode:ParticleRotateToPositionNode)
+	public function new(animator:ParticleAnimator, particleRotateToPositionNode:ParticleRotateToPositionNode)
 	{
 		super(animator, particleRotateToPositionNode);
 

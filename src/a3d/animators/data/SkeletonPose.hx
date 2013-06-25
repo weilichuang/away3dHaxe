@@ -33,7 +33,7 @@ class SkeletonPose extends NamedAssetBase implements IAsset
 	/**
 	 * Creates a new <code>SkeletonPose</code> object.
 	 */
-	public function SkeletonPose()
+	public function new()
 	{
 		jointPoses = new Vector<JointPose>();
 	}

@@ -1,16 +1,16 @@
-package a3d.materials.methods
+package a3d.materials.methods;
+
+class MethodVOSet
 {
-	class MethodVOSet
+	
+
+	public var method:EffectMethodBase;
+	public var data:MethodVO;
+
+	public function new(method:EffectMethodBase)
 	{
-		
-
-		public var method:EffectMethodBase;
-		public var data:MethodVO;
-
-		public function MethodVOSet(method:EffectMethodBase)
-		{
-			this.method = method;
-			data = method.createMethodVO();
-		}
+		this.method = method;
+		data = method.createMethodVO();
 	}
 }
+

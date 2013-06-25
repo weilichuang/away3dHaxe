@@ -43,7 +43,7 @@ class SpringController extends LookAtController
 	public var positionOffset:Vector3D = new Vector3D(0, 500, -1000);
 
 
-	public function SpringController(targetObject:Entity = null, lookAtObject:ObjectContainer3D = null, stiffness:Float = 1, mass:Float = 40, damping:Float = 4)
+	public function new(targetObject:Entity = null, lookAtObject:ObjectContainer3D = null, stiffness:Float = 1, mass:Float = 40, damping:Float = 4)
 	{
 		super(targetObject, lookAtObject);
 

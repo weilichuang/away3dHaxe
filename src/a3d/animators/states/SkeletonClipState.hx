@@ -44,7 +44,7 @@ class SkeletonClipState extends AnimationClipState implements ISkeletonAnimation
 		return _nextPose;
 	}
 
-	function SkeletonClipState(animator:IAnimator, skeletonClipNode:SkeletonClipNode)
+	public function new(animator:IAnimator, skeletonClipNode:SkeletonClipNode)
 	{
 		super(animator, skeletonClipNode);
 

@@ -7,7 +7,7 @@ import a3d.entities.primitives.LineSegment;
 
 class TridentLines extends SegmentSet
 {
-	public function TridentLines(vectors:Vector<Vector<Vector3D>>, colors:Vector<UInt>):Void
+	public function new(vectors:Vector<Vector<Vector3D>>, colors:Vector<UInt>):Void
 	{
 		super();
 		build(vectors, colors);

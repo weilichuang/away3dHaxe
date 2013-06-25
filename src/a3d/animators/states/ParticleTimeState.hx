@@ -20,7 +20,7 @@ class ParticleTimeState extends ParticleStateBase
 {
 	private var _particleTimeNode:ParticleTimeNode;
 
-	public function ParticleTimeState(animator:ParticleAnimator, particleTimeNode:ParticleTimeNode)
+	public function new(animator:ParticleAnimator, particleTimeNode:ParticleTimeNode)
 	{
 		super(animator, particleTimeNode, true);
 

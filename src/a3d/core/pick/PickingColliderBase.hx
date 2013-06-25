@@ -15,7 +15,7 @@ class PickingColliderBase
 	private var rayPosition:Vector3D;
 	private var rayDirection:Vector3D;
 
-	public function PickingColliderBase()
+	public function new()
 	{
 
 	}

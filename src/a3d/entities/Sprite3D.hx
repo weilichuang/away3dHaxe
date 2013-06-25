@@ -45,7 +45,7 @@ class Sprite3D extends Entity implements IRenderable
 	private var _height:Float;
 	private var _shadowCaster:Bool = false;
 
-	public function Sprite3D(material:MaterialBase, width:Float, height:Float)
+	public function new(material:MaterialBase, width:Float, height:Float)
 	{
 		super();
 		this.material = material;

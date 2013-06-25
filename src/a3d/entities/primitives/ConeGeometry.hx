@@ -29,7 +29,7 @@ class ConeGeometry extends CylinderGeometry
 	 * @param segmentsH Defines the number of vertical segments that make up the cone. Defaults to 1.
 	 * @param yUp Defines whether the cone poles should lay on the Y-axis (true) or on the Z-axis (false).
 	 */
-	public function ConeGeometry(radius:Float = 50, height:Float = 100, segmentsW:UInt = 16, segmentsH:UInt = 1, closed:Bool = true, yUp:Bool = true)
+	public function new(radius:Float = 50, height:Float = 100, segmentsW:UInt = 16, segmentsH:UInt = 1, closed:Bool = true, yUp:Bool = true)
 	{
 		super(0, radius, height, segmentsW, segmentsH, false, closed, true, yUp);
 	}

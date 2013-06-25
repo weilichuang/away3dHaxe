@@ -32,7 +32,7 @@ class LensBase extends EventDispatcher
 	/**
 	 * Creates a new LensBase object.
 	 */
-	public function LensBase()
+	public function new()
 	{
 		_matrix = new Matrix3D();
 	}

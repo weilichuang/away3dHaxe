@@ -66,7 +66,7 @@ class MD5MeshParser extends ParserBase
 	/**
 	 * Creates a new MD5MeshParser object.
 	 */
-	public function MD5MeshParser(additionalRotationAxis:Vector3D = null, additionalRotationRadians:Float = 0)
+	public function new(additionalRotationAxis:Vector3D = null, additionalRotationRadians:Float = 0)
 	{
 		super(ParserDataFormat.PLAIN_TEXT);
 		_rotationQuat = new Quaternion();
@@ -107,7 +107,7 @@ class MD5MeshParser extends ParserBase
 	/**
 	 * @inheritDoc
 	 */
-	override protected function proceedParsing():Bool
+	override private function proceedParsing():Bool
 	{
 		var token:String;
 

@@ -25,7 +25,7 @@ class WireframeTetrahedron extends WireframePrimitiveBase
 	 * @param color The color of the wireframe lines.
 	 * @param thickness The thickness of the wireframe lines.
 	 */
-	public function WireframeTetrahedron(width:Float, height:Float, color:UInt = 0xffffff, thickness:Float = 1, orientation:String = "yz")
+	public function new(width:Float, height:Float, color:UInt = 0xffffff, thickness:Float = 1, orientation:String = "yz")
 	{
 		super(color, thickness);
 

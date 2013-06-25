@@ -59,7 +59,7 @@ class MD5AnimParser extends ParserBase
 	 * @param uri The url or id of the data or file to be parsed.
 	 * @param extra The holder for extra contextual data that the parser might need.
 	 */
-	public function MD5AnimParser(additionalRotationAxis:Vector3D = null, additionalRotationRadians:Float = 0)
+	public function new(additionalRotationAxis:Vector3D = null, additionalRotationRadians:Float = 0)
 	{
 		super(ParserDataFormat.PLAIN_TEXT);
 		_rotationQuat = new Quaternion();
@@ -104,7 +104,7 @@ class MD5AnimParser extends ParserBase
 	/**
 	 * @inheritDoc
 	 */
-	override protected function proceedParsing():Bool
+	override private function proceedParsing():Bool
 	{
 		var token:String;
 

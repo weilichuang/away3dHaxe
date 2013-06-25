@@ -42,7 +42,7 @@ class ParticleAnimator extends AnimatorBase implements IAnimator
 	 *
 	 * @param particleAnimationSet The animation data set containing the particle animations used by the animator.
 	 */
-	public function ParticleAnimator(particleAnimationSet:ParticleAnimationSet)
+	public function new(particleAnimationSet:ParticleAnimationSet)
 	{
 		super(particleAnimationSet);
 		_particleAnimationSet = particleAnimationSet;

@@ -28,7 +28,7 @@ class ResourceDependency
 	public var success:Bool;
 
 
-	public function ResourceDependency(id:String, req:URLRequest, data:*, parentParser:ParserBase, retrieveAsRawData:Bool = false, suppressAssetEvents:Bool = false)
+	public function new(id:String, req:URLRequest, data:*, parentParser:ParserBase, retrieveAsRawData:Bool = false, suppressAssetEvents:Bool = false)
 	{
 		_id = id;
 		_req = req;
