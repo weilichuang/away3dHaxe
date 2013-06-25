@@ -55,7 +55,7 @@ class Touch3DManager
 
 		if (_forceTouchMove || _updateDirty)
 		{ // If forceTouchMove is off, and no 2D Touch events dirty the update, don't update either.
-			for (var i:UInt; i < _numTouchPoints; ++i)
+			for (i in 0..._numTouchPoints)
 			{
 				_touchPoint = _touchPoints[i];
 				_collidingObject = _touchPicker.getViewCollision(_touchPoint.x, _touchPoint.y, _view);
@@ -72,7 +72,7 @@ class Touch3DManager
 		var event:TouchEvent3D;
 		var dispatcher:ObjectContainer3D;
 
-		for (i = 0; i < _numTouchPoints; ++i)
+		for (i in 0..._numTouchPoints)
 		{
 			_touchPoint = _touchPoints[i];
 			// If colliding object has changed, queue over/out events.
@@ -94,7 +94,7 @@ class Touch3DManager
 
 		// Dispatch all queued events.
 		len = _queuedEvents.length;
-		for (i = 0; i < len; ++i)
+		for (i in 0...len)
 		{
 
 			// Only dispatch from first implicitly enabled object ( one that is not a child of a TouchChildren = false hierarchy ).
@@ -111,7 +111,7 @@ class Touch3DManager
 
 		_updateDirty = false;
 
-		for (i = 0; i < _numTouchPoints; ++i)
+		for (i in 0..._numTouchPoints)
 		{
 			_touchPoint = _touchPoints[i];
 			_previousCollidingObjectFromTouchId[_touchPoint.id] = _collidingObjectFromTouchId[_touchPoint.id];

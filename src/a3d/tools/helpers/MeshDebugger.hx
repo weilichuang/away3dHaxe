@@ -291,7 +291,7 @@ class MeshDebugger
 	private function parse(object:ObjectContainer3D, scene:Scene3D, displayNormals:Bool, displayVertexNormals:Bool, displayTangents:Bool):Void
 	{
 		var child:ObjectContainer3D;
-		if (object is Mesh && object.numChildren == 0)
+		if (Std.is(object,Mesh) && object.numChildren == 0)
 			debug(Mesh(object), scene, displayNormals, displayVertexNormals, displayTangents);
 
 		for (var i:UInt = 0; i < object.numChildren; ++i)

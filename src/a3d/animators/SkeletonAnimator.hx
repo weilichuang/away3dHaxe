@@ -144,7 +144,7 @@ class SkeletonAnimator extends AnimatorBase implements IAnimator
 	{
 		/* The cast to SkeletonAnimationSet should never fail, as _animationSet can only be set
 		   through the constructor, which will only accept a SkeletonAnimationSet. */
-		return new SkeletonAnimator(_animationSet as SkeletonAnimationSet, _skeleton, _forceCPU);
+		return new SkeletonAnimator(Std.instance(_animationSet,SkeletonAnimationSet), _skeleton, _forceCPU);
 	}
 
 	/**
@@ -183,7 +183,7 @@ class SkeletonAnimator extends AnimatorBase implements IAnimator
 			_activeState.positionDelta;
 		}
 
-		_activeSkeletonState = _activeState as ISkeletonAnimationState;
+		_activeSkeletonState = Std.instance(_activeState,ISkeletonAnimationState);
 
 		start();
 
@@ -582,7 +582,7 @@ class SkeletonAnimator extends AnimatorBase implements IAnimator
 			{
 				_activeNode = _animationSet.getAnimation(_activeAnimationName);
 				_activeState = getAnimationState(_activeNode);
-				_activeSkeletonState = _activeState as ISkeletonAnimationState;
+				_activeSkeletonState = Std.instance(_activeState,ISkeletonAnimationState);
 			}
 		}
 	}

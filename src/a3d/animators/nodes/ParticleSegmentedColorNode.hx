@@ -108,7 +108,7 @@ class ParticleSegmentedColorNode extends ParticleNodeBase
 				startMulValue = animationRegisterCache.getFreeVertexConstant();
 				animationRegisterCache.setRegisterIndex(this, START_MULTIPLIER_INDEX, startMulValue.index);
 				deltaMulValues = new Vector<ShaderRegisterElement>;
-				for (i = 0; i < numSegmentPoint + 1; i++)
+				for (i in 0...numSegmentPoint + 1)
 				{
 					deltaMulValues.push(animationRegisterCache.getFreeVertexConstant());
 				}
@@ -121,7 +121,7 @@ class ParticleSegmentedColorNode extends ParticleNodeBase
 				startOffsetValue = animationRegisterCache.getFreeVertexConstant();
 				animationRegisterCache.setRegisterIndex(this, START_OFFSET_INDEX, startOffsetValue.index);
 				deltaOffsetValues = new Vector<ShaderRegisterElement>;
-				for (i = 0; i < numSegmentPoint + 1; i++)
+				for (i in 0...numSegmentPoint+1)
 				{
 					deltaOffsetValues.push(animationRegisterCache.getFreeVertexConstant());
 				}
@@ -133,7 +133,7 @@ class ParticleSegmentedColorNode extends ParticleNodeBase
 			if (usesOffset)
 				code += "add " + animationRegisterCache.colorAddTarget + "," + animationRegisterCache.colorAddTarget + "," + startOffsetValue + "\n";
 
-			for (i = 0; i < numSegmentPoint; i++)
+			for (i in 0...numSegmentPoint)
 			{
 				switch (i)
 				{

@@ -247,7 +247,7 @@ class RendererBase
 		executeRender(entityCollector, target, scissorRect, surfaceSelector);
 
 		// clear buffers
-		for (var i:UInt = 0; i < 8; ++i)
+		for (i in 0...8)
 		{
 			_context.setVertexBufferAt(i, null);
 			_context.setTextureAt(i, null);

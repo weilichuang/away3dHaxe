@@ -35,7 +35,7 @@ class PBPickingCollider extends PickingColliderBase implements IPickingCollider
 		_findClosestCollision = findClosestCollision;
 
 		_kernelOutputBuffer = new Vector<Float>();
-		_rayTriangleKernel = new Shader(new RayTriangleKernelClass() as ByteArray);
+		_rayTriangleKernel = new Shader(Std.instance(new RayTriangleKernelClass(),ByteArray));
 	}
 
 	/**
@@ -135,7 +135,7 @@ class PBPickingCollider extends PickingColliderBase implements IPickingCollider
 		var i:UInt;
 		while (w * h < count)
 		{
-			for (i = 0; i < w; ++i)
+			for (i in 0...w)
 			{
 				array.push(0.0, 0.0, 0.0);
 			}

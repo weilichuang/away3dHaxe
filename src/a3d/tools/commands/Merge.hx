@@ -335,10 +335,10 @@ class Merge
 		var child:ObjectContainer3D;
 		var i:UInt;
 
-		if (object is Mesh)
+		if (Std.is(object,Mesh))
 			collect(Mesh(object), _disposeSources);
 
-		for (i = 0; i < object.numChildren; ++i)
+		for (i in 0...object.numChildren)
 		{
 			child = object.getChildAt(i);
 			parseContainer(child);

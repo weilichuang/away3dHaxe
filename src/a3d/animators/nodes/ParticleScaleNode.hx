@@ -108,7 +108,7 @@ class ParticleScaleNode extends ParticleNodeBase
 	 */
 	public function getAnimationState(animator:IAnimator):ParticleScaleState
 	{
-		return animator.getAnimationState(this) as ParticleScaleState;
+		return Std.instance(animator.getAnimationState(this), ParticleScaleState);
 	}
 
 	/**

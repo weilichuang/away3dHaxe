@@ -147,10 +147,10 @@
 		{
 			if (event.asset.assetType == AssetType.MESH)
 			{
-				_mesh = event.asset as Mesh;
+				_mesh = Std.instance(event.asset,Mesh);
 
 				//adjust the ogre material
-				var material:TextureMaterial = _mesh.material as TextureMaterial;
+				var material:TextureMaterial = Std.instance(_mesh.material,TextureMaterial);
 				material.specularMap = Cast.bitmapTexture(OgreSpecular);
 				material.normalMap = Cast.bitmapTexture(OgreNormals);
 				material.lightPicker = _lightPicker;
@@ -174,7 +174,7 @@
 					for (var j:uint = 0; j < numDeep; j++)
 					{
 						//clone mesh
-						var clone:Mesh = _mesh.clone() as Mesh;
+						var clone:Mesh = Std.instance(_mesh.clone(),Mesh);
 						clone.x = (i - (numWide - 1) / 2) * 1000 / numWide;
 						clone.z = (j - (numDeep - 1) / 2) * 1000 / numDeep;
 						clone.castsShadows = true;
@@ -193,7 +193,7 @@
 			}
 			else if (event.asset.assetType == AssetType.ANIMATION_SET)
 			{
-				_animationSet = event.asset as VertexAnimationSet;
+				_animationSet = Std.instance(event.asset,VertexAnimationSet);
 			}
 		}
 

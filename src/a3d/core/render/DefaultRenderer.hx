@@ -76,7 +76,7 @@ class DefaultRenderer extends RendererBase
 		var shadowMapper:ShadowMapperBase;
 
 		len = dirLights.length;
-		for (i = 0; i < len; ++i)
+		for (i in 0...len)
 		{
 			light = dirLights[i];
 			shadowMapper = light.shadowMapper;
@@ -85,7 +85,7 @@ class DefaultRenderer extends RendererBase
 		}
 
 		len = pointLights.length;
-		for (i = 0; i < len; ++i)
+		for (i in 0...len)
 		{
 			light = pointLights[i];
 			shadowMapper = light.shadowMapper;

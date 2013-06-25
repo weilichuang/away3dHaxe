@@ -54,14 +54,14 @@ class ShaderRegisterCache
 		_numUsedTextures = 0;
 		_numUsedVaryings = 0;
 		_numUsedFragmentConstants = 0;
-		var i:Int;
-		for (i = 0; i < _vertexAttributesOffset; ++i)
+
+		for (i in 0..._vertexAttributesOffset)
 			getFreeVertexAttribute();
-		for (i = 0; i < _vertexConstantOffset; ++i)
+		for (i in 0..._vertexConstantOffset)
 			getFreeVertexConstant();
-		for (i = 0; i < _varyingsOffset; ++i)
+		for (i in 0..._varyingsOffset)
 			getFreeVarying();
-		for (i = 0; i < _fragmentConstantOffset; ++i)
+		for (i in 0..._fragmentConstantOffset)
 			getFreeFragmentConstant();
 
 	}

@@ -189,7 +189,7 @@ class ParticleSpriteSheetNode extends ParticleNodeBase
 	 */
 	public function getAnimationState(animator:IAnimator):ParticleSpriteSheetState
 	{
-		return animator.getAnimationState(this) as ParticleSpriteSheetState;
+		return Std.instance(animator.getAnimationState(this),ParticleSpriteSheetState);
 	}
 
 	/**

@@ -1,4 +1,4 @@
-package a3d.math
+package a3d.math;
 
 import flash.geom.Matrix3D;
 import flash.geom.Vector3D;
@@ -119,7 +119,7 @@ class Matrix3DUtils
 		var r2:Vector<Float> = m2.rawData;
 		m1.copyRawDataTo(r1);
 
-		for (var i:UInt = 0; i < 16; ++i)
+		for (i in 0...16)
 			if (r1[i] != r2[i])
 				return false;
 

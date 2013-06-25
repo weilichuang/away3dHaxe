@@ -1,15 +1,16 @@
 ﻿package a3d.entities;
 
+import a3d.filters.Filter3DBase;
 import flash.display.Sprite;
 import flash.display3D.Context3D;
 import flash.display3D.Context3DTextureFormat;
 import flash.display3D.textures.Texture;
 import flash.events.Event;
+import flash.filters.BitmapFilter;
 import flash.geom.Point;
 import flash.geom.Rectangle;
 import flash.geom.Transform;
 import flash.geom.Vector3D;
-import flash.utils.getTimer;
 
 
 import a3d.core.managers.Mouse3DManager;
@@ -218,7 +219,7 @@ class View3D extends Sprite
 	/**
 	 * Not supported. Use filters3d instead.
 	 */
-	override private inline function get_filters():Array
+	override private inline function get_filters():Array<Filter3DBase>
 	{
 		throw new Error("filters is not supported in View3D. Use filters3d instead.");
 		return super.filters;
@@ -227,18 +228,19 @@ class View3D extends Sprite
 	/**
 	 * Not supported. Use filters3d instead.
 	 */
-	override private inline function set_filters(value:Array):Void
+	override private inline function set_filters(value:Array<BitmapFilter>):Array<Filter3DBase>
 	{
 		throw new Error("filters is not supported in View3D. Use filters3d instead.");
+		return super.filters;
 	}
 
 
-	private inline function get_filters3d():Array
+	private inline function get_filters3d():Array<Filter3DBase>
 	{
-		return _filter3DRenderer ? _filter3DRenderer.filters : null;
+		return _filter3DRenderer != null ? _filter3DRenderer.filters : null;
 	}
 
-	private inline function set_filters3d(value:Array):Void
+	private inline function set_filters3d(value:Array<Filter3DBase>):Array<Filter3DBase>
 	{
 		if (value && value.length == 0)
 			value = null;
@@ -268,8 +270,11 @@ class View3D extends Sprite
 				_depthRender = null;
 			}
 		}
+		
+		return value;
 	}
 
+	public var renderer(get, set):RendererBase;
 	/**
 	 * The renderer used to draw the scene.
 	 */
@@ -278,7 +283,7 @@ class View3D extends Sprite
 		return _renderer;
 	}
 
-	private inline function set_renderer(value:RendererBase):Void
+	private inline function set_renderer(value:RendererBase):RendererBase
 	{
 		_renderer.dispose();
 		_renderer = value;
@@ -294,6 +299,8 @@ class View3D extends Sprite
 		_renderer.viewHeight = _height;
 
 		_backBufferInvalid = true;
+		
+		return _renderer;
 	}
 
 	/**

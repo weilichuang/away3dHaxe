@@ -15,6 +15,7 @@ import a3d.io.library.assets.AssetType;
 import a3d.io.library.assets.IAsset;
 import a3d.materials.MaterialBase;
 import a3d.materials.utils.DefaultMaterialManager;
+import flash.Vector;
 
 
 
@@ -23,7 +24,7 @@ import a3d.materials.utils.DefaultMaterialManager;
  * state. It consists out of SubMeshes, which in turn correspond to SubGeometries. SubMeshes allow different parts
  * of the geometry to be assigned different materials.
  */
-class Mesh extends Entity implements IMaterialOwner, IAsset
+class Mesh extends Entity implements IMaterialOwner implements IAsset
 {
 	private var _subMeshes:Vector<SubMesh>;
 	private var _geometry:Geometry;
@@ -98,11 +99,11 @@ class Mesh extends Entity implements IMaterialOwner, IAsset
 		material = null;
 		material = oldMaterial;
 
-		var len:UInt = _subMeshes.length;
+		var len:Int = _subMeshes.length;
 		var subMesh:SubMesh;
 
 		// reassign for each SubMesh
-		for (var i:Int = 0; i < len; ++i)
+		for (i in 0...len)
 		{
 			subMesh = _subMeshes[i];
 			oldMaterial = subMesh.material;
@@ -127,15 +128,13 @@ class Mesh extends Entity implements IMaterialOwner, IAsset
 
 	private inline function set_geometry(value:Geometry):Void
 	{
-		var i:UInt;
-
-		if (_geometry)
+		if (_geometry != null)
 		{
 			_geometry.removeEventListener(GeometryEvent.BOUNDS_INVALID, onGeometryBoundsInvalid);
 			_geometry.removeEventListener(GeometryEvent.SUB_GEOMETRY_ADDED, onSubGeometryAdded);
 			_geometry.removeEventListener(GeometryEvent.SUB_GEOMETRY_REMOVED, onSubGeometryRemoved);
 
-			for (i = 0; i < _subMeshes.length; ++i)
+			for (i in 0..._subMeshes.length)
 			{
 				_subMeshes[i].dispose();
 			}
@@ -143,19 +142,18 @@ class Mesh extends Entity implements IMaterialOwner, IAsset
 		}
 
 		_geometry = value;
-		if (_geometry)
+		if (_geometry != null)
 		{
 			_geometry.addEventListener(GeometryEvent.BOUNDS_INVALID, onGeometryBoundsInvalid);
 			_geometry.addEventListener(GeometryEvent.SUB_GEOMETRY_ADDED, onSubGeometryAdded);
 			_geometry.addEventListener(GeometryEvent.SUB_GEOMETRY_REMOVED, onSubGeometryRemoved);
 
 			var subGeoms:Vector<ISubGeometry> = _geometry.subGeometries;
-
-			for (i = 0; i < subGeoms.length; ++i)
+			for (i in 0...subGeoms.length)
 				addSubMesh(subGeoms[i]);
 		}
 
-		if (_material)
+		if (_material != null)
 		{
 			// reregister material in case geometry has a different animation
 			_material.removeOwner(this);
@@ -215,7 +213,7 @@ class Mesh extends Entity implements IMaterialOwner, IAsset
 	public function clearAnimationGeometry():Void
 	{
 		var len:Int = _subMeshes.length;
-		for (var i:Int = 0; i < len; ++i)
+		for (i in 0...len)
 		{
 			_subMeshes[i].animationSubGeometry = null;
 		}
@@ -277,18 +275,18 @@ class Mesh extends Entity implements IMaterialOwner, IAsset
 		clone.extra = this.extra;
 
 		var len:Int = _subMeshes.length;
-		for (var i:Int = 0; i < len; ++i)
+		for (i in 0...len)
 		{
 			clone._subMeshes[i].material = _subMeshes[i].material;
 		}
 
 		len = numChildren;
-		for (i = 0; i < len; ++i)
+		for (i in 0...len)
 		{
 			clone.addChild(ObjectContainer3D(getChildAt(i).clone()));
 		}
 
-		if (_animator)
+		if (_animator != null)
 		{
 			clone.animator = _animator.clone();
 		}
@@ -336,7 +334,7 @@ class Mesh extends Entity implements IMaterialOwner, IAsset
 		// rebuilt IN THE RENDER LOOP. Invalidating and waiting will delay
 		// it until the NEXT RENDER FRAME which is probably not desirable.
 
-		for (i = 0; i < len; ++i)
+		for (i in 0...len)
 		{
 			subMesh = _subMeshes[i];
 			if (subMesh.subGeometry == subGeom)
@@ -348,7 +346,7 @@ class Mesh extends Entity implements IMaterialOwner, IAsset
 		}
 
 		--len;
-		for (; i < len; ++i)
+		for (i in 0...len)
 		{
 			_subMeshes[i].index = i;
 		}
@@ -376,7 +374,7 @@ class Mesh extends Entity implements IMaterialOwner, IAsset
 		_pickingCollider.setLocalRay(pickingCollisionVO.localRayPosition, pickingCollisionVO.localRayDirection);
 		pickingCollisionVO.renderable = null;
 		var len:Int = _subMeshes.length;
-		for (var i:Int = 0; i < len; ++i)
+		for (i in 0...len)
 		{
 			var subMesh:SubMesh = _subMeshes[i];
 

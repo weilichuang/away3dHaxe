@@ -162,7 +162,7 @@ class ParticleColorNode extends ParticleNodeBase
 	 */
 	public function getAnimationState(animator:IAnimator):ParticleColorState
 	{
-		return animator.getAnimationState(this) as ParticleColorState;
+		return Std.instance(animator.getAnimationState(this),ParticleColorState);
 	}
 
 	/**

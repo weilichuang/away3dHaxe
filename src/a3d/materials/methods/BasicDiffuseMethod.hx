@@ -31,7 +31,7 @@ class BasicDiffuseMethod extends LightingMethodBase
 	}
 
 	private var _useTexture:Bool;
-	internal var _totalLightColorReg:ShaderRegisterElement;
+	private var _totalLightColorReg:ShaderRegisterElement;
 
 	// TODO: are these registers at all necessary to be members?
 	private var _diffuseInputRegister:ShaderRegisterElement;

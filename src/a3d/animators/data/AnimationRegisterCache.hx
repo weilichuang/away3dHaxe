@@ -1,4 +1,4 @@
-package a3d.animators.data
+package a3d.animators.data;
 
 import a3d.animators.nodes.AnimationNodeBase;
 import a3d.materials.compilation.ShaderRegisterCache;
@@ -72,7 +72,7 @@ class AnimationRegisterCache extends ShaderRegisterCache
 		scaleAndRotateTarget = getRegisterFromString(targetRegisters[0]);
 		addVertexTempUsages(scaleAndRotateTarget, 1);
 
-		for (var i:Int = 1; i < targetRegisters.length; i++)
+		for (i in 0...targetRegisters.length)
 		{
 			rotationRegisters.push(getRegisterFromString(targetRegisters[i]));
 			addVertexTempUsages(rotationRegisters[i - 1], 1);
@@ -137,7 +137,7 @@ class AnimationRegisterCache extends ShaderRegisterCache
 	{
 		var len:Int = sourceRegisters.length;
 		var code:String = "";
-		for (var i:Int = 0; i < len; i++)
+		for (i in 0...len)
 			code += "mov " + targetRegisters[i] + "," + sourceRegisters[i] + "\n";
 
 		code += "mov " + positionTarget + ".xyz," + vertexZeroConst.toString() + "\n";
@@ -203,7 +203,8 @@ class AnimationRegisterCache extends ShaderRegisterCache
 
 	private function getRegisterFromString(code:String):ShaderRegisterElement
 	{
-		var temp:Array = code.split(/(\d+)/);
+		var temp:Array<String> = ~/(\d+)/.split(code);
+		//var temp:Array = code.split();
 		return new ShaderRegisterElement(temp[0], temp[1]);
 	}
 
@@ -243,7 +244,7 @@ class AnimationRegisterCache extends ShaderRegisterCache
 	public function setVertexConstFromVector(index:Int, data:Vector<Float>):Void
 	{
 		var _index:Int = (index - _vertexConstantOffset) * 4;
-		for (var i:Int = 0; i < data.length; i++)
+		for (i in 0...data.length)
 		{
 			vertexConstantData[_index++] = data[i];
 		}

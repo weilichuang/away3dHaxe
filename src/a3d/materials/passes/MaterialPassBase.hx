@@ -21,6 +21,7 @@ import flash.events.Event;
 import flash.events.EventDispatcher;
 import flash.geom.Matrix3D;
 import flash.geom.Rectangle;
+import flash.Vector.Vector;
 
 
 /**
@@ -254,12 +255,12 @@ class MaterialPassBase extends EventDispatcher
 	 */
 	public function dispose():Void
 	{
-		if (_lightPicker)
+		if (_lightPicker != null)
 			_lightPicker.removeEventListener(Event.CHANGE, onLightsChange);
 
-		for (var i:UInt = 0; i < 8; ++i)
+		for (i in 0...8)
 		{
-			if (_program3Ds[i])
+			if (_program3Ds[i] != null)
 			{
 				AGALProgram3DCache.getInstanceFromIndex(i).freeProgram3D(_program3Dids[i]);
 				_program3Ds[i] = null;
@@ -388,17 +389,17 @@ class MaterialPassBase extends EventDispatcher
 
 		var prevUsed:Int = _previousUsedStreams[contextIndex];
 		var i:UInt;
-		for (i = _numUsedStreams; i < prevUsed; ++i)
+		for (i in _numUsedStreams...prevUsed)
 		{
 			context.setVertexBufferAt(i, null);
 		}
 
 		prevUsed = _previousUsedTexs[contextIndex];
 
-		for (i = _numUsedTextures; i < prevUsed; ++i)
+		for (i in _numUsedTextures...prevUsed)
 			context.setTextureAt(i, null);
 
-		if (_animationSet && !_animationSet.usesCPU)
+		if (_animationSet != null && !_animationSet.usesCPU)
 			_animationSet.activate(stage3DProxy, this);
 
 		context.setProgram(_program3Ds[contextIndex]);
@@ -445,10 +446,10 @@ class MaterialPassBase extends EventDispatcher
 	 */
 	public function invalidateShaderProgram(updateMaterial:Bool = true):Void
 	{
-		for (var i:UInt = 0; i < 8; ++i)
+		for (i in 0...8)
 			_program3Ds[i] = null;
 
-		if (_material && updateMaterial)
+		if (_material != null && updateMaterial)
 			_material.invalidatePasses(this);
 	}
 
@@ -478,7 +479,7 @@ class MaterialPassBase extends EventDispatcher
 
 			// simply write attributes to targets, do not animate them
 			// projection will pick up on targets[0] to do the projection
-			for (var i:UInt = 0; i < len; ++i)
+			for (i in 0...len)
 				animatorCode += "mov " + _animationTargetRegisters[i] + ", " + _animatableAttributes[i] + "\n";
 			if (_needUVAnimation)
 				UVAnimatorCode = "mov " + _UVTarget + "," + _UVSource + "\n";

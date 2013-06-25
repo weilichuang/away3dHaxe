@@ -2,6 +2,7 @@ package a3d.entities.lights.shadowmaps;
 
 import flash.display3D.textures.TextureBase;
 import flash.geom.Vector3D;
+import flash.Vector;
 
 
 import a3d.entities.Camera3D;
@@ -67,7 +68,7 @@ class CubeMapShadowMapper extends ShadowMapperBase
 		var pos:Vector3D = _light.scenePosition;
 
 		// todo: faces outside frustum which are pointing away from camera need not be rendered!
-		for (var i:UInt = 0; i < 6; ++i)
+		for (i in 0...6)
 		{
 			_lenses[i].far = maxDistance;
 			_depthCameras[i].position = pos;
@@ -77,7 +78,7 @@ class CubeMapShadowMapper extends ShadowMapperBase
 
 	override private function drawDepthMap(target:TextureBase, scene:Scene3D, renderer:DepthRenderer):Void
 	{
-		for (var i:UInt = 0; i < 6; ++i)
+		for (i in 0...6)
 		{
 			if (_needsRender[i])
 			{

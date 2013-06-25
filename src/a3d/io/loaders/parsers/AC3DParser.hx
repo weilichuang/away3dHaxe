@@ -97,7 +97,7 @@ class AC3DParser extends ParserBase
 		}
 		else
 		{
-			str = (data is String) ? String(data).substr(0, 4) : null;
+			str = Std.is(data,String) ? String(data).substr(0, 4) : null;
 		}
 
 		if (str == 'AC3D')
@@ -116,7 +116,7 @@ class AC3DParser extends ParserBase
 
 		if (resourceDependency.assets.length == 1)
 		{
-			asset = resourceDependency.assets[0] as Texture2DBase;
+			asset = Std.instance(resourceDependency.assets[0],Texture2DBase);
 			mesh = retrieveMeshFromID(resourceDependency.id);
 		}
 		if (mesh && asset)
@@ -590,9 +590,8 @@ class AC3DParser extends ParserBase
 		var gloss:Float = 0;
 		var alpha:Float = 0;
 
-		for (var i:UInt = 0; i < trunk.length; ++i)
+		for (i in 0...trunk.length)
 		{
-
 			if (trunk[i] == "")
 				continue;
 
@@ -666,10 +665,10 @@ class AC3DParser extends ParserBase
 
 	private function cleanUpBuffers():Void
 	{
-		for (var i:UInt = 0; i < _vertices.length; ++i)
+		for (i in 0..._vertices.length)
 			_vertices[i] = null;
 
-		for (i = 0; i < _uvs.length; ++i)
+		for (i  in 0..._uvs.length)
 			_uvs[i] = null;
 
 		_vertices = null;

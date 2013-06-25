@@ -62,7 +62,7 @@ class ParticlePositionNode extends ParticleNodeBase
 	 */
 	public function getAnimationState(animator:IAnimator):ParticlePositionState
 	{
-		return animator.getAnimationState(this) as ParticlePositionState;
+		return Std.instance(animator.getAnimationState(this),ParticlePositionState);
 	}
 
 	/**

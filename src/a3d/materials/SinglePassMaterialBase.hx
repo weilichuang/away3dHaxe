@@ -370,10 +370,10 @@ class SinglePassMaterialBase extends MaterialBase
 		if (_screenPass.passesDirty)
 		{
 			clearPasses();
-			if (_screenPass.passes)
+			if (_screenPass.passes != null)
 			{
 				var len:UInt = _screenPass.passes.length;
-				for (var i:UInt = 0; i < len; ++i)
+				for (i in 0...len)
 					addPass(_screenPass.passes[i]);
 			}
 

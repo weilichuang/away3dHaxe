@@ -246,7 +246,7 @@ class AWD2Parser extends ParserBase
 			var block:AWDBlock;
 			if (isCubeTextureArray.length == 1)
 			{
-				asset = resourceDependency.assets[0] as Texture2DBase;
+				asset = Std.instance(resourceDependency.assets[0],Texture2DBase);
 				if (asset)
 				{
 					var mat:TextureMaterial;
@@ -269,8 +269,8 @@ class AWD2Parser extends ParserBase
 			}
 			if (isCubeTextureArray.length > 1)
 			{
-				thisBitmapTexture = resourceDependency.assets[0] as BitmapTexture;
-				_cubeTextures[uint(isCubeTextureArray[1])] = BitmapTexture(thisBitmapTexture).bitmapData;
+				thisBitmapTexture = Std.instance(resourceDependency.assets[0],BitmapTexture);
+				_cubeTextures[isCubeTextureArray[1]] = BitmapTexture(thisBitmapTexture).bitmapData;
 				_texture_users[ressourceID].push(1);
 
 				if (_debug)
@@ -756,7 +756,7 @@ class AWD2Parser extends ParserBase
 			parseUserAttributes(); // Ignore sub-mesh attributes for now
 
 			sub_geoms = GeomUtil.fromVectors(verts, indices, uvs, normals, null, weights, w_indices);
-			for (i = 0; i < sub_geoms.length; i++)
+			for (i in 0...sub_geoms.length)
 			{
 				geom.addSubGeometry(sub_geoms[i]);
 					// TODO: Somehow map in-sub to out-sub indices to enable look-up
@@ -899,7 +899,7 @@ class AWD2Parser extends ParserBase
 		var returnedArrayGeometry:Array = getAssetByID(data_id, [AssetType.GEOMETRY])
 		if (returnedArrayGeometry[0])
 		{
-			geom = returnedArrayGeometry[1] as Geometry;
+			geom = Std.instance(returnedArrayGeometry[1],Geometry);
 		}
 		else
 		{
@@ -920,7 +920,7 @@ class AWD2Parser extends ParserBase
 			returnedArrayMaterial = getAssetByID(mat_id, [AssetType.MATERIAL])
 			if ((!returnedArrayMaterial[0]) && (mat_id > 0))
 				_blocks[blockID].addError("Could not find Material Nr " + materials_parsed + " (ID = " + mat_id + " ) for this Mesh");
-			materials.push(returnedArrayMaterial[1] as MaterialBase);
+			materials.push(Std.instance(returnedArrayMaterial[1],MaterialBase));
 			materialNames.push(MaterialBase(returnedArrayMaterial[1]).name);
 
 			materials_parsed++;
@@ -948,7 +948,7 @@ class AWD2Parser extends ParserBase
 			var i:UInt;
 			// Assign each sub-mesh in the mesh a material from the list. If more sub-meshes
 			// than materials, repeat the last material for all remaining sub-meshes.
-			for (i = 0; i < mesh.subMeshes.length; i++)
+			for (i in 0...mesh.subMeshes.length)
 			{
 				mesh.subMeshes[i].material = materials[Math.min(materials.length - 1, i)];
 			}
@@ -983,7 +983,7 @@ class AWD2Parser extends ParserBase
 		var returnedArrayCubeTex:Array = getAssetByID(cubeTexAddr, [AssetType.TEXTURE], "CubeTexture");
 		if ((!returnedArrayCubeTex[0]) && (cubeTexAddr != 0))
 			_blocks[blockID].addError("Could not find the Cubetexture (ID = " + cubeTexAddr + " ) for this SkyBox");
-		var asset:SkyBox = new SkyBox(returnedArrayCubeTex[1] as BitmapCubeTexture);
+		var asset:SkyBox = new SkyBox(Std.instance(returnedArrayCubeTex[1],BitmapCubeTexture));
 
 		parseProperties(null)
 		asset.extra = parseUserAttributes();
@@ -1042,7 +1042,7 @@ class AWD2Parser extends ParserBase
 		// if a shadowMapper has been created, adjust the depthMapSize if needed, assign to light and set castShadows to true
 		if (newShadowMapper)
 		{
-			if (newShadowMapper is CubeMapShadowMapper)
+			if (Std.is(newShadowMapper,CubeMapShadowMapper))
 			{
 				if (props.get(10, 1) != 1)
 					newShadowMapper.depthMapSize = _depthSizeDic[props.get(10, 1)];
@@ -1174,7 +1174,7 @@ class AWD2Parser extends ParserBase
 			returnedArrayLight = getAssetByID(lightID, [AssetType.LIGHT])
 			if (returnedArrayLight[0])
 			{
-				lightsArray.push(returnedArrayLight[1] as LightBase);
+				lightsArray.push(Std.instance(returnedArrayLight[1],LightBase));
 				lightsArrayNames.push(LightBase(returnedArrayLight[1]).name);
 			}
 			else
@@ -1384,7 +1384,7 @@ class AWD2Parser extends ParserBase
 				_blocks[blockID].addError("Could not find the LightPicker (ID = " + lightPickerAddr + " ) for this TextureMaterial");
 			else
 			{
-				MaterialBase(mat).lightPicker = returnedArray[1] as LightPickerBase;
+				MaterialBase(mat).lightPicker = Std.instance(returnedArray[1],LightPickerBase);
 					//debugString+=" | Lightpicker-Name = "+LightPickerBase(returnedArray[1]).name; 
 			}
 
@@ -1820,7 +1820,7 @@ class AWD2Parser extends ParserBase
 			_blocks[blockID].addError("Could not find the TargetLight (ID = " + shadowLightID + " ) for this ShadowMethod - ShadowMethod not created");
 			return;
 		}
-		asset = parseShadowMethodList(returnedArray[1] as LightBase, blockID);
+		asset = parseShadowMethodList(Std.instance(returnedArray[1],LightBase), blockID);
 		if (!asset)
 		{
 			return;
@@ -1985,7 +1985,7 @@ class AWD2Parser extends ParserBase
 			if (!returnedArray[0])
 				_blocks[blockID].addError("Could not find the SkeletonPose Frame # " + frames_parsed + " (ID = " + pose_addr + " ) for this SkeletonClipNode");
 			else
-				clip.addFrame(_blocks[pose_addr].data as SkeletonPose, frame_dur);
+				clip.addFrame(Std.instance(_blocks[pose_addr].data,SkeletonPose), frame_dur);
 			frames_parsed++;
 		}
 		if (clip.frames.length == 0)
@@ -2128,9 +2128,9 @@ class AWD2Parser extends ParserBase
 			}
 			else
 			{
-				if (returnedArray[1] is VertexClipNode)
+				if (Std.is(returnedArray[1] , VertexClipNode))
 					vertexFrames.push(returnedArray[1])
-				if (returnedArray[1] is SkeletonClipNode)
+				if (Std.is(returnedArray[1], SkeletonClipNode))
 					skeletonFrames.push(returnedArray[1])
 			}
 			frames_parsed++;
@@ -2230,7 +2230,7 @@ class AWD2Parser extends ParserBase
 		{
 			returnedArray = getAssetByID(meshAdresses[i], [AssetType.MESH]);
 			if (returnedArray[0])
-				targetMeshes.push(returnedArray[1] as Mesh);
+				targetMeshes.push(Std.instance(returnedArray[1],Mesh));
 		}
 		returnedArray = getAssetByID(animSetBlockAdress, [AssetType.ANIMATION_SET]);
 		if (!returnedArray[0])
@@ -2239,7 +2239,7 @@ class AWD2Parser extends ParserBase
 			;
 			return
 		}
-		targetAnimationSet = returnedArray[1] as AnimationSetBase;
+		targetAnimationSet = Std.instance(returnedArray[1],AnimationSetBase);
 		var thisAnimator:AnimatorBase;
 		if (type == 1)
 		{
@@ -2250,12 +2250,12 @@ class AWD2Parser extends ParserBase
 				_blocks[blockID].addError("Could not find the Skeleton ( " + props.get(1, 0) + " ) for this Animator");
 				return
 			}
-			thisAnimator = new SkeletonAnimator(targetAnimationSet as SkeletonAnimationSet, returnedArray[1] as Skeleton);
+			thisAnimator = new SkeletonAnimator(Std.instance(targetAnimationSet,SkeletonAnimationSet), Std.instance(returnedArray[1],Skeleton));
 
 		}
 		else if (type == 2)
 		{
-			thisAnimator = new VertexAnimator(targetAnimationSet as VertexAnimationSet);
+			thisAnimator = new VertexAnimator(Std.instance(targetAnimationSet,VertexAnimationSet));
 		}
 
 		finalizeAsset(thisAnimator, name);
@@ -2345,7 +2345,7 @@ class AWD2Parser extends ParserBase
 // Helper - functions
 	private function getUVForVertexAnimation(meshID:UInt):Vector<Vector<Number>>
 	{
-		if (_blocks[meshID].data is Mesh)
+		if (Std.is(_blocks[meshID].data,Mesh))
 		{
 			meshID = _blocks[meshID].geoID;
 		}
@@ -2584,7 +2584,7 @@ class AWD2Parser extends ParserBase
 							//if the right assetType was found 
 							if ((assetTypesToGet[typeCnt] == AssetType.TEXTURE) && (extraTypeInfo == "CubeTexture"))
 							{
-								if (_blocks[assetID].data is BitmapCubeTexture)
+								if (Std.is(_blocks[assetID].data,BitmapCubeTexture))
 								{
 									returnArray.push(true);
 									returnArray.push(_blocks[assetID].data);
@@ -2593,7 +2593,7 @@ class AWD2Parser extends ParserBase
 							}
 							if ((assetTypesToGet[typeCnt] == AssetType.TEXTURE) && (extraTypeInfo == "SingleTexture"))
 							{
-								if (_blocks[assetID].data is BitmapTexture)
+								if (Std.is(_blocks[assetID].data,BitmapTexture))
 								{
 									returnArray.push(true);
 									returnArray.push(_blocks[assetID].data);

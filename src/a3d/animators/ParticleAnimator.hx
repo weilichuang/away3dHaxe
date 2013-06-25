@@ -51,7 +51,7 @@ class ParticleAnimator extends AnimatorBase implements IAnimator
 		var node:ParticleNodeBase;
 		for each (node in _particleAnimationSet.particleNodes)
 		{
-			state = getAnimationState(node) as ParticleStateBase;
+			state = Std.instance(getAnimationState(node),ParticleStateBase);
 			if (node.mode == ParticlePropertiesMode.LOCAL_DYNAMIC)
 			{
 				_animatorParticleStates.push(state);
@@ -82,7 +82,7 @@ class ParticleAnimator extends AnimatorBase implements IAnimator
 	{
 		var animationRegisterCache:AnimationRegisterCache = _particleAnimationSet.animationRegisterCache;
 
-		var subMesh:SubMesh = renderable as SubMesh;
+		var subMesh:SubMesh = Std.instance(renderable,SubMesh);
 		var state:ParticleStateBase;
 
 		if (subMesh == null)

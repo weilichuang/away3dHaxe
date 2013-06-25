@@ -1,6 +1,7 @@
 package a3d.entities;
 
 import flash.events.EventDispatcher;
+import flash.Vector;
 
 import a3d.core.partition.NodeBase;
 import a3d.core.partition.Partition3D;

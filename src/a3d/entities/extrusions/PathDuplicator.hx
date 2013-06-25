@@ -160,17 +160,16 @@ class PathDuplicator
 	{
 		if (destroyCachedMeshes)
 		{
-			var i:UInt = 0;
-			if (meshes)
+			if (meshes != null)
 			{
-				for (i = 0; i < meshes.length; ++i)
+				for (i in 0...meshes.length)
 				{
 					meshes[i] = null;
 				}
 			}
-			if (_clones)
+			if (_clones != null)
 			{
-				for (i; i < _clones.length; ++i)
+				for (i in 0..._clones.length)
 				{
 					_clones[i] = null;
 				}
@@ -304,7 +303,7 @@ class PathDuplicator
 
 	private function generate(m:Mesh, position:Vector3D):Void
 	{
-		var clone:Mesh = m.clone() as Mesh;
+		var clone:Mesh = Std.instance(m.clone(),Mesh);
 
 		if (_alignToPath)
 			clone.transform = _transform;

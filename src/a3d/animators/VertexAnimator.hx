@@ -79,7 +79,7 @@ class VertexAnimator extends AnimatorBase implements IAnimator
 			_activeState.positionDelta;
 		}
 
-		_activeVertexState = _activeState as IVertexAnimationState;
+		_activeVertexState = Std.instance(_activeState,IVertexAnimationState);
 
 		start();
 

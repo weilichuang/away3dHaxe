@@ -47,7 +47,7 @@ class StaticLightPicker extends LightPickerBase
 		{
 			light = value[i];
 			light.addEventListener(LightEvent.CASTS_SHADOW_CHANGE, onCastShadowChange);
-			if (light is PointLight)
+			if (Std.is(light,PointLight))
 			{
 				if (light.castsShadows)
 					_castingPointLights[numCastingPointLights++] = PointLight(light);
@@ -55,14 +55,14 @@ class StaticLightPicker extends LightPickerBase
 					_pointLights[numPointLights++] = PointLight(light);
 
 			}
-			else if (light is DirectionalLight)
+			else if (Std.is(light,DirectionalLight))
 			{
 				if (light.castsShadows)
 					_castingDirectionalLights[numCastingDirectionalLights++] = DirectionalLight(light);
 				else
 					_directionalLights[numDirectionalLights++] = DirectionalLight(light);
 			}
-			else if (light is LightProbe)
+			else if (Std.is(light,LightProbe))
 				_lightProbes[numLightProbes++] = LightProbe(light);
 		}
 
@@ -97,10 +97,10 @@ class StaticLightPicker extends LightPickerBase
 
 		var light:LightBase = LightBase(event.target);
 
-		if (light is PointLight)
-			updatePointCasting(light as PointLight);
-		else if (light is DirectionalLight)
-			updateDirectionalCasting(light as DirectionalLight);
+		if (Std.is(light,PointLight))
+			updatePointCasting(Std.instance(light,PointLight));
+		else if (Std.is(light,DirectionalLight))
+			updateDirectionalCasting(Std.instance(light,DirectionalLight));
 
 		dispatchEvent(new Event(Event.CHANGE));
 	}
@@ -111,14 +111,14 @@ class StaticLightPicker extends LightPickerBase
 		{
 			--_numDirectionalLights;
 			++_numCastingDirectionalLights;
-			_directionalLights.splice(_directionalLights.indexOf(light as DirectionalLight), 1);
+			_directionalLights.splice(_directionalLights.indexOf(light), 1);
 			_castingDirectionalLights.push(light);
 		}
 		else
 		{
 			++_numDirectionalLights;
 			--_numCastingDirectionalLights;
-			_castingDirectionalLights.splice(_castingDirectionalLights.indexOf(light as DirectionalLight), 1);
+			_castingDirectionalLights.splice(_castingDirectionalLights.indexOf(light), 1);
 			_directionalLights.push(light);
 		}
 	}
@@ -129,14 +129,14 @@ class StaticLightPicker extends LightPickerBase
 		{
 			--_numPointLights;
 			++_numCastingPointLights;
-			_pointLights.splice(_pointLights.indexOf(light as PointLight), 1);
+			_pointLights.splice(_pointLights.indexOf(light), 1);
 			_castingPointLights.push(light);
 		}
 		else
 		{
 			++_numPointLights;
 			--_numCastingPointLights;
-			_castingPointLights.splice(_castingPointLights.indexOf(light as PointLight), 1);
+			_castingPointLights.splice(_castingPointLights.indexOf(light), 1);
 			_pointLights.push(light);
 		}
 	}

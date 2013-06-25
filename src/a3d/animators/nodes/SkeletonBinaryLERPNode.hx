@@ -31,6 +31,6 @@ class SkeletonBinaryLERPNode extends AnimationNodeBase
 	 */
 	public function getAnimationState(animator:IAnimator):SkeletonBinaryLERPState
 	{
-		return animator.getAnimationState(this) as SkeletonBinaryLERPState;
+		return Std.instance(animator.getAnimationState(this),SkeletonBinaryLERPState);
 	}
 }

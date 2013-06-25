@@ -143,7 +143,7 @@ class ParticleUVNode extends ParticleNodeBase
 	 */
 	public function getAnimationState(animator:IAnimator):ParticleUVState
 	{
-		return animator.getAnimationState(this) as ParticleUVState;
+		return Std.instance(animator.getAnimationState(this),ParticleUVState);
 	}
 
 	private function updateUVData():Void

@@ -100,7 +100,7 @@ class ParticleTimeNode extends ParticleNodeBase
 	 */
 	public function getAnimationState(animator:IAnimator):ParticleTimeState
 	{
-		return animator.getAnimationState(this) as ParticleTimeState;
+		return Std.instance(animator.getAnimationState(this),ParticleTimeState);
 	}
 
 	/**

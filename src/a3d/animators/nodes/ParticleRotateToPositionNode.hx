@@ -93,7 +93,7 @@ class ParticleRotateToPositionNode extends ParticleNodeBase
 			code += "mov " + temp3 + "," + animationRegisterCache.vertexZeroConst + "\n";
 			code += "mov " + temp3 + ".z," + animationRegisterCache.vertexOneConst + "\n";
 			code += "m33 " + animationRegisterCache.scaleAndRotateTarget + ".xyz," + animationRegisterCache.scaleAndRotateTarget + ".xyz," + temp1 + "\n";
-			for (i = 0; i < len; i++)
+			for (i in 0...len)
 			{
 				code += "m33 " + animationRegisterCache.rotationRegisters[i] + ".xyz," + animationRegisterCache.rotationRegisters[i] + "," + temp1 + "\n";
 			}
@@ -167,7 +167,7 @@ class ParticleRotateToPositionNode extends ParticleNodeBase
 			code += "sub " + animationRegisterCache.scaleAndRotateTarget + ".x," + R + ".x," + R + ".y\n";
 			code += "add " + animationRegisterCache.scaleAndRotateTarget + ".z," + R + ".z," + R + ".w\n";
 
-			for (i = 0; i < len; i++)
+			for (i in 0...len)
 			{
 				//just repeat the calculate above
 				//because of the limited registers, no need to optimise
@@ -214,7 +214,7 @@ class ParticleRotateToPositionNode extends ParticleNodeBase
 	 */
 	public function getAnimationState(animator:IAnimator):ParticleRotateToPositionState
 	{
-		return animator.getAnimationState(this) as ParticleRotateToPositionState;
+		return Std.instance(animator.getAnimationState(this),ParticleRotateToPositionState);
 	}
 
 	/**

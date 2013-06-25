@@ -83,7 +83,7 @@ class ParticleOscillatorNode extends ParticleNodeBase
 	 */
 	public function getAnimationState(animator:IAnimator):ParticleOscillatorState
 	{
-		return animator.getAnimationState(this) as ParticleOscillatorState;
+		return Std.instance(animator.getAnimationState(this),ParticleOscillatorState);
 	}
 
 	/**

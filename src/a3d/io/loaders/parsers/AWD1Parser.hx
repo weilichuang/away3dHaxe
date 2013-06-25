@@ -87,8 +87,8 @@ class AWD1Parser extends ParserBase
 		}
 		else
 		{
-			str1 = (data is String) ? String(data).substr(0, 5) : null;
-			str2 = (data is String) ? String(data).substr(0, 100) : null;
+			str1 = Std.is(data,String) ? String(data).substr(0, 5) : null;
+			str2 = Std.is(data,String) ? String(data).substr(0, 100) : null;
 		}
 		if ((str1 == '//') && (str2.indexOf("#v:") != -1))
 			return true;
@@ -104,7 +104,7 @@ class AWD1Parser extends ParserBase
 		if (resourceDependency.assets.length != 1)
 			return;
 
-		var asset:Texture2DBase = resourceDependency.assets[0] as Texture2DBase;
+		var asset:Texture2DBase = Std.instance(resourceDependency.assets[0],Texture2DBase);
 		var m:Mesh = retrieveMeshFromID(resourceDependency.id);
 
 		if (m && asset)
@@ -189,7 +189,7 @@ class AWD1Parser extends ParserBase
 					line.substring(3, line.length - 1);
 
 				if (_state == "#f")
-					_isMaterial = (parseInt(line.substring(3, 4)) == 2) as Boolean;
+					_isMaterial = Std.instance((Std.parseInt(line.substring(3, 4)) == 2),Bool);
 
 				if (_state == "#t")
 					_isMesh = (line.substring(3, 7) == "mesh");

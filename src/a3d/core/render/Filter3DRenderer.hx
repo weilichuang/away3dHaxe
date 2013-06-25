@@ -6,6 +6,7 @@ import flash.display3D.IndexBuffer3D;
 import flash.display3D.VertexBuffer3D;
 import flash.display3D.textures.Texture;
 import flash.events.Event;
+import flash.Vector;
 
 import a3d.entities.Camera3D;
 import a3d.core.managers.RTTBufferManager;
@@ -15,7 +16,7 @@ import a3d.filters.tasks.Filter3DTaskBase;
 
 class Filter3DRenderer
 {
-	private var _filters:Array;
+	private var _filters:Array<Filter3DBase>;
 	private var _tasks:Vector<Filter3DTaskBase>;
 	private var _filterTasksInvalid:Bool;
 	private var _mainInputTexture:Texture;
@@ -50,12 +51,12 @@ class Filter3DRenderer
 		return _mainInputTexture;
 	}
 
-	private inline function get_filters():Array
+	private inline function get_filters():Array<Filter3DBase>
 	{
 		return _filters;
 	}
 
-	private inline function set_filters(value:Array):Void
+	private inline function set_filters(value:Array<Filter3DBase>):Array<Filter3DBase>
 	{
 		_filters = value;
 		_filterTasksInvalid = true;
@@ -66,11 +67,14 @@ class Filter3DRenderer
 
 		for (i in 0..._filters.length)
 		{
-			_requireDepthRender ||= _filters[i].requireDepthRender;
+			if(_filters[i].requireDepthRender)
+				_requireDepthRender = true;
 		}
 
 
 		_filterSizesInvalid = true;
+		
+		return _filters;
 	}
 
 	private function updateFilterTasks(stage3DProxy:Stage3DProxy):Void
@@ -91,8 +95,7 @@ class Filter3DRenderer
 		len = _filters.length - 1;
 
 		var filter:Filter3DBase;
-
-		for (var i:UInt = 0; i <= len; ++i)
+		for (i in 0...len + 1)
 		{
 			// make sure all internal tasks are linked together
 			filter = _filters[i];
@@ -120,7 +123,7 @@ class Filter3DRenderer
 			updateFilterTasks(stage3DProxy);
 
 		len = _filters.length;
-		for (i = 0; i < len; ++i)
+		for (i in 0...len)
 			_filters[i].update(stage3DProxy, camera3D);
 
 		len = _tasks.length;
@@ -131,7 +134,7 @@ class Filter3DRenderer
 			context.setVertexBufferAt(1, vertexBuffer, 2, Context3DVertexBufferFormat.FLOAT_2);
 		}
 
-		for (i = 0; i < len; ++i)
+		for (i in 0...len)
 		{
 			task = _tasks[i];
 			stage3DProxy.setRenderTarget(task.target);
@@ -158,7 +161,7 @@ class Filter3DRenderer
 
 	private function updateFilterSizes():Void
 	{
-		for (var i:Int = 0; i < _filters.length; ++i)
+		for (i in 0..._filters.length)
 		{
 			_filters[i].textureWidth = _rttManager.textureWidth;
 			_filters[i].textureHeight = _rttManager.textureHeight;

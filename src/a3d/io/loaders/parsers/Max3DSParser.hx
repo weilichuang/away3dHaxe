@@ -85,7 +85,7 @@ class Max3DSParser extends ParserBase
 				var tex:TextureVO;
 
 				tex = _textures[resourceDependency.id];
-				tex.texture = asset as Texture2DBase;
+				tex.texture = Std.instance(asset,Texture2DBase);
 			}
 		}
 	}

@@ -29,9 +29,9 @@ class CascadeShadowMapMethod extends ShadowMapMethodBase
 	{
 		super(shadowMethodBase.castingLight);
 		_baseMethod = shadowMethodBase;
-		if (!(_castingLight is DirectionalLight))
+		if (!Std.is(_castingLight,DirectionalLight))
 			throw new Error("CascadeShadowMapMethod is only compatible with DirectionalLight");
-		_cascadeShadowMapper = _castingLight.shadowMapper as CascadeShadowMapper;
+		_cascadeShadowMapper = Std.instance(_castingLight.shadowMapper,CascadeShadowMapper);
 
 		if (!_cascadeShadowMapper)
 			throw new Error("NearShadowMapMethod requires a light that has a CascadeShadowMapper instance assigned to shadowMapper.");

@@ -153,12 +153,12 @@
 		{
 			if (event.asset.assetType == AssetType.MESH)
 			{
-				var mesh:Mesh = event.asset as Mesh;
+				var mesh:Mesh = Std.instance(event.asset,Mesh);
 				mesh.castsShadows = true;
 			}
 			else if (event.asset.assetType == AssetType.MATERIAL)
 			{
-				var material:TextureMaterial = event.asset as TextureMaterial;
+				var material:TextureMaterial = Std.instance(event.asset,TextureMaterial);
 				material.shadowMethod = new FilteredShadowMapMethod(_light);
 				material.lightPicker = _lightPicker;
 				material.gloss = 30;

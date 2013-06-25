@@ -87,16 +87,16 @@ class QuadraticPath extends SegmentedPathBase implements IPath
 		var tmp:Vector<Vector3D> = new Vector<Vector3D>();
 		var i:UInt;
 
-		var seg:QuadraticPathSegment = _segments[0] as QuadraticPathSegment;
-		var segnext:QuadraticPathSegment = _segments[_segments.length - 1] as QuadraticPathSegment;
+		var seg:QuadraticPathSegment = Std.instance(_segments[0],QuadraticPathSegment);
+		var segnext:QuadraticPathSegment = Std.instance(_segments[_segments.length - 1],QuadraticPathSegment);
 
 		var startseg:Vector3D = new Vector3D(seg.start.x, seg.start.y, seg.start.z);
 		var endseg:Vector3D = new Vector3D(segnext.end.x, segnext.end.y, segnext.end.z);
 
 		for (i = 0; i < numSegments - 1; ++i)
 		{
-			seg = _segments[i] as QuadraticPathSegment;
-			segnext = _segments[i + 1] as QuadraticPathSegment;
+			seg = Std.instance(_segments[i],QuadraticPathSegment);
+			segnext = Std.instance(_segments[i + 1],QuadraticPathSegment);
 
 			if (seg.control == null)
 				seg.control = seg.end;
@@ -137,9 +137,9 @@ class QuadraticPath extends SegmentedPathBase implements IPath
 
 		var seg:QuadraticPathSegment;
 
-		for (var i:UInt = 0; i < _segments.length; ++i)
+		for (i in 0..._segments.length)
 		{
-			seg = _segments[i] as QuadraticPathSegment;
+			seg = Std.instance(_segments[i],QuadraticPathSegment);
 			seg.control.x = (seg.start.x + seg.end.x) * .5;
 			seg.control.y = (seg.start.y + seg.end.y) * .5;
 			seg.control.z = (seg.start.z + seg.end.z) * .5;

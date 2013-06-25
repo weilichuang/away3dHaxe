@@ -8,6 +8,7 @@ import flash.display3D.Context3DProgramType;
 import flash.display3D.Program3D;
 import flash.utils.ByteArray;
 import flash.Vector;
+import haxe.ds.StringMap;
 
 class AGALProgram3DCache
 {
@@ -15,7 +16,7 @@ class AGALProgram3DCache
 
 	private var _stage3DProxy:Stage3DProxy;
 
-	private var _program3Ds:Array<Program3D>;
+	private var _program3Ds:StringMap<Program3D>;
 	private var _ids:Array<String>;
 	private var _usages:Array<Int>;
 	private var _keys:Array<String>;
@@ -27,7 +28,7 @@ class AGALProgram3DCache
 	{
 		_stage3DProxy = stage3DProxy;
 
-		_program3Ds = [];
+		_program3Ds = new StringMap();
 		_ids = [];
 		_usages = [];
 		_keys = [];
@@ -71,7 +72,8 @@ class AGALProgram3DCache
 
 	public function dispose():Void
 	{
-		for (var key:String in _program3Ds)
+		var keys:Iterator<String> = _program3Ds.keys();
+		for (key in keys)
 			destroyProgram(key);
 
 		_keys = null;
@@ -85,7 +87,7 @@ class AGALProgram3DCache
 		var program:Program3D;
 		var key:String = getKey(vertexCode, fragmentCode);
 
-		if (_program3Ds[key] == null)
+		if (!_program3Ds.exits(key))
 		{
 			_keys[_currentId] = key;
 			_usages[_currentId] = 0;
@@ -98,7 +100,7 @@ class AGALProgram3DCache
 
 			program.upload(vertexByteCode, fragmentByteCode);
 
-			_program3Ds[key] = program;
+			_program3Ds.set(key, program);
 		}
 
 		var oldId:Int = pass.getProgram3Did(stageIndex);
@@ -124,9 +126,8 @@ class AGALProgram3DCache
 
 	private function destroyProgram(key:String):Void
 	{
-		_program3Ds[key].dispose();
-		_program3Ds[key] = null;
-		delete _program3Ds[key];
+		_program3Ds.get(key).dispose();
+		_program3Ds.remove(key);
 		_ids[key] = -1;
 	}
 

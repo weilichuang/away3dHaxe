@@ -103,7 +103,7 @@ class Mirror
 
 		// Collect ctr (if it's a mesh) and all it's
 		// mesh children to a flat list.
-		if (newObjectContainer is Mesh)
+		if (Std.is(newObjectContainer,Mesh))
 			meshes.push(Mesh(newObjectContainer));
 
 		collectMeshChildren(newObjectContainer, meshes);
@@ -154,7 +154,7 @@ class Mirror
 		// mesh children to a flat list.
 		var meshes:Vector<Mesh> = new Vector<Mesh>();
 
-		if (ctr is Mesh)
+		if (Std.is(ctr,Mesh))
 			meshes.push(Mesh(ctr));
 
 		collectMeshChildren(ctr, meshes);
@@ -425,7 +425,7 @@ class Mirror
 		for (var i:UInt = 0; i < ctr.numChildren; i++)
 		{
 			var child:ObjectContainer3D = ctr.getChildAt(i);
-			if (child is Mesh)
+			if (Std.is(child,Mesh))
 				meshes.push(Mesh(child));
 
 			collectMeshChildren(child, meshes);

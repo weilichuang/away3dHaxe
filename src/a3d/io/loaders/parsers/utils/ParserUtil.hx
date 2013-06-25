@@ -6,10 +6,10 @@ class ParserUtil
 {
 	public static function toByteArray(data:*):ByteArray
 	{
-		if (data is Class)
+		if (Std.is(data,Class))
 			data = new data();
 
-		if (data is ByteArray)
+		if (Std.is(data,ByteArray))
 			return data;
 		else
 			return null;
@@ -21,7 +21,7 @@ class ParserUtil
 
 		length ||= uint.MAX_VALUE;
 
-		if (data is String)
+		if (Std.is(data,String))
 			return String(data).substr(0, length);
 
 		ba = toByteArray(data);

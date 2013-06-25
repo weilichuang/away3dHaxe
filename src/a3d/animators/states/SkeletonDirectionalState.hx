@@ -55,10 +55,10 @@ class SkeletonDirectionalState extends AnimationStateBase implements ISkeletonAn
 
 		_skeletonAnimationNode = skeletonAnimationNode;
 
-		_forward = animator.getAnimationState(_skeletonAnimationNode.forward) as ISkeletonAnimationState;
-		_backward = animator.getAnimationState(_skeletonAnimationNode.backward) as ISkeletonAnimationState;
-		_left = animator.getAnimationState(_skeletonAnimationNode.left) as ISkeletonAnimationState;
-		_right = animator.getAnimationState(_skeletonAnimationNode.right) as ISkeletonAnimationState;
+		_forward = Std.instance(animator.getAnimationState(_skeletonAnimationNode.forward),ISkeletonAnimationState);
+		_backward = Std.instance(animator.getAnimationState(_skeletonAnimationNode.backward),ISkeletonAnimationState);
+		_left = Std.instance(animator.getAnimationState(_skeletonAnimationNode.left),ISkeletonAnimationState);
+		_right = Std.instance(animator.getAnimationState(_skeletonAnimationNode.right),ISkeletonAnimationState);
 	}
 
 	/**
@@ -147,7 +147,7 @@ class SkeletonDirectionalState extends AnimationStateBase implements ISkeletonAn
 		if (endPoses.length != numJoints)
 			endPoses.length = numJoints;
 
-		for (var i:UInt = 0; i < numJoints; ++i)
+		for (i in 0...numJoints)
 		{
 			if (endPoses[i] == null)
 				endPoses[i] = new JointPose();

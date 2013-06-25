@@ -22,12 +22,14 @@ class BasicAmbientMethod extends ShadingMethodBase
 
 	private var _ambientInputRegister:ShaderRegisterElement;
 
-	private var _ambientColor:UInt = 0xffffff;
-	private var _ambientR:Float = 0, _ambientG:Float = 0, _ambientB:Float = 0;
-	private var _ambient:Float = 1;
-	public var lightAmbientR:Float = 0;
-	public var lightAmbientG:Float = 0;
-	public var lightAmbientB:Float = 0;
+	private var _ambientColor:UInt;
+	private var _ambientR:Float; 
+	private var _ambientG:Float; 
+	private var _ambientB:Float;
+	private var _ambient:Float;
+	public var lightAmbientR:Float;
+	public var lightAmbientG:Float;
+	public var lightAmbientB:Float;
 
 
 	/**
@@ -36,6 +38,15 @@ class BasicAmbientMethod extends ShadingMethodBase
 	public function new()
 	{
 		super();
+		
+		_ambientColor = 0xffffff;
+		_ambientR = 0; 
+		_ambientG = 0; 
+		_ambientB = 0;
+		_ambient = 1;
+		lightAmbientR = 0;
+		lightAmbientG = 0;
+		lightAmbientB = 0;
 	}
 
 	override public function initVO(vo:MethodVO):Void

@@ -1,6 +1,7 @@
 package a3d.filters;
 
 import flash.display3D.textures.Texture;
+import flash.Vector;
 
 import a3d.entities.Camera3D;
 import a3d.core.managers.Stage3DProxy;
@@ -18,6 +19,7 @@ class Filter3DBase
 		_tasks = new Vector<Filter3DTaskBase>();
 	}
 
+	public var requireDepthRender(get, null):Bool;
 	private inline function get_requireDepthRender():Bool
 	{
 		return _requireDepthRender;
@@ -26,9 +28,11 @@ class Filter3DBase
 	private function addTask(filter:Filter3DTaskBase):Void
 	{
 		_tasks.push(filter);
-		_requireDepthRender ||= filter.requireDepthRender;
+		if(filter.requireDepthRender)
+			_requireDepthRender = filter.requireDepthRender;
 	}
 
+	public var tasks(get, null):Vector<Filter3DTaskBase>;
 	private inline function get_tasks():Vector<Filter3DTaskBase>
 	{
 		return _tasks;
@@ -38,30 +42,32 @@ class Filter3DBase
 	{
 		return _tasks[0].getMainInputTexture(stage3DProxy);
 	}
-
+	
+	public var textureWidth(get, set):Int;
 	private inline function get_textureWidth():Int
 	{
 		return _textureWidth;
 	}
 
-	private inline function set_textureWidth(value:Int):Void
+	private inline function set_textureWidth(value:Int):Int
 	{
-		_textureWidth = value;
-
-		for (var i:Int = 0; i < _tasks.length; ++i)
+		for (i in 0..._tasks.length)
 			_tasks[i].textureWidth = value;
+			
+		return _textureWidth = value;
 	}
 
+	public var textureHeight(get, set):Int;
 	private inline function get_textureHeight():Int
 	{
 		return _textureHeight;
 	}
 
-	private inline function set_textureHeight(value:Int):Void
+	private inline function set_textureHeight(value:Int):Int
 	{
-		_textureHeight = value;
-		for (var i:Int = 0; i < _tasks.length; ++i)
+		for (i in 0..._tasks.length)
 			_tasks[i].textureHeight = value;
+		return _textureHeight = value;
 	}
 
 	// link up the filters correctly with the next filter
@@ -72,8 +78,9 @@ class Filter3DBase
 
 	public function dispose():Void
 	{
-		for (var i:Int = 0; i < _tasks.length; ++i)
+		for (i in 0..._tasks.length)
 			_tasks[i].dispose();
+		_tasks.length = 0;
 	}
 
 	public function update(stage:Stage3DProxy, camera:Camera3D):Void

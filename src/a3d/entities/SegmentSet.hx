@@ -8,6 +8,8 @@ import flash.geom.Matrix;
 import flash.geom.Matrix3D;
 import flash.geom.Vector3D;
 import flash.utils.Dictionary;
+import flash.Vector;
+import haxe.ds.IntMap.IntMap;
 
 
 import a3d.animators.IAnimator;
@@ -26,7 +28,7 @@ import a3d.entities.primitives.data.Segment;
 
 class SegmentSet extends Entity implements IRenderable
 {
-	private const LIMIT:UInt = 3 * 0xFFFF;
+	private var LIMIT:UInt = 3 * 0xFFFF;
 	private var _activeSubSet:SubSet;
 	private var _subSets:Vector<SubSet>;
 	private var _subSetCount:UInt;
@@ -35,7 +37,7 @@ class SegmentSet extends Entity implements IRenderable
 	private var _animator:IAnimator;
 	private var _hasData:Bool;
 
-	private var _segments:Dictionary;
+	private var _segments:IntMap<SegRef>;
 	private var _indexSegments:UInt;
 
 	/**
@@ -49,7 +51,7 @@ class SegmentSet extends Entity implements IRenderable
 		_subSets = new Vector<SubSet>();
 		addSubSet();
 
-		_segments = new Dictionary();
+		_segments = new IntMap();
 		material = new SegmentMaterial();
 	}
 
@@ -90,7 +92,7 @@ class SegmentSet extends Entity implements IRenderable
 		segRef.subSetIndex = subSetIndex;
 		segRef.segment = segment;
 
-		_segments[_indexSegments] = segRef;
+		_segments.set(_indexSegments, segRef);
 
 		_indexSegments++;
 	}
@@ -133,7 +135,7 @@ class SegmentSet extends Entity implements IRenderable
 		var indices:Vector<UInt> = subSet.indices;
 
 		var ind:UInt = index * 6;
-		for (var i:UInt = ind; i < indices.length; ++i)
+		for (i in ind...indices.length)
 			indices[i] -= 4;
 
 		subSet.indices.splice(index * 6, 6);
@@ -198,21 +200,22 @@ class SegmentSet extends Entity implements IRenderable
 	public function removeAllSegments():Void
 	{
 		var subSet:SubSet;
-		for (var i:UInt = 0; i < _subSetCount; ++i)
+		for (i in 0..._subSetCount)
 		{
 			subSet = _subSets[i];
 			subSet.vertices = null;
 			subSet.indices = null;
-			if (subSet.vertexBuffer)
+			if (subSet.vertexBuffer != null)
 				subSet.vertexBuffer.dispose();
-			if (subSet.indexBuffer)
+			if (subSet.indexBuffer != null)
 				subSet.indexBuffer.dispose();
 			subSet = null;
 		}
-
-		for each (var segRef:SegRef in _segments)
+		
+		var iterator:Iterator<SegRef> = _segments.iterator();
+		for (segReg in iterator)
 		{
-			segRef = null;
+			segReg = null;
 		}
 		_segments = null;
 
@@ -220,7 +223,7 @@ class SegmentSet extends Entity implements IRenderable
 		_activeSubSet = null;
 		_indexSegments = 0;
 		_subSets = new Vector<SubSet>();
-		_segments = new Dictionary();
+		_segments = new haxe.ds.IntMap();
 
 		addSubSet();
 
@@ -381,15 +384,15 @@ class SegmentSet extends Entity implements IRenderable
 	{
 		var segRef:SegRef;
 
-		for (var i:UInt = index; i < _indexSegments - 1; ++i)
+		for (i in index..._indexSegments - 1)
 		{
-			segRef = _segments[i + 1];
+			segRef = _segments.get(i + 1);
 			segRef.index = i;
 			if (segRef.subSetIndex == subSetIndex)
 			{
 				segRef.segment.index -= 44;
 			}
-			_segments[i] = segRef;
+			_segments.set(i, segRef);
 		}
 
 	}
@@ -419,7 +422,7 @@ class SegmentSet extends Entity implements IRenderable
 	{
 		super.dispose();
 		removeAllSegments();
-		_segments = null
+		_segments = null;
 		_material = null;
 		var subSet:SubSet = _subSets[0];
 		subSet.vertices = null;
@@ -453,15 +456,15 @@ class SegmentSet extends Entity implements IRenderable
 		var v:Float;
 		var index:UInt;
 
-		var minX:Float = Infinity;
-		var minY:Float = Infinity;
-		var minZ:Float = Infinity;
-		var maxX:Float = -Infinity;
-		var maxY:Float = -Infinity;
-		var maxZ:Float = -Infinity;
+		var minX:Float = Math.POSITIVE_INFINITY;
+		var minY:Float = Math.POSITIVE_INFINITY;
+		var minZ:Float = Math.POSITIVE_INFINITY;
+		var maxX:Float = Math.NEGATIVE_INFINITY;
+		var maxY:Float = Math.NEGATIVE_INFINITY;
+		var maxZ:Float = Math.NEGATIVE_INFINITY;
 		var vertices:Vector<Float>;
 
-		for (var i:UInt = 0; i < _subSetCount; ++i)
+		for (i in 0..._subSetCount)
 		{
 			subSet = _subSets[i];
 			index = 0;
@@ -473,7 +476,6 @@ class SegmentSet extends Entity implements IRenderable
 
 			while (index < len)
 			{
-
 				v = vertices[index++];
 				if (v < minX)
 					minX = v;

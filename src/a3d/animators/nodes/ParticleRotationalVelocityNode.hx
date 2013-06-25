@@ -107,7 +107,7 @@ class ParticleRotationalVelocityNode extends ParticleNodeBase
 		code += "add " + animationRegisterCache.scaleAndRotateTarget + ".xyz," + Rtemp + ".xyz," + xAxis + ".xyz\n";
 
 		var len:Int = animationRegisterCache.rotationRegisters.length;
-		for (var i:Int = 0; i < len; i++)
+		for (i in 0...len)
 		{
 			code += "mov " + nrmVel + ".xyz," + rotationRegister + ".xyz\n";
 			code += "mov " + nrmVel + ".w," + animationRegisterCache.vertexZeroConst + "\n";
@@ -136,7 +136,7 @@ class ParticleRotationalVelocityNode extends ParticleNodeBase
 	 */
 	public function getAnimationState(animator:IAnimator):ParticleRotationalVelocityState
 	{
-		return animator.getAnimationState(this) as ParticleRotationalVelocityState;
+		return Std.instance(animator.getAnimationState(this),ParticleRotationalVelocityState);
 	}
 
 	/**

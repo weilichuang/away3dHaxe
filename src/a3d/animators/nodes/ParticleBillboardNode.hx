@@ -62,7 +62,7 @@ class ParticleBillboardNode extends ParticleNodeBase
 	 */
 	public function getAnimationState(animator:IAnimator):ParticleBillboardState
 	{
-		return animator.getAnimationState(this) as ParticleBillboardState;
+		return Std.instance(animator.getAnimationState(this),ParticleBillboardState);
 	}
 
 	/**

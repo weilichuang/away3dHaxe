@@ -313,7 +313,7 @@ class Entity extends ObjectContainer3D
 
 		// check for ray-bounds collision
 		if (pickingCollisionVO.localNormal == null)
-			pickingCollisionVO.localNormal = new Vector3D()
+			pickingCollisionVO.localNormal = new Vector3D();
 		var rayEntryDistance:Float = bounds.rayIntersection(localRayPosition, localRayDirection, pickingCollisionVO.localNormal);
 
 		if (rayEntryDistance < 0)
@@ -387,7 +387,7 @@ class Entity extends ObjectContainer3D
 		// If there is a parent and this child does not have a triangle collider, use its parent's triangle collider.
 		if (_parent && !pickingCollider)
 		{
-			if (_parent is Entity)
+			if (Std.is(_parent,Entity))
 			{
 				var collider:IPickingCollider = Entity(_parent).pickingCollider;
 				if (collider)

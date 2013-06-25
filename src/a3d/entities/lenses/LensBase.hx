@@ -4,6 +4,7 @@ import flash.events.EventDispatcher;
 import flash.geom.Matrix3D;
 import flash.geom.Rectangle;
 import flash.geom.Vector3D;
+import flash.Vector.Vector;
 
 
 import a3d.errors.AbstractMethodError;

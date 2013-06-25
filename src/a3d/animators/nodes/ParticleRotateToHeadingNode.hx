@@ -74,7 +74,7 @@ class ParticleRotateToHeadingNode extends ParticleNodeBase
 			code += "mov " + temp3 + "," + animationRegisterCache.vertexZeroConst + "\n";
 			code += "mov " + temp3 + ".z," + animationRegisterCache.vertexOneConst + "\n";
 			code += "m33 " + animationRegisterCache.scaleAndRotateTarget + ".xyz," + animationRegisterCache.scaleAndRotateTarget + ".xyz," + temp1 + "\n";
-			for (i = 0; i < len; i++)
+			for (i in 0...len)
 			{
 				code += "m33 " + animationRegisterCache.rotationRegisters[i] + ".xyz," + animationRegisterCache.rotationRegisters[i] + "," + temp1 + "\n";
 			}
@@ -152,7 +152,7 @@ class ParticleRotateToHeadingNode extends ParticleNodeBase
 
 			code += "add " + animationRegisterCache.scaleAndRotateTarget + ".xyz," + R + ".xyz," + xAxis + ".xyz\n";
 
-			for (i = 0; i < len; i++)
+			for (i in 0...len)
 			{
 				//just repeat the calculate above
 				//because of the limited registers, no need to optimise
@@ -195,7 +195,7 @@ class ParticleRotateToHeadingNode extends ParticleNodeBase
 	 */
 	public function getAnimationState(animator:IAnimator):ParticleRotateToHeadingState
 	{
-		return animator.getAnimationState(this) as ParticleRotateToHeadingState;
+		return Std.instance(animator.getAnimationState(this),ParticleRotateToHeadingState);
 	}
 
 	/**

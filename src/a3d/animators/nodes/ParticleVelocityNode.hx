@@ -70,7 +70,7 @@ class ParticleVelocityNode extends ParticleNodeBase
 	 */
 	public function getAnimationState(animator:IAnimator):ParticleVelocityState
 	{
-		return animator.getAnimationState(this) as ParticleVelocityState;
+		return Std.instance(animator.getAnimationState(this),ParticleVelocityState);
 	}
 
 	/**

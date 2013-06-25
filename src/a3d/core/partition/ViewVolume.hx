@@ -81,14 +81,14 @@ class ViewVolume extends NodeBase
 
 			var visibleStatics:Vector<EntityNode> = cell.visibleStatics;
 			var numVisibles:UInt = visibleStatics.length;
-			for (var i:Int = 0; i < numVisibles; ++i)
+			for (i in 0...numVisibles)
 				visibleStatics[i].acceptTraverser(traverser);
 
 			var visibleDynamics:Vector<InvertedOctreeNode> = cell.visibleDynamics;
 			if (visibleDynamics)
 			{
 				numVisibles = visibleDynamics.length;
-				for (i = 0; i < numVisibles; ++i)
+				for (i in 0...numVisibles)
 					visibleDynamics[i].acceptTraverser(traverser);
 			}
 		}
@@ -314,9 +314,9 @@ class ViewVolume extends NodeBase
 		var minBounds:Vector3D = viewVolume.minBound;
 		var maxBounds:Vector3D = viewVolume.maxBound;
 
-		for (var z:UInt = 0; z < _numCellsZ; ++z)
-			for (var y:UInt = 0; y < _numCellsY; ++y)
-				for (var x:UInt = 0; x < _numCellsX; ++x)
+		for (z in 0..._numCellsZ)
+			for (y in 0..._numCellsY)
+				for (x in 0..._numCellsX)
 					addVisibleRegion(minBounds, maxBounds, scene, dynamicGrid, x, y, z);
 	}
 
@@ -331,10 +331,10 @@ class ViewVolume extends NodeBase
 
 		_entityWorldBounds = new Vector<Float>();
 
-		while ((object = iterator.next()))
+		while ((object = iterator.next()) != null)
 		{
-			var entity:Entity = object as Entity;
-			if (entity && staticIntersects(entity, minBounds, maxBounds))
+			var entity:Entity = Std.instance(object,Entity);
+			if (entity != null && staticIntersects(entity, minBounds, maxBounds))
 			{
 				var node:EntityNode = entity.getEntityPartitionNode();
 				if (visibleStatics.indexOf(node) == -1)
@@ -373,7 +373,8 @@ class ViewVolume extends NodeBase
 		if (minX != minX || minY != minY || minZ != minZ)
 			return true;
 
-		for (var i:UInt = 3; i < 24; i += 3)
+		var i:Int = 3;
+		while (i < 24)
 		{
 			var x:Float = _entityWorldBounds[i];
 			var y:Float = _entityWorldBounds[i + 1];
@@ -390,6 +391,7 @@ class ViewVolume extends NodeBase
 				minZ = z;
 			else if (z > maxZ)
 				maxZ = z;
+			i += 3;
 		}
 
 		var epsMinX:Float = minBounds.x + .001;

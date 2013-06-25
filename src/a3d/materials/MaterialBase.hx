@@ -5,6 +5,7 @@ import flash.display3D.Context3D;
 import flash.display3D.Context3DCompareMode;
 import flash.events.Event;
 import flash.geom.Matrix3D;
+import flash.Vector.Vector;
 
 
 import a3d.animators.IAnimationSet;
@@ -32,7 +33,7 @@ class MaterialBase extends NamedAssetBase implements IAsset
 	/**
 	 * An object to contain any extra data
 	 */
-	public var extra:Object;
+	public var extra:Dynamic;
 
 	// can be used by other renderers to determine how to render this particular material
 	// in practice, this can be checked by a custom EntityCollector
@@ -101,8 +102,8 @@ class MaterialBase extends NamedAssetBase implements IAsset
 		if (value != _lightPicker)
 		{
 			_lightPicker = value;
-			var len:UInt = _passes.length;
-			for (var i:UInt = 0; i < len; ++i)
+			var len:Int = _passes.length;
+			for (i in 0...len)
 				_passes[i].lightPicker = _lightPicker;
 		}
 	}
@@ -118,7 +119,7 @@ class MaterialBase extends NamedAssetBase implements IAsset
 	private inline function set_mipmap(value:Bool):Void
 	{
 		_mipmap = value;
-		for (var i:Int = 0; i < _numPasses; ++i)
+		for (i in 0..._numPasses)
 			_passes[i].mipmap = value;
 	}
 
@@ -133,7 +134,7 @@ class MaterialBase extends NamedAssetBase implements IAsset
 	private inline function set_smooth(value:Bool):Void
 	{
 		_smooth = value;
-		for (var i:Int = 0; i < _numPasses; ++i)
+		for (i in 0..._numPasses)
 			_passes[i].smooth = value;
 	}
 
@@ -158,7 +159,7 @@ class MaterialBase extends NamedAssetBase implements IAsset
 	private inline function set_repeat(value:Bool):Void
 	{
 		_repeat = value;
-		for (var i:Int = 0; i < _numPasses; ++i)
+		for (i in 0..._numPasses)
 			_passes[i].repeat = value;
 	}
 
@@ -168,8 +169,7 @@ class MaterialBase extends NamedAssetBase implements IAsset
 	 */
 	public function dispose():Void
 	{
-		var i:UInt;
-		for (i = 0; i < _numPasses; ++i)
+		for (i in 0..._numPasses)
 			_passes[i].dispose();
 
 		_depthPass.dispose();
@@ -190,7 +190,7 @@ class MaterialBase extends NamedAssetBase implements IAsset
 	{
 		_bothSides = value;
 
-		for (var i:Int = 0; i < _numPasses; ++i)
+		for (i in 0..._numPasses)
 			_passes[i].bothSides = value;
 
 		_depthPass.bothSides = value;
@@ -232,7 +232,7 @@ class MaterialBase extends NamedAssetBase implements IAsset
 	{
 		_alphaPremultiplied = value;
 
-		for (var i:Int = 0; i < _numPasses; ++i)
+		for (i in 0..._numPasses)
 			_passes[i].alphaPremultiplied = value;
 	}
 
@@ -376,7 +376,7 @@ class MaterialBase extends NamedAssetBase implements IAsset
 				if (_animationSet != owner.animator.animationSet)
 				{
 					_animationSet = owner.animator.animationSet;
-					for (var i:Int = 0; i < _numPasses; ++i)
+					for (i in 0..._numPasses)
 						_passes[i].animationSet = _animationSet;
 					_depthPass.animationSet = _animationSet;
 					_distancePass.animationSet = _animationSet;
@@ -397,7 +397,7 @@ class MaterialBase extends NamedAssetBase implements IAsset
 		if (_owners.length == 0)
 		{
 			_animationSet = null;
-			for (var i:Int = 0; i < _numPasses; ++i)
+			for (i in 0..._numPasses)
 				_passes[i].animationSet = _animationSet;
 			_depthPass.animationSet = _animationSet;
 			_distancePass.animationSet = _animationSet;
@@ -447,9 +447,9 @@ class MaterialBase extends NamedAssetBase implements IAsset
 		if (_animationSet)
 		{
 			_animationSet.resetGPUCompatibility();
-			for each (owner in _owners)
+			for (owner in _owners)
 			{
-				if (owner.animator)
+				if (owner.animator != null)
 				{
 					owner.animator.testGPUCompatibility(_depthPass);
 					owner.animator.testGPUCompatibility(_distancePass);
@@ -457,14 +457,15 @@ class MaterialBase extends NamedAssetBase implements IAsset
 			}
 		}
 
-		for (var i:Int = 0; i < _numPasses; ++i)
+		for (i in 0..._numPasses)
 		{
 			if (_passes[i] != triggerPass)
 				_passes[i].invalidateShaderProgram(false);
+				
 			// test if animation will be able to run on gpu BEFORE compiling materials
-			if (_animationSet)
-				for each (owner in _owners)
-					if (owner.animator)
+			if (_animationSet != null)
+				for (owner in _owners)
+					if (owner.animator != null)
 						owner.animator.testGPUCompatibility(_passes[i]);
 		}
 	}
@@ -480,7 +481,7 @@ class MaterialBase extends NamedAssetBase implements IAsset
 	 */
 	private function clearPasses():Void
 	{
-		for (var i:Int = 0; i < _numPasses; ++i)
+		for (i in 0..._numPasses)
 			_passes[i].removeEventListener(Event.CHANGE, onPassChange);
 
 		_passes.length = 0;
@@ -512,11 +513,11 @@ class MaterialBase extends NamedAssetBase implements IAsset
 
 		renderOrderId = 0;
 
-		for (var i:Int = 0; i < _numPasses; ++i)
+		for (i in 0..._numPasses)
 		{
 			ids = _passes[i].getProgram3Dids();
 			len = ids.length;
-			for (var j:Int = 0; j < len; ++j)
+			for (j in 0...len)
 			{
 				if (ids[j] != -1)
 				{
@@ -535,7 +536,7 @@ class MaterialBase extends NamedAssetBase implements IAsset
 
 		depthPassId = 0;
 
-		for (var j:Int = 0; j < len; ++j)
+		for (j in 0...len)
 		{
 			if (ids[j] != -1)
 			{
@@ -548,11 +549,11 @@ class MaterialBase extends NamedAssetBase implements IAsset
 	private function onDepthPassChange(event:Event):Void
 	{
 		var ids:Vector<Int> = _depthPass.getProgram3Dids();
-		var len:UInt = ids.length;
+		var len:Int = ids.length;
 
 		depthPassId = 0;
 
-		for (var j:Int = 0; j < len; ++j)
+		for (j in 0...len)
 		{
 			if (ids[j] != -1)
 			{

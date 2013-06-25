@@ -1,4 +1,4 @@
-package a3d.math
+package a3d.math;
 
 import flash.geom.Vector3D;
 

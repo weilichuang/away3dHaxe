@@ -50,7 +50,7 @@ class StereoView3D extends View3D
 		if (value == _stereoCam)
 			return;
 
-		if (value is StereoCamera3D)
+		if (Std.is(value,StereoCamera3D))
 		{
 			_stereoCam = StereoCamera3D(value);
 		}

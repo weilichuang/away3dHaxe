@@ -129,12 +129,12 @@ class DAEParser extends ParserBase
 	{
 		if (resourceDependency.assets.length != 1)
 			return;
-		var resource:Texture2DBase = resourceDependency.assets[0] as Texture2DBase;
+		var resource:Texture2DBase = Std.instance(resourceDependency.assets[0],Texture2DBase);
 		_dependencyCount--;
 
 		if (resource && BitmapTexture(resource).bitmapData)
 		{
-			var image:DAEImage = _libImages[resourceDependency.id] as DAEImage;
+			var image:DAEImage = Std.instance(_libImages[resourceDependency.id],DAEImage);
 
 			if (image)
 				image.resource = BitmapTexture(resource);
@@ -180,7 +180,7 @@ class DAEParser extends ParserBase
 				_libImages = parseLibrary(_doc._ns::library_images._ns::image, DAEImage);
 				for (var imageId:String in _libImages)
 				{
-					var image:DAEImage = _libImages[imageId] as DAEImage;
+					var image:DAEImage = Std.instance(_libImages[imageId],DAEImage);
 					addDependency(image.id, new URLRequest(image.init_from));
 				}
 				pauseAndRetrieveDependencies();
@@ -509,13 +509,13 @@ class DAEParser extends ParserBase
 		for (i = 0; i < node.instance_controllers.length; i++)
 		{
 			instance = node.instance_controllers[i];
-			controller = _libControllers[instance.url] as DAEController;
+			controller = Std.instance(_libControllers[instance.url],DAEController);
 
 			geometry = processController(controller, instance);
 			if (!geometry)
 				continue;
 
-			daeGeometry = _libGeometries[geometry.name] as DAEGeometry;
+			daeGeometry = Std.instance(_libGeometries[geometry.name],DAEGeometry);
 			effects = getMeshEffects(instance.bind_material, daeGeometry.mesh);
 
 			mesh = new Mesh(geometry, null);
@@ -542,13 +542,13 @@ class DAEParser extends ParserBase
 			if (container)
 				container.addChild(mesh);
 
-			if (controller.skin && controller.skin.userData is Skeleton)
+			if (controller.skin && Std.is(controller.skin.userData,Skeleton))
 			{
 
 				if (!animationSet)
 					animationSet = new SkeletonAnimationSet(controller.skin.maxBones);
 
-				skeleton = controller.skin.userData as Skeleton;
+				skeleton = Std.instance(controller.skin.userData,Skeleton);
 
 				clip = processSkinAnimation(controller.skin, mesh, skeleton);
 				clip.looping = true;
@@ -664,7 +664,7 @@ class DAEParser extends ParserBase
 		for (i = 0; i < node.instance_geometries.length; i++)
 		{
 			instance = node.instance_geometries[i];
-			daeGeometry = _libGeometries[instance.url] as DAEGeometry;
+			daeGeometry = Std.instance(_libGeometries[instance.url],DAEGeometry);
 
 			if (daeGeometry && daeGeometry.mesh)
 			{
@@ -718,7 +718,7 @@ class DAEParser extends ParserBase
 				instance = bindMaterial.instance_material[j];
 				if (mesh.primitives[i].material == instance.symbol)
 				{
-					material = _libMaterials[instance.target] as DAEMaterial;
+					material = Std.instance(_libMaterials[instance.target],DAEMaterial);
 					effect = _libEffects[material.instance_effect.url];
 					if (effect)
 						effects.push(effect);
@@ -737,7 +737,7 @@ class DAEParser extends ParserBase
 
 		Debug.trace(" * parseSkeleton : " + instance_controller);
 
-		var controller:DAEController = _libControllers[instance_controller.url] as DAEController;
+		var controller:DAEController = Std.instance(_libControllers[instance_controller.url],DAEController);
 		var skeletonId:String = instance_controller.skeleton[0];
 		var skeletonRoot:DAENode = _root.findNodeById(skeletonId) || _root.findNodeBySid(skeletonId);
 
@@ -881,7 +881,7 @@ class DAEParser extends ParserBase
 		{
 			if (_libEffects.hasOwnProperty(material.instance_effect.url))
 			{
-				var effect:DAEEffect = _libEffects[material.instance_effect.url] as DAEEffect;
+				var effect:DAEEffect = Std.instance(_libEffects[material.instance_effect.url],DAEEffect);
 				effect.material = setupMaterial(material, effect);
 			}
 		}
@@ -895,7 +895,7 @@ class DAEParser extends ParserBase
 
 		for (var id:String in _libGeometries)
 		{
-			daeGeometry = _libGeometries[id] as DAEGeometry;
+			daeGeometry = Std.instance(_libGeometries[id],DAEGeometry);
 			if (daeGeometry.mesh)
 			{
 				geometry = translateGeometry(daeGeometry.mesh);
@@ -1403,7 +1403,7 @@ class DAEPrimitive extends DAEElement
 				{
 					input = _inputs[j];
 					index = _p[idx + t + input.offset];
-					source = mesh.sources[input.source] as DAESource;
+					source = Std.instance(mesh.sources[input.source],DAESource);
 					idx32 = index * source.accessor.params.length;
 
 					switch (input.semantic)
@@ -2216,7 +2216,7 @@ class DAENode extends DAEElement
 				var m:Matrix3D = new Matrix3D();
 				//var found : Boolean = false;
 				var frameData:DAEFrameData = null;
-				channel = channelsBySID[transform.sid] as DAEChannel;
+				channel = Std.instance(channelsBySID[transform.sid],AEChannel);
 				frameData = channel.sampler.getFrameData(time);
 
 				if (frameData)

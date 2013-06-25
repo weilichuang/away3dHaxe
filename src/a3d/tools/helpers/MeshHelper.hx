@@ -94,7 +94,7 @@ class MeshHelper
 	{
 		var child:ObjectContainer3D;
 
-		if (obj is Mesh && ObjectContainer3D(obj).numChildren == 0)
+		if (Std.is(obj,Mesh) && ObjectContainer3D(obj).numChildren == 0)
 			recenter(Mesh(obj), keepPosition);
 
 		for (var i:UInt = 0; i < ObjectContainer3D(obj).numChildren; ++i)
@@ -158,7 +158,7 @@ class MeshHelper
 				normals[nOffs + j * nStride + 2] = holder.z;
 			}
 
-			if (subGeom is CompactSubGeometry)
+			if (Std.is(subGeom,CompactSubGeometry))
 			{
 				CompactSubGeometry(subGeom).updateData(vertices);
 			}
@@ -180,7 +180,7 @@ class MeshHelper
 	{
 		var child:ObjectContainer3D;
 
-		if (obj is Mesh && ObjectContainer3D(obj).numChildren == 0)
+		if (Std.is(obj,Mesh) && ObjectContainer3D(obj).numChildren == 0)
 			applyRotations(Mesh(obj));
 
 		for (var i:UInt = 0; i < ObjectContainer3D(obj).numChildren; ++i)
@@ -234,7 +234,7 @@ class MeshHelper
 				vertices[vOffs + j * vStride + 2] *= scaleZ;
 			}
 
-			if (subGeom is CompactSubGeometry)
+			if (Std.is(subGeom,CompactSubGeometry))
 				CompactSubGeometry(subGeom).updateData(vertices);
 			else
 				SubGeometry(subGeom).updateVertexData(vertices);
@@ -263,7 +263,7 @@ class MeshHelper
 
 		var child:ObjectContainer3D;
 
-		if (obj is Mesh && ObjectContainer3D(obj).numChildren == 0)
+		if (Std.is(obj,Mesh) && ObjectContainer3D(obj).numChildren == 0)
 			applyScales(Mesh(obj), scaleX, scaleY, scaleZ, obj);
 
 		for (var i:UInt = 0; i < ObjectContainer3D(obj).numChildren; ++i)
@@ -304,7 +304,7 @@ class MeshHelper
 				vertices[vOffs + j * vStride + 2] += dz;
 			}
 
-			if (subGeom is CompactSubGeometry)
+			if (Std.is(subGeom,CompactSubGeometry))
 				CompactSubGeometry(subGeom).updateData(vertices);
 			else
 				SubGeometry(subGeom).updateVertexData(vertices);
@@ -339,7 +339,7 @@ class MeshHelper
 	{
 		var child:ObjectContainer3D;
 
-		if (obj is Mesh && ObjectContainer3D(obj).numChildren == 0)
+		if (Std.is(obj,Mesh) && ObjectContainer3D(obj).numChildren == 0)
 			invertFaces(Mesh(obj));
 
 		for (var i:UInt = 0; i < ObjectContainer3D(obj).numChildren; ++i)
@@ -410,7 +410,7 @@ class MeshHelper
 
 			}
 
-			if (subGeom is CompactSubGeometry)
+			if (Std.is(subGeom,CompactSubGeometry))
 			{
 				CompactSubGeometry(subGeom).updateData(subGeom.vertexData);
 			}
@@ -587,7 +587,7 @@ class MeshHelper
 			return meshes;
 		}
 
-		if (geometries[0] is CompactSubGeometry)
+		if (Std.is(geometries[0],ompactSubGeometry))
 			return splitMeshCsg(mesh, disposeSource);
 
 		var vertices:Vector<Float>;
@@ -606,7 +606,7 @@ class MeshHelper
 
 		for (var i:UInt = 0; i < numSubGeoms; ++i)
 		{
-			if (geometries[0] is SubGeometry)
+			if (Std.is(geometries[0],SubGeometry))
 				subGeom = SubGeometry(geometries[i]);
 
 			vertices = subGeom.vertexData;

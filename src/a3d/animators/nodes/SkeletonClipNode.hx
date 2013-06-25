@@ -57,7 +57,7 @@ class SkeletonClipNode extends AnimationClipNodeBase
 	 */
 	public function getAnimationState(animator:IAnimator):SkeletonClipState
 	{
-		return animator.getAnimationState(this) as SkeletonClipState;
+		return Std.instance(animator.getAnimationState(this), SkeletonClipState);
 	}
 
 	/**

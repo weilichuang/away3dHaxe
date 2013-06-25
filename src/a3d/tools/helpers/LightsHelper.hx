@@ -74,7 +74,7 @@ class LightsHelper
 
 	private static function parseContainer(objectContainer3D:ObjectContainer3D):Void
 	{
-		if (objectContainer3D is Mesh && objectContainer3D.numChildren == 0)
+		if (Std.is(objectContainer3D ,Mesh) && objectContainer3D.numChildren == 0)
 			parseMesh(Mesh(objectContainer3D));
 
 		for (var i:UInt = 0; i < objectContainer3D.numChildren; ++i)
@@ -95,7 +95,7 @@ class LightsHelper
 			switch (_state)
 			{
 				case 0:
-					picker = materialOwner.material.lightPicker as StaticLightPicker;
+					picker = Std.instance(materialOwner.material.lightPicker,StaticLightPicker);
 					if (!picker || picker.lights != _lightsArray)
 						materialOwner.material.lightPicker = new StaticLightPicker(_lightsArray);
 					
@@ -139,7 +139,7 @@ class LightsHelper
 				case 2:
 					if (materialOwner.material.lightPicker == null)
 						materialOwner.material.lightPicker = new StaticLightPicker([]);
-					picker = materialOwner.material.lightPicker as StaticLightPicker;
+					picker = Std.instance(materialOwner.material.lightPicker,StaticLightPicker);
 					if (picker)
 					{
 						aLights = picker.lights;

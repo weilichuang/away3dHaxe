@@ -1,6 +1,7 @@
 package a3d.animators.data;
 
 import a3d.core.managers.Stage3DProxy;
+import flash.Vector;
 
 import flash.display3D.Context3D;
 import flash.display3D.VertexBuffer3D;
@@ -12,23 +13,31 @@ class AnimationSubGeometry
 {
 	private var _vertexData:Vector<Float>;
 
-	private var _vertexBuffer:Vector<VertexBuffer3D> = new Vector<VertexBuffer3D>(8);
-	private var _bufferContext:Vector<Context3D> = new Vector<Context3D>(8);
-	private var _bufferDirty:Vector<Bool> = new Vector<Bool>(8);
+	private var _vertexBuffer:Vector<VertexBuffer3D>;
+	private var _bufferContext:Vector<Context3D>;
+	private var _bufferDirty:Vector<Bool>;
 
 	private var _numVertices:UInt;
 
 	private var _totalLenOfOneVertex:UInt;
 
-	public var numProcessedVertices:Int = 0;
+	public var numProcessedVertices:Int;
 
-	public var previousTime:Float = Number.NEGATIVE_INFINITY;
+	public var previousTime:Float;
 
-	public var animationParticles:Vector<ParticleAnimationData> = new Vector<ParticleAnimationData>();
+	public var animationParticles:Vector<ParticleAnimationData>;
 
 	public function new()
 	{
-		for (var i:Int = 0; i < 8; i++)
+		_vertexBuffer = new Vector<VertexBuffer3D>(8);
+		_bufferContext = new Vector<Context3D>(8);
+		
+		numProcessedVertices = 0;
+		previousTime = Math.NEGATIVE_INFINITY;
+		animationParticles = new Vector<ParticleAnimationData>();
+		
+		_bufferDirty = new Vector<Bool>(8);
+		for (i in 0...8)
 			_bufferDirty[i] = true;
 	}
 
@@ -63,7 +72,7 @@ class AnimationSubGeometry
 	{
 		while (_vertexBuffer.length)
 		{
-			var vertexBuffer:VertexBuffer3D = _vertexBuffer.pop()
+			var vertexBuffer:VertexBuffer3D = _vertexBuffer.pop();
 
 			if (vertexBuffer)
 				vertexBuffer.dispose();
@@ -72,7 +81,7 @@ class AnimationSubGeometry
 
 	public function invalidateBuffer():Void
 	{
-		for (var i:Int = 0; i < 8; i++)
+		for (i in 0...8)
 			_bufferDirty[i] = true;
 	}
 

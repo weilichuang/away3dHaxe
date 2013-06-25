@@ -4,6 +4,7 @@ import flash.display3D.Context3D;
 import flash.display3D.Context3DVertexBufferFormat;
 import flash.display3D.VertexBuffer3D;
 import flash.geom.Matrix3D;
+import flash.Vector;
 
 import a3d.core.managers.Stage3DProxy;
 
@@ -20,31 +21,36 @@ import a3d.core.managers.Stage3DProxy;
  */
 class SubGeometry extends SubGeometryBase implements ISubGeometry
 {
+	/**
+	 * The total amount of vertices in the SubGeometry.
+	 */
+	public var numVertices(get, null):UInt;
+	
 	// raw data:
 	private var _uvs:Vector<Float>;
 	private var _secondaryUvs:Vector<Float>;
 	private var _vertexNormals:Vector<Float>;
 	private var _vertexTangents:Vector<Float>;
 
-	private var _verticesInvalid:Vector<Bool> = new Vector<Bool>(8, true);
-	private var _uvsInvalid:Vector<Bool> = new Vector<Bool>(8, true);
-	private var _secondaryUvsInvalid:Vector<Bool> = new Vector<Bool>(8, true);
-	private var _normalsInvalid:Vector<Bool> = new Vector<Bool>(8, true);
-	private var _tangentsInvalid:Vector<Bool> = new Vector<Bool>(8, true);
+	private var _verticesInvalid:Vector<Bool>;
+	private var _uvsInvalid:Vector<Bool>;
+	private var _secondaryUvsInvalid:Vector<Bool>;
+	private var _normalsInvalid:Vector<Bool>;
+	private var _tangentsInvalid:Vector<Bool>;
 
 	// buffers:
-	private var _vertexBuffer:Vector<VertexBuffer3D> = new Vector<VertexBuffer3D>(8);
-	private var _uvBuffer:Vector<VertexBuffer3D> = new Vector<VertexBuffer3D>(8);
-	private var _secondaryUvBuffer:Vector<VertexBuffer3D> = new Vector<VertexBuffer3D>(8);
-	private var _vertexNormalBuffer:Vector<VertexBuffer3D> = new Vector<VertexBuffer3D>(8);
-	private var _vertexTangentBuffer:Vector<VertexBuffer3D> = new Vector<VertexBuffer3D>(8);
+	private var _vertexBuffer:Vector<VertexBuffer3D>;
+	private var _uvBuffer:Vector<VertexBuffer3D>;
+	private var _secondaryUvBuffer:Vector<VertexBuffer3D>;
+	private var _vertexNormalBuffer:Vector<VertexBuffer3D>;
+	private var _vertexTangentBuffer:Vector<VertexBuffer3D>;
 
 	// buffer dirty flags, per context:
-	private var _vertexBufferContext:Vector<Context3D> = new Vector<Context3D>(8);
-	private var _uvBufferContext:Vector<Context3D> = new Vector<Context3D>(8);
-	private var _secondaryUvBufferContext:Vector<Context3D> = new Vector<Context3D>(8);
-	private var _vertexNormalBufferContext:Vector<Context3D> = new Vector<Context3D>(8);
-	private var _vertexTangentBufferContext:Vector<Context3D> = new Vector<Context3D>(8);
+	private var _vertexBufferContext:Vector<Context3D>;
+	private var _uvBufferContext:Vector<Context3D>;
+	private var _secondaryUvBufferContext:Vector<Context3D>;
+	private var _vertexNormalBufferContext:Vector<Context3D>;
+	private var _vertexTangentBufferContext:Vector<Context3D>;
 
 	private var _numVertices:UInt;
 
@@ -54,11 +60,28 @@ class SubGeometry extends SubGeometryBase implements ISubGeometry
 	 */
 	public function new()
 	{
+		_verticesInvalid = new Vector<Bool>(8, true);
+		_uvsInvalid = new Vector<Bool>(8, true);
+		_secondaryUvsInvalid = new Vector<Bool>(8, true);
+		_normalsInvalid = new Vector<Bool>(8, true);
+		_tangentsInvalid = new Vector<Bool>(8, true);
+
+		// buffers:
+		_vertexBuffer = new Vector<VertexBuffer3D>(8);
+		_uvBuffer = new Vector<VertexBuffer3D>(8);
+		_secondaryUvBuffer = new Vector<VertexBuffer3D>(8);
+		_vertexNormalBuffer = new Vector<VertexBuffer3D>(8);
+		_vertexTangentBuffer = new Vector<VertexBuffer3D>(8);
+
+		// buffer dirty flags, per context:
+		_vertexBufferContext = new Vector<Context3D>(8);
+		_uvBufferContext = new Vector<Context3D>(8);
+		_secondaryUvBufferContext = new Vector<Context3D>(8);
+		_vertexNormalBufferContext = new Vector<Context3D>(8);
+		_vertexTangentBufferContext = new Vector<Context3D>(8);
 	}
 
-	/**
-	 * The total amount of vertices in the SubGeometry.
-	 */
+	
 	private inline function get_numVertices():UInt
 	{
 		return _numVertices;
@@ -71,12 +94,14 @@ class SubGeometry extends SubGeometryBase implements ISubGeometry
 	{
 		var contextIndex:Int = stage3DProxy.stage3DIndex;
 		var context:Context3D = stage3DProxy.context3D;
-		if (_vertexBuffer[contextIndex] == null || _vertexBufferContext[contextIndex] != context)
+		if (_vertexBuffer[contextIndex] == null || 
+			_vertexBufferContext[contextIndex] != context)
 		{
 			_vertexBuffer[contextIndex] = context.createVertexBuffer(_numVertices, 3);
 			_vertexBufferContext[contextIndex] = context;
 			_verticesInvalid[contextIndex] = true;
 		}
+		
 		if (_verticesInvalid[contextIndex])
 		{
 			_vertexBuffer[contextIndex].uploadFromVector(_vertexData, 0, _numVertices);
@@ -97,12 +122,14 @@ class SubGeometry extends SubGeometryBase implements ISubGeometry
 		if (_autoGenerateUVs && _uvsDirty)
 			_uvs = updateDummyUVs(_uvs);
 
-		if (!_uvBuffer[contextIndex] || _uvBufferContext[contextIndex] != context)
+		if (_uvBuffer[contextIndex] == null || 
+			_uvBufferContext[contextIndex] != context)
 		{
 			_uvBuffer[contextIndex] = context.createVertexBuffer(_numVertices, 2);
 			_uvBufferContext[contextIndex] = context;
 			_uvsInvalid[contextIndex] = true;
 		}
+		
 		if (_uvsInvalid[contextIndex])
 		{
 			_uvBuffer[contextIndex].uploadFromVector(_uvs, 0, _numVertices);
@@ -120,7 +147,8 @@ class SubGeometry extends SubGeometryBase implements ISubGeometry
 		var contextIndex:Int = stage3DProxy.stage3DIndex;
 		var context:Context3D = stage3DProxy.context3D;
 
-		if (!_secondaryUvBuffer[contextIndex] || _secondaryUvBufferContext[contextIndex] != context)
+		if (_secondaryUvBuffer[contextIndex] == null || 
+			_secondaryUvBufferContext[contextIndex] != context)
 		{
 			_secondaryUvBuffer[contextIndex] = context.createVertexBuffer(_numVertices, 2);
 			_secondaryUvBufferContext[contextIndex] = context;
@@ -148,12 +176,14 @@ class SubGeometry extends SubGeometryBase implements ISubGeometry
 		if (_autoDeriveVertexNormals && _vertexNormalsDirty)
 			_vertexNormals = updateVertexNormals(_vertexNormals);
 
-		if (!_vertexNormalBuffer[contextIndex] || _vertexNormalBufferContext[contextIndex] != context)
+		if (_vertexNormalBuffer[contextIndex] == null || 
+			_vertexNormalBufferContext[contextIndex] != context)
 		{
 			_vertexNormalBuffer[contextIndex] = context.createVertexBuffer(_numVertices, 3);
 			_vertexNormalBufferContext[contextIndex] = context;
 			_normalsInvalid[contextIndex] = true;
 		}
+		
 		if (_normalsInvalid[contextIndex])
 		{
 			_vertexNormalBuffer[contextIndex].uploadFromVector(_vertexNormals, 0, _numVertices);
@@ -176,12 +206,14 @@ class SubGeometry extends SubGeometryBase implements ISubGeometry
 		if (_vertexTangentsDirty)
 			_vertexTangents = updateVertexTangents(_vertexTangents);
 
-		if (!_vertexTangentBuffer[contextIndex] || _vertexTangentBufferContext[contextIndex] != context)
+		if (_vertexTangentBuffer[contextIndex] == null || 
+			_vertexTangentBufferContext[contextIndex] != context)
 		{
 			_vertexTangentBuffer[contextIndex] = context.createVertexBuffer(_numVertices, 3);
 			_vertexTangentBufferContext[contextIndex] = context;
 			_tangentsInvalid[contextIndex] = true;
 		}
+		
 		if (_tangentsInvalid[contextIndex])
 		{
 			_vertexTangentBuffer[contextIndex].uploadFromVector(_vertexTangents, 0, _numVertices);

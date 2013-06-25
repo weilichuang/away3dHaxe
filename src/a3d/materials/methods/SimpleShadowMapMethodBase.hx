@@ -22,7 +22,7 @@ class SimpleShadowMapMethodBase extends ShadowMapMethodBase
 
 	public function new(castingLight:LightBase)
 	{
-		_usePoint = castingLight is PointLight;
+		_usePoint = Std.is(castingLight,PointLight);
 		super(castingLight);
 	}
 
@@ -165,7 +165,7 @@ class SimpleShadowMapMethodBase extends ShadowMapMethodBase
 		var index:Int = vo.fragmentConstantsIndex;
 
 		if (_usePoint)
-			fragmentData[index + 4] = -Math.pow(1 / ((_castingLight as PointLight).fallOff * _epsilon), 2);
+			fragmentData[index + 4] = -Math.pow(1 / (Std.instance(_castingLight,PointLight).fallOff * _epsilon), 2);
 		else
 			vo.vertexData[vo.vertexConstantsIndex + 3] = -1 / (DirectionalShadowMapper(_shadowMapper).depth * _epsilon);
 

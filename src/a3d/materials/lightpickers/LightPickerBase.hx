@@ -137,10 +137,9 @@ class LightPickerBase extends NamedAssetBase implements IAsset
 		var rx:Float = objectPos.x, ry:Float = objectPos.y, rz:Float = objectPos.z;
 		var dx:Float, dy:Float, dz:Float;
 		var w:Float, total:Float = 0;
-		var i:Int;
 
 		// calculates weights for probes
-		for (i = 0; i < _numLightProbes; ++i)
+		for (i in 0..._numLightProbes)
 		{
 			lightPos = _lightProbes[i].scenePosition;
 			dx = rx - lightPos.x;
@@ -157,7 +156,7 @@ class LightPickerBase extends NamedAssetBase implements IAsset
 
 		// normalize
 		total = 1 / total;
-		for (i = 0; i < _numLightProbes; ++i)
+		for (i in 0..._numLightProbes)
 			_lightProbeWeights[i] *= total;
 	}
 

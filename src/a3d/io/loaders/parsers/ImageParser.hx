@@ -57,16 +57,16 @@ class ImageParser extends ParserBase
 	public static function supportsData(data:*):Bool
 	{
 		//shortcut if asset is IFlexAsset
-		if (data is Bitmap)
+		if (Std.is(data,Bitmap))
 			return true;
 
-		if (data is BitmapData)
+		if (Std.is(data,BitmapData))
 			return true;
 
-		if (!(data is ByteArray))
+		if (!Std.is(data,ByteArray))
 			return false;
 
-		var ba:ByteArray = data as ByteArray;
+		var ba:ByteArray = Std.instance(data,ByteArray);
 		ba.position = 0;
 		if (ba.readUnsignedShort() == 0xffd8)
 			return true; // JPEG, maybe check for "JFIF" as well?
@@ -96,16 +96,16 @@ class ImageParser extends ParserBase
 	override private function proceedParsing():Bool
 	{
 		var asset:Texture2DBase;
-		if (_data is Bitmap)
+		if (Std.is(_data,Bitmap))
 		{
 			asset = new BitmapTexture(Bitmap(_data).bitmapData);
 			finalizeAsset(asset, fileName);
 			return PARSING_DONE;
 		}
 
-		if (_data is BitmapData)
+		if (Std.is(_data,BitmapData))
 		{
-			asset = new BitmapTexture(_data as BitmapData);
+			asset = new BitmapTexture(Std.instance(_data,BitmapData));
 			finalizeAsset(asset, fileName);
 			return PARSING_DONE;
 		}

@@ -6,6 +6,8 @@ import flash.display.Stage;
 import flash.events.MouseEvent;
 import flash.geom.Vector3D;
 import flash.utils.Dictionary;
+import flash.Vector.Vector;
+import haxe.ds.ObjectMap;
 
 
 import a3d.core.pick.IPicker;
@@ -23,20 +25,10 @@ import a3d.events.MouseEvent3D;
  */
 class Mouse3DManager
 {
-	private static var _view3Ds:Dictionary;
+	private static var _view3Ds:ObjectMap<View3D,Int>;
 	private static var _view3DLookup:Vector<View3D>;
 	private static var _viewCount:Int = 0;
-
-	private var _activeView:View3D;
-	private var _updateDirty:Bool = true;
-	private var _nullVector:Vector3D = new Vector3D();
-	private static var _collidingObject:PickingCollisionVO;
-	private static var _previousCollidingObject:PickingCollisionVO;
-	private static var _collidingViewObjects:Vector<PickingCollisionVO>;
-	private static var _queuedEvents:Vector<MouseEvent3D> = new Vector<MouseEvent3D>();
-
-	private var _mouseMoveEvent:MouseEvent = new MouseEvent(MouseEvent.MOUSE_MOVE);
-
+	
 	private static var _mouseUp:MouseEvent3D = new MouseEvent3D(MouseEvent3D.MOUSE_UP);
 	private static var _mouseClick:MouseEvent3D = new MouseEvent3D(MouseEvent3D.CLICK);
 	private static var _mouseOut:MouseEvent3D = new MouseEvent3D(MouseEvent3D.MOUSE_OUT);
@@ -45,11 +37,25 @@ class Mouse3DManager
 	private static var _mouseOver:MouseEvent3D = new MouseEvent3D(MouseEvent3D.MOUSE_OVER);
 	private static var _mouseWheel:MouseEvent3D = new MouseEvent3D(MouseEvent3D.MOUSE_WHEEL);
 	private static var _mouseDoubleClick:MouseEvent3D = new MouseEvent3D(MouseEvent3D.DOUBLE_CLICK);
+
+	private static var _collidingObject:PickingCollisionVO;
+	private static var _previousCollidingObject:PickingCollisionVO;
+	private static var _collidingViewObjects:Vector<PickingCollisionVO>;
+	private static var _queuedEvents:Vector<MouseEvent3D> = new Vector<MouseEvent3D>();
+
+	private static var _previousCollidingView:Int = -1;
+	private static var _collidingView:Int = -1;
+	
+	private var _activeView:View3D;
+	private var _updateDirty:Bool = true;
+	private var _nullVector:Vector3D = new Vector3D();
+	
+	private var _mouseMoveEvent:MouseEvent = new MouseEvent(MouseEvent.MOUSE_MOVE);
+
 	private var _forceMouseMove:Bool;
 	private var _mousePicker:IPicker = PickingType.RAYCAST_FIRST_ENCOUNTERED;
 	private var _childDepth:Int = 0;
-	private static var _previousCollidingView:Int = -1;
-	private static var _collidingView:Int = -1;
+	
 	private var _collidingDownObject:PickingCollisionVO;
 	private var _collidingUpObject:PickingCollisionVO;
 
@@ -58,9 +64,15 @@ class Mouse3DManager
 	 */
 	public function new()
 	{
+		_updateDirty = true;
+		_nullVector = new Vector3D();
+		_mouseMoveEvent = new MouseEvent(MouseEvent.MOUSE_MOVE);
+		_mousePicker = PickingType.RAYCAST_FIRST_ENCOUNTERED;
+		_childDepth = 0;
+		
 		if (_view3Ds == null)
 		{
-			_view3Ds = new Dictionary();
+			_view3Ds = new ObjectMap<View3D,Int>();
 			_view3DLookup = new Vector<View3D>();
 		}
 	}
@@ -114,16 +126,20 @@ class Mouse3DManager
 			// Get the top-most view colliding object
 			var distance:Float = Infinity;
 			var view:View3D;
-			for (var v:Int = _viewCount - 1; v >= 0; v--)
+			var v:Int = _viewCount - 1;
+			while ( v >= 0)
 			{
 				view = _view3DLookup[v];
-				if (_collidingViewObjects[v] && (view.layeredView || _collidingViewObjects[v].rayEntryDistance < distance))
+				if (_collidingViewObjects[v] != null && 
+					(view.layeredView || 
+					_collidingViewObjects[v].rayEntryDistance < distance))
 				{
 					distance = _collidingViewObjects[v].rayEntryDistance;
 					_collidingObject = _collidingViewObjects[v];
 					if (view.layeredView)
 						break;
 				}
+				v--;
 			}
 		}
 
@@ -144,7 +160,7 @@ class Mouse3DManager
 
 		// Dispatch all queued events.
 		len = _queuedEvents.length;
-		for (i = 0; i < len; ++i)
+		for (i in 0...len)
 		{
 			// Only dispatch from first implicitly enabled object ( one that is not a child of a mouseChildren = false hierarchy ).
 			event = _queuedEvents[i];
@@ -261,12 +277,13 @@ class Mouse3DManager
 
 	private function reThrowEvent(event:MouseEvent):Void
 	{
-		if (!_activeView || (_activeView && _activeView.shareContext))
+		if (_activeView == null || (_activeView != null && _activeView.shareContext))
 			return;
 
-		for (var v:* in _view3Ds)
+		var keys:Iterator<View3D> = _view3Ds.keys();
+		for (v in keys)
 		{
-			if (v != _activeView && _view3Ds[v] < _view3Ds[_activeView])
+			if (v != _activeView && _view3Ds.get(v) < _view3Ds.get(_activeView))
 			{
 				v.dispatchEvent(event);
 			}
@@ -275,9 +292,10 @@ class Mouse3DManager
 
 	private function hasKey(view:View3D):Bool
 	{
-		for (var v:* in _view3Ds)
+		var keys:Iterator<View3D> = _view3Ds.keys();
+		for (v in keys)
 		{
-			if (v === view)
+			if (v == view)
 			{
 				return true;
 			}
@@ -290,21 +308,23 @@ class Mouse3DManager
 		var childCount:Int = container.numChildren;
 		var c:Int = 0;
 		var child:DisplayObject;
-		for (c = 0; c < childCount; c++)
+		for (c in 0...childCount)
 		{
 			child = container.getChildAt(c);
-			for (var v:* in _view3Ds)
+			var keys:Iterator<View3D> = _view3Ds.keys();
+			for (v in keys)
 			{
 				if (child == v)
 				{
-					_view3Ds[child] = _childDepth;
+					_view3Ds.set(child, _childDepth);
 					_view3DLookup[_childDepth] = v;
 					_childDepth++;
 				}
 			}
-			if (child is DisplayObjectContainer)
+			
+			if (Std.is(child,DisplayObjectContainer))
 			{
-				traverseDisplayObjects(child as DisplayObjectContainer);
+				traverseDisplayObjects(Std.instance(child,DisplayObjectContainer));
 			}
 		}
 	}
@@ -332,7 +352,7 @@ class Mouse3DManager
 
 	private function onMouseOver(event:MouseEvent):Void
 	{
-		_activeView = (event.currentTarget as View3D);
+		_activeView = Std.instance(event.currentTarget,View3D);
 		if (_collidingObject && _previousCollidingObject != _collidingObject)
 			queueDispatch(_mouseOver, event, _collidingObject);
 		else
@@ -364,9 +384,9 @@ class Mouse3DManager
 
 	private function onMouseDown(event:MouseEvent):Void
 	{
-		_activeView = (event.currentTarget as View3D);
+		_activeView = Std.instance(event.currentTarget,View3D);
 		updateCollider(_activeView); // ensures collision check is done with correct mouse coordinates on mobile
-		if (_collidingObject)
+		if (_collidingObject != null)
 		{
 			queueDispatch(_mouseDown, event);
 			_collidingUpObject = null;

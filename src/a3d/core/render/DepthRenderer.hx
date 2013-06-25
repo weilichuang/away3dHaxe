@@ -75,11 +75,13 @@ class DepthRenderer extends RendererBase
 
 		var head:RenderableListItem = entityCollector.opaqueRenderableHead;
 		var first:Bool = true;
-		for (var i:Int = numCascades - 1; i >= 0; --i)
+		var i:Int = numCascades - 1;
+		while (i >= 0)
 		{
 			_stage3DProxy.scissorRect = scissorRects[i];
 			drawCascadeRenderables(head, cameras[i], first ? null : cameras[i].frustumPlanes);
 			first = false;
+			i--;
 		}
 
 		if (_activeMaterial)

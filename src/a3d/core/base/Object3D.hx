@@ -2,6 +2,7 @@ package a3d.core.base;
 
 import flash.geom.Matrix3D;
 import flash.geom.Vector3D;
+import flash.Vector.Vector;
 
 
 import a3d.controllers.ControllerBase;
@@ -18,7 +19,7 @@ import a3d.math.Matrix3DUtils;
  *
  * @eventType a3d.events.Object3DEvent
  */
-@:meta(Event(name = "positionChanged", type = "a3d.events.Object3DEvent")
+@:meta(Event(name = "positionChanged", type = "a3d.events.Object3DEvent"))
 
 /**
  * Dispatched when the scale of the 3d object changes.
@@ -139,7 +140,7 @@ class Object3D extends NamedAssetBase
 		dispatchEvent(_positionChanged);
 	}
 
-	override public function addEventListener(type:String, listener:Function, useCapture:Bool = false, priority:Int = 0, useWeakReference:Bool = false):Void
+	override public function addEventListener(type:String, listener:Dynamic -> Void, useCapture:Bool = false, priority:Int = 0, useWeakReference:Bool = false):Void
 	{
 		super.addEventListener(type, listener, useCapture, priority, useWeakReference);
 		switch (type)
@@ -157,7 +158,7 @@ class Object3D extends NamedAssetBase
 	}
 
 
-	override public function removeEventListener(type:String, listener:Function, useCapture:Bool = false):Void
+	override public function removeEventListener(type:String, listener:Dynamic->Void, useCapture:Bool = false):Void
 	{
 		super.removeEventListener(type, listener, useCapture);
 
@@ -237,7 +238,7 @@ class Object3D extends NamedAssetBase
 	/**
 	 * An object that can contain any extra data.
 	 */
-	public var extra:Object;
+	public var extra:Dynamic;
 
 	/**
 	 * Defines the x coordinate of the 3d object relative to the local coordinates of the parent <code>ObjectContainer3D</code>.

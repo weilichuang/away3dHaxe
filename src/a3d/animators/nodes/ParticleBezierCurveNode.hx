@@ -110,7 +110,7 @@ class ParticleBezierCurveNode extends ParticleNodeBase
 	 */
 	public function getAnimationState(animator:IAnimator):ParticleBezierCurveState
 	{
-		return animator.getAnimationState(this) as ParticleBezierCurveState;
+		return Std.instance(animator.getAnimationState(this),ParticleBezierCurveState);
 	}
 
 	/**

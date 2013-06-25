@@ -32,7 +32,7 @@ class SkeletonNaryLERPState extends AnimationStateBase implements ISkeletonAnima
 		var i:UInt = _skeletonAnimationNode.numInputs;
 
 		while (i--)
-			_inputs[i] = animator.getAnimationState(_skeletonAnimationNode._inputs[i]) as ISkeletonAnimationState;
+			_inputs[i] = Std.instance(animator.getAnimationState(_skeletonAnimationNode._inputs[i]),ISkeletonAnimationState);
 	}
 
 	/**
@@ -44,7 +44,7 @@ class SkeletonNaryLERPState extends AnimationStateBase implements ISkeletonAnima
 
 		_positionDeltaDirty = true;
 
-		for (var j:UInt = 0; j < _skeletonAnimationNode.numInputs; ++j)
+		for (j in 0..._skeletonAnimationNode.numInputs)
 			if (_blendWeights[j])
 				_inputs[j].update(value);
 	}
@@ -54,7 +54,7 @@ class SkeletonNaryLERPState extends AnimationStateBase implements ISkeletonAnima
 	 */
 	override private function updateTime(time:Int):Void
 	{
-		for (var j:UInt = 0; j < _skeletonAnimationNode.numInputs; ++j)
+		for (j in 0..._skeletonAnimationNode.numInputs)
 			if (_blendWeights[j])
 				_inputs[j].update(time);
 
@@ -110,7 +110,7 @@ class SkeletonNaryLERPState extends AnimationStateBase implements ISkeletonAnima
 		positionDelta.y = 0;
 		positionDelta.z = 0;
 
-		for (var j:UInt = 0; j < _skeletonAnimationNode.numInputs; ++j)
+		for (j in 0..._skeletonAnimationNode.numInputs)
 		{
 			weight = _blendWeights[j];
 
@@ -149,7 +149,7 @@ class SkeletonNaryLERPState extends AnimationStateBase implements ISkeletonAnima
 		if (endPoses.length != numJoints)
 			endPoses.length = numJoints;
 
-		for (var j:UInt = 0; j < _skeletonAnimationNode.numInputs; ++j)
+		for (j in 0..._skeletonAnimationNode.numInputs)
 		{
 			weight = _blendWeights[j];
 
@@ -161,7 +161,7 @@ class SkeletonNaryLERPState extends AnimationStateBase implements ISkeletonAnima
 			if (firstPose == null)
 			{
 				firstPose = poses;
-				for (i = 0; i < numJoints; ++i)
+				for (i in 0...numJoints)
 				{
 					if (endPoses[i] == null)
 						endPoses[i] = new JointPose();
@@ -185,7 +185,7 @@ class SkeletonNaryLERPState extends AnimationStateBase implements ISkeletonAnima
 			}
 			else
 			{
-				for (i = 0; i < skeleton.numJoints; ++i)
+				for (i in 0...skeleton.numJoints)
 				{
 					endPose = endPoses[i];
 					pose = poses[i];
@@ -225,7 +225,7 @@ class SkeletonNaryLERPState extends AnimationStateBase implements ISkeletonAnima
 			}
 		}
 
-		for (i = 0; i < skeleton.numJoints; ++i)
+		for (i in 0...skeleton.numJoints)
 		{
 			endPoses[i].orientation.normalize();
 		}

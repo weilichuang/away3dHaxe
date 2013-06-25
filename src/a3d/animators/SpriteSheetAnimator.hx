@@ -119,14 +119,14 @@ class SpriteSheetAnimator extends AnimatorBase implements IAnimator
 		if (material == null || !Std.is(material,TextureMaterial))
 			return;
 
-		var subMesh:SubMesh = renderable as SubMesh;
+		var subMesh:SubMesh = Std.instance(renderable,SubMesh);
 		if (subMesh == null)
 			return;
 
 		//because textures are already uploaded, we can't offset the uv's yet
 		var swapped:Bool;
 
-		if (material is SpriteSheetMaterial && _mapDirty)
+		if (Std.is(material,SpriteSheetMaterial) && _mapDirty)
 			swapped = SpriteSheetMaterial(material).swap(_frame.mapID);
 
 		if (!swapped)
@@ -159,7 +159,7 @@ class SpriteSheetAnimator extends AnimatorBase implements IAnimator
 		_activeNode = _animationSet.getAnimation(name);
 		_activeState = getAnimationState(_activeNode);
 		_frame = SpriteSheetAnimationState(_activeState).currentFrameData;
-		_activeSpriteSheetState = _activeState as ISpriteSheetAnimationState;
+		_activeSpriteSheetState = Std.instance(_activeState,ISpriteSheetAnimationState);
 
 		start();
 	}

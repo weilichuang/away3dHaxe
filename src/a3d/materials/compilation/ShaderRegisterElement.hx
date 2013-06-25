@@ -10,9 +10,9 @@ class ShaderRegisterElement
 	private var _index:Int;
 	private var _toStr:String;
 
-	private static inline var COMPONENTS:Array = ["x", "y", "z", "w"];
+	private static inline var COMPONENTS:Array<String> = ["x", "y", "z", "w"];
 
-	internal var _component:Int;
+	public var _component:Int;
 
 	/**
 	 * Creates a new ShaderRegisterElement object.

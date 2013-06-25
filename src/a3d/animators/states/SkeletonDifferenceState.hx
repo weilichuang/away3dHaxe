@@ -48,8 +48,8 @@ class SkeletonDifferenceState extends AnimationStateBase implements ISkeletonAni
 
 		_skeletonAnimationNode = skeletonAnimationNode;
 
-		_baseInput = animator.getAnimationState(_skeletonAnimationNode.baseInput) as ISkeletonAnimationState;
-		_differenceInput = animator.getAnimationState(_skeletonAnimationNode.differenceInput) as ISkeletonAnimationState;
+		_baseInput = Std.instance(animator.getAnimationState(_skeletonAnimationNode.baseInput),ISkeletonAnimationState);
+		_differenceInput = Std.instance(animator.getAnimationState(_skeletonAnimationNode.differenceInput),ISkeletonAnimationState);
 	}
 
 	/**
@@ -126,7 +126,7 @@ class SkeletonDifferenceState extends AnimationStateBase implements ISkeletonAni
 		if (endPoses.length != numJoints)
 			endPoses.length = numJoints;
 
-		for (var i:UInt = 0; i < numJoints; ++i)
+		for (i in 0...numJoints)
 		{
 			if (endPoses[i] == null)
 				endPoses[i] = new JointPose();

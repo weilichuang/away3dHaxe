@@ -198,7 +198,7 @@ class Bounds
 		var containerBounds:Vector<Float> = _containers[obj];
 
 		var child:ObjectContainer3D;
-		var isEntity:Entity = obj as Entity;
+		var isEntity:Entity = Std.instance(obj,Entity);
 		var containerTransform:Matrix3D = new Matrix3D();
 
 		if (isEntity && parentTransform)
@@ -255,7 +255,7 @@ class Bounds
 
 	private static function parseObjectBounds(oC:ObjectContainer3D, parentTransform:Matrix3D = null, resetBounds:Bool = false):Void
 	{
-		var e:Entity = oC as Entity;
+		var e:Entity = Std.instance(oC,Entity);
 		var corners:Vector<Float>;
 		var mat:Matrix3D = oC.transform.clone();
 		var cB:Vector<Float> = _containers[oC];

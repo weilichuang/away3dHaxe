@@ -101,7 +101,7 @@ class ParticleFollowNode extends ParticleNodeBase
 			else
 			{
 				code += "m33 " + animationRegisterCache.scaleAndRotateTarget + ".xyz," + animationRegisterCache.scaleAndRotateTarget + ".xyz," + temp1 + "\n";
-				for (i = 0; i < len; i++)
+				for (i in 0...len)
 				{
 					code += "m33 " + animationRegisterCache.rotationRegisters[i] + ".xyz," + animationRegisterCache.rotationRegisters[i] + "," + temp1 + "\n";
 				}
@@ -124,7 +124,7 @@ class ParticleFollowNode extends ParticleNodeBase
 			else
 			{
 				code += "m33 " + animationRegisterCache.scaleAndRotateTarget + ".xyz," + animationRegisterCache.scaleAndRotateTarget + ".xyz," + temp1 + "\n";
-				for (i = 0; i < len; i++)
+				for (i in 0...len)
 				{
 					code += "m33 " + animationRegisterCache.rotationRegisters[i] + ".xyz," + animationRegisterCache.rotationRegisters[i] + "," + temp1 + "\n";
 				}
@@ -149,7 +149,7 @@ class ParticleFollowNode extends ParticleNodeBase
 			else
 			{
 				code += "m33 " + animationRegisterCache.scaleAndRotateTarget + ".xyz," + animationRegisterCache.scaleAndRotateTarget + ".xyz," + temp1 + "\n";
-				for (i = 0; i < len; i++)
+				for (i in 0...len)
 				{
 					code += "m33 " + animationRegisterCache.rotationRegisters[i] + ".xyz," + animationRegisterCache.rotationRegisters[i] + "," + temp1 + "\n";
 				}
@@ -172,6 +172,6 @@ class ParticleFollowNode extends ParticleNodeBase
 	 */
 	public function getAnimationState(animator:IAnimator):ParticleFollowState
 	{
-		return animator.getAnimationState(this) as ParticleFollowState;
+		return Std.instance(animator.getAnimationState(this),ParticleFollowState);
 	}
 }

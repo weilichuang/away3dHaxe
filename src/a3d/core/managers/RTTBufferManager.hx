@@ -1,5 +1,6 @@
 package a3d.core.managers;
 
+import a3d.utils.VectorUtil;
 import flash.display3D.Context3D;
 import flash.display3D.IndexBuffer3D;
 import flash.display3D.VertexBuffer3D;
@@ -7,12 +8,14 @@ import flash.events.Event;
 import flash.events.EventDispatcher;
 import flash.geom.Rectangle;
 import flash.utils.Dictionary;
+import flash.Vector.Vector;
+import haxe.ds.ObjectMap;
 
 import a3d.tools.utils.TextureUtils;
 
 class RTTBufferManager extends EventDispatcher
 {
-	private static var _instances:Dictionary;
+	private static var _instances:ObjectMap<Stage3DProxy,RTTBufferManager>;
 
 	public static function getInstance(stage3DProxy:Stage3DProxy):RTTBufferManager
 	{
@@ -20,11 +23,15 @@ class RTTBufferManager extends EventDispatcher
 			throw new Error("stage3DProxy key cannot be null!");
 
 		if (_instances == null)
-			_instances = new Dictionary();
+			_instances = new ObjectMap<Stage3DProxy,RTTBufferManager>();
 
-		if (_instances[stage3DProxy] == null)
-			_instances[stage3DProxy] = new RTTBufferManager(new SingletonEnforcer(), stage3DProxy);
-		return _instances[stage3DProxy];
+		var rttb:RTTBufferManager = _instances.get(stage3DProxy);
+		if (rttb == null)
+		{
+			rttb = new RTTBufferManager(new SingletonEnforcer(), stage3DProxy);
+			_instances.set(stage3DProxy, rttb);
+		}
+		return rttb;
 	}
 
 	private var _renderToTextureVertexBuffer:VertexBuffer3D;
@@ -160,8 +167,8 @@ class RTTBufferManager extends EventDispatcher
 
 	public function dispose():Void
 	{
-		delete _instances[_stage3DProxy];
-		if (_indexBuffer)
+		_instances.remove(_stage3DProxy);
+		if (_indexBuffer != null)
 		{
 			_indexBuffer.dispose();
 			_renderToScreenVertexBuffer.dispose();
@@ -190,7 +197,7 @@ class RTTBufferManager extends EventDispatcher
 		if (_indexBuffer == null)
 		{
 			_indexBuffer = context.createIndexBuffer(6);
-			_indexBuffer.uploadFromVector(new <uint>[2, 1, 0, 3, 2, 0], 0, 6);
+			_indexBuffer.uploadFromVector(VectorUtil.toUIntVector([2, 1, 0, 3, 2, 0]), 0, 6);
 		}
 
 		_textureRatioX = x = Math.min(_viewWidth / _textureWidth, 1);
@@ -202,15 +209,15 @@ class RTTBufferManager extends EventDispatcher
 		var v2:Float = (1 - y) * .5;
 
 		// last element contains indices for data per vertex that can be passed to the vertex shader if necessary (ie: frustum corners for deferred rendering)
-		textureVerts = new <Number>[-x, -y, u1, v1, 0,
+		textureVerts = Vector.ofArray([-x, -y, u1, v1, 0,
 			x, -y, u2, v1, 1,
 			x, y, u2, v2, 2,
-			-x, y, u1, v2, 3];
+			-x, y, u1, v2, 3]);
 
-		screenVerts = new <Number>[-1, -1, u1, v1, 0,
+		screenVerts = Vector.ofArray([-1, -1, u1, v1, 0,
 			1, -1, u2, v1, 1,
 			1, 1, u2, v2, 2,
-			-1, 1, u1, v2, 3];
+			-1, 1, u1, v2, 3]);
 
 		_renderToTextureVertexBuffer.uploadFromVector(textureVerts, 0, 4);
 		_renderToScreenVertexBuffer.uploadFromVector(screenVerts, 0, 4);

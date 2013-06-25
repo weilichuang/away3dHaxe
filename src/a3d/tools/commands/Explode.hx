@@ -51,7 +51,7 @@ class Explode
 	private function parse(object:ObjectContainer3D):Void
 	{
 		var child:ObjectContainer3D;
-		if (object is Mesh && object.numChildren == 0)
+		if (Std.is(object,Mesh) && object.numChildren == 0)
 			apply(Mesh(object).geometry, _keepNormals);
 
 		for (var i:UInt = 0; i < object.numChildren; ++i)

@@ -3,6 +3,7 @@ package a3d.entities;
 import flash.events.Event;
 import flash.geom.Matrix3D;
 import flash.geom.Vector3D;
+import flash.Vector.Vector;
 
 
 import a3d.core.base.Object3D;
@@ -255,8 +256,8 @@ class ObjectContainer3D extends Object3D implements IAsset
 		}
 
 		// Sweep children.
-		var len:UInt = _children.length;
-		for (var i:UInt = 0; i < len; ++i)
+		var len:Int = _children.length;
+		for (i in 0...len)
 			_children[i].updateMouseChildren();
 	}
 
@@ -340,7 +341,7 @@ class ObjectContainer3D extends Object3D implements IAsset
 
 		_explicitVisibility = value;
 
-		for (var i:UInt = 0; i < len; ++i)
+		for (i in 0...len)
 			_children[i].updateImplicitVisibility();
 	}
 
@@ -625,9 +626,9 @@ class ObjectContainer3D extends Object3D implements IAsset
 	 *
 	 * @param	...childarray		An array of 3d objects to be added
 	 */
-	public function addChildren(... childarray):Void
+	public function addChildren(childarray:Array<ObjectContainer3D>):Void
 	{
-		for each (var child:ObjectContainer3D in childarray)
+		for (child in childarray)
 			addChild(child);
 	}
 
@@ -743,10 +744,9 @@ class ObjectContainer3D extends Object3D implements IAsset
 		clone.partition = partition;
 		clone.name = name;
 
-		var len:UInt = _children.length;
-
-		for (var i:UInt = 0; i < len; ++i)
-			clone.addChild(ObjectContainer3D(_children[i].clone()));
+		var len:Int = _children.length;
+		for (i in 0...len)
+			clone.addChild(Std.instance(_children[i].clone(), ObjectContainer3D));
 
 		// todo: implement for all subtypes
 		return clone;
@@ -782,15 +782,13 @@ class ObjectContainer3D extends Object3D implements IAsset
 
 	public function updateImplicitVisibility():Void
 	{
-		var len:UInt = _children.length;
-
 		_implicitVisibility = _parent._explicitVisibility && _parent._implicitVisibility;
 
-		for (var i:UInt = 0; i < len; ++i)
+		for (i in 0..._children.length)
 			_children[i].updateImplicitVisibility();
 	}
 
-	override public function addEventListener(type:String, listener:Function, useCapture:Bool = false, priority:Int = 0, useWeakReference:Bool = false):Void
+	override public function addEventListener(type:String, listener:Dynamic->Void, useCapture:Bool = false, priority:Int = 0, useWeakReference:Bool = false):Void
 	{
 		super.addEventListener(type, listener, useCapture, priority, useWeakReference);
 		switch (type)
@@ -805,7 +803,7 @@ class ObjectContainer3D extends Object3D implements IAsset
 	}
 
 
-	override public function removeEventListener(type:String, listener:Function, useCapture:Bool = false):Void
+	override public function removeEventListener(type:String, listener:Dynamic->Void, useCapture:Bool = false):Void
 	{
 		super.removeEventListener(type, listener, useCapture);
 

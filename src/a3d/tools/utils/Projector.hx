@@ -59,7 +59,7 @@ class Projector
 	private static function parse(obj:ObjectContainer3D):Void
 	{
 		var child:ObjectContainer3D;
-		if (obj is Mesh && obj.numChildren == 0)
+		if (Std.is(obj,Mesh) && obj.numChildren == 0)
 			remapMesh(Mesh(obj));
 
 		for (i in 0...obj.numChildren)
@@ -247,7 +247,7 @@ class Projector
 					}
 			}
 
-			if (sub_geom is CompactSubGeometry)
+			if (Std.is(sub_geom,CompactSubGeometry))
 			{
 				CompactSubGeometry(sub_geom).updateData(uvs);
 			}
@@ -328,7 +328,7 @@ class Projector
 
 			}
 
-			if (sub_geom is CompactSubGeometry)
+			if (Std.is(sub_geom,CompactSubGeometry))
 			{
 				CompactSubGeometry(sub_geom).updateData(uvs);
 			}
@@ -388,7 +388,7 @@ class Projector
 				uvs[uvIndex + 1] = _uv.v;
 			}
 
-			if (sub_geom is CompactSubGeometry)
+			if (Std.is(sub_geom,CompactSubGeometry))
 			{
 				CompactSubGeometry(sub_geom).updateData(uvs);
 			}

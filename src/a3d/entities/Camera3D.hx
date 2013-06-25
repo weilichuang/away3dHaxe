@@ -2,6 +2,7 @@ package a3d.entities;
 
 import flash.geom.Matrix3D;
 import flash.geom.Vector3D;
+import flash.Vector.Vector;
 
 
 import a3d.bounds.BoundingVolumeBase;
@@ -46,7 +47,7 @@ class Camera3D extends Entity
 		//setup default frustum planes
 		_frustumPlanes = new Vector<Plane3D>(6, true);
 
-		for (var i:Int = 0; i < 6; ++i)
+		for (i in 0...6)
 			_frustumPlanes[i] = new Plane3D();
 
 		z = -1000;

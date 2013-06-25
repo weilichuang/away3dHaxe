@@ -115,8 +115,8 @@ class UVAnimator extends AnimatorBase implements IAnimator
 	*/
 	public function setRenderState(stage3DProxy:Stage3DProxy, renderable:IRenderable, vertexConstantOffset:Int, vertexStreamOffset:Int, camera:Camera3D):Void
 	{
-		var material:TextureMaterial = renderable.material as TextureMaterial;
-		var subMesh:SubMesh = renderable as SubMesh;
+		var material:TextureMaterial = Std.instance(renderable.material,TextureMaterial);
+		var subMesh:SubMesh = Std.instance(renderable,SubMesh);
 
 		if (!material || !subMesh)
 			return;
@@ -170,7 +170,7 @@ class UVAnimator extends AnimatorBase implements IAnimator
 
 		_activeNode = _animationSet.getAnimation(name);
 		_activeState = getAnimationState(_activeNode);
-		_activeUVState = _activeState as IUVAnimationState;
+		_activeUVState = Std.instance(_activeState ,IUVAnimationState);
 
 		start();
 	}

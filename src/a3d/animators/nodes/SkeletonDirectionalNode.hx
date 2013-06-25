@@ -38,7 +38,7 @@ class SkeletonDirectionalNode extends AnimationNodeBase
 	 */
 	public function getAnimationState(animator:IAnimator):SkeletonDirectionalState
 	{
-		return animator.getAnimationState(this) as SkeletonDirectionalState;
+		return Std.instance(animator.getAnimationState(this),SkeletonDirectionalState);
 	}
 
 }

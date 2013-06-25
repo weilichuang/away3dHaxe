@@ -32,11 +32,9 @@ class WireframePrimitiveBase extends SegmentSet
 
 	private inline function set_color(value:UInt):Void
 	{
-		var numSegments:UInt = _segments.length;
-
 		_color = value;
 
-		for (var i:Int = 0; i < numSegments; ++i)
+		for (i in 0..._segments.length)
 			_segments[i].startColor = _segments[i].endColor = value;
 	}
 
@@ -47,11 +45,9 @@ class WireframePrimitiveBase extends SegmentSet
 
 	private inline function set_thickness(value:Float):Void
 	{
-		var numSegments:UInt = _segments.length;
-
 		_thickness = value;
 
-		for (var i:Int = 0; i < numSegments; ++i)
+		for (i in 0..._segments.length)
 			_segments[i].thickness = _segments[i].thickness = value;
 	}
 

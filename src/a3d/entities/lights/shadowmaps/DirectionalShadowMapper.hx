@@ -102,7 +102,7 @@ class DirectionalShadowMapper extends ShadowMapperBase
 		var dirY:Float = dir.y;
 		var dirZ:Float = dir.z;
 		var j:Int = 4;
-		for (var i:Int = 0; i < 6; ++i)
+		for (i in 0...6)
 		{
 			var plane:Plane3D = viewFrustumPlanes[i];
 			if (plane.a * dirX + plane.b * dirY + plane.c * dirZ < 0)

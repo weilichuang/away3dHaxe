@@ -54,7 +54,7 @@ class FractalTreeRound extends PrimitiveBase
 
 		_leafPositions = new Vector<Float>();
 
-		buildGeometry(subGeometries[0] as CompactSubGeometry);
+		buildGeometry(Std.instance(subGeometries[0],CompactSubGeometry));
 	}
 
 	override private function buildGeometry(target:CompactSubGeometry):Void

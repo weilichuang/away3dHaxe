@@ -130,7 +130,7 @@ class OBJParser extends ParserBase
 			{
 				var lm:LoadedMaterial = new LoadedMaterial();
 				lm.materialID = resourceDependency.id;
-				lm.texture = asset as Texture2DBase;
+				lm.texture = Std.instance(asset,Texture2DBase);
 
 				_materialLoaded.push(lm);
 
@@ -845,7 +845,6 @@ class OBJParser extends ParserBase
 		var decomposeID:Array;
 		var mesh:Mesh;
 		var mat:MaterialBase;
-		var j:UInt;
 		var specularData:SpecularData;
 
 		for (var i:UInt = 0; i < _meshes.length; ++i)
@@ -866,7 +865,8 @@ class OBJParser extends ParserBase
 				else if (lm.texture)
 				{
 					if (materialMode < 2)
-					{ // if materialMode is 0 or 1, we create a SinglePass				
+					{ 
+						// if materialMode is 0 or 1, we create a SinglePass				
 						mat = TextureMaterial(mesh.material);
 						TextureMaterial(mat).texture = lm.texture;
 						TextureMaterial(mat).ambientColor = lm.ambientColor;
@@ -899,7 +899,8 @@ class OBJParser extends ParserBase
 						}
 					}
 					else
-					{ //if materialMode==2 this is a MultiPassTexture					
+					{ 
+						//if materialMode==2 this is a MultiPassTexture					
 						mat = TextureMultiPassMaterial(mesh.material);
 						TextureMultiPassMaterial(mat).texture = lm.texture;
 						TextureMultiPassMaterial(mat).ambientColor = lm.ambientColor;
@@ -916,7 +917,7 @@ class OBJParser extends ParserBase
 						}
 						else if (_materialSpecularData)
 						{
-							for (j = 0; j < _materialSpecularData.length; ++j)
+							for (j in 0..._materialSpecularData.length)
 							{
 								specularData = _materialSpecularData[j];
 								if (specularData.materialID == lm.materialID)
@@ -956,7 +957,7 @@ class ObjectGroup
 	public var name:String;
 	public var groups:Vector<Group> = new Vector<Group>();
 
-	public function ObjectGroup()
+	public function new()
 	{
 	}
 }
@@ -967,7 +968,7 @@ class Group
 	public var materialID:String;
 	public var materialGroups:Vector<MaterialGroup> = new Vector<MaterialGroup>();
 
-	public function Group()
+	public function new()
 	{
 	}
 }
@@ -977,7 +978,7 @@ class MaterialGroup
 	public var url:String;
 	public var faces:Vector<FaceData> = new Vector<FaceData>();
 
-	public function MaterialGroup()
+	public function new()
 	{
 	}
 }
@@ -989,7 +990,7 @@ class SpecularData
 	public var ambientColor:UInt = 0xFFFFFF;
 	public var alpha:Float = 1;
 
-	public function SpecularData()
+	public function new()
 	{
 	}
 }
@@ -1004,7 +1005,7 @@ class LoadedMaterial
 	public var ambientColor:UInt = 0xFFFFFF;
 	public var alpha:Float = 1;
 
-	public function LoadedMaterial()
+	public function new()
 	{
 	}
 }
@@ -1016,7 +1017,7 @@ class FaceData
 	public var normalIndices:Vector<uint> = new Vector<uint>();
 	public var indexIds:Vector<String> = new Vector<String>(); // used for real index lookups
 
-	public function FaceData()
+	public function new()
 	{
 	}
 }

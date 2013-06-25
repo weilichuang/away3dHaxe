@@ -3,6 +3,7 @@ package a3d.animators;
 import a3d.animators.nodes.AnimationNodeBase;
 import a3d.core.managers.Stage3DProxy;
 import a3d.materials.passes.MaterialPassBase;
+import flash.Vector;
 
 /**
  * Provides an interface for data set classes that hold animation data for use in animator classes.
@@ -30,7 +31,7 @@ interface IAnimationSet
 	 * the vertex registers aslready in use on shading materials allows the animation data to utilise
 	 * GPU calls.
 	 */
-	function get_usesCPU():Bool;
+	var usesCPU(get,null):Bool;
 
 	/**
 	 * Called by the material to reset the GPU indicator before testing whether register space in the shader
@@ -58,7 +59,10 @@ interface IAnimationSet
 	 *
 	 * @private
 	 */
-	function getAGALVertexCode(pass:MaterialPassBase, sourceRegisters:Vector<String>, targetRegisters:Vector<String>, profile:String):String;
+	function getAGALVertexCode(pass:MaterialPassBase, 
+								sourceRegisters:Vector<String>, 
+								targetRegisters:Vector<String>, 
+								profile:String):String;
 
 	/**
 	 * Generates the AGAL Fragment code for the animation, tailored to the material pass's requirements.
@@ -99,7 +103,7 @@ interface IAnimationSet
 	 *
 	 * @private
 	 */
-	function activate(stage3DProxy:Stage3DProxy, pass:MaterialPassBase):Void
+	function activate(stage3DProxy:Stage3DProxy, pass:MaterialPassBase):Void;
 
 	/**
 	 * Clears the GPU render state that has been set by the current animation.
@@ -109,5 +113,5 @@ interface IAnimationSet
 	 *
 	 * @private
 	 */
-	function deactivate(stage3DProxy:Stage3DProxy, pass:MaterialPassBase):Void
+	function deactivate(stage3DProxy:Stage3DProxy, pass:MaterialPassBase):Void;
 }

@@ -151,7 +151,7 @@ class ParticleOrbitNode extends ParticleNodeBase
 	 */
 	public function getAnimationState(animator:IAnimator):ParticleOrbitState
 	{
-		return animator.getAnimationState(this) as ParticleOrbitState;
+		return Std.instance(animator.getAnimationState(this),ParticleOrbitState);
 	}
 
 	/**

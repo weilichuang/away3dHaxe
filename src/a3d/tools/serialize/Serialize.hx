@@ -38,9 +38,9 @@ class Serialize
 
 	public static function serializeObjectContainer(objectContainer3D:ObjectContainer3D, serializer:SerializerBase):Void
 	{
-		if (objectContainer3D is Mesh)
+		if (Std.is(objectContainer3D,Mesh))
 		{
-			serializeMesh(objectContainer3D as Mesh, serializer); // do not indent any extra for first level here
+			serializeMesh(Std.instance(objectContainer3D ,Mesh), serializer); // do not indent any extra for first level here
 		}
 		else
 		{
@@ -50,7 +50,7 @@ class Serialize
 
 	public static function serializeMesh(mesh:Mesh, serializer:SerializerBase):Void
 	{
-		serializeObjectContainerInternal(mesh as ObjectContainer3D, serializer, false /* serializeChildrenAndEnd */);
+		serializeObjectContainerInternal(Std.instance(mesh,ObjectContainer3D), serializer, false /* serializeChildrenAndEnd */);
 		serializer.writeBool("castsShadows", mesh.castsShadows);
 
 		if (mesh.animator)
@@ -70,7 +70,7 @@ class Serialize
 				serializeSubMesh(subMesh, serializer);
 			}
 		}
-		serializeChildren(mesh as ObjectContainer3D, serializer);
+		serializeChildren(Std.instance(mesh,ObjectContainer3D), serializer);
 		serializer.endObject();
 	}
 
@@ -105,7 +105,7 @@ class Serialize
 	{
 		serializer.beginObject(classNameFromInstance(material), material.name);
 
-		if (material.lightPicker is StaticLightPicker)
+		if (Std.is(material.lightPicker,StaticLightPicker))
 		{
 			serializer.writeString("lights", String(StaticLightPicker(material.lightPicker).lights));
 		}
@@ -133,7 +133,7 @@ class Serialize
 		{
 			serializer.writeUint("numUVs", subGeometry.UVData.length);
 		}
-		var skinnedSubGeometry:SkinnedSubGeometry = subGeometry as SkinnedSubGeometry;
+		var skinnedSubGeometry:SkinnedSubGeometry = Std.instance(subGeometry,SkinnedSubGeometry);
 		if (skinnedSubGeometry)
 		{
 			if (skinnedSubGeometry.jointWeightsData)

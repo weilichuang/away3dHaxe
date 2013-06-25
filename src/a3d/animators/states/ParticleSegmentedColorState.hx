@@ -124,7 +124,7 @@ class ParticleSegmentedColorState extends ParticleStateBase
 		_multiplierData = new Vector<Float>;
 		_offsetData = new Vector<Float>;
 		var i:Int;
-		for (i = 0; i < _numSegmentPoint; i++)
+		for (i in 0..._numSegmentPoint)
 		{
 			if (i == 0)
 				_timeLifeData.push(_segmentPoints[i].life);
@@ -139,7 +139,7 @@ class ParticleSegmentedColorState extends ParticleStateBase
 		if (_usesMultiplier)
 		{
 			_multiplierData.push(_startColor.redMultiplier, _startColor.greenMultiplier, _startColor.blueMultiplier, _startColor.alphaMultiplier);
-			for (i = 0; i < _numSegmentPoint; i++)
+			for (i in 0..._numSegmentPoint)
 			{
 				if (i == 0)
 					_multiplierData.push((_segmentPoints[i].color.redMultiplier - _startColor.redMultiplier) / _timeLifeData[i], (_segmentPoints[i].color.greenMultiplier - _startColor.greenMultiplier) /
@@ -162,7 +162,7 @@ class ParticleSegmentedColorState extends ParticleStateBase
 		if (_usesOffset)
 		{
 			_offsetData.push(_startColor.redOffset / 255, _startColor.greenOffset / 255, _startColor.blueOffset / 255, _startColor.alphaOffset / 255);
-			for (i = 0; i < _numSegmentPoint; i++)
+			for (i in 0..._numSegmentPoint)
 			{
 				if (i == 0)
 					_offsetData.push((_segmentPoints[i].color.redOffset - _startColor.redOffset) / _timeLifeData[i] / 255, (_segmentPoints[i].color.greenOffset - _startColor.greenOffset) / _timeLifeData[i] /

@@ -69,6 +69,6 @@ class SkeletonNaryLERPNode extends AnimationNodeBase
 	 */
 	public function getAnimationState(animator:IAnimator):SkeletonNaryLERPState
 	{
-		return animator.getAnimationState(this) as SkeletonNaryLERPState;
+		return Std.instance(animator.getAnimationState(this),SkeletonNaryLERPState);
 	}
 }

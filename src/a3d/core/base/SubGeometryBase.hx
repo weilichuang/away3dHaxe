@@ -529,7 +529,7 @@ class SubGeometryBase
 	 */
 	private function invalidateBuffers(invalid:Vector<Bool>):Void
 	{
-		for (var i:Int = 0; i < 8; ++i)
+		for (i in 0...8)
 			invalid[i] = true;
 	}
 
@@ -643,10 +643,12 @@ class SubGeometryBase
 		var ratioU:Float = scaleU / _scaleU;
 		var ratioV:Float = scaleV / _scaleV;
 
-		for (var i:UInt = offset; i < len; i += stride)
+		var i:Int = offset;
+		while (i < len)
 		{
 			uvs[i] *= ratioU;
 			uvs[i + 1] *= ratioV;
+			i += stride;
 		}
 
 		_scaleU = scaleU;
@@ -664,11 +666,13 @@ class SubGeometryBase
 		var offset:Int = vertexOffset;
 		var stride:Int = vertexStride;
 
-		for (var i:UInt = offset; i < len; i += stride)
+		var i:Int = offset;
+		while (i < len)
 		{
 			vertices[i] *= scale;
 			vertices[i + 1] *= scale;
 			vertices[i + 2] *= scale;
+			i += stride;
 		}
 	}
 
@@ -702,7 +706,7 @@ class SubGeometryBase
 		var ni0:Int = normalOffset;
 		var ti0:Int = tangentOffset;
 
-		for (i = 0; i < len; ++i)
+		for (i in 0...len)
 		{
 			i1 = vi0 + 1;
 			i2 = vi0 + 2;

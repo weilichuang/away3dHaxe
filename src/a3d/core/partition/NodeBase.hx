@@ -1,6 +1,7 @@
 package a3d.core.partition;
 
 import a3d.math.Plane3D;
+import flash.Vector.Vector;
 
 import flash.geom.Vector3D;
 
@@ -61,7 +62,7 @@ class NodeBase
 			_debugPrimitive = null;
 		}
 
-		for (var i:UInt = 0; i < _numChildNodes; ++i)
+		for (i in 0..._numChildNodes)
 		{
 			_childNodes[i].showDebugBounds = value;
 		}

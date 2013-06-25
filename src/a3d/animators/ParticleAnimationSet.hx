@@ -119,7 +119,7 @@ class ParticleAnimationSet extends AnimationSetBase implements IAnimationSet
 	override public function addAnimation(node:AnimationNodeBase):Void
 	{
 		var i:Int;
-		var n:ParticleNodeBase = node as ParticleNodeBase;
+		var n:ParticleNodeBase = Std.instance(node,ParticleNodeBase);
 		n.processAnimationSetting(this);
 		if (n.mode == ParticlePropertiesMode.LOCAL_STATIC)
 		{
@@ -287,7 +287,7 @@ class ParticleAnimationSet extends AnimationSetBase implements IAnimationSet
 		if (initParticleFunc == null)
 			throw(new Error("no initParticleFunc set"));
 
-		var geometry:ParticleGeometry = mesh.geometry as ParticleGeometry;
+		var geometry:ParticleGeometry = Std.instance(mesh.geometry,ParticleGeometry);
 
 		if (geometry == null)
 			throw(new Error("Particle animation can only be performed on a ParticleGeometry object"));

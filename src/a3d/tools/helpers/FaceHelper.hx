@@ -36,7 +36,7 @@ class FaceHelper
 		}
 		else
 		{
-			if (mesh.geometry.subGeometries[0] is CompactSubGeometry)
+			if (Std.is(mesh.geometry.subGeometries[0] ,CompactSubGeometry))
 				mesh.geometry.convertToSeparateBuffers();
 		}
 
@@ -599,7 +599,7 @@ class FaceHelper
 	{
 		var subGeoms:Vector<ISubGeometry> = mesh.geometry.subGeometries;
 
-		if (subGeoms[0] is CompactSubGeometry)
+		if (Std.is(subGeoms[0],CompactSubGeometry))
 			throw new Error("Convert to CompactSubGeometry using mesh.geometry.convertToSeparateBuffers() ");
 
 		var indices:Vector<UInt>;
@@ -648,7 +648,7 @@ class FaceHelper
 	{
 		var subGeoms:Vector<ISubGeometry> = mesh.geometry.subGeometries;
 
-		if (subGeoms[0] is CompactSubGeometry)
+		if (Std.is(subGeoms[0],CompactSubGeometry))
 			throw new Error("Convert to CompactSubGeometry using mesh.geometry.convertToSeparateBuffers() ");
 
 		if (subGeomIndice > subGeoms.length - 1)

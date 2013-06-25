@@ -46,8 +46,8 @@ class SkeletonBinaryLERPState extends AnimationStateBase implements ISkeletonAni
 
 		_skeletonAnimationNode = skeletonAnimationNode;
 
-		_inputA = animator.getAnimationState(_skeletonAnimationNode.inputA) as ISkeletonAnimationState;
-		_inputB = animator.getAnimationState(_skeletonAnimationNode.inputB) as ISkeletonAnimationState;
+		_inputA = Std.instance(animator.getAnimationState(_skeletonAnimationNode.inputA),ISkeletonAnimationState);
+		_inputB = Std.instance(animator.getAnimationState(_skeletonAnimationNode.inputB),ISkeletonAnimationState);
 	}
 
 	/**
@@ -124,7 +124,7 @@ class SkeletonBinaryLERPState extends AnimationStateBase implements ISkeletonAni
 		if (endPoses.length != numJoints)
 			endPoses.length = numJoints;
 
-		for (var i:UInt = 0; i < numJoints; ++i)
+		for (i in 0...numJoints)
 		{
 			if (endPoses[i] == null)
 				endPoses[i] = new JointPose();

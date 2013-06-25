@@ -92,7 +92,7 @@ class ParticleGeometryHelper
 
 				var k:Int;
 				var tempLen:Int;
-				var compact:CompactSubGeometry = sourceSubGeometry as CompactSubGeometry;
+				var compact:CompactSubGeometry = Std.instance(sourceSubGeometry,CompactSubGeometry);
 				var product:UInt;
 				var sourceVertices:Vector<Float>;
 

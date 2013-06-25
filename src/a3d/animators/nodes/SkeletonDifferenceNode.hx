@@ -31,6 +31,6 @@ class SkeletonDifferenceNode extends AnimationNodeBase
 	 */
 	public function getAnimationState(animator:IAnimator):SkeletonDifferenceState
 	{
-		return animator.getAnimationState(this) as SkeletonDifferenceState;
+		return Std.instance(animator.getAnimationState(this),SkeletonDifferenceState);
 	}
 }

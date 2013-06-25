@@ -28,7 +28,11 @@ interface IAnimator
 	 * @param vertexConstantOffset The first available vertex register to write data to if running on the gpu.
 	 * @param vertexStreamOffset The first available vertex stream to write vertex data to if running on the gpu.
 	 */
-	function setRenderState(stage3DProxy:Stage3DProxy, renderable:IRenderable, vertexConstantOffset:Int, vertexStreamOffset:Int, camera:Camera3D):Void
+	function setRenderState(stage3DProxy:Stage3DProxy, 
+							renderable:IRenderable, 
+							vertexConstantOffset:Int, 
+							vertexStreamOffset:Int, 
+							camera:Camera3D):Void;
 
 	/**
 	 * Verifies if the animation will be used on cpu. Needs to be true for all passes for a material to be able to use it on gpu.
@@ -41,14 +45,14 @@ interface IAnimator
 	 *
 	 * @private
 	 */
-	function addOwner(mesh:Mesh):Void
+	function addOwner(mesh:Mesh):Void;
 
 	/**
 	 * Used by the mesh object from which the animator is removed, unregisters the owner for internal use.
 	 *
 	 * @private
 	 */
-	function removeOwner(mesh:Mesh):Void
+	function removeOwner(mesh:Mesh):Void;
 
 	function getAnimationState(node:AnimationNodeBase):AnimationStateBase;
 

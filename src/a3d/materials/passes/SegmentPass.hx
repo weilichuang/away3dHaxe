@@ -7,14 +7,15 @@ import a3d.entities.SegmentSet;
 import flash.display3D.Context3D;
 import flash.display3D.Context3DProgramType;
 import flash.geom.Matrix3D;
+import flash.Vector.Vector;
 
 
 
 
 class SegmentPass extends MaterialPassBase
 {
-	private static inline var ONE_VECTOR:Vector<Float> = Vector<Float>([1, 1, 1, 1]);
-	private static inline var FRONT_VECTOR:Vector<Float> = Vector<Float>([0, 0, -1, 0]);
+	private static inline var ONE_VECTOR:Vector<Float> = Vector.ofArray([1, 1, 1, 1]);
+	private static inline var FRONT_VECTOR:Vector<Float> = Vector.ofArray([0, 0, -1, 0]);
 
 	private var _constants:Vector<Float> = new Vector<Float>(4, true);
 	private var _calcMatrix:Matrix3D;
@@ -123,7 +124,7 @@ class SegmentPass extends MaterialPassBase
 
 		if (SegmentSet(renderable).hasData)
 		{
-			for (var i:UInt = 0; i < subSetCount; ++i)
+			for (i in 0...subSetCount)
 			{
 				renderable.activateVertexBuffer(i, stage3DProxy);
 				context.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX, 8, _calcMatrix, true);

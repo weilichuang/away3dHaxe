@@ -42,13 +42,12 @@ class DefaultMaterialManager
 		_defaultTextureBitmapData = new BitmapData(8, 8, false, 0x0);
 
 		//create chekerboard
-		var i:UInt, j:UInt;
-		for (i = 0; i < 8; i++)
+		for (i in 0...8)
 		{
-			for (j = 0; j < 8; j++)
+			for (j in 0...8)
 			{
 				if ((j & 1) ^ (i & 1))
-					_defaultTextureBitmapData.setPixel(i, j, 0XFFFFFF);
+					_defaultTextureBitmapData.setPixel(i, j, 0xFFFFFF);
 			}
 		}
 
