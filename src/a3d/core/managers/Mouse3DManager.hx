@@ -6,7 +6,7 @@ import flash.display.Stage;
 import flash.events.MouseEvent;
 import flash.geom.Vector3D;
 import flash.utils.Dictionary;
-import flash.Vector.Vector;
+import flash.Vector;
 import haxe.ds.ObjectMap;
 
 

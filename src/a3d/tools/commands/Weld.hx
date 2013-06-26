@@ -2,6 +2,7 @@ package a3d.tools.commands;
 
 import flash.geom.Vector3D;
 import flash.utils.Dictionary;
+import flash.Vector;
 
 
 import a3d.core.base.CompactSubGeometry;

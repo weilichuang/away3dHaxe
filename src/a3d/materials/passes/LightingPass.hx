@@ -3,6 +3,7 @@ package a3d.materials.passes;
 import flash.display3D.Context3D;
 import flash.geom.Matrix3D;
 import flash.geom.Vector3D;
+import flash.Vector;
 
 
 import a3d.entities.Camera3D;

@@ -2,6 +2,7 @@ package a3d.entities.lenses;
 
 import a3d.math.Matrix3DUtils;
 import flash.geom.Vector3D;
+import flash.Vector;
 
 /**
  * The PerspectiveLens object provides a projection matrix that projects 3D geometry isometrically. This entails

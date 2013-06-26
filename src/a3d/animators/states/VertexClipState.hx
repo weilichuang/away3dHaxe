@@ -4,6 +4,7 @@ import a3d.animators.IAnimator;
 import a3d.animators.VertexAnimator;
 import a3d.animators.nodes.VertexClipNode;
 import a3d.core.base.Geometry;
+import flash.Vector;
 
 /**
  *

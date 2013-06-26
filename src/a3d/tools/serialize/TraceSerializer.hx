@@ -1,6 +1,7 @@
 package a3d.tools.serialize;
 
 import flash.geom.Vector3D;
+import flash.Vector;
 
 
 import a3d.math.Quaternion;

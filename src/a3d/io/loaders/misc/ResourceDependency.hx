@@ -1,6 +1,7 @@
 ﻿package a3d.io.loaders.misc;
 
 import flash.net.URLRequest;
+import flash.Vector;
 
 
 import a3d.io.library.assets.IAsset;

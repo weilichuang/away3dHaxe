@@ -1,6 +1,7 @@
 ﻿package a3d.entities.primitives;
 
 import a3d.core.base.CompactSubGeometry;
+import flash.Vector;
 
 import a3d.entities.primitives.data.NURBSVertex;
 import flash.geom.Vector3D;

@@ -4,6 +4,7 @@ import flash.display.BitmapData;
 import flash.display.Graphics;
 import flash.display.Sprite;
 import flash.display.TriangleCulling;
+import flash.Vector;
 
 
 import a3d.core.base.ISubGeometry;

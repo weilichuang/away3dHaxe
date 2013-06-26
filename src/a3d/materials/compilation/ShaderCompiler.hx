@@ -7,6 +7,8 @@ import a3d.materials.methods.MethodVO;
 import a3d.materials.methods.MethodVOSet;
 import a3d.materials.methods.ShaderMethodSetup;
 import a3d.materials.methods.ShadingMethodBase;
+import flash.Vector;
+import flash.Vector;
 
 class ShaderCompiler
 {
@@ -190,7 +192,7 @@ class ShaderCompiler
 		calculateDependencies();
 		updateMethodRegisters();
 
-		for (var i:UInt = 0; i < 4; ++i)
+		for (i in 0...4)
 			_registerCache.getFreeVertexConstant();
 
 		createNormalRegisters();
@@ -374,7 +376,7 @@ class ShaderCompiler
 			setupAndCountMethodDependencies(_methodSetup.colorTransformMethod, _methodSetup.colorTransformMethodVO);
 
 		len = methods.length;
-		for (var i:UInt = 0; i < len; ++i)
+		for (i in 0...len)
 			setupAndCountMethodDependencies(methods[i].method, methods[i].data);
 
 		if (usesNormals)
@@ -423,7 +425,7 @@ class ShaderCompiler
 
 		var methods:Vector<MethodVOSet> = _methodSetup.methods;
 		var len:Int = methods.length;
-		for (var i:UInt = 0; i < len; ++i)
+		for (i in 0...len)
 			methods[i].method.sharedRegisters = _sharedRegisters;
 	}
 
@@ -487,7 +489,7 @@ class ShaderCompiler
 
 		var methods:Vector<MethodVOSet> = _methodSetup.methods;
 		var len:UInt = methods.length;
-		for (var i:UInt = 0; i < len; ++i)
+		for (i in 0...len)
 			methods[i].method.cleanCompilationData();
 	}
 
@@ -676,7 +678,7 @@ class ShaderCompiler
 			_fragmentCode += "mov " + alphaReg + ", " + _sharedRegisters.shadedTarget + ".w\n";
 		}
 
-		for (var i:UInt = 0; i < numMethods; ++i)
+		for (i in 0...numMethods)
 		{
 			method = methods[i].method;
 			data = methods[i].data;

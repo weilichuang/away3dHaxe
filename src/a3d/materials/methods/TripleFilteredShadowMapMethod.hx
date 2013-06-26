@@ -5,6 +5,7 @@ import a3d.entities.lights.DirectionalLight;
 import a3d.entities.lights.PointLight;
 import a3d.materials.compilation.ShaderRegisterCache;
 import a3d.materials.compilation.ShaderRegisterElement;
+import flash.Vector;
 
 
 

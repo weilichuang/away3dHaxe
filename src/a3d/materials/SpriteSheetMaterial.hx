@@ -2,6 +2,7 @@ package a3d.materials;
 
 
 import a3d.textures.Texture2DBase;
+import flash.Vector;
 
 
 

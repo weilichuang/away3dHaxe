@@ -3,6 +3,7 @@ package a3d.animators.states;
 import a3d.animators.IAnimator;
 import a3d.animators.data.UVAnimationFrame;
 import a3d.animators.nodes.UVClipNode;
+import flash.Vector;
 
 class UVClipState extends AnimationClipState implements IUVAnimationState
 {

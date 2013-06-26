@@ -10,7 +10,7 @@ class ShaderRegisterElement
 	private var _index:Int;
 	private var _toStr:String;
 
-	private static inline var COMPONENTS:Array<String> = ["x", "y", "z", "w"];
+	private static var COMPONENTS:Array<String> = ["x", "y", "z", "w"];
 
 	public var _component:Int;
 
@@ -46,6 +46,7 @@ class ShaderRegisterElement
 	/**
 	 * The register's name.
 	 */
+	public var regName(get, null):String;
 	private inline function get_regName():String
 	{
 		return _regName;
@@ -54,12 +55,13 @@ class ShaderRegisterElement
 	/**
 	 * The register's index.
 	 */
+	public var index(get, null):Int;
 	private inline function get_index():Int
 	{
 		return _index;
 	}
 
-/**
- * The register's component, if not the entire register is represented.
- */
+	/**
+	 * The register's component, if not the entire register is represented.
+	 */
 }

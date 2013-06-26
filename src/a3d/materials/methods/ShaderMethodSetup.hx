@@ -1,6 +1,7 @@
 package a3d.materials.methods;
 
 import flash.events.EventDispatcher;
+import flash.Vector;
 
 import a3d.events.ShadingMethodEvent;
 
@@ -238,7 +239,7 @@ class ShaderMethodSetup extends EventDispatcher
 		clearListeners(_ambientMethod);
 		clearListeners(_specularMethod);
 
-		for (var i:Int = 0; i < _methods.length; ++i)
+		for (i in 0..._methods.length)
 			clearListeners(_methods[i].method);
 
 		_methods = null;
@@ -312,7 +313,7 @@ class ShaderMethodSetup extends EventDispatcher
 	private function getMethodSetForMethod(method:EffectMethodBase):MethodVOSet
 	{
 		var len:Int = _methods.length;
-		for (var i:Int = 0; i < len; ++i)
+		for (i in 0...len)
 			if (_methods[i].method == method)
 				return _methods[i];
 

@@ -2,6 +2,7 @@ package a3d.io.loaders;
 
 import flash.events.EventDispatcher;
 import flash.net.URLRequest;
+import flash.Vector;
 
 
 import a3d.events.AssetEvent;

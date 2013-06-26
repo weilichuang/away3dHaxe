@@ -3,7 +3,7 @@ package a3d.entities;
 import flash.events.Event;
 import flash.geom.Matrix3D;
 import flash.geom.Vector3D;
-import flash.Vector.Vector;
+import flash.Vector;
 
 
 import a3d.core.base.Object3D;
@@ -770,10 +770,10 @@ class ObjectContainer3D extends Object3D implements IAsset
 
 		if (event.bubbles)
 		{
-			if (_parent)
+			if (_parent != null)
 				_parent.dispatchEvent(event);
 			// if it's scene root
-			else if (_scene)
+			else if (_scene != null)
 				_scene.dispatchEvent(event);
 		}
 

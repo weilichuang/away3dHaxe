@@ -1,6 +1,7 @@
 package a3d.animators.nodes;
 
 import flash.geom.Vector3D;
+import flash.Vector;
 
 import a3d.animators.states.VertexClipState;
 import a3d.core.base.Geometry;

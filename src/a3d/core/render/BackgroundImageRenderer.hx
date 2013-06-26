@@ -1,6 +1,7 @@
 package a3d.core.render;
 
 import com.adobe.utils.AGALMiniAssembler;
+import flash.Vector;
 
 import flash.display3D.Context3D;
 import flash.display3D.Context3DProgramType;

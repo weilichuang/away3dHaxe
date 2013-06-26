@@ -1,6 +1,7 @@
 package a3d.animators.states;
 
 import flash.geom.Vector3D;
+import flash.Vector;
 
 
 import a3d.animators.IAnimator;

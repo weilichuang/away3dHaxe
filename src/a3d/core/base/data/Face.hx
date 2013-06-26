@@ -2,7 +2,8 @@
 
 import flash.geom.Point;
 import flash.geom.Vector3D;
-import flash.Vector.Vector;
+import flash.Vector;
+import flash.Vector;
 
 /**
 * Face value object.

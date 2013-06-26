@@ -1,6 +1,7 @@
 package a3d.core.partition;
 
 import flash.geom.Vector3D;
+import flash.Vector;
 
 
 import a3d.bounds.BoundingVolumeBase;

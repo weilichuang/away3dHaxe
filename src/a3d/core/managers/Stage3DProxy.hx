@@ -111,11 +111,13 @@ class Stage3DProxy extends EventDispatcher
 	 */
 	public function configureBackBuffer(backBufferWidth:Int, backBufferHeight:Int, antiAlias:Int, enableDepthAndStencil:Bool):Void
 	{
-		var oldWidth:UInt = _backBufferWidth;
-		var oldHeight:UInt = _backBufferHeight;
+		var oldWidth:Int = _backBufferWidth;
+		var oldHeight:Int = _backBufferHeight;
 
-		_backBufferWidth = _viewPort.width = backBufferWidth;
-		_backBufferHeight = _viewPort.height = backBufferHeight;
+		_viewPort.width = backBufferWidth;
+		_viewPort.height = backBufferHeight;
+		_backBufferWidth = backBufferWidth;
+		_backBufferHeight = backBufferHeight;
 
 		if (oldWidth != _backBufferWidth || oldHeight != _backBufferHeight)
 			notifyViewportUpdated();
@@ -123,7 +125,7 @@ class Stage3DProxy extends EventDispatcher
 		_antiAlias = antiAlias;
 		_enableDepthAndStencil = enableDepthAndStencil;
 
-		if (_context3D)
+		if (_context3D != null)
 			_context3D.configureBackBuffer(backBufferWidth, backBufferHeight, antiAlias, enableDepthAndStencil);
 	}
 

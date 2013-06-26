@@ -11,6 +11,7 @@ import a3d.core.render.DefaultRenderer;
 import a3d.core.render.RendererBase;
 import a3d.core.traverse.EntityCollector;
 import a3d.tools.utils.TextureUtils;
+import flash.Vector;
 
 import flash.display.BitmapData;
 import flash.display3D.textures.TextureBase;

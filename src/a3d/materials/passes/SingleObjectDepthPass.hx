@@ -6,6 +6,7 @@ import flash.display3D.Context3DTextureFormat;
 import flash.display3D.textures.Texture;
 import flash.geom.Matrix3D;
 import flash.utils.Dictionary;
+import flash.Vector;
 
 
 import a3d.entities.Camera3D;

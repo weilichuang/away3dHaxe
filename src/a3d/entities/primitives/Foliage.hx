@@ -2,6 +2,7 @@ package a3d.entities.primitives;
 
 
 import flash.geom.Vector3D;
+import flash.Vector;
 
 import a3d.core.base.CompactSubGeometry;
 import a3d.tools.utils.GeomUtil;

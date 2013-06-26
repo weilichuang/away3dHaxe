@@ -1,6 +1,7 @@
 package a3d.tools.helpers.data;
 
 import flash.geom.Vector3D;
+import flash.Vector;
 
 import a3d.core.base.Geometry;
 import a3d.core.base.ISubGeometry;

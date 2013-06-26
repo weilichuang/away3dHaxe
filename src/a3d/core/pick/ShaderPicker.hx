@@ -1,6 +1,7 @@
 package a3d.core.pick;
 
 import com.adobe.utils.AGALMiniAssembler;
+import flash.Vector;
 
 import flash.display.BitmapData;
 import flash.display3D.Context3D;

@@ -2,6 +2,7 @@ package a3d.animators.nodes;
 
 import a3d.animators.IAnimator;
 import a3d.animators.states.SkeletonNaryLERPState;
+import flash.Vector;
 
 
 

@@ -1,6 +1,7 @@
 package a3d.materials.lightpickers;
 
 import flash.events.Event;
+import flash.Vector;
 
 import a3d.events.LightEvent;
 import a3d.entities.lights.DirectionalLight;

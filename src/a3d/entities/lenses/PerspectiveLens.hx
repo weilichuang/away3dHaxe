@@ -1,6 +1,7 @@
 package a3d.entities.lenses;
 
 import a3d.math.Matrix3DUtils;
+import flash.Vector;
 
 import flash.geom.Vector3D;
 

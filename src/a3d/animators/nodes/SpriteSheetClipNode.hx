@@ -2,6 +2,7 @@ package a3d.animators.nodes;
 
 import a3d.animators.data.SpriteSheetAnimationFrame;
 import a3d.animators.states.SpriteSheetAnimationState;
+import flash.Vector;
 
 /**
  * A SpriteSheetClipNode containing time-based animation data as individual sprite sheet animation frames.

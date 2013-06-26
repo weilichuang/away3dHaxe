@@ -2,6 +2,7 @@ package a3d.animators.nodes;
 
 import a3d.animators.data.UVAnimationFrame;
 import a3d.animators.states.UVClipState;
+import flash.Vector;
 
 /**
  * A uv animation node containing time-based animation data as individual uv animation frames.

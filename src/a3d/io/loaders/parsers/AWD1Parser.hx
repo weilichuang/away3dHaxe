@@ -3,6 +3,7 @@ package a3d.io.loaders.parsers;
 import flash.geom.Matrix3D;
 import flash.net.URLRequest;
 import flash.utils.ByteArray;
+import flash.Vector;
 
 
 import a3d.core.base.CompactSubGeometry;

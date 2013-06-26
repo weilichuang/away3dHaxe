@@ -2,6 +2,7 @@ package a3d.animators;
 
 import flash.events.EventDispatcher;
 import flash.geom.Vector3D;
+import flash.Vector;
 
 import a3d.core.base.Object3D;
 import a3d.events.PathEvent;

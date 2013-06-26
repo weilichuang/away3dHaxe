@@ -7,6 +7,7 @@ package example
 	import flash.geom.ColorTransform;
 	import flash.geom.Vector3D;
 	import flash.utils.Timer;
+	import flash.Vector;
 
 	import a3d.animators.ParticleAnimationSet;
 	import a3d.animators.ParticleAnimator;

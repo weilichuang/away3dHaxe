@@ -1,4 +1,5 @@
 package a3d.materials.compilation;
+import flash.Vector;
 
 
 
@@ -270,7 +271,7 @@ class SuperShaderCompiler extends ShaderCompiler
 		var i:UInt, len:UInt;
 
 		len = dirLightRegisters.length;
-		for (i = 0; i < len; ++i)
+		for (i in 0...len)
 		{
 			dirLightRegisters[i] = _registerCache.getFreeFragmentConstant();
 			if (_lightFragmentConstantIndex == -1)
@@ -278,7 +279,7 @@ class SuperShaderCompiler extends ShaderCompiler
 		}
 
 		len = pointLightRegisters.length;
-		for (i = 0; i < len; ++i)
+		for (i in 0...len)
 		{
 			pointLightRegisters[i] = _registerCache.getFreeFragmentConstant();
 			if (_lightFragmentConstantIndex == -1)
@@ -298,7 +299,7 @@ class SuperShaderCompiler extends ShaderCompiler
 		if (!(addSpec || addDiff))
 			return;
 
-		for (var i:UInt = 0; i < _numDirectionalLights; ++i)
+		for (i in 0..._numDirectionalLights)
 		{
 			lightDirReg = dirLightRegisters[regIndex++];
 			diffuseColorReg = dirLightRegisters[regIndex++];
@@ -323,7 +324,7 @@ class SuperShaderCompiler extends ShaderCompiler
 		if (!(addSpec || addDiff))
 			return;
 
-		for (var i:UInt = 0; i < _numPointLights; ++i)
+		for (i in 0..._numPointLights)
 		{
 			lightPosReg = pointLightRegisters[regIndex++];
 			diffuseColorReg = pointLightRegisters[regIndex++];
@@ -377,14 +378,14 @@ class SuperShaderCompiler extends ShaderCompiler
 		if (addSpec)
 			_lightProbeSpecularIndices = new Vector<UInt>();
 
-		for (i = 0; i < _numProbeRegisters; ++i)
+		for (i in 0..._numProbeRegisters)
 		{
 			weightRegisters[i] = _registerCache.getFreeFragmentConstant();
 			if (i == 0)
 				_probeWeightsIndex = weightRegisters[i].index * 4;
 		}
 
-		for (i = 0; i < _numLightProbes; ++i)
+		for (i in 0..._numLightProbes)
 		{
 			weightReg = weightRegisters[Math.floor(i / 4)].toString() + weightComponents[i % 4];
 

@@ -3,6 +3,7 @@ package a3d.animators.data;
 import a3d.animators.nodes.AnimationNodeBase;
 import a3d.materials.compilation.ShaderRegisterCache;
 import a3d.materials.compilation.ShaderRegisterElement;
+import flash.Vector;
 
 import flash.geom.Matrix3D;
 import flash.utils.Dictionary;

@@ -3,6 +3,7 @@ package a3d.tools.commands;
 
 import a3d.entities.Mesh;
 import a3d.tools.utils.Bounds;
+import flash.Vector;
 
 
 

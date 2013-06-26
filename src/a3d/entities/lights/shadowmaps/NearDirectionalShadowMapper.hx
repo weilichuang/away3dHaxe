@@ -2,6 +2,7 @@ package a3d.entities.lights.shadowmaps;
 
 
 import a3d.entities.Camera3D;
+import flash.Vector;
 
 
 

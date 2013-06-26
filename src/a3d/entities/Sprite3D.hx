@@ -4,6 +4,7 @@ import flash.display3D.IndexBuffer3D;
 import flash.geom.Matrix;
 import flash.geom.Matrix3D;
 import flash.geom.Vector3D;
+import flash.Vector;
 
 
 import a3d.animators.IAnimator;

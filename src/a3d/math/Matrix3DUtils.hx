@@ -2,7 +2,7 @@ package a3d.math;
 
 import flash.geom.Matrix3D;
 import flash.geom.Vector3D;
-import flash.Vector.Vector;
+import flash.Vector;
 
 /**
  * Matrix3DUtils provides additional Matrix3D math functions.

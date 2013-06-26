@@ -1,4 +1,5 @@
 package a3d.materials.methods;
+import flash.Vector;
 
 
 class PoissonLookup

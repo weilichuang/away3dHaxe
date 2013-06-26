@@ -3,6 +3,7 @@ package a3d.tools.helpers;
 import flash.geom.Matrix3D;
 import flash.geom.Vector3D;
 import flash.utils.Dictionary;
+import flash.Vector;
 
 
 import a3d.core.base.CompactSubGeometry;

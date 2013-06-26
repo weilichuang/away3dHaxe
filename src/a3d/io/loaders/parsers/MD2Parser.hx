@@ -4,6 +4,7 @@ import flash.net.URLRequest;
 import flash.utils.ByteArray;
 import flash.utils.Dictionary;
 import flash.utils.Endian;
+import flash.Vector;
 
 
 import a3d.animators.VertexAnimationSet;

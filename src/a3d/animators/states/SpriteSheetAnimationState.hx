@@ -5,6 +5,7 @@ import a3d.animators.IAnimator;
 import a3d.animators.SpriteSheetAnimator;
 import a3d.animators.data.SpriteSheetAnimationFrame;
 import a3d.animators.nodes.SpriteSheetClipNode;
+import flash.Vector;
 
 
 

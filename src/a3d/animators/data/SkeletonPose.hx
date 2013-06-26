@@ -3,6 +3,7 @@ package a3d.animators.data;
 import a3d.io.library.assets.AssetType;
 import a3d.io.library.assets.IAsset;
 import a3d.io.library.assets.NamedAssetBase;
+import flash.Vector;
 
 /**
  * A collection of pose objects, determining the pose for an entire skeleton.

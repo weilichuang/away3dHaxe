@@ -6,6 +6,7 @@ import a3d.entities.Mesh;
 import a3d.entities.ObjectContainer3D;
 import a3d.materials.MaterialBase;
 import a3d.tools.utils.GeomUtil;
+import flash.Vector;
 
 /**
  *  Class Merge merges two or more static meshes into one.<code>Merge</code>

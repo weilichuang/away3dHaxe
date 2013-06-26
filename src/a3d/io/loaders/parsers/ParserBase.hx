@@ -15,6 +15,7 @@ import flash.net.URLRequest;
 import flash.utils.ByteArray;
 import flash.utils.getTimer;
 import flash.utils.Timer;
+import flash.Vector;
 
 
 

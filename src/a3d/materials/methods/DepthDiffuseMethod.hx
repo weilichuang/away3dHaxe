@@ -3,6 +3,7 @@ package a3d.materials.methods;
 
 import a3d.materials.compilation.ShaderRegisterCache;
 import a3d.materials.compilation.ShaderRegisterElement;
+import flash.Vector;
 
 
 

@@ -1,6 +1,7 @@
 package a3d.core.pick;
 
 import flash.geom.Vector3D;
+import flash.Vector;
 
 import a3d.core.base.SubMesh;
 

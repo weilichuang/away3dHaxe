@@ -5,6 +5,7 @@ import a3d.core.base.CompactSubGeometry;
 import a3d.core.base.Geometry;
 import a3d.core.base.ISubGeometry;
 import a3d.errors.AbstractMethodError;
+import flash.Vector;
 
 import flash.geom.Matrix3D;
 

@@ -3,6 +3,7 @@ package a3d.core.traverse;
 
 import a3d.entities.ObjectContainer3D;
 import a3d.entities.Scene3D;
+import flash.Vector;
 
 
 

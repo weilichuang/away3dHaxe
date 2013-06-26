@@ -1,6 +1,7 @@
 ﻿package a3d.entities.primitives;
 
 import flash.geom.Vector3D;
+import flash.Vector;
 
 import a3d.core.base.Geometry;
 import a3d.entities.primitives.data.TridentLines;

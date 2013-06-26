@@ -1,6 +1,7 @@
 package a3d.paths;
 
 import flash.geom.Vector3D;
+import flash.Vector;
 
 interface IPath
 {

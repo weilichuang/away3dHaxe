@@ -1,6 +1,7 @@
 package a3d.animators.states;
 
 import flash.geom.ColorTransform;
+import flash.Vector;
 
 
 import a3d.animators.ParticleAnimator;

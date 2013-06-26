@@ -15,6 +15,7 @@ import flash.text.TextFieldAutoSize;
 import flash.text.TextFormat;
 import flash.utils.getTimer;
 import flash.utils.Timer;
+import flash.Vector;
 
 
 /**

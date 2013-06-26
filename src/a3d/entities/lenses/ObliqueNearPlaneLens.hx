@@ -2,6 +2,7 @@ package a3d.entities.lenses;
 
 import a3d.math.Plane3D;
 import a3d.events.LensEvent;
+import flash.Vector;
 
 import flash.geom.Matrix3D;
 

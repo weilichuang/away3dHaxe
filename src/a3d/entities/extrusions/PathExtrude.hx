@@ -2,6 +2,7 @@ package a3d.entities.extrusions;
 
 import flash.geom.Matrix3D;
 import flash.geom.Vector3D;
+import flash.Vector;
 
 import a3d.bounds.BoundingVolumeBase;
 import a3d.core.base.Geometry;

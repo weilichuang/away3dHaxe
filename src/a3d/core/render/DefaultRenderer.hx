@@ -6,6 +6,7 @@ import flash.display3D.textures.TextureBase;
 import flash.geom.Matrix3D;
 import flash.geom.Rectangle;
 import flash.geom.Vector3D;
+import flash.Vector;
 
 
 import a3d.entities.Camera3D;

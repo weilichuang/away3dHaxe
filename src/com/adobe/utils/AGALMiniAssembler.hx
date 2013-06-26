@@ -106,30 +106,30 @@ class AGALMiniAssembler
 				continue;
 			}
 
-			line = line.substr(line.indexOf(opFound.name()) + opFound.name().length);
+			line = line.substr(line.indexOf(opFound.name) + opFound.name.length);
 
 			// nesting check
-			if ((opFound.flags() & OP_DEC_NEST) != 0) {
+			if ((opFound.flags & OP_DEC_NEST) != 0) {
 				nest--;
 				if (nest < 0) {
 					_error = "error: conditional closes without open.";
 					break;
 				}
 			}
-			if ((opFound.flags() & OP_INC_NEST) != 0) {
+			if ((opFound.flags & OP_INC_NEST) != 0) {
 				nest++;
 				if (nest > MAX_NESTING) {
 					_error = "error: nesting to deep, maximum allowed is " + MAX_NESTING + ".";
 					break;
 				}
 			}
-			if (((opFound.flags() & OP_FRAG_ONLY) != 0) && !isFrag) {
+			if (((opFound.flags & OP_FRAG_ONLY) != 0) && !isFrag) {
 				_error = "error: opcode is only allowed in fragment programs.";
 				break;
 			}
 			if (verbose) trace("emit opcode=" + opFound);
 
-			_agalcode.writeUnsignedInt( opFound.emitCode() );
+			_agalcode.writeUnsignedInt( opFound.emitCode );
 			nops++;
 
 			if (nops > MAX_OPCODES) {
@@ -147,7 +147,8 @@ class AGALMiniAssembler
 				if (subline.charAt(0) == ",") subline = subline.substr(1);
 				reg = ~/vc\[([vof][actps]?)(\d*)?(\.[xyzw](\+\d{1,3})?)?\](\.[xyzw]{1,4})?|([vof][actps]?)(\d*)?(\.[xyzw]{1,4})?/gi;
 			}
-			if (regs.length != Std.int(opFound.numRegister())) {
+			if (regs.length != Std.int(opFound.numRegister)) 
+			{
 				_error = "error: wrong number of operands. found " + regs.length + " but expected " + opFound.numRegister + ".";
 				break;
 			}
@@ -185,7 +186,7 @@ class AGALMiniAssembler
 				}
 
 				if (isFrag) {
-					if ((regFound.flags() & REG_FRAG) == 0) {
+					if ((regFound.flags & REG_FRAG) == 0) {
 						_error = "error: register operand "+j+" ("+regs[j]+") only allowed in vertex programs.";
 						badreg = true;
 						break;
@@ -197,14 +198,14 @@ class AGALMiniAssembler
 					}
 				}
 				else {
-					if ((regFound.flags() & REG_VERT) == 0) {
+					if ((regFound.flags & REG_VERT) == 0) {
 						_error = "error: register operand " + j + " (" + regs[j] + ") only allowed in fragment programs.";
 						badreg = true;
 						break;
 					}
 				}
 
-				regs[j] = regs[j].substr(regs[j].indexOf( regFound.name() ) + regFound.name().length);
+				regs[j] = regs[j].substr(regs[j].indexOf( regFound.name ) + regFound.name.length);
 				//trace( "REGNUM: " +regs[j] );
 				reg = ~/\d+/;
 				var idxmatched : Bool;
@@ -215,15 +216,15 @@ class AGALMiniAssembler
 
 				if (idxmatched) regidx = Std.parseInt(reg.matched(0));
 
-				if (regFound.range() < regidx) {
-					_error = "error: register operand " + j + " (" + regs[j] + ") index exceeds limit of " + (regFound.range() + 1) + ".";
+				if (regFound.range < regidx) {
+					_error = "error: register operand " + j + " (" + regs[j] + ") index exceeds limit of " + (regFound.range + 1) + ".";
 					badreg = true;
 					break;
 				}
 
 				var regmask : UInt   = 0;
-				var isDest : Bool    = (j == 0 && (opFound.flags() & OP_NO_DEST) == 0);
-				var isSampler : Bool = (j == 2 && (opFound.flags() & OP_SPECIAL_TEX) != 0);
+				var isDest : Bool    = (j == 0 && (opFound.flags & OP_NO_DEST) == 0);
+				var isSampler : Bool = (j == 2 && (opFound.flags & OP_SPECIAL_TEX) != 0);
 				var reltype : UInt   = 0;
 				var relsel : UInt    = 0;
 				var reloffset : Int  = 0;
@@ -267,7 +268,7 @@ class AGALMiniAssembler
 						badreg = true;
 						break;
 					}
-					reltype = regFoundRel.emitCode();
+					reltype = regFoundRel.emitCode;
 					reg = ~/(\.[xyzw]{1,1})/;
 					if (!reg.match(relreg)) {
 						_error = "error: bad index register select";
@@ -293,7 +294,7 @@ class AGALMiniAssembler
 				if (isDest) {
 					_agalcode.writeShort(regidx);
 					_agalcode.writeByte(regmask);
-					_agalcode.writeByte(regFound.emitCode());
+					_agalcode.writeByte(regFound.emitCode);
 					pad -= 32;
 				}
 				else {
@@ -323,12 +324,12 @@ class AGALMiniAssembler
 							}
 							else
 							{
-								if (optfound.flag() != SAMPLER_SPECIAL_SHIFT)
+								if (optfound.flag != SAMPLER_SPECIAL_SHIFT)
 								{
-									samplerbits &= ~(0xf << optfound.flag());
+									samplerbits &= ~(0xf << optfound.flag);
 								}
 
-								samplerbits |= optfound.mask() << optfound.flag();
+								samplerbits |= optfound.mask << optfound.flag;
 							}
 							++k;
 						}
@@ -348,7 +349,7 @@ class AGALMiniAssembler
 						_agalcode.writeShort(regidx);
 						_agalcode.writeByte(reloffset);
 						_agalcode.writeByte(regmask);
-						_agalcode.writeByte(regFound.emitCode());
+						_agalcode.writeByte(regFound.emitCode);
 						_agalcode.writeByte(reltype);
 						_agalcode.writeShort(isRelative ? ( relsel | ( 1 << 15 ) ) : 0);
 
@@ -627,7 +628,7 @@ class Register
 	}
 
 	public function toString() : String {
-		return "[Register name=\"" + this.name + "\", longName=\"" + this.longName + "\", emitCode=" + this.mitCode + ", range=" + this.range + ", flags=" + this.flags + "]";
+		return "[Register name=\"" + this.name + "\", longName=\"" + this.longName + "\", emitCode=" + this.emitCode + ", range=" + this.range + ", flags=" + this.flags + "]";
 	}
 }
 

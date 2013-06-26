@@ -1,6 +1,7 @@
 package a3d.animators;
 
 import flash.utils.Dictionary;
+import flash.Vector;
 
 import a3d.animators.nodes.AnimationNodeBase;
 import a3d.errors.AnimationSetError;

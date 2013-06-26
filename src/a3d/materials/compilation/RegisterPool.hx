@@ -1,6 +1,7 @@
 package a3d.materials.compilation;
 
 import flash.utils.Dictionary;
+import flash.Vector;
 
 /**
  * RegisterPool is used by the shader compilation process to keep track of which registers of a certain type are

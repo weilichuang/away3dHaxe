@@ -8,6 +8,7 @@ import a3d.materials.compilation.ShaderRegisterData;
 import a3d.materials.compilation.ShaderRegisterElement;
 import a3d.materials.passes.MaterialPassBase;
 import a3d.textures.Texture2DBase;
+import flash.Vector;
 
 
 

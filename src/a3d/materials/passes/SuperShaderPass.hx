@@ -3,6 +3,7 @@ package a3d.materials.passes;
 import flash.display3D.Context3D;
 import flash.geom.ColorTransform;
 import flash.geom.Vector3D;
+import flash.Vector;
 
 
 import a3d.entities.Camera3D;
@@ -168,7 +169,7 @@ class SuperShaderPass extends CompiledPass
 
 		var methods:Vector<MethodVOSet> = _methodSetup.methods;
 		var len:UInt = methods.length;
-		for (var i:Int = 0; i < len; ++i)
+		for (i in 0...len)
 		{
 			var mset:MethodVOSet = methods[i];
 			mset.method.activate(mset.data, stage3DProxy);
@@ -196,7 +197,7 @@ class SuperShaderPass extends CompiledPass
 		var mset:MethodVOSet;
 		var methods:Vector<MethodVOSet> = _methodSetup.methods;
 		var len:UInt = methods.length;
-		for (var i:UInt = 0; i < len; ++i)
+		for (i in 0...len)
 		{
 			mset = methods[i];
 			mset.method.deactivate(mset.data, stage3DProxy);
@@ -211,7 +212,7 @@ class SuperShaderPass extends CompiledPass
 			addPasses(_methodSetup.colorTransformMethod.passes);
 
 		var methods:Vector<MethodVOSet> = _methodSetup.methods;
-		for (var i:UInt = 0; i < methods.length; ++i)
+		for (i in 0...methods.length)
 			addPasses(methods[i].method.passes);
 	}
 
@@ -233,7 +234,7 @@ class SuperShaderPass extends CompiledPass
 
 		var methods:Vector<MethodVOSet> = _methodSetup.methods;
 		var len:UInt = methods.length;
-		for (var i:UInt = 0; i < len; ++i)
+		for (i in 0...len)
 		{
 			methods[i].method.initConstants(methods[i].data);
 		}
@@ -258,13 +259,13 @@ class SuperShaderPass extends CompiledPass
 
 		k = _lightFragmentConstantIndex;
 
-		for (var cast:Int = 0; cast < numLightTypes; ++cast)
+		for (c in 0...numLightTypes)
 		{
-			var dirLights:Vector<DirectionalLight> = cast ? _lightPicker.castingDirectionalLights : _lightPicker.directionalLights;
+			var dirLights:Vector<DirectionalLight> = (c != 0) ? _lightPicker.castingDirectionalLights : _lightPicker.directionalLights;
 			len = dirLights.length;
 			total += len;
 
-			for (i = 0; i < len; ++i)
+			for (i in 0...len)
 			{
 				dirLight = dirLights[i];
 				dirPos = dirLight.sceneDirection;
@@ -299,11 +300,11 @@ class SuperShaderPass extends CompiledPass
 		}
 
 		total = 0;
-		for (cast = 0; cast < numLightTypes; ++cast)
+		for (c in 0...numLightTypes)
 		{
-			var pointLights:Vector<PointLight> = cast ? _lightPicker.castingPointLights : _lightPicker.pointLights;
+			var pointLights:Vector<PointLight> = (c != 0) ? _lightPicker.castingPointLights : _lightPicker.pointLights;
 			len = pointLights.length;
-			for (i = 0; i < len; ++i)
+			for (i in 0...len)
 			{
 				pointLight = pointLights[i];
 				dirPos = pointLight.scenePosition;
@@ -333,8 +334,11 @@ class SuperShaderPass extends CompiledPass
 		if (_numPointLights > total)
 		{
 			i = k + (total - _numPointLights) * 12;
-			for (; k < i; ++k)
+			while (k < i)
+			{
 				_fragmentConstantData[k] = 0;
+				++k;
+			}
 		}
 	}
 
@@ -351,7 +355,7 @@ class SuperShaderPass extends CompiledPass
 		if (!(addDiff || addSpec))
 			return;
 
-		for (var i:UInt = 0; i < len; ++i)
+		for (i in 0...len)
 		{
 			probe = lightProbes[i];
 

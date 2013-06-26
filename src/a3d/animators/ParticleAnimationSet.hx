@@ -2,6 +2,7 @@ package a3d.animators;
 
 import flash.display3D.Context3D;
 import flash.utils.Dictionary;
+import flash.Vector;
 
 import a3d.animators.data.AnimationRegisterCache;
 import a3d.animators.data.AnimationSubGeometry;

@@ -1,6 +1,7 @@
 package a3d.animators.states;
 
 import flash.display3D.Context3DVertexBufferFormat;
+import flash.Vector;
 
 
 import a3d.animators.ParticleAnimator;

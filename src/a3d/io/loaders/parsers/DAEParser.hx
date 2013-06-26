@@ -4,6 +4,7 @@ import flash.display.BitmapData;
 import flash.geom.Matrix3D;
 import flash.geom.Vector3D;
 import flash.net.URLRequest;
+import flash.Vector;
 
 
 import a3d.animators.SkeletonAnimationSet;

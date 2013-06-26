@@ -21,7 +21,7 @@ import flash.events.Event;
 import flash.events.EventDispatcher;
 import flash.geom.Matrix3D;
 import flash.geom.Rectangle;
-import flash.Vector.Vector;
+import flash.Vector;
 
 
 /**
@@ -37,7 +37,7 @@ class MaterialPassBase extends EventDispatcher
 	private var _animationSet:IAnimationSet;
 
 	private var _program3Ds:Vector<Program3D> = new Vector<Program3D>(8);
-	private var _program3Dids:Vector<Int> = Vector<Int>([-1, -1, -1, -1, -1, -1, -1, -1]);
+	private var _program3Dids:Vector<Int> = Vector.ofArray([-1, -1, -1, -1, -1, -1, -1, -1]);
 	private var _context3Ds:Vector<Context3D> = new Vector<Context3D>(8);
 
 	// agal props. these NEED to be set by subclasses!

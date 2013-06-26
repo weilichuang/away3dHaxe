@@ -1,4 +1,5 @@
 package a3d.animators.data;
+import flash.Vector;
 
 
 /**

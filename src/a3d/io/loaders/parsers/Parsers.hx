@@ -1,6 +1,7 @@
 package a3d.io.loaders.parsers;
 
 import a3d.io.loaders.misc.SingleFileLoader;
+import flash.Vector;
 
 class Parsers
 {

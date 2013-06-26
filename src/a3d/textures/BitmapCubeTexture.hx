@@ -2,6 +2,7 @@ package a3d.textures;
 
 import flash.display.BitmapData;
 import flash.display3D.textures.TextureBase;
+import flash.Vector;
 
 
 import a3d.materials.utils.MipmapGenerator;

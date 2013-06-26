@@ -3,6 +3,7 @@ package a3d.core.partition;
 import a3d.core.base.SubMesh;
 import a3d.core.traverse.PartitionTraverser;
 import a3d.entities.Mesh;
+import flash.Vector;
 
 /**
  * MeshNode is a space partitioning leaf node that contains a Mesh object.

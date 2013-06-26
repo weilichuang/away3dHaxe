@@ -3,11 +3,12 @@ package a3d.math;
 import flash.geom.Matrix3D;
 import flash.geom.Orientation3D;
 import flash.geom.Vector3D;
+import flash.Vector;
 
 /**
  * A Quaternion object which can be used to represent rotations.
  */
-public  class Quaternion
+ class Quaternion
 {
 	/**
 	 * The x value of the quaternion.

@@ -3,6 +3,7 @@ package a3d.tools.utils;
 import flash.display.BitmapData;
 import flash.events.Event;
 import flash.events.EventDispatcher;
+import flash.Vector;
 
 class ColorHitMap extends EventDispatcher
 {

@@ -1,6 +1,7 @@
 package a3d.paths;
 
 import a3d.errors.AbstractMethodError;
+import flash.Vector;
 
 import flash.geom.Vector3D;
 

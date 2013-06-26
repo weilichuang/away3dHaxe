@@ -8,7 +8,7 @@ import flash.events.Event;
 import flash.events.EventDispatcher;
 import flash.geom.Rectangle;
 import flash.utils.Dictionary;
-import flash.Vector.Vector;
+import flash.Vector;
 import haxe.ds.ObjectMap;
 
 import a3d.tools.utils.TextureUtils;

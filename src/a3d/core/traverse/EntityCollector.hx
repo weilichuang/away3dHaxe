@@ -1,6 +1,7 @@
 package a3d.core.traverse;
 
 import flash.geom.Vector3D;
+import flash.Vector;
 
 
 import a3d.entities.Camera3D;

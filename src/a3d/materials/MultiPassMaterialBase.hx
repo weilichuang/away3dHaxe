@@ -5,6 +5,7 @@ import flash.display3D.Context3D;
 import flash.display3D.Context3DBlendFactor;
 import flash.display3D.Context3DCompareMode;
 import flash.events.Event;
+import flash.Vector;
 
 
 import a3d.entities.Camera3D;

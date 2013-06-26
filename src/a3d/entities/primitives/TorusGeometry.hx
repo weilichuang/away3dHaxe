@@ -2,6 +2,7 @@ package a3d.entities.primitives;
 
 
 import a3d.core.base.CompactSubGeometry;
+import flash.Vector;
 
 
 

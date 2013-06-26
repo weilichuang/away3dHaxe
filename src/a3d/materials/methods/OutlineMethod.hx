@@ -6,6 +6,7 @@ import a3d.materials.passes.MaterialPassBase;
 import a3d.materials.passes.OutlinePass;
 import a3d.materials.compilation.ShaderRegisterCache;
 import a3d.materials.compilation.ShaderRegisterElement;
+import flash.Vector;
 
 
 

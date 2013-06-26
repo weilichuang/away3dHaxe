@@ -5,7 +5,7 @@ import flash.display3D.Context3D;
 import flash.display3D.Context3DCompareMode;
 import flash.events.Event;
 import flash.geom.Matrix3D;
-import flash.Vector.Vector;
+import flash.Vector;
 
 
 import a3d.animators.IAnimationSet;

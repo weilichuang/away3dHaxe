@@ -6,6 +6,7 @@ import a3d.math.Plane3D;
 import a3d.entities.Entity;
 import a3d.entities.primitives.WireframeCube;
 import a3d.entities.primitives.WireframePrimitiveBase;
+import flash.Vector;
 
 import flash.geom.Vector3D;
 

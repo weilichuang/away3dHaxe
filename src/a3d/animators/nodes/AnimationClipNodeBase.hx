@@ -1,6 +1,7 @@
 package a3d.animators.nodes;
 
 import flash.geom.Vector3D;
+import flash.Vector;
 
 /**
  * Provides an abstract base class for nodes with time-based animation data in an animation blend tree.

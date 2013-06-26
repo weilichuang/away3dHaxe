@@ -1,6 +1,7 @@
 package a3d.materials.lightpickers;
 
 import flash.geom.Vector3D;
+import flash.Vector;
 
 
 import a3d.core.base.IRenderable;

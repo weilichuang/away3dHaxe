@@ -4,6 +4,7 @@ package a3d.materials.methods;
 import a3d.materials.compilation.ShaderRegisterCache;
 import a3d.materials.compilation.ShaderRegisterElement;
 import a3d.textures.Texture2DBase;
+import flash.Vector;
 
 
 

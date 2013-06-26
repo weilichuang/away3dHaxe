@@ -9,6 +9,7 @@ import a3d.entities.lights.shadowmaps.NearDirectionalShadowMapper;
 import a3d.materials.compilation.ShaderRegisterCache;
 import a3d.materials.compilation.ShaderRegisterData;
 import a3d.materials.compilation.ShaderRegisterElement;
+import flash.Vector;
 
 
 

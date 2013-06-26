@@ -1,4 +1,5 @@
 package a3d.utils;
+import flash.errors.Error;
 import flash.Lib;
 
 /** Class for emmiting debuging messages, warnings and errors */
@@ -37,7 +38,7 @@ class Debug
 		throw new Error(message);
 	}
 	
-	private inline function dotrace(message:Dynamic):Void
+	private static inline function dotrace(message:Dynamic):Void
 	{
 		Lib.trace(message);
 	}

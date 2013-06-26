@@ -21,6 +21,7 @@ class AnimationNodeBase extends NamedAssetBase implements IAsset
 	 */
 	public function new()
 	{
+		super();
 	}
 
 	/**

@@ -2,7 +2,7 @@ package a3d.bounds;
 
 import flash.geom.Matrix3D;
 import flash.geom.Vector3D;
-import flash.Vector.Vector;
+import flash.Vector;
 
 
 import a3d.math.Matrix3DUtils;

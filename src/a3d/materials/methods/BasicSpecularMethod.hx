@@ -13,6 +13,10 @@ import a3d.textures.Texture2DBase;
  */
 class BasicSpecularMethod extends LightingMethodBase
 {
+	public var specularR:Float; 
+	public var specularG:Float; 
+	public var specularB:Float;
+	
 	private var _useTexture:Bool;
 	private var _totalLightColorReg:ShaderRegisterElement;
 	private var _specularTextureRegister:ShaderRegisterElement;
@@ -21,12 +25,10 @@ class BasicSpecularMethod extends LightingMethodBase
 
 	private var _texture:Texture2DBase;
 
-	private var _gloss:Int = 50;
-	private var _specular:Float = 1;
-	private var _specularColor:UInt = 0xffffff;
-	public var specularR:Float = 1; 
-	public var specularG:Float = 1; 
-	public var specularB:Float = 1;
+	private var _gloss:Int;
+	private var _specular:Float;
+	private var _specularColor:UInt;
+	
 	private var _shadowRegister:ShaderRegisterElement;
 	private var _isFirstLight:Bool;
 
@@ -38,11 +40,11 @@ class BasicSpecularMethod extends LightingMethodBase
 	{
 		super();
 		_gloss = 50;
-	_specular:Float = 1;
-	_specularColor:UInt = 0xffffff;
-	specularR:Float = 1; 
-	specularG:Float = 1; 
-	specularB:Float = 1;
+		_specular = 1;
+		_specularColor = 0xffffff;
+		specularR = 1; 
+		specularG = 1; 
+		specularB = 1;
 	}
 
 	override public function initVO(vo:MethodVO):Void

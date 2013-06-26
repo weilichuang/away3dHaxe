@@ -15,7 +15,7 @@ class LightingMethodBase extends ShadingMethodBase
 	/**
 	 * A method that is exposed to wrappers in case the strength needs to be controlled
 	 */
-	public var modulateMethod:Function;
+	public var modulateMethod:Dynamic;
 
 	public function new()
 	{

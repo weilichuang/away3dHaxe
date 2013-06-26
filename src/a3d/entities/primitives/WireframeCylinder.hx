@@ -1,6 +1,7 @@
 package a3d.entities.primitives;
 
 import flash.geom.Vector3D;
+import flash.Vector;
 
 /**
  * Generates a wireframd cylinder primitive.

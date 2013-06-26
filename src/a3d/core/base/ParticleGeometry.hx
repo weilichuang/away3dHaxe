@@ -1,6 +1,7 @@
 package a3d.core.base;
 
 import a3d.core.base.data.ParticleData;
+import flash.Vector;
 
 /**
  * ...

@@ -1,6 +1,7 @@
 package a3d.animators.nodes;
 
 import flash.utils.getQualifiedClassName;
+import flash.Vector;
 
 
 import a3d.animators.ParticleAnimationSet;

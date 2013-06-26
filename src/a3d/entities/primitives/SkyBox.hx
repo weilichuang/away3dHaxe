@@ -2,6 +2,7 @@ package a3d.entities.primitives;
 
 
 import a3d.animators.IAnimator;
+import flash.Vector;
 
 import a3d.bounds.BoundingVolumeBase;
 import a3d.bounds.NullBounds;

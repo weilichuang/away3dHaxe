@@ -2,6 +2,7 @@ package a3d.io.loaders.parsers;
 
 import flash.geom.Matrix3D;
 import flash.geom.Vector3D;
+import flash.Vector;
 
 
 import a3d.animators.SkeletonAnimationSet;

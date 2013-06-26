@@ -1,4 +1,5 @@
 package a3d.materials.compilation;
+import flash.Vector;
 
 
 

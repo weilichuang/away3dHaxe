@@ -6,6 +6,7 @@ import a3d.materials.compilation.ShaderRegisterCache;
 import a3d.materials.compilation.ShaderRegisterElement;
 import a3d.textures.CubeTextureBase;
 import a3d.textures.Texture2DBase;
+import flash.Vector;
 
 import flash.display3D.Context3D;
 

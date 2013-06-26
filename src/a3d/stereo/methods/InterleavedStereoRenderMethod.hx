@@ -3,6 +3,7 @@ package a3d.stereo.methods;
 
 import a3d.core.managers.RTTBufferManager;
 import a3d.core.managers.Stage3DProxy;
+import flash.Vector;
 
 import flash.display3D.Context3DProgramType;
 

@@ -6,6 +6,7 @@ import flash.events.IOErrorEvent;
 import flash.net.URLLoader;
 import flash.net.URLLoaderDataFormat;
 import flash.net.URLRequest;
+import flash.Vector;
 
 
 import a3d.events.AssetEvent;

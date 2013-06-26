@@ -9,6 +9,7 @@ import a3d.materials.passes.MaterialPassBase;
 import a3d.materials.passes.SingleObjectDepthPass;
 import a3d.materials.compilation.ShaderRegisterCache;
 import a3d.materials.compilation.ShaderRegisterElement;
+import flash.Vector;
 
 import flash.display3D.textures.Texture;
 import flash.geom.Matrix3D;

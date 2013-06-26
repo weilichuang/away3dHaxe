@@ -4,6 +4,7 @@ import flash.display3D.Context3DBlendFactor;
 import flash.display3D.Context3DCompareMode;
 import flash.display3D.textures.TextureBase;
 import flash.geom.Rectangle;
+import flash.Vector;
 
 
 import a3d.entities.Camera3D;

@@ -1,6 +1,7 @@
 package a3d.materials.methods;
 
 import flash.events.Event;
+import flash.Vector;
 
 
 import a3d.entities.Camera3D;

@@ -3,6 +3,7 @@ package a3d.tools.utils;
 import flash.geom.Matrix3D;
 import flash.geom.Vector3D;
 import flash.utils.Dictionary;
+import flash.Vector;
 
 
 import a3d.entities.Entity;

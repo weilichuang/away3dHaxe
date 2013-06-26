@@ -3,6 +3,7 @@ package example
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
 	import flash.geom.Vector3D;
+	import flash.Vector;
 
 	import a3d.animators.SpriteSheetAnimationSet;
 	import a3d.animators.SpriteSheetAnimator;

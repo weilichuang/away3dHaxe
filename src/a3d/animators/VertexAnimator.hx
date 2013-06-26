@@ -1,6 +1,7 @@
 package a3d.animators;
 
 import flash.display3D.Context3DProgramType;
+import flash.Vector;
 
 
 import a3d.animators.data.VertexAnimationMode;

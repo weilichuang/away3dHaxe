@@ -6,6 +6,7 @@ import flash.events.EventDispatcher;
 import flash.events.IEventDispatcher;
 import flash.geom.Matrix3D;
 import flash.geom.Rectangle;
+import flash.Vector;
 
 
 import a3d.entities.Camera3D;

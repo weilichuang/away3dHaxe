@@ -1,7 +1,7 @@
 package a3d.core.partition;
 
 import flash.geom.Vector3D;
-import flash.Vector.Vector;
+import flash.Vector;
 
 
 import a3d.core.traverse.PartitionTraverser;

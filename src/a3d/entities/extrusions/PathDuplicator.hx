@@ -3,6 +3,7 @@ package a3d.entities.extrusions;
 
 import flash.geom.Matrix3D;
 import flash.geom.Vector3D;
+import flash.Vector;
 
 import a3d.entities.Mesh;
 import a3d.entities.ObjectContainer3D;

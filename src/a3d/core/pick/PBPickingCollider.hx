@@ -5,6 +5,7 @@ import flash.display.ShaderJob;
 import flash.geom.Point;
 import flash.geom.Vector3D;
 import flash.utils.ByteArray;
+import flash.Vector;
 
 import a3d.core.base.SubMesh;
 

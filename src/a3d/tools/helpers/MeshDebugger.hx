@@ -4,6 +4,7 @@ import a3d.entities.Mesh;
 import a3d.entities.ObjectContainer3D;
 import a3d.entities.Scene3D;
 import a3d.tools.helpers.data.MeshDebug;
+import flash.Vector;
 
 /**
 * Helper Class for Mesh objects <code>MeshDebugger</code>

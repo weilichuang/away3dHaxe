@@ -1,6 +1,7 @@
 package a3d.paths;
 
 import flash.geom.Vector3D;
+import flash.Vector;
 
 /**
  * Defines a cubic path. Each segment of the path has two control points as opposed to <code>CubicPathSegment</code> which being quadratic, has one control point.

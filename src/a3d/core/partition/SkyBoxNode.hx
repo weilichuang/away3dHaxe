@@ -3,6 +3,7 @@ package a3d.core.partition;
 import a3d.core.traverse.PartitionTraverser;
 import a3d.math.Plane3D;
 import a3d.entities.primitives.SkyBox;
+import flash.Vector;
 
 /**
  * SkyBoxNode is a space partitioning leaf node that contains a SkyBox object.

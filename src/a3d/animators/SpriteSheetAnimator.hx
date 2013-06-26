@@ -3,6 +3,7 @@ package a3d.animators;
 import flash.display3D.Context3DProgramType;
 import flash.utils.getTimer;
 import flash.utils.setTimeout;
+import flash.Vector;
 
 
 import a3d.animators.data.SpriteSheetAnimationFrame;

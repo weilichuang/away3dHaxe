@@ -1,7 +1,7 @@
 package a3d.core.partition;
 
 import a3d.math.Plane3D;
-import flash.Vector.Vector;
+import flash.Vector;
 
 import flash.geom.Vector3D;
 

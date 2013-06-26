@@ -7,6 +7,7 @@ import a3d.core.base.SubGeometry;
 import a3d.core.base.data.UV;
 import a3d.core.base.data.Vertex;
 import a3d.entities.Mesh;
+import flash.Vector;
 
 
 

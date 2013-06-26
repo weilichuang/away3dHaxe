@@ -6,6 +6,7 @@ import flash.display3D.Context3DProgramType;
 import flash.display3D.Context3DTriangleFace;
 import flash.geom.Matrix3D;
 import flash.utils.Dictionary;
+import flash.Vector;
 
 
 import a3d.entities.Camera3D;

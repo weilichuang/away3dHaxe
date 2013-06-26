@@ -1,6 +1,7 @@
 package a3d.materials.methods;
 
 import flash.display3D.Context3DTextureFormat;
+import flash.Vector;
 
 
 import a3d.entities.Camera3D;

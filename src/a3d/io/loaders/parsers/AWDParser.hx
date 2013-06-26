@@ -4,6 +4,7 @@ import a3d.events.AssetEvent;
 import a3d.events.ParserEvent;
 import a3d.io.library.assets.IAsset;
 import a3d.io.loaders.misc.ResourceDependency;
+import flash.Vector;
 
 
 

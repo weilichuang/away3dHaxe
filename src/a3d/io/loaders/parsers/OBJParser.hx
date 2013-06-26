@@ -1,6 +1,7 @@
 package a3d.io.loaders.parsers;
 
 import flash.net.URLRequest;
+import flash.Vector;
 
 
 import a3d.core.base.Geometry;

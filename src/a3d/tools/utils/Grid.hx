@@ -6,6 +6,7 @@ import a3d.core.base.ISubGeometry;
 import a3d.core.base.SubGeometry;
 import a3d.entities.Mesh;
 import a3d.entities.ObjectContainer3D;
+import flash.Vector;
 
 
 

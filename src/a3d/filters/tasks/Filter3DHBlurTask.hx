@@ -2,6 +2,7 @@ package a3d.filters.tasks;
 
 import flash.display3D.Context3DProgramType;
 import flash.display3D.textures.Texture;
+import flash.Vector;
 
 import a3d.entities.Camera3D;
 import a3d.core.managers.Stage3DProxy;

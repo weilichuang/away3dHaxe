@@ -3,6 +3,7 @@ package a3d.animators.states;
 import a3d.animators.IAnimator;
 import a3d.animators.nodes.AnimationClipNodeBase;
 import a3d.events.AnimationStateEvent;
+import flash.Vector;
 
 /**
  *

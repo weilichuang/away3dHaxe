@@ -6,6 +6,7 @@ import a3d.entities.lights.DirectionalLight;
 import a3d.materials.compilation.ShaderRegisterCache;
 import a3d.materials.compilation.ShaderRegisterElement;
 import a3d.textures.BitmapTexture;
+import flash.Vector;
 
 import flash.display.BitmapData;
 

@@ -4,6 +4,7 @@ import flash.display3D.Context3D;
 import flash.display3D.Context3DProgramType;
 import flash.geom.Matrix;
 import flash.geom.Matrix3D;
+import flash.Vector;
 
 
 import a3d.entities.Camera3D;
@@ -355,7 +356,7 @@ class CompiledPass extends MaterialPassBase
 			return;
 		}
 
-		for (var i:Int = 0; i < passes.length; ++i)
+		for (i in 0...passes.length)
 		{
 			if (passes[i] != oldPasses[i])
 			{
@@ -391,7 +392,7 @@ class CompiledPass extends MaterialPassBase
 
 		var len:UInt = passes.length;
 
-		for (var i:UInt = 0; i < len; ++i)
+		for (i in 0...len)
 		{
 			passes[i].material = material;
 			passes[i].lightPicker = _lightPicker;
@@ -572,7 +573,7 @@ class CompiledPass extends MaterialPassBase
 
 		var methods:Vector<MethodVOSet> = _methodSetup.methods;
 		var len:UInt = methods.length;
-		for (i = 0; i < len; ++i)
+		for (i in 0...len)
 		{
 			var mset:MethodVOSet = methods[i];
 			mset.method.setRenderState(mset.data, renderable, stage3DProxy, camera);

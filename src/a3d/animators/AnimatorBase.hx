@@ -5,6 +5,7 @@ import flash.events.Event;
 import flash.geom.Vector3D;
 import flash.utils.Dictionary;
 import flash.utils.getTimer;
+import flash.Vector;
 
 
 import a3d.animators.nodes.AnimationNodeBase;
