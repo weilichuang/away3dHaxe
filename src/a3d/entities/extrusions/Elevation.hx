@@ -246,12 +246,12 @@ class Elevation extends Mesh
 					px4 = (px4 > _maxElevation) ? _maxElevation : ((px4 < _minElevation) ? _minElevation : px4);
 				}
 
-				for (k = 0; k < _segmentsW; ++k)
+				for (k in 0..._segmentsW)
 				{
 					incXL = 1 / _segmentsW * k;
 					incXR = 1 - incXL;
 
-					for (l = 0; l < _segmentsH; ++l)
+					for (l in 0..._segmentsH)
 					{
 						incYL = 1 / _segmentsH * l;
 						incYR = 1 - incYL;
@@ -309,9 +309,9 @@ class Elevation extends Mesh
 		numVerts = 0;
 		var col:UInt;
 
-		for (var zi:UInt = 0; zi <= _segmentsH; ++zi)
+		for (zi in 0..._segmentsH+1)
 		{
-			for (var xi:UInt = 0; xi <= _segmentsW; ++xi)
+			for (xi in 0..._segmentsW+1)
 			{
 				x = (xi / _segmentsW - .5) * _width;
 				z = (zi / _segmentsH - .5) * _depth;
@@ -358,9 +358,9 @@ class Elevation extends Mesh
 			uvs = new Vector<Float>(numUvs, true);
 
 		numUvs = 0;
-		for (var yi:UInt = 0; yi <= _segmentsH; ++yi)
+		for (yi in 0..._segmentsH+1)
 		{
-			for (var xi:UInt = 0; xi <= _segmentsW; ++xi)
+			for (xi in 0..._segmentsW+1)
 			{
 				uvs[numUvs++] = xi / _segmentsW;
 				uvs[numUvs++] = 1 - yi / _segmentsH;

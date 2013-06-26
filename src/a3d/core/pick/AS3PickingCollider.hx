@@ -54,8 +54,9 @@ class AS3PickingCollider extends PickingColliderBase implements IPickingCollider
 		var uvOffset:UInt = subMesh.UVOffset;
 		var numIndices:Int = indexData.length;
 
+		// sweep all triangles
 		for (var index:UInt = 0; index < numIndices; index += 3)
-		{ // sweep all triangles
+		{ 
 			// evaluate triangle indices
 			i0 = vertexOffset + indexData[index] * vertexStride;
 			i1 = vertexOffset + indexData[index + 1 * vertexStride;
@@ -89,8 +90,9 @@ class AS3PickingCollider extends PickingColliderBase implements IPickingCollider
 
 			// -- plane intersection test --
 			nDotV = nx * rayDirection.x + ny * +rayDirection.y + nz * rayDirection.z; // rayDirection . normal
+			// an intersection must exist
 			if ((!bothSides && nDotV < 0.0) || (bothSides && nDotV != 0.0))
-			{ // an intersection must exist
+			{ 
 				// find collision t
 				D = -(nx * p0x + ny * p0y + nz * p0z);
 				disToPlane = -(nx * rayPosition.x + ny * rayPosition.y + nz * rayPosition.z + D);
@@ -116,8 +118,10 @@ class AS3PickingCollider extends PickingColliderBase implements IPickingCollider
 				if (w < 0)
 					continue;
 				u = 1 - v - w;
+				
+				// all tests passed
 				if (!(u < 0) && t > 0 && t < shortestCollisionDistance)
-				{ // all tests passed
+				{ 
 					shortestCollisionDistance = t;
 					collisionTriangleIndex = index / 3;
 					pickingCollisionVO.rayEntryDistance = t;

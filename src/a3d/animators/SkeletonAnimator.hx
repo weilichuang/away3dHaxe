@@ -3,6 +3,7 @@ package a3d.animators;
 import flash.display3D.Context3DProgramType;
 import flash.geom.Vector3D;
 import flash.utils.Dictionary;
+import flash.Vector;
 
 
 import a3d.animators.data.JointPose;
@@ -120,7 +121,7 @@ class SkeletonAnimator extends AnimatorBase implements IAnimator
 		_globalMatrices = new Vector<Float>(_numJoints * 12, true);
 
 		var j:Int;
-		for (var i:UInt = 0; i < _numJoints; ++i)
+		for (i in 0..._numJoints)
 		{
 			_globalMatrices[j++] = 1;
 			_globalMatrices[j++] = 0;
@@ -308,7 +309,7 @@ class SkeletonAnimator extends AnimatorBase implements IAnimator
 		var vec:Vector3D;
 		var t:Float;
 
-		for (var i:UInt = 0; i < _numJoints; ++i)
+		for (i in 0..._numJoints)
 		{
 			pose = globalPoses[i];
 			quat = pose.orientation;
@@ -502,7 +503,7 @@ class SkeletonAnimator extends AnimatorBase implements IAnimator
 		if (globalPoses.length != len)
 			globalPoses.length = len;
 
-		for (var i:UInt = 0; i < len; ++i)
+		for (i in 0...len)
 		{
 			if (globalPoses[i] == null)
 				globalPoses[i] = new JointPose();

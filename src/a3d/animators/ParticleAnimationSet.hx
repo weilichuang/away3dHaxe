@@ -132,9 +132,13 @@ class ParticleAnimationSet extends AnimationSetBase implements IAnimationSet
 			_localDynamicNodes.push(n);
 		}
 
-		for (i = _particleNodes.length - 1; i >= 0; i--)
+		i = _particleNodes.length - 1;
+		while ( i >= 0)
+		{
 			if (_particleNodes[i].priority <= n.priority)
 				break;
+			i--;
+		}
 
 		_particleNodes.splice(i + 1, 0, n);
 
@@ -157,7 +161,7 @@ class ParticleAnimationSet extends AnimationSetBase implements IAnimationSet
 		var context:Context3D = stage3DProxy.context3D;
 		var offset:Int = _animationRegisterCache.vertexAttributesOffset;
 		var used:Int = _animationRegisterCache.numUsedStreams;
-		for (var i:Int = offset; i < used; i++)
+		for (i in offset...used)
 			context.setVertexBufferAt(i, null);
 	}
 
@@ -299,7 +303,7 @@ class ParticleAnimationSet extends AnimationSetBase implements IAnimationSet
 		var subMesh:SubMesh;
 		var localNode:ParticleNodeBase;
 
-		for (i = 0; i < mesh.subMeshes.length; i++)
+		for (i in 0...mesh.subMeshes.length)
 		{
 			subMesh = mesh.subMeshes[i];
 			subGeometry = subMesh.subGeometry;

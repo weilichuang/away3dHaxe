@@ -173,7 +173,7 @@ class SkinnedSubGeometry extends CompactSubGeometry
 		_condensedJointIndexData = new Vector<Float>(len, true);
 		_condensedIndexLookUp = new Vector<UInt>();
 
-		for (var i:Int = 0; i < len; ++i)
+		for (i in 0...len)
 		{
 			oldIndex = _jointIndexData[i];
 

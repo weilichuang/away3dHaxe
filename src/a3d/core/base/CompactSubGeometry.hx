@@ -371,9 +371,9 @@ class CompactSubGeometry extends SubGeometryBase implements ISubGeometry
 		var i:Int = 0, j:Int = offset;
 		var skip:Int = 13 - numEntries;
 
-		for (var v:Int = 0; v < _numVertices; ++v)
+		for (v in 0..._numVertices)
 		{
-			for (var k:Int = 0; k < numEntries; ++k)
+			for (k in 0...numEntries)
 				data[i++] = _vertexData[j++];
 			j += skip;
 		}

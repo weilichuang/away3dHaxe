@@ -92,7 +92,8 @@ class PBPickingCollider extends PickingColliderBase implements IPickingCollider
 		var t:Float;
 		var collisionTriangleIndex:Int = -1;
 		var len:UInt = _kernelOutputBuffer.length;
-		for (i = 0; i < len; i += 3)
+		i = 0;
+		while (i < len)
 		{
 			t = _kernelOutputBuffer[i];
 			if (t > 0 && t < shortestCollisionDistance)
@@ -104,6 +105,7 @@ class PBPickingCollider extends PickingColliderBase implements IPickingCollider
 				if (!_findClosestCollision)
 					break;
 			}
+			i += 3;
 		}
 
 		// Detect collision

@@ -80,7 +80,7 @@ class ParticleStateBase extends AnimationStateBase
 				for (k = 0; k < vertexLength; k += totalLenOfOneVertex)
 				{
 					vertexOffset = startingOffset + k;
-//						particleOffset = i * dataLength;
+//					particleOffset = i * dataLength;
 					//loop through all vertex data for the current particle data
 					for (k = 0; k < vertexLength; k += totalLenOfOneVertex)
 					{
@@ -92,17 +92,17 @@ class ParticleStateBase extends AnimationStateBase
 						if (dataLength == 4)
 							vertexData[vertexOffset++] = data.w;
 					}
-						//loop through each value in the particle vertex
-//						switch(dataLength) {
-//							case 4:
-//								vertexData[vertexOffset++] = _positions[particleOffset++];
-//							case 3:
-//								vertexData[vertexOffset++] = _positions[particleOffset++];
-//							case 2:
-//								vertexData[vertexOffset++] = _positions[particleOffset++];
-//							case 1:
-//								vertexData[vertexOffset++] = _positions[particleOffset++];
-//						}
+					//loop through each value in the particle vertex
+//					switch(dataLength) {
+//						case 4:
+//							vertexData[vertexOffset++] = _positions[particleOffset++];
+//						case 3:
+//							vertexData[vertexOffset++] = _positions[particleOffset++];
+//						case 2:
+//							vertexData[vertexOffset++] = _positions[particleOffset++];
+//						case 1:
+//							vertexData[vertexOffset++] = _positions[particleOffset++];
+//					}
 				}
 				j++;
 			}

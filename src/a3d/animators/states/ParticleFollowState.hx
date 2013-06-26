@@ -150,7 +150,7 @@ class ParticleFollowState extends ParticleStateBase
 		{
 			interpolatedPos = _targetPos;
 		}
-		for (var i:UInt = 0; i < len; i++)
+		for (i in 0...len)
 		{
 			var k:Float = (currentTime - data[i].startTime) / data[i].totalTime;
 			var t:Float = (k - Math.floor(k)) * data[i].totalTime;
@@ -168,7 +168,7 @@ class ParticleFollowState extends ParticleStateBase
 				if (vertexData[inc] != interpolatedPos.x || vertexData[inc + 1] != interpolatedPos.y || vertexData[inc + 2] != interpolatedPos.z)
 				{
 					changed = true;
-					for (var j:UInt = 0; j < data[i].numVertices; j++)
+					for (j in 0...data[i].numVertices)
 					{
 						vertexData[inc++] = interpolatedPos.x;
 						vertexData[inc++] = interpolatedPos.y;
@@ -203,7 +203,7 @@ class ParticleFollowState extends ParticleStateBase
 			interpolatedRotation = _targetEuler;
 		}
 
-		for (var i:UInt = 0; i < len; i++)
+		for (i in 0...len)
 		{
 			var k:Float = (currentTime - data[i].startTime) / data[i].totalTime;
 			var t:Float = (k - Math.floor(k)) * data[i].totalTime;
@@ -221,7 +221,7 @@ class ParticleFollowState extends ParticleStateBase
 				if (vertexData[inc] != interpolatedRotation.x || vertexData[inc + 1] != interpolatedRotation.y || vertexData[inc + 2] != interpolatedRotation.z)
 				{
 					changed = true;
-					for (var j:UInt = 0; j < data[i].numVertices; j++)
+					for (j in 0...data[i].numVertices)
 					{
 						vertexData[inc++] = interpolatedRotation.x;
 						vertexData[inc++] = interpolatedRotation.y;
@@ -261,7 +261,7 @@ class ParticleFollowState extends ParticleStateBase
 			interpolatedRotation = _targetEuler;
 		}
 
-		for (var i:UInt = 0; i < len; i++)
+		for (i in 0...len)
 		{
 			var k:Float = (currentTime - data[i].startTime) / data[i].totalTime;
 			var t:Float = (k - Math.floor(k)) * data[i].totalTime;
@@ -283,7 +283,7 @@ class ParticleFollowState extends ParticleStateBase
 					vertexData[inc + 4] != interpolatedRotation.y || vertexData[inc + 5] != interpolatedRotation.z)
 				{
 					changed = true;
-					for (var j:UInt = 0; j < data[i].numVertices; j++)
+					for (j in 0...data[i].numVertices)
 					{
 						vertexData[inc++] = interpolatedPos.x;
 						vertexData[inc++] = interpolatedPos.y;

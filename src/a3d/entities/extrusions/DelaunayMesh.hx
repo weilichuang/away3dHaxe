@@ -5,6 +5,7 @@
 package a3d.entities.extrusions;
 
 import flash.geom.Vector3D;
+import flash.Vector;
 
 import a3d.bounds.BoundingVolumeBase;
 import a3d.core.base.Geometry;
@@ -421,7 +422,7 @@ class DelaunayMesh extends Mesh
 			var v:Vector<Tri> = new Vector<Tri>();
 			var nv:UInt = nVectors.length;
 
-			for (i = 0; i < (nv * 3); ++i)
+			for (i in 0...(nv * 3))
 				v[i] = new Tri();
 
 			var bList:Vector<Bool> = new Vector<Bool>();
@@ -430,7 +431,7 @@ class DelaunayMesh extends Mesh
 			var maxTris:UInt = 4 * nv;
 			var maxEdges:UInt = nv * 2;
 
-			for (i = 0; i < maxTris; ++i)
+			for (i in 0...maxTris)
 				bList[i] = false;
 
 			var inside:Bool;
@@ -455,7 +456,7 @@ class DelaunayMesh extends Mesh
 			var loopMid:Float;
 			var ntri:UInt = 1;
 
-			for (i = 0; i < maxEdges; ++i)
+			for (i in 0...maxEdges)
 				edges[i] = new Edge();
 
 			sortMin = nVectors[0][_sortProp];
@@ -463,7 +464,7 @@ class DelaunayMesh extends Mesh
 			sortMax = sortMin;
 			loopMax = loopMin;
 
-			for (i = 1; i < nv; ++i)
+			for (i in 1...nv)
 			{
 				if (nVectors[i][_sortProp] < sortMin)
 					sortMin = nVectors[i][_sortProp];
@@ -500,14 +501,14 @@ class DelaunayMesh extends Mesh
 			v[0].v2 = nv + 2;
 			bList[0] = false;
 
-			for (i = 0; i < nv; ++i)
+			for (i in 0...nv)
 			{
 
 				valA = vectors[i][_sortProp];
 				valB = vectors[i][_loopProp];
 				nEdge = 0;
 
-				for (j = 0; j < ntri; ++j)
+				for (j  in 0...ntri)
 				{
 
 					if (bList[j])
@@ -549,10 +550,10 @@ class DelaunayMesh extends Mesh
 					}
 				}
 
-				for (j = 0; j < nEdge - 1; ++j)
+				for (j  in 0...nEdge - 1)
 				{
 
-					for (k = j + 1; k < nEdge; ++k)
+					for (k in (j+1)...nEdge)
 					{
 
 						if ((edges[j].v0 == edges[k].v1) && (edges[j].v1 == edges[k].v0))
@@ -563,7 +564,7 @@ class DelaunayMesh extends Mesh
 					}
 				}
 
-				for (j = 0; j < nEdge; ++j)
+				for (j in 0...nEdge)
 				{
 
 					if (edges[j].v0 == -1 || edges[j].v1 == -1)
@@ -582,7 +583,7 @@ class DelaunayMesh extends Mesh
 				}
 			}
 
-			for (i = 0; i < ntri; ++i)
+			for (i in 0...ntri)
 			{
 
 				if (v[i].v0 == v[i].v1 && v[i].v1 == v[i].v2)
@@ -623,7 +624,7 @@ class DelaunayMesh extends Mesh
 			if (_smoothSurface)
 				_subGeometry.updateVertexNormalData(_normals);
 
-			for (i = 0; i < v.length; ++i)
+			for (i in 0...v.length)
 				v[i] = null;
 
 			v = null;
@@ -708,7 +709,7 @@ class DelaunayMesh extends Mesh
 			case PLANE_XZ:
 				_sortProp = "z";
 				_loopProp = "x";
-				for (i = 0; i < _vectors.length; ++i)
+				for (i in 0..._vectors.length)
 				{
 					v = _vectors[i];
 					if (v.x < _axis0Min)
@@ -725,7 +726,7 @@ class DelaunayMesh extends Mesh
 			case PLANE_XY:
 				_sortProp = "y";
 				_loopProp = "x";
-				for (i = 0; i < _vectors.length; ++i)
+				for (i in 0..._vectors.length)
 				{
 					v = _vectors[i];
 					if (v.x < _axis0Min)
@@ -740,7 +741,7 @@ class DelaunayMesh extends Mesh
 			case PLANE_ZY:
 				_sortProp = "y";
 				_loopProp = "z";
-				for (i = 0; i < _vectors.length; ++i)
+				for (i in 0..._vectors.length)
 				{
 					v = _vectors[i];
 					if (v.z < _axis0Min)

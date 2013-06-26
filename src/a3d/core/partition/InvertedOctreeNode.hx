@@ -54,7 +54,7 @@ class InvertedOctreeNode extends NodeBase
 
 	override public function isInFrustum(planes:Vector<Plane3D>, numPlanes:Int):Bool
 	{
-		for (var i:UInt = 0; i < numPlanes; ++i)
+		for (i in 0...numPlanes)
 		{
 			var plane:Plane3D = planes[i];
 			var flippedExtentX:Float = plane.a < 0 ? -_halfExtentX : _halfExtentX;

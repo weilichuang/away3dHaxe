@@ -6,6 +6,7 @@ package example
 	import flash.events.Event;
 	import flash.events.MouseEvent;
 	import flash.geom.Vector3D;
+	import flash.Vector;
 
 	import a3d.animators.ParticleAnimationSet;
 	import a3d.animators.ParticleAnimator;
@@ -70,7 +71,7 @@ package example
 			//setup the particle geometry
 			var plane:Geometry = new PlaneGeometry(10, 10, 1, 1, false);
 			var geometrySet:Vector<Geometry> = new Vector<Geometry>();
-			for (var i:int = 0; i < 20000; i++)
+			for (i in 0...20000)
 				geometrySet.push(plane);
 
 			//setup the particle animation set

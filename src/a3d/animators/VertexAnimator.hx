@@ -118,23 +118,22 @@ class VertexAnimator extends AnimatorBase implements IAnimator
 		// this type of animation can only be SubMesh
 		var subMesh:SubMesh = SubMesh(renderable);
 		var subGeom:ISubGeometry;
-		var i:UInt;
-		var len:UInt = _numPoses;
 
 		stage3DProxy.context3D.setProgramConstantsFromVector(Context3DProgramType.VERTEX, vertexConstantOffset, _weights, 1);
 
+		var s:UInt;
 		if (_blendMode == VertexAnimationMode.ABSOLUTE)
 		{
-			i = 1;
+			s = 1;
 			subGeom = _poses[0].subGeometries[subMesh.index];
 			// set the base sub-geometry so the material can simply pick up on this data
 			if (subGeom)
 				subMesh.subGeometry = subGeom;
 		}
 		else
-			i = 0;
+			s = 0;
 
-		for (; i < len; ++i)
+		for (i in s..._numPoses)
 		{
 			subGeom = _poses[i].subGeometries[subMesh.index] || subMesh.subGeometry;
 
@@ -153,7 +152,7 @@ class VertexAnimator extends AnimatorBase implements IAnimator
 		if (_blendMode == VertexAnimationMode.ABSOLUTE)
 		{
 			var len:UInt = _numPoses;
-			for (var i:UInt = 1; i < len; ++i)
+			for (i in 1...len)
 			{
 				renderable.activateVertexBuffer(vertexStreamOffset++, stage3DProxy);
 

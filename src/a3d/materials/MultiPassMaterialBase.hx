@@ -408,13 +408,13 @@ class MultiPassMaterialBase extends MaterialBase
 
 			addChildPassesFor(_casterLightPass);
 			if (_nonCasterLightPasses)
-				for (var i:Int = 0; i < _nonCasterLightPasses.length; ++i)
+				for (i in 0..._nonCasterLightPasses.length)
 					addChildPassesFor(_nonCasterLightPasses[i]);
 			addChildPassesFor(_effectsPass);
 
 			addScreenPass(_casterLightPass);
 			if (_nonCasterLightPasses)
-				for (i = 0; i < _nonCasterLightPasses.length; ++i)
+				for (i in 0..._nonCasterLightPasses.length)
 					addScreenPass(_nonCasterLightPasses[i]);
 			addScreenPass(_effectsPass);
 		}
@@ -436,7 +436,7 @@ class MultiPassMaterialBase extends MaterialBase
 			return true;
 
 		if (_nonCasterLightPasses)
-			for (var i:Int = 0; i < _nonCasterLightPasses.length; ++i)
+			for (i in 0..._nonCasterLightPasses.length)
 				if (_nonCasterLightPasses[i].passesDirty)
 					return true;
 
@@ -451,7 +451,7 @@ class MultiPassMaterialBase extends MaterialBase
 		if (pass.passes)
 		{
 			var len:UInt = pass.passes.length;
-			for (var i:UInt = 0; i < len; ++i)
+			for (i in 0...len)
 				addPass(pass.passes[i]);
 		}
 	}
@@ -517,7 +517,7 @@ class MultiPassMaterialBase extends MaterialBase
 				_nonCasterLightPasses[0].depthCompareMode = depthCompareMode;
 				firstAdditiveIndex = 1;
 			}
-			for (var i:Int = firstAdditiveIndex; i < _nonCasterLightPasses.length; ++i)
+			for (i in firstAdditiveIndex..._nonCasterLightPasses.length)
 			{
 				_nonCasterLightPasses[i].forceSeparateMVP = forceSeparateMVP;
 				_nonCasterLightPasses[i].setBlendMode(BlendMode.ADD);
@@ -622,7 +622,7 @@ class MultiPassMaterialBase extends MaterialBase
 	{
 		if (!_nonCasterLightPasses)
 			return;
-		for (var i:Int = 0; i < _nonCasterLightPasses.length; ++i)
+		for (i in 0..._nonCasterLightPasses.length)
 		{
 			removePass(_nonCasterLightPasses[i]);
 			_nonCasterLightPasses[i].dispose();

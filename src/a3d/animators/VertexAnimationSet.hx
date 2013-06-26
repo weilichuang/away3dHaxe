@@ -142,11 +142,11 @@ class VertexAnimationSet extends AnimationSetBase implements IAnimationSet
 			len = 2;
 		var streamIndex:UInt = _streamIndices[pass] = pass.numUsedStreams;
 
-		for (var i:UInt = 0; i < len; ++i)
+		for (i in 0...len)
 		{
 			code += "mul " + temp1 + ", " + sourceRegisters[i] + ", " + constantReg + "." + regs[0] + "\n";
 
-			for (var j:UInt = 1; j < _numPoses; ++j)
+			for (j in 1..._numPoses)
 			{
 				code += "mul " + temp2 + ", va" + streamIndex + ", " + constantReg + "." + regs[j] + "\n";
 
@@ -190,9 +190,9 @@ class VertexAnimationSet extends AnimationSetBase implements IAnimationSet
 		if (useNormals)
 			code += "mov " + targetRegisters[1] + ", " + sourceRegisters[1] + "\n";
 
-		for (var i:UInt = 0; i < len; ++i)
+		for (i in 0...len)
 		{
-			for (var j:UInt = 0; j < _numPoses; ++j)
+			for (j in 0..._numPoses)
 			{
 				code += "mul " + temp1 + ", va" + (streamIndex + k) + ", vc" + pass.numUsedVertexConstants + "." + regs[j] + "\n" +
 					"add " + targetRegisters[i] + ", " + targetRegisters[i] + ", " + temp1 + "\n";

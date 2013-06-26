@@ -38,7 +38,10 @@ class BasicDiffuseMethod extends LightingMethodBase
 
 	private var _texture:Texture2DBase;
 	private var _diffuseColor:UInt = 0xffffff;
-	private var _diffuseR:Float = 1, _diffuseG:Float = 1, _diffuseB:Float = 1, _diffuseA:Float = 1;
+	private var _diffuseR:Float = 1;
+	private var _diffuseG:Float = 1; 
+	private var _diffuseB:Float = 1; 
+	private var _diffuseA:Float = 1;
 	private var _shadowRegister:ShaderRegisterElement;
 
 	private var _alphaThreshold:Float = 0;

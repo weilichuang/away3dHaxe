@@ -103,7 +103,7 @@ class SkeletonPose extends NamedAssetBase implements IAsset
 	{
 		var clone:SkeletonPose = new SkeletonPose();
 		var numJointPoses:UInt = this.jointPoses.length;
-		for (var i:UInt = 0; i < numJointPoses; i++)
+		for (i in 0...numJointPoses)
 		{
 			var cloneJointPose:JointPose = new JointPose();
 			var thisJointPose:JointPose = this.jointPoses[i];

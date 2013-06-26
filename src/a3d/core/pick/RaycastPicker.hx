@@ -199,7 +199,7 @@ class RaycastPicker implements IPicker
 		var entity:Entity;
 		var i:UInt;
 
-		for (i = 0; i < _numEntities; ++i)
+		for (i in 0..._numEntities)
 		{
 			entity = _entities[i];
 			pickingCollisionVO = entity.pickingCollisionVO;

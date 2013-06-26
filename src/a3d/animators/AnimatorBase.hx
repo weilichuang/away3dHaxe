@@ -321,7 +321,7 @@ class AnimatorBase extends NamedAssetBase implements IAsset
 		if (dist > 0)
 		{
 			len = _owners.length;
-			for (var i:UInt = 0; i < len; ++i)
+			for (i in 0...len)
 				_owners[i].translateLocal(delta, dist);
 		}
 	}

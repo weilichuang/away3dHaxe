@@ -124,7 +124,7 @@ class SkeletonClipState extends AnimationClipState implements ISkeletonAnimation
 		if ((numJoints != currentPose.length) || (numJoints != nextPose.length))
 			throw new Error("joint counts don't match!");
 
-		for (var i:UInt = 0; i < numJoints; ++i)
+		for (i in 0...numJoints)
 		{
 			if (endPoses[i] == null)
 				endPoses[i] = new JointPose();

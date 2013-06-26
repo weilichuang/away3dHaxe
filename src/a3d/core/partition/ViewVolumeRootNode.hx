@@ -81,8 +81,8 @@ class ViewVolumeRootNode extends NodeBase
 
 	private function getVolumeContaining(entryPoint:Vector3D):ViewVolume
 	{
-		var numVolumes:UInt = _viewVolumes.length;
-		for (var i:UInt = 0; i < numVolumes; ++i)
+		var numVolumes:Int = _viewVolumes.length;
+		for (i in 0...numVolumes)
 		{
 			if (_viewVolumes[i].contains(entryPoint))
 				return _viewVolumes[i];

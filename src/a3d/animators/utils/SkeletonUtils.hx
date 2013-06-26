@@ -16,7 +16,7 @@ class SkeletonUtils
 		var diff:SkeletonClipNode = new SkeletonClipNode();
 		var numFrames:UInt = source.frames.length;
 
-		for (var i:UInt = 0; i < numFrames; ++i)
+		for (i in 0...numFrames)
 			diff.addFrame(generateDifferencePose(source.frames[i], referencePose), source.durations[i]);
 
 		return diff;
@@ -38,7 +38,7 @@ class SkeletonUtils
 		var tempMtx:Matrix3D = new Matrix3D();
 		var vec:Vector<Vector3D>;
 
-		for (var i:Int = 0; i < numJoints; ++i)
+		for (i in 0...numJoints)
 		{
 			srcPose = source.jointPoses[i];
 			refPose = reference.jointPoses[i];

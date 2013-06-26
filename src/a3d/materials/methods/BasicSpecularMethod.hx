@@ -24,7 +24,9 @@ class BasicSpecularMethod extends LightingMethodBase
 	private var _gloss:Int = 50;
 	private var _specular:Float = 1;
 	private var _specularColor:UInt = 0xffffff;
-	public var specularR:Float = 1, specularG:Float = 1, specularB:Float = 1;
+	public var specularR:Float = 1; 
+	public var specularG:Float = 1; 
+	public var specularB:Float = 1;
 	private var _shadowRegister:ShaderRegisterElement;
 	private var _isFirstLight:Bool;
 
@@ -35,6 +37,12 @@ class BasicSpecularMethod extends LightingMethodBase
 	public function new()
 	{
 		super();
+		_gloss = 50;
+	_specular:Float = 1;
+	_specularColor:UInt = 0xffffff;
+	specularR:Float = 1; 
+	specularG:Float = 1; 
+	specularB:Float = 1;
 	}
 
 	override public function initVO(vo:MethodVO):Void

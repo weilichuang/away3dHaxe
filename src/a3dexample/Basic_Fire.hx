@@ -181,7 +181,7 @@ package example
 
 			//combine them into a list
 			var geometrySet:Vector<Geometry> = new Vector<Geometry>;
-			for (var i:int = 0; i < 500; i++)
+			for (i in 0...500)
 				geometrySet.push(particle);
 
 			particleGeometry = ParticleGeometryHelper.generateGeometry(geometrySet);
@@ -199,7 +199,7 @@ package example
 			scene.addChild(plane);
 
 			//create fire object meshes from geomtry and material, and apply particle animators to each
-			for (var i:int = 0; i < NUM_FIRES; i++)
+			for (i in 0...NUM_FIRES)
 			{
 				var particleMesh:Mesh = new Mesh(particleGeometry, particleMaterial);
 				var animator:ParticleAnimator = new ParticleAnimator(fireAnimationSet);

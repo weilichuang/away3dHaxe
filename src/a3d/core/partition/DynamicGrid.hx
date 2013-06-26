@@ -3,6 +3,7 @@ package a3d.core.partition;
 
 import a3d.bounds.BoundingVolumeBase;
 import a3d.entities.Entity;
+import flash.Vector;
 
 import flash.geom.Vector3D;
 
@@ -80,13 +81,13 @@ class DynamicGrid
 		}
 
 		minZ = _minZ;
-		for (var z:UInt = 0; z < numCellsZ; ++z)
+		for (z in 0...numCellsZ)
 		{
 			minY = _minY;
-			for (var y:UInt = 0; y < numCellsY; ++y)
+			for (y in 0...numCellsY)
 			{
 				minX = _minX;
-				for (var x:UInt = 0; x < numCellsX; ++x)
+				for (x in 0...numCellsX)
 				{
 					node = new InvertedOctreeNode(new Vector3D(minX, minY, minZ), new Vector3D(minX + cellWidth, minY + cellHeight, minZ + cellDepth));
 					if (parents)
@@ -176,19 +177,19 @@ class DynamicGrid
 	{
 		var numLeaves:UInt = _leaves.length;
 		_showDebugBounds = showDebugBounds;
-		for (var i:Int = 0; i < numLeaves; ++i)
+		for (i in 0...numLeaves)
 			_leaves[i].showDebugBounds = value;
 	}
 
 	public function getCellsIntersecting(minBounds:Vector3D, maxBounds:Vector3D):Vector<InvertedOctreeNode>
 	{
 		var cells:Vector<InvertedOctreeNode> = new Vector<InvertedOctreeNode>();
-		var minIndexX:Int = (minBounds.x - _minX) / _cellWidth;
-		var maxIndexX:Int = (maxBounds.x - _minX) / _cellWidth;
-		var minIndexY:Int = (minBounds.y - _minY) / _cellHeight;
-		var maxIndexY:Int = (maxBounds.y - _minY) / _cellHeight;
-		var minIndexZ:Int = (minBounds.z - _minZ) / _cellDepth;
-		var maxIndexZ:Int = (maxBounds.z - _minZ) / _cellDepth;
+		var minIndexX:Int = Std.int((minBounds.x - _minX) / _cellWidth);
+		var maxIndexX:Int = Std.int((maxBounds.x - _minX) / _cellWidth);
+		var minIndexY:Int = Std.int((minBounds.y - _minY) / _cellHeight);
+		var maxIndexY:Int = Std.int((maxBounds.y - _minY) / _cellHeight);
+		var minIndexZ:Int = Std.int((minBounds.z - _minZ) / _cellDepth);
+		var maxIndexZ:Int = Std.int((maxBounds.z - _minZ) / _cellDepth);
 
 		if (minIndexX < 0)
 			minIndexX = 0;
@@ -218,11 +219,11 @@ class DynamicGrid
 			minIndexZ = _numCellsZ - 1;
 
 		var i:UInt;
-		for (var z:UInt = minIndexZ; z <= maxIndexZ; ++z)
+		for (z in minIndexZ...maxIndexZ+1)
 		{
-			for (var y:UInt = minIndexY; y <= maxIndexY; ++y)
+			for (y in minIndexY...maxIndexY+1)
 			{
-				for (var x:UInt = minIndexX; x <= maxIndexX; ++x)
+				for (x in minIndexX...maxIndexX+1)
 				{
 					cells[i++] = getCellAt(x, y, z);
 				}
