@@ -18,6 +18,7 @@ class WireframePrimitiveBase extends SegmentSet
 
 	public function new(color:UInt = 0xffffff, thickness:Float = 1)
 	{
+		super();
 		if (thickness <= 0)
 			thickness = 1;
 		_color = color;

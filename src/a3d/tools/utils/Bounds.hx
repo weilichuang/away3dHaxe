@@ -251,7 +251,7 @@ class Bounds
 
 	private static function isInfinite(value:Float):Bool
 	{
-		return value == Number.POSITIVE_INFINITY || value == Number.NEGATIVE_INFINITY;
+		return value == Number.POSITIVE_INFINITY || value == Math.NEGATIVE_INFINITY;
 	}
 
 	private static function parseObjectBounds(oC:ObjectContainer3D, parentTransform:Matrix3D = null, resetBounds:Bool = false):Void

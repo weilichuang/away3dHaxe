@@ -628,6 +628,11 @@ class SegmentSet extends Entity implements IRenderable
 	public var index:UInt;
 	public var subSetIndex:UInt;
 	public var segment:Segment;
+	
+	public function new()
+	{
+		
+	}
 }
 
  class SubSet
@@ -649,6 +654,11 @@ class SegmentSet extends Entity implements IRenderable
 	public var vertexBuffer:VertexBuffer3D;
 	public var indexBuffer:IndexBuffer3D;
 	public var lineCount:UInt;
+	
+	public function new()
+	{
+		
+	}
 
 	public function dispose():Void
 	{

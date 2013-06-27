@@ -43,18 +43,18 @@ class Mouse3DManager
 	private static var _collidingViewObjects:Vector<PickingCollisionVO>;
 	private static var _queuedEvents:Vector<MouseEvent3D> = new Vector<MouseEvent3D>();
 
-	private static var _previousCollidingView:Int = -1;
-	private static var _collidingView:Int = -1;
+	private static var _previousCollidingView:Int;
+	private static var _collidingView:Int;
 	
 	private var _activeView:View3D;
-	private var _updateDirty:Bool = true;
-	private var _nullVector:Vector3D = new Vector3D();
+	private var _updateDirty:Bool;
+	private var _nullVector:Vector3D;
 	
-	private var _mouseMoveEvent:MouseEvent = new MouseEvent(MouseEvent.MOUSE_MOVE);
+	private var _mouseMoveEvent:MouseEvent;
 
 	private var _forceMouseMove:Bool;
-	private var _mousePicker:IPicker = PickingType.RAYCAST_FIRST_ENCOUNTERED;
-	private var _childDepth:Int = 0;
+	private var _mousePicker:IPicker;
+	private var _childDepth:Int;
 	
 	private var _collidingDownObject:PickingCollisionVO;
 	private var _collidingUpObject:PickingCollisionVO;
@@ -69,7 +69,7 @@ class Mouse3DManager
 		_mouseMoveEvent = new MouseEvent(MouseEvent.MOUSE_MOVE);
 		_mousePicker = PickingType.RAYCAST_FIRST_ENCOUNTERED;
 		_childDepth = 0;
-		
+
 		if (_view3Ds == null)
 		{
 			_view3Ds = new ObjectMap<View3D,Int>();
@@ -120,11 +120,11 @@ class Mouse3DManager
 		var dispatcher:ObjectContainer3D;
 
 		// If multiple view are used, determine the best hit based on the depth intersection.
-		if (_collidingViewObjects)
+		if (_collidingViewObjects != null)
 		{
 			_collidingObject = null;
 			// Get the top-most view colliding object
-			var distance:Float = Infinity;
+			var distance:Float = Math.POSITIVE_INFINITY;
 			var view:View3D;
 			var v:Int = _viewCount - 1;
 			while ( v >= 0)
@@ -146,14 +146,14 @@ class Mouse3DManager
 		// If colliding object has changed, queue over/out events.
 		if (_collidingObject != _previousCollidingObject)
 		{
-			if (_previousCollidingObject)
+			if (_previousCollidingObject != null)
 				queueDispatch(_mouseOut, _mouseMoveEvent, _previousCollidingObject);
-			if (_collidingObject)
+			if (_collidingObject != null)
 				queueDispatch(_mouseOver, _mouseMoveEvent, _collidingObject);
 		}
 
 		// Fire mouse move events here if forceMouseMove is on.
-		if (_forceMouseMove && _collidingObject)
+		if (_forceMouseMove && _collidingObject != null)
 		{
 			queueDispatch(_mouseMove, _mouseMoveEvent, _collidingObject);
 		}
@@ -166,10 +166,10 @@ class Mouse3DManager
 			event = _queuedEvents[i];
 			dispatcher = event.object;
 
-			while (dispatcher && !dispatcher.ancestorsAllowMouseEnabled)
+			while (dispatcher != null && !dispatcher.ancestorsAllowMouseEnabled)
 				dispatcher = dispatcher.parent;
 
-			if (dispatcher)
+			if (dispatcher != null)
 				dispatcher.dispatchEvent(event);
 		}
 		_queuedEvents.length = 0;
@@ -243,7 +243,7 @@ class Mouse3DManager
 			collider = _collidingObject;
 
 		// 3D properties.
-		if (collider)
+		if (collider != null)
 		{
 			// Object.
 			event.object = collider.entity;
@@ -251,9 +251,9 @@ class Mouse3DManager
 			// UV.
 			event.uv = collider.uv;
 			// Position.
-			event.localPosition = collider.localPosition ? collider.localPosition.clone() : null;
+			event.localPosition = collider.localPosition != null ? collider.localPosition.clone() : null;
 			// Normal.
-			event.localNormal = collider.localNormal ? collider.localNormal.clone() : null;
+			event.localNormal = collider.localNormal != null ? collider.localNormal.clone() : null;
 			// Face index.
 			event.index = collider.index;
 			// SubGeometryIndex.

@@ -4,7 +4,8 @@ import a3d.animators.nodes.AnimationNodeBase;
 import a3d.materials.compilation.ShaderRegisterCache;
 import a3d.materials.compilation.ShaderRegisterElement;
 import flash.Vector;
-
+import haxe.ds.ObjectMap;
+import haxe.ds.WeakMap;
 import flash.geom.Matrix3D;
 import flash.utils.Dictionary;
 
@@ -39,14 +40,20 @@ class AnimationRegisterCache extends ShaderRegisterCache
 	public var rotationRegisters:Vector<ShaderRegisterElement>;
 
 
-
 	public var needFragmentAnimation:Bool;
 	public var needUVAnimation:Bool;
 
 	public var sourceRegisters:Vector<String>;
 	public var targetRegisters:Vector<String>;
 
-	private var indexDictionary:Dictionary = new Dictionary(true);
+	private var indexDictionary:WeakMap<AnimationNodeBase,Vector<Int>>;
+	
+	public var vertexConstantData:Vector<Float>;
+	public var fragmentConstantData:Vector<Float>;
+
+	private var _numVertexConstant:Int;
+	private var _numFragmentConstant:Int;
+
 
 	//set true if has an node which will change UV
 	public var hasUVNode:Bool;
@@ -62,6 +69,11 @@ class AnimationRegisterCache extends ShaderRegisterCache
 	public function new(profile:String)
 	{
 		super(profile);
+		
+		indexDictionary = new WeakMap<AnimationNodeBase,Vector<Int>>();
+	
+		vertexConstantData= new Vector<Float>();
+		fragmentConstantData = new Vector<Float>();
 	}
 
 	override public function reset():Void
@@ -122,16 +134,16 @@ class AnimationRegisterCache extends ShaderRegisterCache
 	public function setRegisterIndex(node:AnimationNodeBase, parameterIndex:Int, registerIndex:Int):Void
 	{
 		//8 should be enough for any node.
-		if (indexDictionary[node] == null)
-			indexDictionary[node] = new Vector<Int>(8, true);
+		if (!indexDictionary.exists(node))
+			indexDictionary.set(node, new Vector<Int>(8, true));
 			
-		var t:Vector<Int> = indexDictionary[node];
+		var t:Vector<Int> = indexDictionary.get(node);
 		t[parameterIndex] = registerIndex;
 	}
 
 	public function getRegisterIndex(node:AnimationNodeBase, parameterIndex:Int):Int
 	{
-		return indexDictionary[node][parameterIndex];
+		return indexDictionary.get(node)[parameterIndex];
 	}
 
 	public function getInitCode():String
@@ -206,15 +218,10 @@ class AnimationRegisterCache extends ShaderRegisterCache
 	{
 		var temp:Array<String> = ~/(\d+)/.split(code);
 		//var temp:Array = code.split();
-		return new ShaderRegisterElement(temp[0], temp[1]);
+		return new ShaderRegisterElement(temp[0], Std.parseInt(temp[1]));
 	}
 
-	public var vertexConstantData:Vector<Float> = new Vector<Float>();
-	public var fragmentConstantData:Vector<Float> = new Vector<Float>();
-
-	private var _numVertexConstant:Int;
-	private var _numFragmentConstant:Int;
-
+	
 	private inline function get_numVertexConstant():Int
 	{
 		return _numVertexConstant;

@@ -6,6 +6,7 @@ import a3d.utils.Debug;
 import com.adobe.utils.AGALMiniAssembler;
 import flash.display3D.Context3DProgramType;
 import flash.display3D.Program3D;
+import flash.errors.Error;
 import flash.utils.ByteArray;
 import flash.Vector;
 import haxe.ds.StringMap;
@@ -43,7 +44,7 @@ class AGALProgram3DCache
 
 		if (_instances[index] == null)
 		{
-			_instances[index] = new AGALProgram3DCache(stage3DProxy, new AGALProgram3DCacheSingletonEnforcer());
+			_instances[index] = new AGALProgram3DCache(stage3DProxy);
 			stage3DProxy.addEventListener(Stage3DEvent.CONTEXT3D_DISPOSED, onContext3DDisposed, false, 0, true);
 			stage3DProxy.addEventListener(Stage3DEvent.CONTEXT3D_CREATED, onContext3DDisposed, false, 0, true);
 			stage3DProxy.addEventListener(Stage3DEvent.CONTEXT3D_RECREATED, onContext3DDisposed, false, 0, true);
@@ -61,7 +62,7 @@ class AGALProgram3DCache
 
 	private static function onContext3DDisposed(event:Stage3DEvent):Void
 	{
-		var stage3DProxy:Stage3DProxy = Stage3DProxy(event.target);
+		var stage3DProxy:Stage3DProxy = Std.instance(event.target,Stage3DProxy);
 		var index:Int = stage3DProxy.stage3DIndex;
 		_instances[index].dispose();
 		_instances[index] = null;
@@ -87,7 +88,7 @@ class AGALProgram3DCache
 		var program:Program3D;
 		var key:String = getKey(vertexCode, fragmentCode);
 
-		if (!_program3Ds.exits(key))
+		if (!_program3Ds.exists(key))
 		{
 			_keys[_currentId] = key;
 			_usages[_currentId] = 0;
@@ -114,7 +115,7 @@ class AGALProgram3DCache
 		}
 
 		pass.setProgram3Dids(stageIndex, newId);
-		pass.setProgram3D(stageIndex, _program3Ds[key]);
+		pass.setProgram3D(stageIndex, _program3Ds.get(key));
 	}
 
 	public function freeProgram3D(programId:Int):Void

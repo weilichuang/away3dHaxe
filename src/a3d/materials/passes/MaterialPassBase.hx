@@ -33,12 +33,17 @@ import flash.Vector;
  */
 class MaterialPassBase extends EventDispatcher
 {
+	// keep track of previously rendered usage for faster cleanup of old vertex buffer streams and textures
+	private static var _previousUsedStreams:Vector<Int> = Vector.ofArray([0, 0, 0, 0, 0, 0, 0, 0]);
+	private static var _previousUsedTexs:Vector<Int> = Vector.ofArray([0, 0, 0, 0, 0, 0, 0, 0]);
+	
+	
 	private var _material:MaterialBase;
 	private var _animationSet:IAnimationSet;
 
-	private var _program3Ds:Vector<Program3D> = new Vector<Program3D>(8);
-	private var _program3Dids:Vector<Int> = Vector.ofArray([-1, -1, -1, -1, -1, -1, -1, -1]);
-	private var _context3Ds:Vector<Context3D> = new Vector<Context3D>(8);
+	private var _program3Ds:Vector<Program3D>;
+	private var _program3Dids:Vector<Int>;
+	private var _context3Ds:Vector<Context3D>;
 
 	// agal props. these NEED to be set by subclasses!
 	// todo: can we perhaps figure these out manually by checking read operations in the bytecode, so other sources can be safely updated?
@@ -51,24 +56,21 @@ class MaterialPassBase extends EventDispatcher
 	private var _smooth:Bool = true;
 	private var _repeat:Bool = false;
 	private var _mipmap:Bool = true;
-	private var _depthCompareMode:String = Context3DCompareMode.LESS_EQUAL;
+	private var _depthCompareMode:String;
 
-	private var _blendFactorSource:String = Context3DBlendFactor.ONE;
-	private var _blendFactorDest:String = Context3DBlendFactor.ZERO;
+	private var _blendFactorSource:String;
+	private var _blendFactorDest:String;
 
 	private var _enableBlending:Bool;
 
 	private var _bothSides:Bool;
 
 	private var _lightPicker:LightPickerBase;
-	private var _animatableAttributes:Vector<String> = Vector<String>(["va0"]);
-	private var _animationTargetRegisters:Vector<String> = Vector<String>(["vt0"]);
-	private var _shadedTarget:String = "ft0";
+	private var _animatableAttributes;
+	private var _animationTargetRegisters;
+	private var _shadedTarget:String;
 
-	// keep track of previously rendered usage for faster cleanup of old vertex buffer streams and textures
-	private static var _previousUsedStreams:Vector<Int> = Vector<Int>([0, 0, 0, 0, 0, 0, 0, 0]);
-	private static var _previousUsedTexs:Vector<Int> = Vector<Int>([0, 0, 0, 0, 0, 0, 0, 0]);
-	private var _defaultCulling:String = Context3DTriangleFace.BACK;
+	private var _defaultCulling:String;
 
 	private var _renderToTexture:Bool;
 
@@ -84,7 +86,7 @@ class MaterialPassBase extends EventDispatcher
 	private var _UVTarget:String;
 	private var _UVSource:String;
 
-	private var _writeDepth:Bool = true;
+	private var _writeDepth:Bool;
 
 	public var animationRegisterCache:AnimationRegisterCache;
 
@@ -98,6 +100,23 @@ class MaterialPassBase extends EventDispatcher
 		_renderToTexture = renderToTexture;
 		_numUsedStreams = 1;
 		_numUsedVertexConstants = 5;
+		
+		_program3Ds = new Vector<Program3D>(8);
+		_program3Dids = Vector.ofArray([ -1, -1, -1, -1, -1, -1, -1, -1]);
+		_context3Ds = new Vector<Context3D>(8);
+		
+		_depthCompareMode = Context3DCompareMode.LESS_EQUAL;
+
+		_blendFactorSource = Context3DBlendFactor.ONE;
+		_blendFactorDest = Context3DBlendFactor.ZERO;
+
+		_animatableAttributes = Vector<String>(["va0"]);
+		_animationTargetRegisters = Vector<String>(["vt0"]);
+		_shadedTarget = "ft0";
+
+		_defaultCulling = Context3DTriangleFace.BACK;
+		
+		_writeDepth = true;
 	}
 
 	public function getProgram3Dids():Vector<Int>

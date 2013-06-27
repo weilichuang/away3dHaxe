@@ -126,9 +126,9 @@ class DirectionalLight extends LightBase
 			_projAABBPoints = new Vector<Float>();
 		m.transformVectors(bounds.aabbPoints, _projAABBPoints);
 
-		var xMin:Float = Number.POSITIVE_INFINITY, xMax:Float = Number.NEGATIVE_INFINITY;
-		var yMin:Float = Number.POSITIVE_INFINITY, yMax:Float = Number.NEGATIVE_INFINITY;
-		var zMin:Float = Number.POSITIVE_INFINITY, zMax:Float = Number.NEGATIVE_INFINITY;
+		var xMin:Float = Number.POSITIVE_INFINITY, xMax:Float = Math.NEGATIVE_INFINITY;
+		var yMin:Float = Number.POSITIVE_INFINITY, yMax:Float = Math.NEGATIVE_INFINITY;
+		var zMin:Float = Number.POSITIVE_INFINITY, zMax:Float = Math.NEGATIVE_INFINITY;
 		var d:Float;
 		for (i in 0...24)
 		{

@@ -161,7 +161,7 @@ class BoundingVolumeBase
 		{
 			var j:UInt = 0;
 			minX = minY = minZ = Number.POSITIVE_INFINITY;
-			maxX = maxY = maxZ = Number.NEGATIVE_INFINITY;
+			maxX = maxY = maxZ = Math.NEGATIVE_INFINITY;
 
 			while (j < numSubGeoms)
 			{

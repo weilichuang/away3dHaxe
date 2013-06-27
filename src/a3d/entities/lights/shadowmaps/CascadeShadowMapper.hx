@@ -181,7 +181,7 @@ class CascadeShadowMapper extends DirectionalShadowMapper implements IEventDispa
 		var xN:Float, yN:Float, zN:Float;
 		var xF:Float, yF:Float, zF:Float;
 		var minX:Float = Number.POSITIVE_INFINITY, minY:Float = Number.POSITIVE_INFINITY, minZ:Float;
-		var maxX:Float = Number.NEGATIVE_INFINITY, maxY:Float = Number.NEGATIVE_INFINITY, maxZ:Float = Number.NEGATIVE_INFINITY;
+		var maxX:Float = Math.NEGATIVE_INFINITY, maxY:Float = Math.NEGATIVE_INFINITY, maxZ:Float = Math.NEGATIVE_INFINITY;
 		var i:UInt = 0;
 
 		while (i < 12)

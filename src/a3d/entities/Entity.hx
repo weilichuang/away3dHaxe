@@ -405,7 +405,7 @@ class Entity extends ObjectContainer3D
 	 */
 	private function notifySceneBoundsInvalid():Void
 	{
-		if (_scene)
+		if (_scene != null)
 			_scene.invalidateEntityBounds(this);
 	}
 

@@ -53,7 +53,7 @@ class Matrix3DUtils
 		raw[3] = raw[7] = raw[11] = raw[12] = raw[13] = raw[14] = 0;
 		raw[15] = 1;
 
-		if (m)
+		if (m != null)
 		{
 			m.copyRawDataFrom(raw);
 			return m;

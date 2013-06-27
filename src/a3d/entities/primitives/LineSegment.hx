@@ -10,7 +10,7 @@ import flash.geom.Vector3D;
 class LineSegment extends Segment
 {
 
-	public const TYPE:String = "line";
+	public var TYPE:String = "line";
 
 	/**
 	 * Create a line segment

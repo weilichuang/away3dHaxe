@@ -78,24 +78,26 @@ class ObjectContainer3D extends Object3D implements IAsset
 	private var _ancestorsAllowMouseEnabled:Bool;
 	private var _isRoot:Bool;
 	
+	public var ancestorsAllowMouseEnabled(get, set):Bool;
 	private inline function get_ancestorsAllowMouseEnabled():Bool
 	{
 		return _ancestorsAllowMouseEnabled;
 	}
 	
-	private inline function set_ancestorsAllowMouseEnabled(value:Bool):Void
+	private inline function set_ancestorsAllowMouseEnabled(value:Bool):Bool
 	{
-		_ancestorsAllowMouseEnabled = value;
+		return _ancestorsAllowMouseEnabled = value;
 	}
 	
+	public var isRoot(get, set):Bool;
 	private inline function get_isRoot():Bool
 	{
 		return _isRoot;
 	}
 	
-	private inline function set_isRoot(value:Bool):Void
+	private inline function set_isRoot(value:Bool):Bool
 	{
-		_isRoot = value;
+		return _isRoot = value;
 	}
 
 	private var _scene:Scene3D;
@@ -126,12 +128,13 @@ class ObjectContainer3D extends Object3D implements IAsset
 	/**
 	 * Does not apply any transformations to this object. Allows static objects to be described in world coordinates without any matrix calculations.
 	 */
+	public var ignoreTransform(get, set):Bool;
 	private inline function get_ignoreTransform():Bool
 	{
 		return _ignoreTransform;
 	}
 
-	private inline function set_ignoreTransform(value:Bool):Void
+	private inline function set_ignoreTransform(value:Bool):Bool
 	{
 		_ignoreTransform = value;
 		_sceneTransformDirty = !value;
@@ -143,21 +146,24 @@ class ObjectContainer3D extends Object3D implements IAsset
 			_sceneTransform.identity();
 			_scenePosition.setTo(0, 0, 0);
 		}
+		
+		return _ignoreTransform;
 	}
 
 	/**
 	 * @private
 	 * The space partition used for this object, possibly inherited from its parent.
 	 */
+	public var implicitPartition(get, set):Partition3D;
 	private inline function get_implicitPartition():Partition3D
 	{
 		return _implicitPartition;
 	}
 
-	private inline function set_implicitPartition(value:Partition3D):Void
+	private inline function set_implicitPartition(value:Partition3D):Partition3D
 	{
 		if (value == _implicitPartition)
-			return;
+			return _implicitPartition;
 
 		var i:UInt;
 		var len:UInt = _children.length;
@@ -173,9 +179,12 @@ class ObjectContainer3D extends Object3D implements IAsset
 			if (!child._explicitPartition)
 				child.implicitPartition = value;
 		}
+		
+		return _implicitPartition;
 	}
 
 	/** @private */
+	public var isVisible(get, null):Bool;
 	private inline function get_isVisible():Bool
 	{
 		return _implicitVisibility && _explicitVisibility;
@@ -205,9 +214,8 @@ class ObjectContainer3D extends Object3D implements IAsset
 
 		invalidateSceneTransform();
 
-		var i:UInt;
-		var len:UInt = _children.length;
-
+		var i:Int;
+		var len:Int = _children.length;
 
 		//act recursively on child objects
 		while (i < len)
@@ -264,15 +272,17 @@ class ObjectContainer3D extends Object3D implements IAsset
 	/**
 	 * Indicates whether the IRenderable should trigger mouse events, and hence should be rendered for hit testing.
 	 */
+	public var mouseEnabled(get, set):Bool;
 	private inline function get_mouseEnabled():Bool
 	{
 		return _mouseEnabled;
 	}
 
-	private inline function set_mouseEnabled(value:Bool):Void
+	private inline function set_mouseEnabled(value:Bool):Bool
 	{
 		_mouseEnabled = value;
 		updateMouseChildren();
+		return _mouseEnabled;
 	}
 
 	/**
@@ -316,26 +326,29 @@ class ObjectContainer3D extends Object3D implements IAsset
 	/**
 	 *
 	 */
+	public var mouseChildren(get, set):Bool;
 	private inline function get_mouseChildren():Bool
 	{
 		return _mouseChildren;
 	}
 
-	private inline function set_mouseChildren(value:Bool):Void
+	private inline function set_mouseChildren(value:Bool):Bool
 	{
 		_mouseChildren = value;
 		updateMouseChildren();
+		return _mouseChildren;
 	}
 
 	/**
 	 *
 	 */
+	public var visible(get, set):Bool;
 	private inline function get_visible():Bool
 	{
 		return _explicitVisibility;
 	}
 
-	private inline function set_visible(value:Bool):Void
+	private inline function set_visible(value:Bool):Bool
 	{
 		var len:UInt = _children.length;
 
@@ -343,8 +356,11 @@ class ObjectContainer3D extends Object3D implements IAsset
 
 		for (i in 0...len)
 			_children[i].updateImplicitVisibility();
+			
+		return _explicitVisibility;
 	}
 
+	public var assetType(get, null):String;
 	private inline function get_assetType():String
 	{
 		return AssetType.CONTAINER;
@@ -353,6 +369,7 @@ class ObjectContainer3D extends Object3D implements IAsset
 	/**
 	 * The global position of the ObjectContainer3D in the scene. The value of the return object should not be changed.
 	 */
+	public var scenePosition(get, null):Vector3D;
 	private inline function get_scenePosition():Vector3D
 	{
 		if (_scenePositionDirty)
@@ -367,6 +384,7 @@ class ObjectContainer3D extends Object3D implements IAsset
 	/**
 	 * The minimum extremum of the object along the X-axis.
 	 */
+	public var minX(get, null):Float;
 	private inline function get_minX():Float
 	{
 		var i:UInt;
@@ -388,6 +406,7 @@ class ObjectContainer3D extends Object3D implements IAsset
 	/**
 	 * The minimum extremum of the object along the Y-axis.
 	 */
+	public var minY(get, null):Float;
 	private inline function get_minY():Float
 	{
 		var i:UInt;
@@ -409,6 +428,7 @@ class ObjectContainer3D extends Object3D implements IAsset
 	/**
 	 * The minimum extremum of the object along the Z-axis.
 	 */
+	public var minZ(get, null):Float;
 	private inline function get_minZ():Float
 	{
 		var i:UInt;
@@ -430,12 +450,13 @@ class ObjectContainer3D extends Object3D implements IAsset
 	/**
 	 * The maximum extremum of the object along the X-axis.
 	 */
+	public var maxX(get, null):Float;
 	private inline function get_maxX():Float
 	{
 		// todo: this isn't right, doesn't take into account transforms
 		var i:UInt;
 		var len:UInt = _children.length;
-		var max:Float = Number.NEGATIVE_INFINITY;
+		var max:Float = Math.NEGATIVE_INFINITY;
 		var m:Float;
 
 		while (i < len)
@@ -452,11 +473,12 @@ class ObjectContainer3D extends Object3D implements IAsset
 	/**
 	 * The maximum extremum of the object along the Y-axis.
 	 */
+	public var maxY(get, null):Float;
 	private inline function get_maxY():Float
 	{
 		var i:UInt;
 		var len:UInt = _children.length;
-		var max:Float = Number.NEGATIVE_INFINITY;
+		var max:Float = Math.NEGATIVE_INFINITY;
 		var m:Float;
 
 		while (i < len)
@@ -473,11 +495,12 @@ class ObjectContainer3D extends Object3D implements IAsset
 	/**
 	 * The maximum extremum of the object along the Z-axis.
 	 */
+	public var maxZ(get, null):Float;
 	private inline function get_maxZ():Float
 	{
 		var i:UInt;
 		var len:UInt = _children.length;
-		var max:Float = Number.NEGATIVE_INFINITY;
+		var max:Float = Math.NEGATIVE_INFINITY;
 		var m:Float;
 
 		while (i < len)
@@ -495,21 +518,25 @@ class ObjectContainer3D extends Object3D implements IAsset
 	 * The space partition to be used by the object container and all its recursive children, unless it has its own
 	 * space partition assigned.
 	 */
+	public var partition(get, set):Partition3D;
 	private inline function get_partition():Partition3D
 	{
 		return _explicitPartition;
 	}
 
-	private inline function set_partition(value:Partition3D):Void
+	private inline function set_partition(value:Partition3D):Partition3D
 	{
 		_explicitPartition = value;
 
-		implicitPartition = value ? value : (_parent ? _parent.implicitPartition : null);
+		implicitPartition = value != null ? value : (_parent ? _parent.implicitPartition : null);
+		
+		return _explicitPartition;
 	}
 
 	/**
 	 * The transformation matrix that transforms from model to world space.
 	 */
+	public var sceneTransform(get, null):Matrix3D;
 	private inline function get_sceneTransform():Matrix3D
 	{
 		if (_sceneTransformDirty)
@@ -521,12 +548,13 @@ class ObjectContainer3D extends Object3D implements IAsset
 	/**
 	 * A reference to the Scene3D object to which this object belongs.
 	 */
+	public var scene(get, set):Scene3D;
 	private inline function get_scene():Scene3D
 	{
 		return _scene;
 	}
 
-	private inline function set_scene(value:Scene3D):Void
+	private inline function set_scene(value:Scene3D):Scene3D
 	{
 		var i:UInt;
 		var len:UInt = _children.length;
@@ -550,15 +578,18 @@ class ObjectContainer3D extends Object3D implements IAsset
 
 		_scene = value;
 
-		if (_scene)
+		if (_scene != null)
 			_scene.dispatchEvent(new Scene3DEvent(Scene3DEvent.ADDED_TO_SCENE, this));
-		else if (_oldScene)
+		else if (_oldScene != null)
 			_oldScene.dispatchEvent(new Scene3DEvent(Scene3DEvent.REMOVED_FROM_SCENE, this));
+			
+		return _scene;
 	}
 
 	/**
 	 * The inverse scene transform object that transforms from world to model space.
 	 */
+	public var inverseSceneTransform(get, null):Matrix3D;
 	private inline function get_inverseSceneTransform():Matrix3D
 	{
 		if (_inverseSceneTransformDirty)
@@ -574,6 +605,7 @@ class ObjectContainer3D extends Object3D implements IAsset
 	/**
 	 * The parent ObjectContainer3D to which this object's transformation is relative.
 	 */
+	public var parent(get, null):ObjectContainer3D;
 	private inline function get_parent():ObjectContainer3D
 	{
 		return _parent;
@@ -582,7 +614,7 @@ class ObjectContainer3D extends Object3D implements IAsset
 	/**
 	 * Creates a new ObjectContainer3D object.
 	 */
-	public function ObjectContainer3D()
+	public function new()
 	{
 		super();
 	}
@@ -604,10 +636,10 @@ class ObjectContainer3D extends Object3D implements IAsset
 		if (child == null)
 			throw new Error("Parameter child cannot be null.");
 
-		if (child._parent)
+		if (child._parent != null)
 			child._parent.removeChild(child);
 
-		if (!child._explicitPartition)
+		if (child._explicitPartition == null)
 			child.implicitPartition = _implicitPartition;
 
 		child.setParent(this);
@@ -672,7 +704,7 @@ class ObjectContainer3D extends Object3D implements IAsset
 		// this needs to be nullified before the callbacks!
 		child.setParent(null);
 
-		if (!child._explicitPartition)
+		if (child._explicitPartition == null)
 			child.implicitPartition = null;
 	}
 
@@ -681,7 +713,7 @@ class ObjectContainer3D extends Object3D implements IAsset
 	 * @param index The index of the object to be retrieved.
 	 * @return The child object at the given index.
 	 */
-	public function getChildAt(index:UInt):ObjectContainer3D
+	public inline function getChildAt(index:UInt):ObjectContainer3D
 	{
 		return _children[index];
 	}
@@ -689,6 +721,7 @@ class ObjectContainer3D extends Object3D implements IAsset
 	/**
 	 * The amount of child objects of the ObjectContainer3D.
 	 */
+	public var numChildren(get, null):UInt;
 	private inline function get_numChildren():UInt
 	{
 		return _children.length;
@@ -716,7 +749,7 @@ class ObjectContainer3D extends Object3D implements IAsset
 	 */
 	override public function dispose():Void
 	{
-		if (parent)
+		if (parent != null)
 			parent.removeChild(this);
 	}
 

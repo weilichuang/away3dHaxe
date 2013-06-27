@@ -1,6 +1,8 @@
 package a3d.core.managers;
 
 import flash.display.Stage;
+import flash.display3D.Context3DProfile;
+import flash.errors.Error;
 import haxe.ds.ObjectMap;
 import flash.Vector;
 
@@ -12,7 +14,7 @@ import flash.Vector;
  */
 class Stage3DManager
 {
-	private static var _instances:ObjectMap<Stage,Stage3DProxy>;
+	private static var _instances:ObjectMap<Stage,Stage3DManager>;
 	private static var _stageProxies:Vector<Stage3DProxy>;
 	private static var _numStageProxies:Int = 0;
 
@@ -57,7 +59,7 @@ class Stage3DManager
 	 * @param profile The compatibility profile, an enumeration of Context3DProfile
 	 * @return The Stage3DProxy for the given index.
 	 */
-	public function getStage3DProxy(index:UInt, forceSoftware:Bool = false, profile:String = "baseline"):Stage3DProxy
+	public function getStage3DProxy(index:UInt, forceSoftware:Bool = false, profile:Context3DProfile = null):Stage3DProxy
 	{
 		if (_stageProxies[index] == null)
 		{
@@ -85,7 +87,7 @@ class Stage3DManager
 	 * @param profile The compatibility profile, an enumeration of Context3DProfile
 	 * @return The allocated stage3DProxy
 	 */
-	public function getFreeStage3DProxy(forceSoftware:Bool = false, profile:String = "baseline"):Stage3DProxy
+	public function getFreeStage3DProxy(forceSoftware:Bool = false, profile:Context3DProfile = null):Stage3DProxy
 	{
 		var i:Int = 0;
 		var len:Int = _stageProxies.length;

@@ -1,7 +1,9 @@
 package a3d.materials.compilation;
 
+import flash.errors.Error;
 import flash.utils.Dictionary;
 import flash.Vector;
+import haxe.ds.StringMap;
 
 /**
  * RegisterPool is used by the shader compilation process to keep track of which registers of a certain type are
@@ -10,12 +12,12 @@ import flash.Vector;
  */
 class RegisterPool
 {
-	private static inline var _regPool:Dictionary = new Dictionary();
-	private static inline var _regCompsPool:Dictionary = new Dictionary();
+	public static var _regPool:StringMap<Vector<ShaderRegisterElement>> = new StringMap<Vector<ShaderRegisterElement>>();
+	public static var _regCompsPool:StringMap<Array<Array<ShaderRegisterElement>>> = new StringMap<Array<Array<ShaderRegisterElement>>>();
 
 
 	private var _vectorRegisters:Vector<ShaderRegisterElement>;
-	private var _registerComponents:Array;
+	private var _registerComponents:Array<Array<ShaderRegisterElement>>;
 
 	private var _regName:String;
 	private var _usedSingleCount:Vector<Vector<UInt>>;
@@ -146,8 +148,8 @@ class RegisterPool
 
 		var hash:String = RegisterPool._initPool(regName, regCount);
 
-		_vectorRegisters = RegisterPool._regPool[hash];
-		_registerComponents = RegisterPool._regCompsPool[hash];
+		_vectorRegisters = RegisterPool._regPool.get(hash);
+		_registerComponents = RegisterPool._regCompsPool.get(hash);
 
 		_usedVectorCount = new Vector<UInt>(regCount, true);
 		_usedSingleCount = new Vector<Vector<UInt>>(4, true);
@@ -163,14 +165,14 @@ class RegisterPool
 	{
 		var hash:String = regName + regCount;
 
-		if (_regPool[hash] != undefined)
+		if (_regPool.exists(hash))
 			return hash;
 
 		var vectorRegisters:Vector<ShaderRegisterElement> = new Vector<ShaderRegisterElement>(regCount, true);
-		_regPool[hash] = vectorRegisters;
+		_regPool.set(hash,vectorRegisters);
 
-		var registerComponents:Array = [[], [], [], []];
-		_regCompsPool[hash] = registerComponents;
+		var registerComponents:Array<Array<ShaderRegisterElement>> = [[], [], [], []];
+		_regCompsPool.set(hash,registerComponents);
 
 		for (i in 0...regCount)
 		{

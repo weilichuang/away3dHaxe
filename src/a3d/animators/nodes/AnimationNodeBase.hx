@@ -9,9 +9,10 @@ import a3d.io.library.assets.NamedAssetBase;
  */
 class AnimationNodeBase extends NamedAssetBase implements IAsset
 {
-	private var _stateClass:Class;
-
-	private inline function get_stateClass():Class
+	public var stateClass(get, null):Dynamic;
+	
+	private var _stateClass:Dynamic;
+	private inline function get_stateClass():Dynamic
 	{
 		return _stateClass;
 	}

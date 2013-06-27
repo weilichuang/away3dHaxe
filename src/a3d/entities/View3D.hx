@@ -5,6 +5,7 @@ import flash.display.Sprite;
 import flash.display3D.Context3D;
 import flash.display3D.Context3DTextureFormat;
 import flash.display3D.textures.Texture;
+import flash.errors.Error;
 import flash.events.Event;
 import flash.filters.BitmapFilter;
 import flash.geom.Point;
@@ -128,14 +129,15 @@ class View3D extends Sprite
 		_camera.partition = _scene.partition;
 	}
 
+	public var depthPrepass(get, set):Bool;
 	private inline function get_depthPrepass():Bool
 	{
 		return _depthPrepass;
 	}
 
-	private inline function set_depthPrepass(value:Bool):Void
+	private inline function set_depthPrepass(value:Bool):Bool
 	{
-		_depthPrepass = value;
+		return _depthPrepass = value;
 	}
 
 	private function onScenePartitionChanged(event:Scene3DEvent):Void
@@ -144,14 +146,15 @@ class View3D extends Sprite
 			_camera.partition = scene.partition;
 	}
 
+	public var stage3DProxy(get, set):Stage3DProxy;
 	private inline function get_stage3DProxy():Stage3DProxy
 	{
 		return _stage3DProxy;
 	}
 
-	private inline function set_stage3DProxy(stage3DProxy:Stage3DProxy):Void
+	private inline function set_stage3DProxy(stage3DProxy:Stage3DProxy):Stage3DProxy
 	{
-		if (_stage3DProxy)
+		if (_stage3DProxy != null)
 			_stage3DProxy.removeEventListener(Stage3DEvent.VIEWPORT_UPDATED, onViewportUpdated);
 
 		_stage3DProxy = stage3DProxy;
@@ -162,32 +165,38 @@ class View3D extends Sprite
 
 		_globalPosDirty = true;
 		_backBufferInvalid = true;
+		
+		return _stage3DProxy;
 	}
 
 	/**
 	 * Forces mouse-move related events even when the mouse hasn't moved. This allows mouseOver and mouseOut events
 	 * etc to be triggered due to changes in the scene graph. Defaults to false.
 	 */
+	public var forceMouseMove(get, set):Bool;
 	private inline function get_forceMouseMove():Bool
 	{
 		return _mouse3DManager.forceMouseMove;
 	}
 
-	private inline function set_forceMouseMove(value:Bool):Void
+	private inline function set_forceMouseMove(value:Bool):Bool
 	{
 		_mouse3DManager.forceMouseMove = value;
 		_touch3DManager.forceTouchMove = value;
+		return value;
 	}
 
+	public var background(get, set):Texture2DBase;
 	private inline function get_background():Texture2DBase
 	{
 		return _background;
 	}
 
-	private inline function set_background(value:Texture2DBase):Void
+	private inline function set_background(value:Texture2DBase):Texture2DBase
 	{
 		_background = value;
 		_renderer.background = _background;
+		return _background;
 	}
 
 	/**
@@ -196,14 +205,15 @@ class View3D extends Sprite
 	 * from the previous (lower) view's render so objects in this view may be occluded by the lower
 	 * layer. Defaults to false.
 	 */
+	public var layeredView(get, set):Bool;
 	private inline function get_layeredView():Bool
 	{
 		return _layeredView;
 	}
 
-	private inline function set_layeredView(value:Bool):Void
+	private inline function set_layeredView(value:Bool):Bool
 	{
-		_layeredView = value;
+		return _layeredView = value;
 	}
 
 	private function initHitField():Void
@@ -219,7 +229,7 @@ class View3D extends Sprite
 	/**
 	 * Not supported. Use filters3d instead.
 	 */
-	override private inline function get_filters():Array<Filter3DBase>
+	override private inline function get_filters():Array<BitmapFilter>
 	{
 		throw new Error("filters is not supported in View3D. Use filters3d instead.");
 		return super.filters;
@@ -228,13 +238,13 @@ class View3D extends Sprite
 	/**
 	 * Not supported. Use filters3d instead.
 	 */
-	override private inline function set_filters(value:Array<BitmapFilter>):Array<Filter3DBase>
+	override private inline function set_filters(value:Array<BitmapFilter>):Array<BitmapFilter>
 	{
 		throw new Error("filters is not supported in View3D. Use filters3d instead.");
 		return super.filters;
 	}
 
-
+	public var filters3d(get, set):Array<Filter3DBase>;
 	private inline function get_filters3d():Array<Filter3DBase>
 	{
 		return _filter3DRenderer != null ? _filter3DRenderer.filters : null;
@@ -306,25 +316,28 @@ class View3D extends Sprite
 	/**
 	 * The background color of the screen. This value is only used when clearAll is set to true.
 	 */
+	public var backgroundColor(get, set):UInt;
 	private inline function get_backgroundColor():UInt
 	{
 		return _backgroundColor;
 	}
 
-	private inline function set_backgroundColor(value:UInt):Void
+	private inline function set_backgroundColor(value:UInt):UInt
 	{
 		_backgroundColor = value;
 		_renderer.backgroundR = ((value >> 16) & 0xff) / 0xff;
 		_renderer.backgroundG = ((value >> 8) & 0xff) / 0xff;
 		_renderer.backgroundB = (value & 0xff) / 0xff;
+		return _backgroundColor;
 	}
 
+	public var backgroundAlpha(get, set):Float;
 	private inline function get_backgroundAlpha():Float
 	{
 		return _backgroundAlpha;
 	}
 
-	private inline function set_backgroundAlpha(value:Float):Void
+	private inline function set_backgroundAlpha(value:Float):Float
 	{
 		if (value > 1)
 			value = 1;
@@ -332,12 +345,13 @@ class View3D extends Sprite
 			value = 0;
 
 		_renderer.backgroundAlpha = value;
-		_backgroundAlpha = value;
+		return _backgroundAlpha = value;
 	}
 
 	/**
 	 * The camera that's used to render the scene for this viewport
 	 */
+	public var camera(get, set):Camera3D;
 	private inline function get_camera():Camera3D
 	{
 		return _camera;
@@ -346,7 +360,7 @@ class View3D extends Sprite
 	/**
 	 * Set camera that's used to render the scene for this viewport
 	 */
-	private inline function set_camera(camera:Camera3D):Void
+	private inline function set_camera(camera:Camera3D):Camera3D
 	{
 		_camera.removeEventListener(CameraEvent.LENS_CHANGED, onLensChanged);
 
@@ -360,11 +374,14 @@ class View3D extends Sprite
 
 		_scissorRectDirty = true;
 		_viewportDirty = true;
+		
+		return _camera;
 	}
 
 	/**
 	 * The scene that's used to render for this viewport
 	 */
+	public var scene(get, set):Scene3D;
 	private inline function get_scene():Scene3D
 	{
 		return _scene;
@@ -373,20 +390,23 @@ class View3D extends Sprite
 	/**
 	 * Set the scene that's used to render for this viewport
 	 */
-	private inline function set_scene(scene:Scene3D):Void
+	private inline function set_scene(scene:Scene3D):Scene3D
 	{
 		_scene.removeEventListener(Scene3DEvent.PARTITION_CHANGED, onScenePartitionChanged);
 		_scene = scene;
 		_scene.addEventListener(Scene3DEvent.PARTITION_CHANGED, onScenePartitionChanged);
 
-		if (_camera)
+		if (_camera != null)
 			_camera.partition = _scene.partition;
+		
+		return _scene;
 	}
 
 	// todo: probably temporary:
 	/**
 	 * The amount of milliseconds the last render call took
 	 */
+	public var deltaTime(get, set):UInt;
 	private inline function get_deltaTime():UInt
 	{
 		return _deltaTime;
@@ -494,22 +514,26 @@ class View3D extends Sprite
 	/**
 	 * The amount of anti-aliasing to be used.
 	 */
+	public var antiAlias(get, set):UInt;
 	private inline function get_antiAlias():UInt
 	{
 		return _antiAlias;
 	}
 
-	private inline function set_antiAlias(value:UInt):Void
+	private inline function set_antiAlias(value:UInt):UInt
 	{
 		_antiAlias = value;
 		_renderer.antiAlias = value;
 
 		_backBufferInvalid = true;
+		
+		return _antiAlias;
 	}
 
 	/**
 	 * The amount of faces that were pushed through the render pipeline on the last frame render.
 	 */
+	public var renderedFacesCount(get, null):UInt;
 	private inline function get_renderedFacesCount():UInt
 	{
 		return _entityCollector.numTriangles;
@@ -519,18 +543,21 @@ class View3D extends Sprite
 	 * Defers control of Context3D clear() and present() calls to Stage3DProxy, enabling multiple Stage3D frameworks
 	 * to share the same Context3D object.
 	 */
+	public var shareContext(get, set):Bool;
 	private inline function get_shareContext():Bool
 	{
 		return _shareContext;
 	}
 
-	private inline function set_shareContext(value:Bool):Void
+	private inline function set_shareContext(value:Bool):Bool
 	{
 		if (_shareContext == value)
 			return;
 
 		_shareContext = value;
 		_globalPosDirty = true;
+		
+		return _shareContext;
 	}
 
 	/**
