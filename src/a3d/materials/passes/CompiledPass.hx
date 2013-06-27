@@ -252,7 +252,7 @@ class CompiledPass extends MaterialPassBase
 	/**
 	 * @inheritDoc
 	 */
-	override private inline function set_mipmap(value:Bool):Void
+	override private function set_mipmap(value:Bool):Void
 	{
 		if (_mipmap == value)
 			return;

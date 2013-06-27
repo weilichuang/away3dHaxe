@@ -27,7 +27,7 @@ class Entity extends ObjectContainer3D
 {
 	private var _showBounds:Bool;
 	private var _partitionNode:EntityNode;
-	private var _boundsIsShown:Bool = false;
+	private var _boundsIsShown:Bool;
 	private var _shaderPickingDetails:Bool;
 
 	private var _pickingCollisionVO:PickingCollisionVO;
@@ -35,14 +35,26 @@ class Entity extends ObjectContainer3D
 	private var _staticNode:Bool;
 
 	private var _bounds:BoundingVolumeBase;
-	private var _boundsInvalid:Bool = true;
+	private var _boundsInvalid:Bool;
 	private var _worldBounds:BoundingVolumeBase;
-	private var _worldBoundsInvalid:Bool = true;
+	private var _worldBoundsInvalid:Bool;
 
-
-	override private inline function set_ignoreTransform(value:Bool):Void
+	/**
+	 * Creates a new Entity object.
+	 */
+	public function new()
 	{
-		if (_scene)
+		super();
+		_boundsIsShown = false;
+		_boundsInvalid = true;
+		_worldBoundsInvalid = true;
+		_bounds = getDefaultBoundingVolume();
+		_worldBounds = getDefaultBoundingVolume();
+	}
+
+	override private function set_ignoreTransform(value:Bool):Void
+	{
+		if (_scene != null)
 			_scene.invalidateEntityBounds(this);
 		super.ignoreTransform = value;
 	}
@@ -54,33 +66,36 @@ class Entity extends ObjectContainer3D
 	 *
 	 * @see a3d.core.pick.ShaderPicker
 	 */
+	public var shaderPickingDetails(get,set):Bool;
 	private inline function get_shaderPickingDetails():Bool
 	{
 		return _shaderPickingDetails;
 	}
 
-	private inline function set_shaderPickingDetails(value:Bool):Void
+	private inline function set_shaderPickingDetails(value:Bool):Bool
 	{
-		_shaderPickingDetails = value;
+		return _shaderPickingDetails = value;
 	}
 
 	/**
 	 * Defines whether or not the object will be moved or animated at runtime. This property is used by some partitioning systems to improve performance.
 	 * Warning: if set to true, they may not be processed by certain partition systems using static visibility lists, unless they're specifically assigned to the visibility list.
 	 */
+	public var staticNode(get,set):Bool;
 	private inline function get_staticNode():Bool
 	{
 		return _staticNode;
 	}
 
-	private inline function set_staticNode(value:Bool):Void
+	private inline function set_staticNode(value:Bool):Bool
 	{
-		_staticNode = value;
+		return _staticNode = value;
 	}
 
 	/**
 	 * Returns a unique picking collision value object for the entity.
 	 */
+	public var pickingCollisionVO(get,set):Bool;
 	private inline function get_pickingCollisionVO():PickingCollisionVO
 	{
 		if (_pickingCollisionVO == null)
@@ -89,9 +104,9 @@ class Entity extends ObjectContainer3D
 		return _pickingCollisionVO;
 	}
 
-	//private inline function set_pickingCollisionVO(value:PickingCollisionVO):Void
+	//private inline function set_pickingCollisionVO(value:PickingCollisionVO):PickingCollisionVO
 	//{
-	//_pickingCollisionVO = value;
+	//  return _pickingCollisionVO = value;
 	//}
 
 	/**
@@ -109,12 +124,13 @@ class Entity extends ObjectContainer3D
 	/**
 	 *
 	 */
+	public var showBounds(get,set):Bool;
 	private inline function get_showBounds():Bool
 	{
 		return _showBounds;
 	}
 
-	private inline function set_showBounds(value:Bool):Void
+	private inline function set_showBounds(value:Bool):Bool
 	{
 		if (value == _showBounds)
 			return;
@@ -125,12 +141,14 @@ class Entity extends ObjectContainer3D
 			addBounds();
 		else
 			removeBounds();
+			
+		return _showBounds;
 	}
 
 	/**
 	 * @inheritDoc
 	 */
-	override private inline function get_minX():Float
+	override private function get_minX():Float
 	{
 		if (_boundsInvalid)
 			updateBounds();
@@ -141,7 +159,7 @@ class Entity extends ObjectContainer3D
 	/**
 	 * @inheritDoc
 	 */
-	override private inline function get_minY():Float
+	override private function get_minY():Float
 	{
 		if (_boundsInvalid)
 			updateBounds();
@@ -152,7 +170,7 @@ class Entity extends ObjectContainer3D
 	/**
 	 * @inheritDoc
 	 */
-	override private inline function get_minZ():Float
+	override private function get_minZ():Float
 	{
 		if (_boundsInvalid)
 			updateBounds();
@@ -163,7 +181,7 @@ class Entity extends ObjectContainer3D
 	/**
 	 * @inheritDoc
 	 */
-	override private inline function get_maxX():Float
+	override private function get_maxX():Float
 	{
 		if (_boundsInvalid)
 			updateBounds();
@@ -174,7 +192,7 @@ class Entity extends ObjectContainer3D
 	/**
 	 * @inheritDoc
 	 */
-	override private inline function get_maxY():Float
+	override private function get_maxY():Float
 	{
 		if (_boundsInvalid)
 			updateBounds();
@@ -185,7 +203,7 @@ class Entity extends ObjectContainer3D
 	/**
 	 * @inheritDoc
 	 */
-	override private inline function get_maxZ():Float
+	override private function get_maxZ():Float
 	{
 		if (_boundsInvalid)
 			updateBounds();
@@ -196,6 +214,7 @@ class Entity extends ObjectContainer3D
 	/**
 	 * The bounding volume approximating the volume occupied by the Entity.
 	 */
+	public var bounds(get,set):BoundingVolumeBase;
 	private inline function get_bounds():BoundingVolumeBase
 	{
 		if (_boundsInvalid)
@@ -204,7 +223,7 @@ class Entity extends ObjectContainer3D
 		return _bounds;
 	}
 
-	private inline function set_bounds(value:BoundingVolumeBase):Void
+	private inline function set_bounds(value:BoundingVolumeBase):BoundingVolumeBase
 	{
 		removeBounds();
 		_bounds = value;
@@ -212,8 +231,11 @@ class Entity extends ObjectContainer3D
 		invalidateBounds();
 		if (_showBounds)
 			addBounds();
+			
+		return _bounds;
 	}
 
+	public var worldBounds(get,null):BoundingVolumeBase;
 	private inline function get_worldBounds():BoundingVolumeBase
 	{
 		if (_worldBoundsInvalid)
@@ -231,10 +253,10 @@ class Entity extends ObjectContainer3D
 	/**
 	 * @inheritDoc
 	 */
-	override private inline function set_implicitPartition(value:Partition3D):Void
+	override private function set_implicitPartition(value:Partition3D):Partition3D
 	{
 		if (value == _implicitPartition)
-			return;
+			return implicitPartition;
 
 		if (_implicitPartition)
 			notifyPartitionUnassigned();
@@ -247,10 +269,10 @@ class Entity extends ObjectContainer3D
 	/**
 	 * @inheritDoc
 	 */
-	override private inline function set_scene(value:Scene3D):Void
+	override private function set_scene(value:Scene3D):Void
 	{
 		if (value == _scene)
-			return;
+			return _scene;
 
 		if (_scene)
 			_scene.unregisterEntity(this);
@@ -262,7 +284,7 @@ class Entity extends ObjectContainer3D
 		super.scene = value;
 	}
 
-	override private inline function get_assetType():String
+	override private function get_assetType():String
 	{
 		return AssetType.ENTITY;
 	}
@@ -274,25 +296,15 @@ class Entity extends ObjectContainer3D
 	 *
 	 * @see a3d.core.pick.RaycastPicker
 	 */
+	public var pickingCollider(get,set):IPickingCollider;
 	private inline function get_pickingCollider():IPickingCollider
 	{
 		return _pickingCollider;
 	}
 
-	private inline function set_pickingCollider(value:IPickingCollider):Void
+	private inline function set_pickingCollider(value:IPickingCollider):IPickingCollider
 	{
-		_pickingCollider = value;
-	}
-
-	/**
-	 * Creates a new Entity object.
-	 */
-	public function new()
-	{
-		super();
-
-		_bounds = getDefaultBoundingVolume();
-		_worldBounds = getDefaultBoundingVolume();
+		return _pickingCollider = value;
 	}
 
 	/**
@@ -385,12 +397,12 @@ class Entity extends ObjectContainer3D
 	override private function updateMouseChildren():Void
 	{
 		// If there is a parent and this child does not have a triangle collider, use its parent's triangle collider.
-		if (_parent && !pickingCollider)
+		if (_parent != null && pickingCollider == null)
 		{
 			if (Std.is(_parent,Entity))
 			{
-				var collider:IPickingCollider = Entity(_parent).pickingCollider;
-				if (collider)
+				var collider:IPickingCollider = Std.instance(_parent,Entity).pickingCollider;
+				if (collider != null)
 				{
 					pickingCollider = collider;
 				}
@@ -414,7 +426,7 @@ class Entity extends ObjectContainer3D
 	 */
 	private function notifyPartitionAssigned():Void
 	{
-		if (_scene)
+		if (_scene != null)
 			_scene.registerPartition(this); //_onAssignPartitionCallback(this);
 	}
 
@@ -423,7 +435,7 @@ class Entity extends ObjectContainer3D
 	 */
 	private function notifyPartitionUnassigned():Void
 	{
-		if (_scene)
+		if (_scene != null)
 			_scene.unregisterPartition(this);
 	}
 
@@ -448,7 +460,7 @@ class Entity extends ObjectContainer3D
 
 	public function internalUpdate():Void
 	{
-		if (controller)
+		if (controller != null)
 			controller.update();
 	}
 }

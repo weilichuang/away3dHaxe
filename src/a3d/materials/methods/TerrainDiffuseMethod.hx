@@ -135,7 +135,7 @@ class TerrainDiffuseMethod extends BasicDiffuseMethod
 			context.setTextureAt(i + texIndex, _splats[i].getTextureForStage3D(stage3DProxy));
 	}
 
-	override private inline function set_alphaThreshold(value:Float):Void
+	override private function set_alphaThreshold(value:Float):Void
 	{
 		if (value > 0)
 			throw new Error("Alpha threshold not supported for TerrainDiffuseMethod");

@@ -68,13 +68,13 @@ class SinglePassMaterialBase extends MaterialBase
 	}
 
 
-	override private inline function set_blendMode(value:String):Void
+	override private function set_blendMode(value:String):Void
 	{
 		super.blendMode = value;
 		_screenPass.setBlendMode(blendMode == BlendMode.NORMAL && requiresBlending ? BlendMode.LAYER : blendMode);
 	}
 
-	override private inline function set_depthCompareMode(value:String):Void
+	override private function set_depthCompareMode(value:String):Void
 	{
 		super.depthCompareMode = value;
 		_screenPass.depthCompareMode = value;
@@ -125,7 +125,7 @@ class SinglePassMaterialBase extends MaterialBase
 	/**
 	 * @inheritDoc
 	 */
-	override private inline function get_requiresBlending():Bool
+	override private function get_requiresBlending():Bool
 	{
 		return super.requiresBlending || _alphaBlending || (_screenPass.colorTransform && _screenPass.colorTransform.alphaMultiplier < 1);
 	}
@@ -242,7 +242,7 @@ class SinglePassMaterialBase extends MaterialBase
 	/**
 	 * @inheritDoc
 	 */
-	override private inline function set_mipmap(value:Bool):Void
+	override private function set_mipmap(value:Bool):Void
 	{
 		if (_mipmap == value)
 			return;
@@ -382,7 +382,7 @@ class SinglePassMaterialBase extends MaterialBase
 		}
 	}
 
-	override private inline function set_lightPicker(value:LightPickerBase):Void
+	override private function set_lightPicker(value:LightPickerBase):Void
 	{
 		super.lightPicker = value;
 		_screenPass.lightPicker = value;

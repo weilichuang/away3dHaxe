@@ -42,15 +42,16 @@ class NodeBase
 		_childNodes = new Vector<NodeBase>();
 	}
 
+	public var showDebugBounds(get, set):Bool;
 	private inline function get_showDebugBounds():Bool
 	{
 		return _debugPrimitive != null;
 	}
 
-	private inline function set_showDebugBounds(value:Bool):Void
+	private inline function set_showDebugBounds(value:Bool):Bool
 	{
-		if (Bool(_debugPrimitive) == value)
-			return;
+		if ((_debugPrimitive != null) == value)
+			return showDebugBounds;
 
 		if (value)
 		{
@@ -66,19 +67,22 @@ class NodeBase
 		{
 			_childNodes[i].showDebugBounds = value;
 		}
+		
+		return _debugPrimitive != null;
 	}
 
 	/**
 	 * The parent node. Null if this node is the root.
 	 */
+	public var parent(get, set):NodeBase;
 	private inline function get_parent():NodeBase
 	{
 		return _parent;
 	}
 
-	private inline function set_parent(value:NodeBase):Void
+	private inline function set_parent(value:NodeBase):NodeBase
 	{
-		_parent = value;
+		return _parent = value;
 	}
 
 	/**
@@ -137,8 +141,6 @@ class NodeBase
 	 */
 	public function isInFrustum(planes:Vector<Plane3D>, numPlanes:Int):Bool
 	{
-		planes = planes;
-		numPlanes = numPlanes;
 		return true;
 	}
 
@@ -151,8 +153,6 @@ class NodeBase
 	 */
 	public function isIntersectingRay(rayPosition:Vector3D, rayDirection:Vector3D):Bool
 	{
-		rayPosition = rayPosition;
-		rayDirection = rayDirection;
 		return true;
 	}
 
@@ -161,7 +161,6 @@ class NodeBase
 	 */
 	public function findPartitionForEntity(entity:Entity):NodeBase
 	{
-		entity = entity;
 		return this;
 	}
 
@@ -177,7 +176,7 @@ class NodeBase
 	 */
 	public function acceptTraverser(traverser:PartitionTraverser):Void
 	{
-		if (_numEntities == 0 && !_debugPrimitive)
+		if (_numEntities == 0 && _debugPrimitive == null)
 			return;
 
 		if (traverser.enterNode(this))
@@ -186,7 +185,7 @@ class NodeBase
 			while (i < _numChildNodes)
 				_childNodes[i++].acceptTraverser(traverser);
 
-			if (_debugPrimitive)
+			if (_debugPrimitive != null)
 				traverser.applyRenderable(_debugPrimitive);
 		}
 	}
@@ -196,6 +195,7 @@ class NodeBase
 		return null;
 	}
 
+	public var numEntities(get, null):Int;
 	private function get_numEntities():Int
 	{
 		return _numEntities;

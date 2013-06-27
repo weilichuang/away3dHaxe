@@ -1,6 +1,7 @@
 package a3d.animators.data;
 
 import a3d.core.managers.Stage3DProxy;
+import flash.display3D.Context3DVertexBufferFormat;
 import flash.Vector;
 
 import flash.display3D.Context3D;
@@ -48,7 +49,7 @@ class AnimationSubGeometry
 		_vertexData = new Vector<Float>(numVertices * totalLenOfOneVertex, true);
 	}
 
-	public function activateVertexBuffer(index:Int, bufferOffset:Int, stage3DProxy:Stage3DProxy, format:String):Void
+	public function activateVertexBuffer(index:Int, bufferOffset:Int, stage3DProxy:Stage3DProxy, format:Context3DVertexBufferFormat):Void
 	{
 		var contextIndex:Int = stage3DProxy.stage3DIndex;
 		var context:Context3D = stage3DProxy.context3D;
@@ -70,11 +71,11 @@ class AnimationSubGeometry
 
 	public function dispose():Void
 	{
-		while (_vertexBuffer.length)
+		while (_vertexBuffer.length > 0)
 		{
 			var vertexBuffer:VertexBuffer3D = _vertexBuffer.pop();
 
-			if (vertexBuffer)
+			if (vertexBuffer != null)
 				vertexBuffer.dispose();
 		}
 	}

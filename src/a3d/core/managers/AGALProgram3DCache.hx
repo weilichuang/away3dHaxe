@@ -18,7 +18,7 @@ class AGALProgram3DCache
 	private var _stage3DProxy:Stage3DProxy;
 
 	private var _program3Ds:StringMap<Program3D>;
-	private var _ids:Array<String>;
+	private var _ids:StringMap<Int>;
 	private var _usages:Array<Int>;
 	private var _keys:Array<String>;
 
@@ -29,8 +29,8 @@ class AGALProgram3DCache
 	{
 		_stage3DProxy = stage3DProxy;
 
-		_program3Ds = new StringMap();
-		_ids = [];
+		_program3Ds = new StringMap<Program3D>();
+		_ids = new StringMap<Int>();
 		_usages = [];
 		_keys = [];
 	}
@@ -92,7 +92,7 @@ class AGALProgram3DCache
 		{
 			_keys[_currentId] = key;
 			_usages[_currentId] = 0;
-			_ids[key] = _currentId;
+			_ids.set(key, _currentId);
 			++_currentId;
 			program = _stage3DProxy.context3D.createProgram();
 
@@ -105,7 +105,7 @@ class AGALProgram3DCache
 		}
 
 		var oldId:Int = pass.getProgram3Did(stageIndex);
-		var newId:Int = _ids[key];
+		var newId:Int = _ids.get(key);
 
 		if (oldId != newId)
 		{
@@ -129,7 +129,7 @@ class AGALProgram3DCache
 	{
 		_program3Ds.get(key).dispose();
 		_program3Ds.remove(key);
-		_ids[key] = -1;
+		_ids.set(key, -1);
 	}
 
 	private function getKey(vertexCode:String, fragmentCode:String):String

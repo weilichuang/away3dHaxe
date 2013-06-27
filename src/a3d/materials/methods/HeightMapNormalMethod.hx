@@ -33,7 +33,7 @@ class HeightMapNormalMethod extends BasicNormalMethod
 		data[index + 5] = _worldXZRatio;
 	}
 
-	override private inline function get_tangentSpace():Bool
+	override private function get_tangentSpace():Bool
 	{
 		return false;
 	}

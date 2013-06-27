@@ -1,9 +1,6 @@
 package a3d.entities.lenses;
 
 
-
-
-
 /**
  * FreeMatrixLens provides a projection lens that exposes a full projection matrix, rather than provide one through
  * more user-friendly settings. Whenever the matrix is updated, it needs to be reset in order to trigger an update.
@@ -19,19 +16,19 @@ class FreeMatrixLens extends LensBase
 		_matrix.copyFrom(new PerspectiveLens().matrix);
 	}
 
-	override private inline function set_near(value:Float):Void
+	override private function set_near(value:Float):Float
 	{
-		_near = value;
+		return _near = value;
 	}
 
-	override private inline function set_far(value:Float):Void
+	override private function set_far(value:Float):Float
 	{
-		_far = value;
+		return _far = value;
 	}
 
-	override private inline function set_aspectRatio(value:Float):Void
+	override private function set_aspectRatio(value:Float):Float
 	{
-		_aspectRatio = value;
+		return _aspectRatio = value;
 	}
 
 	override public function clone():LensBase

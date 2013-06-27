@@ -18,7 +18,7 @@ class ViewVolumeRootNode extends NodeBase
 		_viewVolumes = new Vector<ViewVolume>();
 	}
 
-	override private inline function set_showDebugBounds(value:Bool):Void
+	override private function set_showDebugBounds(value:Bool):Void
 	{
 		super.showDebugBounds = value;
 		if (_dynamicGrid)

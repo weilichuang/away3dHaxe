@@ -31,6 +31,7 @@ class AxisAlignedBoundingBox extends BoundingVolumeBase
 	 */
 	public function new()
 	{
+		super();
 	}
 
 	/**
@@ -302,7 +303,7 @@ class AxisAlignedBoundingBox extends BoundingVolumeBase
 
 	override public function transformFrom(bounds:BoundingVolumeBase, matrix:Matrix3D):Void
 	{
-		var aabb:AxisAlignedBoundingBox = AxisAlignedBoundingBox(bounds);
+		var aabb:AxisAlignedBoundingBox = Std.instance(bounds,AxisAlignedBoundingBox);
 		var cx:Float = aabb._centerX;
 		var cy:Float = aabb._centerY;
 		var cz:Float = aabb._centerZ;

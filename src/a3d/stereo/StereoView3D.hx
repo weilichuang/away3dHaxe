@@ -40,12 +40,12 @@ class StereoView3D extends View3D
 	}
 
 
-	override private inline function get_camera():Camera3D
+	override private function get_camera():Camera3D
 	{
 		return _stereoCam;
 	}
 
-	override private inline function set_camera(value:Camera3D):Void
+	override private function set_camera(value:Camera3D):Void
 	{
 		if (value == _stereoCam)
 			return;

@@ -37,9 +37,10 @@ class Scene3D extends EventDispatcher
 		_sceneGraphRoot.partition = new Partition3D(new NodeBase());
 	}
 
-	private inline function set_sceneGraphRoot(value:ObjectContainer3D):Void
+	public var sceneGraphRoot(get, set):ObjectContainer3D;
+	private inline function set_sceneGraphRoot(value:ObjectContainer3D):ObjectContainer3D
 	{
-		_sceneGraphRoot = value;
+		return _sceneGraphRoot = value;
 	}
 
 	private inline function get_sceneGraphRoot():ObjectContainer3D
@@ -68,16 +69,19 @@ class Scene3D extends EventDispatcher
 	/**
 	 * The root partition to be used by the Scene3D.
 	 */
+	public var partition(get, set):Partition3D;
 	private inline function get_partition():Partition3D
 	{
 		return _sceneGraphRoot.partition;
 	}
 
-	private inline function set_partition(value:Partition3D):Void
+	private inline function set_partition(value:Partition3D):Partition3D
 	{
 		_sceneGraphRoot.partition = value;
 
 		dispatchEvent(new Scene3DEvent(Scene3DEvent.PARTITION_CHANGED, _sceneGraphRoot));
+		
+		return _sceneGraphRoot.partition;
 	}
 
 	public function contains(child:ObjectContainer3D):Bool
@@ -127,6 +131,7 @@ class Scene3D extends EventDispatcher
 	/**
 	 * The amount of children directly contained by the scene.
 	 */
+	public var numChildren(get, null):UInt;
 	private inline function get_numChildren():UInt
 	{
 		return _sceneGraphRoot.numChildren;

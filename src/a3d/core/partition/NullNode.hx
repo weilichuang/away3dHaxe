@@ -13,5 +13,6 @@ class NullNode extends NodeBase
 	 */
 	public function new()
 	{
+		super();
 	}
 }

@@ -16,8 +16,8 @@ import a3d.io.library.assets.NamedAssetBase;
 
 class TextureProxyBase extends NamedAssetBase implements IAsset
 {
-	private var _format:String = Context3DTextureFormat.BGRA;
-	private var _hasMipmaps:Bool = true;
+	private var _format:Context3DTextureFormat;
+	private var _hasMipmaps:Bool;
 
 	private var _textures:Vector<TextureBase>;
 	private var _dirty:Vector<Context3D>;
@@ -27,8 +27,13 @@ class TextureProxyBase extends NamedAssetBase implements IAsset
 
 	public function new()
 	{
+		super();
+		
 		_textures = new Vector<TextureBase>(8);
 		_dirty = new Vector<Context3D>(8);
+		
+		_format = Context3DTextureFormat.BGRA;
+		_hasMipmaps = true;
 	}
 
 	public var hasMipMaps(get, null):Bool;
@@ -37,8 +42,8 @@ class TextureProxyBase extends NamedAssetBase implements IAsset
 		return _hasMipmaps;
 	}
 
-	public var format(get, null):String;
-	private inline function get_format():String
+	public var format(get, null):Context3DTextureFormat;
+	private inline function get_format():Context3DTextureFormat
 	{
 		return _format;
 	}

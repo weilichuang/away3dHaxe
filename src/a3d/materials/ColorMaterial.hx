@@ -60,7 +60,7 @@ class ColorMaterial extends SinglePassMaterialBase
 	/**
 	 * @inheritDoc
 	 */
-	override private inline function get_requiresBlending():Bool
+	override private function get_requiresBlending():Bool
 	{
 		return super.requiresBlending || _diffuseAlpha < 1;
 	}

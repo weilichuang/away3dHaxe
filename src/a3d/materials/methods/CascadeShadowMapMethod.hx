@@ -64,7 +64,7 @@ class CascadeShadowMapMethod extends ShadowMapMethodBase
 		vo.needsProjection = true;
 	}
 
-	override private inline function set_sharedRegisters(value:ShaderRegisterData):Void
+	override private function set_sharedRegisters(value:ShaderRegisterData):Void
 	{
 		super.sharedRegisters = value;
 		_baseMethod.sharedRegisters = value;

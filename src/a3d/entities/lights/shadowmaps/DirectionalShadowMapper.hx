@@ -127,11 +127,11 @@ class DirectionalShadowMapper extends ShadowMapperBase
 		var maxX:Float, maxY:Float;
 		var i:UInt;
 
-		dir = DirectionalLight(_light).sceneDirection;
+		dir = Std.instance(_light,DirectionalLight).sceneDirection;
 		_overallDepthCamera.transform = _light.sceneTransform;
-		x = int((viewCamera.x - dir.x * _lightOffset) / _snap) * _snap;
-		y = int((viewCamera.y - dir.y * _lightOffset) / _snap) * _snap;
-		z = int((viewCamera.z - dir.z * _lightOffset) / _snap) * _snap;
+		x = Std.int((viewCamera.x - dir.x * _lightOffset) / _snap) * _snap;
+		y = Std.int((viewCamera.y - dir.y * _lightOffset) / _snap) * _snap;
+		z = Std.int((viewCamera.z - dir.z * _lightOffset) / _snap) * _snap;
 		_overallDepthCamera.x = x;
 		_overallDepthCamera.y = y;
 		_overallDepthCamera.z = z;

@@ -9,7 +9,7 @@ import flash.geom.Matrix3D;
 import flash.geom.Vector3D;
 import flash.utils.Dictionary;
 import flash.Vector;
-import haxe.ds.IntMap.IntMap;
+import haxe.ds.IntMap;
 
 
 import a3d.animators.IAnimator;
@@ -82,8 +82,13 @@ class SegmentSet extends Entity implements IRenderable
 
 		var index:UInt = subSet.lineCount << 2;
 
-		subSet.indices.push(index, index + 1, index + 2, index + 3, index + 2, index + 1);
-		subSet.numVertices = subSet.vertices.length / 11;
+		subSet.indices.push(index);
+		subSet.indices.push(index + 1);
+		subSet.indices.push(index + 2);
+		subSet.indices.push(index + 3);
+		subSet.indices.push(index + 2);
+		subSet.indices.push(index + 1);
+		subSet.numVertices = Std.int(subSet.vertices.length / 11);
 		subSet.numIndices = subSet.indices.length;
 		subSet.lineCount++;
 
@@ -116,9 +121,9 @@ class SegmentSet extends Entity implements IRenderable
 		if (index >= _indexSegments)
 			return;
 
-		if (_segments[index])
+		if (_segments.exists(index))
 		{
-			segRef = _segments[index];
+			segRef = _segments.get(index);
 		}
 		else
 		{
@@ -126,8 +131,9 @@ class SegmentSet extends Entity implements IRenderable
 		}
 
 		var subSet:SubSet;
-		if (!_subSets[segRef.subSetIndex])
+		if (_subSets[segRef.subSetIndex] == null)
 			return;
+			
 		var subSetIndex:Int = segRef.subSetIndex;
 		subSet = _subSets[segRef.subSetIndex];
 
@@ -140,7 +146,7 @@ class SegmentSet extends Entity implements IRenderable
 
 		subSet.indices.splice(index * 6, 6);
 		subSet.vertices.splice(index * 44, 44);
-		subSet.numVertices = subSet.vertices.length / 11;
+		subSet.numVertices = Std.int(subSet.vertices.length / 11);
 		subSet.numIndices = indices.length;
 		subSet.vertexBufferDirty = true;
 		subSet.indexBufferDirty = true;
@@ -177,7 +183,7 @@ class SegmentSet extends Entity implements IRenderable
 		reOrderIndices(subSetIndex, index);
 
 		segRef = null;
-		_segments[_indexSegments] = null;
+		_segments.remove(_indexSegments);
 		_indexSegments--;
 	}
 
@@ -191,7 +197,7 @@ class SegmentSet extends Entity implements IRenderable
 	{
 		if (segment.index == -1)
 			return;
-		removeSegmentByIndex(segment.index / 44);
+		removeSegmentByIndex(Std.int(segment.index / 44));
 	}
 
 	/**
@@ -238,12 +244,13 @@ class SegmentSet extends Entity implements IRenderable
 		if (index > _indexSegments - 1)
 			return null;
 
-		return _segments[index].segment;
+		return _segments.get(index).segment;
 	}
 
 	/**
 	* @returns howmany segments are in the SegmentSet
 	*/
+	public var segmentCount(get, set):UInt;
 	private inline function get_segmentCount():UInt
 	{
 		return _indexSegments;
@@ -322,6 +329,7 @@ class SegmentSet extends Entity implements IRenderable
 		_boundsInvalid = true;
 	}
 
+	public var hasData(get, null):Bool;
 	private inline function get_hasData():Bool
 	{
 		return _hasData;
@@ -433,7 +441,7 @@ class SegmentSet extends Entity implements IRenderable
 	/**
 	 * @inheritDoc
 	 */
-	override private inline function get_mouseEnabled():Bool
+	override private function get_mouseEnabled():Bool
 	{
 		return false;
 	}
@@ -498,7 +506,7 @@ class SegmentSet extends Entity implements IRenderable
 			}
 		}
 
-		if (minX != Infinity)
+		if (minX != Math.POSITIVE_INFINITY)
 		{
 			_bounds.fromExtremes(minX, minY, minZ, maxX, maxY, maxZ);
 
@@ -520,98 +528,116 @@ class SegmentSet extends Entity implements IRenderable
 		return new RenderableNode(this);
 	}
 
+	public var numTriangles(get, null):UInt;
 	private inline function get_numTriangles():UInt
 	{
-		return _numIndices / 3;
+		return Std.int(_numIndices / 3);
 	}
 
+	public var sourceEntity(get, null):Entity;
 	private inline function get_sourceEntity():Entity
 	{
 		return this;
 	}
 
+	public var castsShadows(get, null):Bool;
 	private inline function get_castsShadows():Bool
 	{
 		return false;
 	}
 
+	public var material(get, set):MaterialBase;
 	private inline function get_material():MaterialBase
 	{
 		return _material;
 	}
 
+	public var animator(get, null):IAnimator;
 	private inline function get_animator():IAnimator
 	{
 		return _animator;
 	}
 
-	private inline function set_material(value:MaterialBase):Void
+	private inline function set_material(value:MaterialBase):MaterialBase
 	{
 		if (value == _material)
-			return;
-		if (_material)
+			return _material;
+		if (_material != null)
 			_material.removeOwner(this);
 		_material = value;
-		if (_material)
+		if (_material != null)
 			_material.addOwner(this);
+		
+		return _material;
 	}
 
+	public var uvTransform(get, null):Matrix;
 	private inline function get_uvTransform():Matrix
 	{
 		return null;
 	}
 
+	public var vertexData(get, null):Vector<Float>;
 	private inline function get_vertexData():Vector<Float>
 	{
 		return null;
 	}
 
+	public var indexData(get, null):Vector<UInt>;
 	private inline function get_indexData():Vector<UInt>
 	{
 		return null;
 	}
 
+	public var UVData(get, null):Vector<Float>;
 	private inline function get_UVData():Vector<Float>
 	{
 		return null;
 	}
 
+	public var numVertices(get, null):UInt;
 	private inline function get_numVertices():UInt
 	{
 		return null;
 	}
 
+	public var vertexStride(get, null):UInt;
 	private inline function get_vertexStride():UInt
 	{
 		return 11;
 	}
 
+	public var vertexNormalData(get, null):Vector<Float>;
 	private inline function get_vertexNormalData():Vector<Float>
 	{
 		return null;
 	}
 
+	public var vertexTangentData(get, null):Vector<Float>;
 	private inline function get_vertexTangentData():Vector<Float>
 	{
 		return null;
 	}
 
+	public var vertexOffset(get, null):Int;
 	private inline function get_vertexOffset():Int
 	{
 		return 0;
 	}
 
+	public var vertexNormalOffset(get, null):Int;
 	private inline function get_vertexNormalOffset():Int
 	{
 		return 0;
 	}
 
+	public var vertexTangentOffset(get, null):Int;
 	private inline function get_vertexTangentOffset():Int
 	{
 		return 0;
 	}
 
-	override private inline function get_assetType():String
+	override private function get_assetType():String
 	{
 		return AssetType.SEGMENT_SET;
 	}
@@ -637,8 +663,6 @@ class SegmentSet extends Entity implements IRenderable
 
  class SubSet
 {
-
-
 	public var vertices:Vector<Float>;
 	public var numVertices:UInt;
 
@@ -663,9 +687,9 @@ class SegmentSet extends Entity implements IRenderable
 	public function dispose():Void
 	{
 		vertices = null;
-		if (vertexBuffer)
+		if (vertexBuffer != null)
 			vertexBuffer.dispose();
-		if (indexBuffer)
+		if (indexBuffer != null)
 			indexBuffer.dispose();
 	}
 }

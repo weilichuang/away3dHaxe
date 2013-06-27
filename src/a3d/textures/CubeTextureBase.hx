@@ -17,7 +17,7 @@ class CubeTextureBase extends TextureProxyBase
 		return _width;
 	}
 	
-	override private inline function set_size(value:Int):Int
+	override private function set_size(value:Int):Int
 	{
 		return _width = value;
 	}

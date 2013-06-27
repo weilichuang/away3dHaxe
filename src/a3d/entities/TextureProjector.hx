@@ -66,7 +66,7 @@ class TextureProjector extends ObjectContainer3D
 		_lens.fieldOfView = value;
 	}
 
-	override private inline function get_assetType():String
+	override private function get_assetType():String
 	{
 		return AssetType.TEXTURE_PROJECTOR;
 	}

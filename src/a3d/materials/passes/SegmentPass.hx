@@ -14,10 +14,10 @@ import flash.Vector;
 
 class SegmentPass extends MaterialPassBase
 {
-	private static inline var ONE_VECTOR:Vector<Float> = Vector.ofArray([1, 1, 1, 1]);
-	private static inline var FRONT_VECTOR:Vector<Float> = Vector.ofArray([0, 0, -1, 0]);
+	private static var ONE_VECTOR:Vector<Float> = Vector.ofArray([1, 1, 1, 1]);
+	private static var FRONT_VECTOR:Vector<Float> = Vector.ofArray([0, 0, -1, 0]);
 
-	private var _constants:Vector<Float> = new Vector<Float>(4, true);
+	private var _constants:Vector<Float>;
 	private var _calcMatrix:Matrix3D;
 	private var _thickness:Float;
 
@@ -27,6 +27,7 @@ class SegmentPass extends MaterialPassBase
 	public function new(thickness:Float)
 	{
 		_calcMatrix = new Matrix3D();
+		_constants = new Vector<Float>(4, true);
 
 		_thickness = thickness;
 		_constants[1] = 1 / 255;

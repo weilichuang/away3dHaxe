@@ -67,12 +67,12 @@ class CompositeDiffuseMethod extends BasicDiffuseMethod
 		_baseMethod.dispose();
 	}
 
-	override private inline function get_alphaThreshold():Float
+	override private function get_alphaThreshold():Float
 	{
 		return _baseMethod.alphaThreshold;
 	}
 
-	override private inline function set_alphaThreshold(value:Float):Void
+	override private function set_alphaThreshold(value:Float):Void
 	{
 		_baseMethod.alphaThreshold = value;
 	}
@@ -80,7 +80,7 @@ class CompositeDiffuseMethod extends BasicDiffuseMethod
 	/**
 	 * @inheritDoc
 	 */
-	override private inline function get_texture():Texture2DBase
+	override private function get_texture():Texture2DBase
 	{
 		return _baseMethod.texture;
 	}
@@ -88,7 +88,7 @@ class CompositeDiffuseMethod extends BasicDiffuseMethod
 	/**
 	 * @inheritDoc
 	 */
-	override private inline function set_texture(value:Texture2DBase):Void
+	override private function set_texture(value:Texture2DBase):Void
 	{
 		_baseMethod.texture = value;
 	}
@@ -96,7 +96,7 @@ class CompositeDiffuseMethod extends BasicDiffuseMethod
 	/**
 	 * @inheritDoc
 	 */
-	override private inline function get_diffuseAlpha():Float
+	override private function get_diffuseAlpha():Float
 	{
 		return _baseMethod.diffuseAlpha;
 	}
@@ -104,7 +104,7 @@ class CompositeDiffuseMethod extends BasicDiffuseMethod
 	/**
 	 * @inheritDoc
 	 */
-	override private inline function get_diffuseColor():UInt
+	override private function get_diffuseColor():UInt
 	{
 		return _baseMethod.diffuseColor;
 	}
@@ -112,7 +112,7 @@ class CompositeDiffuseMethod extends BasicDiffuseMethod
 	/**
 	 * @inheritDoc
 	 */
-	override private inline function set_diffuseColor(diffuseColor:UInt):Void
+	override private function set_diffuseColor(diffuseColor:UInt):Void
 	{
 		_baseMethod.diffuseColor = diffuseColor;
 	}
@@ -120,7 +120,7 @@ class CompositeDiffuseMethod extends BasicDiffuseMethod
 	/**
 	 * @inheritDoc
 	 */
-	override private inline function set_diffuseAlpha(value:Float):Void
+	override private function set_diffuseAlpha(value:Float):Void
 	{
 		_baseMethod.diffuseAlpha = value;
 	}
@@ -201,12 +201,12 @@ class CompositeDiffuseMethod extends BasicDiffuseMethod
 	/**
 	 * @inheritDoc
 	 */
-	override private inline function set_sharedRegisters(value:ShaderRegisterData):Void
+	override private function set_sharedRegisters(value:ShaderRegisterData):Void
 	{
 		super.sharedRegisters = _baseMethod.sharedRegisters = value;
 	}
 
-	override private inline function set_shadowRegister(value:ShaderRegisterElement):Void
+	override private function set_shadowRegister(value:ShaderRegisterElement):Void
 	{
 		super.shadowRegister = value;
 		_baseMethod.shadowRegister = value;

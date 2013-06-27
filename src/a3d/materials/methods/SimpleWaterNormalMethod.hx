@@ -82,7 +82,7 @@ class SimpleWaterNormalMethod extends BasicNormalMethod
 		_water2OffsetY = value;
 	}
 
-	override private inline function set_normalMap(value:Texture2DBase):Void
+	override private function set_normalMap(value:Texture2DBase):Void
 	{
 		if (!value)
 			return;

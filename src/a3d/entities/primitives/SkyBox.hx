@@ -131,7 +131,7 @@ class SkyBox extends Entity implements IRenderable
 		throw new AbstractMethodError("Unsupported method!");
 	}
 
-	override private inline function get_assetType():String
+	override private function get_assetType():String
 	{
 		return AssetType.SKYBOX;
 	}

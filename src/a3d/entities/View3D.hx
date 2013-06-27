@@ -35,20 +35,20 @@ import a3d.textures.Texture2DBase;
 
 class View3D extends Sprite
 {
-	private var _width:Float = 0;
-	private var _height:Float = 0;
-	private var _localPos:Point = new Point();
-	private var _globalPos:Point = new Point();
+	private var _width:Float;
+	private var _height:Float;
+	private var _localPos:Point;
+	private var _globalPos:Point;
 	private var _globalPosDirty:Bool;
 	private var _scene:Scene3D;
 	private var _camera:Camera3D;
 	private var _entityCollector:EntityCollector;
 
 	private var _aspectRatio:Float;
-	private var _time:Float = 0;
+	private var _time:Float;
 	private var _deltaTime:UInt;
-	private var _backgroundColor:UInt = 0x000000;
-	private var _backgroundAlpha:Float = 1;
+	private var _backgroundColor:UInt;
+	private var _backgroundAlpha:Float;
 
 	private var _mouse3DManager:Mouse3DManager;
 
@@ -63,26 +63,26 @@ class View3D extends Sprite
 	private var _filter3DRenderer:Filter3DRenderer;
 	private var _requireDepthRender:Bool;
 	private var _depthRender:Texture;
-	private var _depthTextureInvalid:Bool = true;
+	private var _depthTextureInvalid:Bool;
 
 	private var _hitField:Sprite;
 	private var _parentIsStage:Bool;
 
 	private var _background:Texture2DBase;
 	private var _stage3DProxy:Stage3DProxy;
-	private var _backBufferInvalid:Bool = true;
+	private var _backBufferInvalid:Bool;
 	private var _antiAlias:UInt;
 
 	private var _rttBufferManager:RTTBufferManager;
 
-	private var _shareContext:Bool = false;
+	private var _shareContext:Bool;
 	private var _scissorRect:Rectangle;
-	private var _scissorRectDirty:Bool = true;
-	private var _viewportDirty:Bool = true;
+	private var _scissorRectDirty:Bool;
+	private var _viewportDirty:Bool;
 
 	private var _depthPrepass:Bool;
 	private var _profile:String;
-	private var _layeredView:Bool = false;
+	private var _layeredView:Bool;
 
 	/**
 	 *
@@ -98,10 +98,41 @@ class View3D extends Sprite
 		super();
 
 		_profile = profile;
-		_scene = scene || new Scene3D();
+		
+		if (scene == null)
+			scene = new Scene3D();
+		_scene = scene;
 		_scene.addEventListener(Scene3DEvent.PARTITION_CHANGED, onScenePartitionChanged);
-		_camera = camera || new Camera3D();
-		_renderer = renderer || new DefaultRenderer();
+		
+		if (camera == null)
+			camera = new Camera3D();
+		_camera = camera;
+		
+		if (renderer == null)
+			renderer = new DefaultRenderer();
+		_renderer = renderer;
+		
+		
+		_width = 0;
+		_height = 0;
+		_localPos = new Point();
+		_globalPos = new Point();
+
+		_time = 0;
+		_deltaTime;
+		_backgroundColor = 0x000000;
+		_backgroundAlpha = 1;
+
+		_depthTextureInvalid = true;
+
+		_backBufferInvalid = true;
+
+		_shareContext = false;
+		_scissorRectDirty = true;
+		_viewportDirty = true;
+
+		_layeredView = false;
+			
 		_depthRenderer = new DepthRenderer();
 		_forceSoftware = forceSoftware;
 
@@ -142,7 +173,7 @@ class View3D extends Sprite
 
 	private function onScenePartitionChanged(event:Scene3DEvent):Void
 	{
-		if (_camera)
+		if (_camera != null)
 			_camera.partition = scene.partition;
 	}
 
@@ -229,7 +260,7 @@ class View3D extends Sprite
 	/**
 	 * Not supported. Use filters3d instead.
 	 */
-	override private inline function get_filters():Array<BitmapFilter>
+	@:getter(filters) function get_filters():Array<BitmapFilter>
 	{
 		throw new Error("filters is not supported in View3D. Use filters3d instead.");
 		return super.filters;
@@ -238,10 +269,9 @@ class View3D extends Sprite
 	/**
 	 * Not supported. Use filters3d instead.
 	 */
-	override private inline function set_filters(value:Array<BitmapFilter>):Array<BitmapFilter>
+	@:setter(filters) function set_filters(value:Array<BitmapFilter>):Void
 	{
 		throw new Error("filters is not supported in View3D. Use filters3d instead.");
-		return super.filters;
 	}
 
 	public var filters3d(get, set):Array<Filter3DBase>;
@@ -252,10 +282,10 @@ class View3D extends Sprite
 
 	private inline function set_filters3d(value:Array<Filter3DBase>):Array<Filter3DBase>
 	{
-		if (value && value.length == 0)
+		if (value != null && value.length == 0)
 			value = null;
 
-		if (_filter3DRenderer && !value)
+		if (_filter3DRenderer != null && value == null)
 		{
 			_filter3DRenderer.dispose();
 			_filter3DRenderer = null;
@@ -266,7 +296,7 @@ class View3D extends Sprite
 			_filter3DRenderer.filters = value;
 		}
 
-		if (_filter3DRenderer)
+		if (_filter3DRenderer != null)
 		{
 			_filter3DRenderer.filters = value;
 			_requireDepthRender = _filter3DRenderer.requireDepthRender;
@@ -274,7 +304,7 @@ class View3D extends Sprite
 		else
 		{
 			_requireDepthRender = false;
-			if (_depthRender)
+			if (_depthRender != null)
 			{
 				_depthRender.dispose();
 				_depthRender = null;
@@ -416,12 +446,12 @@ class View3D extends Sprite
 	 * The width of the viewport. When software rendering is used, this is limited by the
 	 * platform to 2048 pixels.
 	 */
-	override private inline function get_width():Float
+	@:getter(width) function get_width():Float
 	{
 		return _width;
 	}
 
-	override private inline function set_width(value:Float):Void
+	@:setter(width) function set_width(value:Float):Void
 	{
 		// Backbuffer limitation in software mode. See comment in updateBackBuffer()
 		if (_stage3DProxy && _stage3DProxy.usesSoftwareRendering && value > 2048)
@@ -450,12 +480,12 @@ class View3D extends Sprite
 	 * The height of the viewport. When software rendering is used, this is limited by the
 	 * platform to 2048 pixels.
 	 */
-	override private inline function get_height():Float
+	@:getter(height) function get_height():Float
 	{
 		return _height;
 	}
 
-	override private inline function set_height(value:Float):Void
+	@:setter(height) function set_height(value:Float):Void
 	{
 		// Backbuffer limitation in software mode. See comment in updateBackBuffer()
 		if (_stage3DProxy && _stage3DProxy.usesSoftwareRendering && value > 2048)
@@ -481,7 +511,7 @@ class View3D extends Sprite
 	}
 
 
-	override private inline function set_x(value:Float):Void
+	@:setter(x) function set_x(value:Float):Void
 	{
 		if (x == value)
 			return;
@@ -492,7 +522,7 @@ class View3D extends Sprite
 		_globalPosDirty = true;
 	}
 
-	override private inline function set_y(value:Float):Void
+	@:setter(y) function set_y(value:Float):Void
 	{
 		if (y == value)
 			return;
@@ -503,7 +533,7 @@ class View3D extends Sprite
 		_globalPosDirty = true;
 	}
 
-	override private inline function set_visible(value:Bool):Void
+	@:setter(visible) function set_visible(value:Bool):Void
 	{
 		super.visible = value;
 
@@ -570,7 +600,7 @@ class View3D extends Sprite
 		// context does get available) means usesSoftwareRendering won't be reliable.
 		if (_stage3DProxy.context3D && !_shareContext)
 		{
-			if (_width && _height)
+			if (_width != 0 && _height != 0)
 			{
 				// Backbuffers are limited to 2048x2048 in software mode and
 				// trying to configure the backbuffer to be bigger than that
@@ -799,10 +829,10 @@ class View3D extends Sprite
 		}
 		_renderer.dispose();
 
-		if (_depthRender)
+		if (_depthRender != null)
 			_depthRender.dispose();
 
-		if (_rttBufferManager)
+		if (_rttBufferManager != null)
 			_rttBufferManager.dispose();
 
 		_mouse3DManager.disableMouseListeners(this);
@@ -867,24 +897,26 @@ class View3D extends Sprite
 		return _camera.getRay((sX * 2 - _width) / _width, (sY * 2 - _height) / _height, sZ);
 	}
 
+	public var mousePicker(get, set):IPicker;
 	private inline function get_mousePicker():IPicker
 	{
 		return _mouse3DManager.mousePicker;
 	}
 
-	private inline function set_mousePicker(value:IPicker):Void
+	private inline function set_mousePicker(value:IPicker):IPicker
 	{
-		_mouse3DManager.mousePicker = value;
+		return _mouse3DManager.mousePicker = value;
 	}
 
+	public var touchPicker(get, set):IPicker;
 	private inline function get_touchPicker():IPicker
 	{
 		return _touch3DManager.touchPicker;
 	}
 
-	private inline function set_touchPicker(value:IPicker):Void
+	private inline function set_touchPicker(value:IPicker):IPicker
 	{
-		_touch3DManager.touchPicker = value;
+		return _touch3DManager.touchPicker = value;
 	}
 
 	/**
@@ -893,6 +925,7 @@ class View3D extends Sprite
 	 * @see a3d.core.traverse.EntityCollector
 	 * @private
 	 */
+	public var entityCollector(get, null):EntityCollector;
 	private inline function get_entityCollector():EntityCollector
 	{
 		return _entityCollector;
@@ -962,39 +995,39 @@ class View3D extends Sprite
 	}
 
 // dead ends:
-	override private inline function set_z(value:Float):Void
+	@:setter(z) function set_z(value:Float):Void
 	{
 	}
 
-	override private inline function set_scaleZ(value:Float):Void
+	@:setter(scaleZ) function set_scaleZ(value:Float):Void
 	{
 	}
 
-	override private inline function set_rotation(value:Float):Void
+	@:setter(rotation) function set_rotation(value:Float):Void
 	{
 	}
 
-	override private inline function set_rotationX(value:Float):Void
+	@:setter(rotationX) function set_rotationX(value:Float):Void
 	{
 	}
 
-	override private inline function set_rotationY(value:Float):Void
+	@:setter(rotationY) function set_rotationY(value:Float):Void
 	{
 	}
 
-	override private inline function set_rotationZ(value:Float):Void
+	@:setter(rotationZ) function set_rotationZ(value:Float):Void
 	{
 	}
 
-	override private inline function set_transform(value:Transform):Void
+	@:setter(transform) function set_transform(value:Transform):Void
 	{
 	}
 
-	override private inline function set_scaleX(value:Float):Void
+	@:setter(scaleX) function set_scaleX(value:Float):Void
 	{
 	}
 
-	override private inline function set_scaleY(value:Float):Void
+	@:setter(scaleY) function set_scaleY(value:Float):Void
 	{
 	}
 }

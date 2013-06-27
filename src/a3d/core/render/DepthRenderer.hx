@@ -52,15 +52,15 @@ class DepthRenderer extends RendererBase
 		_disableColor = value;
 	}
 
-	override private inline function set_backgroundR(value:Float):Void
+	override private function set_backgroundR(value:Float):Void
 	{
 	}
 
-	override private inline function set_backgroundG(value:Float):Void
+	override private function set_backgroundG(value:Float):Void
 	{
 	}
 
-	override private inline function set_backgroundB(value:Float):Void
+	override private function set_backgroundB(value:Float):Void
 	{
 	}
 

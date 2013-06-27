@@ -18,7 +18,7 @@ class RenderCubeTexture extends CubeTextureBase
 		setSize(size, size);
 	}
 
-	override private inline function set_size(value:Int):Int
+	override private function set_size(value:Int):Int
 	{
 		if (value == _width)
 			return _width;

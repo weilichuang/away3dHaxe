@@ -15,7 +15,9 @@ class AbstractMethodError extends Error
 	 */
 	public function new(message:String = null, id:Int = 0)
 	{
-		super(message || "An abstract method was called! Either an instance of an abstract class was created, or an abstract method was not overridden by the subclass.", id);
+		if (message == null)
+			message = "An abstract method was called! Either an instance of an abstract class was created, or an abstract method was not overridden by the subclass.";
+		super(message, id);
 	}
 }
 

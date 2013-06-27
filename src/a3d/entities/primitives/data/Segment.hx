@@ -59,54 +59,64 @@ class Segment
 	/**
 	 * Defines the starting vertex.
 	 */
+	public var start(get, set):Vector3D;
 	private inline function get_start():Vector3D
 	{
 		return _start;
 	}
 
-	private inline function set_start(value:Vector3D):Void
+	private inline function set_start(value:Vector3D):Vector3D
 	{
 		_start = value;
 		update();
+		
+		return _start;
 	}
 
 	/**
 	 * Defines the ending vertex.
 	 */
+	public var end(get, set):Vector3D;
 	private inline function get_end():Vector3D
 	{
 		return _end;
 	}
 
-	private inline function set_end(value:Vector3D):Void
+	private inline function set_end(value:Vector3D):Vector3D
 	{
 		_end = value;
 		update();
+		
+		return _end;
 	}
 
 	/**
 	 * Defines the ending vertex.
 	 */
+	public var thickness(get, set):Float;
 	private inline function get_thickness():Float
 	{
 		return _thickness * 2;
 	}
 
-	private inline function set_thickness(value:Float):Void
+	private inline function set_thickness(value:Float):Float
 	{
 		_thickness = value * .5;
 		update();
+		
+		return value;
 	}
 
 	/**
 	 * Defines the startColor
 	 */
+	public var startColor(get, set):UInt;
 	private inline function get_startColor():UInt
 	{
 		return _startColor;
 	}
 
-	private inline function set_startColor(color:UInt):Void
+	private inline function set_startColor(color:UInt):UInt
 	{
 		startR = ((color >> 16) & 0xff) / 255;
 		startG = ((color >> 8) & 0xff) / 255;
@@ -115,17 +125,20 @@ class Segment
 		_startColor = color;
 
 		update();
+		
+		return _startColor;
 	}
 
 	/**
 	 * Defines the endColor
 	 */
+	public var endColor(get, set):UInt;
 	private inline function get_endColor():UInt
 	{
 		return _endColor;
 	}
 
-	private inline function set_endColor(color:UInt):Void
+	private inline function set_endColor(color:UInt):UInt
 	{
 		endR = ((color >> 16) & 0xff) / 255;
 		endG = ((color >> 8) & 0xff) / 255;
@@ -134,6 +147,8 @@ class Segment
 		_endColor = color;
 
 		update();
+		
+		return _endColor;
 	}
 
 	public function dispose():Void
@@ -142,29 +157,32 @@ class Segment
 		_end = null;
 	}
 
+	public var index(get, set):Int;
 	private inline function get_index():Int
 	{
 		return _index;
 	}
 
-	private inline function set_index(ind:Int):Void
+	private inline function set_index(ind:Int):Int
 	{
-		_index = ind;
+		return _index = ind;
 	}
 
+	public var subSetIndex(get, set):Int;
 	private inline function get_subSetIndex():Int
 	{
 		return _subSetIndex;
 	}
 
-	private inline function set_subSetIndex(ind:Int):Void
+	private inline function set_subSetIndex(ind:Int):Int
 	{
-		_subSetIndex = ind;
+		return _subSetIndex = ind;
 	}
 
-	private inline function set_segmentsBase(segBase:SegmentSet):Void
+	public var segmentsBase(get, set):SegmentSet;
+	private inline function set_segmentsBase(segBase:SegmentSet):SegmentSet
 	{
-		_segmentsBase = segBase;
+		return _segmentsBase = segBase;
 	}
 
 	private inline function get_segmentsBase():SegmentSet
@@ -174,7 +192,7 @@ class Segment
 
 	private function update():Void
 	{
-		if (!_segmentsBase)
+		if (_segmentsBase == null)
 			return;
 		_segmentsBase.updateSegment(this);
 	}

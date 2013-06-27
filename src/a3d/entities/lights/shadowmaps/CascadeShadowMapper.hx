@@ -93,7 +93,7 @@ class CascadeShadowMapper extends DirectionalShadowMapper implements IEventDispa
 	}
 
 	// will not be allowed
-	override private inline function set_depthMapSize(value:UInt):Void
+	override private function set_depthMapSize(value:UInt):Void
 	{
 		if (value == _depthMapSize)
 			return;

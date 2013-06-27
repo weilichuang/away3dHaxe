@@ -18,42 +18,56 @@ import a3d.events.LensEvent;
 class LensBase extends EventDispatcher
 {
 	private var _matrix:Matrix3D;
-	private var _scissorRect:Rectangle = new Rectangle();
-	private var _viewPort:Rectangle = new Rectangle();
-	private var _near:Float = 20;
-	private var _far:Float = 3000;
-	private var _aspectRatio:Float = 1;
+	private var _scissorRect:Rectangle;
+	private var _viewPort:Rectangle;
+	private var _near:Float;
+	private var _far:Float;
+	private var _aspectRatio:Float;
 
-	private var _matrixInvalid:Bool = true;
-	private var _frustumCorners:Vector<Float> = new Vector<Float>(8 * 3, true);
+	private var _matrixInvalid:Bool;
+	private var _frustumCorners:Vector<Float>;
 
 	private var _unprojection:Matrix3D;
-	private var _unprojectionInvalid:Bool = true;
+	private var _unprojectionInvalid:Bool;
 
 	/**
 	 * Creates a new LensBase object.
 	 */
 	public function new()
 	{
+		super();
+		
 		_matrix = new Matrix3D();
+		_scissorRect = new Rectangle();
+		_viewPort = new Rectangle();
+		_near = 20;
+		_far = 3000;
+		_aspectRatio = 1;
+
+		_matrixInvalid = true;
+		_frustumCorners = new Vector<Float>(8 * 3, true);
+
+		_unprojectionInvalid = true;
 	}
 
 	/**
 	 * Retrieves the corner points of the lens frustum.
 	 */
+	public var frustumCorners(get,set):Vector<Float>;
 	private inline function get_frustumCorners():Vector<Float>
 	{
 		return _frustumCorners;
 	}
 
-	private inline function set_frustumCorners(frustumCorners:Vector<Float>):Void
+	private inline function set_frustumCorners(frustumCorners:Vector<Float>):Vector<Float>
 	{
-		_frustumCorners = frustumCorners;
+		return _frustumCorners = frustumCorners;
 	}
 
 	/**
 	 * The projection matrix that transforms 3D geometry to normalized homogeneous coordinates.
 	 */
+	public var matrix(get,set):Matrix3D;
 	private inline function get_matrix():Matrix3D
 	{
 		if (_matrixInvalid)
@@ -64,42 +78,47 @@ class LensBase extends EventDispatcher
 		return _matrix;
 	}
 
-	private inline function set_matrix(value:Matrix3D):Void
+	private inline function set_matrix(value:Matrix3D):Matrix3D
 	{
 		_matrix = value;
 		invalidateMatrix();
+		return _matrix;
 	}
 
 	/**
 	 * The distance to the near plane of the frustum. Anything behind near plane will not be rendered.
 	 */
+	public var near(get,set):Float;
 	private inline function get_near():Float
 	{
 		return _near;
 	}
 
-	private inline function set_near(value:Float):Void
+	private inline function set_near(value:Float):Float
 	{
 		if (value == _near)
-			return;
+			return _near;
 		_near = value;
 		invalidateMatrix();
+		return _near;
 	}
 
 	/**
 	 * The distance to the far plane of the frustum. Anything beyond the far plane will not be rendered.
 	 */
+	public var far(get,set):Float;
 	private inline function get_far():Float
 	{
 		return _far;
 	}
 
-	private inline function set_far(value:Float):Void
+	private inline function set_far(value:Float):Float
 	{
 		if (value == _far)
-			return;
+			return _far;
 		_far = value;
 		invalidateMatrix();
+		return _far;
 	}
 
 	/**
@@ -159,17 +178,19 @@ class LensBase extends EventDispatcher
 	 * The aspect ratio (width/height) of the view. Set by the renderer.
 	 * @private
 	 */
+	public var aspectRatio(get,set):Float;
 	private inline function get_aspectRatio():Float
 	{
 		return _aspectRatio;
 	}
 
-	private inline function set_aspectRatio(value:Float):Void
+	private inline function set_aspectRatio(value:Float):Float
 	{
 		if (_aspectRatio == value)
-			return;
+			return _aspectRatio;
 		_aspectRatio = value;
 		invalidateMatrix();
+		return _aspectRatio;
 	}
 
 	/**

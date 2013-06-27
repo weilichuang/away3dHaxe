@@ -3,6 +3,7 @@ package a3d.materials;
 import flash.display.BlendMode;
 import flash.display3D.Context3D;
 import flash.display3D.Context3DCompareMode;
+import flash.errors.Error;
 import flash.events.Event;
 import flash.geom.Matrix3D;
 import flash.Vector;
@@ -53,13 +54,13 @@ class MaterialBase extends NamedAssetBase implements IAsset
 
 	private var _alphaPremultiplied:Bool;
 
-	private var _blendMode:String = BlendMode.NORMAL;
+	private var _blendMode:BlendMode;
 
 	private var _numPasses:UInt;
 	private var _passes:Vector<MaterialPassBase>;
 
-	private var _mipmap:Bool = true;
-	private var _smooth:Bool = true;
+	private var _mipmap:Bool;
+	private var _smooth:Bool;
 	private var _repeat:Bool;
 
 	private var _depthPass:DepthMapPass;
@@ -67,19 +68,26 @@ class MaterialBase extends NamedAssetBase implements IAsset
 
 	private var _lightPicker:LightPickerBase;
 	private var _distanceBasedDepthRender:Bool;
-	private var _depthCompareMode:String = Context3DCompareMode.LESS_EQUAL;
+	private var _depthCompareMode:Context3DCompareMode;
 
 	/**
 	 * Creates a new MaterialBase object.
 	 */
 	public function new()
 	{
+		super();
+		
 		_owners = new Vector<IMaterialOwner>();
 		_passes = new Vector<MaterialPassBase>();
 		_depthPass = new DepthMapPass();
 		_distancePass = new DistanceMapPass();
 		_depthPass.addEventListener(Event.CHANGE, onDepthPassChange);
 		_distancePass.addEventListener(Event.CHANGE, onDistancePassChange);
+		
+		_mipmap = true;
+		_smooth = true;
+		_blendMode = BlendMode.NORMAL;
+		 _depthCompareMode = Context3DCompareMode.LESS_EQUAL;
 
 		// Default to considering pre-multiplied textures while blending
 		alphaPremultiplied = true;
@@ -138,14 +146,14 @@ class MaterialBase extends NamedAssetBase implements IAsset
 			_passes[i].smooth = value;
 	}
 
-	private inline function get_depthCompareMode():String
+	private inline function get_depthCompareMode():Context3DCompareMode
 	{
 		return _depthCompareMode;
 	}
 
-	private inline function set_depthCompareMode(value:String):Void
+	private inline function set_depthCompareMode(value:Context3DCompareMode):Context3DCompareMode
 	{
-		_depthCompareMode = value;
+		return _depthCompareMode = value;
 	}
 
 	/**
@@ -290,13 +298,13 @@ class MaterialBase extends NamedAssetBase implements IAsset
 	{
 		if (_distanceBasedDepthRender)
 		{
-			if (renderable.animator)
+			if (renderable.animator != null)
 				_distancePass.updateAnimationState(renderable, stage3DProxy, camera);
 			_distancePass.render(renderable, stage3DProxy, camera, viewProjection);
 		}
 		else
 		{
-			if (renderable.animator)
+			if (renderable.animator != null)
 				_depthPass.updateAnimationState(renderable, stage3DProxy, camera);
 			_depthPass.render(renderable, stage3DProxy, camera, viewProjection);
 		}
@@ -365,9 +373,9 @@ class MaterialBase extends NamedAssetBase implements IAsset
 	{
 		_owners.push(owner);
 
-		if (owner.animator)
+		if (owner.animator != null)
 		{
-			if (_animationSet && owner.animator.animationSet != _animationSet)
+			if (_animationSet != null && owner.animator.animationSet != _animationSet)
 			{
 				throw new Error("A Material instance cannot be shared across renderables with different animator libraries");
 			}

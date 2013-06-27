@@ -92,6 +92,7 @@ class AnimatorBase extends NamedAssetBase implements IAsset
 	 * @see #time
 	 * @see #playbackSpeed
 	 */
+	public var absoluteTime(get, null):Float;
 	private inline function get_absoluteTime():Float
 	{
 		return _absoluteTime;
@@ -100,6 +101,7 @@ class AnimatorBase extends NamedAssetBase implements IAsset
 	/**
 	 * Returns the animation data set in use by the animator.
 	 */
+	public var animationSet(get, null):Float;
 	private inline function get_animationSet():IAnimationSet
 	{
 		return _animationSet;
@@ -108,6 +110,7 @@ class AnimatorBase extends NamedAssetBase implements IAsset
 	/**
 	 * Returns the current active animation state.
 	 */
+	public var activeState(get, null):IAnimationState;
 	private inline function get_activeState():IAnimationState
 	{
 		return _activeState;
@@ -116,6 +119,7 @@ class AnimatorBase extends NamedAssetBase implements IAsset
 	/**
 	 * Returns the current active animation node.
 	 */
+	public var activeAnimation(get, null):AnimationNodeBase;
 	private inline function get_activeAnimation():AnimationNodeBase
 	{
 		return _animationSet.getAnimation(_activeAnimationName);
@@ -124,6 +128,7 @@ class AnimatorBase extends NamedAssetBase implements IAsset
 	/**
 	 * Returns the current active animation node.
 	 */
+	public var activeAnimationName(get, null):String;
 	private inline function get_activeAnimationName():String
 	{
 		return _activeAnimationName;
@@ -137,12 +142,13 @@ class AnimatorBase extends NamedAssetBase implements IAsset
 	 * @see #time
 	 * @see #update()
 	 */
+	public var autoUpdate(get, set):Bool;
 	private inline function get_autoUpdate():Bool
 	{
 		return _autoUpdate;
 	}
 
-	private inline function set_autoUpdate(value:Bool):Void
+	private inline function set_autoUpdate(value:Bool):Bool
 	{
 		if (_autoUpdate == value)
 			return;
@@ -153,22 +159,27 @@ class AnimatorBase extends NamedAssetBase implements IAsset
 			start();
 		else
 			stop();
+			
+		return _autoUpdate;
 	}
 
 	/**
 	 * Gets and sets the internal time clock of the animator.
 	 */
+	public var time(get, set):Int;
 	private inline function get_time():Int
 	{
 		return _time;
 	}
 
-	private inline function set_time(value:Int):Void
+	private inline function set_time(value:Int):Int
 	{
 		if (_time == value)
-			return;
+			return _time;
 
 		update(value);
+		
+		return _time;
 	}
 
 	/**
@@ -194,14 +205,15 @@ class AnimatorBase extends NamedAssetBase implements IAsset
 	/**
 	 * The amount by which passed time should be scaled. Used to slow down or speed up animations. Defaults to 1.
 	 */
+	public var playbackSpeed(get, set):Float;
 	private inline function get_playbackSpeed():Float
 	{
 		return _playbackSpeed;
 	}
 
-	private inline function set_playbackSpeed(value:Float):Void
+	private inline function set_playbackSpeed(value:Float):Float
 	{
-		_playbackSpeed = value;
+		return _playbackSpeed = value;
 	}
 
 	/**
@@ -247,7 +259,9 @@ class AnimatorBase extends NamedAssetBase implements IAsset
 		if (!hasEventListener(AnimatorEvent.STOP))
 			return;
 
-		dispatchEvent(_stopEvent || (_stopEvent = new AnimatorEvent(AnimatorEvent.STOP, this)));
+		if (_stopEvent == null)
+			_stopEvent = new AnimatorEvent(AnimatorEvent.STOP, this);
+		dispatchEvent(_stopEvent);
 	}
 
 	/**
@@ -348,6 +362,7 @@ class AnimatorBase extends NamedAssetBase implements IAsset
 	/**
 	 * @inheritDoc
 	 */
+	public var assetType(get, null):String;
 	private inline function get_assetType():String
 	{
 		return AssetType.ANIMATOR;

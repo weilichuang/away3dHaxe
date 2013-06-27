@@ -23,17 +23,18 @@ class Partition3D
 	 */
 	public function new(rootNode:NodeBase)
 	{
-		_rootNode = rootNode || new NullNode();
+		_rootNode = rootNode != null ? rootNode : new NullNode();
 	}
 
+	public var showDebugBounds(get, set):Bool;
 	private inline function get_showDebugBounds():Bool
 	{
 		return _rootNode.showDebugBounds;
 	}
 
-	private inline function set_showDebugBounds(value:Bool):Void
+	private inline function set_showDebugBounds(value:Bool):Bool
 	{
-		_rootNode.showDebugBounds = value;
+		return _rootNode.showDebugBounds = value;
 	}
 
 	/**
@@ -64,7 +65,7 @@ class Partition3D
 		var t:EntityNode = _updateQueue;
 
 		// if already marked for update
-		while (t)
+		while (t != null)
 		{
 			if (node == t)
 				return;
@@ -95,9 +96,9 @@ class Partition3D
 		else
 		{
 			t = _updateQueue;
-			while (t && t.updateQueueNext != node)
+			while (t != null && t.updateQueueNext != node)
 				t = t.updateQueueNext;
-			if (t)
+			if (t != null)
 				t.updateQueueNext = node.updateQueueNext;
 		}
 

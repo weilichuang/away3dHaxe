@@ -48,7 +48,7 @@ class DefaultRenderer extends RendererBase
 		_distanceRenderer = new DepthRenderer(false, true);
 	}
 
-	override private inline function set_stage3DProxy(value:Stage3DProxy):Void
+	override private function set_stage3DProxy(value:Stage3DProxy):Void
 	{
 		super.stage3DProxy = value;
 		_distanceRenderer.stage3DProxy = _depthRenderer.stage3DProxy = value;

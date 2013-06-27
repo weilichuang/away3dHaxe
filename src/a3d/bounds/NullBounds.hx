@@ -24,8 +24,8 @@ class NullBounds extends BoundingVolumeBase
 		super();
 		_alwaysIn = alwaysIn;
 		_renderable = renderable;
-		_max.x = _max.y = _max.z = Number.POSITIVE_INFINITY;
-		_min.x = _min.y = _min.z = _alwaysIn ? Math.NEGATIVE_INFINITY : Number.POSITIVE_INFINITY;
+		_max.x = _max.y = _max.z = Math.POSITIVE_INFINITY;
+		_min.x = _min.y = _min.z = _alwaysIn ? Math.NEGATIVE_INFINITY : Math.POSITIVE_INFINITY;
 	}
 
 	override public function clone():BoundingVolumeBase
@@ -43,8 +43,6 @@ class NullBounds extends BoundingVolumeBase
 	 */
 	override public function isInFrustum(planes:Vector<Plane3D>, numPlanes:Int):Bool
 	{
-		planes = planes;
-		numPlanes = numPlanes;
 		return _alwaysIn;
 	}
 
@@ -77,7 +75,6 @@ class NullBounds extends BoundingVolumeBase
 
 	override public function transformFrom(bounds:BoundingVolumeBase, matrix:Matrix3D):Void
 	{
-		matrix = matrix;
-		_alwaysIn = NullBounds(bounds)._alwaysIn;
+		_alwaysIn = Std.instance(bounds,NullBounds)._alwaysIn;
 	}
 }

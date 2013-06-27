@@ -58,6 +58,7 @@ class EntityCollector extends PartitionTraverser
 	 */
 	public function new()
 	{
+		super();
 		init();
 	}
 
@@ -174,8 +175,8 @@ class EntityCollector extends PartitionTraverser
 	 */
 	public function clear():Void
 	{
-		_cullPlanes = _customCullPlanes ? _customCullPlanes : (_camera ? _camera.frustumPlanes : null);
-		_numCullPlanes = _cullPlanes ? _cullPlanes.length : 0;
+		_cullPlanes = _customCullPlanes != null ? _customCullPlanes : (_camera != null ? _camera.frustumPlanes : null);
+		_numCullPlanes = _cullPlanes != null ? _cullPlanes.length : 0;
 		_numTriangles = _numMouseEnableds = 0;
 		_blendedRenderableHead = null;
 		_opaqueRenderableHead = null;
@@ -227,7 +228,7 @@ class EntityCollector extends PartitionTraverser
 		_numTriangles += renderable.numTriangles;
 
 		material = renderable.material;
-		if (material)
+		if (material != null)
 		{
 			var item:RenderableListItem = _renderableListItemPool.getItem();
 			item.renderable = renderable;

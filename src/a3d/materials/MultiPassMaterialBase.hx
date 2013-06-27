@@ -90,13 +90,13 @@ class MultiPassMaterialBase extends MaterialBase
 		_distancePass.alphaThreshold = value;
 	}
 
-	override private inline function set_depthCompareMode(value:String):Void
+	override private function set_depthCompareMode(value:String):Void
 	{
 		super.depthCompareMode = value;
 		invalidateScreenPasses();
 	}
 
-	override private inline function set_blendMode(value:String):Void
+	override private function set_blendMode(value:String):Void
 	{
 		super.blendMode = value;
 		invalidateScreenPasses();
@@ -132,7 +132,7 @@ class MultiPassMaterialBase extends MaterialBase
 		_diffuseLightSources = value;
 	}
 
-	override private inline function set_lightPicker(value:LightPickerBase):Void
+	override private function set_lightPicker(value:LightPickerBase):Void
 	{
 		if (_lightPicker)
 			_lightPicker.removeEventListener(Event.CHANGE, onLightsChange);
@@ -145,7 +145,7 @@ class MultiPassMaterialBase extends MaterialBase
 	/**
 	 * @inheritDoc
 	 */
-	override private inline function get_requiresBlending():Bool
+	override private function get_requiresBlending():Bool
 	{
 		return false;
 	}
@@ -286,7 +286,7 @@ class MultiPassMaterialBase extends MaterialBase
 	/**
 	 * @inheritDoc
 	 */
-	override private inline function set_mipmap(value:Bool):Void
+	override private function set_mipmap(value:Bool):Void
 	{
 		if (_mipmap == value)
 			return;

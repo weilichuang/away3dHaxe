@@ -263,7 +263,7 @@ class ParticleAnimationSet extends AnimationSetBase implements IAnimationSet
 	/**
 	 * @inheritDoc
 	 */
-	override private inline function get_usesCPU():Bool
+	override private function get_usesCPU():Bool
 	{
 		return false;
 	}

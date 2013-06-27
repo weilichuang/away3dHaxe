@@ -35,7 +35,7 @@ class StereoCamera3D extends Camera3D
 		_focusPoint = new Vector3D();
 	}
 
-	override private inline function set_lens(value:LensBase):Void
+	override private function set_lens(value:LensBase):Void
 	{
 		_leftCam.lens = value;
 		_rightCam.lens = value;

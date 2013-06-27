@@ -20,8 +20,8 @@ class GeomUtil
 		weights:Vector<Float>, jointIndices:Vector<Float>,
 		triangleOffset:Int = 0):Vector<ISubGeometry>
 	{
-		const LIMIT_VERTS:UInt = 3 * 0xffff;
-		const LIMIT_INDICES:UInt = 15 * 0xffff;
+		var LIMIT_VERTS:UInt = 3 * 0xffff;
+		var LIMIT_INDICES:UInt = 15 * 0xffff;
 
 		var subs:Vector<ISubGeometry> = new Vector<ISubGeometry>();
 

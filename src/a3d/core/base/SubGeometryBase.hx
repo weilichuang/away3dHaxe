@@ -471,7 +471,7 @@ class SubGeometryBase
 	{
 		for (i in 0...8)
 		{
-			if (buffers[i])
+			if (buffers[i] != null)
 			{
 				buffers[i].dispose();
 				buffers[i] = null;
@@ -600,7 +600,7 @@ class SubGeometryBase
 
 	private function invalidateBounds():Void
 	{
-		if (_parentGeometry)
+		if (_parentGeometry != null)
 			_parentGeometry.invalidateBounds(ISubGeometry(this));
 	}
 

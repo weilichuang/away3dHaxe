@@ -73,22 +73,22 @@ class NearShadowMapMethod extends SimpleShadowMapMethodBase
 		_baseMethod.removeEventListener(ShadingMethodEvent.SHADER_INVALIDATED, onShaderInvalidated);
 	}
 
-	override private inline function get_alpha():Float
+	override private function get_alpha():Float
 	{
 		return _baseMethod.alpha;
 	}
 
-	override private inline function set_alpha(value:Float):Void
+	override private function set_alpha(value:Float):Void
 	{
 		_baseMethod.alpha = value;
 	}
 
-	override private inline function get_epsilon():Float
+	override private function get_epsilon():Float
 	{
 		return _baseMethod.epsilon;
 	}
 
-	override private inline function set_epsilon(value:Float):Void
+	override private function set_epsilon(value:Float):Void
 	{
 		_baseMethod.epsilon = value;
 	}
@@ -180,7 +180,7 @@ class NearShadowMapMethod extends SimpleShadowMapMethodBase
 	/**
 	 * @inheritDoc
 	 */
-	override private inline function set_sharedRegisters(value:ShaderRegisterData):Void
+	override private function set_sharedRegisters(value:ShaderRegisterData):Void
 	{
 		super.sharedRegisters = _baseMethod.sharedRegisters = value;
 	}

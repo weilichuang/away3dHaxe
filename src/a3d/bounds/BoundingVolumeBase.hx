@@ -20,13 +20,26 @@ class BoundingVolumeBase
 {
 	private var _min:Vector3D;
 	private var _max:Vector3D;
-	private var _aabbPoints:Vector<Float> = new Vector<Float>();
-	private var _aabbPointsDirty:Bool = true;
+	private var _aabbPoints:Vector<Float>;
+	private var _aabbPointsDirty:Bool;
 	private var _boundingRenderable:WireframePrimitiveBase;
 
 	/**
+	 * Creates a new <code>BoundingVolumeBase</code> object
+	 */
+	public function new()
+	{
+		_min = new Vector3D();
+		_max = new Vector3D();
+		
+		_aabbPoints = new Vector<Float>();
+		_aabbPointsDirty = true;
+	}
+	
+	/**
 	 * The maximum extreme of the bounds
 	 */
+	public var max(get, null):Vector3D;
 	private inline function get_max():Vector3D
 	{
 		return _max;
@@ -35,6 +48,7 @@ class BoundingVolumeBase
 	/**
 	 * The minimum extreme of the bounds
 	 */
+	public var min(get, null):Vector3D;
 	private inline function get_min():Vector3D
 	{
 		return _min;
@@ -43,6 +57,7 @@ class BoundingVolumeBase
 	/**
 	 * Returns a vector of values representing the concatenated cartesian triplet of the 8 axial extremities of the bounding volume.
 	 */
+	public var aabbPoints(get, null):Vector<Float>;
 	private inline function get_aabbPoints():Vector<Float>
 	{
 		if (_aabbPointsDirty)
@@ -57,6 +72,7 @@ class BoundingVolumeBase
 	 *
 	 * @see a3d.entities.Entity#showBounds
 	 */
+	public var boundingRenderable(get, null):WireframePrimitiveBase;
 	private inline function get_boundingRenderable():WireframePrimitiveBase
 	{
 		if (_boundingRenderable == null)
@@ -69,15 +85,6 @@ class BoundingVolumeBase
 	}
 
 	/**
-	 * Creates a new <code>BoundingVolumeBase</code> object
-	 */
-	public function new()
-	{
-		_min = new Vector3D();
-		_max = new Vector3D();
-	}
-
-	/**
 	 * Sets the bounds to zero size.
 	 */
 	public function nullify():Void
@@ -85,7 +92,7 @@ class BoundingVolumeBase
 		_min.x = _min.y = _min.z = 0;
 		_max.x = _max.y = _max.z = 0;
 		_aabbPointsDirty = true;
-		if (_boundingRenderable)
+		if (_boundingRenderable != null)
 			updateBoundingRenderable();
 	}
 
@@ -94,7 +101,7 @@ class BoundingVolumeBase
 	 */
 	public function disposeRenderable():Void
 	{
-		if (_boundingRenderable)
+		if (_boundingRenderable != null)
 			_boundingRenderable.dispose();
 		_boundingRenderable = null;
 	}

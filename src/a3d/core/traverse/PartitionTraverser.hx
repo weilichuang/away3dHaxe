@@ -46,7 +46,6 @@ class PartitionTraverser
 	 */
 	public function enterNode(node:NodeBase):Bool
 	{
-		node = node;
 		return true;
 	}
 

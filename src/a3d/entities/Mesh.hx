@@ -30,8 +30,8 @@ class Mesh extends Entity implements IMaterialOwner implements IAsset
 	private var _geometry:Geometry;
 	private var _material:MaterialBase;
 	private var _animator:IAnimator;
-	private var _castsShadows:Bool = true;
-	private var _shareAnimationGeometry:Bool = true;
+	private var _castsShadows:Bool;
+	private var _shareAnimationGeometry:Bool;
 
 	/**
 	 * Create a new Mesh object.
@@ -42,11 +42,14 @@ class Mesh extends Entity implements IMaterialOwner implements IAsset
 	public function new(geometry:Geometry, material:MaterialBase = null)
 	{
 		super();
+		
 		_subMeshes = new Vector<SubMesh>();
+		_shareAnimationGeometry = true;
+		 _castsShadows = true;
 
-		this.geometry = geometry || new Geometry(); //this should never happen, but if people insist on trying to create their meshes before they have geometry to fill it, it becomes necessary
+		this.geometry = geometry != null ? geometry : new Geometry(); //this should never happen, but if people insist on trying to create their meshes before they have geometry to fill it, it becomes necessary
 
-		this.material = material || DefaultMaterialManager.getDefaultMaterial(this);
+		this.material = material != null ?  material : DefaultMaterialManager.getDefaultMaterial(this);
 	}
 
 	public function bakeTransformations():Void
@@ -55,7 +58,7 @@ class Mesh extends Entity implements IMaterialOwner implements IAsset
 		transform.identity();
 	}
 
-	override private inline function get_assetType():String
+	override private function get_assetType():String
 	{
 		return AssetType.MESH;
 	}
@@ -69,27 +72,29 @@ class Mesh extends Entity implements IMaterialOwner implements IAsset
 	/**
 	 * Indicates whether or not the Mesh can cast shadows. Default value is <code>true</code>.
 	 */
+	public var castsShadows(get, set):Bool;
 	private inline function get_castsShadows():Bool
 	{
 		return _castsShadows;
 	}
 
-	private inline function set_castsShadows(value:Bool):Void
+	private inline function set_castsShadows(value:Bool):Bool
 	{
-		_castsShadows = value;
+		return _castsShadows = value;
 	}
 
 	/**
 	 * Defines the animator of the mesh. Act on the mesh's geometry.  Default value is <code>null</code>.
 	 */
+	public var animator(get, set):IAnimator;
 	private inline function get_animator():IAnimator
 	{
 		return _animator;
 	}
 
-	private inline function set_animator(value:IAnimator):Void
+	private inline function set_animator(value:IAnimator):IAnimator
 	{
-		if (_animator)
+		if (_animator != nul)
 			_animator.removeOwner(this);
 
 		_animator = value;
@@ -107,26 +112,29 @@ class Mesh extends Entity implements IMaterialOwner implements IAsset
 		{
 			subMesh = _subMeshes[i];
 			oldMaterial = subMesh.material;
-			if (oldMaterial)
+			if (oldMaterial != nul)
 			{
 				subMesh.material = null;
 				subMesh.material = oldMaterial;
 			}
 		}
 
-		if (_animator)
+		if (_animator != nul)
 			_animator.addOwner(this);
+			
+		return _animator;
 	}
 
 	/**
 	 * The geometry used by the mesh that provides it with its shape.
 	 */
+	public var geometry(get, set):Geometry;
 	private inline function get_geometry():Geometry
 	{
 		return _geometry;
 	}
 
-	private inline function set_geometry(value:Geometry):Void
+	private inline function set_geometry(value:Geometry):Geometry
 	{
 		if (_geometry != null)
 		{
@@ -159,31 +167,37 @@ class Mesh extends Entity implements IMaterialOwner implements IAsset
 			_material.removeOwner(this);
 			_material.addOwner(this);
 		}
+		
+		return _geometry;
 	}
 
 	/**
 	 * The material with which to render the Mesh.
 	 */
+	public var material(get, set):MaterialBase;
 	private inline function get_material():MaterialBase
 	{
 		return _material;
 	}
 
-	private inline function set_material(value:MaterialBase):Void
+	private inline function set_material(value:MaterialBase):MaterialBase
 	{
 		if (value == _material)
-			return;
-		if (_material)
+			return _material;
+		if (_material != null)
 			_material.removeOwner(this);
 		_material = value;
-		if (_material)
+		if (_material != null)
 			_material.addOwner(this);
+			
+		return _material;
 	}
 
 	/**
 	 * The SubMeshes out of which the Mesh consists. Every SubMesh can be assigned a material to override the Mesh's
 	 * material.
 	 */
+	public var subMeshes(get, null):Vector<SubMesh>;
 	private inline function get_subMeshes():Vector<SubMesh>
 	{
 		// Since this getter is invoked every iteration of the render loop, and
@@ -197,14 +211,15 @@ class Mesh extends Entity implements IMaterialOwner implements IAsset
 	/**
 	 * Indicates whether or not the mesh share the same animation geometry.
 	 */
+	public var shareAnimationGeometry(get, set):Bool;
 	private inline function get_shareAnimationGeometry():Bool
 	{
 		return _shareAnimationGeometry;
 	}
 
-	private inline function set_shareAnimationGeometry(value:Bool):Void
+	private inline function set_shareAnimationGeometry(value:Bool):Bool
 	{
-		_shareAnimationGeometry = value;
+		return _shareAnimationGeometry = value;
 	}
 
 	/**
@@ -238,7 +253,7 @@ class Mesh extends Entity implements IMaterialOwner implements IAsset
 	{
 		disposeWithChildren();
 
-		if (_animator)
+		if (_animator != null)
 			_animator.dispose();
 	}
 
@@ -358,7 +373,7 @@ class Mesh extends Entity implements IMaterialOwner implements IAsset
 	private function addSubMesh(subGeometry:ISubGeometry):Void
 	{
 		var subMesh:SubMesh = new SubMesh(subGeometry, this, null);
-		var len:UInt = _subMeshes.length;
+		var len:Int = _subMeshes.length;
 		subMesh.index = len;
 		_subMeshes[len] = subMesh;
 		invalidateBounds();

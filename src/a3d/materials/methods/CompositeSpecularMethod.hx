@@ -64,12 +64,12 @@ class CompositeSpecularMethod extends BasicSpecularMethod
 	/**
 	 * @inheritDoc
 	 */
-	override private inline function get_gloss():Float
+	override private function get_gloss():Float
 	{
 		return _baseMethod.gloss;
 	}
 
-	override private inline function set_gloss(value:Float):Void
+	override private function set_gloss(value:Float):Void
 	{
 		_baseMethod.gloss = value;
 	}
@@ -77,12 +77,12 @@ class CompositeSpecularMethod extends BasicSpecularMethod
 	/**
 	 * @inheritDoc
 	 */
-	override private inline function get_specular():Float
+	override private function get_specular():Float
 	{
 		return _baseMethod.specular;
 	}
 
-	override private inline function set_specular(value:Float):Void
+	override private function set_specular(value:Float):Void
 	{
 		_baseMethod.specular = value;
 	}
@@ -90,7 +90,7 @@ class CompositeSpecularMethod extends BasicSpecularMethod
 	/**
 	 * @inheritDoc
 	 */
-	override private inline function get_passes():Vector<MaterialPassBase>
+	override private function get_passes():Vector<MaterialPassBase>
 	{
 		return _baseMethod.passes;
 	}
@@ -107,12 +107,12 @@ class CompositeSpecularMethod extends BasicSpecularMethod
 	/**
 	 * @inheritDoc
 	 */
-	override private inline function get_texture():Texture2DBase
+	override private function get_texture():Texture2DBase
 	{
 		return _baseMethod.texture;
 	}
 
-	override private inline function set_texture(value:Texture2DBase):Void
+	override private function set_texture(value:Texture2DBase):Void
 	{
 		_baseMethod.texture = value;
 	}
@@ -133,7 +133,7 @@ class CompositeSpecularMethod extends BasicSpecularMethod
 	/**
 	 * @inheritDoc
 	 */
-	override private inline function set_sharedRegisters(value:ShaderRegisterData):Void
+	override private function set_sharedRegisters(value:ShaderRegisterData):Void
 	{
 		super.sharedRegisters = _baseMethod.sharedRegisters = value;
 	}
@@ -193,7 +193,7 @@ class CompositeSpecularMethod extends BasicSpecularMethod
 		_baseMethod.cleanCompilationData();
 	}
 
-	override private inline function set_shadowRegister(value:ShaderRegisterElement):Void
+	override private function set_shadowRegister(value:ShaderRegisterElement):Void
 	{
 		super.shadowRegister = value;
 		_baseMethod.shadowRegister = value;

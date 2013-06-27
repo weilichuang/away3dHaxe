@@ -26,7 +26,7 @@ class DistanceMapPass extends MaterialPassBase
 	public function new()
 	{
 		super();
-		_fragmentData = Vector<Float>([1.0, 255.0, 65025.0, 16581375.0,
+		_fragmentData = Vector.ofArray([1.0, 255.0, 65025.0, 16581375.0,
 			1.0 / 255.0, 1.0 / 255.0, 1.0 / 255.0, 0.0,
 			0.0, 0.0, 0.0, 0.0]);
 		_vertexData = new Vector<Float>(4, true);
@@ -100,8 +100,6 @@ class DistanceMapPass extends MaterialPassBase
 	 */
 	override public function getFragmentCode(animationCode:String):String
 	{
-		// TODO: not used
-		animationCode = animationCode;
 		var code:String;
 		var wrap:String = _repeat ? "wrap" : "clamp";
 		var filter:String;
@@ -124,10 +122,8 @@ class DistanceMapPass extends MaterialPassBase
 			{
 				case Context3DTextureFormat.COMPRESSED:
 					format = "dxt1,";
-					break;
 				case "compressedAlpha":
 					format = "dxt5,";
-					break;
 				default:
 					format = "";
 			}

@@ -18,7 +18,7 @@ class RenderTexture extends Texture2DBase
 		setSize(width, height);
 	}
 
-	override private inline function set_width(value:Int):Int
+	override private function set_width(value:Int):Int
 	{
 		if (value == _width)
 			return _width;
@@ -30,7 +30,7 @@ class RenderTexture extends Texture2DBase
 		setSize(value, _height);
 	}
 
-	override private inline function set_height(value:Int):Int
+	override private function set_height(value:Int):Int
 	{
 		if (value == _height)
 			return _height;

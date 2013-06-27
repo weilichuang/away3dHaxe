@@ -12,9 +12,9 @@ class Matrix3DUtils
 	/**
 	 * A reference to a Vector to be used as a temporary raw data container, to prevent object creation.
 	 */
-	public static inline var RAW_DATA_CONTAINER:Vector<Float> = new Vector<Float>(16);
+	public static var RAW_DATA_CONTAINER:Vector<Float> = new Vector<Float>(16);
 
-	public static inline var CALCULATION_MATRIX:Matrix3D = new Matrix3D();
+	public static var CALCULATION_MATRIX:Matrix3D = new Matrix3D();
 
 	/**
 	* Fills the 3d matrix object with values representing the transformation made by the given quaternion.

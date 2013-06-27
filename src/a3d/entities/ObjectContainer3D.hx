@@ -77,28 +77,6 @@ class ObjectContainer3D extends Object3D implements IAsset
 	/** @private */
 	private var _ancestorsAllowMouseEnabled:Bool;
 	private var _isRoot:Bool;
-	
-	public var ancestorsAllowMouseEnabled(get, set):Bool;
-	private inline function get_ancestorsAllowMouseEnabled():Bool
-	{
-		return _ancestorsAllowMouseEnabled;
-	}
-	
-	private inline function set_ancestorsAllowMouseEnabled(value:Bool):Bool
-	{
-		return _ancestorsAllowMouseEnabled = value;
-	}
-	
-	public var isRoot(get, set):Bool;
-	private inline function get_isRoot():Bool
-	{
-		return _isRoot;
-	}
-	
-	private inline function set_isRoot(value:Bool):Bool
-	{
-		return _isRoot = value;
-	}
 
 	private var _scene:Scene3D;
 	private var _parent:ObjectContainer3D;
@@ -124,6 +102,36 @@ class ObjectContainer3D extends Object3D implements IAsset
 	// visibility passed on from parents
 
 	private var _ignoreTransform:Bool = false;
+	
+	/**
+	 * Creates a new ObjectContainer3D object.
+	 */
+	public function new()
+	{
+		super();
+	}
+	
+	public var ancestorsAllowMouseEnabled(get, set):Bool;
+	private inline function get_ancestorsAllowMouseEnabled():Bool
+	{
+		return _ancestorsAllowMouseEnabled;
+	}
+	
+	private inline function set_ancestorsAllowMouseEnabled(value:Bool):Bool
+	{
+		return _ancestorsAllowMouseEnabled = value;
+	}
+	
+	public var isRoot(get, set):Bool;
+	private inline function get_isRoot():Bool
+	{
+		return _isRoot;
+	}
+	
+	private inline function set_isRoot(value:Bool):Bool
+	{
+		return _isRoot = value;
+	}
 
 	/**
 	 * Does not apply any transformations to this object. Allows static objects to be described in world coordinates without any matrix calculations.
@@ -610,15 +618,6 @@ class ObjectContainer3D extends Object3D implements IAsset
 	{
 		return _parent;
 	}
-
-	/**
-	 * Creates a new ObjectContainer3D object.
-	 */
-	public function new()
-	{
-		super();
-	}
-
 
 	public function contains(child:ObjectContainer3D):Bool
 	{

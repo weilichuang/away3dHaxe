@@ -24,7 +24,7 @@ class TextureUtils
 		return value ? ((value & -value) == value) : false;
 	}
 
-	public static function getBestPowerOf2(value:UInt):Float
+	public static function getBestPowerOf2(value:UInt):Int
 	{
 		var p:UInt = 1;
 

@@ -60,6 +60,8 @@ class SubGeometry extends SubGeometryBase implements ISubGeometry
 	 */
 	public function new()
 	{
+		super();
+		
 		_verticesInvalid = new Vector<Bool>(8, true);
 		_uvsInvalid = new Vector<Bool>(8, true);
 		_secondaryUvsInvalid = new Vector<Bool>(8, true);
@@ -303,12 +305,12 @@ class SubGeometry extends SubGeometryBase implements ISubGeometry
 	/**
 	 * The raw vertex position data.
 	 */
-	override private inline function get_vertexData():Vector<Float>
+	override private function get_vertexData():Vector<Float>
 	{
 		return _vertexData;
 	}
 
-	override private inline function get_vertexPositionData():Vector<Float>
+	override private function get_vertexPositionData():Vector<Float>
 	{
 		return _vertexData;
 	}
@@ -340,7 +342,7 @@ class SubGeometry extends SubGeometryBase implements ISubGeometry
 	/**
 	 * The raw texture coordinate data.
 	 */
-	override private inline function get_UVData():Vector<Float>
+	override private function get_UVData():Vector<Float>
 	{
 		if (_uvsDirty && _autoGenerateUVs)
 			_uvs = updateDummyUVs(_uvs);
@@ -375,7 +377,7 @@ class SubGeometry extends SubGeometryBase implements ISubGeometry
 	/**
 	 * The raw vertex normal data.
 	 */
-	override private inline function get_vertexNormalData():Vector<Float>
+	override private function get_vertexNormalData():Vector<Float>
 	{
 		if (_autoDeriveVertexNormals && _vertexNormalsDirty)
 			_vertexNormals = updateVertexNormals(_vertexNormals);
@@ -400,7 +402,7 @@ class SubGeometry extends SubGeometryBase implements ISubGeometry
 	 *
 	 * @private
 	 */
-	override private inline function get_vertexTangentData():Vector<Float>
+	override private function get_vertexTangentData():Vector<Float>
 	{
 		if (_autoDeriveVertexTangents && _vertexTangentsDirty)
 			_vertexTangents = updateVertexTangents(_vertexTangents);
@@ -484,22 +486,22 @@ class SubGeometry extends SubGeometryBase implements ISubGeometry
 		}
 	}
 
-	override private inline function get_vertexStride():UInt
+	override private function get_vertexStride():UInt
 	{
 		return 3;
 	}
 
-	override private inline function get_vertexTangentStride():UInt
+	override private function get_vertexTangentStride():UInt
 	{
 		return 3;
 	}
 
-	override private inline function get_vertexNormalStride():UInt
+	override private function get_vertexNormalStride():UInt
 	{
 		return 3;
 	}
 
-	override private inline function get_UVStride():UInt
+	override private function get_UVStride():UInt
 	{
 		return 2;
 	}
@@ -509,22 +511,22 @@ class SubGeometry extends SubGeometryBase implements ISubGeometry
 		return 2;
 	}
 
-	override private inline function get_vertexOffset():Int
+	override private function get_vertexOffset():Int
 	{
 		return 0;
 	}
 
-	override private inline function get_vertexNormalOffset():Int
+	override private function get_vertexNormalOffset():Int
 	{
 		return 0;
 	}
 
-	override private inline function get_vertexTangentOffset():Int
+	override private function get_vertexTangentOffset():Int
 	{
 		return 0;
 	}
 
-	override private inline function get_UVOffset():Int
+	override private function get_UVOffset():Int
 	{
 		return 0;
 	}

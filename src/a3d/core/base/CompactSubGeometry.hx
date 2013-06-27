@@ -3,6 +3,7 @@ package a3d.core.base;
 import flash.display3D.Context3D;
 import flash.display3D.Context3DVertexBufferFormat;
 import flash.display3D.VertexBuffer3D;
+import flash.errors.Error;
 import flash.geom.Matrix3D;
 import flash.Vector;
 
@@ -28,6 +29,8 @@ class CompactSubGeometry extends SubGeometryBase implements ISubGeometry
 
 	public function new()
 	{
+		super();
+		
 		_autoDeriveVertexNormals = false;
 		_autoDeriveVertexTangents = false;
 	}
@@ -57,7 +60,7 @@ class CompactSubGeometry extends SubGeometryBase implements ISubGeometry
 		_isolatedVertexPositionDataDirty = true;
 
 		_vertexData = data;
-		var numVertices:Int = _vertexData.length / 13;
+		var numVertices:Int = Std.int(_vertexData.length / 13);
 		if (numVertices != _numVertices)
 			disposeVertexBuffers(_vertexBuffer);
 		_numVertices = numVertices;
@@ -179,7 +182,7 @@ class CompactSubGeometry extends SubGeometryBase implements ISubGeometry
 		_activeContext = _bufferContext[contextIndex];
 	}
 
-	override private inline function get_vertexData():Vector<Float>
+	override private function get_vertexData():Vector<Float>
 	{
 		if (_autoDeriveVertexNormals && _vertexNormalsDirty)
 			_vertexData = updateVertexNormals(_vertexData);
@@ -205,7 +208,7 @@ class CompactSubGeometry extends SubGeometryBase implements ISubGeometry
 		return super.updateVertexTangents(target);
 	}
 
-	override private inline function get_vertexNormalData():Vector<Float>
+	override private function get_vertexNormalData():Vector<Float>
 	{
 		if (_autoDeriveVertexNormals && _vertexNormalsDirty)
 			_vertexData = updateVertexNormals(_vertexData);
@@ -213,14 +216,14 @@ class CompactSubGeometry extends SubGeometryBase implements ISubGeometry
 		return _vertexData;
 	}
 
-	override private inline function get_vertexTangentData():Vector<Float>
+	override private function get_vertexTangentData():Vector<Float>
 	{
 		if (_autoDeriveVertexTangents && _vertexTangentsDirty)
 			_vertexData = updateVertexTangents(_vertexData);
 		return _vertexData;
 	}
 
-	override private inline function get_UVData():Vector<Float>
+	override private function get_UVData():Vector<Float>
 	{
 		if (_uvsDirty && _autoGenerateUVs)
 		{
@@ -258,22 +261,22 @@ class CompactSubGeometry extends SubGeometryBase implements ISubGeometry
 		invalidateBuffers(_vertexDataInvalid);
 	}
 
-	override private inline function get_vertexStride():UInt
+	override private function get_vertexStride():UInt
 	{
 		return 13;
 	}
 
-	override private inline function get_vertexNormalStride():UInt
+	override private function get_vertexNormalStride():UInt
 	{
 		return 13;
 	}
 
-	override private inline function get_vertexTangentStride():UInt
+	override private function get_vertexTangentStride():UInt
 	{
 		return 13;
 	}
 
-	override private inline function get_UVStride():UInt
+	override private function get_UVStride():UInt
 	{
 		return 13;
 	}
@@ -284,22 +287,22 @@ class CompactSubGeometry extends SubGeometryBase implements ISubGeometry
 		return 13;
 	}
 
-	override private inline function get_vertexOffset():Int
+	override private function get_vertexOffset():Int
 	{
 		return 0;
 	}
 
-	override private inline function get_vertexNormalOffset():Int
+	override private function get_vertexNormalOffset():Int
 	{
 		return 3;
 	}
 
-	override private inline function get_vertexTangentOffset():Int
+	override private function get_vertexTangentOffset():Int
 	{
 		return 6;
 	}
 
-	override private inline function get_UVOffset():Int
+	override private function get_UVOffset():Int
 	{
 		return 9;
 	}
@@ -346,9 +349,9 @@ class CompactSubGeometry extends SubGeometryBase implements ISubGeometry
 		return clone;
 	}
 
-	override private inline function get_vertexPositionData():Vector<Float>
+	override private function get_vertexPositionData():Vector<Float>
 	{
-		if (_isolatedVertexPositionDataDirty || !_isolatedVertexPositionData)
+		if (_isolatedVertexPositionDataDirty || _isolatedVertexPositionData == null)
 		{
 			_isolatedVertexPositionData = stripBuffer(0, 3);
 			_isolatedVertexPositionDataDirty = false;
@@ -400,7 +403,7 @@ class CompactSubGeometry extends SubGeometryBase implements ISubGeometry
 			data[index++] = verts[v++];
 			data[index++] = verts[v++];
 
-			if (normals && normals.length)
+			if (normals != null && normals.length > 0)
 			{
 				data[index++] = normals[n++];
 				data[index++] = normals[n++];
@@ -413,7 +416,7 @@ class CompactSubGeometry extends SubGeometryBase implements ISubGeometry
 				data[index++] = 0;
 			}
 
-			if (tangents && tangents.length)
+			if (tangents != null && tangents.length > 0)
 			{
 				data[index++] = tangents[t++];
 				data[index++] = tangents[t++];
@@ -426,7 +429,7 @@ class CompactSubGeometry extends SubGeometryBase implements ISubGeometry
 				data[index++] = 0;
 			}
 
-			if (uvs && uvs.length)
+			if (uvs != null && uvs.length > 0)
 			{
 				data[index++] = uvs[u];
 				data[index++] = uvs[u + 1];
@@ -443,9 +446,9 @@ class CompactSubGeometry extends SubGeometryBase implements ISubGeometry
 			}
 		}
 
-		autoDeriveVertexNormals = !(normals && normals.length);
-		autoDeriveVertexTangents = !(tangents && tangents.length);
-		autoGenerateDummyUVs = !(uvs && uvs.length);
+		autoDeriveVertexNormals = !(normals != null && normals.length > 0);
+		autoDeriveVertexTangents = !(tangents  != null && tangents.length > 0);
+		autoGenerateDummyUVs = !(uvs != null && uvs.length > 0);
 		updateData(data);
 	}
 }

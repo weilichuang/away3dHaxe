@@ -65,7 +65,7 @@ class Sprite3D extends Entity implements IRenderable
 	}
 
 
-	override private inline function set_pickingCollider(value:IPickingCollider):Void
+	override private function set_pickingCollider(value:IPickingCollider):Void
 	{
 		super.pickingCollider = value;
 		if (value)

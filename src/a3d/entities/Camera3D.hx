@@ -1,5 +1,6 @@
 package a3d.entities;
 
+import flash.errors.Error;
 import flash.geom.Matrix3D;
 import flash.geom.Vector3D;
 import flash.Vector;
@@ -24,11 +25,11 @@ import a3d.math.Plane3D;
  */
 class Camera3D extends Entity
 {
-	private var _viewProjection:Matrix3D = new Matrix3D();
-	private var _viewProjectionDirty:Bool = true;
+	private var _viewProjection:Matrix3D;
+	private var _viewProjectionDirty:Bool;
 	private var _lens:LensBase;
 	private var _frustumPlanes:Vector<Plane3D>;
-	private var _frustumPlanesDirty:Bool = true;
+	private var _frustumPlanesDirty:Bool;
 
 	/**
 	 * Creates a new Camera3D object
@@ -41,14 +42,17 @@ class Camera3D extends Entity
 		super();
 
 		//setup default lens
-		_lens = lens || new PerspectiveLens();
+		_lens = lens != null ? lens : new PerspectiveLens();
 		_lens.addEventListener(LensEvent.MATRIX_CHANGED, onLensMatrixChanged);
+		
+		_viewProjection = new Matrix3D();
+		_viewProjectionDirty = true;
 
 		//setup default frustum planes
 		_frustumPlanes = new Vector<Plane3D>(6, true);
-
 		for (i in 0...6)
 			_frustumPlanes[i] = new Plane3D();
+		_frustumPlanesDirty = true;
 
 		z = -1000;
 	}
@@ -58,7 +62,7 @@ class Camera3D extends Entity
 		return new NullBounds();
 	}
 
-	override private inline function get_assetType():String
+	override private function get_assetType():String
 	{
 		return AssetType.CAMERA;
 	}
@@ -74,6 +78,7 @@ class Camera3D extends Entity
 	/**
 	 *
 	 */
+	public var frustumPlanes(get, null):Vector<Plane3D>;
 	private inline function get_frustumPlanes():Vector<Plane3D>
 	{
 		if (_frustumPlanesDirty)
@@ -213,15 +218,16 @@ class Camera3D extends Entity
 	/**
 	 * The lens used by the camera to perform the projection;
 	 */
+	public var lens(get, set):LensBase;
 	private inline function get_lens():LensBase
 	{
 		return _lens;
 	}
 
-	private inline function set_lens(value:LensBase):Void
+	private inline function set_lens(value:LensBase):LensBase
 	{
 		if (_lens == value)
-			return;
+			return _lens;
 
 		if (value == null)
 			throw new Error("Lens cannot be null!");
@@ -233,11 +239,14 @@ class Camera3D extends Entity
 		_lens.addEventListener(LensEvent.MATRIX_CHANGED, onLensMatrixChanged);
 
 		dispatchEvent(new CameraEvent(CameraEvent.LENS_CHANGED, this));
+		
+		return _lens;
 	}
 
 	/**
 	 * The view projection matrix of the camera.
 	 */
+	public var viewProjection(get, null):Matrix3D;
 	private inline function get_viewProjection():Matrix3D
 	{
 		if (_viewProjectionDirty)

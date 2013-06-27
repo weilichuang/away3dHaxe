@@ -15,8 +15,10 @@ import flash.display3D.Context3D;
 import flash.display3D.Context3DBlendFactor;
 import flash.display3D.Context3DCompareMode;
 import flash.display3D.Context3DTriangleFace;
+import flash.display3D.Context3DVertexBufferFormat;
 import flash.display3D.Program3D;
 import flash.display3D.textures.TextureBase;
+import flash.errors.ArgumentError;
 import flash.events.Event;
 import flash.events.EventDispatcher;
 import flash.geom.Matrix3D;
@@ -56,21 +58,21 @@ class MaterialPassBase extends EventDispatcher
 	private var _smooth:Bool = true;
 	private var _repeat:Bool = false;
 	private var _mipmap:Bool = true;
-	private var _depthCompareMode:String;
+	private var _depthCompareMode:Context3DCompareMode;
 
-	private var _blendFactorSource:String;
-	private var _blendFactorDest:String;
+	private var _blendFactorSource:Context3DBlendFactor;
+	private var _blendFactorDest:Context3DBlendFactor;
 
 	private var _enableBlending:Bool;
 
 	private var _bothSides:Bool;
 
 	private var _lightPicker:LightPickerBase;
-	private var _animatableAttributes;
-	private var _animationTargetRegisters;
+	private var _animatableAttributes:Vector<String>;
+	private var _animationTargetRegisters:Vector<String>;
 	private var _shadedTarget:String;
 
-	private var _defaultCulling:String;
+	private var _defaultCulling:Context3DTriangleFace;
 
 	private var _renderToTexture:Bool;
 
@@ -97,6 +99,8 @@ class MaterialPassBase extends EventDispatcher
 	 */
 	public function new(renderToTexture:Bool = false)
 	{
+		super();
+		
 		_renderToTexture = renderToTexture;
 		_numUsedStreams = 1;
 		_numUsedVertexConstants = 5;
@@ -110,8 +114,8 @@ class MaterialPassBase extends EventDispatcher
 		_blendFactorSource = Context3DBlendFactor.ONE;
 		_blendFactorDest = Context3DBlendFactor.ZERO;
 
-		_animatableAttributes = Vector<String>(["va0"]);
-		_animationTargetRegisters = Vector<String>(["vt0"]);
+		_animatableAttributes = Vector.ofArray(["va0"]);
+		_animationTargetRegisters = Vector.ofArray(["vt0"]);
 		_shadedTarget = "ft0";
 
 		_defaultCulling = Context3DTriangleFace.BACK;
@@ -232,14 +236,15 @@ class MaterialPassBase extends EventDispatcher
 		_bothSides = value;
 	}
 
-	private inline function get_depthCompareMode():String
+	public var depthCompareMode(get, set):Context3DCompareMode;
+	private inline function get_depthCompareMode():Context3DCompareMode
 	{
 		return _depthCompareMode;
 	}
 
-	private inline function set_depthCompareMode(value:String):Void
+	private inline function set_depthCompareMode(value:Context3DCompareMode):Context3DCompareMode
 	{
-		_depthCompareMode = value;
+		return _depthCompareMode = value;
 	}
 
 	/**
@@ -353,7 +358,7 @@ class MaterialPassBase extends EventDispatcher
 		throw new AbstractMethodError();
 	}
 
-	public function setBlendMode(value:String):Void
+	public function setBlendMode(value:BlendMode):Void
 	{
 		switch (value)
 		{
@@ -399,7 +404,8 @@ class MaterialPassBase extends EventDispatcher
 		if (_enableBlending)
 			context.setBlendFactors(_blendFactorSource, _blendFactorDest);
 
-		if (_context3Ds[contextIndex] != context || !_program3Ds[contextIndex])
+		if (_context3Ds[contextIndex] != context || 
+			_program3Ds[contextIndex] == null)
 		{
 			_context3Ds[contextIndex] = context;
 			updateProgram(stage3DProxy);
@@ -445,7 +451,7 @@ class MaterialPassBase extends EventDispatcher
 		_previousUsedStreams[index] = _numUsedStreams;
 		_previousUsedTexs[index] = _numUsedTextures;
 
-		if (_animationSet && !_animationSet.usesCPU)
+		if (_animationSet != null && !_animationSet.usesCPU)
 			_animationSet.deactivate(stage3DProxy, this);
 
 		if (_renderToTexture)
@@ -483,7 +489,7 @@ class MaterialPassBase extends EventDispatcher
 		var fragmentAnimatorCode:String = "";
 		var vertexCode:String = getVertexCode();
 
-		if (_animationSet && !_animationSet.usesCPU)
+		if (_animationSet != null && !_animationSet.usesCPU)
 		{
 			animatorCode = _animationSet.getAGALVertexCode(this, _animatableAttributes, _animationTargetRegisters, stage3DProxy.profile);
 			if (_needFragmentAnimation)
@@ -523,14 +529,19 @@ class MaterialPassBase extends EventDispatcher
 		return _lightPicker;
 	}
 
-	private inline function set_lightPicker(value:LightPickerBase):Void
+	private inline function set_lightPicker(value:LightPickerBase):LightPickerBase
 	{
-		if (_lightPicker)
+		if (_lightPicker != null)
 			_lightPicker.removeEventListener(Event.CHANGE, onLightsChange);
+			
 		_lightPicker = value;
-		if (_lightPicker)
+		
+		if (_lightPicker != null)
 			_lightPicker.addEventListener(Event.CHANGE, onLightsChange);
+			
 		updateLights();
+		
+		return _lightPicker;
 	}
 
 	private function onLightsChange(event:Event):Void

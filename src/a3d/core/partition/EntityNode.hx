@@ -42,6 +42,7 @@ class EntityNode extends NodeBase
 	/**
 	 * The entity contained in this leaf node.
 	 */
+	public var entity(get, null):Entity;
 	private inline function get_entity():Entity
 	{
 		return _entity;
@@ -60,7 +61,7 @@ class EntityNode extends NodeBase
 	 */
 	public function removeFromParent():Void
 	{
-		if (_parent)
+		if (_parent != null)
 			_parent.removeNode(this);
 
 		_parent = null;

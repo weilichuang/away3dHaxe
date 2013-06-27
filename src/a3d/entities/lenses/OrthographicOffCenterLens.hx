@@ -28,49 +28,56 @@ class OrthographicOffCenterLens extends LensBase
 		_maxY = maxY;
 	}
 
-
+	public var minX(set, set):Float;
 	private inline function get_minX():Float
 	{
 		return _minX;
 	}
 
-	private inline function set_minX(value:Float):Void
+	private inline function set_minX(value:Float):Float
 	{
 		_minX = value;
 		invalidateMatrix();
+		return _minX;
 	}
 
+	public var maxX(set, set):Float;
 	private inline function get_maxX():Float
 	{
 		return _maxX;
 	}
 
-	private inline function set_maxX(value:Float):Void
+	private inline function set_maxX(value:Float):Float
 	{
 		_maxX = value;
 		invalidateMatrix();
+		return _maxX;
 	}
 
+	public var minY(set, set):Float;
 	private inline function get_minY():Float
 	{
 		return _minY;
 	}
 
-	private inline function set_minY(value:Float):Void
+	private inline function set_minY(value:Float):Float
 	{
 		_minY = value;
 		invalidateMatrix();
+		return _minY;
 	}
 
+	public var maxY(set, set):Float;
 	private inline function get_maxY():Float
 	{
 		return _maxY;
 	}
 
-	private inline function set_maxY(value:Float):Void
+	private inline function set_maxY(value:Float):Float
 	{
 		_maxY = value;
 		invalidateMatrix();
+		return _maxY;
 	}
 
 	/**

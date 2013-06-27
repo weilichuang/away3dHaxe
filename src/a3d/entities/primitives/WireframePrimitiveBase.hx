@@ -26,30 +26,36 @@ class WireframePrimitiveBase extends SegmentSet
 		mouseEnabled = mouseChildren = false;
 	}
 
+	public var color(get, set):UInt;
 	private inline function get_color():UInt
 	{
 		return _color;
 	}
 
-	private inline function set_color(value:UInt):Void
+	private inline function set_color(value:UInt):UInt
 	{
 		_color = value;
 
 		for (i in 0..._segments.length)
 			_segments[i].startColor = _segments[i].endColor = value;
+		
+		return _color;
 	}
 
+	public var thickness(get, set):Float;
 	private inline function get_thickness():Float
 	{
 		return _thickness;
 	}
 
-	private inline function set_thickness(value:Float):Void
+	private inline function set_thickness(value:Float):Float
 	{
 		_thickness = value;
 
 		for (i in 0..._segments.length)
 			_segments[i].thickness = _segments[i].thickness = value;
+		
+		return _thickness;
 	}
 
 	override public function removeAllSegments():Void
@@ -57,7 +63,7 @@ class WireframePrimitiveBase extends SegmentSet
 		super.removeAllSegments();
 	}
 
-	override private inline function get_bounds():BoundingVolumeBase
+	override private function get_bounds():BoundingVolumeBase
 	{
 		if (_geomDirty)
 			updateGeometry();

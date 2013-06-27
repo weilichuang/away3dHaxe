@@ -4,6 +4,7 @@ import a3d.utils.VectorUtil;
 import flash.display3D.Context3D;
 import flash.display3D.IndexBuffer3D;
 import flash.display3D.VertexBuffer3D;
+import flash.errors.Error;
 import flash.events.Event;
 import flash.events.EventDispatcher;
 import flash.geom.Rectangle;
@@ -28,7 +29,7 @@ class RTTBufferManager extends EventDispatcher
 		var rttb:RTTBufferManager = _instances.get(stage3DProxy);
 		if (rttb == null)
 		{
-			rttb = new RTTBufferManager(new SingletonEnforcer(), stage3DProxy);
+			rttb = new RTTBufferManager(stage3DProxy);
 			_instances.set(stage3DProxy, rttb);
 		}
 		return rttb;
@@ -51,6 +52,8 @@ class RTTBufferManager extends EventDispatcher
 
 	public function new(stage3DProxy:Stage3DProxy)
 	{
+		super();
+		
 		_renderToTextureRect = new Rectangle();
 
 		_stage3DProxy = stage3DProxy;
@@ -88,7 +91,7 @@ class RTTBufferManager extends EventDispatcher
 
 		if (_textureWidth > _viewWidth)
 		{
-			_renderToTextureRect.x = uint((_textureWidth - _viewWidth) * .5);
+			_renderToTextureRect.x = Std.int((_textureWidth - _viewWidth) * .5);
 			_renderToTextureRect.width = _viewWidth;
 		}
 		else
@@ -117,7 +120,7 @@ class RTTBufferManager extends EventDispatcher
 
 		if (_textureHeight > _viewHeight)
 		{
-			_renderToTextureRect.y = uint((_textureHeight - _viewHeight) * .5);
+			_renderToTextureRect.y = Std.int((_textureHeight - _viewHeight) * .5);
 			_renderToTextureRect.height = _viewHeight;
 		}
 		else

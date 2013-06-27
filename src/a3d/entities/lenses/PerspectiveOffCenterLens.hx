@@ -37,60 +37,72 @@ class PerspectiveOffCenterLens extends LensBase
 		this.maxAngleY = maxAngleY;
 	}
 
+	public var minAngleX(set, set):Float;
 	private inline function get_minAngleX():Float
 	{
 		return _minAngleX;
 	}
 
-	private inline function set_minAngleX(value:Float):Void
+	private inline function set_minAngleX(value:Float):Float
 	{
 		_minAngleX = value;
 
 		_tanMinX = Math.tan(_minAngleX * Math.PI / 180);
 
 		invalidateMatrix();
+		
+		return _minAngleX;
 	}
 
+	public var maxAngleX(set, set):Float;
 	private inline function get_maxAngleX():Float
 	{
 		return _maxAngleX;
 	}
 
-	private inline function set_maxAngleX(value:Float):Void
+	private inline function set_maxAngleX(value:Float):Float
 	{
 		_maxAngleX = value;
 
 		_tanMaxX = Math.tan(_maxAngleX * Math.PI / 180);
 
 		invalidateMatrix();
+		
+		return _maxAngleX;
 	}
 
+	public var minAngleY(set, set):Float;
 	private inline function get_minAngleY():Float
 	{
 		return _minAngleY;
 	}
 
-	private inline function set_minAngleY(value:Float):Void
+	private inline function set_minAngleY(value:Float):Float
 	{
 		_minAngleY = value;
 
 		_tanMinY = Math.tan(_minAngleY * Math.PI / 180);
 
 		invalidateMatrix();
+		
+		return _minAngleY;
 	}
 
+	public var maxAngleY(set, set):Float;
 	private inline function get_maxAngleY():Float
 	{
 		return _maxAngleY;
 	}
 
-	private inline function set_maxAngleY(value:Float):Void
+	private inline function set_maxAngleY(value:Float):Float
 	{
 		_maxAngleY = value;
 
 		_tanMaxY = Math.tan(_maxAngleY * Math.PI / 180);
 
 		invalidateMatrix();
+		
+		return _maxAngleY;
 	}
 
 	/**

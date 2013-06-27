@@ -328,7 +328,7 @@ class LinearExtrude extends Mesh
 	/**
 	 * @inheritDoc
 	 */
-	override private inline function get_bounds():BoundingVolumeBase
+	override private function get_bounds():BoundingVolumeBase
 	{
 		if (_geomDirty)
 			buildExtrude();
@@ -339,7 +339,7 @@ class LinearExtrude extends Mesh
 	/**
 	 * @inheritDoc
 	 */
-	override private inline function get_geometry():Geometry
+	override private function get_geometry():Geometry
 	{
 		if (_geomDirty)
 			buildExtrude();
@@ -350,7 +350,7 @@ class LinearExtrude extends Mesh
 	/**
 	 * @inheritDoc
 	 */
-	override private inline function get_subMeshes():Vector<SubMesh>
+	override private function get_subMeshes():Vector<SubMesh>
 	{
 		if (_geomDirty)
 			buildExtrude();

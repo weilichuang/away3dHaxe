@@ -3,6 +3,7 @@ package a3d.animators;
 import a3d.animators.nodes.AnimationNodeBase;
 import a3d.core.managers.Stage3DProxy;
 import a3d.materials.passes.MaterialPassBase;
+import flash.display3D.Context3DProfile;
 import flash.Vector;
 
 /**
@@ -62,7 +63,7 @@ interface IAnimationSet
 	function getAGALVertexCode(pass:MaterialPassBase, 
 								sourceRegisters:Vector<String>, 
 								targetRegisters:Vector<String>, 
-								profile:String):String;
+								profile:Context3DProfile):String;
 
 	/**
 	 * Generates the AGAL Fragment code for the animation, tailored to the material pass's requirements.
@@ -72,7 +73,7 @@ interface IAnimationSet
 	 *
 	 * @private
 	 */
-	function getAGALFragmentCode(pass:MaterialPassBase, shadedTarget:String, profile:String):String;
+	function getAGALFragmentCode(pass:MaterialPassBase, shadedTarget:String, profile:Context3DProfile):String;
 
 	/**
 	 * Generates the extra AGAL Fragment code for the animation when UVs are required, tailored to the material pass's requirements.
