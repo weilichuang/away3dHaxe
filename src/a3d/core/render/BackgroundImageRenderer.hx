@@ -1,5 +1,6 @@
 package a3d.core.render;
 
+import a3d.utils.VectorUtil;
 import com.adobe.utils.AGALMiniAssembler;
 import flash.Vector;
 
@@ -29,23 +30,26 @@ class BackgroundImageRenderer
 		this.stage3DProxy = stage3DProxy;
 	}
 
+	public var stage3DProxy(get, set):Stage3DProxy;
 	private inline function get_stage3DProxy():Stage3DProxy
 	{
 		return _stage3DProxy;
 	}
 
-	private inline function set_stage3DProxy(value:Stage3DProxy):Void
+	private inline function set_stage3DProxy(value:Stage3DProxy):Stage3DProxy
 	{
 		if (value == _stage3DProxy)
-			return;
+			return _stage3DProxy;
 		_stage3DProxy = value;
 
 		removeBuffers();
+		
+		return _stage3DProxy;
 	}
 
 	private function removeBuffers():Void
 	{
-		if (_vertexBuffer)
+		if (_vertexBuffer != null)
 		{
 			_vertexBuffer.dispose();
 			_vertexBuffer = null;
@@ -116,25 +120,26 @@ class BackgroundImageRenderer
 		_vertexBuffer = context.createVertexBuffer(4, 4);
 		_program3d = context.createProgram();
 		_indexBuffer = context.createIndexBuffer(6);
-		_indexBuffer.uploadFromVector(Vector<UInt>([2, 1, 0, 3, 2, 0]), 0, 6);
+		_indexBuffer.uploadFromVector(VectorUtil.toUIntVector([2, 1, 0, 3, 2, 0]), 0, 6);
 		_program3d.upload(new AGALMiniAssembler(Debug.active).assemble(Context3DProgramType.VERTEX, getVertexCode()),
 			new AGALMiniAssembler(Debug.active).assemble(Context3DProgramType.FRAGMENT, getFragmentCode())
 			);
 
-		_vertexBuffer.uploadFromVector(Vector<Float>([-1, -1, 0, 1,
+		_vertexBuffer.uploadFromVector(Vector.ofArray([-1., -1, 0, 1,
 			1, -1, 1, 1,
 			1, 1, 1, 0,
 			-1, 1, 0, 0
 			]), 0, 4);
 	}
 
+	public var texture(get, set):Texture2DBase;
 	private inline function get_texture():Texture2DBase
 	{
 		return _texture;
 	}
 
-	private inline function set_texture(value:Texture2DBase):Void
+	private inline function set_texture(value:Texture2DBase):Texture2DBase
 	{
-		_texture = value;
+		return _texture = value;
 	}
 }

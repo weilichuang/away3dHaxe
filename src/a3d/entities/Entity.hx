@@ -95,7 +95,7 @@ class Entity extends ObjectContainer3D
 	/**
 	 * Returns a unique picking collision value object for the entity.
 	 */
-	public var pickingCollisionVO(get,set):Bool;
+	public var pickingCollisionVO(get,set):PickingCollisionVO;
 	private inline function get_pickingCollisionVO():PickingCollisionVO
 	{
 		if (_pickingCollisionVO == null)

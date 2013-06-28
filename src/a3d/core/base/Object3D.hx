@@ -351,7 +351,7 @@ class Object3D extends NamedAssetBase
 	public var rotationX(get, set):Float;
 	private inline function get_rotationX():Float
 	{
-		return _rotationX * MathUtil.RADIANS_TO_DEGREES;
+		return _rotationX * MathUtil.RADIANS_TO_DEGREES();
 	}
 
 	private inline function set_rotationX(val:Float):Float
@@ -359,7 +359,7 @@ class Object3D extends NamedAssetBase
 		if (rotationX == val)
 			return rotationX;
 
-		_rotationX = val * MathUtil.DEGREES_TO_RADIANS;
+		_rotationX = val * MathUtil.DEGREES_TO_RADIANS();
 
 		invalidateRotation();
 		
@@ -372,7 +372,7 @@ class Object3D extends NamedAssetBase
 	public var rotationY(get, set):Float;
 	private inline function get_rotationY():Float
 	{
-		return _rotationY * MathUtil.RADIANS_TO_DEGREES;
+		return _rotationY * MathUtil.RADIANS_TO_DEGREES();
 	}
 
 	private inline function set_rotationY(val:Float):Float
@@ -380,7 +380,7 @@ class Object3D extends NamedAssetBase
 		if (rotationY == val)
 			return rotationY;
 
-		_rotationY = val * MathUtil.DEGREES_TO_RADIANS;
+		_rotationY = val * MathUtil.DEGREES_TO_RADIANS();
 
 		invalidateRotation();
 		
@@ -393,7 +393,7 @@ class Object3D extends NamedAssetBase
 	public var rotationZ(get, set):Float;
 	private inline function get_rotationZ():Float
 	{
-		return _rotationZ * MathUtil.RADIANS_TO_DEGREES;
+		return _rotationZ * MathUtil.RADIANS_TO_DEGREES();
 	}
 
 	private inline function set_rotationZ(val:Float):Float
@@ -401,7 +401,7 @@ class Object3D extends NamedAssetBase
 		if (rotationZ == val)
 			return rotationZ;
 
-		_rotationZ = val * MathUtil.DEGREES_TO_RADIANS;
+		_rotationZ = val * MathUtil.DEGREES_TO_RADIANS();
 
 		invalidateRotation();
 		
@@ -477,18 +477,18 @@ class Object3D extends NamedAssetBase
 	public var eulers(get, set):Vector3D;
 	private inline function get_eulers():Vector3D
 	{
-		_eulers.x = _rotationX * MathUtil.RADIANS_TO_DEGREES;
-		_eulers.y = _rotationY * MathUtil.RADIANS_TO_DEGREES;
-		_eulers.z = _rotationZ * MathUtil.RADIANS_TO_DEGREES;
+		_eulers.x = _rotationX * MathUtil.RADIANS_TO_DEGREES();
+		_eulers.y = _rotationY * MathUtil.RADIANS_TO_DEGREES();
+		_eulers.z = _rotationZ * MathUtil.RADIANS_TO_DEGREES();
 
 		return _eulers;
 	}
 
 	private inline function set_eulers(value:Vector3D):Vector3D
 	{
-		_rotationX = value.x * MathUtil.DEGREES_TO_RADIANS;
-		_rotationY = value.y * MathUtil.DEGREES_TO_RADIANS;
-		_rotationZ = value.z * MathUtil.DEGREES_TO_RADIANS;
+		_rotationX = value.x * MathUtil.DEGREES_TO_RADIANS();
+		_rotationY = value.y * MathUtil.DEGREES_TO_RADIANS();
+		_rotationZ = value.z * MathUtil.DEGREES_TO_RADIANS();
 
 		invalidateRotation();
 		
@@ -858,9 +858,9 @@ class Object3D extends NamedAssetBase
 	 */
 	public function rotateTo(ax:Float, ay:Float, az:Float):Void
 	{
-		_rotationX = ax * MathUtil.DEGREES_TO_RADIANS;
-		_rotationY = ay * MathUtil.DEGREES_TO_RADIANS;
-		_rotationZ = az * MathUtil.DEGREES_TO_RADIANS;
+		_rotationX = ax * MathUtil.DEGREES_TO_RADIANS();
+		_rotationY = ay * MathUtil.DEGREES_TO_RADIANS();
+		_rotationZ = az * MathUtil.DEGREES_TO_RADIANS();
 
 		invalidateRotation();
 	}

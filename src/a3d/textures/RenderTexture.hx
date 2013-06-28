@@ -2,6 +2,7 @@
 
 import a3d.materials.utils.MipmapGenerator;
 import a3d.tools.utils.TextureUtils;
+import flash.errors.Error;
 
 import flash.display.BitmapData;
 import flash.display3D.Context3D;
@@ -12,7 +13,7 @@ import flash.display3D.textures.TextureBase;
 
 class RenderTexture extends Texture2DBase
 {
-	public function new(width:Float, height:Float)
+	public function new(width:Int, height:Int)
 	{
 		super();
 		setSize(width, height);
@@ -28,6 +29,8 @@ class RenderTexture extends Texture2DBase
 
 		invalidateContent();
 		setSize(value, _height);
+		
+		return _width;
 	}
 
 	override private function set_height(value:Int):Int

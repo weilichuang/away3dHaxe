@@ -33,6 +33,7 @@ class ShadingMethodBase extends NamedAssetBase
 	 */
 	public function new() // needsNormals : Bool, needsView : Bool, needsGlobalPos : Bool
 	{
+		super();
 	}
 
 	public function initVO(vo:MethodVO):Void
@@ -45,19 +46,21 @@ class ShadingMethodBase extends NamedAssetBase
 
 	}
 
+	public var sharedRegisters(get,set):ShaderRegisterData;
 	private inline function get_sharedRegisters():ShaderRegisterData
 	{
 		return _sharedRegisters;
 	}
 
-	private inline function set_sharedRegisters(value:ShaderRegisterData):Void
+	private inline function set_sharedRegisters(value:ShaderRegisterData):ShaderRegisterData
 	{
-		_sharedRegisters = value;
+		return _sharedRegisters = value;
 	}
 
 	/**
 	 * Any passes required that render to a texture used by this method.
 	 */
+	public var passes(get,null):Vector<MaterialPassBase>;
 	private inline function get_passes():Vector<MaterialPassBase>
 	{
 		return _passes;
@@ -140,7 +143,12 @@ class ShadingMethodBase extends NamedAssetBase
 	private function getTex2DSampleCode(vo:MethodVO, targetReg:ShaderRegisterElement, inputReg:ShaderRegisterElement, texture:TextureProxyBase, uvReg:ShaderRegisterElement = null, forceWrap:String =
 		null):String
 	{
-		var wrap:String = forceWrap || (vo.repeatTextures ? "wrap" : "clamp");
+		if (forceWrap == null)
+		{
+			forceWrap = (vo.repeatTextures ? "wrap" : "clamp");
+		}
+		var wrap:String = forceWrap;
+		
 		var filter:String;
 		var format:String = getFormatStringForTexture(texture);
 		var enableMipMaps:Bool = vo.useMipmapping && texture.hasMipMaps;

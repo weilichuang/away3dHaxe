@@ -139,6 +139,7 @@ class LensBase extends EventDispatcher
 		return v;
 	}
 
+	public var unprojectionMatrix(get,null):Matrix3D;
 	private inline function get_unprojectionMatrix():Matrix3D
 	{
 		if (_unprojectionInvalid)

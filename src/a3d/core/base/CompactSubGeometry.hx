@@ -312,7 +312,7 @@ class CompactSubGeometry extends SubGeometryBase implements ISubGeometry
 		return 9;
 	}
 
-	public var secondaryUVOffset(get, null):UInt;
+	public var secondaryUVOffset(get, null):Int;
 	private inline function get_secondaryUVOffset():Int
 	{
 		return 11;

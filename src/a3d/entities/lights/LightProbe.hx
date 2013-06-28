@@ -1,5 +1,6 @@
 package a3d.entities.lights;
 
+import flash.errors.Error;
 import flash.geom.Matrix3D;
 
 
@@ -76,9 +77,6 @@ class LightProbe extends LightBase
 	override public function getObjectProjectionMatrix(renderable:IRenderable, target:Matrix3D = null):Matrix3D
 	{
 		// TODO: not used
-		renderable = renderable;
-		target = target;
-
 		throw new Error("Object projection matrices are not supported for LightProbe objects!");
 		return null;
 	}

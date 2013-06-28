@@ -94,7 +94,7 @@ class Mesh extends Entity implements IMaterialOwner implements IAsset
 
 	private inline function set_animator(value:IAnimator):IAnimator
 	{
-		if (_animator != nul)
+		if (_animator != null)
 			_animator.removeOwner(this);
 
 		_animator = value;
@@ -112,14 +112,14 @@ class Mesh extends Entity implements IMaterialOwner implements IAsset
 		{
 			subMesh = _subMeshes[i];
 			oldMaterial = subMesh.material;
-			if (oldMaterial != nul)
+			if (oldMaterial != null)
 			{
 				subMesh.material = null;
 				subMesh.material = oldMaterial;
 			}
 		}
 
-		if (_animator != nul)
+		if (_animator != null)
 			_animator.addOwner(this);
 			
 		return _animator;
@@ -298,7 +298,7 @@ class Mesh extends Entity implements IMaterialOwner implements IAsset
 		len = numChildren;
 		for (i in 0...len)
 		{
-			clone.addChild(ObjectContainer3D(getChildAt(i).clone()));
+			clone.addChild(Std.instance(getChildAt(i).clone(),ObjectContainer3D));
 		}
 
 		if (_animator != null)

@@ -39,7 +39,7 @@ class ShadowCasterCollector extends EntityCollector
 		// the test for material is temporary, you SHOULD be hammered with errors if you try to render anything without a material
 		var material:MaterialBase = renderable.material;
 		var entity:Entity = renderable.sourceEntity;
-		if (renderable.castsShadows && material)
+		if (renderable.castsShadows && material != null)
 		{
 			var item:RenderableListItem = _renderableListItemPool.getItem();
 			item.renderable = renderable;

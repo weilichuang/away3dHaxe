@@ -116,7 +116,6 @@ class SoundTransform3D
 	public var soundTransform(get, set):SoundTransform;
 	private inline function get_soundTransform():SoundTransform
 	{
-
 		return _soundTransform;
 	}
 

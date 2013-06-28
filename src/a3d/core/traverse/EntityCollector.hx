@@ -214,8 +214,8 @@ class EntityCollector extends PartitionTraverser
 	 */
 	override public function enterNode(node:NodeBase):Bool
 	{
-		var enter:Bool = collectionMark != node.collectionMark && node.isInFrustum(_cullPlanes, _numCullPlanes);
-		node.collectionMark = collectionMark;
+		var enter:Bool = PartitionTraverser.collectionMark != node.collectionMark && node.isInFrustum(_cullPlanes, _numCullPlanes);
+		node.collectionMark = PartitionTraverser.collectionMark;
 		return enter;
 	}
 

@@ -50,6 +50,7 @@ class DirectionalLight extends LightBase
 	/**
 	 * The direction of the light in scene coordinates.
 	 */
+	public var sceneDirection(get,null):Vector3D;
 	private inline function get_sceneDirection():Vector3D
 	{
 		if (_sceneTransformDirty)
@@ -60,22 +61,25 @@ class DirectionalLight extends LightBase
 	/**
 	 * The direction of the light.
 	 */
+	public var direction(get,set):Vector3D;
 	private inline function get_direction():Vector3D
 	{
 		return _direction;
 	}
 
-	private inline function set_direction(value:Vector3D):Void
+	private inline function set_direction(value:Vector3D):Vector3D
 	{
 		_direction = value;
 		//lookAt(new Vector3D(x + _direction.x, y + _direction.y, z + _direction.z));
-		if (!_tmpLookAt)
+		if (_tmpLookAt == null)
 			_tmpLookAt = new Vector3D();
 		_tmpLookAt.x = x + _direction.x;
 		_tmpLookAt.y = y + _direction.y;
 		_tmpLookAt.z = z + _direction.z;
 
 		lookAt(_tmpLookAt);
+		
+		return _direction;
 	}
 
 	/**
@@ -122,13 +126,13 @@ class DirectionalLight extends LightBase
 		m.copyFrom(renderable.sceneTransform);
 		m.append(inverseSceneTransform);
 
-		if (!_projAABBPoints)
+		if (_projAABBPoints == null)
 			_projAABBPoints = new Vector<Float>();
 		m.transformVectors(bounds.aabbPoints, _projAABBPoints);
 
-		var xMin:Float = Number.POSITIVE_INFINITY, xMax:Float = Math.NEGATIVE_INFINITY;
-		var yMin:Float = Number.POSITIVE_INFINITY, yMax:Float = Math.NEGATIVE_INFINITY;
-		var zMin:Float = Number.POSITIVE_INFINITY, zMax:Float = Math.NEGATIVE_INFINITY;
+		var xMin:Float = Math.POSITIVE_INFINITY, xMax:Float = Math.NEGATIVE_INFINITY;
+		var yMin:Float = Math.POSITIVE_INFINITY, yMax:Float = Math.NEGATIVE_INFINITY;
+		var zMin:Float = Math.POSITIVE_INFINITY, zMax:Float = Math.NEGATIVE_INFINITY;
 		var d:Float;
 		for (i in 0...24)
 		{

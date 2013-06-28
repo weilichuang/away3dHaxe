@@ -21,7 +21,7 @@ class TextureUtils
 
 	public static function isPowerOfTwo(value:Int):Bool
 	{
-		return value ? ((value & -value) == value) : false;
+		return value != 0 ? ((value & -value) == value) : false;
 	}
 
 	public static function getBestPowerOf2(value:UInt):Int

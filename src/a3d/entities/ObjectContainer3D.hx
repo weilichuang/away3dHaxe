@@ -1,5 +1,6 @@
 package a3d.entities;
 
+import flash.errors.Error;
 import flash.events.Event;
 import flash.geom.Matrix3D;
 import flash.geom.Vector3D;
@@ -80,7 +81,7 @@ class ObjectContainer3D extends Object3D implements IAsset
 
 	private var _scene:Scene3D;
 	private var _parent:ObjectContainer3D;
-	private var _sceneTransform:Matrix3D = new Matrix3D();
+	private var _sceneTransform:Matrix3D;
 	private var _sceneTransformDirty:Bool = true;
 	// these vars allow not having to traverse the scene graph to figure out what partition is set
 	private var _explicitPartition:Partition3D; // what the user explicitly set as the partition
@@ -88,12 +89,12 @@ class ObjectContainer3D extends Object3D implements IAsset
 	private var _mouseEnabled:Bool;
 	private var _sceneTransformChanged:Object3DEvent;
 	private var _scenechanged:Object3DEvent;
-	private var _children:Vector<ObjectContainer3D> = new Vector<ObjectContainer3D>();
+	private var _children:Vector<ObjectContainer3D>;
 	private var _mouseChildren:Bool = true;
 	private var _oldScene:Scene3D;
-	private var _inverseSceneTransform:Matrix3D = new Matrix3D();
+	private var _inverseSceneTransform:Matrix3D;
 	private var _inverseSceneTransformDirty:Bool = true;
-	private var _scenePosition:Vector3D = new Vector3D();
+	private var _scenePosition:Vector3D;
 	private var _scenePositionDirty:Bool = true;
 	private var _explicitVisibility:Bool = true;
 	private var _implicitVisibility:Bool = true;
@@ -109,6 +110,10 @@ class ObjectContainer3D extends Object3D implements IAsset
 	public function new()
 	{
 		super();
+		_sceneTransform = new Matrix3D();
+		_children = new Vector<ObjectContainer3D>();
+		_inverseSceneTransform = new Matrix3D();
+		_scenePosition = new Vector3D();
 	}
 	
 	public var ancestorsAllowMouseEnabled(get, set):Bool;
@@ -184,7 +189,7 @@ class ObjectContainer3D extends Object3D implements IAsset
 			child = _children[i++];
 
 			// assign implicit partition if no explicit one is given
-			if (!child._explicitPartition)
+			if (child._explicitPartition == null)
 				child.implicitPartition = value;
 		}
 		
@@ -232,7 +237,7 @@ class ObjectContainer3D extends Object3D implements IAsset
 		//trigger event if listener exists
 		if (_listenToSceneTransformChanged)
 		{
-			if (!_sceneTransformChanged)
+			if (_sceneTransformChanged == null)
 				_sceneTransformChanged = new Object3DEvent(Object3DEvent.SCENETRANSFORM_CHANGED, this);
 			dispatchEvent(_sceneTransformChanged);
 		}
@@ -252,7 +257,7 @@ class ObjectContainer3D extends Object3D implements IAsset
 
 		if (_listenToSceneChanged)
 		{
-			if (!_scenechanged)
+			if (_scenechanged == null)
 				_scenechanged = new Object3DEvent(Object3DEvent.SCENE_CHANGED, this);
 
 			dispatchEvent(_scenechanged);
@@ -261,7 +266,7 @@ class ObjectContainer3D extends Object3D implements IAsset
 
 	private function updateMouseChildren():Void
 	{
-		if (_parent && !_parent._isRoot)
+		if (_parent != null && !_parent._isRoot)
 		{
 			// Set implicit mouse enabled if parent its children to be so.
 			_ancestorsAllowMouseEnabled = parent._ancestorsAllowMouseEnabled && _parent.mouseChildren;
@@ -318,7 +323,7 @@ class ObjectContainer3D extends Object3D implements IAsset
 	 */
 	private function updateSceneTransform():Void
 	{
-		if (_parent && !_parent._isRoot)
+		if (_parent != null && !_parent._isRoot)
 		{
 			_sceneTransform.copyFrom(_parent.sceneTransform);
 			_sceneTransform.prepend(transform);
@@ -397,7 +402,7 @@ class ObjectContainer3D extends Object3D implements IAsset
 	{
 		var i:UInt;
 		var len:UInt = _children.length;
-		var min:Float = Number.POSITIVE_INFINITY;
+		var min:Float = Math.POSITIVE_INFINITY;
 		var m:Float;
 
 		while (i < len)
@@ -419,7 +424,7 @@ class ObjectContainer3D extends Object3D implements IAsset
 	{
 		var i:UInt;
 		var len:UInt = _children.length;
-		var min:Float = Number.POSITIVE_INFINITY;
+		var min:Float = Math.POSITIVE_INFINITY;
 		var m:Float;
 
 		while (i < len)
@@ -441,7 +446,7 @@ class ObjectContainer3D extends Object3D implements IAsset
 	{
 		var i:UInt;
 		var len:UInt = _children.length;
-		var min:Float = Number.POSITIVE_INFINITY;
+		var min:Float = Math.POSITIVE_INFINITY;
 		var m:Float;
 
 		while (i < len)
@@ -536,7 +541,7 @@ class ObjectContainer3D extends Object3D implements IAsset
 	{
 		_explicitPartition = value;
 
-		implicitPartition = value != null ? value : (_parent ? _parent.implicitPartition : null);
+		implicitPartition = value != null ? value : (_parent != null ? _parent.implicitPartition : null);
 		
 		return _explicitPartition;
 	}
@@ -571,16 +576,16 @@ class ObjectContainer3D extends Object3D implements IAsset
 			_children[i++].scene = value;
 
 		if (_scene == value)
-			return;
+			return _scene;
 
 		// test to see if we're switching roots while we're already using a scene partition
 		if (value == null)
 			_oldScene = _scene;
 
-		if (_explicitPartition && _oldScene && _oldScene != _scene)
+		if (_explicitPartition != null && _oldScene != null && _oldScene != _scene)
 			partition = null;
 
-		if (value)
+		if (value != null)
 			_oldScene = null;
 		// end of stupid partition test code
 

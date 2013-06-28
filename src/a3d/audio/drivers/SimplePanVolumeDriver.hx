@@ -1,5 +1,6 @@
 package a3d.audio.drivers;
 
+import flash.errors.Error;
 import flash.events.Event;
 import flash.geom.Vector3D;
 import flash.media.SoundChannel;
@@ -72,7 +73,7 @@ class SimplePanVolumeDriver extends AbstractSound3DDriver implements ISound3DDri
 	}
 
 
-	override private function set_scale(val:Float):Void
+	override private function set_scale(val:Float):Float
 	{
 		_scale = val;
 		_st3D.scale = scale;

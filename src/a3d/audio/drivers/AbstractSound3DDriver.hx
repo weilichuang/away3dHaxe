@@ -32,7 +32,7 @@ class AbstractSound3DDriver extends EventDispatcher
 	private function set_sourceSound(val:Sound):Sound
 	{
 		if (_src == val)
-			return;
+			return _src;
 
 		return _src = val;
 	}

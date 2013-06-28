@@ -1,6 +1,7 @@
 package a3d.entities.lights.shadowmaps;
 
 import flash.display3D.textures.TextureBase;
+import flash.errors.Error;
 
 import a3d.core.managers.Stage3DProxy;
 import a3d.core.render.DepthRenderer;
@@ -46,14 +47,15 @@ class ShadowMapperBase
 		return new ShadowCasterCollector();
 	}
 
+	public var autoUpdateShadows(get,set):Bool;
 	private inline function get_autoUpdateShadows():Bool
 	{
 		return _autoUpdateShadows;
 	}
 
-	private inline function set_autoUpdateShadows(value:Bool):Void
+	private inline function set_autoUpdateShadows(value:Bool):Bool
 	{
-		_autoUpdateShadows = value;
+		return _autoUpdateShadows = value;
 	}
 
 	public function updateShadows():Void
@@ -69,10 +71,10 @@ class ShadowMapperBase
 	{
 		if (_depthMap == depthMap)
 			return;
-		if (_depthMap && !_explicitDepthMap)
+		if (_depthMap != null && !_explicitDepthMap)
 			_depthMap.dispose();
 		_depthMap = depthMap;
-		if (_depthMap)
+		if (_depthMap != null)
 		{
 			_explicitDepthMap = true;
 			_depthMapSize = _depthMap.width;
@@ -81,16 +83,18 @@ class ShadowMapperBase
 			_explicitDepthMap = false;
 	}
 
+	public var light(get,set):LightBase;
 	private inline function get_light():LightBase
 	{
 		return _light;
 	}
 
-	private inline function set_light(value:LightBase):Void
+	private inline function set_light(value:LightBase):LightBase
 	{
-		_light = value;
+		return _light = value;
 	}
 
+	public var depthMap(get,null):TextureProxyBase;
 	private inline function get_depthMap():TextureProxyBase
 	{
 		if (_depthMap == null)
@@ -98,32 +102,34 @@ class ShadowMapperBase
 		return _depthMap;
 	}
 
+	public var depthMapSize(get,set):UInt;
 	private inline function get_depthMapSize():UInt
 	{
 		return _depthMapSize;
 	}
 
-	private inline function set_depthMapSize(value:UInt):Void
+	private inline function set_depthMapSize(value:UInt):UInt
 	{
 		if (value == _depthMapSize)
-			return;
+			return _depthMapSize;
 		_depthMapSize = value;
 
 		if (_explicitDepthMap)
 		{
-			throw Error("Cannot set depth map size for the current renderer.");
+			throw new Error("Cannot set depth map size for the current renderer.");
 		}
-		else if (_depthMap)
+		else if (_depthMap != null)
 		{
 			_depthMap.dispose();
 			_depthMap = null;
 		}
+		return _depthMapSize;
 	}
 
 	public function dispose():Void
 	{
 		_casterCollector = null;
-		if (_depthMap && !_explicitDepthMap)
+		if (_depthMap != null && !_explicitDepthMap)
 			_depthMap.dispose();
 		_depthMap = null;
 	}

@@ -18,7 +18,7 @@ class RenderableNode extends EntityNode
 	 */
 	public function new(renderable:IRenderable)
 	{
-		super(Entity(renderable));
+		super(Std.instance(renderable,Entity));
 		_renderable = renderable; // also keep a stronger typed reference
 	}
 

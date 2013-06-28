@@ -13,56 +13,62 @@ class ControllerBase
 
 	private function notifyUpdate():Void
 	{
-		if (_targetObject && _targetObject.implicitPartition && _autoUpdate)
+		if (_targetObject != null && _targetObject.implicitPartition != null && _autoUpdate)
 			_targetObject.implicitPartition.markForUpdate(_targetObject);
 	}
 
 	/**
 	 * Target object on which the controller acts. Defaults to null.
 	 */
+	public var targetObject(get, set):Entity;
 	private inline function get_targetObject():Entity
 	{
 		return _targetObject;
 	}
 
-	private inline function set_targetObject(val:Entity):Void
+	private inline function set_targetObject(val:Entity):Entity
 	{
 		if (_targetObject == val)
-			return;
+			return _targetObject;
 
-		if (_targetObject && _autoUpdate)
+		if (_targetObject != null && _autoUpdate)
 			_targetObject.controller = null;
 
 		_targetObject = val;
 
-		if (_targetObject && _autoUpdate)
+		if (_targetObject != null && _autoUpdate)
 			_targetObject.controller = this;
 
 		notifyUpdate();
+		
+		return _targetObject;
 	}
 
 	/**
 	 * Determines whether the controller applies updates automatically. Defaults to true
 	 */
+	public var autoUpdate(get, set):Bool;
 	private inline function get_autoUpdate():Bool
 	{
 		return _autoUpdate;
 	}
 
-	private inline function set_autoUpdate(val:Bool):Void
+	private inline function set_autoUpdate(val:Bool):Bool
 	{
 		if (_autoUpdate == val)
-			return;
+			return _autoUpdate;
 
 		_autoUpdate = val;
 
-		if (_targetObject)
+		if (_targetObject != null)
 		{
 			if (_autoUpdate)
 				_targetObject.controller = this;
 			else
 				_targetObject.controller = null;
 		}
+		
+		return _autoUpdate;
 	}
 
 	/**

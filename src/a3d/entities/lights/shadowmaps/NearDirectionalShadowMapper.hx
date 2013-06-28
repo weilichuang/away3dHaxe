@@ -19,12 +19,13 @@ class NearDirectionalShadowMapper extends DirectionalShadowMapper
 	/**
 	 * A value between 0 and 1 to indicate the ratio of the view frustum that needs to be covered by the shadow map.
 	 */
+	public var coverageRatio(get,set):Float;
 	private inline function get_coverageRatio():Float
 	{
 		return _coverageRatio;
 	}
 
-	private inline function set_coverageRatio(value:Float):Void
+	private inline function set_coverageRatio(value:Float):Float
 	{
 		if (value > 1)
 			value = 1;
@@ -32,13 +33,15 @@ class NearDirectionalShadowMapper extends DirectionalShadowMapper
 			value = 0;
 
 		_coverageRatio = value;
+		
+		return _coverageRatio;
 	}
 
 	override private function updateDepthProjection(viewCamera:Camera3D):Void
 	{
 		var corners:Vector<Float> = viewCamera.lens.frustumCorners;
 
-		for (var i:Int = 0; i < 12; ++i)
+		for (i in 0...12)
 		{
 			var v:Float = corners[i];
 			_localFrustum[i] = v;

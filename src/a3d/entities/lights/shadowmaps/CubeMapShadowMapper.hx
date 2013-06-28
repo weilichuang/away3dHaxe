@@ -51,8 +51,8 @@ class CubeMapShadowMapper extends ShadowMapperBase
 		cam.rotationY = rotationY;
 		cam.rotationZ = rotationZ;
 		cam.lens.near = .01;
-		PerspectiveLens(cam.lens).fieldOfView = 90;
-		_lenses.push(PerspectiveLens(cam.lens));
+		Std.instance(cam.lens,PerspectiveLens).fieldOfView = 90;
+		_lenses.push(Std.instance(cam.lens,PerspectiveLens));
 		cam.lens.aspectRatio = 1;
 		_depthCameras.push(cam);
 	}
@@ -64,7 +64,7 @@ class CubeMapShadowMapper extends ShadowMapperBase
 
 	override private function updateDepthProjection(viewCamera:Camera3D):Void
 	{
-		var maxDistance:Float = PointLight(_light).fallOff;
+		var maxDistance:Float = Std.instance(_light,PointLight).fallOff;
 		var pos:Vector3D = _light.scenePosition;
 
 		// todo: faces outside frustum which are pointing away from camera need not be rendered!

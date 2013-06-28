@@ -40,30 +40,33 @@ class DirectionalShadowMapper extends ShadowMapperBase
 		_matrix = new Matrix3D();
 	}
 
+	public var snap(get,set):Float;
 	private inline function get_snap():Float
 	{
 		return _snap;
 	}
 
-	private inline function set_snap(value:Float):Void
+	private inline function set_snap(value:Float):Float
 	{
-		_snap = value;
+		return _snap = value;
 	}
 
 
+	public var lightOffset(get,set):Float;
 	private inline function get_lightOffset():Float
 	{
 		return _lightOffset;
 	}
 
-	private inline function set_lightOffset(value:Float):Void
+	private inline function set_lightOffset(value:Float):Float
 	{
-		_lightOffset = value;
+		return _lightOffset = value;
 	}
 
 	/**
 	 * Depth projection matrix that projects from scene space to depth map.
 	 */
+	public var depthProjection(get,null):Matrix3D;
 	private inline function get_depthProjection():Matrix3D
 	{
 		return _overallDepthCamera.viewProjection;
@@ -72,6 +75,7 @@ class DirectionalShadowMapper extends ShadowMapperBase
 	/**
 	 * Depth projection matrix that projects from scene space to depth map.
 	 */
+	public var depth(get,null):Float;
 	private inline function get_depth():Float
 	{
 		return _maxZ - _minZ;
@@ -98,7 +102,7 @@ class DirectionalShadowMapper extends ShadowMapperBase
 		_cullPlanes[2] = lightFrustumPlanes[2];
 		_cullPlanes[3] = lightFrustumPlanes[3];
 
-		var dir:Vector3D = DirectionalLight(_light).sceneDirection;
+		var dir:Vector3D = Std.instance(_light,DirectionalLight).sceneDirection;
 		var dirX:Float = dir.x;
 		var dirY:Float = dir.y;
 		var dirZ:Float = dir.z;
@@ -172,12 +176,12 @@ class DirectionalShadowMapper extends ShadowMapperBase
 			minX -= _snap; // because int() rounds up for < 0
 		if (minY < 0)
 			minY -= _snap;
-		minX = int(minX / _snap) * _snap;
-		minY = int(minY / _snap) * _snap;
+		minX = Std.int(minX / _snap) * _snap;
+		minY = Std.int(minY / _snap) * _snap;
 
 		var snap2:Float = 2 * _snap;
-		w = int(w / snap2 + 2) * snap2;
-		h = int(h / snap2 + 2) * snap2;
+		w = Std.int(w / snap2 + 2) * snap2;
+		h = Std.int(h / snap2 + 2) * snap2;
 
 		maxX = minX + w;
 		maxY = minY + h;

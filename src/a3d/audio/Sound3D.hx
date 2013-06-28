@@ -50,10 +50,13 @@ class Sound3D extends ObjectContainer3D
 	*/
 	public function new(sound:Sound, reference:ObjectContainer3D, driver:ISound3DDriver = null, volume:Float = 1, scale:Float = 1000)
 	{
+		super();
 
 		_sound = sound;
 		_reference = reference;
-		_driver = driver || new SimplePanVolumeDriver();
+		if (driver == null)
+			driver = new SimplePanVolumeDriver();
+		_driver = driver; 
 		_driver.sourceSound = _sound;
 		_driver.volume = volume;
 		_driver.scale = scale;
@@ -63,9 +66,6 @@ class Sound3D extends ObjectContainer3D
 		addEventListener(Object3DEvent.SCENETRANSFORM_CHANGED, onSceneTransformChanged);
 		_reference.addEventListener(Object3DEvent.SCENETRANSFORM_CHANGED, onSceneTransformChanged);
 	}
-
-
-
 
 	/**
 	 * Defines the overall (master) volume of the 3D sound, after any
@@ -81,9 +81,9 @@ class Sound3D extends ObjectContainer3D
 		return _driver.volume;
 	}
 
-	private inline function set_volume(val:Float):Void
+	private inline function set_volume(val:Float):Float
 	{
-		_driver.volume = val;
+		return _driver.volume = val;
 	}
 
 
@@ -102,9 +102,9 @@ class Sound3D extends ObjectContainer3D
 		return _driver.scale;
 	}
 
-	private inline function set_scaleDistance(val:Float):Void
+	private inline function set_scaleDistance(val:Float):Float
 	{
-		_driver.scale = val;
+		return _driver.scale = val;
 	}
 
 

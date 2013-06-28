@@ -58,79 +58,95 @@ class SubMesh implements IRenderable
 		this.material = material;
 	}
 
+	public var shaderPickingDetails(get, null):Bool;
 	private inline function get_shaderPickingDetails():Bool
 	{
 		return sourceEntity.shaderPickingDetails;
 	}
 
+	public var offsetU(get, set):Float;
 	private inline function get_offsetU():Float
 	{
 		return _offsetU;
 	}
 
-	private inline function set_offsetU(value:Float):Void
+	private inline function set_offsetU(value:Float):Float
 	{
 		if (value == _offsetU)
-			return;
+			return _offsetU;
 		_offsetU = value;
 		_uvTransformDirty = true;
+		
+		return _offsetU;
 	}
 
+	public var offsetV(get, set):Float;
 	private inline function get_offsetV():Float
 	{
 		return _offsetV;
 	}
 
-	private inline function set_offsetV(value:Float):Void
+	private inline function set_offsetV(value:Float):Float
 	{
 		if (value == _offsetV)
-			return;
+			return _offsetV;
 		_offsetV = value;
 		_uvTransformDirty = true;
+		
+		return _offsetV;
 	}
 
+	public var scaleU(get, set):Float;
 	private inline function get_scaleU():Float
 	{
 		return _scaleU;
 	}
 
-	private inline function set_scaleU(value:Float):Void
+	private inline function set_scaleU(value:Float):Float
 	{
 		if (value == _scaleU)
-			return;
+			return _scaleU;
 		_scaleU = value;
 		_uvTransformDirty = true;
+		return _scaleU;
 	}
 
+	public var scaleV(get, set):Float;
 	private inline function get_scaleV():Float
 	{
 		return _scaleV;
 	}
 
-	private inline function set_scaleV(value:Float):Void
+	private inline function set_scaleV(value:Float):Float
 	{
 		if (value == _scaleV)
-			return;
+			return _scaleV;
 		_scaleV = value;
 		_uvTransformDirty = true;
+		
+		return _scaleV;
 	}
 
+	public var uvRotation(get, set):Float;
 	private inline function get_uvRotation():Float
 	{
 		return _uvRotation;
 	}
 
-	private inline function set_uvRotation(value:Float):Void
+	private inline function set_uvRotation(value:Float):Float
 	{
 		if (value == _uvRotation)
-			return;
+			return _uvRotation;
 		_uvRotation = value;
 		_uvTransformDirty = true;
+		
+		return _uvRotation;
 	}
 
 	/**
 	 * The entity that that initially provided the IRenderable to the render pipeline (ie: the owning Mesh object).
 	 */
+	public var sourceEntity(get, null):Entity;
 	private inline function get_sourceEntity():Entity
 	{
 		return _parentMesh;
@@ -139,19 +155,21 @@ class SubMesh implements IRenderable
 	/**
 	 * The SubGeometry object which provides the geometry data for this SubMesh.
 	 */
+	public var subGeometry(get, set):ISubGeometry;
 	private inline function get_subGeometry():ISubGeometry
 	{
 		return _subGeometry;
 	}
 
-	private inline function set_subGeometry(value:ISubGeometry):Void
+	private inline function set_subGeometry(value:ISubGeometry):ISubGeometry
 	{
-		_subGeometry = value;
+		return _subGeometry = value;
 	}
 
 	/**
 	 * The material used to render the current SubMesh. If set to null, its parent Mesh's material will be used instead.
 	 */
+	public var material(get, set):MaterialBase;
 	private function get_material():MaterialBase
 	{
 		if (_material != null)
@@ -159,7 +177,7 @@ class SubMesh implements IRenderable
 		return _parentMesh.material;
 	}
 
-	private inline function set_material(value:MaterialBase):Void
+	private inline function set_material(value:MaterialBase):MaterialBase
 	{
 		if (_material != null)
 			_material.removeOwner(this);
@@ -168,11 +186,14 @@ class SubMesh implements IRenderable
 
 		if (_material != null)
 			_material.addOwner(this);
+			
+		return material;
 	}
 
 	/**
 	 * The scene transform object that transforms from model to world space.
 	 */
+	public var sceneTransform(get, null):Matrix3D;
 	private inline function get_sceneTransform():Matrix3D
 	{
 		return _parentMesh.sceneTransform;
@@ -181,6 +202,7 @@ class SubMesh implements IRenderable
 	/**
 	 * The inverse scene transform object that transforms from world to model space.
 	 */
+	public var inverseSceneTransform(get, null):Matrix3D;
 	private inline function get_inverseSceneTransform():Matrix3D
 	{
 		return _parentMesh.inverseSceneTransform;
@@ -237,6 +259,7 @@ class SubMesh implements IRenderable
 	/**
 	 * The amount of triangles that make up this SubMesh.
 	 */
+	public var numTriangles(get, null):UInt;
 	private inline function get_numTriangles():UInt
 	{
 		return _subGeometry.numTriangles;
@@ -245,6 +268,7 @@ class SubMesh implements IRenderable
 	/**
 	 * The animator object that provides the state for the SubMesh's animation.
 	 */
+	public var animator(get, null):IAnimator;
 	private inline function get_animator():IAnimator
 	{
 		return _parentMesh.animator;
@@ -253,11 +277,13 @@ class SubMesh implements IRenderable
 	/**
 	 * Indicates whether the SubMesh should trigger mouse events, and hence should be rendered for hit testing.
 	 */
+	public var mouseEnabled(get, null):Bool;
 	private inline function get_mouseEnabled():Bool
 	{
 		return _parentMesh.mouseEnabled || _parentMesh.ancestorsAllowMouseEnabled;
 	}
 
+	public var castsShadows(get, null):Bool;
 	private inline function get_castsShadows():Bool
 	{
 		return _parentMesh.castsShadows;
@@ -268,16 +294,18 @@ class SubMesh implements IRenderable
 	 *
 	 * @private
 	 */
+	public var parentMesh(get, set):Mesh;
 	private inline function get_parentMesh():Mesh
 	{
 		return _parentMesh;
 	}
 
-	private inline function set_parentMesh(value:Mesh):Void
+	private inline function set_parentMesh(value:Mesh):Mesh
 	{
-		_parentMesh = value;
+		return _parentMesh = value;
 	}
 
+	public var uvTransform(get, null):Matrix;
 	private inline function get_uvTransform():Matrix
 	{
 		if (_uvTransformDirty)
@@ -290,11 +318,15 @@ class SubMesh implements IRenderable
 		if (_uvTransform == null)
 			_uvTransform = new Matrix();
 		_uvTransform.identity();
+		
 		if (_uvRotation != 0)
 			_uvTransform.rotate(_uvRotation);
+			
 		if (_scaleU != 1 || _scaleV != 1)
 			_uvTransform.scale(_scaleU, _scaleV);
+			
 		_uvTransform.translate(_offsetU, _offsetV);
+		
 		_uvTransformDirty = false;
 	}
 
@@ -303,71 +335,85 @@ class SubMesh implements IRenderable
 		material = null;
 	}
 
+	public var vertexData(get, null):Vector<Float>;
 	private inline function get_vertexData():Vector<Float>
 	{
 		return _subGeometry.vertexData;
 	}
 
+	public var indexData(get, null):Vector<UInt>;
 	private inline function get_indexData():Vector<UInt>
 	{
 		return _subGeometry.indexData;
 	}
 
+	public var UVData(get, null):Vector<Float>;
 	private inline function get_UVData():Vector<Float>
 	{
 		return _subGeometry.UVData;
 	}
 
+	public var bounds(get, null):BoundingVolumeBase;
 	private inline function get_bounds():BoundingVolumeBase
 	{
 		return _parentMesh.bounds; // TODO: return smaller, sub mesh bounds instead
 	}
 
+	public var visible(get, null):Bool;
 	private inline function get_visible():Bool
 	{
 		return _parentMesh.visible;
 	}
 
+	public var numVertices(get, null):UInt;
 	private inline function get_numVertices():UInt
 	{
 		return _subGeometry.numVertices;
 	}
 
+	public var vertexStride(get, null):UInt;
 	private inline function get_vertexStride():UInt
 	{
 		return _subGeometry.vertexStride;
 	}
 
+	public var UVStride(get, null):UInt;
 	private inline function get_UVStride():UInt
 	{
 		return _subGeometry.UVStride;
 	}
 
+	public var vertexNormalData(get, null):Vector<Float>;
 	private inline function get_vertexNormalData():Vector<Float>
 	{
 		return _subGeometry.vertexNormalData;
 	}
 
+	public var vertexTangentData(get, null):Vector<Float>;
 	private inline function get_vertexTangentData():Vector<Float>
 	{
 		return _subGeometry.vertexTangentData;
 	}
 
+	public var UVOffset(get, null):UInt;
 	private inline function get_UVOffset():UInt
 	{
 		return _subGeometry.UVOffset;
 	}
 
+	public var vertexOffset(get, null):UInt;
 	private inline function get_vertexOffset():UInt
 	{
 		return _subGeometry.vertexOffset;
 	}
 
+	public var vertexNormalOffset(get, null):UInt;
 	private inline function get_vertexNormalOffset():UInt
 	{
 		return _subGeometry.vertexNormalOffset;
 	}
 
+	public var vertexTangentOffset(get, null):UInt;
 	private inline function get_vertexTangentOffset():UInt
 	{
 		return _subGeometry.vertexTangentOffset;

@@ -95,8 +95,9 @@ class BasicAmbientMethod extends ShadingMethodBase
 
 	private inline function set_texture(value:Texture2DBase):Void
 	{
-		if (Bool(value) != _useTexture ||
-			(value && _texture && (value.hasMipMaps != _texture.hasMipMaps || value.format != _texture.format)))
+		if ((value != null) != _useTexture ||
+			(value != null && _texture != null && 
+			(value.hasMipMaps != _texture.hasMipMaps || value.format != _texture.format)))
 			invalidateShaderProgram();
 		_useTexture = Bool(value);
 		_texture = value;

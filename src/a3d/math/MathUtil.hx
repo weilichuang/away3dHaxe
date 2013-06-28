@@ -9,11 +9,17 @@ class MathUtil
 	/**
 	 * The amount to multiply with when converting radians to degrees.
 	 */
-	public static inline var RADIANS_TO_DEGREES:Float = 180 / Math.PI;
+	public static inline function RADIANS_TO_DEGREES():Float
+	{
+		return 180 / Math.PI;
+	}
 
 	/**
 	 * The amount to multiply with when converting degrees to radians.
 	 */
-	public static inline var DEGREES_TO_RADIANS:Float = Math.PI / 180;
+	public static inline function DEGREES_TO_RADIANS():Float 
+	{
+		return Math.PI / 180;
+	}
 }
 

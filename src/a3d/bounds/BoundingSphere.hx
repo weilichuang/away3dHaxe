@@ -27,6 +27,7 @@ class BoundingSphere extends BoundingVolumeBase
 	/**
 	 * The radius of the bounding sphere, calculated from the contents of the entity.
 	 */
+	public var radius(get, null):Float;
 	private inline function get_radius():Float
 	{
 		return _radius;
@@ -37,6 +38,7 @@ class BoundingSphere extends BoundingVolumeBase
 	 */
 	public function new()
 	{
+		super();
 	}
 
 	/**
@@ -208,7 +210,7 @@ class BoundingSphere extends BoundingVolumeBase
 
 	override public function transformFrom(bounds:BoundingVolumeBase, matrix:Matrix3D):Void
 	{
-		var sphere:BoundingSphere = BoundingSphere(bounds);
+		var sphere:BoundingSphere = Std.instance(bounds,BoundingSphere);
 		var cx:Float = sphere._centerX;
 		var cy:Float = sphere._centerY;
 		var cz:Float = sphere._centerZ;

@@ -49,12 +49,13 @@ class PointLight extends LightBase
 	/**
 	 * The minimum distance of the light's reach.
 	 */
+	public var radius(get,set):Float;
 	private inline function get_radius():Float
 	{
 		return _radius;
 	}
 
-	private inline function set_radius(value:Float):Void
+	private inline function set_radius(value:Float):Float
 	{
 		_radius = value;
 		if (_radius < 0)
@@ -66,8 +67,11 @@ class PointLight extends LightBase
 		}
 
 		_fallOffFactor = 1 / (_fallOff * _fallOff - _radius * _radius);
+		
+		return _radius;
 	}
 
+	public var fallOffFactor(get,null):Float;
 	private inline function get_fallOffFactor():Float
 	{
 		return _fallOffFactor;
@@ -76,12 +80,13 @@ class PointLight extends LightBase
 	/**
 	 * The maximum distance of the light's reach
 	 */
+	public var fallOff(get,set):Float;
 	private inline function get_fallOff():Float
 	{
 		return _fallOff;
 	}
 
-	private inline function set_fallOff(value:Float):Void
+	private inline function set_fallOff(value:Float):Float
 	{
 		_fallOff = value;
 		if (_fallOff < 0)
@@ -90,6 +95,7 @@ class PointLight extends LightBase
 			_radius = _fallOff;
 		_fallOffFactor = 1 / (_fallOff * _fallOff - _radius * _radius);
 		invalidateBounds();
+		return _fallOff;
 	}
 
 	/**
