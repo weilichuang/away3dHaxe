@@ -3,6 +3,7 @@
 import a3d.filters.Filter3DBase;
 import flash.display.Sprite;
 import flash.display3D.Context3D;
+import flash.display3D.Context3DProfile;
 import flash.display3D.Context3DTextureFormat;
 import flash.display3D.textures.Texture;
 import flash.errors.Error;
@@ -12,6 +13,7 @@ import flash.geom.Point;
 import flash.geom.Rectangle;
 import flash.geom.Transform;
 import flash.geom.Vector3D;
+import flash.Lib;
 
 
 import a3d.core.managers.Mouse3DManager;
@@ -46,7 +48,7 @@ class View3D extends Sprite
 
 	private var _aspectRatio:Float;
 	private var _time:Float;
-	private var _deltaTime:UInt;
+	private var _deltaTime:Float;
 	private var _backgroundColor:UInt;
 	private var _backgroundAlpha:Float;
 
@@ -81,7 +83,7 @@ class View3D extends Sprite
 	private var _viewportDirty:Bool;
 
 	private var _depthPrepass:Bool;
-	private var _profile:String;
+	private var _profile:Context3DProfile;
 	private var _layeredView:Bool;
 
 	/**
@@ -93,11 +95,11 @@ class View3D extends Sprite
 	 * @param profile
 	 *
 	 */
-	public function new(scene:Scene3D = null, camera:Camera3D = null, renderer:RendererBase = null, forceSoftware:Bool = false, profile:String = "baseline")
+	public function new(scene:Scene3D = null, camera:Camera3D = null, renderer:RendererBase = null, forceSoftware:Bool = false, profile:Context3DProfile =  null)
 	{
 		super();
 
-		_profile = profile;
+		_profile = profile != null ? profile : Context3DProfile.BASELINE;
 		
 		if (scene == null)
 			scene = new Scene3D();
@@ -119,7 +121,6 @@ class View3D extends Sprite
 		_globalPos = new Point();
 
 		_time = 0;
-		_deltaTime;
 		_backgroundColor = 0x000000;
 		_backgroundAlpha = 1;
 
@@ -397,7 +398,7 @@ class View3D extends Sprite
 		_camera = camera;
 		_entityCollector.camera = _camera;
 
-		if (_scene)
+		if (_scene != null)
 			_camera.partition = _scene.partition;
 
 		_camera.addEventListener(CameraEvent.LENS_CHANGED, onLensChanged);
@@ -436,8 +437,8 @@ class View3D extends Sprite
 	/**
 	 * The amount of milliseconds the last render call took
 	 */
-	public var deltaTime(get, set):UInt;
-	private inline function get_deltaTime():UInt
+	public var deltaTime(get, set):Float;
+	private inline function get_deltaTime():Float
 	{
 		return _deltaTime;
 	}
@@ -460,7 +461,7 @@ class View3D extends Sprite
 		if (_width == value)
 			return;
 
-		if (_rttBufferManager)
+		if (_rttBufferManager != null)
 			_rttBufferManager.viewWidth = value;
 
 		_hitField.width = value;
@@ -488,14 +489,14 @@ class View3D extends Sprite
 	@:setter(height) function set_height(value:Float):Void
 	{
 		// Backbuffer limitation in software mode. See comment in updateBackBuffer()
-		if (_stage3DProxy && _stage3DProxy.usesSoftwareRendering && value > 2048)
+		if (_stage3DProxy != null && _stage3DProxy.usesSoftwareRendering && value > 2048)
 			value = 2048;
 
 		if (_height == value)
 			return;
 
-		if (_rttBufferManager)
-			_rttBufferManager.viewHeight = value;
+		if (_rttBufferManager != null)
+			_rttBufferManager.viewHeight = Std.int(value);
 
 		_hitField.height = value;
 		_height = value;
@@ -518,7 +519,7 @@ class View3D extends Sprite
 
 		_localPos.x = super.x = value;
 
-		_globalPos.x = parent ? parent.localToGlobal(_localPos).x : value;
+		_globalPos.x = parent != null ? parent.localToGlobal(_localPos).x : value;
 		_globalPosDirty = true;
 	}
 
@@ -529,7 +530,7 @@ class View3D extends Sprite
 
 		_localPos.y = super.y = value;
 
-		_globalPos.y = parent ? parent.localToGlobal(_localPos).y : value;
+		_globalPos.y = parent != null ? parent.localToGlobal(_localPos).y : value;
 		_globalPosDirty = true;
 	}
 
@@ -537,7 +538,7 @@ class View3D extends Sprite
 	{
 		super.visible = value;
 
-		if (_stage3DProxy && !_shareContext)
+		if (_stage3DProxy != null && !_shareContext)
 			_stage3DProxy.visible = value;
 	}
 
@@ -745,7 +746,7 @@ class View3D extends Sprite
 
 	private function updateTime():Void
 	{
-		var time:Float = getTimer();
+		var time:Float = Lib.getTimer();
 		if (_time == 0)
 			_time = time;
 		_deltaTime = time - _time;
@@ -768,7 +769,7 @@ class View3D extends Sprite
 			_camera.lens.updateViewport(_stage3DProxy.viewPort.x, _stage3DProxy.viewPort.y, _stage3DProxy.viewPort.width, _stage3DProxy.viewPort.height);
 		}
 
-		if (_filter3DRenderer || _renderer.renderToTexture)
+		if (_filter3DRenderer != null || _renderer.renderToTexture)
 		{
 			_renderer.textureRatioX = _rttBufferManager.textureRatioX;
 			_renderer.textureRatioY = _rttBufferManager.textureRatioY;
@@ -783,7 +784,7 @@ class View3D extends Sprite
 	private function renderDepthPrepass(entityCollector:EntityCollector):Void
 	{
 		_depthRenderer.disableColor = true;
-		if (_filter3DRenderer || _renderer.renderToTexture)
+		if (_filter3DRenderer  != null || _renderer.renderToTexture)
 		{
 			_depthRenderer.textureRatioX = _rttBufferManager.textureRatioX;
 			_depthRenderer.textureRatioY = _rttBufferManager.textureRatioY;
@@ -800,7 +801,7 @@ class View3D extends Sprite
 
 	private function renderSceneDepthToTexture(entityCollector:EntityCollector):Void
 	{
-		if (_depthTextureInvalid || !_depthRender)
+		if (_depthTextureInvalid || _depthRender == null)
 			initDepthTexture(_stage3DProxy.context3D);
 		_depthRenderer.textureRatioX = _rttBufferManager.textureRatioX;
 		_depthRenderer.textureRatioY = _rttBufferManager.textureRatioY;
@@ -811,7 +812,7 @@ class View3D extends Sprite
 	{
 		_depthTextureInvalid = false;
 
-		if (_depthRender)
+		if (_depthRender != null)
 			_depthRender.dispose();
 
 		_depthRender = context.createTexture(_rttBufferManager.textureWidth, _rttBufferManager.textureHeight, Context3DTextureFormat.BGRA, true);
@@ -964,11 +965,11 @@ class View3D extends Sprite
 		if (_width == 0)
 			width = stage.stageWidth;
 		else
-			_rttBufferManager.viewWidth = _width;
+			_rttBufferManager.viewWidth = Std.int(_width);
 		if (_height == 0)
 			height = stage.stageHeight;
 		else
-			_rttBufferManager.viewHeight = _height;
+			_rttBufferManager.viewHeight = Std.int(height);
 
 		if (_shareContext)
 			_mouse3DManager.addViewLayer(this);

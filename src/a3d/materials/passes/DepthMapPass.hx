@@ -34,35 +34,39 @@ class DepthMapPass extends MaterialPassBase
 	 * invisible or entirely opaque, often used with textures for foliage, etc.
 	 * Recommended values are 0 to disable alpha, or 0.5 to create smooth edges. Default value is 0 (disabled).
 	 */
+	public var alphaThreshold(get, set):Float;
 	private inline function get_alphaThreshold():Float
 	{
 		return _alphaThreshold;
 	}
 
-	private inline function set_alphaThreshold(value:Float):Void
+	private inline function set_alphaThreshold(value:Float):Float
 	{
 		if (value < 0)
 			value = 0;
 		else if (value > 1)
 			value = 1;
 		if (value == _alphaThreshold)
-			return;
+			return _alphaThreshold;
 
 		if (value == 0 || _alphaThreshold == 0)
 			invalidateShaderProgram();
 
 		_alphaThreshold = value;
 		_data[8] = _alphaThreshold;
+		
+		return _alphaThreshold;
 	}
 
+	public var alphaMask(get, set):Texture2DBase;
 	private inline function get_alphaMask():Texture2DBase
 	{
 		return _alphaMask;
 	}
 
-	private inline function set_alphaMask(value:Texture2DBase):Void
+	private inline function set_alphaMask(value:Texture2DBase):Texture2DBase
 	{
-		_alphaMask = value;
+		return _alphaMask = value;
 	}
 
 	/**

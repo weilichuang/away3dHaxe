@@ -167,7 +167,7 @@ class BoundingVolumeBase
 		if (numSubGeoms > 0)
 		{
 			var j:UInt = 0;
-			minX = minY = minZ = Number.POSITIVE_INFINITY;
+			minX = minY = minZ = Math.POSITIVE_INFINITY;
 			maxX = maxY = maxZ = Math.NEGATIVE_INFINITY;
 
 			while (j < numSubGeoms)
@@ -239,7 +239,7 @@ class BoundingVolumeBase
 		_max.y = maxY;
 		_max.z = maxZ;
 		_aabbPointsDirty = true;
-		if (_boundingRenderable)
+		if (_boundingRenderable != null)
 			updateBoundingRenderable();
 	}
 
@@ -294,9 +294,6 @@ class BoundingVolumeBase
 	 */
 	public function rayIntersection(position:Vector3D, direction:Vector3D, targetNormal:Vector3D):Float
 	{
-		position = position;
-		direction = direction;
-		targetNormal = targetNormal;
 		return -1;
 	}
 
@@ -308,7 +305,6 @@ class BoundingVolumeBase
 	 */
 	public function containsPoint(position:Vector3D):Bool
 	{
-		position = position;
 		return false;
 	}
 

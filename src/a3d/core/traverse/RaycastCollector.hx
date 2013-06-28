@@ -19,41 +19,46 @@ import a3d.entities.lights.LightBase;
  */
 class RaycastCollector extends EntityCollector
 {
-	private var _rayPosition:Vector3D = new Vector3D();
-	private var _rayDirection:Vector3D = new Vector3D();
+	private var _rayPosition:Vector3D;
+	private var _rayDirection:Vector3D;
 
 	/**
 	 * Creates a new RaycastCollector object.
 	 */
 	public function new()
 	{
+		super();
+		_rayPosition = new Vector3D();
+		_rayDirection = new Vector3D();
 	}
 
 	/**
 	 * Provides the starting position of the ray.
 	 */
+	public var rayPosition(get, set):Vector3D;
 	private inline function get_rayPosition():Vector3D
 	{
 		return _rayPosition;
 	}
 
-	private inline function set_rayPosition(value:Vector3D):Void
+	private inline function set_rayPosition(value:Vector3D):Vector3D
 	{
-		_rayPosition = value;
+		return _rayPosition = value;
 	}
 
 
 	/**
 	 * Provides the direction vector of the ray.
 	 */
+	public var rayDirection(get, set):Vector3D;
 	private inline function get_rayDirection():Vector3D
 	{
 		return _rayDirection;
 	}
 
-	private inline function set_rayDirection(value:Vector3D):Void
+	private inline function set_rayDirection(value:Vector3D):Vector3D
 	{
-		_rayDirection = value;
+		return _rayDirection = value;
 	}
 
 	/**

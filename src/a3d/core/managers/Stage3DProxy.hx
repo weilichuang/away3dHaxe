@@ -297,7 +297,7 @@ class Stage3DProxy extends EventDispatcher
 	public var driverInfo(get, null):String;
 	private inline function get_driverInfo():String
 	{
-		return _context3D ? _context3D.driverInfo : null;
+		return _context3D != null ? _context3D.driverInfo : null;
 	}
 
 
@@ -325,7 +325,7 @@ class Stage3DProxy extends EventDispatcher
 	private inline function set_x(value:Float):Float
 	{
 		if (_viewPort.x == value)
-			return;
+			return x;
 
 		_stage3D.x = _viewPort.x = value;
 
@@ -346,7 +346,7 @@ class Stage3DProxy extends EventDispatcher
 	private inline function set_y(value:Float):Float
 	{
 		if (_viewPort.y == value)
-			return;
+			return y;
 
 		_stage3D.y = _viewPort.y = value;
 
@@ -368,7 +368,7 @@ class Stage3DProxy extends EventDispatcher
 	private inline function set_width(width:Int):Int
 	{
 		if (_viewPort.width == width)
-			return;
+			return width;
 
 		_viewPort.width = width;
 		_backBufferWidth = width;
@@ -391,7 +391,7 @@ class Stage3DProxy extends EventDispatcher
 	private inline function set_height(height:Int):Int
 	{
 		if (_viewPort.height == height)
-			return;
+			return height;
 
 		_backBufferHeight = height;
 		_viewPort.height = height;
@@ -504,7 +504,7 @@ class Stage3DProxy extends EventDispatcher
 	 */
 	private function freeContext3D():Void
 	{
-		if (_context3D)
+		if (_context3D != null)
 		{
 			_context3D.dispose();
 			dispatchEvent(new Stage3DEvent(Stage3DEvent.CONTEXT3D_DISPOSED));

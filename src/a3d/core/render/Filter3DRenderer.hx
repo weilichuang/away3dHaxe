@@ -39,6 +39,7 @@ class Filter3DRenderer
 		_filterSizesInvalid = true;
 	}
 
+	public var requireDepthRender(get, null):Bool;
 	private inline function get_requireDepthRender():Bool
 	{
 		return _requireDepthRender;
@@ -51,6 +52,7 @@ class Filter3DRenderer
 		return _mainInputTexture;
 	}
 
+	public var filters(get, set):Array<Filter3DBase>;
 	private inline function get_filters():Array<Filter3DBase>
 	{
 		return _filters;
@@ -63,7 +65,7 @@ class Filter3DRenderer
 
 		_requireDepthRender = false;
 		if (_filters == null)
-			return;
+			return _filters; 
 
 		for (i in 0..._filters.length)
 		{

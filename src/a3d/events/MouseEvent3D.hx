@@ -177,7 +177,7 @@ class MouseEvent3D extends Event
 	{
 		super.stopPropagation();
 		allowedToPropagate = false;
-		if (parentEvent)
+		if (parentEvent != null)
 		{
 			parentEvent.stopPropagation();
 		}
@@ -190,7 +190,7 @@ class MouseEvent3D extends Event
 	{
 		super.stopImmediatePropagation();
 		allowedToPropagate = false;
-		if (parentEvent)
+		if (parentEvent != null)
 		{
 			parentEvent.stopImmediatePropagation();
 		}

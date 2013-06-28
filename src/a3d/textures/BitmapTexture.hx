@@ -3,6 +3,7 @@
 import flash.display.BitmapData;
 import flash.display3D.textures.Texture;
 import flash.display3D.textures.TextureBase;
+import flash.errors.Error;
 
 
 import a3d.materials.utils.MipmapGenerator;
@@ -57,7 +58,7 @@ class BitmapTexture extends Texture2DBase
 		if (_generateMipmaps)
 			MipmapGenerator.generateMipMaps(_bitmapData, texture, _mipMapHolder, true);
 		else
-			Texture(texture).uploadFromBitmapData(_bitmapData, 0);
+			Std.instance(texture,Texture).uploadFromBitmapData(_bitmapData, 0);
 	}
 
 	private function getMipMapHolder():Void
@@ -67,7 +68,7 @@ class BitmapTexture extends Texture2DBase
 		newW = _bitmapData.width;
 		newH = _bitmapData.height;
 
-		if (_mipMapHolder)
+		if (_mipMapHolder != null)
 		{
 			if (_mipMapHolder.width == newW && _bitmapData.height == newH)
 				return;
@@ -108,7 +109,7 @@ class BitmapTexture extends Texture2DBase
 	{
 		super.dispose();
 
-		if (_mipMapHolder)
+		if (_mipMapHolder != null)
 			freeMipMapHolder();
 	}
 }

@@ -120,7 +120,7 @@ class TextureProxyBase extends NamedAssetBase implements IAsset
 		for (i in 0...8)
 		{
 			tex = _textures[i];
-			if (tex)
+			if (tex != null)
 			{
 				tex.dispose();
 				_textures[i] = null;

@@ -64,7 +64,8 @@ class GeomUtil
 			outIndex = 0;
 			len = indices.length;
 
-			for (i = 0; i < len; i += 3)
+			i = 0;
+			while(i < len)
 			{
 				splitIndex = splitVerts.length + 6;
 
@@ -163,6 +164,8 @@ class GeomUtil
 				}
 
 				outIndex += 3;
+				
+				i += 3;
 			}
 
 			if (splitVerts.length > 0)

@@ -129,7 +129,7 @@ class Partition3D
 			// if changed, find and attach the mesh node to the best suited partition node
 			if (node.parent != targetNode)
 			{
-				if (node)
+				if (node != null)
 					node.removeFromParent();
 
 				targetNode.addNode(node);

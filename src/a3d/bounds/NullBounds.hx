@@ -35,7 +35,9 @@ class NullBounds extends BoundingVolumeBase
 
 	override private function createBoundingRenderable():WireframePrimitiveBase
 	{
-		return _renderable || new WireframeSphere(100, 16, 12, 0xffffff, 0.5);
+		if (_renderable != null)
+			return _renderable;
+		return new WireframeSphere(100, 16, 12, 0xffffff, 0.5);
 	}
 
 	/**
@@ -69,7 +71,6 @@ class NullBounds extends BoundingVolumeBase
 
 	override public function classifyToPlane(plane:Plane3D):Int
 	{
-		plane = plane;
 		return PlaneClassification.INTERSECT;
 	}
 

@@ -250,12 +250,13 @@ class SegmentSet extends Entity implements IRenderable
 	/**
 	* @returns howmany segments are in the SegmentSet
 	*/
-	public var segmentCount(get, set):UInt;
+	public var segmentCount(get, null):UInt;
 	private inline function get_segmentCount():UInt
 	{
 		return _indexSegments;
 	}
 
+	public var subSetCount(get, null):UInt;
 	private inline function get_subSetCount():UInt
 	{
 		return _subSetCount;

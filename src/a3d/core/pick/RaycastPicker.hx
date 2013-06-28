@@ -34,14 +34,15 @@ class RaycastPicker implements IPicker
 	/**
 	 * @inheritDoc
 	 */
+	public var onlyMouseEnabled(get,set):Bool;
 	private inline function get_onlyMouseEnabled():Bool
 	{
 		return _onlyMouseEnabled;
 	}
 
-	private inline function set_onlyMouseEnabled(value:Bool):Void
+	private inline function set_onlyMouseEnabled(value:Bool):Bool
 	{
-		_onlyMouseEnabled = value;
+		return _onlyMouseEnabled = value;
 	}
 
 	/**
@@ -52,7 +53,6 @@ class RaycastPicker implements IPicker
 	 */
 	public function new(findClosestCollision:Bool)
 	{
-
 		_findClosestCollision = findClosestCollision;
 		_entities = new Vector<Entity>();
 	}
@@ -78,7 +78,7 @@ class RaycastPicker implements IPicker
 		_numEntities = 0;
 		var node:EntityListItem = collector.entityHead;
 		var entity:Entity;
-		while (node)
+		while (node != null)
 		{
 			entity = node.entity;
 
@@ -136,7 +136,7 @@ class RaycastPicker implements IPicker
 		}
 
 		//early out if no collisions detected
-		if (!_numEntities)
+		if (_numEntities == 0)
 			return null;
 
 		return getPickingCollisionVO();
@@ -144,12 +144,10 @@ class RaycastPicker implements IPicker
 
 	public function getEntityCollision(position:Vector3D, direction:Vector3D, entities:Vector<Entity>):PickingCollisionVO
 	{
-		position = position;
-		direction = direction;
 		_numEntities = 0;
 
 		var entity:Entity;
-		for each (entity in entities)
+		for (entity in entities)
 		{
 			if (entity.isIntersectingRay(position, direction))
 				_entities[_numEntities++] = entity;
@@ -169,7 +167,7 @@ class RaycastPicker implements IPicker
 			return true;
 
 		var ignoredEntity:Entity;
-		for each (ignoredEntity in _ignoredEntities)
+		for (ignoredEntity in _ignoredEntities)
 			if (ignoredEntity == entity)
 				return true;
 

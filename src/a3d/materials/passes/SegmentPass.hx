@@ -106,7 +106,6 @@ class SegmentPass extends MaterialPassBase
 	 */
 	override public function getFragmentCode(animationCode:String):String
 	{
-		animationCode = animationCode;
 		return "mov oc, v0\n";
 	}
 
@@ -116,14 +115,13 @@ class SegmentPass extends MaterialPassBase
 	 */
 	override public function render(renderable:IRenderable, stage3DProxy:Stage3DProxy, camera:Camera3D, viewProjection:Matrix3D):Void
 	{
-		viewProjection = viewProjection;
 		var context:Context3D = stage3DProxy.context3D;
 		_calcMatrix.copyFrom(renderable.sourceEntity.sceneTransform);
 		_calcMatrix.append(camera.inverseSceneTransform);
 
-		var subSetCount:UInt = SegmentSet(renderable).subSetCount;
+		var subSetCount:UInt = Std.instance(renderable,SegmentSet).subSetCount;
 
-		if (SegmentSet(renderable).hasData)
+		if (Std.instance(renderable,SegmentSet).hasData)
 		{
 			for (i in 0...subSetCount)
 			{

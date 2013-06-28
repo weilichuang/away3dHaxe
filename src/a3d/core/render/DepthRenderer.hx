@@ -42,26 +42,30 @@ class DepthRenderer extends RendererBase
 		_backgroundB = 1;
 	}
 
+	public var disableColor(get, set):Bool;
 	private inline function get_disableColor():Bool
 	{
 		return _disableColor;
 	}
 
-	private inline function set_disableColor(value:Bool):Void
+	private inline function set_disableColor(value:Bool):Bool
 	{
-		_disableColor = value;
+		return _disableColor = value;
 	}
 
-	override private function set_backgroundR(value:Float):Void
+	override private function set_backgroundR(value:Float):Float
 	{
+		return backgroundR;
 	}
 
-	override private function set_backgroundG(value:Float):Void
+	override private function set_backgroundG(value:Float):Float
 	{
+		return backgroundG;
 	}
 
-	override private function set_backgroundB(value:Float):Void
+	override private function set_backgroundB(value:Float):Float
 	{
+		return backgroundB;
 	}
 
 	public function renderCascades(entityCollector:EntityCollector, target:TextureBase, numCascades:UInt, scissorRects:Vector<Rectangle>, cameras:Vector<Camera3D>):Void
@@ -85,7 +89,7 @@ class DepthRenderer extends RendererBase
 			i--;
 		}
 
-		if (_activeMaterial)
+		if (_activeMaterial != null)
 			_activeMaterial.deactivateForDepth(_stage3DProxy);
 
 		_activeMaterial = null;
@@ -100,7 +104,7 @@ class DepthRenderer extends RendererBase
 	{
 		var material:MaterialBase;
 
-		while (item)
+		while (item != null)
 		{
 			if (item.cascaded)
 			{
@@ -113,12 +117,12 @@ class DepthRenderer extends RendererBase
 
 			// if completely in front, it will fall in a different cascade
 			// do not use near and far planes
-			if (!cullPlanes || entity.worldBounds.isInFrustum(cullPlanes, 4))
+			if (cullPlanes == null || entity.worldBounds.isInFrustum(cullPlanes, 4))
 			{
 				material = renderable.material;
 				if (_activeMaterial != material)
 				{
-					if (_activeMaterial)
+					if (_activeMaterial != null)
 						_activeMaterial.deactivateForDepth(_stage3DProxy);
 					_activeMaterial = material;
 					_activeMaterial.activateForDepth(_stage3DProxy, camera, false);
@@ -148,7 +152,7 @@ class DepthRenderer extends RendererBase
 		if (_renderBlended)
 			drawRenderables(entityCollector.blendedRenderableHead, entityCollector);
 
-		if (_activeMaterial)
+		if (_activeMaterial != null)
 			_activeMaterial.deactivateForDepth(_stage3DProxy);
 
 		if (_disableColor)
@@ -167,7 +171,7 @@ class DepthRenderer extends RendererBase
 		var camera:Camera3D = entityCollector.camera;
 		var item2:RenderableListItem;
 
-		while (item)
+		while (item != null)
 		{
 			_activeMaterial = item.renderable.material;
 
@@ -179,7 +183,7 @@ class DepthRenderer extends RendererBase
 				do
 				{
 					item2 = item2.next;
-				} while (item2 && item2.renderable.material == _activeMaterial);
+				} while (item2 != null && item2.renderable.material == _activeMaterial);
 			}
 			else
 			{
@@ -189,7 +193,7 @@ class DepthRenderer extends RendererBase
 				{
 					_activeMaterial.renderDepth(item2.renderable, _stage3DProxy, camera, _rttViewProjectionMatrix);
 					item2 = item2.next;
-				} while (item2 && item2.renderable.material == _activeMaterial);
+				} while (item2  != null && item2.renderable.material == _activeMaterial);
 				_activeMaterial.deactivateForDepth(_stage3DProxy);
 			}
 			item = item2;

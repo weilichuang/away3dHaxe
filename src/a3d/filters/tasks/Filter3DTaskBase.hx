@@ -35,57 +35,67 @@ class Filter3DTaskBase
 	/**
 	 * The texture scale for the input of this texture. This will define the output of the previous entry in the chain
 	 */
+	public var textureScale(get, set):Int;
 	private inline function get_textureScale():Int
 	{
 		return _textureScale;
 	}
 
-	private inline function set_textureScale(value:Int):Void
+	private inline function set_textureScale(value:Int):Int
 	{
 		if (_textureScale == value)
-			return;
+			return _textureScale;
 		_textureScale = value;
 		_scaledTextureWidth = _textureWidth >> _textureScale;
 		_scaledTextureHeight = _textureHeight >> _textureScale;
 		_textureDimensionsInvalid = true;
+		
+		return _textureScale;
 	}
 
+	public var target(get,set):Texture;
 	private inline function get_target():Texture
 	{
 		return _target;
 	}
 
-	private inline function set_target(value:Texture):Void
+	private inline function set_target(value:Texture):Texture
 	{
-		_target = value;
+		return _target = value;
 	}
 
+	public var textureWidth(get,set):Int;
 	private inline function get_textureWidth():Int
 	{
 		return _textureWidth;
 	}
 
-	private inline function set_textureWidth(value:Int):Void
+	private inline function set_textureWidth(value:Int):Int
 	{
 		if (_textureWidth == value)
-			return;
+			return _textureWidth;
 		_textureWidth = value;
 		_scaledTextureWidth = _textureWidth >> _textureScale;
 		_textureDimensionsInvalid = true;
+		
+		return _textureWidth;
 	}
 
+	public var textureHeight(get,set):Int;
 	private inline function get_textureHeight():Int
 	{
 		return _textureHeight;
 	}
 
-	private inline function set_textureHeight(value:Int):Void
+	private inline function set_textureHeight(value:Int):Int
 	{
 		if (_textureHeight == value)
-			return;
+			return _textureHeight;
 		_textureHeight = value;
 		_scaledTextureHeight = _textureHeight >> _textureScale;
 		_textureDimensionsInvalid = true;
+		
+		return _textureHeight;
 	}
 
 	public function getMainInputTexture(stage:Stage3DProxy):Texture
@@ -98,9 +108,9 @@ class Filter3DTaskBase
 
 	public function dispose():Void
 	{
-		if (_mainInputTexture)
+		if (_mainInputTexture != null)
 			_mainInputTexture.dispose();
-		if (_program3D)
+		if (_program3D != null)
 			_program3D.dispose();
 	}
 
@@ -111,7 +121,7 @@ class Filter3DTaskBase
 
 	private function updateProgram3D(stage:Stage3DProxy):Void
 	{
-		if (_program3D)
+		if (_program3D != null)
 			_program3D.dispose();
 		_program3D = stage.context3D.createProgram();
 		_program3D.upload(new AGALMiniAssembler(Debug.active).assemble(Context3DProgramType.VERTEX, getVertexCode()),
@@ -133,7 +143,7 @@ class Filter3DTaskBase
 
 	private function updateTextures(stage:Stage3DProxy):Void
 	{
-		if (_mainInputTexture)
+		if (_mainInputTexture != null)
 			_mainInputTexture.dispose();
 
 		_mainInputTexture = stage.context3D.createTexture(_scaledTextureWidth, _scaledTextureHeight, Context3DTextureFormat.BGRA, true);
@@ -156,6 +166,7 @@ class Filter3DTaskBase
 	{
 	}
 
+	public var requireDepthRender(get,null):Bool;
 	private inline function get_requireDepthRender():Bool
 	{
 		return _requireDepthRender;

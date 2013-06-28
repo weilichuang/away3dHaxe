@@ -5,6 +5,7 @@ import flash.events.TouchEvent;
 import flash.geom.Vector3D;
 import flash.utils.Dictionary;
 import flash.Vector;
+import haxe.ds.IntMap;
 
 
 import a3d.core.pick.IPicker;
@@ -18,32 +19,36 @@ import a3d.events.TouchEvent3D;
 
 class Touch3DManager
 {
-	private var _updateDirty:Bool = true;
-	private var _nullVector:Vector3D = new Vector3D();
+	private static var _collidingObjectFromTouchId:IntMap<PickingCollisionVO>  = new IntMap<PickingCollisionVO>();
+	private static var _previousCollidingObjectFromTouchId:IntMap<PickingCollisionVO> = new IntMap<PickingCollisionVO>();
+	private static var _queuedEvents:Vector<TouchEvent3D> = new Vector<TouchEvent3D>();
+
+	
+	private var _updateDirty:Bool;
+	private var _nullVector:Vector3D;
 	private var _numTouchPoints:UInt;
 	private var _touchPoint:TouchPoint;
 	private var _collidingObject:PickingCollisionVO;
 	private var _previousCollidingObject:PickingCollisionVO;
-	private static var _collidingObjectFromTouchId:Dictionary;
-	private static var _previousCollidingObjectFromTouchId:Dictionary;
-	private static var _queuedEvents:Vector<TouchEvent3D> = new Vector<TouchEvent3D>();
-
+	
 	private var _touchPoints:Vector<TouchPoint>;
-	private var _touchPointFromId:Dictionary;
+	private var _touchPointFromId:IntMap<TouchPoint>;
 
-	private var _touchMoveEvent:TouchEvent = new TouchEvent(TouchEvent.TOUCH_MOVE);
+	private var _touchMoveEvent:TouchEvent;
 
 	private var _forceTouchMove:Bool;
-	private var _touchPicker:IPicker = PickingType.RAYCAST_FIRST_ENCOUNTERED;
+	private var _touchPicker:IPicker;
 	private var _view:View3D;
 
 	public function new()
 	{
-		super();
+		_updateDirty = true;
+		_nullVector = new Vector3D();
 		_touchPoints = new Vector<TouchPoint>();
-		_touchPointFromId = new Dictionary();
-		_collidingObjectFromTouchId = new Dictionary();
-		_previousCollidingObjectFromTouchId = new Dictionary();
+		_touchPointFromId = new IntMap<TouchPoint>();
+
+		_touchMoveEvent = new TouchEvent(TouchEvent.TOUCH_MOVE);
+		_touchPicker = PickingType.RAYCAST_FIRST_ENCOUNTERED;
 	}
 
 	// ---------------------------------------------------------------------
@@ -52,14 +57,13 @@ class Touch3DManager
 
 	public function updateCollider():Void
 	{
-
 		if (_forceTouchMove || _updateDirty)
 		{ // If forceTouchMove is off, and no 2D Touch events dirty the update, don't update either.
 			for (i in 0..._numTouchPoints)
 			{
 				_touchPoint = _touchPoints[i];
 				_collidingObject = _touchPicker.getViewCollision(_touchPoint.x, _touchPoint.y, _view);
-				_collidingObjectFromTouchId[_touchPoint.id] = _collidingObject;
+				_collidingObjectFromTouchId.set(_touchPoint.id, _collidingObject);
 			}
 		}
 	}
@@ -76,17 +80,17 @@ class Touch3DManager
 		{
 			_touchPoint = _touchPoints[i];
 			// If colliding object has changed, queue over/out events.
-			_collidingObject = _collidingObjectFromTouchId[_touchPoint.id];
-			_previousCollidingObject = _previousCollidingObjectFromTouchId[_touchPoint.id];
+			_collidingObject = _collidingObjectFromTouchId.get(_touchPoint.id);
+			_previousCollidingObject = _previousCollidingObjectFromTouchId.get(_touchPoint.id);
 			if (_collidingObject != _previousCollidingObject)
 			{
-				if (_previousCollidingObject)
+				if (_previousCollidingObject != null)
 					queueDispatch(TouchEvent3D.TOUCH_OUT, _touchMoveEvent, _previousCollidingObject, _touchPoint);
-				if (_collidingObject)
+				if (_collidingObject != null)
 					queueDispatch(TouchEvent3D.TOUCH_OVER, _touchMoveEvent, _collidingObject, _touchPoint);
 			}
 			// Fire Touch move events here if forceTouchMove is on.
-			if (_forceTouchMove && _collidingObject)
+			if (_forceTouchMove && _collidingObject != null)
 			{
 				queueDispatch(TouchEvent3D.TOUCH_MOVE, _touchMoveEvent, _collidingObject, _touchPoint);
 			}
@@ -101,10 +105,10 @@ class Touch3DManager
 			event = _queuedEvents[i];
 			dispatcher = event.object;
 
-			while (dispatcher && !dispatcher.ancestorsAllowMouseEnabled)
+			while (dispatcher != null && !dispatcher.ancestorsAllowMouseEnabled)
 				dispatcher = dispatcher.parent;
 
-			if (dispatcher)
+			if (dispatcher != null)
 				dispatcher.dispatchEvent(event);
 		}
 		_queuedEvents.length = 0;
@@ -114,7 +118,7 @@ class Touch3DManager
 		for (i in 0..._numTouchPoints)
 		{
 			_touchPoint = _touchPoints[i];
-			_previousCollidingObjectFromTouchId[_touchPoint.id] = _collidingObjectFromTouchId[_touchPoint.id];
+			_previousCollidingObjectFromTouchId.set(_touchPoint.id,_collidingObjectFromTouchId.get(_touchPoint.id));
 		}
 	}
 
@@ -159,7 +163,7 @@ class Touch3DManager
 		event.touchPointID = touch.id;
 
 		// 3D properties.
-		if (collider)
+		if (collider != null)
 		{
 			// Object.
 			event.object = collider.entity;
@@ -167,9 +171,9 @@ class Touch3DManager
 			// UV.
 			event.uv = collider.uv;
 			// Position.
-			event.localPosition = collider.localPosition ? collider.localPosition.clone() : null;
+			event.localPosition = collider.localPosition != null ? collider.localPosition.clone() : null;
 			// Normal.
-			event.localNormal = collider.localNormal ? collider.localNormal.clone() : null;
+			event.localNormal = collider.localNormal != null ? collider.localNormal.clone() : null;
 			// Face index.
 			event.index = collider.index;
 			// SubGeometryIndex.
@@ -204,12 +208,12 @@ class Touch3DManager
 		touch.y = event.stageY;
 		_numTouchPoints++;
 		_touchPoints.push(touch);
-		_touchPointFromId[touch.id] = touch;
+		_touchPointFromId.set(touch.id, touch);
 
 		updateCollider(); // ensures collision check is done with correct mouse coordinates on mobile
 
-		_collidingObject = _collidingObjectFromTouchId[touch.id];
-		if (_collidingObject)
+		_collidingObject = _collidingObjectFromTouchId.get(touch.id);
+		if (_collidingObject != null)
 		{
 			queueDispatch(TouchEvent3D.TOUCH_BEGIN, event, _collidingObject, touch);
 		}
@@ -220,12 +224,12 @@ class Touch3DManager
 	private function onTouchMove(event:TouchEvent):Void
 	{
 
-		var touch:TouchPoint = _touchPointFromId[event.touchPointID];
+		var touch:TouchPoint = _touchPointFromId.get(event.touchPointID);
 		touch.x = event.stageX;
 		touch.y = event.stageY;
 
-		_collidingObject = _collidingObjectFromTouchId[touch.id];
-		if (_collidingObject)
+		_collidingObject = _collidingObjectFromTouchId.get(touch.id);
+		if (_collidingObject != null)
 		{
 			queueDispatch(TouchEvent3D.TOUCH_MOVE, _touchMoveEvent = event, _collidingObject, touch);
 		}
@@ -236,15 +240,15 @@ class Touch3DManager
 	private function onTouchEnd(event:TouchEvent):Void
 	{
 
-		var touch:TouchPoint = _touchPointFromId[event.touchPointID];
+		var touch:TouchPoint = _touchPointFromId.get(event.touchPointID);
 
-		_collidingObject = _collidingObjectFromTouchId[touch.id];
-		if (_collidingObject)
+		_collidingObject = _collidingObjectFromTouchId.get(touch.id);
+		if (_collidingObject != null)
 		{
 			queueDispatch(TouchEvent3D.TOUCH_END, event, _collidingObject, touch);
 		}
 
-		_touchPointFromId[touch.id] = null;
+		_touchPointFromId.remove(touch.id);
 		_numTouchPoints--;
 		_touchPoints.splice(_touchPoints.indexOf(touch), 1);
 
@@ -254,30 +258,32 @@ class Touch3DManager
 	// ---------------------------------------------------------------------
 	// Getters & setters.
 	// ---------------------------------------------------------------------
-
+	public var forceTouchMove(get, set):Bool;
 	private inline function get_forceTouchMove():Bool
 	{
 		return _forceTouchMove;
 	}
 
-	private inline function set_forceTouchMove(value:Bool):Void
+	private inline function set_forceTouchMove(value:Bool):Bool
 	{
-		_forceTouchMove = value;
+		return _forceTouchMove = value;
 	}
 
+	public var touchPicker(get, set):IPicker;
 	private inline function get_touchPicker():IPicker
 	{
 		return _touchPicker;
 	}
 
-	private inline function set_touchPicker(value:IPicker):Void
+	private inline function set_touchPicker(value:IPicker):IPicker
 	{
-		_touchPicker = value;
+		return _touchPicker = value;
 	}
 
-	private inline function set_view(value:View3D):Void
+	public var view(null, set):View3D;
+	private inline function set_view(value:View3D):View3D
 	{
-		_view = value;
+		return _view = value;
 	}
 }
 
@@ -286,4 +292,9 @@ class TouchPoint
 	public var id:Int;
 	public var x:Float;
 	public var y:Float;
+	
+	public function new()
+	{
+		
+	}
 }

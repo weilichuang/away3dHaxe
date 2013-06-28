@@ -6,6 +6,7 @@ import flash.display.DisplayObject;
 import flash.errors.ArgumentError;
 import flash.errors.ReferenceError;
 import flash.geom.Matrix;
+import flash.Lib;
 import flash.utils.ByteArray;
 import flash.utils.Dictionary;
 import flash.xml.XML;
@@ -226,7 +227,7 @@ class Cast
 				_colorNames.set("transparent",0xFF000000);
 			}
 
-			if (_colorNames.exits(data))
+			if (_colorNames.exists(data))
 				return _colorNames.get(data);
 
 			if ((cast(data,String).length == 6) && isHex(data))
@@ -248,7 +249,7 @@ class Cast
 
 	public static function tryClass(name:String):Dynamic
 	{
-		if (_notClasses.exits(name))
+		if (_notClasses.exists(name))
 			return name;
 
 		var result = _classes.get(name);
@@ -258,7 +259,7 @@ class Cast
 
 		try
 		{
-			result = getDefinitionByName(name);
+			result = Type.resolveClass(name);
 			_classes.set(name,result);
 			return result;
 		}
@@ -295,12 +296,12 @@ class Cast
 			return data;
 
 		if (Std.is(data,Bitmap))
-			if (cast(data,Bitmap).hasOwnProperty("bitmapData")) // if (data is BitmapAsset)
+			if (Std.instance(data,Bitmap).hasOwnProperty("bitmapData")) // if (data is BitmapAsset)
 				return cast(data,Bitmap).bitmapData;
 
 		if (Std.is(data,DisplayObject))
 		{
-			var ds:DisplayObject = Lib.as(data,DisplayObject);
+			var ds:DisplayObject = Std.instance(data,DisplayObject);
 			var bmd:BitmapData = new BitmapData(ds.width, ds.height, true, 0x00FFFFFF);
 			var mat:Matrix = ds.transform.matrix.clone();
 			mat.tx = 0;

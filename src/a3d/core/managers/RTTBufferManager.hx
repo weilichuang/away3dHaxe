@@ -59,7 +59,7 @@ class RTTBufferManager extends EventDispatcher
 		_stage3DProxy = stage3DProxy;
 	}
 
-
+	public var textureRatioX(get, null):Float;
 	private inline function get_textureRatioX():Float
 	{
 		if (_buffersInvalid)
@@ -67,6 +67,7 @@ class RTTBufferManager extends EventDispatcher
 		return _textureRatioX;
 	}
 
+	public var textureRatioY(get, null):Float;
 	private inline function get_textureRatioY():Float
 	{
 		if (_buffersInvalid)
@@ -74,15 +75,16 @@ class RTTBufferManager extends EventDispatcher
 		return _textureRatioY;
 	}
 
+	public var viewWidth(get, set):Int;
 	private inline function get_viewWidth():Int
 	{
 		return _viewWidth;
 	}
 
-	private inline function set_viewWidth(value:Int):Void
+	private inline function set_viewWidth(value:Int):Int
 	{
 		if (value == _viewWidth)
-			return;
+			return _viewWidth;
 		_viewWidth = value;
 
 		_buffersInvalid = true;
@@ -101,17 +103,20 @@ class RTTBufferManager extends EventDispatcher
 		}
 
 		dispatchEvent(new Event(Event.RESIZE));
+		
+		return _viewWidth;
 	}
 
+	public var viewHeight(get, set):Int;
 	private inline function get_viewHeight():Int
 	{
 		return _viewHeight;
 	}
 
-	private inline function set_viewHeight(value:Int):Void
+	private inline function set_viewHeight(value:Int):Int
 	{
 		if (value == _viewHeight)
-			return;
+			return _viewHeight;
 		_viewHeight = value;
 
 		_buffersInvalid = true;
@@ -130,8 +135,11 @@ class RTTBufferManager extends EventDispatcher
 		}
 
 		dispatchEvent(new Event(Event.RESIZE));
+		
+		return _viewHeight;
 	}
 
+	public var renderToTextureVertexBuffer(get, null):VertexBuffer3D;
 	private inline function get_renderToTextureVertexBuffer():VertexBuffer3D
 	{
 		if (_buffersInvalid)
@@ -139,6 +147,7 @@ class RTTBufferManager extends EventDispatcher
 		return _renderToTextureVertexBuffer;
 	}
 
+	public var renderToScreenVertexBuffer(get, null):VertexBuffer3D;
 	private inline function get_renderToScreenVertexBuffer():VertexBuffer3D
 	{
 		if (_buffersInvalid)
@@ -146,11 +155,13 @@ class RTTBufferManager extends EventDispatcher
 		return _renderToScreenVertexBuffer;
 	}
 
+	public var indexBuffer(get, null):IndexBuffer3D;
 	private inline function get_indexBuffer():IndexBuffer3D
 	{
 		return _indexBuffer;
 	}
 
+	public var renderToTextureRect(get, null):Rectangle;
 	private inline function get_renderToTextureRect():Rectangle
 	{
 		if (_buffersInvalid)
@@ -158,11 +169,13 @@ class RTTBufferManager extends EventDispatcher
 		return _renderToTextureRect;
 	}
 
+	public var textureWidth(get, null):Int;
 	private inline function get_textureWidth():Int
 	{
 		return _textureWidth;
 	}
 
+	public var textureHeight(get, null):Int;
 	private inline function get_textureHeight():Int
 	{
 		return _textureHeight;

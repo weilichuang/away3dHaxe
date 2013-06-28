@@ -151,89 +151,98 @@ class MaterialPassBase extends EventDispatcher
 	/**
 	 * The material to which this pass belongs.
 	 */
+	public var material(get, set):MaterialBase;
 	private inline function get_material():MaterialBase
 	{
 		return _material;
 	}
 
-	private inline function set_material(value:MaterialBase):Void
+	private inline function set_material(value:MaterialBase):MaterialBase
 	{
-		_material = value;
+		return _material = value;
 	}
 
 	/**
 	 * Indicate whether this pass should write to the depth buffer or not. Ignored when blending is enabled.
 	 */
+	public var writeDepth(get, set):Bool;
 	private inline function get_writeDepth():Bool
 	{
 		return _writeDepth;
 	}
 
-	private inline function set_writeDepth(value:Bool):Void
+	private inline function set_writeDepth(value:Bool):Bool
 	{
-		_writeDepth = value;
+		return _writeDepth = value;
 	}
 
 	/**
 	 * Defines whether any used textures should use mipmapping.
 	 */
+	public var mipmap(get, set):Bool;
 	private inline function get_mipmap():Bool
 	{
 		return _mipmap;
 	}
 
-	private inline function set_mipmap(value:Bool):Void
+	private inline function set_mipmap(value:Bool):Bool
 	{
 		if (_mipmap == value)
-			return;
+			return _mipmap;
 		_mipmap = value;
 		invalidateShaderProgram();
+		return _mipmap;
 	}
 
 
 	/**
 	 * Defines whether smoothing should be applied to any used textures.
 	 */
+	public var smooth(get, set):Bool;
 	private inline function get_smooth():Bool
 	{
 		return _smooth;
 	}
 
-	private inline function set_smooth(value:Bool):Void
+	private inline function set_smooth(value:Bool):Bool
 	{
 		if (_smooth == value)
-			return;
+			return _smooth;
 		_smooth = value;
 		invalidateShaderProgram();
+		return _smooth;
 	}
 
 	/**
 	 * Defines whether textures should be tiled.
 	 */
+	public var repeat(get, set):Bool;
 	private inline function get_repeat():Bool
 	{
 		return _repeat;
 	}
 
-	private inline function set_repeat(value:Bool):Void
+	private inline function set_repeat(value:Bool):Bool
 	{
 		if (_repeat == value)
-			return;
+			return _repeat;
 		_repeat = value;
 		invalidateShaderProgram();
+		return _repeat;
 	}
 
 	/**
 	 * Defines whether or not the material should perform backface culling.
 	 */
+	public var bothSides(get, set):Bool;
 	private inline function get_bothSides():Bool
 	{
 		return _bothSides;
 	}
 
-	private inline function set_bothSides(value:Bool):Void
+	private inline function set_bothSides(value:Bool):Bool
 	{
-		_bothSides = value;
+		return _bothSides = value;
 	}
 
 	public var depthCompareMode(get, set):Context3DCompareMode;
@@ -250,24 +259,28 @@ class MaterialPassBase extends EventDispatcher
 	/**
 	 * The animation used to add vertex code to the shader code.
 	 */
+	public var animationSet(get, set):IAnimationSet;
 	private inline function get_animationSet():IAnimationSet
 	{
 		return _animationSet;
 	}
 
-	private inline function set_animationSet(value:IAnimationSet):Void
+	private inline function set_animationSet(value:IAnimationSet):IAnimationSet
 	{
 		if (_animationSet == value)
-			return;
+			return _animationSet;
 
 		_animationSet = value;
 
 		invalidateShaderProgram();
+		
+		return _animationSet;
 	}
 
 	/**
 	 * Specifies whether this pass renders to texture
 	 */
+	public var renderToTexture(get, null):Bool;
 	private inline function get_renderToTexture():Bool
 	{
 		return _renderToTexture;
@@ -295,6 +308,7 @@ class MaterialPassBase extends EventDispatcher
 	/**
 	 * The amount of used vertex streams in the vertex code. Used by the animation code generation to know from which index on streams are available.
 	 */
+	public var numUsedStreams(get, null):UInt;
 	private inline function get_numUsedStreams():UInt
 	{
 		return _numUsedStreams;
@@ -303,26 +317,31 @@ class MaterialPassBase extends EventDispatcher
 	/**
 	 * The amount of used vertex constants in the vertex code. Used by the animation code generation to know from which index on registers are available.
 	 */
+	public var numUsedVertexConstants(get, null):UInt;
 	private inline function get_numUsedVertexConstants():UInt
 	{
 		return _numUsedVertexConstants;
 	}
 
+	public var numUsedVaryings(get, null):UInt;
 	private inline function get_numUsedVaryings():UInt
 	{
 		return _numUsedVaryings;
 	}
 
+	public var numUsedFragmentConstants(get, null):UInt;
 	private inline function get_numUsedFragmentConstants():UInt
 	{
 		return _numUsedFragmentConstants;
 	}
 
+	public var needFragmentAnimation(get, null):Bool;
 	private inline function get_needFragmentAnimation():Bool
 	{
 		return _needFragmentAnimation;
 	}
 
+	public var needUVAnimation(get, null):Bool;
 	private inline function get_needUVAnimation():Bool
 	{
 		return _needUVAnimation;
@@ -524,6 +543,7 @@ class MaterialPassBase extends EventDispatcher
 		AGALProgram3DCache.getInstance(stage3DProxy).setProgram3D(this, vertexCode, fragmentCode);
 	}
 
+	public var lightPicker(get, set):LightPickerBase;
 	private inline function get_lightPicker():LightPickerBase
 	{
 		return _lightPicker;
@@ -555,14 +575,16 @@ class MaterialPassBase extends EventDispatcher
 
 	}
 
+	public var alphaPremultiplied(get, set):Bool;
 	private inline function get_alphaPremultiplied():Bool
 	{
 		return _alphaPremultiplied;
 	}
 
-	private inline function set_alphaPremultiplied(value:Bool):Void
+	private inline function set_alphaPremultiplied(value:Bool):Bool
 	{
 		_alphaPremultiplied = value;
 		invalidateShaderProgram(false);
+		return _alphaPremultiplied;
 	}
 }

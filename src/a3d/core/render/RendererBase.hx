@@ -54,13 +54,14 @@ class RendererBase
 	private var _snapshotRequired:Bool;
 
 	private var _clearOnRender:Bool = true;
-	private var _rttViewProjectionMatrix:Matrix3D = new Matrix3D();
+	private var _rttViewProjectionMatrix:Matrix3D;
 
 	/**
 	 * Creates a new RendererBase object.
 	 */
 	public function new(renderToTexture:Bool = false)
 	{
+		_rttViewProjectionMatrix = new Matrix3D();
 		_renderableSorter = new RenderableMergeSort();
 		_renderToTexture = renderToTexture;
 	}
@@ -70,49 +71,54 @@ class RendererBase
 		return new EntityCollector();
 	}
 
+	public var viewWidth(get, set):Float;
 	private inline function get_viewWidth():Float
 	{
 		return _viewWidth;
 	}
 
-	private inline function set_viewWidth(value:Float):Void
+	private inline function set_viewWidth(value:Float):Float
 	{
-		_viewWidth = value;
+		return _viewWidth = value;
 	}
 
+	public var viewHeight(get, set):Float;
 	private inline function get_viewHeight():Float
 	{
 		return _viewHeight;
 	}
 
-	private inline function set_viewHeight(value:Float):Void
+	private inline function set_viewHeight(value:Float):Float
 	{
-		_viewHeight = value;
+		return _viewHeight = value;
 	}
 
+	public var renderToTexture(get, null):Bool;
 	private inline function get_renderToTexture():Bool
 	{
 		return _renderToTexture;
 	}
 
+	public var renderableSorter(get, set):IEntitySorter;
 	private inline function get_renderableSorter():IEntitySorter
 	{
 		return _renderableSorter;
 	}
 
-	private inline function set_renderableSorter(value:IEntitySorter):Void
+	private inline function set_renderableSorter(value:IEntitySorter):IEntitySorter
 	{
-		_renderableSorter = value;
+		return _renderableSorter = value;
 	}
 
+	public var clearOnRender(get, set):Bool;
 	private inline function get_clearOnRender():Bool
 	{
 		return _clearOnRender;
 	}
 
-	private inline function set_clearOnRender(value:Bool):Void
+	private inline function set_clearOnRender(value:Bool):Bool
 	{
-		_clearOnRender = value;
+		return _clearOnRender = value;
 	}
 
 	/**
@@ -120,14 +126,15 @@ class RendererBase
 	 *
 	 * @private
 	 */
+	public var backgroundR(get, set):Float;
 	private inline function get_backgroundR():Float
 	{
 		return _backgroundR;
 	}
 
-	private inline function set_backgroundR(value:Float):Void
+	private inline function set_backgroundR(value:Float):Float
 	{
-		_backgroundR = value;
+		return _backgroundR = value;
 	}
 
 	/**
@@ -135,14 +142,15 @@ class RendererBase
 	 *
 	 * @private
 	 */
+	public var backgroundG(get, set):Float;
 	private inline function get_backgroundG():Float
 	{
 		return _backgroundG;
 	}
 
-	private inline function set_backgroundG(value:Float):Void
+	private inline function set_backgroundG(value:Float):Float
 	{
-		_backgroundG = value;
+		return _backgroundG = value;
 	}
 
 	/**
@@ -150,14 +158,15 @@ class RendererBase
 	 *
 	 * @private
 	 */
+	public var backgroundB(get, set):Float;
 	private inline function get_backgroundB():Float
 	{
 		return _backgroundB;
 	}
 
-	private inline function set_backgroundB(value:Float):Void
+	private inline function set_backgroundB(value:Float):Float
 	{
-		_backgroundB = value;
+		return _backgroundB = value;
 	}
 
 	/**
@@ -165,37 +174,40 @@ class RendererBase
 	 *
 	 * @private
 	 */
+	public var stage3DProxy(get, set):Stage3DProxy;
 	private inline function get_stage3DProxy():Stage3DProxy
 	{
 		return _stage3DProxy;
 	}
 
-	private inline function set_stage3DProxy(value:Stage3DProxy):Void
+	private inline function set_stage3DProxy(value:Stage3DProxy):Stage3DProxy
 	{
 		if (value == _stage3DProxy)
-			return;
+			return _stage3DProxy;
 
 		if (!value)
 		{
-			if (_stage3DProxy)
+			if (_stage3DProxy != null)
 			{
 				_stage3DProxy.removeEventListener(Stage3DEvent.CONTEXT3D_CREATED, onContextUpdate);
 				_stage3DProxy.removeEventListener(Stage3DEvent.CONTEXT3D_RECREATED, onContextUpdate);
 			}
 			_stage3DProxy = null;
 			_context = null;
-			return;
+			return _stage3DProxy;
 		}
 		//else if (_stage3DProxy) throw new Error("A Stage3D instance was already assigned!");
 
 		_stage3DProxy = value;
 		_stage3DProxy.addEventListener(Stage3DEvent.CONTEXT3D_CREATED, onContextUpdate);
 		_stage3DProxy.addEventListener(Stage3DEvent.CONTEXT3D_RECREATED, onContextUpdate);
-		if (_backgroundImageRenderer)
+		if (_backgroundImageRenderer != null)
 			_backgroundImageRenderer.stage3DProxy = value;
 
-		if (value.context3D)
+		if (value.context3D != null)
 			_context = value.context3D;
+		
+		return _stage3DProxy;
 	}
 
 	/**
@@ -204,14 +216,15 @@ class RendererBase
 	 *
 	 * @private
 	 */
+	public var shareContext(get, set):Bool;
 	private inline function get_shareContext():Bool
 	{
 		return _shareContext;
 	}
 
-	private inline function set_shareContext(value:Bool):Void
+	private inline function set_shareContext(value:Bool):Bool
 	{
-		_shareContext = value;
+		return _shareContext = value;
 	}
 
 	/**
@@ -238,7 +251,7 @@ class RendererBase
 	 */
 	public function render(entityCollector:EntityCollector, target:TextureBase = null, scissorRect:Rectangle = null, surfaceSelector:Int = 0):Void
 	{
-		if (_stage3DProxy == null || !_context)
+		if (_stage3DProxy == null || _context == null)
 			return;
 
 		_rttViewProjectionMatrix.copyFrom(entityCollector.camera.viewProjection);
@@ -266,21 +279,21 @@ class RendererBase
 		_renderTarget = target;
 		_renderTargetSurface = surfaceSelector;
 
-		if (_renderableSorter)
+		if (_renderableSorter != null)
 			_renderableSorter.sort(entityCollector);
 
-		if (_renderToTexture)
+		if (_renderToTexture != null)
 			executeRenderToTexturePass(entityCollector);
 
 		_stage3DProxy.setRenderTarget(target, true, surfaceSelector);
 
-		if ((target || !_shareContext) && _clearOnRender)
+		if ((target != null || !_shareContext) && _clearOnRender)
 		{
 			_context.clear(_backgroundR, _backgroundG, _backgroundB, _backgroundAlpha, 1, 0);
 		}
 		_context.setDepthTest(false, Context3DCompareMode.ALWAYS);
 		_stage3DProxy.scissorRect = scissorRect;
-		if (_backgroundImageRenderer)
+		if (_backgroundImageRenderer != null)
 			_backgroundImageRenderer.render();
 
 		draw(entityCollector, target);
@@ -290,7 +303,7 @@ class RendererBase
 
 		if (!_shareContext)
 		{
-			if (_snapshotRequired && _snapshotBitmapData)
+			if (_snapshotRequired && _snapshotBitmapData != null)
 			{
 				_context.drawToBitmapData(_snapshotBitmapData);
 				_snapshotRequired = false;
@@ -330,70 +343,78 @@ class RendererBase
 		_context = _stage3DProxy.context3D;
 	}
 
+	public var backgroundAlpha(get, set):Float;
 	private inline function get_backgroundAlpha():Float
 	{
 		return _backgroundAlpha;
 	}
 
-	private inline function set_backgroundAlpha(value:Float):Void
+	private inline function set_backgroundAlpha(value:Float):Float
 	{
-		_backgroundAlpha = value;
+		return _backgroundAlpha = value;
 	}
 
+	public var background(get, set):Texture2DBase;
 	private inline function get_background():Texture2DBase
 	{
 		return _background;
 	}
 
-	private inline function set_background(value:Texture2DBase):Void
+	private inline function set_background(value:Texture2DBase):Texture2DBase
 	{
-		if (_backgroundImageRenderer && !value)
+		if (_backgroundImageRenderer != null && value == null)
 		{
 			_backgroundImageRenderer.dispose();
 			_backgroundImageRenderer = null;
 		}
 
-		if (!_backgroundImageRenderer && value)
+		if (!_backgroundImageRenderer != null && value != null)
 			_backgroundImageRenderer = new BackgroundImageRenderer(_stage3DProxy);
 
 		_background = value;
 
-		if (_backgroundImageRenderer)
+		if (_backgroundImageRenderer != null)
 			_backgroundImageRenderer.texture = value;
+			
+		return _background;
 	}
 
+	public var backgroundImageRenderer(get, null):BackgroundImageRenderer;
 	private inline function get_backgroundImageRenderer():BackgroundImageRenderer
 	{
 		return _backgroundImageRenderer;
 	}
 
+	public var antiAlias(get, set):UInt;
 	private inline function get_antiAlias():UInt
 	{
 		return _antiAlias;
 	}
 
-	private inline function set_antiAlias(antiAlias:UInt):Void
+	private inline function set_antiAlias(antiAlias:UInt):UInt
 	{
-		_antiAlias = antiAlias;
+		return _antiAlias = antiAlias;
 	}
 
+	public var textureRatioX(get, set):Float;
 	private inline function get_textureRatioX():Float
 	{
 		return _textureRatioX;
 	}
 
-	private inline function set_textureRatioX(value:Float):Void
+	private inline function set_textureRatioX(value:Float):Float
 	{
-		_textureRatioX = value;
+		return _textureRatioX = value;
 	}
 
+	public var textureRatioY(get, set):Float;
 	private inline function get_textureRatioY():Float
 	{
 		return _textureRatioY;
 	}
 
-	private inline function set_textureRatioY(value:Float):Void
+	private inline function set_textureRatioY(value:Float):Float
 	{
-		_textureRatioY = value;
+		return _textureRatioY = value;
 	}
 }

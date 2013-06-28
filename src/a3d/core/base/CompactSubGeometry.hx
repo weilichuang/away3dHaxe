@@ -16,9 +16,9 @@ class CompactSubGeometry extends SubGeometryBase implements ISubGeometry
 {
 	public var numVertices(get, null):UInt;
 	
-	private var _vertexDataInvalid:Vector<Bool> = new Vector<Bool>(8, true);
-	private var _vertexBuffer:Vector<VertexBuffer3D> = new Vector<VertexBuffer3D>(8);
-	private var _bufferContext:Vector<Context3D> = new Vector<Context3D>(8);
+	private var _vertexDataInvalid:Vector<Bool>;
+	private var _vertexBuffer:Vector<VertexBuffer3D>;
+	private var _bufferContext:Vector<Context3D>;
 	private var _numVertices:UInt;
 	private var _contextIndex:Int;
 	private var _activeBuffer:VertexBuffer3D;
@@ -33,6 +33,10 @@ class CompactSubGeometry extends SubGeometryBase implements ISubGeometry
 		
 		_autoDeriveVertexNormals = false;
 		_autoDeriveVertexTangents = false;
+		
+		_vertexDataInvalid = new Vector<Bool>(8, true);
+		_vertexBuffer = new Vector<VertexBuffer3D>(8);
+		_bufferContext = new Vector<Context3D>(8);
 	}
 
 	private inline function get_numVertices():UInt
@@ -282,6 +286,7 @@ class CompactSubGeometry extends SubGeometryBase implements ISubGeometry
 	}
 
 
+	public var secondaryUVStride(get, null):UInt;
 	private inline function get_secondaryUVStride():UInt
 	{
 		return 13;
@@ -307,6 +312,7 @@ class CompactSubGeometry extends SubGeometryBase implements ISubGeometry
 		return 9;
 	}
 
+	public var secondaryUVOffset(get, null):UInt;
 	private inline function get_secondaryUVOffset():Int
 	{
 		return 11;
@@ -336,7 +342,7 @@ class CompactSubGeometry extends SubGeometryBase implements ISubGeometry
 	public function cloneWithSeperateBuffers():SubGeometry
 	{
 		var clone:SubGeometry = new SubGeometry();
-		clone.updateVertexData(_isolatedVertexPositionData ? _isolatedVertexPositionData : _isolatedVertexPositionData = stripBuffer(0, 3));
+		clone.updateVertexData(_isolatedVertexPositionData != null ? _isolatedVertexPositionData : _isolatedVertexPositionData = stripBuffer(0, 3));
 		clone.autoDeriveVertexNormals = _autoDeriveVertexNormals;
 		clone.autoDeriveVertexTangents = _autoDeriveVertexTangents;
 		if (!_autoDeriveVertexNormals)
@@ -387,7 +393,7 @@ class CompactSubGeometry extends SubGeometryBase implements ISubGeometry
 
 	public function fromVectors(verts:Vector<Float>, uvs:Vector<Float>, normals:Vector<Float>, tangents:Vector<Float>):Void
 	{
-		var vertLen:Int = verts.length / 3 * 13;
+		var vertLen:Int = Std.int(verts.length / 3 * 13);
 
 		var index:Int = 0;
 		var v:Int = 0;

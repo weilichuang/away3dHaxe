@@ -119,7 +119,7 @@ class TouchEvent3D extends Event
 	{
 		super.stopPropagation();
 		allowedToPropagate = false;
-		if (parentEvent)
+		if (parentEvent != null)
 		{
 			parentEvent.allowedToPropagate = false;
 		}
@@ -132,7 +132,7 @@ class TouchEvent3D extends Event
 	{
 		super.stopImmediatePropagation();
 		allowedToPropagate = false;
-		if (parentEvent)
+		if (parentEvent != null)
 		{
 			parentEvent.allowedToPropagate = false;
 		}

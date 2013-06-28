@@ -85,7 +85,7 @@ class Mouse3DManager
 	{
 		_previousCollidingView = _collidingView;
 
-		if (view)
+		if (view != null)
 		{
 			// Clear the current colliding objects for multiple views if backBuffer just cleared
 			if (view.stage3DProxy.bufferClear)
@@ -106,7 +106,7 @@ class Mouse3DManager
 				{
 					if (_collidingViewObjects == null)
 						_collidingViewObjects = new Vector<PickingCollisionVO>(_viewCount);
-					_collidingObject = _collidingViewObjects[_view3Ds[view]] = _mousePicker.getViewCollision(view.mouseX, view.mouseY, view);
+					_collidingObject = _collidingViewObjects[_view3Ds.get(view)] = _mousePicker.getViewCollision(view.mouseX, view.mouseY, view);
 				}
 			}
 		}
@@ -188,7 +188,7 @@ class Mouse3DManager
 
 		if (!hasKey(view))
 		{
-			_view3Ds[view] = 0;
+			_view3Ds.set(view,0);
 		}
 
 		_childDepth = 0;
@@ -316,7 +316,7 @@ class Mouse3DManager
 			{
 				if (child == v)
 				{
-					_view3Ds.set(child, _childDepth);
+					_view3Ds.set(Std.instance(child,View3D), _childDepth);
 					_view3DLookup[_childDepth] = v;
 					_childDepth++;
 				}
@@ -335,7 +335,7 @@ class Mouse3DManager
 
 	private function onMouseMove(event:MouseEvent):Void
 	{
-		if (_collidingObject)
+		if (_collidingObject != null)
 			queueDispatch(_mouseMove, _mouseMoveEvent = event);
 		else
 			reThrowEvent(event);
@@ -345,7 +345,7 @@ class Mouse3DManager
 	private function onMouseOut(event:MouseEvent):Void
 	{
 		_activeView = null;
-		if (_collidingObject)
+		if (_collidingObject != null)
 			queueDispatch(_mouseOut, event, _collidingObject);
 		_updateDirty = true;
 	}
@@ -353,7 +353,7 @@ class Mouse3DManager
 	private function onMouseOver(event:MouseEvent):Void
 	{
 		_activeView = Std.instance(event.currentTarget,View3D);
-		if (_collidingObject && _previousCollidingObject != _collidingObject)
+		if (_collidingObject != null && _previousCollidingObject != _collidingObject)
 			queueDispatch(_mouseOver, event, _collidingObject);
 		else
 			reThrowEvent(event);
@@ -362,7 +362,7 @@ class Mouse3DManager
 
 	private function onClick(event:MouseEvent):Void
 	{
-		if (_collidingObject && _collidingUpObject == _collidingDownObject)
+		if (_collidingObject != null && _collidingUpObject == _collidingDownObject)
 		{
 			queueDispatch(_mouseClick, event);
 			_collidingUpObject = null;
@@ -375,7 +375,7 @@ class Mouse3DManager
 
 	private function onDoubleClick(event:MouseEvent):Void
 	{
-		if (_collidingObject && _collidingUpObject == _collidingDownObject)
+		if (_collidingObject != null && _collidingUpObject == _collidingDownObject)
 			queueDispatch(_mouseDoubleClick, event);
 		else
 			reThrowEvent(event);
@@ -399,7 +399,7 @@ class Mouse3DManager
 
 	private function onMouseUp(event:MouseEvent):Void
 	{
-		if (_collidingObject)
+		if (_collidingObject != null)
 		{
 			queueDispatch(_mouseUp, event);
 			_collidingUpObject = _collidingObject;
@@ -411,7 +411,7 @@ class Mouse3DManager
 
 	private function onMouseWheel(event:MouseEvent):Void
 	{
-		if (_collidingObject)
+		if (_collidingObject != null)
 			queueDispatch(_mouseWheel, event);
 		else
 			reThrowEvent(event);
@@ -422,23 +422,25 @@ class Mouse3DManager
 	// Getters & setters.
 	// ---------------------------------------------------------------------
 
+	public var forceMouseMove(get, set):Bool;
 	private inline function get_forceMouseMove():Bool
 	{
 		return _forceMouseMove;
 	}
 
-	private inline function set_forceMouseMove(value:Bool):Void
+	private inline function set_forceMouseMove(value:Bool):Bool
 	{
-		_forceMouseMove = value;
+		return _forceMouseMove = value;
 	}
 
+	public var mousePicker(get, set):IPicker;
 	private inline function get_mousePicker():IPicker
 	{
 		return _mousePicker;
 	}
 
-	private inline function set_mousePicker(value:IPicker):Void
+	private inline function set_mousePicker(value:IPicker):IPicker
 	{
-		_mousePicker = value;
+		return _mousePicker = value;
 	}
 }

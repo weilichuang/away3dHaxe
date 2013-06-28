@@ -35,6 +35,7 @@ class AnimationNodeBase extends NamedAssetBase implements IAsset
 	/**
 	 * @inheritDoc
 	 */
+	public var assetType(get, null):String;
 	private inline function get_assetType():String
 	{
 		return AssetType.ANIMATION_NODE;

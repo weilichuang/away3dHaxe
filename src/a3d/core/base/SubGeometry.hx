@@ -21,11 +21,6 @@ import a3d.core.managers.Stage3DProxy;
  */
 class SubGeometry extends SubGeometryBase implements ISubGeometry
 {
-	/**
-	 * The total amount of vertices in the SubGeometry.
-	 */
-	public var numVertices(get, null):UInt;
-	
 	// raw data:
 	private var _uvs:Vector<Float>;
 	private var _secondaryUvs:Vector<Float>;
@@ -83,7 +78,7 @@ class SubGeometry extends SubGeometryBase implements ISubGeometry
 		_vertexTangentBufferContext = new Vector<Context3D>(8);
 	}
 
-	
+	public var numVertices(get, null):UInt;
 	private inline function get_numVertices():UInt
 	{
 		return _numVertices;
@@ -242,7 +237,7 @@ class SubGeometry extends SubGeometryBase implements ISubGeometry
 		clone.updateVertexData(_vertexData.concat());
 		clone.updateUVData(_uvs.concat());
 		clone.updateIndexData(_indices.concat());
-		if (_secondaryUvs)
+		if (_secondaryUvs != null)
 			clone.updateSecondaryUVData(_secondaryUvs.concat());
 		if (!_autoDeriveVertexNormals)
 			clone.updateVertexNormalData(_vertexNormals.concat());
@@ -329,7 +324,7 @@ class SubGeometry extends SubGeometryBase implements ISubGeometry
 		_faceNormalsDirty = true;
 
 		_vertexData = vertices;
-		var numVertices:Int = vertices.length / 3;
+		var numVertices:Int = Std.int(vertices.length / 3);
 		if (numVertices != _numVertices)
 			disposeAllVertexBuffers();
 		_numVertices = numVertices;
@@ -349,6 +344,7 @@ class SubGeometry extends SubGeometryBase implements ISubGeometry
 		return _uvs;
 	}
 
+	public var secondaryUVData(get, null):Vector<Float>;
 	private inline function get_secondaryUVData():Vector<Float>
 	{
 		return _secondaryUvs;
@@ -454,32 +450,32 @@ class SubGeometry extends SubGeometryBase implements ISubGeometry
 	private function disposeForStage3D(stage3DProxy:Stage3DProxy):Void
 	{
 		var index:Int = stage3DProxy.stage3DIndex;
-		if (_vertexBuffer[index])
+		if (_vertexBuffer[index] != null)
 		{
 			_vertexBuffer[index].dispose();
 			_vertexBuffer[index] = null;
 		}
-		if (_uvBuffer[index])
+		if (_uvBuffer[index] != null)
 		{
 			_uvBuffer[index].dispose();
 			_uvBuffer[index] = null;
 		}
-		if (_secondaryUvBuffer[index])
+		if (_secondaryUvBuffer[index] != null)
 		{
 			_secondaryUvBuffer[index].dispose();
 			_secondaryUvBuffer[index] = null;
 		}
-		if (_vertexNormalBuffer[index])
+		if (_vertexNormalBuffer[index] != null)
 		{
 			_vertexNormalBuffer[index].dispose();
 			_vertexNormalBuffer[index] = null;
 		}
-		if (_vertexTangentBuffer[index])
+		if (_vertexTangentBuffer[index] != null)
 		{
 			_vertexTangentBuffer[index].dispose();
 			_vertexTangentBuffer[index] = null;
 		}
-		if (_indexBuffer[index])
+		if (_indexBuffer[index] != null)
 		{
 			_indexBuffer[index].dispose();
 			_indexBuffer[index] = null;
@@ -506,6 +502,7 @@ class SubGeometry extends SubGeometryBase implements ISubGeometry
 		return 2;
 	}
 
+	public var secondaryUVStride(get, null):UInt;
 	private inline function get_secondaryUVStride():UInt
 	{
 		return 2;
@@ -531,6 +528,7 @@ class SubGeometry extends SubGeometryBase implements ISubGeometry
 		return 0;
 	}
 
+	public var secondaryUVOffset(get, null):Int;
 	private inline function get_secondaryUVOffset():Int
 	{
 		return 0;
@@ -538,6 +536,6 @@ class SubGeometry extends SubGeometryBase implements ISubGeometry
 
 	public function cloneWithSeperateBuffers():SubGeometry
 	{
-		return SubGeometry(clone());
+		return Std.instance(clone(),SubGeometry);
 	}
 }

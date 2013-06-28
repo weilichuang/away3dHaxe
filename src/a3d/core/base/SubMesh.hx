@@ -152,19 +152,21 @@ class SubMesh implements IRenderable
 	/**
 	 * The material used to render the current SubMesh. If set to null, its parent Mesh's material will be used instead.
 	 */
-	private inline function get_material():MaterialBase
+	private function get_material():MaterialBase
 	{
-		return _material || _parentMesh.material;
+		if (_material != null)
+			return _material;
+		return _parentMesh.material;
 	}
 
 	private inline function set_material(value:MaterialBase):Void
 	{
-		if (_material)
+		if (_material != null)
 			_material.removeOwner(this);
 
 		_material = value;
 
-		if (_material)
+		if (_material != null)
 			_material.addOwner(this);
 	}
 

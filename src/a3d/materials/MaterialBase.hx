@@ -95,17 +95,19 @@ class MaterialBase extends NamedAssetBase implements IAsset
 		_uniqueId = MATERIAL_ID_COUNT++;
 	}
 
+	public var assetType(get, null):String;
 	private inline function get_assetType():String
 	{
 		return AssetType.MATERIAL;
 	}
 
+	public var lightPicker(get, set):LightPickerBase;
 	private inline function get_lightPicker():LightPickerBase
 	{
 		return _lightPicker;
 	}
 
-	private inline function set_lightPicker(value:LightPickerBase):Void
+	private inline function set_lightPicker(value:LightPickerBase):LightPickerBase
 	{
 		if (value != _lightPicker)
 		{
@@ -114,38 +116,44 @@ class MaterialBase extends NamedAssetBase implements IAsset
 			for (i in 0...len)
 				_passes[i].lightPicker = _lightPicker;
 		}
+		return _lightPicker;
 	}
 
 	/**
 	 * Indicates whether or not any used textures should use mipmapping.
 	 */
+	public var mipmap(get, set):Bool;
 	private inline function get_mipmap():Bool
 	{
 		return _mipmap;
 	}
 
-	private inline function set_mipmap(value:Bool):Void
+	private inline function set_mipmap(value:Bool):Bool
 	{
 		_mipmap = value;
 		for (i in 0..._numPasses)
 			_passes[i].mipmap = value;
+		return _mipmap;
 	}
 
 	/**
 	 * Indicates whether or not any used textures should use smoothing.
 	 */
+	public var smooth(get, set):Bool;
 	private inline function get_smooth():Bool
 	{
 		return _smooth;
 	}
 
-	private inline function set_smooth(value:Bool):Void
+	private inline function set_smooth(value:Bool):Bool
 	{
 		_smooth = value;
 		for (i in 0..._numPasses)
 			_passes[i].smooth = value;
+		return _smooth;
 	}
 
+	public var depthCompareMode(get, set):Context3DCompareMode;
 	private inline function get_depthCompareMode():Context3DCompareMode
 	{
 		return _depthCompareMode;
@@ -159,16 +167,18 @@ class MaterialBase extends NamedAssetBase implements IAsset
 	/**
 	 * Indicates whether or not any used textures should be tiled.
 	 */
+	public var repeat(get, set):Bool;
 	private inline function get_repeat():Bool
 	{
 		return _repeat;
 	}
 
-	private inline function set_repeat(value:Bool):Void
+	private inline function set_repeat(value:Bool):Bool
 	{
 		_repeat = value;
 		for (i in 0..._numPasses)
 			_passes[i].repeat = value;
+		return _repeat;
 	}
 
 	/**
@@ -189,12 +199,13 @@ class MaterialBase extends NamedAssetBase implements IAsset
 	/**
 	 * Defines whether or not the material should perform backface culling.
 	 */
+	public var bothSides(get, set):Bool;
 	private inline function get_bothSides():Bool
 	{
 		return _bothSides;
 	}
 
-	private inline function set_bothSides(value:Bool):Void
+	private inline function set_bothSides(value:Bool):Bool
 	{
 		_bothSides = value;
 
@@ -203,6 +214,7 @@ class MaterialBase extends NamedAssetBase implements IAsset
 
 		_depthPass.bothSides = value;
 		_distancePass.bothSides = value;
+		return _bothSides;
 	}
 
 	/**
@@ -215,14 +227,15 @@ class MaterialBase extends NamedAssetBase implements IAsset
 	 * <li>BlendMode.ALPHA</li>
 	 * </ul>
 	 */
-	private inline function get_blendMode():String
+	public var blendMode(get, set):BlendMode;
+	private inline function get_blendMode():BlendMode
 	{
 		return _blendMode;
 	}
 
-	private inline function set_blendMode(value:String):Void
+	private inline function set_blendMode(value:BlendMode):BlendMode
 	{
-		_blendMode = value;
+		return _blendMode = value;
 	}
 
 
@@ -231,23 +244,26 @@ class MaterialBase extends NamedAssetBase implements IAsset
 	 * already been premultiplied. Toggle this if you are seeing black halos around your
 	 * blended alpha edges.
 	*/
+	public var alphaPremultiplied(get, set):Bool;
 	private inline function get_alphaPremultiplied():Bool
 	{
 		return _alphaPremultiplied;
 	}
 
-	private inline function set_alphaPremultiplied(value:Bool):Void
+	private inline function set_alphaPremultiplied(value:Bool):Bool
 	{
 		_alphaPremultiplied = value;
 
 		for (i in 0..._numPasses)
 			_passes[i].alphaPremultiplied = value;
+		return _alphaPremultiplied;
 	}
 
 
 	/**
 	 * Indicates whether or not the material requires alpha blending during rendering.
 	 */
+	public var requiresBlending(get, null):Bool;
 	private inline function get_requiresBlending():Bool
 	{
 		return _blendMode != BlendMode.NORMAL;
@@ -256,6 +272,7 @@ class MaterialBase extends NamedAssetBase implements IAsset
 	/**
 	 * The unique id assigned to the material by the MaterialLibrary.
 	 */
+	public var uniqueId(get, null):UInt;
 	private inline function get_uniqueId():UInt
 	{
 		return _uniqueId;
@@ -266,6 +283,7 @@ class MaterialBase extends NamedAssetBase implements IAsset
 	 *
 	 * @private
 	 */
+	public var numPasses(get, null):UInt;
 	private inline function get_numPasses():UInt
 	{
 		return _numPasses;
@@ -345,12 +363,12 @@ class MaterialBase extends NamedAssetBase implements IAsset
 	 */
 	public function renderPass(index:UInt, renderable:IRenderable, stage3DProxy:Stage3DProxy, entityCollector:EntityCollector, viewProjection:Matrix3D):Void
 	{
-		if (_lightPicker)
+		if (_lightPicker != null)
 			_lightPicker.collectLights(renderable, entityCollector);
 
 		var pass:MaterialPassBase = _passes[index];
 
-		if (renderable.animator)
+		if (renderable.animator != null)
 			pass.updateAnimationState(renderable, stage3DProxy, entityCollector.camera);
 
 		pass.render(renderable, stage3DProxy, entityCollector.camera, viewProjection);
@@ -417,6 +435,7 @@ class MaterialBase extends NamedAssetBase implements IAsset
 	 * A list of the IMaterialOwners that use this material
 	 * @private
 	 */
+	public var owners(get, null):Vector<IMaterialOwner>;
 	private inline function get_owners():Vector<IMaterialOwner>
 	{
 		return _owners;
@@ -452,7 +471,7 @@ class MaterialBase extends NamedAssetBase implements IAsset
 		_depthPass.invalidateShaderProgram();
 		_distancePass.invalidateShaderProgram();
 
-		if (_animationSet)
+		if (_animationSet != null)
 		{
 			_animationSet.resetGPUCompatibility();
 			for (owner in _owners)
@@ -529,8 +548,9 @@ class MaterialBase extends NamedAssetBase implements IAsset
 			{
 				if (ids[j] != -1)
 				{
-					renderOrderId += mult * ids[j];
-					j = len;
+					renderOrderId += Std.int(mult * ids[j]);
+					//j = len;
+					break;
 				}
 			}
 			mult *= 1000;
@@ -549,7 +569,8 @@ class MaterialBase extends NamedAssetBase implements IAsset
 			if (ids[j] != -1)
 			{
 				depthPassId += ids[j];
-				j = len;
+				//j = len;
+				break;
 			}
 		}
 	}
@@ -566,7 +587,8 @@ class MaterialBase extends NamedAssetBase implements IAsset
 			if (ids[j] != -1)
 			{
 				depthPassId += ids[j];
-				j = len;
+				//j = len;
+				break;
 			}
 		}
 	}

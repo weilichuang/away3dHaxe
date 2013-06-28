@@ -44,6 +44,9 @@ import a3d.tools.utils.GeomUtil;
  */
 class ShaderPicker implements IPicker
 {
+	private static inline var MOUSE_SCISSOR_RECT:Rectangle = new Rectangle(0, 0, 1, 1);
+
+	
 	private var _stage3DProxy:Stage3DProxy;
 	private var _context:Context3D;
 	private var _onlyMouseEnabled:Bool = true;
@@ -73,21 +76,7 @@ class ShaderPicker implements IPicker
 	private var _rayPos:Vector3D = new Vector3D();
 	private var _rayDir:Vector3D = new Vector3D();
 	private var _potentialFound:Bool;
-	private static inline var MOUSE_SCISSOR_RECT:Rectangle = new Rectangle(0, 0, 1, 1);
-
-	/**
-	 * @inheritDoc
-	 */
-	private inline function get_onlyMouseEnabled():Bool
-	{
-		return _onlyMouseEnabled;
-	}
-
-	private inline function set_onlyMouseEnabled(value:Bool):Void
-	{
-		_onlyMouseEnabled = value;
-	}
-
+	
 	/**
 	 * Creates a new <code>ShaderPicker</code> object.
 	 */
@@ -98,7 +87,25 @@ class ShaderPicker implements IPicker
 		_boundOffsetScale = new Vector<Float>(8, true); // first 2 contain scale, last 2 translation
 		_boundOffsetScale[3] = 0;
 		_boundOffsetScale[7] = 1;
+		
+		
 	}
+	
+	/**
+	 * @inheritDoc
+	 */
+	public var onlyMouseEnabled(get, set):Bool;
+	private inline function get_onlyMouseEnabled():Bool
+	{
+		return _onlyMouseEnabled;
+	}
+
+	private inline function set_onlyMouseEnabled(value:Bool):Bool
+	{
+		return _onlyMouseEnabled = value;
+	}
+
+	
 
 	/**
 	 * @inheritDoc
@@ -211,7 +218,7 @@ class ShaderPicker implements IPicker
 		var renderable:IRenderable;
 		var viewProjection:Matrix3D = camera.viewProjection;
 
-		while (item)
+		while (item != null)
 		{
 			renderable = item.renderable;
 
@@ -526,9 +533,9 @@ class ShaderPicker implements IPicker
 	public function dispose():Void
 	{
 		_bitmapData.dispose();
-		if (_triangleProgram3D)
+		if (_triangleProgram3D != null)
 			_triangleProgram3D.dispose();
-		if (_objectProgram3D)
+		if (_objectProgram3D != null)
 			_objectProgram3D.dispose();
 		_triangleProgram3D = null;
 		_objectProgram3D = null;
