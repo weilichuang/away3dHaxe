@@ -282,7 +282,7 @@ class RendererBase
 		if (_renderableSorter != null)
 			_renderableSorter.sort(entityCollector);
 
-		if (_renderToTexture != null)
+		if (_renderToTexture)
 			executeRenderToTexturePass(entityCollector);
 
 		_stage3DProxy.setRenderTarget(target, true, surfaceSelector);

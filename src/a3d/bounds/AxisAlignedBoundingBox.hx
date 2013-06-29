@@ -75,10 +75,10 @@ class AxisAlignedBoundingBox extends BoundingVolumeBase
 		var px:Float = position.x - _centerX, py:Float = position.y - _centerY, pz:Float = position.z - _centerZ;
 		var vx:Float = direction.x, vy:Float = direction.y, vz:Float = direction.z;
 		var ix:Float, iy:Float, iz:Float;
-		var rayEntryDistance:Float;
+		var rayEntryDistance:Float = 0;
 
 		// ray-plane tests
-		var intersects:Bool;
+		var intersects:Bool = false;
 		if (vx < 0)
 		{
 			rayEntryDistance = (_halfExtentsX - px) / vx;

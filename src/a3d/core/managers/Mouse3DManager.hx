@@ -93,7 +93,7 @@ class Mouse3DManager
 				_collidingViewObjects = new Vector<PickingCollisionVO>(_viewCount);
 			}
 
-			if (view.shareContext == null)
+			if (!view.shareContext)
 			{
 				if (view == _activeView && (_forceMouseMove || _updateDirty))
 				{ // If forceMouseMove is off, and no 2D mouse events dirtied the update, don't update either.

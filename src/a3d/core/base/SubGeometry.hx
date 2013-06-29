@@ -47,7 +47,7 @@ class SubGeometry extends SubGeometryBase implements ISubGeometry
 	private var _vertexNormalBufferContext:Vector<Context3D>;
 	private var _vertexTangentBufferContext:Vector<Context3D>;
 
-	private var _numVertices:UInt;
+	private var _numVertices:Int;
 
 
 	/**

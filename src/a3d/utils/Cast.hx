@@ -239,7 +239,7 @@ class Cast
 
 	public static function color(data:Dynamic):UInt
 	{
-		var result:UInt = tryColor(data);
+		var result:Int = tryColor(data);
 
 		if (result == 0xFFFFFFFF)
 			throw new CastError("Can't cast to color: " + data);

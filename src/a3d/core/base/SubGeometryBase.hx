@@ -26,7 +26,7 @@ class SubGeometryBase
 	private var _numIndices:UInt;
 	private var _indexBufferContext:Vector<Context3D>;
 	private var _indicesInvalid:Vector<Bool>;
-	private var _numTriangles:UInt;
+	private var _numTriangles:Int;
 
 	private var _autoDeriveVertexNormals:Bool = true;
 	private var _autoDeriveVertexTangents:Bool = true;
@@ -161,7 +161,7 @@ class SubGeometryBase
 	 */
 	private function updateFaceTangents():Void
 	{
-		var i:UInt;
+		
 		var index1:UInt, index2:UInt, index3:UInt;
 		var len:UInt = _indices.length;
 		var ui:UInt, vi:UInt;
@@ -182,6 +182,7 @@ class SubGeometryBase
 		if(_faceTangents == null)
 			_faceTangents = new Vector<Float>(_indices.length, true);
 
+		var i:UInt = 0;
 		while (i < len)
 		{
 			index1 = _indices[i];
@@ -225,9 +226,8 @@ class SubGeometryBase
 	 */
 	private function updateFaceNormals():Void
 	{
-		var i:UInt, j:UInt, k:UInt;
-		var index:UInt;
-		var len:UInt = _indices.length;
+		var index:Int;
+		var len:Int = _indices.length;
 		var x1:Float, x2:Float, x3:Float;
 		var y1:Float, y2:Float, y3:Float;
 		var z1:Float, z2:Float, z3:Float;
@@ -247,6 +247,9 @@ class SubGeometryBase
 				_faceWeights = new Vector<Float>(Std.int(len / 3), true);
 		}
 
+		var i:Int = 0;
+		var k:Int = 0;
+		var j:Int = 0;
 		while (i < len)
 		{
 			index = posOffset + _indices[i++] * posStride;
@@ -313,7 +316,7 @@ class SubGeometryBase
 			v1 += normalStride;
 		}
 
-		var i:UInt, k:UInt;
+		var i:UInt=0, k:UInt=0;
 		var lenI:UInt = _indices.length;
 		var index:UInt;
 		var weight:Float;
@@ -381,7 +384,7 @@ class SubGeometryBase
 			i += tangentStride;
 		}
 
-		var k:UInt;
+		var k:UInt=0;
 		var lenI:UInt = _indices.length;
 		var index:UInt;
 		var weight:Float;
@@ -700,7 +703,7 @@ class SubGeometryBase
 	public function scale(scale:Float):Void
 	{
 		var vertices:Vector<Float> = UVData;
-		var len:UInt = vertices.length;
+		var len:Int = vertices.length;
 		var offset:Int = vertexOffset;
 		var stride:Int = vertexStride;
 
@@ -731,7 +734,7 @@ class SubGeometryBase
 
 		var bakeNormals:Bool = normals != null;
 		var bakeTangents:Bool = tangents != null;
-		var invTranspose:Matrix3D;
+		var invTranspose:Matrix3D = null;
 
 		if (bakeNormals || bakeTangents)
 		{
@@ -797,7 +800,7 @@ class SubGeometryBase
 	{
 		_uvsDirty = false;
 
-		var idx:UInt, uvIdx:UInt;
+		var idx:Int, uvIdx:Int;
 		var stride:Int = UVStride;
 		var skip:Int = stride - 2;
 		var len:Int = Std.int(_vertexData.length / vertexStride * stride);

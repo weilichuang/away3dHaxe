@@ -81,7 +81,7 @@ class Filter3DRenderer
 
 	private function updateFilterTasks(stage3DProxy:Stage3DProxy):Void
 	{
-		var len:UInt;
+		var len:Int;
 
 		if (_filterSizesInvalid)
 			updateFilterSizes();

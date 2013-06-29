@@ -178,15 +178,14 @@ class ObjectContainer3D extends Object3D implements IAsset
 		if (value == _implicitPartition)
 			return _implicitPartition;
 
-		var i:UInt;
 		var len:UInt = _children.length;
 		var child:ObjectContainer3D;
 
 		_implicitPartition = value;
 
-		while (i < len)
+		for(i in 0...len)
 		{
-			child = _children[i++];
+			child = _children[i];
 
 			// assign implicit partition if no explicit one is given
 			if (child._explicitPartition == null)
@@ -227,12 +226,10 @@ class ObjectContainer3D extends Object3D implements IAsset
 
 		invalidateSceneTransform();
 
-		var i:Int;
 		var len:Int = _children.length;
-
 		//act recursively on child objects
-		while (i < len)
-			_children[i++].notifySceneTransformChange();
+		for(i in 0...len)
+			_children[i].notifySceneTransformChange();
 
 		//trigger event if listener exists
 		if (_listenToSceneTransformChanged)
@@ -247,13 +244,10 @@ class ObjectContainer3D extends Object3D implements IAsset
 	{
 		notifySceneTransformChange();
 
-		var i:UInt;
 		var len:UInt = _children.length;
-
-
 		//act recursively on child objects
-		while (i < len)
-			_children[i++].notifySceneChange();
+		for(i in 0...len)
+			_children[i].notifySceneChange();
 
 		if (_listenToSceneChanged)
 		{
@@ -400,14 +394,13 @@ class ObjectContainer3D extends Object3D implements IAsset
 	public var minX(get, null):Float;
 	private inline function get_minX():Float
 	{
-		var i:UInt;
 		var len:UInt = _children.length;
 		var min:Float = Math.POSITIVE_INFINITY;
 		var m:Float;
 
-		while (i < len)
+		for(i in 0...len)
 		{
-			var child:ObjectContainer3D = _children[i++];
+			var child:ObjectContainer3D = _children[i];
 			m = child.minX + child.x;
 			if (m < min)
 				min = m;
@@ -422,14 +415,13 @@ class ObjectContainer3D extends Object3D implements IAsset
 	public var minY(get, null):Float;
 	private inline function get_minY():Float
 	{
-		var i:UInt;
 		var len:UInt = _children.length;
 		var min:Float = Math.POSITIVE_INFINITY;
 		var m:Float;
 
-		while (i < len)
+		for(i in 0...len)
 		{
-			var child:ObjectContainer3D = _children[i++];
+			var child:ObjectContainer3D = _children[i];
 			m = child.minY + child.y;
 			if (m < min)
 				min = m;
@@ -444,14 +436,13 @@ class ObjectContainer3D extends Object3D implements IAsset
 	public var minZ(get, null):Float;
 	private inline function get_minZ():Float
 	{
-		var i:UInt;
 		var len:UInt = _children.length;
 		var min:Float = Math.POSITIVE_INFINITY;
 		var m:Float;
 
-		while (i < len)
+		for(i in 0...len)
 		{
-			var child:ObjectContainer3D = _children[i++];
+			var child:ObjectContainer3D = _children[i];
 			m = child.minZ + child.z;
 			if (m < min)
 				min = m;
@@ -467,14 +458,13 @@ class ObjectContainer3D extends Object3D implements IAsset
 	private inline function get_maxX():Float
 	{
 		// todo: this isn't right, doesn't take into account transforms
-		var i:UInt;
 		var len:UInt = _children.length;
 		var max:Float = Math.NEGATIVE_INFINITY;
 		var m:Float;
 
-		while (i < len)
+		for(i in 0...len)
 		{
-			var child:ObjectContainer3D = _children[i++];
+			var child:ObjectContainer3D = _children[i];
 			m = child.maxX + child.x;
 			if (m > max)
 				max = m;
@@ -489,14 +479,13 @@ class ObjectContainer3D extends Object3D implements IAsset
 	public var maxY(get, null):Float;
 	private inline function get_maxY():Float
 	{
-		var i:UInt;
 		var len:UInt = _children.length;
 		var max:Float = Math.NEGATIVE_INFINITY;
 		var m:Float;
 
-		while (i < len)
+		for(i in 0...len)
 		{
-			var child:ObjectContainer3D = _children[i++];
+			var child:ObjectContainer3D = _children[i];
 			m = child.maxY + child.y;
 			if (m > max)
 				max = m;
@@ -511,14 +500,13 @@ class ObjectContainer3D extends Object3D implements IAsset
 	public var maxZ(get, null):Float;
 	private inline function get_maxZ():Float
 	{
-		var i:UInt;
 		var len:UInt = _children.length;
 		var max:Float = Math.NEGATIVE_INFINITY;
 		var m:Float;
 
-		while (i < len)
+		for(i in 0...len)
 		{
-			var child:ObjectContainer3D = _children[i++];
+			var child:ObjectContainer3D = _children[i];
 			m = child.maxZ + child.z;
 			if (m > max)
 				max = m;
@@ -569,11 +557,9 @@ class ObjectContainer3D extends Object3D implements IAsset
 
 	private inline function set_scene(value:Scene3D):Scene3D
 	{
-		var i:UInt;
 		var len:UInt = _children.length;
-
-		while (i < len)
-			_children[i++].scene = value;
+		for(i in 0...len)
+			_children[i].scene = value;
 
 		if (_scene == value)
 			return _scene;

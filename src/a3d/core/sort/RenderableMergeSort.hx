@@ -60,9 +60,9 @@ class RenderableMergeSort implements IEntitySorter
 		headB = mergeSortByDepth(headB);
 
 		// merge sublists while respecting order
-		var result:RenderableListItem;
-		var curr:RenderableListItem;
-		var l:RenderableListItem;
+		var result:RenderableListItem=null;
+		var curr:RenderableListItem=null;
+		var l:RenderableListItem=null;
 
 		if (head == null)
 			return headB;
@@ -128,10 +128,10 @@ class RenderableMergeSort implements IEntitySorter
 		headB = mergeSortByMaterial(headB);
 
 		// merge sublists while respecting order
-		var result:RenderableListItem;
-		var curr:RenderableListItem;
-		var l:RenderableListItem;
-		var cmp:Int;
+		var result:RenderableListItem=null;
+		var curr:RenderableListItem=null;
+		var l:RenderableListItem=null;
+		var cmp:Int = 0;
 
 		if (head == null)
 			return headB;

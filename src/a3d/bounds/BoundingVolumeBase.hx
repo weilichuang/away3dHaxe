@@ -113,8 +113,8 @@ class BoundingVolumeBase
 	 */
 	public function fromVertices(vertices:Vector<Float>):Void
 	{
-		var i:UInt;
-		var len:UInt = vertices.length;
+		var i:Int = 0;
+		var len:Int = vertices.length;
 		var minX:Float, minY:Float, minZ:Float;
 		var maxX:Float, maxY:Float, maxZ:Float;
 

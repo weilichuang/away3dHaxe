@@ -12,15 +12,14 @@ class Scene3DEvent extends Event
 
 	public var objectContainer3D:ObjectContainer3D;
 
-	//public var target(get, null):ObjectContainer3D;
-	@:getter(target)function get_target():Dynamic
-	{
-		return objectContainer3D;
-	}
+	//@:getter(target) function get_target():Dynamic
+	//{
+		//return objectContainer3D;
+	//}
 
 	public function new(type:String, objectContainer:ObjectContainer3D)
 	{
-		objectContainer3D = objectContainer;
+		this.objectContainer3D = objectContainer;
 		super(type);
 	}
 

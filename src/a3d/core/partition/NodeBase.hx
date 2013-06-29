@@ -181,7 +181,7 @@ class NodeBase
 
 		if (traverser.enterNode(this))
 		{
-			var i:UInt;
+			var i:UInt=0;
 			while (i < _numChildNodes)
 				_childNodes[i++].acceptTraverser(traverser);
 

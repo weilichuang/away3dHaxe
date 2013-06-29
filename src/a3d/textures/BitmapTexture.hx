@@ -63,7 +63,7 @@ class BitmapTexture extends Texture2DBase
 
 	private function getMipMapHolder():Void
 	{
-		var newW:UInt, newH:UInt;
+		var newW:Int, newH:Int;
 
 		newW = _bitmapData.width;
 		newH = _bitmapData.height;

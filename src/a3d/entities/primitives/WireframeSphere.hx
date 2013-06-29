@@ -8,8 +8,8 @@ import flash.Vector;
  */
 class WireframeSphere extends WireframePrimitiveBase
 {
-	private var _segmentsW:UInt;
-	private var _segmentsH:UInt;
+	private var _segmentsW:Int;
+	private var _segmentsH:Int;
 	private var _radius:Float;
 
 	/**
@@ -20,7 +20,7 @@ class WireframeSphere extends WireframePrimitiveBase
 	 * @param color The colour of the wireframe lines
 	 * @param thickness The thickness of the wireframe lines
 	 */
-	public function new(radius:Float = 50, segmentsW:UInt = 16, segmentsH:UInt = 12, color:UInt = 0xFFFFFF, thickness:Float = 1)
+	public function new(radius:Float = 50, segmentsW:Int = 16, segmentsH:Int = 12, color:UInt = 0xFFFFFF, thickness:Float = 1)
 	{
 		super(color, thickness);
 
@@ -37,9 +37,8 @@ class WireframeSphere extends WireframePrimitiveBase
 		var vertices:Vector<Float> = new Vector<Float>();
 		var v0:Vector3D = new Vector3D();
 		var v1:Vector3D = new Vector3D();
-		var i:UInt, j:UInt;
 		var numVerts:UInt = 0;
-		var index:Int;
+		var index:Int=0;
 
 		for (j in 0..._segmentsH+1)
 		{

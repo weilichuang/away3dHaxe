@@ -16,7 +16,7 @@
     </define>
     <define append="true">
       <name>CONFIG::timeStamp</name>
-      <value>'2013-6-25'</value>
+      <value>'2013-6-29'</value>
     </define>
     <define append="true">
       <name>CONFIG::air</name>
@@ -42,7 +42,7 @@
     </library-path>
   </compiler>
   <file-specs>
-    <path-element>E:\source\away3dHaxe\src\example\Intermediate_ParticleExplosions.as</path-element>
+    <path-element>E:\source\away3dHaxe\src\example\Intermediate_ParticleTrails.as</path-element>
   </file-specs>
   <default-background-color>#FFFFFF</default-background-color>
   <default-frame-rate>60</default-frame-rate>

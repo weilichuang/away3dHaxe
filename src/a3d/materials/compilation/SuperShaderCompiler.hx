@@ -189,7 +189,7 @@ class SuperShaderCompiler extends ShaderCompiler
 
 	override private function compileLightingCode():Void
 	{
-		var shadowReg:ShaderRegisterElement;
+		var shadowReg:ShaderRegisterElement = null;
 
 		_sharedRegisters.shadedTarget = _registerCache.getFreeFragmentVectorTemp();
 		_registerCache.addFragmentTempUsages(_sharedRegisters.shadedTarget, 1);
@@ -293,7 +293,7 @@ class SuperShaderCompiler extends ShaderCompiler
 		var diffuseColorReg:ShaderRegisterElement;
 		var specularColorReg:ShaderRegisterElement;
 		var lightDirReg:ShaderRegisterElement;
-		var regIndex:Int;
+		var regIndex:Int=0;
 		var addSpec:Bool = _usingSpecularMethod && usesLightsForSpecular();
 		var addDiff:Bool = usesLightsForDiffuse();
 
@@ -318,7 +318,7 @@ class SuperShaderCompiler extends ShaderCompiler
 		var specularColorReg:ShaderRegisterElement;
 		var lightPosReg:ShaderRegisterElement;
 		var lightDirReg:ShaderRegisterElement;
-		var regIndex:Int;
+		var regIndex:Int=0;
 		var addSpec:Bool = _usingSpecularMethod && usesLightsForSpecular();
 		var addDiff:Bool = usesLightsForDiffuse();
 

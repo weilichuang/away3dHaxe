@@ -517,7 +517,8 @@ class View3D extends Sprite
 		if (x == value)
 			return;
 
-		_localPos.x = super.x = value;
+		super.x = value;
+		_localPos.x =  value;
 
 		_globalPos.x = parent != null ? parent.localToGlobal(_localPos).x : value;
 		_globalPosDirty = true;
@@ -528,7 +529,8 @@ class View3D extends Sprite
 		if (y == value)
 			return;
 
-		_localPos.y = super.y = value;
+		super.y = value;
+		_localPos.y = value;
 
 		_globalPos.y = parent != null ? parent.localToGlobal(_localPos).y : value;
 		_globalPosDirty = true;

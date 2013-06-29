@@ -39,10 +39,8 @@ class MeshNode extends EntityNode
 		{
 			super.acceptTraverser(traverser);
 			var subs:Vector<SubMesh> = _mesh.subMeshes;
-			var i:UInt;
-			var len:UInt = subs.length;
-			while (i < len)
-				traverser.applyRenderable(subs[i++]);
+			for(i in 0...subs.length)
+				traverser.applyRenderable(subs[i]);
 		}
 	}
 

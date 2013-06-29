@@ -27,7 +27,7 @@ class MipmapGenerator
 	{
 		var w:UInt = source.width,
 			h:UInt = source.height;
-		var i:UInt;
+		var i:UInt=0;
 		var regen:Bool = mipmap != null;
 		if (mipmap == null)
 			mipmap = new BitmapData(w, h, alpha);

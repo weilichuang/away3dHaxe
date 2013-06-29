@@ -36,8 +36,12 @@ class WireframePrimitiveBase extends SegmentSet
 	{
 		_color = value;
 
-		for (i in 0..._segments.length)
-			_segments[i].startColor = _segments[i].endColor = value;
+		var iterator:Iterator<SegRef> = _segments.iterator();
+		for (ref in iterator)
+		{
+			var segment:Segment = ref.segment;
+			segment.startColor = segment.endColor = value;
+		}
 		
 		return _color;
 	}
@@ -52,8 +56,12 @@ class WireframePrimitiveBase extends SegmentSet
 	{
 		_thickness = value;
 
-		for (i in 0..._segments.length)
-			_segments[i].thickness = _segments[i].thickness = value;
+		var iterator:Iterator<SegRef> = _segments.iterator();
+		for (ref in iterator)
+		{
+			var segment:Segment = ref.segment;
+			segment.thickness = value;
+		}
 		
 		return _thickness;
 	}
@@ -92,9 +100,9 @@ class WireframePrimitiveBase extends SegmentSet
 		var segment:Segment;
 		var s:Vector3D, e:Vector3D;
 
-		if (_segments.length > index)
+		if (_segments.exists(index))
 		{
-			segment = _segments[index];
+			segment = _segments.get(index).segment;
 			s = segment.start;
 			e = segment.end;
 			s.x = v0.x;
@@ -103,7 +111,7 @@ class WireframePrimitiveBase extends SegmentSet
 			e.x = v1.x;
 			e.y = v1.y;
 			e.z = v1.z;
-			_segments.get(index).updateSegment(s, e, null, _color, _color, _thickness);
+			segment.updateSegment(s, e, null, _color, _color, _thickness);
 		}
 		else
 		{

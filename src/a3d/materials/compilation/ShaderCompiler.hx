@@ -707,9 +707,9 @@ class ShaderCompiler
 	{
 		var methods:Vector<MethodVOSet> = _methodSetup.methods;
 		var numMethods:UInt = methods.length;
-		var method:EffectMethodBase;
-		var data:MethodVO;
-		var alphaReg:ShaderRegisterElement;
+		var method:EffectMethodBase=null;
+		var data:MethodVO=null;
+		var alphaReg:ShaderRegisterElement=null;
 
 		if (_preserveAlpha)
 		{

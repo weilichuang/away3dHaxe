@@ -28,7 +28,7 @@ import a3d.entities.primitives.data.Segment;
 
 class SegmentSet extends Entity implements IRenderable
 {
-	private var LIMIT:UInt = 3 * 0xFFFF;
+	private var LIMIT:Int = 3 * 0xFFFF;
 	private var _activeSubSet:SubSet;
 	private var _subSets:Vector<SubSet>;
 	private var _subSetCount:UInt;
@@ -98,7 +98,6 @@ class SegmentSet extends Entity implements IRenderable
 		segRef.segment = segment;
 
 		_segments.set(_indexSegments, segRef);
-
 		_indexSegments++;
 	}
 
@@ -599,7 +598,7 @@ class SegmentSet extends Entity implements IRenderable
 	public var numVertices(get, null):UInt;
 	private inline function get_numVertices():UInt
 	{
-		return null;
+		return 0;
 	}
 
 	public var vertexStride(get, null):UInt;

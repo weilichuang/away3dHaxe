@@ -9,11 +9,11 @@ import flash.display.Shape;
 import flash.display.Sprite;
 import flash.events.Event;
 import flash.events.MouseEvent;
+import flash.Lib;
 import flash.system.System;
 import flash.text.TextField;
 import flash.text.TextFieldAutoSize;
 import flash.text.TextFormat;
-import flash.utils.getTimer;
 import flash.utils.Timer;
 import flash.Vector;
 
@@ -59,17 +59,17 @@ class AwayStats extends Sprite
 	private var _timer:Timer;
 	private var _last_frame_timestamp:Float;
 
-	private var _fps:UInt;
+	private var _fps:Int;
 	private var _ram:Float;
 	private var _max_ram:Float;
-	private var _min_fps:UInt;
+	private var _min_fps:Float;
 	private var _avg_fps:Float;
-	private var _max_fps:UInt;
-	private var _tfaces:UInt;
-	private var _rfaces:UInt;
+	private var _max_fps:Int;
+	private var _tfaces:Int;
+	private var _rfaces:Int;
 
-	private var _num_frames:UInt;
-	private var _fps_sum:UInt;
+	private var _num_frames:Int;
+	private var _fps_sum:Int;
 
 	private var _top_bar:Sprite;
 	private var _btm_bar:Sprite;
@@ -85,7 +85,7 @@ class AwayStats extends Sprite
 	private var _diagram:Sprite;
 	private var _dia_bmp:BitmapData;
 
-	private var _mem_points:Array;
+	private var _mem_points:Array<Float>;
 	private var _mem_graph:Shape;
 	private var _updates:Int;
 
@@ -101,7 +101,7 @@ class AwayStats extends Sprite
 	private var _drag_dy:Float;
 	private var _dragging:Bool;
 
-	private var _mean_data:Array;
+	private var _mean_data:Array<Float>;
 	private var _mean_data_length:Int;
 
 	private var _enable_reset:Bool;
@@ -172,13 +172,13 @@ class AwayStats extends Sprite
 		_mean_data_length = meanDataLength;
 
 		_views = new Vector<View3D>();
-		if (view3d)
+		if (view3d != null)
 			_views.push(view3d);
 
 
 		// Store instance for singleton access. Singleton status
 		// is not enforced, since the widget will work anyway.
-		if (_INSTANCE)
+		if (_INSTANCE != null)
 		{
 			trace('Creating several statistics windows in one project. Is this intentional?');
 		}
@@ -248,7 +248,7 @@ class AwayStats extends Sprite
 	 */
 	public static function get_instance():AwayStats
 	{
-		return _INSTANCE ? _INSTANCE : _INSTANCE = new AwayStats();
+		return _INSTANCE != null ? _INSTANCE : _INSTANCE = new AwayStats();
 	}
 
 
@@ -262,7 +262,7 @@ class AwayStats extends Sprite
 	 */
 	public function registerView(view3d:View3D):Void
 	{
-		if (view3d && _views.indexOf(view3d) < 0)
+		if (view3d != null && _views.indexOf(view3d) < 0)
 			_views.push(view3d);
 	}
 
@@ -275,7 +275,7 @@ class AwayStats extends Sprite
 	 */
 	public function unregisterView(view3d:View3D):Void
 	{
-		if (view3d)
+		if (view3d != null)
 		{
 			var idx:Int = _views.indexOf(view3d);
 			if (idx >= 0)
@@ -322,12 +322,12 @@ class AwayStats extends Sprite
 		var fps_label_tf:TextField;
 		var afps_label_tf:TextField;
 
-		_top_bar = new Sprite;
+		_top_bar = new Sprite();
 		_top_bar.graphics.beginFill(0, 0);
 		_top_bar.graphics.drawRect(0, 0, _WIDTH, 20);
 		addChild(_top_bar);
 
-		logo = new Shape;
+		logo = new Shape();
 		logo.x = 9;
 		logo.y = 7.5;
 		logo.scaleX = 0.6;
@@ -358,7 +358,7 @@ class AwayStats extends Sprite
 
 
 		// Color markers 
-		markers = new Shape;
+		markers = new Shape();
 		markers.graphics.beginFill(0xffffff);
 		markers.graphics.drawRect(20, 7, 4, 4);
 		markers.graphics.beginFill(0x3388dd);
@@ -375,7 +375,7 @@ class AwayStats extends Sprite
 		fps_label_tf.selectable = false;
 		_top_bar.addChild(fps_label_tf);
 
-		_fps_tf = new TextField;
+		_fps_tf = new TextField();
 		_fps_tf.defaultTextFormat = _data_format;
 		_fps_tf.autoSize = TextFieldAutoSize.LEFT;
 		_fps_tf.x = fps_label_tf.x + 16;
@@ -384,7 +384,7 @@ class AwayStats extends Sprite
 		_top_bar.addChild(_fps_tf);
 
 		// AVG FPS
-		afps_label_tf = new TextField;
+		afps_label_tf = new TextField();
 		afps_label_tf.defaultTextFormat = _label_format;
 		afps_label_tf.autoSize = TextFieldAutoSize.LEFT;
 		afps_label_tf.text = 'A:';
@@ -393,7 +393,7 @@ class AwayStats extends Sprite
 		afps_label_tf.selectable = false;
 		_top_bar.addChild(afps_label_tf);
 
-		_afps_tf = new TextField;
+		_afps_tf = new TextField();
 		_afps_tf.defaultTextFormat = _data_format;
 		_afps_tf.autoSize = TextFieldAutoSize.LEFT;
 		_afps_tf.x = afps_label_tf.x + 12;
@@ -402,7 +402,7 @@ class AwayStats extends Sprite
 		_top_bar.addChild(_afps_tf);
 
 		// Minimize / maximize button
-		_min_max_btn = new Sprite;
+		_min_max_btn = new Sprite();
 		_min_max_btn.x = _WIDTH - 8;
 		_min_max_btn.y = 7;
 		_min_max_btn.graphics.beginFill(0, 0);
@@ -430,14 +430,14 @@ class AwayStats extends Sprite
 
 		// Hit area for bottom bar (to avoid having textfields
 		// affect interaction badly.)
-		_btm_bar_hit = new Sprite;
+		_btm_bar_hit = new Sprite();
 		_btm_bar_hit.graphics.beginFill(0xffcc00, 0);
 		_btm_bar_hit.graphics.drawRect(0, 1, _WIDTH, _BOTTOM_BAR_HEIGHT - 1);
 		addChild(_btm_bar_hit);
 
 
 		// Color markers
-		markers = new Shape;
+		markers = new Shape();
 		markers.graphics.beginFill(_MEM_COL);
 		markers.graphics.drawRect(5, 4, 4, 4);
 		markers.graphics.beginFill(_POLY_COL);
@@ -445,7 +445,7 @@ class AwayStats extends Sprite
 		_btm_bar.addChild(markers);
 
 		// CURRENT RAM
-		ram_label_tf = new TextField;
+		ram_label_tf = new TextField();
 		ram_label_tf.defaultTextFormat = _label_format;
 		ram_label_tf.autoSize = TextFieldAutoSize.LEFT;
 		ram_label_tf.text = 'RAM:';
@@ -455,7 +455,7 @@ class AwayStats extends Sprite
 		ram_label_tf.mouseEnabled = false;
 		_btm_bar.addChild(ram_label_tf);
 
-		_ram_tf = new TextField;
+		_ram_tf = new TextField();
 		_ram_tf.defaultTextFormat = _data_format;
 		_ram_tf.autoSize = TextFieldAutoSize.LEFT;
 		_ram_tf.x = ram_label_tf.x + 31;
@@ -465,7 +465,7 @@ class AwayStats extends Sprite
 		_btm_bar.addChild(_ram_tf);
 
 		// POLY COUNT
-		poly_label_tf = new TextField;
+		poly_label_tf = new TextField();
 		poly_label_tf.defaultTextFormat = _label_format;
 		poly_label_tf.autoSize = TextFieldAutoSize.LEFT;
 		poly_label_tf.text = 'POLY:';
@@ -475,7 +475,7 @@ class AwayStats extends Sprite
 		poly_label_tf.mouseEnabled = false;
 		_btm_bar.addChild(poly_label_tf);
 
-		_poly_tf = new TextField;
+		_poly_tf = new TextField();
 		_poly_tf.defaultTextFormat = _data_format;
 		_poly_tf.autoSize = TextFieldAutoSize.LEFT;
 		_poly_tf.x = poly_label_tf.x + 31;
@@ -485,7 +485,7 @@ class AwayStats extends Sprite
 		_btm_bar.addChild(_poly_tf);
 
 		// SOFTWARE RENDERER WARNING
-		swhw_label_tf = new TextField;
+		swhw_label_tf = new TextField();
 		swhw_label_tf.defaultTextFormat = _label_format;
 		swhw_label_tf.autoSize = TextFieldAutoSize.LEFT;
 		swhw_label_tf.text = 'DRIV:';
@@ -495,7 +495,7 @@ class AwayStats extends Sprite
 		swhw_label_tf.mouseEnabled = false;
 		_btm_bar.addChild(swhw_label_tf);
 
-		_swhw_tf = new TextField;
+		_swhw_tf = new TextField();
 		_swhw_tf.defaultTextFormat = _data_format;
 		_swhw_tf.autoSize = TextFieldAutoSize.LEFT;
 		_swhw_tf.x = swhw_label_tf.x + 31;
@@ -510,7 +510,7 @@ class AwayStats extends Sprite
 	{
 
 		_dia_bmp = new BitmapData(_WIDTH, _DIAG_HEIGHT, true, 0);
-		_diagram = new Sprite;
+		_diagram = new Sprite();
 		_diagram.graphics.beginBitmapFill(_dia_bmp);
 		_diagram.graphics.drawRect(0, 0, _dia_bmp.width, _dia_bmp.height);
 		_diagram.graphics.endFill();
@@ -524,7 +524,7 @@ class AwayStats extends Sprite
 		_diagram.graphics.lineTo(_WIDTH, Math.floor(_dia_bmp.height / 2));
 
 		// FRAME RATE BAR
-		_fps_bar = new Shape;
+		_fps_bar = new Shape();
 		_fps_bar.graphics.beginFill(0xffffff);
 		_fps_bar.graphics.drawRect(0, 0, _WIDTH, 4);
 		_fps_bar.x = 0;
@@ -532,21 +532,21 @@ class AwayStats extends Sprite
 		addChild(_fps_bar);
 
 		// AVERAGE FPS
-		_afps_bar = new Shape;
+		_afps_bar = new Shape();
 		_afps_bar.graphics.lineStyle(1, 0x3388dd, 1, false, LineScaleMode.NORMAL, CapsStyle.SQUARE);
 		_afps_bar.graphics.lineTo(0, 4);
 		_afps_bar.y = _fps_bar.y;
 		addChild(_afps_bar);
 
 		// MINIMUM FPS
-		_lfps_bar = new Shape;
+		_lfps_bar = new Shape();
 		_lfps_bar.graphics.lineStyle(1, 0xff0000, 1, false, LineScaleMode.NORMAL, CapsStyle.SQUARE);
 		_lfps_bar.graphics.lineTo(0, 4);
 		_lfps_bar.y = _fps_bar.y;
 		addChild(_lfps_bar);
 
 		// MAXIMUM FPS
-		_hfps_bar = new Shape;
+		_hfps_bar = new Shape();
 		_hfps_bar.graphics.lineStyle(1, 0x00ff00, 1, false, LineScaleMode.NORMAL, CapsStyle.SQUARE);
 		_hfps_bar.graphics.lineTo(0, 4);
 		_hfps_bar.y = _fps_bar.y;
@@ -554,7 +554,7 @@ class AwayStats extends Sprite
 
 
 		_mem_points = [];
-		_mem_graph = new Shape;
+		_mem_graph = new Shape();
 		_mem_graph.y = _diagram.y + _diagram.height;
 		addChildAt(_mem_graph, 0);
 	}
@@ -625,9 +625,9 @@ class AwayStats extends Sprite
 		var dia_y:Int;
 
 		// Redraw counters
-		_fps_tf.text = _fps.toString().concat('/', int(stage.frameRate));
-		_afps_tf.text = Math.round(_avg_fps).toString();
-		_ram_tf.text = _getRamString(_ram).concat(' / ', _getRamString(_max_ram));
+		_fps_tf.text = _fps + '/' + Std.int(stage.frameRate);
+		_afps_tf.text = Math.round(_avg_fps)+"";
+		_ram_tf.text = _getRamString(_ram) + ' / ' + _getRamString(_max_ram);
 
 
 		// Move entire diagram
@@ -653,7 +653,9 @@ class AwayStats extends Sprite
 		// Show software (SW) or hardware (HW)
 		if (!_showing_driv_info)
 		{
-			if (_views && _views.length && _views[0].renderer.stage3DProxy && _views[0].renderer.stage3DProxy.context3D)
+			if (_views != null && _views.length != 0 && 
+				_views[0].renderer.stage3DProxy  != null && 
+				_views[0].renderer.stage3DProxy.context3D != null)
 			{
 				var di:String = _views[0].renderer.stage3DProxy.context3D.driverInfo;
 				_swhw_tf.text = di.substr(0, di.indexOf(' '));
@@ -707,11 +709,14 @@ class AwayStats extends Sprite
 		g.clear();
 		g.lineStyle(.5, _MEM_COL, 1, true, LineScaleMode.NONE);
 		g.moveTo(5 * (_mem_points.length - 1), -_mem_points[_mem_points.length - 1]);
-		for (i = _mem_points.length - 1; i >= 0; --i)
+		
+		i = _mem_points.length - 1;
+		while ( i >= 0 )
 		{
 			if (_mem_points[i + 1] == 0 || _mem_points[i] == 0)
 			{
 				g.moveTo(i * 5, -_mem_points[i]);
+				--i;
 				continue;
 			}
 
@@ -719,6 +724,8 @@ class AwayStats extends Sprite
 
 			if (_mem_points[i] > max_val)
 				max_val = _mem_points[i];
+				
+			--i;
 		}
 		_mem_graph.scaleY = _dia_bmp.height / max_val;
 	}
@@ -739,7 +746,7 @@ class AwayStats extends Sprite
 			ram_unit = 'K';
 		}
 
-		return ram.toFixed(1) + ram_unit;
+		return untyped ram.toFixed(1) + ram_unit;
 	}
 
 
@@ -751,20 +758,20 @@ class AwayStats extends Sprite
 		// Reset all values
 		_updates = 0;
 		_num_frames = 0;
-		_min_fps = int.MAX_VALUE;
+		_min_fps = Math.POSITIVE_INFINITY;
 		_max_fps = 0;
 		_avg_fps = 0;
 		_fps_sum = 0;
 		_max_ram = 0;
 
 		// Reset RAM usage log
-		for (i in 0..._WIDTH / 5)
+		for (i in 0...Std.int(_WIDTH / 5))
 		{
 			_mem_points[i] = 0;
 		}
 
 		// Reset FPS log if any
-		if (_mean_data)
+		if (_mean_data != null)
 		{
 			for (i in 0..._mean_data.length)
 			{
@@ -853,7 +860,7 @@ class AwayStats extends Sprite
 
 	private function _onEnterFrame(ev:Event):Void
 	{
-		var time:Float = getTimer() - _last_frame_timestamp;
+		var time:Float = Lib.getTimer() - _last_frame_timestamp;
 
 		// Calculate current FPS
 		_fps = Math.floor(1000 / time);
@@ -870,10 +877,10 @@ class AwayStats extends Sprite
 		// framerate onto fifo, shift one off and
 		// subtract it from the running sum, to keep
 		// the sum reflecting the log entries.
-		if (_mean_data)
+		if (_mean_data != null)
 		{
 			_mean_data.push(_fps);
-			_fps_sum -= Number(_mean_data.shift());
+			_fps_sum -= Std.int(_mean_data.shift());
 
 			// Average = sum of all log entries over
 			// number of log entries.
@@ -887,7 +894,7 @@ class AwayStats extends Sprite
 			_avg_fps = _fps_sum / _num_frames;
 		}
 
-		_last_frame_timestamp = getTimer();
+		_last_frame_timestamp = Lib.getTimer();
 	}
 
 
@@ -909,7 +916,7 @@ class AwayStats extends Sprite
 			_num_frames = 0;
 			_fps_sum = 0;
 
-			if (_mean_data)
+			if (_mean_data != null)
 			{
 				for (i in 0..._mean_data.length)
 				{

@@ -11,7 +11,7 @@
     <movie version="11" />
     <movie minorVersion="7" />
     <movie platform="Flash Player" />
-    <movie background="#FFFFFF" />
+    <movie background="#000000" />
   </output>
   <!-- Other classes to be compiled into your SWF -->
   <classpaths>
@@ -21,7 +21,7 @@
   <build>
     <option directives="" />
     <option flashStrict="False" />
-    <option mainClass="a3dexample.Test" />
+    <option mainClass="a3dexample.Basic_View" />
     <option enabledebug="True" />
     <option additional="" />
   </build>
@@ -32,7 +32,7 @@
   <!-- Class files to compile (other referenced classes will automatically be included) -->
   <compileTargets>
     <compile path="src\Main.hx" />
-    <compile path="src\a3dexample\Test.hx" />
+    <compile path="src\a3dexample\Basic_View.hx" />
   </compileTargets>
   <!-- Assets to embed into the output SWF -->
   <library>

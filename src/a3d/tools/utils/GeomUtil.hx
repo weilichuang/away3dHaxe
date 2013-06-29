@@ -20,29 +20,29 @@ class GeomUtil
 		weights:Vector<Float>, jointIndices:Vector<Float>,
 		triangleOffset:Int = 0):Vector<ISubGeometry>
 	{
-		var LIMIT_VERTS:UInt = 3 * 0xffff;
-		var LIMIT_INDICES:UInt = 15 * 0xffff;
+		var LIMIT_VERTS:Int = 3 * 0xffff;
+		var LIMIT_INDICES:Int = 15 * 0xffff;
 
 		var subs:Vector<ISubGeometry> = new Vector<ISubGeometry>();
 
-		if (uvs != null && uvs.length == null)
+		if (uvs != null && uvs.length == 0)
 			uvs = null;
 
-		if (normals != null && normals.length == null)
+		if (normals != null && normals.length == 0)
 			normals = null;
 
-		if (tangents != null && tangents.length == null)
+		if (tangents != null && tangents.length == 0)
 			tangents = null;
 
-		if (weights != null && weights.length == null)
+		if (weights != null && weights.length == 0)
 			weights = null;
 
-		if (jointIndices != null && jointIndices.length == null)
+		if (jointIndices != null && jointIndices.length == 0)
 			jointIndices = null;
 
 		if ((indices.length >= LIMIT_INDICES) || (verts.length >= LIMIT_VERTS))
 		{
-			var i:UInt, len:UInt, outIndex:UInt, j:UInt;
+			var i:Int, len:Int, outIndex:Int, j:Int;
 			var splitVerts:Vector<Float> = new Vector<Float>();
 			var splitIndices:Vector<UInt> = new Vector<UInt>();
 			var splitUvs:Vector<Float> = (uvs != null) ? new Vector<Float>() : null;
@@ -57,9 +57,9 @@ class GeomUtil
 				mappings[i] = -1;
 
 			var originalIndex:UInt;
-			var splitIndex:UInt;
-			var o0:UInt, o1:UInt, o2:UInt, s0:UInt, s1:UInt, s2:UInt,
-				su:UInt, ou:UInt, sv:UInt, ov:UInt;
+			var splitIndex:Int;
+			var o0:Int, o1:Int, o2:Int, s0:Int, s1:Int, s2:Int,
+				su:Int, ou:Int, sv:Int, ov:Int;
 			// Loop over all triangles
 			outIndex = 0;
 			len = indices.length;
@@ -268,7 +268,7 @@ class GeomUtil
 	*/
 	public static function getMeshSubgeometryIndex(subGeometry:ISubGeometry):UInt
 	{
-		var index:UInt;
+		var index:UInt=0;
 		var subGeometries:Vector<ISubGeometry> = subGeometry.parentGeometry.subGeometries;
 		for (i in 0...subGeometries.length)
 		{
@@ -287,7 +287,7 @@ class GeomUtil
 	*/
 	public static function getMeshSubMeshIndex(subMesh:SubMesh):UInt
 	{
-		var index:UInt;
+		var index:UInt=0;
 		var subMeshes:Vector<SubMesh> = subMesh.parentMesh.subMeshes;
 		for (i in 0...subMeshes.length)
 		{

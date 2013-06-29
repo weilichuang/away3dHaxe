@@ -196,10 +196,9 @@ class RaycastPicker implements IPicker
 		// ---------------------------------------------------------------------
 
 		var shortestCollisionDistance:Float = Math.POSITIVE_INFINITY;
-		var bestCollisionVO:PickingCollisionVO;
-		var pickingCollisionVO:PickingCollisionVO;
+		var bestCollisionVO:PickingCollisionVO = null;
+		var pickingCollisionVO:PickingCollisionVO = null;
 		var entity:Entity;
-		var i:UInt;
 
 		for (i in 0..._numEntities)
 		{

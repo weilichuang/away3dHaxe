@@ -11,8 +11,8 @@ import flash.Vector;
  */
 class PlaneGeometry extends PrimitiveBase
 {
-	private var _segmentsW:UInt;
-	private var _segmentsH:UInt;
+	private var _segmentsW:Int;
+	private var _segmentsH:Int;
 	private var _yUp:Bool;
 	private var _width:Float;
 	private var _height:Float;
@@ -27,7 +27,9 @@ class PlaneGeometry extends PrimitiveBase
 	 * @param yUp Defines whether the normal vector of the plane should point along the Y-axis (true) or Z-axis (false).
 	 * @param doubleSided Defines whether the plane will be visible from both sides, with correct vertex normals.
 	 */
-	public function new(width:Float = 100, height:Float = 100, segmentsW:UInt = 1, segmentsH:UInt = 1, yUp:Bool = true, doubleSided:Bool = false)
+	public function new(width:Float = 100, height:Float = 100, 
+						segmentsW:Int = 1, segmentsH:Int = 1, 
+						yUp:Bool = true, doubleSided:Bool = false)
 	{
 		super();
 
@@ -150,7 +152,14 @@ class PlaneGeometry extends PrimitiveBase
 		if (numVertices == target.numVertices)
 		{
 			data = target.vertexData;
-			indices = target.indexData || new Vector<UInt>(numIndices, true);
+			if (target.indexData != null)
+			{
+				indices = target.indexData;
+			}
+			else
+			{
+				indices = new Vector<UInt>(numIndices, true);
+			}
 		}
 		else
 		{
@@ -160,10 +169,10 @@ class PlaneGeometry extends PrimitiveBase
 		}
 
 		numIndices = 0;
-		var index:UInt = target.vertexOffset;
-		for (var yi:UInt = 0; yi <= _segmentsH; ++yi)
+		var index:Int = target.vertexOffset;
+		for (yi in 0..._segmentsH+1)
 		{
-			for (var xi:UInt = 0; xi <= _segmentsW; ++xi)
+			for (xi in 0..._segmentsW+1)
 			{
 				x = (xi / _segmentsW - .5) * _width;
 				y = (yi / _segmentsH - .5) * _height;
@@ -202,17 +211,17 @@ class PlaneGeometry extends PrimitiveBase
 				// add vertex with same position, but with inverted normal & tangent
 				if (_doubleSided)
 				{
-					for (var i:Int = 0; i < 3; ++i)
+					for (i in 0...3)
 					{
 						data[index] = data[index - stride];
 						++index;
 					}
-					for (i = 0; i < 3; ++i)
+					for (i in 0...3)
 					{
 						data[index] = -data[index - stride];
 						++index;
 					}
-					for (i = 0; i < 3; ++i)
+					for (i in 0...3)
 					{
 						data[index] = -data[index - stride];
 						++index;
@@ -255,14 +264,14 @@ class PlaneGeometry extends PrimitiveBase
 	override private function buildUVs(target:CompactSubGeometry):Void
 	{
 		var data:Vector<Float>;
-		var stride:UInt = target.UVStride;
-		var numUvs:UInt = (_segmentsH + 1) * (_segmentsW + 1) * stride;
-		var skip:UInt = stride - 2;
+		var stride:Int = target.UVStride;
+		var numUvs:Int = (_segmentsH + 1) * (_segmentsW + 1) * stride;
+		var skip:Int = stride - 2;
 
 		if (_doubleSided)
 			numUvs *= 2;
 
-		if (target.UVData && numUvs == target.UVData.length)
+		if (target.UVData != null && numUvs == target.UVData.length)
 			data = target.UVData;
 		else
 		{
@@ -270,11 +279,11 @@ class PlaneGeometry extends PrimitiveBase
 			invalidateGeometry();
 		}
 
-		var index:UInt = target.UVOffset;
+		var index:Int = target.UVOffset;
 
-		for (var yi:UInt = 0; yi <= _segmentsH; ++yi)
+		for (yi in 0..._segmentsH+1)
 		{
-			for (var xi:UInt = 0; xi <= _segmentsW; ++xi)
+			for (xi in 0..._segmentsW+1)
 			{
 				data[index++] = xi / _segmentsW;
 				data[index++] = 1 - yi / _segmentsH;

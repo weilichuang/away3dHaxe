@@ -19,7 +19,7 @@ class CompactSubGeometry extends SubGeometryBase implements ISubGeometry
 	private var _vertexDataInvalid:Vector<Bool>;
 	private var _vertexBuffer:Vector<VertexBuffer3D>;
 	private var _bufferContext:Vector<Context3D>;
-	private var _numVertices:UInt;
+	private var _numVertices:Int;
 	private var _contextIndex:Int;
 	private var _activeBuffer:VertexBuffer3D;
 	private var _activeContext:Context3D;
