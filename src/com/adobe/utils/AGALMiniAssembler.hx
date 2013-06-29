@@ -1,13 +1,13 @@
 package com.adobe.utils;
 
 import flash.display3D.Context3DProgramType;
+import flash.Lib;
 import flash.utils.ByteArray;
 import flash.utils.Endian;
 import haxe.ds.StringMap.StringMap;
 
 class AGALMiniAssembler 
 {
-
 	// AGAL bytes and error buffer
 	private var _agalcode : ByteArray;
 	private var _error : String;
@@ -19,8 +19,15 @@ class AGALMiniAssembler
 	public var error(get, null):String;
 	public var agalcode(get, null):ByteArray;
 
-	private function get_error() : String       { return _error; }
-	private function get_agalcode() : ByteArray { return _agalcode; }
+	private inline function get_error() : String      
+	{
+		return _error;
+	}
+	
+	private inline function get_agalcode() : ByteArray
+	{ 
+		return _agalcode; 
+	}
 
 
 	public function new(debugging : Bool = false) : Void 
@@ -28,7 +35,8 @@ class AGALMiniAssembler
 		_agalcode = null;
 		_error = "";
 		debugEnabled = debugging;
-		if (!initialized) init();
+		if (!initialized) 
+			init();
 	}
 
 	public function assemble(mode : Context3DProgramType, source : String, verbose : Bool = false) : ByteArray 
@@ -57,12 +65,14 @@ class AGALMiniAssembler
 		var lng : Int = lines.length;
 
 		i = 0;
-		while (i < lng && _error == "") {
-			var line : String = new String(lines[i]);
+		while (i < lng && _error == "") 
+		{
+			var line : String = lines[i];
 
 			// remove comments
 			var startcomment : Int = line.indexOf("//");
-			if (startcomment != -1) line = line.substr(0, startcomment);
+			if (startcomment != -1) 
+				line = line.substr(0, startcomment);
 
 			// grab options
 			reg = ~/<.*>/g;
@@ -80,11 +90,14 @@ class AGALMiniAssembler
 					options = options.substr(optsi);
 
 					reg = ~/([\w\.\-\+]+)/gi;
-					if(reg.match(options)){
+					if (reg.match(options))
+					{
 						opts.push(reg.matched(0));
 						var pos = reg.matchedPos();
 						optsi = pos.pos + pos.len;
-					}else{
+					}
+					else
+					{
 						optsi = -1;
 					}
 
@@ -98,10 +111,13 @@ class AGALMiniAssembler
 			var opFound : OpCode = OPMAP.get(opCode);
 
 			// if debug is enabled, output the opcodes
-			if (debugEnabled) trace(opFound);
+			if (debugEnabled) 
+				Lib.trace(opFound);
 
-			if (opFound == null) {
-				if (line.length >= 3) trace("warning: bad line " + i + ": " + lines[i]);
+			if (opFound == null) 
+			{
+				if (line.length >= 3) 
+					Lib.trace("warning: bad line " + i + ": " + lines[i]);
 				++i;
 				continue;
 			}
@@ -109,30 +125,39 @@ class AGALMiniAssembler
 			line = line.substr(line.indexOf(opFound.name) + opFound.name.length);
 
 			// nesting check
-			if ((opFound.flags & OP_DEC_NEST) != 0) {
+			if ((opFound.flags & OP_DEC_NEST) != 0) 
+			{
 				nest--;
-				if (nest < 0) {
+				if (nest < 0)
+				{
 					_error = "error: conditional closes without open.";
 					break;
 				}
 			}
-			if ((opFound.flags & OP_INC_NEST) != 0) {
+			if ((opFound.flags & OP_INC_NEST) != 0)
+			{
 				nest++;
-				if (nest > MAX_NESTING) {
+				if (nest > MAX_NESTING) 
+				{
 					_error = "error: nesting to deep, maximum allowed is " + MAX_NESTING + ".";
 					break;
 				}
 			}
-			if (((opFound.flags & OP_FRAG_ONLY) != 0) && !isFrag) {
+			
+			if (((opFound.flags & OP_FRAG_ONLY) != 0) && !isFrag) 
+			{
 				_error = "error: opcode is only allowed in fragment programs.";
 				break;
 			}
-			if (verbose) trace("emit opcode=" + opFound);
+			
+			if (verbose) 
+				Lib.trace("emit opcode=" + opFound);
 
 			_agalcode.writeUnsignedInt( opFound.emitCode );
 			nops++;
 
-			if (nops > MAX_OPCODES) {
+			if (nops > MAX_OPCODES) 
+			{
 				_error = "error: too many opcodes. maximum is " + MAX_OPCODES + ".";
 				break;
 			}
@@ -141,12 +166,16 @@ class AGALMiniAssembler
 			reg = ~/vc\[([vof][actps]?)(\d*)?(\.[xyzw](\+\d{1,3})?)?\](\.[xyzw]{1,4})?|([vof][actps]?)(\d*)?(\.[xyzw]{1,4})?/gi;
 			var subline : String = line;
 			var regs : Array<String> = new Array<String>();
-			while (reg.match(subline)) {
+			while (reg.match(subline)) 
+			{
 				regs.push(reg.matched(0));
 				subline = subline.substr(reg.matchedPos().pos + reg.matchedPos().len);
-				if (subline.charAt(0) == ",") subline = subline.substr(1);
+				if (subline.charAt(0) == ",") 
+					subline = subline.substr(1);
+					
 				reg = ~/vc\[([vof][actps]?)(\d*)?(\.[xyzw](\+\d{1,3})?)?\](\.[xyzw]{1,4})?|([vof][actps]?)(\d*)?(\.[xyzw]{1,4})?/gi;
 			}
+			
 			if (regs.length != Std.int(opFound.numRegister)) 
 			{
 				_error = "error: wrong number of operands. found " + regs.length + " but expected " + opFound.numRegister + ".";
@@ -154,20 +183,23 @@ class AGALMiniAssembler
 			}
 
 			var badreg : Bool    = false;
-			var pad : UInt       = 64 + 64 + 32;
-			var regLength : UInt = regs.length;
+			var pad : Int       = 64 + 64 + 32;
+			var regLength : Int = regs.length;
 
 			var j : Int = 0;
-			while (j < Std.int(regLength)) {
+			while (j < regLength)
+			{
 				var isRelative : Bool = false;
 				reg = ~/\[.*\]/ig;
 				var relreg : String = "";
-				if (reg.match(regs[j])) {
+				if (reg.match(regs[j])) 
+				{
 					relreg = reg.matched(0);
 					var relpos : Int = source.indexOf(relreg);
 					regs[j] = regs[j].substr(0, relpos) + "0" + regs[j].substr(relpos + relreg.length);
 
-					if (verbose) trace("IS REL");
+					if (verbose) 
+						Lib.trace("IS REL");
 					isRelative = true;
 				}
 
@@ -177,28 +209,35 @@ class AGALMiniAssembler
 				var regFound : Register = REGMAP.get(res);
 
 				// if debug is enabled, output the registers
-				if (debugEnabled) trace(regFound);
+				if (debugEnabled) 
+					Lib.trace(regFound);
 
-				if (regFound == null) {
+				if (regFound == null) 
+				{
 					_error = "error: could not parse operand " + j + " (" + regs[j] + ").";
 					badreg = true;
 					break;
 				}
 
-				if (isFrag) {
-					if ((regFound.flags & REG_FRAG) == 0) {
+				if (isFrag) 
+				{
+					if ((regFound.flags & REG_FRAG) == 0) 
+					{
 						_error = "error: register operand "+j+" ("+regs[j]+") only allowed in vertex programs.";
 						badreg = true;
 						break;
 					}
-					if (isRelative) {
+					if (isRelative) 
+					{
 						_error = "error: register operand " + j + " (" + regs[j] + ") relative adressing not allowed in fragment programs.";
 						badreg = true;
 						break;
 					}
 				}
-				else {
-					if ((regFound.flags & REG_VERT) == 0) {
+				else 
+				{
+					if ((regFound.flags & REG_VERT) == 0)
+					{
 						_error = "error: register operand " + j + " (" + regs[j] + ") only allowed in fragment programs.";
 						badreg = true;
 						break;
@@ -209,14 +248,18 @@ class AGALMiniAssembler
 				//trace( "REGNUM: " +regs[j] );
 				reg = ~/\d+/;
 				var idxmatched : Bool;
-				if (isRelative) idxmatched = reg.match(relreg);
-				else idxmatched = reg.match(regs[j]);
+				if (isRelative) 
+					idxmatched = reg.match(relreg);
+				else 
+					idxmatched = reg.match(regs[j]);
 
 				var regidx : UInt = 0;
 
-				if (idxmatched) regidx = Std.parseInt(reg.matched(0));
+				if (idxmatched) 
+					regidx = Std.parseInt(reg.matched(0));
 
-				if (regFound.range < regidx) {
+				if (regFound.range < regidx) 
+				{
 					_error = "error: register operand " + j + " (" + regs[j] + ") index exceeds limit of " + (regFound.range + 1) + ".";
 					badreg = true;
 					break;
@@ -229,27 +272,31 @@ class AGALMiniAssembler
 				var relsel : UInt    = 0;
 				var reloffset : Int  = 0;
 
-				if (isDest && isRelative) {
+				if (isDest && isRelative) 
+				{
 					_error = "error: relative can not be destination";
 					badreg = true;
 					break;
 				}
 
 				reg = ~/(\.[xyzw]{1,4})/;
-				if (reg.match(regs[j])) {
+				if (reg.match(regs[j])) 
+				{
 					var maskmatch : String = reg.matched(0);
 					regmask = 0;
 					var cv : UInt = 0;
 					var maskLength : UInt = maskmatch.length;
 					var k : Int = 1;
-					while (k < Std.int(maskLength)) {
+					while (k < Std.int(maskLength)) 
+					{
 						cv = maskmatch.charCodeAt(k) - "x".charCodeAt(0);
 						if (cv > 2) cv = 3;
 						if (isDest) regmask |= 1 << cv;
 						else regmask |= cv << ( ( k - 1 ) << 1 );
 						++k;
 					}
-					if (!isDest) {
+					if (!isDest) 
+					{
 						while (k <= 4) {
 							regmask |= cv << ( ( k - 1 ) << 1 ); // repeat last
 							++k;
@@ -258,19 +305,22 @@ class AGALMiniAssembler
 				}
 				else regmask = isDest ? 0xf : 0xe4; // id swizzle or mask
 
-				if (isRelative) {
+				if (isRelative) 
+				{
 					reg = ~/[A-Za-z]{1,2}/ig;
 					reg.match(relreg);
 					var relname : String = reg.matched(0);
 					var regFoundRel : Register = REGMAP.get(relname);
-					if (regFoundRel == null) {
+					if (regFoundRel == null) 
+					{
 						_error = "error: bad index register";
 						badreg = true;
 						break;
 					}
 					reltype = regFoundRel.emitCode;
 					reg = ~/(\.[xyzw]{1,1})/;
-					if (!reg.match(relreg)) {
+					if (!reg.match(relreg)) 
+					{
 						_error = "error: bad index register select";
 						badreg = true;
 						break;
@@ -279,27 +329,36 @@ class AGALMiniAssembler
 					relsel = selmatch.charCodeAt(1) - "x".charCodeAt(0);
 					if (relsel > 2) relsel = 3;
 					reg = ~/\+\d{1,3}/ig;
-					if (reg.match(relreg)) {
+					if (reg.match(relreg)) 
+					{
 						reloffset = Std.parseInt(reg.matched(0));
 					}
-					if (reloffset < 0 || reloffset > 255) {
+					if (reloffset < 0 || reloffset > 255) 
+					{
 						_error = "error: index offset "+reloffset+" out of bounds. [0..255]";
 						badreg = true;
 						break;
 					}
-					if (verbose) trace( "RELATIVE: type="+reltype+"=="+relname+" sel="+relsel+"=="+selmatch+" idx="+regidx+" offset="+reloffset );
+					if (verbose) 
+						Lib.trace( "RELATIVE: type="+reltype+"=="+relname+" sel="+relsel+"=="+selmatch+" idx="+regidx+" offset="+reloffset );
 				}
 
-				if (verbose) trace("  emit argcode=" + regFound + "[" + regidx + "][" + regmask + "]");
-				if (isDest) {
+				if (verbose) 
+					Lib.trace("  emit argcode=" + regFound + "[" + regidx + "][" + regmask + "]");
+				
+				if (isDest) 
+				{
 					_agalcode.writeShort(regidx);
 					_agalcode.writeByte(regmask);
 					_agalcode.writeByte(regFound.emitCode);
 					pad -= 32;
 				}
-				else {
-					if (isSampler) {
-						if (verbose) trace("  emit sampler");
+				else 
+				{
+					if (isSampler) 
+					{
+						if (verbose) 
+							Lib.trace("  emit sampler");
 						var samplerbits : UInt = 5; // type 5
 						var optsLength:UInt = opts.length;
 						var bias:Float = 0;
@@ -308,7 +367,7 @@ class AGALMiniAssembler
 						{
 							if (verbose)
 							{
-								trace("    opt: " + opts[k]);
+								Lib.trace("    opt: " + opts[k]);
 							}
 
 							var optfound:Sampler = SAMPLEMAP.get(opts[k]);
@@ -319,7 +378,7 @@ class AGALMiniAssembler
 								bias = Std.parseFloat(opts[k]);
 								if (verbose)
 								{
-									trace("    bias: " + bias);
+									Lib.trace("    bias: " + bias);
 								}
 							}
 							else
@@ -341,8 +400,10 @@ class AGALMiniAssembler
 						if (verbose) trace("    bits: " + ( samplerbits - 5 ));
 						pad -= 64;
 					}
-					else {
-						if (j == 0) {
+					else 
+					{
+						if (j == 0) 
+						{
 							_agalcode.writeUnsignedInt(0);
 							pad -= 32;
 						}
@@ -361,40 +422,49 @@ class AGALMiniAssembler
 
 			// pad unused regs
 			j = 0;
-			while (j < Std.int(pad)) {
+			while (j < pad) 
+			{
 				_agalcode.writeByte(0);
 				j += 8;
 			}
 
-			if (badreg) break;
+			if (badreg) 
+				break;
 			++i;
 		}
 
-		if (_error != "") {
+		if (_error != "") 
+		{
 			_error += "\n  at line " + i + " " + lines[i];
 			_agalcode.length = 0;
-			trace(_error);
+			Lib.trace(_error);
 		}
 
 		// trace the bytecode bytes if debugging is enabled
-		if (debugEnabled) {
+		if (debugEnabled)
+		{
 			var dbgLine : String = "generated bytecode:";
 			var agalLength : UInt = _agalcode.length;
 			var index : UInt = 0;
-			while (index < agalLength) {
-				if (( index % 16) == 0) dbgLine += "\n";
-				if ((index % 4) == 0) dbgLine += " ";
+			while (index < agalLength) 
+			{
+				if (( index % 16) == 0) 
+					dbgLine += "\n";
+				if ((index % 4) == 0) 
+					dbgLine += " ";
 
 				var byteStr : String = Std.string(_agalcode[index]);// .toString( 16 );
-				if (byteStr.length < 2) byteStr = "0" + byteStr;
+				if (byteStr.length < 2) 
+					byteStr = "0" + byteStr;
 
 				dbgLine += byteStr;
 				++index;
 			}
-			trace( dbgLine );
+			Lib.trace( dbgLine );
 		}
 
-		//if (verbose) trace( "AGALMiniAssembler.assemble time: " + ( ( getTimer() - start ) / 1000 ) + "s" );
+		//if (verbose) 
+			//Lib.trace( "AGALMiniAssembler.assemble time: " + ( ( getTimer() - start ) / 1000 ) + "s" );
 
 		return _agalcode;
 	}

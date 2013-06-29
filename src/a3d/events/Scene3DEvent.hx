@@ -1,6 +1,7 @@
 package a3d.events;
 
 import flash.events.Event;
+import flash.utils.Object;
 
 import a3d.entities.ObjectContainer3D;
 
@@ -12,10 +13,10 @@ class Scene3DEvent extends Event
 
 	public var objectContainer3D:ObjectContainer3D;
 
-	//@:getter(target) function get_target():Dynamic
-	//{
-		//return objectContainer3D;
-	//}
+	@:getter(target) public function get_target():Object
+	{
+		return objectContainer3D;
+	}
 
 	public function new(type:String, objectContainer:ObjectContainer3D)
 	{
