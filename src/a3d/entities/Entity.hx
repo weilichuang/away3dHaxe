@@ -52,11 +52,11 @@ class Entity extends ObjectContainer3D
 		_worldBounds = getDefaultBoundingVolume();
 	}
 
-	override private function set_ignoreTransform(value:Bool):Void
+	override private function set_ignoreTransform(value:Bool):Bool
 	{
 		if (_scene != null)
 			_scene.invalidateEntityBounds(this);
-		super.ignoreTransform = value;
+		return super.ignoreTransform = value;
 	}
 
 	/**
@@ -95,7 +95,7 @@ class Entity extends ObjectContainer3D
 	/**
 	 * Returns a unique picking collision value object for the entity.
 	 */
-	public var pickingCollisionVO(get,set):PickingCollisionVO;
+	public var pickingCollisionVO(get,null):PickingCollisionVO;
 	private inline function get_pickingCollisionVO():PickingCollisionVO
 	{
 		if (_pickingCollisionVO == null)
@@ -116,8 +116,6 @@ class Entity extends ObjectContainer3D
 	 */
 	public function collidesBefore(shortestCollisionDistance:Float, findClosest:Bool):Bool
 	{
-		shortestCollisionDistance = shortestCollisionDistance;
-		findClosest = findClosest;
 		return true;
 	}
 
@@ -133,7 +131,7 @@ class Entity extends ObjectContainer3D
 	private inline function set_showBounds(value:Bool):Bool
 	{
 		if (value == _showBounds)
-			return;
+			return _showBounds;
 
 		_showBounds = value;
 
@@ -258,30 +256,34 @@ class Entity extends ObjectContainer3D
 		if (value == _implicitPartition)
 			return implicitPartition;
 
-		if (_implicitPartition)
+		if (_implicitPartition != null)
 			notifyPartitionUnassigned();
 
 		super.implicitPartition = value;
 
 		notifyPartitionAssigned();
+		
+		return implicitPartition;
 	}
 
 	/**
 	 * @inheritDoc
 	 */
-	override private function set_scene(value:Scene3D):Void
+	override private function set_scene(value:Scene3D):Scene3D
 	{
 		if (value == _scene)
 			return _scene;
 
-		if (_scene)
+		if (_scene != null)
 			_scene.unregisterEntity(this);
 
 		// callback to notify object has been spawned. Casts to please FDT
-		if (value)
+		if (value != null)
 			value.registerEntity(this);
 
 		super.scene = value;
+		
+		return _scene;
 	}
 
 	override private function get_assetType():String

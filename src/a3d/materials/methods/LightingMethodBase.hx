@@ -29,8 +29,6 @@ class LightingMethodBase extends ShadingMethodBase
 	 */
 	public function getFragmentPreLightingCode(vo:MethodVO, regCache:ShaderRegisterCache):String
 	{
-		vo = vo;
-		regCache = regCache;
 		return "";
 	}
 
@@ -39,10 +37,6 @@ class LightingMethodBase extends ShadingMethodBase
 	 */
 	public function getFragmentCodePerLight(vo:MethodVO, lightDirReg:ShaderRegisterElement, lightColReg:ShaderRegisterElement, regCache:ShaderRegisterCache):String
 	{
-		vo = vo;
-		lightDirReg = lightDirReg;
-		lightColReg = lightColReg;
-		regCache = regCache;
 		return "";
 	}
 
@@ -54,10 +48,6 @@ class LightingMethodBase extends ShadingMethodBase
 	 */
 	public function getFragmentCodePerProbe(vo:MethodVO, cubeMapReg:ShaderRegisterElement, weightRegister:String, regCache:ShaderRegisterCache):String
 	{
-		vo = vo;
-		cubeMapReg = cubeMapReg;
-		weightRegister = weightRegister;
-		regCache = regCache;
 		return "";
 	}
 
@@ -68,9 +58,6 @@ class LightingMethodBase extends ShadingMethodBase
 	 */
 	public function getFragmentPostLightingCode(vo:MethodVO, regCache:ShaderRegisterCache, targetReg:ShaderRegisterElement):String
 	{
-		vo = vo;
-		regCache = regCache;
-		targetReg = targetReg;
 		return "";
 	}
 }

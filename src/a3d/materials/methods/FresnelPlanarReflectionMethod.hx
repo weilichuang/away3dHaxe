@@ -27,37 +27,40 @@ class FresnelPlanarReflectionMethod extends EffectMethodBase
 		_alpha = alpha;
 	}
 
+	public var alpha(get,set):Float;
 	private inline function get_alpha():Float
 	{
 		return _alpha;
 	}
 
-	private inline function set_alpha(value:Float):Void
+	private inline function set_alpha(value:Float):Float
 	{
-		_alpha = value;
+		return _alpha = value;
 	}
 
+	public var fresnelPower(get,set):Float;
 	private inline function get_fresnelPower():Float
 	{
 		return _fresnelPower;
 	}
 
-	private inline function set_fresnelPower(value:Float):Void
+	private inline function set_fresnelPower(value:Float):Float
 	{
-		_fresnelPower = value;
+		return _fresnelPower = value;
 	}
 
 	/**
 	 * The minimum amount of reflectance, ie the reflectance when the view direction is normal to the surface or light direction.
 	 */
+	public var normalReflectance(get,set):Float;
 	private inline function get_normalReflectance():Float
 	{
 		return _normalReflectance;
 	}
 
-	private inline function set_normalReflectance(value:Float):Void
+	private inline function set_normalReflectance(value:Float):Float
 	{
-		_normalReflectance = value;
+		return _normalReflectance = value;
 	}
 
 	override public function initVO(vo:MethodVO):Void
@@ -67,28 +70,32 @@ class FresnelPlanarReflectionMethod extends EffectMethodBase
 		vo.needsView = true;
 	}
 
+	public var texture(get,set):PlanarReflectionTexture;
 	private inline function get_texture():PlanarReflectionTexture
 	{
 		return _texture;
 	}
 
-	private inline function set_texture(value:PlanarReflectionTexture):Void
+	private inline function set_texture(value:PlanarReflectionTexture):PlanarReflectionTexture
 	{
-		_texture = value;
+		return _texture = value;
 	}
 
+	public var normalDisplacement(get,set):Float;
 	private inline function get_normalDisplacement():Float
 	{
 		return _normalDisplacement;
 	}
 
-	private inline function set_normalDisplacement(value:Float):Void
+	private inline function set_normalDisplacement(value:Float):Float
 	{
 		if (_normalDisplacement == value)
-			return;
+			return _normalDisplacement;
 		if (_normalDisplacement == 0 || value == 0)
 			invalidateShaderProgram();
 		_normalDisplacement = value;
+		
+		return _normalDisplacement;
 	}
 
 	override public function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):Void

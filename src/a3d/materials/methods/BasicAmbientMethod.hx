@@ -7,6 +7,7 @@ import a3d.core.managers.Stage3DProxy;
 import a3d.materials.compilation.ShaderRegisterCache;
 import a3d.materials.compilation.ShaderRegisterElement;
 import a3d.textures.Texture2DBase;
+import flash.Vector.Vector;
 
 
 
@@ -62,45 +63,50 @@ class BasicAmbientMethod extends ShadingMethodBase
 	/**
 	 * The strength of the ambient reflection of the surface.
 	 */
+	public var ambient(get, set):Float;
 	private inline function get_ambient():Float
 	{
 		return _ambient;
 	}
 
-	private inline function set_ambient(value:Float):Void
+	private inline function set_ambient(value:Float):Float
 	{
-		_ambient = value;
+		return _ambient = value;
 	}
 
 	/**
 	 * The colour of the ambient reflection of the surface.
 	 */
+	public var ambientColor(get, set):UInt;
 	private inline function get_ambientColor():UInt
 	{
 		return _ambientColor;
 	}
 
-	private inline function set_ambientColor(value:UInt):Void
+	private inline function set_ambientColor(value:UInt):UInt
 	{
-		_ambientColor = value;
+		return _ambientColor = value;
 	}
 
 	/**
 	 * The bitmapData to use to define the diffuse reflection color per texel.
 	 */
+	public var texture(get, set):Texture2DBase;
 	private inline function get_texture():Texture2DBase
 	{
 		return _texture;
 	}
 
-	private inline function set_texture(value:Texture2DBase):Void
+	private inline function set_texture(value:Texture2DBase):Texture2DBase
 	{
 		if ((value != null) != _useTexture ||
 			(value != null && _texture != null && 
 			(value.hasMipMaps != _texture.hasMipMaps || value.format != _texture.format)))
 			invalidateShaderProgram();
-		_useTexture = Bool(value);
+		_useTexture = value != null;
 		_texture = value;
+		
+		return _texture;
 	}
 
 	/**
@@ -108,7 +114,7 @@ class BasicAmbientMethod extends ShadingMethodBase
 	 */
 	override public function copyFrom(method:ShadingMethodBase):Void
 	{
-		var diff:BasicAmbientMethod = BasicAmbientMethod(method);
+		var diff:BasicAmbientMethod = Std.instance(method,BasicAmbientMethod);
 		ambient = diff.ambient;
 		ambientColor = diff.ambientColor;
 	}

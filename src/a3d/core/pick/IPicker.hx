@@ -31,8 +31,7 @@ interface IPicker
 	/**
 	 * Determines whether the picker takes account of the mouseEnabled properties of entities. Defaults to true.
 	 */
-	function get_onlyMouseEnabled():Bool;
-	function set_onlyMouseEnabled(value:Bool):Void;
+	var onlyMouseEnabled(get,set):Bool;
 
 	/**
 	 * Disposes memory used by the IPicker object

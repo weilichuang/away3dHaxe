@@ -42,10 +42,10 @@ class RenderableMergeSort implements IEntitySorter
 		slow = head;
 		fast = head.next;
 
-		while (fast)
+		while (fast != null)
 		{
 			fast = fast.next;
-			if (fast)
+			if (fast != null)
 			{
 				slow = slow.next;
 				fast = fast.next;
@@ -69,7 +69,7 @@ class RenderableMergeSort implements IEntitySorter
 		if (headB == null)
 			return head;
 
-		while (head && headB)
+		while (head != null && headB != null)
 		{
 			if (head.zIndex < headB.zIndex)
 			{
@@ -92,7 +92,7 @@ class RenderableMergeSort implements IEntitySorter
 
 		if (head != null)
 			curr.next = head;
-		else if (headB)
+		else if (headB != null)
 			curr.next = headB;
 
 		return result;
@@ -110,10 +110,10 @@ class RenderableMergeSort implements IEntitySorter
 		slow = head;
 		fast = head.next;
 
-		while (fast)
+		while (fast != null)
 		{
 			fast = fast.next;
-			if (fast)
+			if (fast != null)
 			{
 				slow = slow.next;
 				fast = fast.next;
@@ -138,7 +138,7 @@ class RenderableMergeSort implements IEntitySorter
 		if (headB == null)
 			return head;
 
-		while (head && headB)
+		while (head != null && headB != null)
 		{
 
 			// first sort per render order id (reduces program3D switches),
@@ -194,7 +194,7 @@ class RenderableMergeSort implements IEntitySorter
 
 		if (head != null)
 			curr.next = head;
-		else if (headB)
+		else if (headB != null)
 			curr.next = headB;
 
 		return result;

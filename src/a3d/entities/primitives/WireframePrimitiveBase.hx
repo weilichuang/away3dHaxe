@@ -103,7 +103,7 @@ class WireframePrimitiveBase extends SegmentSet
 			e.x = v1.x;
 			e.y = v1.y;
 			e.z = v1.z;
-			_segments[index].updateSegment(s, e, null, _color, _color, _thickness);
+			_segments.get(index).updateSegment(s, e, null, _color, _color, _thickness);
 		}
 		else
 		{

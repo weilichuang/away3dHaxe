@@ -33,15 +33,17 @@ class WrapDiffuseMethod extends BasicDiffuseMethod
 		_wrapDataRegister = null;
 	}
 
+	public var wrapFactor(get,set):Float;
 	private inline function get_wrapFactor():Float
 	{
 		return _wrapFactor;
 	}
 
-	private inline function set_wrapFactor(value:Float):Void
+	private inline function set_wrapFactor(value:Float):Float
 	{
 		_wrapFactor = value;
 		_wrapFactor = 1 / (value + 1);
+		return _wrapFactor;
 	}
 
 	override public function getFragmentPreLightingCode(vo:MethodVO, regCache:ShaderRegisterCache):String

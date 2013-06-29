@@ -43,12 +43,13 @@ class DitheredShadowMapMethod extends SimpleShadowMapMethodBase
 			initGrainTexture();
 	}
 
+	public var numSamples(get,set):Int;
 	private inline function get_numSamples():Int
 	{
 		return _numSamples;
 	}
 
-	private inline function set_numSamples(value:Int):Void
+	private inline function set_numSamples(value:Int):Int
 	{
 		_numSamples = value;
 		if (_numSamples < 1)
@@ -56,6 +57,8 @@ class DitheredShadowMapMethod extends SimpleShadowMapMethodBase
 		else if (_numSamples > 24)
 			_numSamples = 24;
 		invalidateShaderProgram();
+		
+		return _numSamples;
 	}
 
 	override public function initVO(vo:MethodVO):Void
@@ -73,6 +76,7 @@ class DitheredShadowMapMethod extends SimpleShadowMapMethodBase
 		fragmentData[index + 8] = 1 / _numSamples;
 	}
 
+	public var range(get,set):Float;
 	private inline function get_range():Float
 	{
 		return _range * 2;
@@ -81,6 +85,7 @@ class DitheredShadowMapMethod extends SimpleShadowMapMethodBase
 	private inline function set_range(value:Float):Void
 	{
 		_range = value / 2;
+		return range;
 	}
 
 	private function initGrainTexture():Void
@@ -91,7 +96,7 @@ class DitheredShadowMapMethod extends SimpleShadowMapMethodBase
 		var step:Float = 1 / (_depthMapSize * _range);
 		var r:Float, g:Float;
 
-		for (var i:UInt = 0; i < len; ++i)
+		for (i in 0...len)
 		{
 			r = 2 * (Math.random() - .5);
 			g = 2 * (Math.random() - .5);

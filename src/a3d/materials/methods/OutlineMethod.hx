@@ -39,40 +39,43 @@ class OutlineMethod extends EffectMethodBase
 	 * Set this to true to draw outlines for geometry overlapping in the view, useful to achieve a cel-shaded drawing outline.
 	 * Setting this to false will only cause the outline to appear around the 2D projection of the geometry.
 	 */
+	public var showInnerLines(get,set):Bool;
 	private inline function get_showInnerLines():Bool
 	{
 		return _outlinePass.showInnerLines;
 	}
 
-	private inline function set_showInnerLines(value:Bool):Void
+	private inline function set_showInnerLines(value:Bool):Bool
 	{
-		_outlinePass.showInnerLines = value;
+		return _outlinePass.showInnerLines = value;
 	}
 
 	/**
 	 * The colour of the outline.
 	 */
+	public var outlineColor(get,set):UInt;
 	private inline function get_outlineColor():UInt
 	{
 		return _outlinePass.outlineColor;
 	}
 
-	private inline function set_outlineColor(value:UInt):Void
+	private inline function set_outlineColor(value:UInt):UInt
 	{
-		_outlinePass.outlineColor = value;
+		return _outlinePass.outlineColor = value;
 	}
 
 	/**
 	 * The size of the outline.
 	 */
+	public var outlineSize(get,set):Float;
 	private inline function get_outlineSize():Float
 	{
 		return _outlinePass.outlineSize;
 	}
 
-	private inline function set_outlineSize(value:Float):Void
+	private inline function set_outlineSize(value:Float):Float
 	{
-		_outlinePass.outlineSize = value;
+		return _outlinePass.outlineSize = value;
 	}
 
 	override public function reset():Void

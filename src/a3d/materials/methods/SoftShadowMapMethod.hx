@@ -25,13 +25,14 @@ class SoftShadowMapMethod extends SimpleShadowMapMethodBase
 		this.numSamples = numSamples;
 		this.range = range;
 	}
-
+	
+	public var numSamples(set,set):Int;
 	private inline function get_numSamples():Int
 	{
 		return _numSamples;
 	}
 
-	private inline function set_numSamples(value:Int):Void
+	private inline function set_numSamples(value:Int):Int
 	{
 		_numSamples = value;
 		if (_numSamples < 1)
@@ -41,16 +42,19 @@ class SoftShadowMapMethod extends SimpleShadowMapMethodBase
 
 		_offsets = PoissonLookup.getDistribution(_numSamples);
 		invalidateShaderProgram();
+		
+		return _numSamples;
 	}
 
+	public var range(set,set):Float;
 	private inline function get_range():Float
 	{
 		return _range;
 	}
 
-	private inline function set_range(value:Float):Void
+	private inline function set_range(value:Float):Float
 	{
-		_range = value;
+		return _range = value;
 	}
 
 	override public function initConstants(vo:MethodVO):Void
@@ -69,7 +73,7 @@ class SoftShadowMapMethod extends SimpleShadowMapMethodBase
 		var index:UInt = vo.fragmentConstantsIndex + 10;
 		var len:UInt = _numSamples << 1;
 
-		for (var i:Int = 0; i < len; ++i)
+		for (i in 0...len)
 			data[index + i] = _offsets[i] * texRange;
 	}
 
@@ -111,7 +115,7 @@ class SoftShadowMapMethod extends SimpleShadowMapMethodBase
 		data[index] = 1 / _numSamples;
 		data[index + 1] = 0;
 		index += 2;
-		for (var i:Int = 0; i < len; ++i)
+		for (i in 0...len)
 			data[index + i] = _offsets[i] * texRange;
 
 		if (len % 4 == 0)
@@ -143,14 +147,14 @@ class SoftShadowMapMethod extends SimpleShadowMapMethodBase
 		var temp:ShaderRegisterElement = regCache.getFreeFragmentVectorTemp();
 
 		var numRegs:Int = _numSamples >> 1;
-		for (var i:Int = 0; i < numRegs; ++i)
+		for (i in 0...numRegs)
 		{
 			var reg:ShaderRegisterElement = regCache.getFreeFragmentConstant();
 			offsets.push(reg + ".xy");
 			offsets.push(reg + ".zw");
 		}
 
-		for (i = 0; i < _numSamples; ++i)
+		for (i in 0..._numSamples)
 		{
 			if (i == 0)
 			{

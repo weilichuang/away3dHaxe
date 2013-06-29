@@ -106,7 +106,7 @@ class TouchEvent3D extends Event
 	/**
 	 * @inheritDoc
 	 */
-	override private function get_bubbles():Bool
+	@:getter(bubbles) function get_bubbles():Bool
 	{
 		// Don't bubble if propagation has been stopped.
 		return super.bubbles && allowedToPropagate;

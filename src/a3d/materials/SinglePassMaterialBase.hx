@@ -3,6 +3,7 @@
 import flash.display.BlendMode;
 import flash.display3D.Context3D;
 import flash.display3D.Context3DCompareMode;
+import flash.errors.Error;
 import flash.geom.ColorTransform;
 
 
@@ -121,7 +122,7 @@ class SinglePassMaterialBase extends MaterialBase
 	/**
 	 * The ColorTransform object to transform the colour of the material with.
 	 */
-	public var colorTransform(get, set):UInt;
+	public var colorTransform(get, set):ColorTransform;
 	private inline function get_colorTransform():ColorTransform
 	{
 		return _screenPass.colorTransform;
@@ -137,7 +138,7 @@ class SinglePassMaterialBase extends MaterialBase
 	 */
 	override private function get_requiresBlending():Bool
 	{
-		return super.requiresBlending || _alphaBlending || (_screenPass.colorTransform && _screenPass.colorTransform.alphaMultiplier < 1);
+		return super.requiresBlending || _alphaBlending || (_screenPass.colorTransform != null && _screenPass.colorTransform.alphaMultiplier < 1);
 	}
 
 	/**
@@ -258,11 +259,11 @@ class SinglePassMaterialBase extends MaterialBase
 	/**
 	 * @inheritDoc
 	 */
-	override private function set_mipmap(value:Bool):Void
+	override private function set_mipmap(value:Bool):Bool
 	{
 		if (_mipmap == value)
-			return;
-		super.mipmap = value;
+			return _mipmap;
+		return super.mipmap = value;
 	}
 
 	/**
@@ -291,7 +292,7 @@ class SinglePassMaterialBase extends MaterialBase
 
 	private inline function set_specularMap(value:Texture2DBase):Texture2DBase
 	{
-		if (_screenPass.specularMethod)
+		if (_screenPass.specularMethod != null)
 			_screenPass.specularMethod.texture = value;
 		else
 			throw new Error("No specular method was set to assign the specularGlossMap to");
@@ -305,12 +306,12 @@ class SinglePassMaterialBase extends MaterialBase
 	public var gloss(get, set):Float;
 	private inline function get_gloss():Float
 	{
-		return _screenPass.specularMethod ? _screenPass.specularMethod.gloss : 0;
+		return _screenPass.specularMethod != null ? _screenPass.specularMethod.gloss : 0;
 	}
 
 	private inline function set_gloss(value:Float):Float
 	{
-		if (_screenPass.specularMethod)
+		if (_screenPass.specularMethod != null)
 			_screenPass.specularMethod.gloss = value;
 			
 		return gloss;
@@ -336,12 +337,12 @@ class SinglePassMaterialBase extends MaterialBase
 	public var specular(get, set):Float;
 	private inline function get_specular():Float
 	{
-		return _screenPass.specularMethod ? _screenPass.specularMethod.specular : 0;
+		return _screenPass.specularMethod != null ? _screenPass.specularMethod.specular : 0;
 	}
 
 	private inline function set_specular(value:Float):Float
 	{
-		if (_screenPass.specularMethod)
+		if (_screenPass.specularMethod != null)
 			_screenPass.specularMethod.specular = value;
 		return specular;
 	}
@@ -349,7 +350,7 @@ class SinglePassMaterialBase extends MaterialBase
 	/**
 	 * The colour of the ambient reflection.
 	 */
-	public var ambientColor(get, set):Float;
+	public var ambientColor(get, set):UInt;
 	private inline function get_ambientColor():UInt
 	{
 		return _screenPass.ambientMethod.ambientColor;
@@ -363,7 +364,7 @@ class SinglePassMaterialBase extends MaterialBase
 	/**
 	 * The colour of the specular reflection.
 	 */
-	public var specularColor(get, set):Float;
+	public var specularColor(get, set):UInt;
 	private inline function get_specularColor():UInt
 	{
 		return _screenPass.specularMethod.specularColor;
@@ -412,9 +413,9 @@ class SinglePassMaterialBase extends MaterialBase
 		}
 	}
 
-	override private function set_lightPicker(value:LightPickerBase):Void
+	override private function set_lightPicker(value:LightPickerBase):LightPickerBase
 	{
 		super.lightPicker = value;
-		_screenPass.lightPicker = value;
+		return _screenPass.lightPicker = value;
 	}
 }

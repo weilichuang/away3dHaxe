@@ -34,7 +34,7 @@ class DefaultRenderer extends RendererBase
 	private var _activeMaterial:MaterialBase;
 	private var _distanceRenderer:DepthRenderer;
 	private var _depthRenderer:DepthRenderer;
-	private var _skyboxProjection:Matrix3D = new Matrix3D();
+	private var _skyboxProjection:Matrix3D;
 
 	/**
 	 * Creates a new DefaultRenderer object.
@@ -46,12 +46,14 @@ class DefaultRenderer extends RendererBase
 		super();
 		_depthRenderer = new DepthRenderer();
 		_distanceRenderer = new DepthRenderer(false, true);
+		_skyboxProjection = new Matrix3D();
 	}
 
-	override private function set_stage3DProxy(value:Stage3DProxy):Void
+	override private function set_stage3DProxy(value:Stage3DProxy):Stage3DProxy
 	{
 		super.stage3DProxy = value;
 		_distanceRenderer.stage3DProxy = _depthRenderer.stage3DProxy = value;
+		return super.stage3DProxy;
 	}
 
 	override private function executeRender(entityCollector:EntityCollector, target:TextureBase = null, scissorRect:Rectangle = null, surfaceSelector:Int = 0):Void
@@ -59,7 +61,7 @@ class DefaultRenderer extends RendererBase
 		updateLights(entityCollector);
 
 		// otherwise RTT will interfere with other RTTs
-		if (target)
+		if (target != null)
 		{
 			drawRenderables(entityCollector.opaqueRenderableHead, entityCollector, RTT_PASSES);
 			drawRenderables(entityCollector.blendedRenderableHead, entityCollector, RTT_PASSES);
@@ -102,9 +104,9 @@ class DefaultRenderer extends RendererBase
 	{
 		_context.setBlendFactors(Context3DBlendFactor.ONE, Context3DBlendFactor.ZERO);
 
-		if (entityCollector.skyBox)
+		if (entityCollector.skyBox != null)
 		{
-			if (_activeMaterial)
+			if (_activeMaterial != null)
 				_activeMaterial.deactivate(_stage3DProxy);
 			_activeMaterial = null;
 
@@ -114,13 +116,13 @@ class DefaultRenderer extends RendererBase
 
 		_context.setDepthTest(true, Context3DCompareMode.LESS_EQUAL);
 
-		var which:Int = target ? SCREEN_PASSES : ALL_PASSES;
+		var which:Int = target != null ? SCREEN_PASSES : ALL_PASSES;
 		drawRenderables(entityCollector.opaqueRenderableHead, entityCollector, which);
 		drawRenderables(entityCollector.blendedRenderableHead, entityCollector, which);
 
 		_context.setDepthTest(false, Context3DCompareMode.LESS_EQUAL);
 
-		if (_activeMaterial)
+		if (_activeMaterial != null)
 			_activeMaterial.deactivate(_stage3DProxy);
 
 		_activeMaterial = null;
@@ -178,7 +180,7 @@ class DefaultRenderer extends RendererBase
 		var camera:Camera3D = entityCollector.camera;
 		var item2:RenderableListItem;
 
-		while (item)
+		while (item != null)
 		{
 			_activeMaterial = item.renderable.material;
 			_activeMaterial.updateMaterial(_context);
@@ -199,14 +201,14 @@ class DefaultRenderer extends RendererBase
 					{
 						_activeMaterial.renderPass(j, item2.renderable, _stage3DProxy, entityCollector, _rttViewProjectionMatrix);
 						item2 = item2.next;
-					} while (item2 && item2.renderable.material == _activeMaterial);
+					} while (item2 != null && item2.renderable.material == _activeMaterial);
 					_activeMaterial.deactivatePass(j, _stage3DProxy);
 				}
 				else
 					do
 					{
 						item2 = item2.next;
-					} while (item2 && item2.renderable.material == _activeMaterial);
+					} while (item2 != null && item2.renderable.material == _activeMaterial);
 
 			} while (++j < numPasses);
 

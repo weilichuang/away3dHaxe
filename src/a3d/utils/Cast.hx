@@ -295,14 +295,16 @@ class Cast
 		if (Std.is(data,BitmapData))
 			return data;
 
-		if (Std.is(data,Bitmap))
-			if (Std.instance(data,Bitmap).hasOwnProperty("bitmapData")) // if (data is BitmapAsset)
-				return cast(data,Bitmap).bitmapData;
+		if (Std.is(data, Bitmap))
+		{
+			var bitmap:Bitmap = Std.instance(data, Bitmap);
+			return bitmap.bitmapData;
+		}
 
 		if (Std.is(data,DisplayObject))
 		{
 			var ds:DisplayObject = Std.instance(data,DisplayObject);
-			var bmd:BitmapData = new BitmapData(ds.width, ds.height, true, 0x00FFFFFF);
+			var bmd:BitmapData = new BitmapData(Std.int(ds.width), Std.int(ds.height), true, 0x00FFFFFF);
 			var mat:Matrix = ds.transform.matrix.clone();
 			mat.tx = 0;
 			mat.ty = 0;

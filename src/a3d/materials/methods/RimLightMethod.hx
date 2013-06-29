@@ -43,37 +43,41 @@ class RimLightMethod extends EffectMethodBase
 		vo.needsView = true;
 	}
 
+	public var color(get,set):UInt;
 	private inline function get_color():UInt
 	{
 		return _color;
 	}
 
-	private inline function set_color(value:UInt):Void
+	private inline function set_color(value:UInt):UInt
 	{
 		_color = value;
 		_colorR = ((value >> 16) & 0xff) / 0xff;
 		_colorG = ((value >> 8) & 0xff) / 0xff;
 		_colorB = (value & 0xff) / 0xff;
+		return _color;
 	}
 
+	public var strength(get,set):UInt;
 	private inline function get_strength():Float
 	{
 		return _strength;
 	}
 
-	private inline function set_strength(value:Float):Void
+	private inline function set_strength(value:Float):Float
 	{
-		_strength = value;
+		return _strength = value;
 	}
 
+	public var power(get,set):Float;
 	private inline function get_power():Float
 	{
 		return _power;
 	}
 
-	private inline function set_power(value:Float):Void
+	private inline function set_power(value:Float):Float
 	{
-		_power = value;
+		return _power = value;
 	}
 
 	override public function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):Void

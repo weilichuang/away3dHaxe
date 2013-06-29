@@ -69,14 +69,15 @@ class SimpleShadowMapMethodBase extends ShadowMapMethodBase
 	/**
 	 * Wrappers that override the vertex shader need to set this explicitly
 	 */
+	public var depthMapCoordReg(get,set):ShaderRegisterElement;
 	private inline function get_depthMapCoordReg():ShaderRegisterElement
 	{
 		return _depthMapCoordReg;
 	}
 
-	private inline function set_depthMapCoordReg(value:ShaderRegisterElement):Void
+	private inline function set_depthMapCoordReg(value:ShaderRegisterElement):ShaderRegisterElement
 	{
-		_depthMapCoordReg = value;
+		return _depthMapCoordReg = value;
 	}
 
 	override public function cleanCompilationData():Void

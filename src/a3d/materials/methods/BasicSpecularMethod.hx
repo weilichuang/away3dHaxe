@@ -5,6 +5,7 @@ import a3d.core.managers.Stage3DProxy;
 import a3d.materials.compilation.ShaderRegisterCache;
 import a3d.materials.compilation.ShaderRegisterElement;
 import a3d.textures.Texture2DBase;
+import flash.Vector.Vector;
 
 
 
@@ -25,7 +26,7 @@ class BasicSpecularMethod extends LightingMethodBase
 
 	private var _texture:Texture2DBase;
 
-	private var _gloss:Int;
+	private var _gloss:Float;
 	private var _specular:Float;
 	private var _specularColor:UInt;
 	
@@ -57,51 +58,58 @@ class BasicSpecularMethod extends LightingMethodBase
 	/**
 	 * The sharpness of the specular highlight.
 	 */
+	public var gloss(get, set):Float;
 	private inline function get_gloss():Float
 	{
 		return _gloss;
 	}
 
-	private inline function set_gloss(value:Float):Void
+	private inline function set_gloss(value:Float):Float
 	{
-		_gloss = value;
+		return _gloss = value;
 	}
 
 	/**
 	 * The overall strength of the specular highlights.
 	 */
+	public var specular(get, set):Float;
 	private inline function get_specular():Float
 	{
 		return _specular;
 	}
 
-	private inline function set_specular(value:Float):Void
+	private inline function set_specular(value:Float):Float
 	{
 		if (value == _specular)
-			return;
+			return _specular;
 
 		_specular = value;
 		updateSpecular();
+		
+		return _specular;
 	}
 
 	/**
 	 * The colour of the specular reflection of the surface.
 	 */
+	public var specularColor(get, set):UInt;
 	private inline function get_specularColor():UInt
 	{
 		return _specularColor;
 	}
 
-	private inline function set_specularColor(value:UInt):Void
+	private inline function set_specularColor(value:UInt):UInt
 	{
 		if (_specularColor == value)
-			return;
+			return _specularColor;
 
 		// specular is now either enabled or disabled
 		if (_specularColor == 0 || value == 0)
 			invalidateShaderProgram();
 		_specularColor = value;
 		updateSpecular();
+		
+		return _specularColor;
 	}
 
 	/**
@@ -109,18 +117,22 @@ class BasicSpecularMethod extends LightingMethodBase
 	 * in the green channel. You can use SpecularBitmapTexture if you want to easily set specular and gloss maps
 	 * from greyscale images, but prepared images are preffered.
 	 */
+	public var texture(get, set):Texture2DBase;
 	private inline function get_texture():Texture2DBase
 	{
 		return _texture;
 	}
 
-	private inline function set_texture(value:Texture2DBase):Void
+	private inline function set_texture(value:Texture2DBase):Texture2DBase
 	{
-		if (Bool(value) != _useTexture ||
-			(value && _texture && (value.hasMipMaps != _texture.hasMipMaps || value.format != _texture.format)))
+		if ((value != null) != _useTexture ||
+			(value != null && _texture != null && 
+			(value.hasMipMaps != _texture.hasMipMaps || value.format != _texture.format)))
 			invalidateShaderProgram();
-		_useTexture = Bool(value);
+		_useTexture = (value != null);
 		_texture = value;
+		
+		return _texture;
 	}
 
 	/**
@@ -128,7 +140,7 @@ class BasicSpecularMethod extends LightingMethodBase
 	 */
 	override public function copyFrom(method:ShadingMethodBase):Void
 	{
-		var spec:BasicSpecularMethod = BasicSpecularMethod(method);
+		var spec:BasicSpecularMethod = Std.instance(method,BasicSpecularMethod);
 		texture = spec.texture;
 		specular = spec.specular;
 		specularColor = spec.specularColor;
@@ -286,7 +298,7 @@ class BasicSpecularMethod extends LightingMethodBase
 		if (vo.numLights == 0)
 			return code;
 
-		if (_shadowRegister)
+		if (_shadowRegister != null)
 			code += "mul " + _totalLightColorReg + ".xyz, " + _totalLightColorReg + ", " + _shadowRegister + ".w\n";
 
 		if (_useTexture)
@@ -334,8 +346,9 @@ class BasicSpecularMethod extends LightingMethodBase
 		specularB = (_specularColor & 0xff) / 0xff * _specular;
 	}
 
-	private inline function set_shadowRegister(shadowReg:ShaderRegisterElement):Void
+	public var shadowRegister(null,set):ShaderRegisterElement;
+	private inline function set_shadowRegister(shadowReg:ShaderRegisterElement):ShaderRegisterElement
 	{
-		_shadowRegister = shadowReg;
+		return _shadowRegister = shadowReg;
 	}
 }

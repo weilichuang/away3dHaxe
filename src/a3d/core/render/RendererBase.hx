@@ -185,7 +185,7 @@ class RendererBase
 		if (value == _stage3DProxy)
 			return _stage3DProxy;
 
-		if (!value)
+		if (value == null)
 		{
 			if (_stage3DProxy != null)
 			{
@@ -235,7 +235,7 @@ class RendererBase
 	public function dispose():Void
 	{
 		stage3DProxy = null;
-		if (_backgroundImageRenderer)
+		if (_backgroundImageRenderer != null)
 		{
 			_backgroundImageRenderer.dispose();
 			_backgroundImageRenderer = null;
@@ -368,7 +368,7 @@ class RendererBase
 			_backgroundImageRenderer = null;
 		}
 
-		if (!_backgroundImageRenderer != null && value != null)
+		if (_backgroundImageRenderer == null && value != null)
 			_backgroundImageRenderer = new BackgroundImageRenderer(_stage3DProxy);
 
 		_background = value;

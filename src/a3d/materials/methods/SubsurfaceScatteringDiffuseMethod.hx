@@ -89,43 +89,48 @@ class SubsurfaceScatteringDiffuseMethod extends CompositeDiffuseMethod
 	 * The amount by which the light scatters. It can be used to set the translucent surface's thickness. Use low
 	 * values for skin.
 	 */
+	public var scattering(set,set):Float;
 	private inline function get_scattering():Float
 	{
 		return _scattering;
 	}
 
-	private inline function set_scattering(value:Float):Void
+	private inline function set_scattering(value:Float):Float
 	{
-		_scattering = value;
+		return _scattering = value;
 	}
 
 	/**
 	 * The translucency of the object.
 	 */
+	public var translucency(set,set):Float;
 	private inline function get_translucency():Float
 	{
 		return _translucency;
 	}
 
-	private inline function set_translucency(value:Float):Void
+	private inline function set_translucency(value:Float):Float
 	{
-		_translucency = value;
+		return _translucency = value;
 	}
 
 	/**
 	 * The colour the light becomes inside the object.
 	 */
+	public var scatterColor(set,set):UInt;
 	private inline function get_scatterColor():UInt
 	{
 		return _scatterColor;
 	}
 
-	private inline function set_scatterColor(scatterColor:UInt):Void
+	private inline function set_scatterColor(scatterColor:UInt):UInt
 	{
 		_scatterColor = scatterColor;
 		_scatterR = ((scatterColor >> 16) & 0xff) / 0xff;
 		_scatterG = ((scatterColor >> 8) & 0xff) / 0xff;
 		_scatterB = (scatterColor & 0xff) / 0xff;
+		return _scatterColor;
+	}
 	}
 
 	/**

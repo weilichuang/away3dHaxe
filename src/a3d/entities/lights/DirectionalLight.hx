@@ -134,7 +134,8 @@ class DirectionalLight extends LightBase
 		var yMin:Float = Math.POSITIVE_INFINITY, yMax:Float = Math.NEGATIVE_INFINITY;
 		var zMin:Float = Math.POSITIVE_INFINITY, zMax:Float = Math.NEGATIVE_INFINITY;
 		var d:Float;
-		for (i in 0...24)
+		var i:Int = 0;
+		while (i < 24)
 		{
 			d = _projAABBPoints[i++];
 			if (d < xMin)

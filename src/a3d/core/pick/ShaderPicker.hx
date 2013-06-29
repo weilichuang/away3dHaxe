@@ -44,7 +44,7 @@ import a3d.tools.utils.GeomUtil;
  */
 class ShaderPicker implements IPicker
 {
-	private static inline var MOUSE_SCISSOR_RECT:Rectangle = new Rectangle(0, 0, 1, 1);
+	private static var MOUSE_SCISSOR_RECT:Rectangle = new Rectangle(0, 0, 1, 1);
 
 	
 	private var _stage3DProxy:Stage3DProxy;
@@ -58,7 +58,7 @@ class ShaderPicker implements IPicker
 	private var _boundOffsetScale:Vector<Float>;
 	private var _id:Vector<Float>;
 
-	private var _interactives:Vector<IRenderable> = new Vector<IRenderable>();
+	private var _interactives:Vector<IRenderable>;
 	private var _interactiveId:UInt;
 	private var _hitColor:UInt;
 	private var _projX:Float;
@@ -66,15 +66,15 @@ class ShaderPicker implements IPicker
 
 	private var _hitRenderable:IRenderable;
 	private var _hitEntity:Entity;
-	private var _localHitPosition:Vector3D = new Vector3D();
-	private var _hitUV:Point = new Point();
+	private var _localHitPosition:Vector3D;
+	private var _hitUV:Point;
 	private var _faceIndex:UInt;
 	private var _subGeometryIndex:UInt;
 
-	private var _localHitNormal:Vector3D = new Vector3D();
+	private var _localHitNormal:Vector3D;
 
-	private var _rayPos:Vector3D = new Vector3D();
-	private var _rayDir:Vector3D = new Vector3D();
+	private var _rayPos:Vector3D;
+	private var _rayDir:Vector3D;
 	private var _potentialFound:Bool;
 	
 	/**
@@ -88,7 +88,12 @@ class ShaderPicker implements IPicker
 		_boundOffsetScale[3] = 0;
 		_boundOffsetScale[7] = 1;
 		
-		
+		_interactives = new Vector<IRenderable>();
+		_localHitPosition = new Vector3D();
+		_localHitNormal = new Vector3D();
+		_hitUV = new Point();
+		_rayPos = new Vector3D();
+		_rayDir = new Vector3D();
 	}
 	
 	/**
@@ -143,7 +148,7 @@ class ShaderPicker implements IPicker
 		_context.drawToBitmapData(_bitmapData);
 		_hitColor = _bitmapData.getPixel(0, 0);
 
-		if (!_hitColor)
+		if (_hitColor == 0)
 		{
 			_context.present();
 			return null;
@@ -360,7 +365,7 @@ class ShaderPicker implements IPicker
 	private function getPreciseDetails(camera:Camera3D):Void
 	{
 
-		var subGeom:ISubGeometry = SubMesh(_hitRenderable).subGeometry;
+		var subGeom:ISubGeometry = Std.instance(_hitRenderable,SubMesh).subGeometry;
 		var indices:Vector<UInt> = subGeom.indexData;
 		var vertices:Vector<Float> = subGeom.vertexData;
 		var len:Int = indices.length;
@@ -475,7 +480,7 @@ class ShaderPicker implements IPicker
 					_hitUV.y = v + t * (uvs[ui2 + 1] - v) + s * (uvs[ui3 + 1] - v);
 
 					_faceIndex = i;
-					_subGeometryIndex = GeomUtil.getMeshSubMeshIndex(SubMesh(_hitRenderable));
+					_subGeometryIndex = GeomUtil.getMeshSubMeshIndex(Std.instance(_hitRenderable,SubMesh));
 
 					return;
 				}

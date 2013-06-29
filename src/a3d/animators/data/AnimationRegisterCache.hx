@@ -3,6 +3,7 @@ package a3d.animators.data;
 import a3d.animators.nodes.AnimationNodeBase;
 import a3d.materials.compilation.ShaderRegisterCache;
 import a3d.materials.compilation.ShaderRegisterElement;
+import flash.display3D.Context3DProfile;
 import flash.Vector;
 import haxe.ds.ObjectMap;
 import haxe.ds.WeakMap;
@@ -66,7 +67,7 @@ class AnimationRegisterCache extends ShaderRegisterCache
 	//set if has an node which will apply color add operation
 	public var hasColorAddNode:Bool;
 
-	public function new(profile:String)
+	public function new(profile:Context3DProfile)
 	{
 		super(profile);
 		

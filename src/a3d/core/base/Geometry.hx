@@ -31,6 +31,7 @@ class Geometry extends NamedAssetBase implements IAsset
 	 */
 	public function new()
 	{
+		super();
 		_subGeometries = new Vector<ISubGeometry>();
 	}
 	
@@ -158,7 +159,7 @@ class Geometry extends NamedAssetBase implements IAsset
 			if (Std.is(subGeom,SubGeometry))
 				continue;
 
-			_removableCompactSubGeometries.push(subGeom);
+			_removableCompactSubGeometries.push(Std.instance(subGeom,CompactSubGeometry));
 			addSubGeometry(subGeom.cloneWithSeperateBuffers());
 		}
 

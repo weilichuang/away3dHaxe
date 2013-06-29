@@ -5,6 +5,7 @@ import a3d.core.managers.Stage3DProxy;
 import a3d.materials.compilation.ShaderRegisterCache;
 import a3d.materials.compilation.ShaderRegisterElement;
 import a3d.textures.Texture2DBase;
+import flash.errors.Error;
 
 
 
@@ -32,31 +33,35 @@ class LightMapMethod extends EffectMethodBase
 		vo.needsSecondaryUV = _useSecondaryUV;
 	}
 
+	public var blendMode(get,set):String;
 	private inline function get_blendMode():String
 	{
 		return _blendMode;
 	}
 
-	private inline function set_blendMode(value:String):Void
+	private inline function set_blendMode(value:String):String
 	{
 		if (value != ADD && value != MULTIPLY)
 			throw new Error("Unknown blendmode!");
 		if (_blendMode == value)
-			return;
+			return _blendMode;
 		_blendMode = value;
 		invalidateShaderProgram();
+		return _blendMode;
 	}
 
+	public var texture(get,set):Texture2DBase;
 	private inline function get_texture():Texture2DBase
 	{
 		return _texture;
 	}
 
-	private inline function set_texture(value:Texture2DBase):Void
+	private inline function set_texture(value:Texture2DBase):Texture2DBase
 	{
 		if (value.hasMipMaps != _texture.hasMipMaps || value.format != _texture.format)
 			invalidateShaderProgram();
 		_texture = value;
+		return _texture;
 	}
 
 	override public function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):Void

@@ -5,6 +5,7 @@ import a3d.core.managers.Stage3DProxy;
 import a3d.materials.compilation.ShaderRegisterCache;
 import a3d.materials.compilation.ShaderRegisterElement;
 import a3d.textures.Texture2DBase;
+import flash.errors.Error;
 
 
 
@@ -31,29 +32,33 @@ class LightMapDiffuseMethod extends CompositeDiffuseMethod
 		vo.needsUV = !_useSecondaryUV;
 	}
 
+	public var blendMode(get,set):String;
 	private inline function get_blendMode():String
 	{
 		return _blendMode;
 	}
 
-	private inline function set_blendMode(value:String):Void
+	private inline function set_blendMode(value:String):String
 	{
 		if (value != ADD && value != MULTIPLY)
 			throw new Error("Unknown blendmode!");
 		if (_blendMode == value)
-			return;
+			return _blendMode;
 		_blendMode = value;
 		invalidateShaderProgram();
+		
+		return _blendMode;
 	}
 
+	public var lightMapTexture(get,set):Texture2DBase;
 	private inline function get_lightMapTexture():Texture2DBase
 	{
 		return _texture;
 	}
 
-	private inline function set_lightMapTexture(value:Texture2DBase):Void
+	private inline function set_lightMapTexture(value:Texture2DBase):Texture2DBase
 	{
-		_texture = value;
+		return _texture = value;
 	}
 
 	override public function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):Void

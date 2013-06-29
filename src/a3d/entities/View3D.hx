@@ -437,7 +437,7 @@ class View3D extends Sprite
 	/**
 	 * The amount of milliseconds the last render call took
 	 */
-	public var deltaTime(get, set):Float;
+	public var deltaTime(get, null):Float;
 	private inline function get_deltaTime():Float
 	{
 		return _deltaTime;
@@ -455,14 +455,14 @@ class View3D extends Sprite
 	@:setter(width) function set_width(value:Float):Void
 	{
 		// Backbuffer limitation in software mode. See comment in updateBackBuffer()
-		if (_stage3DProxy && _stage3DProxy.usesSoftwareRendering && value > 2048)
+		if (_stage3DProxy != null && _stage3DProxy.usesSoftwareRendering && value > 2048)
 			value = 2048;
 
 		if (_width == value)
 			return;
 
 		if (_rttBufferManager != null)
-			_rttBufferManager.viewWidth = value;
+			_rttBufferManager.viewWidth = Std.int(value);
 
 		_hitField.width = value;
 		_width = value;
@@ -583,7 +583,7 @@ class View3D extends Sprite
 	private inline function set_shareContext(value:Bool):Bool
 	{
 		if (_shareContext == value)
-			return;
+			return _shareContext;
 
 		_shareContext = value;
 		_globalPosDirty = true;
@@ -599,7 +599,7 @@ class View3D extends Sprite
 		// No reason trying to configure back buffer if there is no context available.
 		// Doing this anyway (and relying on _stage3DProxy to cache width/height for 
 		// context does get available) means usesSoftwareRendering won't be reliable.
-		if (_stage3DProxy.context3D && !_shareContext)
+		if (_stage3DProxy.context3D != null && !_shareContext)
 		{
 			if (_width != 0 && _height != 0)
 			{
@@ -621,7 +621,7 @@ class View3D extends Sprite
 						_height = 2048;
 				}
 
-				_stage3DProxy.configureBackBuffer(_width, _height, _antiAlias, true);
+				_stage3DProxy.configureBackBuffer(Std.int(_width), Std.int(_height), _antiAlias, true);
 				_backBufferInvalid = false;
 			}
 			else
@@ -686,7 +686,7 @@ class View3D extends Sprite
 
 		_renderer.clearOnRender = !_depthPrepass;
 
-		if (_filter3DRenderer && _stage3DProxy.context3D)
+		if (_filter3DRenderer != null && _stage3DProxy.context3D != null)
 		{
 			_renderer.render(_entityCollector, _filter3DRenderer.getMainInputTexture(_stage3DProxy), _rttBufferManager.renderToTextureRect);
 			_filter3DRenderer.render(_stage3DProxy, camera, _depthRender);

@@ -24,17 +24,21 @@ class EnvMapMethod extends EffectMethodBase
 		_alpha = alpha;
 	}
 
+	public var mask(get,set):Texture2DBase;
 	private inline function get_mask():Texture2DBase
 	{
 		return _mask;
 	}
 
-	private inline function set_mask(value:Texture2DBase):Void
+	private inline function set_mask(value:Texture2DBase):Texture2DBase
 	{
-		if (Bool(value) != Bool(_mask) ||
-			(value && _mask && (value.hasMipMaps != _mask.hasMipMaps || value.format != _mask.format)))
+		if ((value != null) != (_mask != null) ||
+			(value != null && _mask != null && 
+			(value.hasMipMaps != _mask.hasMipMaps || value.format != _mask.format)))
 			invalidateShaderProgram();
 		_mask = value;
+		
+		return _mask;
 	}
 
 	override public function initVO(vo:MethodVO):Void
@@ -47,14 +51,15 @@ class EnvMapMethod extends EffectMethodBase
 	/**
 	 * The cube environment map to use for the diffuse lighting.
 	 */
+	public var envMap(get,set):CubeTextureBase;
 	private inline function get_envMap():CubeTextureBase
 	{
 		return _cubeTexture;
 	}
 
-	private inline function set_envMap(value:CubeTextureBase):Void
+	private inline function set_envMap(value:CubeTextureBase):CubeTextureBase
 	{
-		_cubeTexture = value;
+		return _cubeTexture = value;
 	}
 
 	/**
@@ -67,14 +72,15 @@ class EnvMapMethod extends EffectMethodBase
 	/**
 	 * The reflectiveness of the surface
 	 */
+	public var alpha(get,set):Float;
 	private inline function get_alpha():Float
 	{
 		return _alpha;
 	}
 
-	private inline function set_alpha(value:Float):Void
+	private inline function set_alpha(value:Float):Float
 	{
-		_alpha = value;
+		return _alpha = value;
 	}
 
 	override public function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):Void

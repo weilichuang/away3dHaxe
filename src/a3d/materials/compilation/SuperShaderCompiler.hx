@@ -1,4 +1,5 @@
 package a3d.materials.compilation;
+import flash.display3D.Context3DProfile;
 import flash.Vector;
 
 
@@ -10,7 +11,7 @@ class SuperShaderCompiler extends ShaderCompiler
 
 
 
-	public function new(profile:String)
+	public function new(profile: Context3DProfile)
 	{
 		super(profile);
 	}
@@ -221,7 +222,7 @@ class SuperShaderCompiler extends ShaderCompiler
 			_registerCache.removeFragmentTempUsage(_sharedRegisters.viewDirFragment);
 
 
-		if (_methodSetup.shadowMethod)
+		if (_methodSetup.shadowMethod != null)
 		{
 			_vertexCode += _methodSetup.shadowMethod.getVertexCode(_methodSetup.shadowMethodVO, _registerCache);
 			// using normal to contain shadow data if available is perhaps risky :s
@@ -363,7 +364,7 @@ class SuperShaderCompiler extends ShaderCompiler
 	private function compileLightProbeCode():Void
 	{
 		var weightReg:String;
-		var weightComponents:Array = [".x", ".y", ".z", ".w"];
+		var weightComponents:Array<String> = [".x", ".y", ".z", ".w"];
 		var weightRegisters:Vector<ShaderRegisterElement> = new Vector<ShaderRegisterElement>();
 		var i:UInt;
 		var texReg:ShaderRegisterElement;

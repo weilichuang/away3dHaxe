@@ -43,14 +43,15 @@ class EnvMapAmbientMethod extends BasicAmbientMethod
 	/**
 	 * The cube environment map to use for the diffuse lighting.
 	 */
+	public var envMap(get,set):CubeTextureBase;
 	private inline function get_envMap():CubeTextureBase
 	{
 		return _cubeTexture;
 	}
 
-	private inline function set_envMap(value:CubeTextureBase):Void
+	private inline function set_envMap(value:CubeTextureBase):CubeTextureBase
 	{
-		_cubeTexture = value;
+		return _cubeTexture = value;
 	}
 
 	/**

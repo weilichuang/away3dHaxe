@@ -20,6 +20,7 @@ class EffectMethodBase extends ShadingMethodBase implements IAsset
 		super();
 	}
 
+	public var assetType(get,null):String;
 	private inline function get_assetType():String
 	{
 		return AssetType.EFFECTS_METHOD;
@@ -33,9 +34,6 @@ class EffectMethodBase extends ShadingMethodBase implements IAsset
 	public function getFragmentCode(vo:MethodVO, regCache:ShaderRegisterCache, targetReg:ShaderRegisterElement):String
 	{
 		throw new AbstractMethodError();
-		vo = vo;
-		regCache = regCache;
-		targetReg = targetReg;
 		return "";
 	}
 }

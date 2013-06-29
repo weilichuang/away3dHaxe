@@ -29,16 +29,18 @@ class GradientDiffuseMethod extends BasicDiffuseMethod
 		_gradient = gradient;
 	}
 
+	public var gradient(get,set):Texture2DBase;
 	private inline function get_gradient():Texture2DBase
 	{
 		return _gradient;
 	}
 
-	private inline function set_gradient(value:Texture2DBase):Void
+	private inline function set_gradient(value:Texture2DBase):Texture2DBase
 	{
 		if (value.hasMipMaps != _gradient.hasMipMaps || value.format != _gradient.format)
 			invalidateShaderProgram();
 		_gradient = value;
+		return _gradient;
 	}
 
 	override public function cleanCompilationData():Void

@@ -1,9 +1,12 @@
 package a3d.core.base;
 
+import a3d.materials.utils.VertexFormatUtil;
 import flash.display3D.Context3D;
+import flash.display3D.Context3DVertexBufferFormat;
 import flash.display3D.VertexBuffer3D;
 import flash.utils.Dictionary;
 import flash.Vector;
+import haxe.ds.IntMap.IntMap;
 
 
 import a3d.core.managers.Stage3DProxy;
@@ -17,16 +20,16 @@ import a3d.core.managers.Stage3DProxy;
  */
 class SkinnedSubGeometry extends CompactSubGeometry
 {
-	private var _bufferFormat:String;
+	private var _bufferFormat:Context3DVertexBufferFormat;
 	private var _jointWeightsData:Vector<Float>;
 	private var _jointIndexData:Vector<Float>;
 	private var _animatedData:Vector<Float>; // used for cpu fallback
-	private var _jointWeightsBuffer:Vector<VertexBuffer3D> = new Vector<VertexBuffer3D>(8);
-	private var _jointIndexBuffer:Vector<VertexBuffer3D> = new Vector<VertexBuffer3D>(8);
-	private var _jointWeightsInvalid:Vector<Bool> = new Vector<Bool>(8, true);
-	private var _jointIndicesInvalid:Vector<Bool> = new Vector<Bool>(8, true);
-	private var _jointWeightContext:Vector<Context3D> = new Vector<Context3D>(8);
-	private var _jointIndexContext:Vector<Context3D> = new Vector<Context3D>(8);
+	private var _jointWeightsBuffer:Vector<VertexBuffer3D>;
+	private var _jointIndexBuffer:Vector<VertexBuffer3D>;
+	private var _jointWeightsInvalid:Vector<Bool>;
+	private var _jointIndicesInvalid:Vector<Bool>;
+	private var _jointWeightContext:Vector<Context3D>;
+	private var _jointIndexContext:Vector<Context3D>;
 	private var _jointsPerVertex:Int;
 
 	private var _condensedJointIndexData:Vector<Float>;
@@ -42,12 +45,20 @@ class SkinnedSubGeometry extends CompactSubGeometry
 	{
 		super();
 		_jointsPerVertex = jointsPerVertex;
-		_bufferFormat = "float" + _jointsPerVertex;
+		_bufferFormat = VertexFormatUtil.getVertexBufferFormat(_jointsPerVertex);
+		
+		_jointWeightsBuffer = new Vector<VertexBuffer3D>(8);
+		_jointIndexBuffer = new Vector<VertexBuffer3D>(8);
+		_jointWeightsInvalid = new Vector<Bool>(8, true);
+		_jointIndicesInvalid = new Vector<Bool>(8, true);
+		_jointWeightContext = new Vector<Context3D>(8);
+		_jointIndexContext = new Vector<Context3D>(8);
 	}
 
 	/**
 	 * If indices have been condensed, this will contain the original index for each condensed index.
 	 */
+	public var condensedIndexLookUp(get, null):Vector<UInt>;
 	private inline function get_condensedIndexLookUp():Vector<UInt>
 	{
 		return _condensedIndexLookUp;
@@ -56,6 +67,7 @@ class SkinnedSubGeometry extends CompactSubGeometry
 	/**
 	 * The amount of joints used when joint indices have been condensed.
 	 */
+	public var numCondensedJoints(get, null):UInt;
 	private inline function get_numCondensedJoints():UInt
 	{
 		return _numCondensedJoints;
@@ -64,9 +76,12 @@ class SkinnedSubGeometry extends CompactSubGeometry
 	/**
 	 * The animated vertex positions when set explicitly if the skinning transformations couldn't be performed on GPU.
 	 */
-	private inline function get_animatedData():Vector<Float>
+	public var animatedData(get, null):Vector<Float>;
+	private function get_animatedData():Vector<Float>
 	{
-		return _animatedData || _vertexData.concat();
+		if (_animatedData != null)
+			return _animatedData;
+		return _vertexData.concat();
 	}
 
 	public function updateAnimatedData(value:Vector<Float>):Void
@@ -84,7 +99,7 @@ class SkinnedSubGeometry extends CompactSubGeometry
 	{
 		var contextIndex:Int = stage3DProxy.stage3DIndex;
 		var context:Context3D = stage3DProxy.context3D;
-		if (_jointWeightContext[contextIndex] != context || !_jointWeightsBuffer[contextIndex])
+		if (_jointWeightContext[contextIndex] != context || _jointWeightsBuffer[contextIndex] == null)
 		{
 			_jointWeightsBuffer[contextIndex] = context.createVertexBuffer(_numVertices, _jointsPerVertex);
 			_jointWeightContext[contextIndex] = context;
@@ -92,7 +107,7 @@ class SkinnedSubGeometry extends CompactSubGeometry
 		}
 		if (_jointWeightsInvalid[contextIndex])
 		{
-			_jointWeightsBuffer[contextIndex].uploadFromVector(_jointWeightsData, 0, _jointWeightsData.length / _jointsPerVertex);
+			_jointWeightsBuffer[contextIndex].uploadFromVector(_jointWeightsData, 0, Std.int(_jointWeightsData.length / _jointsPerVertex));
 			_jointWeightsInvalid[contextIndex] = false;
 		}
 		context.setVertexBufferAt(index, _jointWeightsBuffer[contextIndex], 0, _bufferFormat);
@@ -108,7 +123,7 @@ class SkinnedSubGeometry extends CompactSubGeometry
 		var contextIndex:Int = stage3DProxy.stage3DIndex;
 		var context:Context3D = stage3DProxy.context3D;
 
-		if (_jointIndexContext[contextIndex] != context || !_jointIndexBuffer[contextIndex])
+		if (_jointIndexContext[contextIndex] != context || _jointIndexBuffer[contextIndex] == null)
 		{
 			_jointIndexBuffer[contextIndex] = context.createVertexBuffer(_numVertices, _jointsPerVertex);
 			_jointIndexContext[contextIndex] = context;
@@ -116,7 +131,7 @@ class SkinnedSubGeometry extends CompactSubGeometry
 		}
 		if (_jointIndicesInvalid[contextIndex])
 		{
-			_jointIndexBuffer[contextIndex].uploadFromVector(_numCondensedJoints > 0 ? _condensedJointIndexData : _jointIndexData, 0, _jointIndexData.length / _jointsPerVertex);
+			_jointIndexBuffer[contextIndex].uploadFromVector(_numCondensedJoints > 0 ? _condensedJointIndexData : _jointIndexData, 0, Std.int(_jointIndexData.length / _jointsPerVertex));
 			_jointIndicesInvalid[contextIndex] = false;
 		}
 		context.setVertexBufferAt(index, _jointIndexBuffer[contextIndex], 0, _bufferFormat);
@@ -124,7 +139,7 @@ class SkinnedSubGeometry extends CompactSubGeometry
 
 	override private function uploadData(contextIndex:Int):Void
 	{
-		if (_animatedData)
+		if (_animatedData != null)
 		{
 			_activeBuffer.uploadFromVector(_animatedData, 0, _numVertices);
 			_vertexDataInvalid[contextIndex] = _activeDataInvalid = false;
@@ -169,26 +184,26 @@ class SkinnedSubGeometry extends CompactSubGeometry
 		var len:Int = _jointIndexData.length;
 		var oldIndex:Int;
 		var newIndex:Int = 0;
-		var dic:Dictionary = new Dictionary();
+		var dic:IntMap<Int> = new IntMap<Int>();
 
 		_condensedJointIndexData = new Vector<Float>(len, true);
 		_condensedIndexLookUp = new Vector<UInt>();
 
 		for (i in 0...len)
 		{
-			oldIndex = _jointIndexData[i];
+			oldIndex = Std.int(_jointIndexData[i]);
 
 			// if we encounter a new index, assign it a new condensed index
-			if (dic[oldIndex] == undefined)
+			if (!dic.exists(oldIndex))
 			{
-				dic[oldIndex] = newIndex;
+				dic.set(oldIndex, newIndex);
 				_condensedIndexLookUp[newIndex++] = oldIndex;
 				_condensedIndexLookUp[newIndex++] = oldIndex + 1;
 				_condensedIndexLookUp[newIndex++] = oldIndex + 2;
 			}
-			_condensedJointIndexData[i] = dic[oldIndex];
+			_condensedJointIndexData[i] = dic.get(oldIndex);
 		}
-		_numCondensedJoints = newIndex / 3;
+		_numCondensedJoints = Std.int(newIndex / 3);
 
 		invalidateBuffers(_jointIndicesInvalid);
 	}

@@ -162,7 +162,7 @@ class MouseEvent3D extends Event
 	/**
 	 * @inheritDoc
 	 */
-	override private function get_bubbles():Bool
+	@:getter(bubbles) function get_bubbles():Bool
 	{
 		var doesBubble:Bool = super.bubbles && allowedToPropagate;
 		allowedToPropagate = true;

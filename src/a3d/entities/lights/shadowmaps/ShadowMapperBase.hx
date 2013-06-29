@@ -27,14 +27,15 @@ class ShadowMapperBase
 	private var _autoUpdateShadows:Bool = true;
 	private var _shadowsInvalid:Bool;
 
+	public var shadowsInvalid(get,null):Bool;
 	private inline function get_shadowsInvalid():Bool
 	{
 		return _shadowsInvalid;
 	}
 
-//		private inline function set_shadowsInvalid(value:Bool):Void
+//		private inline function set_shadowsInvalid(value:Bool):Bool
 //		{
-//			_shadowsInvalid = value;
+//			return _shadowsInvalid = value;
 //		}
 
 	public function new()

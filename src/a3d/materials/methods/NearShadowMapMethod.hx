@@ -25,19 +25,21 @@ class NearShadowMapMethod extends SimpleShadowMapMethodBase
 	/**
 	 * The base shadow map method on which this method's shading is based.
 	 */
+	public var baseMethod(get,set):SimpleShadowMapMethodBase;
 	private inline function get_baseMethod():SimpleShadowMapMethodBase
 	{
 		return _baseMethod;
 	}
 
-	private inline function set_baseMethod(value:SimpleShadowMapMethodBase):Void
+	private inline function set_baseMethod(value:SimpleShadowMapMethodBase):SimpleShadowMapMethodBase
 	{
 		if (_baseMethod == value)
-			return;
+			return _baseMethod;
 		_baseMethod.removeEventListener(ShadingMethodEvent.SHADER_INVALIDATED, onShaderInvalidated);
 		_baseMethod = value;
 		_baseMethod.addEventListener(ShadingMethodEvent.SHADER_INVALIDATED, onShaderInvalidated, false, 0, true);
 		invalidateShaderProgram();
+		return _baseMethod;
 	}
 
 	public function new(baseMethod:SimpleShadowMapMethodBase, fadeRatio:Float = .1)

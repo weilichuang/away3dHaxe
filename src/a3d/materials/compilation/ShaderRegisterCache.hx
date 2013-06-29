@@ -1,4 +1,5 @@
 package a3d.materials.compilation;
+import flash.display3D.Context3DProfile;
 
 
 /**
@@ -25,12 +26,12 @@ class ShaderRegisterCache
 	private var _numUsedStreams:UInt;
 	private var _numUsedTextures:UInt;
 	private var _numUsedVaryings:UInt;
-	private var _profile:String;
+	private var _profile:Context3DProfile;
 
 	/**
 	 * Create a new ShaderRegisterCache object.
 	 */
-	public function new(profile:String)
+	public function new(profile:Context3DProfile)
 	{
 		_profile = profile;
 	}
@@ -201,52 +202,57 @@ class ShaderRegisterCache
 	/**
 	 * Indicates the start index from which to retrieve vertex constants.
 	 */
+	public var vertexConstantOffset(get,set):UInt;
 	private inline function get_vertexConstantOffset():UInt
 	{
 		return _vertexConstantOffset;
 	}
 
-	private inline function set_vertexConstantOffset(vertexConstantOffset:UInt):Void
+	private inline function set_vertexConstantOffset(vertexConstantOffset:UInt):UInt
 	{
-		_vertexConstantOffset = vertexConstantOffset;
+		return _vertexConstantOffset = vertexConstantOffset;
 	}
 
 	/**
 	 * Indicates the start index from which to retrieve vertex attributes.
 	 */
+	public var vertexAttributesOffset(get,set):UInt;
 	private inline function get_vertexAttributesOffset():UInt
 	{
 		return _vertexAttributesOffset;
 	}
 
-	private inline function set_vertexAttributesOffset(value:UInt):Void
+	private inline function set_vertexAttributesOffset(value:UInt):UInt
 	{
-		_vertexAttributesOffset = value;
+		return _vertexAttributesOffset = value;
 	}
 
+	public var varyingsOffset(get,set):UInt;
 	private inline function get_varyingsOffset():UInt
 	{
 		return _varyingsOffset;
 	}
 
-	private inline function set_varyingsOffset(value:UInt):Void
+	private inline function set_varyingsOffset(value:UInt):UInt
 	{
-		_varyingsOffset = value;
+		return _varyingsOffset = value;
 	}
 
+	public var fragmentConstantOffset(get,set):UInt;
 	private inline function get_fragmentConstantOffset():UInt
 	{
 		return _fragmentConstantOffset;
 	}
 
-	private inline function set_fragmentConstantOffset(value:UInt):Void
+	private inline function set_fragmentConstantOffset(value:UInt):UInt
 	{
-		_fragmentConstantOffset = value;
+		return _fragmentConstantOffset = value;
 	}
 
 	/**
 	 * The fragment output register.
 	 */
+	public var fragmentOutputRegister(get,null):ShaderRegisterElement;
 	private inline function get_fragmentOutputRegister():ShaderRegisterElement
 	{
 		return _fragmentOutputRegister;
@@ -255,6 +261,7 @@ class ShaderRegisterCache
 	/**
 	 * The amount of used vertex constant registers.
 	 */
+	public var numUsedVertexConstants(get,null):UInt;
 	private inline function get_numUsedVertexConstants():UInt
 	{
 		return _numUsedVertexConstants;
@@ -263,6 +270,7 @@ class ShaderRegisterCache
 	/**
 	 * The amount of used fragment constant registers.
 	 */
+	public var numUsedFragmentConstants(get,null):UInt;
 	private inline function get_numUsedFragmentConstants():UInt
 	{
 		return _numUsedFragmentConstants;
@@ -271,16 +279,19 @@ class ShaderRegisterCache
 	/**
 	 * The amount of used vertex streams.
 	 */
+	public var numUsedStreams(get,null):UInt;
 	private inline function get_numUsedStreams():UInt
 	{
 		return _numUsedStreams;
 	}
 
+	public var numUsedTextures(get,null):UInt;
 	private inline function get_numUsedTextures():UInt
 	{
 		return _numUsedTextures;
 	}
 
+	public var numUsedVaryings(get,null):UInt;
 	private inline function get_numUsedVaryings():UInt
 	{
 		return _numUsedVaryings;

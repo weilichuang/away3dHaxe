@@ -1,6 +1,7 @@
 package a3d.materials.passes;
 
 import flash.display3D.Context3D;
+import flash.display3D.Context3DProfile;
 import flash.geom.ColorTransform;
 import flash.geom.Vector3D;
 import flash.Vector;
@@ -41,56 +42,62 @@ class SuperShaderPass extends CompiledPass
 		_needFragmentAnimation = true;
 	}
 
-	override private function createCompiler(profile:String):ShaderCompiler
+	override private function createCompiler(profile:Context3DProfile):ShaderCompiler
 	{
 		return new SuperShaderCompiler(profile);
 	}
 
+	public var includeCasters(get,set):Bool;
 	private inline function get_includeCasters():Bool
 	{
 		return _includeCasters;
 	}
 
-	private inline function set_includeCasters(value:Bool):Void
+	private inline function set_includeCasters(value:Bool):Bool
 	{
 		if (_includeCasters == value)
-			return;
+			return _includeCasters;
 		_includeCasters = value;
 		invalidateShaderProgram();
+		
+		return _includeCasters;
 	}
 
 	/**
 	 * The ColorTransform object to transform the colour of the material with.
 	 */
+	public var colorTransform(get,set):ColorTransform;
 	private inline function get_colorTransform():ColorTransform
 	{
-		return _methodSetup.colorTransformMethod ? _methodSetup.colorTransformMethod.colorTransform : null;
+		return _methodSetup.colorTransformMethod != null ? _methodSetup.colorTransformMethod.colorTransform : null;
 	}
 
-	private inline function set_colorTransform(value:ColorTransform):Void
+	private inline function set_colorTransform(value:ColorTransform):ColorTransform
 	{
-		if (value)
+		if (value != null)
 		{
 			if (colorTransformMethod == null)
 				colorTransformMethod = new ColorTransformMethod();
 			_methodSetup.colorTransformMethod.colorTransform = value;
 		}
-		else if (!value)
+		else if (value == null)
 		{
-			if (_methodSetup.colorTransformMethod)
+			if (_methodSetup.colorTransformMethod != null)
 				colorTransformMethod = null;
 			colorTransformMethod = _methodSetup.colorTransformMethod = null;
 		}
+		return colorTransform;
 	}
 
+	public var colorTransformMethod(get,set):ColorTransformMethod;
 	private inline function get_colorTransformMethod():ColorTransformMethod
 	{
 		return _methodSetup.colorTransformMethod;
 	}
 
-	private inline function set_colorTransformMethod(value:ColorTransformMethod):Void
+	private inline function set_colorTransformMethod(value:ColorTransformMethod):ColorTransformMethod
 	{
-		_methodSetup.colorTransformMethod = value;
+		return _methodSetup.colorTransformMethod = value;
 	}
 
 	/**
@@ -102,6 +109,7 @@ class SuperShaderPass extends CompiledPass
 		_methodSetup.addMethod(method);
 	}
 
+	public var numMethods(get,null):Int;
 	private inline function get_numMethods():Int
 	{
 		return _methodSetup.numMethods;
@@ -135,7 +143,7 @@ class SuperShaderPass extends CompiledPass
 	override private function updateLights():Void
 	{
 //			super.updateLights();
-		if (_lightPicker && !_ignoreLights)
+		if (_lightPicker != null && !_ignoreLights)
 		{
 			_numPointLights = _lightPicker.numPointLights;
 			_numDirectionalLights = _lightPicker.numDirectionalLights;
@@ -164,7 +172,7 @@ class SuperShaderPass extends CompiledPass
 	{
 		super.activate(stage3DProxy, camera);
 
-		if (_methodSetup.colorTransformMethod)
+		if (_methodSetup.colorTransformMethod != null)
 			_methodSetup.colorTransformMethod.activate(_methodSetup.colorTransformMethodVO, stage3DProxy);
 
 		var methods:Vector<MethodVOSet> = _methodSetup.methods;
@@ -191,7 +199,7 @@ class SuperShaderPass extends CompiledPass
 	{
 		super.deactivate(stage3DProxy);
 
-		if (_methodSetup.colorTransformMethod)
+		if (_methodSetup.colorTransformMethod != null)
 			_methodSetup.colorTransformMethod.deactivate(_methodSetup.colorTransformMethodVO, stage3DProxy);
 
 		var mset:MethodVOSet;
@@ -208,7 +216,7 @@ class SuperShaderPass extends CompiledPass
 	{
 		super.addPassesFromMethods();
 
-		if (_methodSetup.colorTransformMethod)
+		if (_methodSetup.colorTransformMethod != null)
 			addPasses(_methodSetup.colorTransformMethod.passes);
 
 		var methods:Vector<MethodVOSet> = _methodSetup.methods;
@@ -229,7 +237,7 @@ class SuperShaderPass extends CompiledPass
 	override private function updateMethodConstants():Void
 	{
 		super.updateMethodConstants();
-		if (_methodSetup.colorTransformMethod)
+		if (_methodSetup.colorTransformMethod != null)
 			_methodSetup.colorTransformMethod.initConstants(_methodSetup.colorTransformMethodVO);
 
 		var methods:Vector<MethodVOSet> = _methodSetup.methods;
@@ -349,7 +357,7 @@ class SuperShaderPass extends CompiledPass
 		var weights:Vector<Float> = _lightPicker.lightProbeWeights;
 		var len:Int = lightProbes.length;
 		var addDiff:Bool = usesProbesForDiffuse();
-		var addSpec:Bool = Bool(_methodSetup.specularMethod && usesProbesForSpecular());
+		var addSpec:Bool = (_methodSetup.specularMethod != null && usesProbesForSpecular());
 		var context:Context3D = stage3DProxy.context3D;
 
 		if (!(addDiff || addSpec))
@@ -371,9 +379,10 @@ class SuperShaderPass extends CompiledPass
 		_fragmentConstantData[_probeWeightsIndex + 3] = weights[3];
 	}
 
-	private inline function set_ignoreLights(ignoreLights:Bool):Void
+	public var ignoreLights(get,set):Bool;
+	private inline function set_ignoreLights(ignoreLights:Bool):Bool
 	{
-		_ignoreLights = ignoreLights;
+		return _ignoreLights = ignoreLights;
 	}
 
 	private inline function get_ignoreLights():Bool

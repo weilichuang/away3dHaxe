@@ -16,19 +16,22 @@ class BasicDiffuseMethod extends LightingMethodBase
 {
 	private var _useAmbientTexture:Bool;
 
+	public var useAmbientTexture(get, set):Bool;
 	private inline function get_useAmbientTexture():Bool
 	{
 		return _useAmbientTexture;
 	}
 
-	private inline function set_useAmbientTexture(value:Bool):Void
+	private inline function set_useAmbientTexture(value:Bool):Bool
 	{
 		if (_useAmbientTexture == value)
-			return;
+			return _useAmbientTexture;
 
 		_useAmbientTexture = value;
 
 		invalidateShaderProgram();
+		
+		return _useAmbientTexture;
 	}
 
 	private var _useTexture:Bool;
@@ -71,46 +74,53 @@ class BasicDiffuseMethod extends LightingMethodBase
 	/**
 	 * The alpha component of the diffuse reflection.
 	 */
+	public var diffuseAlpha(get, set):Float;
 	private inline function get_diffuseAlpha():Float
 	{
 		return _diffuseA;
 	}
 
-	private inline function set_diffuseAlpha(value:Float):Void
+	private inline function set_diffuseAlpha(value:Float):Float
 	{
-		_diffuseA = value;
+		return _diffuseA = value;
 	}
 
 	/**
 	 * The color of the diffuse reflection when not using a texture.
 	 */
+	public var diffuseColor(get, set):UInt;
 	private inline function get_diffuseColor():UInt
 	{
 		return _diffuseColor;
 	}
 
-	private inline function set_diffuseColor(diffuseColor:UInt):Void
+	private inline function set_diffuseColor(diffuseColor:UInt):UInt
 	{
 		_diffuseColor = diffuseColor;
 		updateDiffuse();
+		return _diffuseColor;
 	}
 
 	/**
 	 * The bitmapData to use to define the diffuse reflection color per texel.
 	 */
+	public var texture(get, set):Texture2DBase;
 	private inline function get_texture():Texture2DBase
 	{
 		return _texture;
 	}
 
-	private inline function set_texture(value:Texture2DBase):Void
+	private inline function set_texture(value:Texture2DBase):Texture2DBase
 	{
-		if (Bool(value) != _useTexture ||
-			(value && _texture && (value.hasMipMaps != _texture.hasMipMaps || value.format != _texture.format)))
+		if ((value != null) != _useTexture ||
+			(value != null && _texture != null && 
+			(value.hasMipMaps != _texture.hasMipMaps || 
+			value.format != _texture.format)))
 			invalidateShaderProgram();
 
-		_useTexture = Bool(value);
+		_useTexture = (value != null);
 		_texture = value;
+		return _texture;
 	}
 
 	/**
@@ -118,24 +128,27 @@ class BasicDiffuseMethod extends LightingMethodBase
 	 * invisible or entirely opaque, often used with textures for foliage, etc.
 	 * Recommended values are 0 to disable alpha, or 0.5 to create smooth edges. Default value is 0 (disabled).
 	 */
+	public var alphaThreshold(get, set):Float;
 	private inline function get_alphaThreshold():Float
 	{
 		return _alphaThreshold;
 	}
 
-	private inline function set_alphaThreshold(value:Float):Void
+	private inline function set_alphaThreshold(value:Float):Float
 	{
 		if (value < 0)
 			value = 0;
 		else if (value > 1)
 			value = 1;
 		if (value == _alphaThreshold)
-			return;
+			return _alphaThreshold;
 
 		if (value == 0 || _alphaThreshold == 0)
 			invalidateShaderProgram();
 
 		_alphaThreshold = value;
+		
+		return _alphaThreshold;
 	}
 
 	/**
@@ -151,7 +164,7 @@ class BasicDiffuseMethod extends LightingMethodBase
 	 */
 	override public function copyFrom(method:ShadingMethodBase):Void
 	{
-		var diff:BasicDiffuseMethod = BasicDiffuseMethod(method);
+		var diff:BasicDiffuseMethod = Std.instance(method,BasicDiffuseMethod);
 		alphaThreshold = diff.alphaThreshold;
 		texture = diff.texture;
 		useAmbientTexture = diff.useAmbientTexture;
@@ -271,7 +284,7 @@ class BasicDiffuseMethod extends LightingMethodBase
 		// incorporate input from ambient
 		if (vo.numLights > 0)
 		{
-			if (_shadowRegister)
+			if (_shadowRegister != null)
 				code += applyShadow(vo, regCache);
 			albedo = regCache.getFreeFragmentVectorTemp();
 			regCache.addFragmentTempUsages(albedo, 1);
@@ -374,8 +387,9 @@ class BasicDiffuseMethod extends LightingMethodBase
 		_diffuseB = (_diffuseColor & 0xff) / 0xff;
 	}
 
-	private inline function set_shadowRegister(value:ShaderRegisterElement):Void
+	public var shadowRegister(null, set):ShaderRegisterElement;
+	private inline function set_shadowRegister(value:ShaderRegisterElement):ShaderRegisterElement
 	{
-		_shadowRegister = value;
+		return _shadowRegister = value;
 	}
 }

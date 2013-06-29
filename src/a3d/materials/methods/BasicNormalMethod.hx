@@ -22,9 +22,10 @@ class BasicNormalMethod extends ShadingMethodBase
 
 	override public function initVO(vo:MethodVO):Void
 	{
-		vo.needsUV = Bool(_texture);
+		vo.needsUV = (_texture != null);
 	}
 
+	public var tangentSpace(get, null):Bool;
 	private inline function get_tangentSpace():Bool
 	{
 		return true;
@@ -33,6 +34,7 @@ class BasicNormalMethod extends ShadingMethodBase
 	/**
 	 * Override this is normal method output is not based on a texture (if not, it will usually always return true)
 	 */
+	public var hasOutput(get, null):Bool;
 	private inline function get_hasOutput():Bool
 	{
 		return _useTexture;
@@ -40,21 +42,27 @@ class BasicNormalMethod extends ShadingMethodBase
 
 	override public function copyFrom(method:ShadingMethodBase):Void
 	{
-		normalMap = BasicNormalMethod(method).normalMap;
+		normalMap = Std.instance(method,BasicNormalMethod).normalMap;
 	}
 
+	public var normalMap(get, set):Texture2DBase;
 	private inline function get_normalMap():Texture2DBase
 	{
 		return _texture;
 	}
 
-	private inline function set_normalMap(value:Texture2DBase):Void
+	private inline function set_normalMap(value:Texture2DBase):Texture2DBase
 	{
-		if (Bool(value) != _useTexture ||
-			(value && _texture && (value.hasMipMaps != _texture.hasMipMaps || value.format != _texture.format)))
+		if ((value != null) != _useTexture ||
+			(value != null && _texture != null && 
+			(value.hasMipMaps != _texture.hasMipMaps || 
+			value.format != _texture.format)))
 			invalidateShaderProgram();
-		_useTexture = Bool(value);
+			
+		_useTexture = (value != null);
 		_texture = value;
+		
+		return _texture;
 	}
 
 	override public function cleanCompilationData():Void
@@ -65,7 +73,7 @@ class BasicNormalMethod extends ShadingMethodBase
 
 	override public function dispose():Void
 	{
-		if (_texture)
+		if (_texture != null)
 			_texture = null;
 	}
 

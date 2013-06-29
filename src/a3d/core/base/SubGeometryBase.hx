@@ -650,7 +650,7 @@ class SubGeometryBase
 	 * @param scaleU The amount by which to scale on the u axis. Default is 1;
 	 * @param scaleV The amount by which to scale on the v axis. Default is 1;
 	 */
-	public var scaleU(get, null):Float;
+	public var scaleU(get, set):Float;
 	private inline function get_scaleU():Float
 	{
 		return _scaleU;
@@ -661,7 +661,7 @@ class SubGeometryBase
 		return _scaleU = value;
 	}
 
-	public var scaleV(get, null):Float;
+	public var scaleV(get, set):Float;
 	private inline function get_scaleV():Float
 	{
 		return _scaleV;

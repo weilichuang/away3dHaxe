@@ -39,37 +39,42 @@ class FogMethod extends EffectMethodBase
 		data[index + 7] = 0;
 	}
 
+	public var minDistance(get,set):Float;
 	private inline function get_minDistance():Float
 	{
 		return _minDistance;
 	}
 
-	private inline function set_minDistance(value:Float):Void
+	private inline function set_minDistance(value:Float):Float
 	{
 		_minDistance = value;
 	}
 
+	public var maxDistance(get,set):Float;
 	private inline function get_maxDistance():Float
 	{
 		return _maxDistance;
 	}
 
-	private inline function set_maxDistance(value:Float):Void
+	private inline function set_maxDistance(value:Float):Float
 	{
-		_maxDistance = value;
+		return _maxDistance = value;
 	}
 
+	public var fogColor(get,set):UInt;
 	private inline function get_fogColor():UInt
 	{
 		return _fogColor;
 	}
 
-	private inline function set_fogColor(value:UInt):Void
+	private inline function set_fogColor(value:UInt):UInt
 	{
 		_fogColor = value;
 		_fogR = ((value >> 16) & 0xff) / 0xff;
 		_fogG = ((value >> 8) & 0xff) / 0xff;
 		_fogB = (value & 0xff) / 0xff;
+		
+		return _fogColor;
 	}
 
 	override public function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):Void

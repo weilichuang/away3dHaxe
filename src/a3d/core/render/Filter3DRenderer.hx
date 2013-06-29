@@ -101,7 +101,7 @@ class Filter3DRenderer
 		{
 			// make sure all internal tasks are linked together
 			filter = _filters[i];
-			filter.setRenderTargets(i == len ? null : Filter3DBase(_filters[i + 1]).getMainInputTexture(stage3DProxy), stage3DProxy);
+			filter.setRenderTargets(i == len ? null : Std.instance(_filters[i + 1],Filter3DBase).getMainInputTexture(stage3DProxy), stage3DProxy);
 			_tasks = _tasks.concat(filter.tasks);
 		}
 

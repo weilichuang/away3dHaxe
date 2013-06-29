@@ -66,17 +66,19 @@ class ProjectiveTextureMethod extends EffectMethodBase
 	 * ProjectiveTextureMethod.ADD can be used to project light, such as a slide projector or light coming through stained glass. To prevent clamping, the texture's alpha should be black!
 	 * ProjectiveTextureMethod.MIX provides normal alpha blending. To prevent clamping, the texture's alpha should be transparent!
 	 */
+	public var mode(get,set):String;
 	private inline function get_mode():String
 	{
 		return _mode;
 	}
 
-	private inline function set_mode(value:String):Void
+	private inline function set_mode(value:String):String
 	{
 		if (_mode == value)
-			return;
+			return _mode;
 		_mode = value;
 		invalidateShaderProgram();
+		return _mode;
 	}
 
 	/**
@@ -84,14 +86,15 @@ class ProjectiveTextureMethod extends EffectMethodBase
 	 *
 	 * @see a3d.entities.TextureProjector
 	 */
+	public var projector(get,set):TextureProjector;
 	private inline function get_projector():TextureProjector
 	{
 		return _projector;
 	}
 
-	private inline function set_projector(value:TextureProjector):Void
+	private inline function set_projector(value:TextureProjector):TextureProjector
 	{
-		_projector = value;
+		return _projector = value;
 	}
 
 	/**

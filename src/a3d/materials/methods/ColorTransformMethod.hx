@@ -29,14 +29,15 @@ class ColorTransformMethod extends EffectMethodBase
 	/**
 	 * The ColorTransform object to transform the colour of the material with.
 	 */
+	public var colorTransform(get,set):ColorTransform;
 	private inline function get_colorTransform():ColorTransform
 	{
 		return _colorTransform;
 	}
 
-	private inline function set_colorTransform(value:ColorTransform):Void
+	private inline function set_colorTransform(value:ColorTransform):ColorTransform
 	{
-		_colorTransform = value;
+		return _colorTransform = value;
 	}
 
 	/**

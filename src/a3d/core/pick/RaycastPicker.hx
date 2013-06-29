@@ -23,13 +23,28 @@ class RaycastPicker implements IPicker
 	// TODO: add option of finding best hit?
 
 	private var _findClosestCollision:Bool;
-	private var _raycastCollector:RaycastCollector = new RaycastCollector();
-	private var _ignoredEntities:Array = new Array();
+	private var _raycastCollector:RaycastCollector ;
+	private var _ignoredEntities:Array<Entity>;
 	private var _onlyMouseEnabled:Bool = true;
 
 	private var _entities:Vector<Entity>;
 	private var _numEntities:UInt;
 	private var _hasCollisions:Bool;
+
+
+	/**
+	 * Creates a new <code>RaycastPicker</code> object.
+	 *
+	 * @param findClosestCollision Determines whether the picker searches for the closest bounds collision along the ray,
+	 * or simply returns the first collision encountered Defaults to false.
+	 */
+	public function new(findClosestCollision:Bool)
+	{
+		_findClosestCollision = findClosestCollision;
+		_entities = new Vector<Entity>();
+		_raycastCollector = new RaycastCollector();
+		_ignoredEntities = [];
+	}
 
 	/**
 	 * @inheritDoc
@@ -44,19 +59,7 @@ class RaycastPicker implements IPicker
 	{
 		return _onlyMouseEnabled = value;
 	}
-
-	/**
-	 * Creates a new <code>RaycastPicker</code> object.
-	 *
-	 * @param findClosestCollision Determines whether the picker searches for the closest bounds collision along the ray,
-	 * or simply returns the first collision encountered Defaults to false.
-	 */
-	public function new(findClosestCollision:Bool)
-	{
-		_findClosestCollision = findClosestCollision;
-		_entities = new Vector<Entity>();
-	}
-
+	
 	/**
 	 * @inheritDoc
 	 */
@@ -96,7 +99,7 @@ class RaycastPicker implements IPicker
 		}
 
 		//early out if no collisions detected
-		if (!_numEntities)
+		if (_numEntities == 0)
 			return null;
 
 		return getPickingCollisionVO();
@@ -120,7 +123,7 @@ class RaycastPicker implements IPicker
 		_numEntities = 0;
 		var node:EntityListItem = _raycastCollector.entityHead;
 		var entity:Entity;
-		while (node)
+		while (node != null)
 		{
 			entity = node.entity;
 
@@ -156,7 +159,7 @@ class RaycastPicker implements IPicker
 		return getPickingCollisionVO();
 	}
 
-	public function setIgnoreList(entities:Array):Void
+	public function setIgnoreList(entities:Array<Entity>):Void
 	{
 		_ignoredEntities = entities;
 	}
@@ -174,7 +177,7 @@ class RaycastPicker implements IPicker
 		return false;
 	}
 
-	private function sortOnNearT(entity1:Entity, entity2:Entity):Float
+	private function sortOnNearT(entity1:Entity, entity2:Entity):Int
 	{
 		return entity1.pickingCollisionVO.rayEntryDistance > entity2.pickingCollisionVO.rayEntryDistance ? 1 : -1;
 	}
@@ -185,14 +188,14 @@ class RaycastPicker implements IPicker
 		_entities.length = _numEntities;
 
 		// Sort entities from closest to furthest.
-		_entities = _entities.sort(sortOnNearT);
+		_entities.sort(sortOnNearT);
 
 		// ---------------------------------------------------------------------
 		// Evaluate triangle collisions when needed.
 		// Replaces collision data provided by bounds collider with more precise data.
 		// ---------------------------------------------------------------------
 
-		var shortestCollisionDistance:Float = Number.MAX_VALUE;
+		var shortestCollisionDistance:Float = Math.POSITIVE_INFINITY;
 		var bestCollisionVO:PickingCollisionVO;
 		var pickingCollisionVO:PickingCollisionVO;
 		var entity:Entity;
@@ -202,7 +205,7 @@ class RaycastPicker implements IPicker
 		{
 			entity = _entities[i];
 			pickingCollisionVO = entity.pickingCollisionVO;
-			if (entity.pickingCollider)
+			if (entity.pickingCollider != null)
 			{
 				// If a collision exists, update the collision data and stop all checks.
 				if ((bestCollisionVO == null || pickingCollisionVO.rayEntryDistance < bestCollisionVO.rayEntryDistance) && entity.collidesBefore(shortestCollisionDistance, _findClosestCollision))

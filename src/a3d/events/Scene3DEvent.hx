@@ -13,7 +13,7 @@ class Scene3DEvent extends Event
 	public var objectContainer3D:ObjectContainer3D;
 
 	//public var target(get, null):ObjectContainer3D;
-	override private function get_target():ObjectContainer3D
+	@:getter(target)function get_target():Dynamic
 	{
 		return objectContainer3D;
 	}

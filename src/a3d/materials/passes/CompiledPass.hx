@@ -1,6 +1,7 @@
 package a3d.materials.passes;
 
 import flash.display3D.Context3D;
+import flash.display3D.Context3DProfile;
 import flash.display3D.Context3DProgramType;
 import flash.geom.Matrix;
 import flash.geom.Matrix3D;
@@ -40,8 +41,8 @@ class CompiledPass extends MaterialPassBase
 	private var _fragmentLightCode:String;
 	private var _framentPostLightCode:String;
 
-	private var _vertexConstantData:Vector<Float> = new Vector<Float>();
-	private var _fragmentConstantData:Vector<Float> = new Vector<Float>();
+	private var _vertexConstantData:Vector<Float> ;
+	private var _fragmentConstantData:Vector<Float>;
 	private var _commonsDataIndex:Int;
 	private var _probeWeightsIndex:Int;
 	private var _uvBufferIndex:Int;
@@ -79,43 +80,55 @@ class CompiledPass extends MaterialPassBase
 
 	public function new(material:MaterialBase)
 	{
+		super();
+		
 		_material = material;
+		
+		_vertexConstantData = new Vector<Float>();
+		_fragmentConstantData = new Vector<Float>();
 
 		init();
 	}
 
+	public var enableLightFallOff(get,set):Bool;
 	private inline function get_enableLightFallOff():Bool
 	{
 		return _enableLightFallOff;
 	}
 
-	private inline function set_enableLightFallOff(value:Bool):Void
+	private inline function set_enableLightFallOff(value:Bool):Bool
 	{
 		if (value != _enableLightFallOff)
 			invalidateShaderProgram(true);
 		_enableLightFallOff = value;
+		
+		return _enableLightFallOff;
 	}
-
+	
+	public var forceSeparateMVP(get,set):Bool;
 	private inline function get_forceSeparateMVP():Bool
 	{
 		return _forceSeparateMVP;
 	}
 
-	private inline function set_forceSeparateMVP(value:Bool):Void
+	private inline function set_forceSeparateMVP(value:Bool):Bool
 	{
-		_forceSeparateMVP = value;
+		return _forceSeparateMVP = value;
 	}
 
+	public var numPointLights(get,null):UInt;
 	private inline function get_numPointLights():UInt
 	{
 		return _numPointLights;
 	}
 
+	public var numDirectionalLights(get,null):UInt;
 	private inline function get_numDirectionalLights():UInt
 	{
 		return _numDirectionalLights;
 	}
 
+	public var numLightProbes(get,null):UInt;
 	private inline function get_numLightProbes():UInt
 	{
 		return _numLightProbes;
@@ -133,7 +146,7 @@ class CompiledPass extends MaterialPassBase
 	/**
 	 * Resets the compilation state.
 	 */
-	private function reset(profile:String):Void
+	private function reset(profile:Context3DProfile):Void
 	{
 		initCompiler(profile);
 		updateShaderProperties();
@@ -165,7 +178,7 @@ class CompiledPass extends MaterialPassBase
 		updateMethodConstants();
 	}
 
-	private function initCompiler(profile:String):Void
+	private function initCompiler(profile:Context3DProfile):Void
 	{
 		_compiler = createCompiler(profile);
 		_compiler.forceSeperateMVP = _forceSeparateMVP;
@@ -184,7 +197,7 @@ class CompiledPass extends MaterialPassBase
 		_compiler.compile();
 	}
 
-	private function createCompiler(profile:String):ShaderCompiler
+	private function createCompiler(profile:Context3DProfile):ShaderCompiler
 	{
 		throw new AbstractMethodError();
 	}
@@ -224,102 +237,112 @@ class CompiledPass extends MaterialPassBase
 		_lightProbeSpecularIndices = _compiler.lightProbeSpecularIndices;
 	}
 
+	public var preserveAlpha(get,set):Bool;
 	private inline function get_preserveAlpha():Bool
 	{
 		return _preserveAlpha;
 	}
 
-	private inline function set_preserveAlpha(value:Bool):Void
+	private inline function set_preserveAlpha(value:Bool):Bool
 	{
 		if (_preserveAlpha == value)
-			return;
+			return _preserveAlpha;
 		_preserveAlpha = value;
 		invalidateShaderProgram();
+		return _preserveAlpha;
 	}
 
+	public var animateUVs(get,set):Bool;
 	private inline function get_animateUVs():Bool
 	{
 		return _animateUVs;
 	}
 
-	private inline function set_animateUVs(value:Bool):Void
+	private inline function set_animateUVs(value:Bool):Bool
 	{
 		_animateUVs = value;
 		if ((value && !_animateUVs) || (!value && _animateUVs))
 			invalidateShaderProgram();
+		return _animateUVs;
 	}
 
 	/**
 	 * @inheritDoc
 	 */
-	override private function set_mipmap(value:Bool):Void
+	override private function set_mipmap(value:Bool):Bool
 	{
 		if (_mipmap == value)
-			return;
-		super.mipmap = value;
+			return _mipmap;
+		return super.mipmap = value;
 	}
 
 	/**
 	 * The tangent space normal map to influence the direction of the surface for each texel.
 	 */
+	public var normalMap(get,set):Texture2DBase;
 	private inline function get_normalMap():Texture2DBase
 	{
 		return _methodSetup.normalMethod.normalMap;
 	}
 
-	private inline function set_normalMap(value:Texture2DBase):Void
+	private inline function set_normalMap(value:Texture2DBase):Texture2DBase
 	{
-		_methodSetup.normalMethod.normalMap = value;
+		return _methodSetup.normalMethod.normalMap = value;
 	}
 
+	public var normalMethod(get,set):BasicNormalMethod;
 	private inline function get_normalMethod():BasicNormalMethod
 	{
 		return _methodSetup.normalMethod;
 	}
 
-	private inline function set_normalMethod(value:BasicNormalMethod):Void
+	private inline function set_normalMethod(value:BasicNormalMethod):BasicNormalMethod
 	{
-		_methodSetup.normalMethod = value;
+		return _methodSetup.normalMethod = value;
 	}
 
+	public var ambientMethod(get,set):BasicAmbientMethod;
 	private inline function get_ambientMethod():BasicAmbientMethod
 	{
 		return _methodSetup.ambientMethod;
 	}
 
-	private inline function set_ambientMethod(value:BasicAmbientMethod):Void
+	private inline function set_ambientMethod(value:BasicAmbientMethod):BasicAmbientMethod
 	{
-		_methodSetup.ambientMethod = value;
+		return _methodSetup.ambientMethod = value;
 	}
 
+	public var shadowMethod(get,set):ShadowMapMethodBase;
 	private inline function get_shadowMethod():ShadowMapMethodBase
 	{
 		return _methodSetup.shadowMethod;
 	}
 
-	private inline function set_shadowMethod(value:ShadowMapMethodBase):Void
+	private inline function set_shadowMethod(value:ShadowMapMethodBase):ShadowMapMethodBase
 	{
-		_methodSetup.shadowMethod = value;
+		return _methodSetup.shadowMethod = value;
 	}
 
+	public var diffuseMethod(get,set):BasicDiffuseMethod;
 	private inline function get_diffuseMethod():BasicDiffuseMethod
 	{
 		return _methodSetup.diffuseMethod;
 	}
 
-	private inline function set_diffuseMethod(value:BasicDiffuseMethod):Void
+	private inline function set_diffuseMethod(value:BasicDiffuseMethod):BasicDiffuseMethod
 	{
-		_methodSetup.diffuseMethod = value;
+		return _methodSetup.diffuseMethod = value;
 	}
 
+	public var specularMethod(get,set):BasicSpecularMethod;
 	private inline function get_specularMethod():BasicSpecularMethod
 	{
 		return _methodSetup.specularMethod;
 	}
 
-	private inline function set_specularMethod(value:BasicSpecularMethod):Void
+	private inline function set_specularMethod(value:BasicSpecularMethod):BasicSpecularMethod
 	{
-		_methodSetup.specularMethod = value;
+		return _methodSetup.specularMethod = value;
 	}
 
 	private function init():Void
@@ -347,10 +370,10 @@ class CompiledPass extends MaterialPassBase
 		var oldPasses:Vector<MaterialPassBase> = passes;
 		passes = new Vector<MaterialPassBase>();
 
-		if (_methodSetup)
+		if (_methodSetup != null)
 			addPassesFromMethods();
 
-		if (!oldPasses || passes.length != oldPasses.length)
+		if (oldPasses == null || passes.length != oldPasses.length)
 		{
 			passesDirty = true;
 			return;
@@ -370,15 +393,15 @@ class CompiledPass extends MaterialPassBase
 
 	private function addPassesFromMethods():Void
 	{
-		if (_methodSetup.normalMethod && _methodSetup.normalMethod.hasOutput)
+		if (_methodSetup.normalMethod != null && _methodSetup.normalMethod.hasOutput)
 			addPasses(_methodSetup.normalMethod.passes);
-		if (_methodSetup.ambientMethod)
+		if (_methodSetup.ambientMethod != null)
 			addPasses(_methodSetup.ambientMethod.passes);
-		if (_methodSetup.shadowMethod)
+		if (_methodSetup.shadowMethod != null)
 			addPasses(_methodSetup.shadowMethod.passes);
-		if (_methodSetup.diffuseMethod)
+		if (_methodSetup.diffuseMethod != null)
 			addPasses(_methodSetup.diffuseMethod.passes);
-		if (_methodSetup.specularMethod)
+		if (_methodSetup.specularMethod != null)
 			addPasses(_methodSetup.specularMethod.passes);
 	}
 
@@ -387,11 +410,10 @@ class CompiledPass extends MaterialPassBase
 	 */
 	private function addPasses(passes:Vector<MaterialPassBase>):Void
 	{
-		if (!passes)
+		if (passes == null)
 			return;
 
-		var len:UInt = passes.length;
-
+		var len:Int = passes.length;
 		for (i in 0...len)
 		{
 			passes[i].material = material;
@@ -428,15 +450,15 @@ class CompiledPass extends MaterialPassBase
 
 	private function updateMethodConstants():Void
 	{
-		if (_methodSetup.normalMethod)
+		if (_methodSetup.normalMethod != null)
 			_methodSetup.normalMethod.initConstants(_methodSetup.normalMethodVO);
-		if (_methodSetup.diffuseMethod)
+		if (_methodSetup.diffuseMethod != null)
 			_methodSetup.diffuseMethod.initConstants(_methodSetup.diffuseMethodVO);
-		if (_methodSetup.ambientMethod)
+		if (_methodSetup.ambientMethod != null)
 			_methodSetup.ambientMethod.initConstants(_methodSetup.ambientMethodVO);
 		if (_usingSpecularMethod)
 			_methodSetup.specularMethod.initConstants(_methodSetup.specularMethodVO);
-		if (_methodSetup.shadowMethod)
+		if (_methodSetup.shadowMethod != null)
 			_methodSetup.shadowMethod.initConstants(_methodSetup.shadowMethodVO);
 	}
 
@@ -484,7 +506,7 @@ class CompiledPass extends MaterialPassBase
 		if (_usesNormals)
 			_methodSetup.normalMethod.activate(_methodSetup.normalMethodVO, stage3DProxy);
 		_methodSetup.ambientMethod.activate(_methodSetup.ambientMethodVO, stage3DProxy);
-		if (_methodSetup.shadowMethod)
+		if (_methodSetup.shadowMethod != null)
 			_methodSetup.shadowMethod.activate(_methodSetup.shadowMethodVO, stage3DProxy);
 		_methodSetup.diffuseMethod.activate(_methodSetup.diffuseMethodVO, stage3DProxy);
 		if (_usingSpecularMethod)
@@ -510,7 +532,7 @@ class CompiledPass extends MaterialPassBase
 		if (_animateUVs)
 		{
 			var uvTransform:Matrix = renderable.uvTransform;
-			if (uvTransform)
+			if (uvTransform != null)
 			{
 				_vertexConstantData[_uvTransformIndex] = uvTransform.a;
 				_vertexConstantData[_uvTransformIndex + 1] = uvTransform.b;
@@ -563,12 +585,12 @@ class CompiledPass extends MaterialPassBase
 		ambientMethod.lightAmbientB = _ambientLightB;
 		ambientMethod.setRenderState(_methodSetup.ambientMethodVO, renderable, stage3DProxy, camera);
 
-		if (_methodSetup.shadowMethod)
+		if (_methodSetup.shadowMethod != null)
 			_methodSetup.shadowMethod.setRenderState(_methodSetup.shadowMethodVO, renderable, stage3DProxy, camera);
 		_methodSetup.diffuseMethod.setRenderState(_methodSetup.diffuseMethodVO, renderable, stage3DProxy, camera);
 		if (_usingSpecularMethod)
 			_methodSetup.specularMethod.setRenderState(_methodSetup.specularMethodVO, renderable, stage3DProxy, camera);
-		if (_methodSetup.colorTransformMethod)
+		if (_methodSetup.colorTransformMethod != null)
 			_methodSetup.colorTransformMethod.setRenderState(_methodSetup.colorTransformMethodVO, renderable, stage3DProxy, camera);
 
 		var methods:Vector<MethodVOSet> = _methodSetup.methods;
@@ -606,7 +628,7 @@ class CompiledPass extends MaterialPassBase
 		if (_usesNormals)
 			_methodSetup.normalMethod.deactivate(_methodSetup.normalMethodVO, stage3DProxy);
 		_methodSetup.ambientMethod.deactivate(_methodSetup.ambientMethodVO, stage3DProxy);
-		if (_methodSetup.shadowMethod)
+		if (_methodSetup.shadowMethod != null)
 			_methodSetup.shadowMethod.deactivate(_methodSetup.shadowMethodVO, stage3DProxy);
 		_methodSetup.diffuseMethod.deactivate(_methodSetup.diffuseMethodVO, stage3DProxy);
 		if (_usingSpecularMethod)
@@ -619,23 +641,25 @@ class CompiledPass extends MaterialPassBase
 //				_passes[i].lightPicker = _lightPicker;
 //		}
 
+	public var specularLightSources(get,set):UInt;
 	private inline function get_specularLightSources():UInt
 	{
 		return _specularLightSources;
 	}
 
-	private inline function set_specularLightSources(value:UInt):Void
+	private inline function set_specularLightSources(value:UInt):UInt
 	{
-		_specularLightSources = value;
+		return _specularLightSources = value;
 	}
 
+	public var diffuseLightSources(get,set):UInt;
 	private inline function get_diffuseLightSources():UInt
 	{
 		return _diffuseLightSources;
 	}
 
-	private inline function set_diffuseLightSources(value:UInt):Void
+	private inline function set_diffuseLightSources(value:UInt):UInt
 	{
-		_diffuseLightSources = value;
+		return _diffuseLightSources = value;
 	}
 }

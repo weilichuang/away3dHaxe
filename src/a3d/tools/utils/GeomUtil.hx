@@ -25,19 +25,19 @@ class GeomUtil
 
 		var subs:Vector<ISubGeometry> = new Vector<ISubGeometry>();
 
-		if (uvs && !uvs.length)
+		if (uvs != null && uvs.length == null)
 			uvs = null;
 
-		if (normals && !normals.length)
+		if (normals != null && normals.length == null)
 			normals = null;
 
-		if (tangents && !tangents.length)
+		if (tangents != null && tangents.length == null)
 			tangents = null;
 
-		if (weights && !weights.length)
+		if (weights != null && weights.length == null)
 			weights = null;
 
-		if (jointIndices && !jointIndices.length)
+		if (jointIndices != null && jointIndices.length == null)
 			jointIndices = null;
 
 		if ((indices.length >= LIMIT_INDICES) || (verts.length >= LIMIT_VERTS))
@@ -51,7 +51,7 @@ class GeomUtil
 			var splitWeights:Vector<Float> = (weights != null) ? new Vector<Float>() : null;
 			var splitJointIndices:Vector<Float> = (jointIndices != null) ? new Vector<Float>() : null;
 
-			var mappings:Vector<Int> = new Vector<Int>(verts.length / 3, true);
+			var mappings:Vector<Int> = new Vector<Int>(Std.int(verts.length / 3), true);
 			i = mappings.length;
 			while (i-- > 0)
 				mappings[i] = -1;
@@ -106,7 +106,7 @@ class GeomUtil
 
 						// This vertex does not yet exist in the split list and
 						// needs to be copied from the long list.
-						splitIndex = splitVerts.length / 3;
+						splitIndex = Std.int(splitVerts.length / 3);
 
 						s0 = splitIndex * 3 + 0;
 						s1 = splitIndex * 3 + 1;
@@ -116,7 +116,7 @@ class GeomUtil
 						splitVerts[s1] = verts[o1];
 						splitVerts[s2] = verts[o2];
 
-						if (uvs)
+						if (uvs != null)
 						{
 							su = splitIndex * 2 + 0;
 							sv = splitIndex * 2 + 1;
@@ -127,28 +127,28 @@ class GeomUtil
 							splitUvs[sv] = uvs[ov];
 						}
 
-						if (normals)
+						if (normals != null)
 						{
 							splitNormals[s0] = normals[o0];
 							splitNormals[s1] = normals[o1];
 							splitNormals[s2] = normals[o2];
 						}
 
-						if (tangents)
+						if (tangents != null)
 						{
 							splitTangents[s0] = tangents[o0];
 							splitTangents[s1] = tangents[o1];
 							splitTangents[s2] = tangents[o2];
 						}
 
-						if (weights)
+						if (weights != null)
 						{
 							splitWeights[s0] = weights[o0];
 							splitWeights[s1] = weights[o1];
 							splitWeights[s2] = weights[o2];
 						}
 
-						if (jointIndices)
+						if (jointIndices != null)
 						{
 							splitJointIndices[s0] = jointIndices[o0];
 							splitJointIndices[s1] = jointIndices[o1];
@@ -193,14 +193,14 @@ class GeomUtil
 	{
 		var sub:CompactSubGeometry;
 
-		if (weights && jointIndices)
+		if (weights != null && jointIndices != null)
 		{
 			// If there were weights and joint indices defined, this
 			// is a skinned mesh and needs to be built from skinned
 			// sub-geometries.
-			sub = new SkinnedSubGeometry(weights.length / (verts.length / 3));
-			SkinnedSubGeometry(sub).updateJointWeightsData(weights);
-			SkinnedSubGeometry(sub).updateJointIndexData(jointIndices);
+			sub = new SkinnedSubGeometry(Std.int(weights.length / (verts.length / 3)));
+			Std.instance(sub,SkinnedSubGeometry).updateJointWeightsData(weights);
+			Std.instance(sub,SkinnedSubGeometry).updateJointIndexData(jointIndices);
 
 		}
 		else
@@ -244,19 +244,19 @@ class GeomUtil
 			uvCompIndex = i * 2;
 			compIndex = i * 3;
 			interleavedCompIndex = i * 13;
-			interleavedBuffer[interleavedCompIndex] = vertices ? vertices[compIndex] : 0;
-			interleavedBuffer[interleavedCompIndex + 1] = vertices ? vertices[compIndex + 1] : 0;
-			interleavedBuffer[interleavedCompIndex + 2] = vertices ? vertices[compIndex + 2] : 0;
-			interleavedBuffer[interleavedCompIndex + 3] = normals ? normals[compIndex] : 0;
-			interleavedBuffer[interleavedCompIndex + 4] = normals ? normals[compIndex + 1] : 0;
-			interleavedBuffer[interleavedCompIndex + 5] = normals ? normals[compIndex + 2] : 0;
-			interleavedBuffer[interleavedCompIndex + 6] = tangents ? tangents[compIndex] : 0;
-			interleavedBuffer[interleavedCompIndex + 7] = tangents ? tangents[compIndex + 1] : 0;
-			interleavedBuffer[interleavedCompIndex + 8] = tangents ? tangents[compIndex + 2] : 0;
-			interleavedBuffer[interleavedCompIndex + 9] = uvs ? uvs[uvCompIndex] : 0;
-			interleavedBuffer[interleavedCompIndex + 10] = uvs ? uvs[uvCompIndex + 1] : 0;
-			interleavedBuffer[interleavedCompIndex + 11] = suvs ? suvs[uvCompIndex] : 0;
-			interleavedBuffer[interleavedCompIndex + 12] = suvs ? suvs[uvCompIndex + 1] : 0;
+			interleavedBuffer[interleavedCompIndex] = vertices != null ? vertices[compIndex] : 0;
+			interleavedBuffer[interleavedCompIndex + 1] = vertices != null ? vertices[compIndex + 1] : 0;
+			interleavedBuffer[interleavedCompIndex + 2] = vertices != null ? vertices[compIndex + 2] : 0;
+			interleavedBuffer[interleavedCompIndex + 3] = normals != null ? normals[compIndex] : 0;
+			interleavedBuffer[interleavedCompIndex + 4] = normals != null ? normals[compIndex + 1] : 0;
+			interleavedBuffer[interleavedCompIndex + 5] = normals != null ? normals[compIndex + 2] : 0;
+			interleavedBuffer[interleavedCompIndex + 6] = tangents != null ? tangents[compIndex] : 0;
+			interleavedBuffer[interleavedCompIndex + 7] = tangents != null ? tangents[compIndex + 1] : 0;
+			interleavedBuffer[interleavedCompIndex + 8] = tangents != null ? tangents[compIndex + 2] : 0;
+			interleavedBuffer[interleavedCompIndex + 9] = uvs != null ? uvs[uvCompIndex] : 0;
+			interleavedBuffer[interleavedCompIndex + 10] = uvs != null ? uvs[uvCompIndex + 1] : 0;
+			interleavedBuffer[interleavedCompIndex + 11] = suvs != null ? suvs[uvCompIndex] : 0;
+			interleavedBuffer[interleavedCompIndex + 12] = suvs != null ? suvs[uvCompIndex + 1] : 0;
 		}
 
 		return interleavedBuffer;

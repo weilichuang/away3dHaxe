@@ -50,32 +50,35 @@ class RefractionEnvMapMethod extends EffectMethodBase
 	/**
 	 * The cube environment map to use for the refraction.
 	 */
+	public var envMap(get,set):CubeTextureBase;
 	private inline function get_envMap():CubeTextureBase
 	{
 		return _envMap;
 	}
 
-	private inline function set_envMap(value:CubeTextureBase):Void
+	private inline function set_envMap(value:CubeTextureBase):CubeTextureBase
 	{
-		_envMap = value;
+		return _envMap = value;
 	}
 
+	public var refractionIndex(get,set):Float;
 	private inline function get_refractionIndex():Float
 	{
 		return _refractionIndex;
 	}
 
-	private inline function set_refractionIndex(value:Float):Void
+	private inline function set_refractionIndex(value:Float):Float
 	{
-		_refractionIndex = value;
+		return _refractionIndex = value;
 	}
 
+	public var dispersionR(get,set):Float;
 	private inline function get_dispersionR():Float
 	{
 		return _dispersionR;
 	}
 
-	private inline function set_dispersionR(value:Float):Void
+	private inline function set_dispersionR(value:Float):Float
 	{
 		_dispersionR = value;
 
@@ -85,14 +88,16 @@ class RefractionEnvMapMethod extends EffectMethodBase
 			invalidateShaderProgram();
 			_useDispersion = useDispersion;
 		}
+		return _dispersionR;
 	}
 
+	public var dispersionG(get,set):Float;
 	private inline function get_dispersionG():Float
 	{
 		return _dispersionG;
 	}
 
-	private inline function set_dispersionG(value:Float):Void
+	private inline function set_dispersionG(value:Float):Float
 	{
 		_dispersionG = value;
 
@@ -102,14 +107,17 @@ class RefractionEnvMapMethod extends EffectMethodBase
 			invalidateShaderProgram();
 			_useDispersion = useDispersion;
 		}
+		
+		return _dispersionG;
 	}
 
+	public var dispersionR(get,set):Float;
 	private inline function get_dispersionB():Float
 	{
 		return _dispersionB;
 	}
 
-	private inline function set_dispersionB(value:Float):Void
+	private inline function set_dispersionB(value:Float):Float
 	{
 		_dispersionB = value;
 
@@ -119,16 +127,18 @@ class RefractionEnvMapMethod extends EffectMethodBase
 			invalidateShaderProgram();
 			_useDispersion = useDispersion;
 		}
+		return _dispersionB;
 	}
 
+	public var alpha(get,set):Float;
 	private inline function get_alpha():Float
 	{
 		return _alpha;
 	}
 
-	private inline function set_alpha(value:Float):Void
+	private inline function set_alpha(value:Float):Float
 	{
-		_alpha = value;
+		return _alpha = value;
 	}
 
 	override public function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):Void

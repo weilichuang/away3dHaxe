@@ -33,24 +33,26 @@ class LightProbe extends LightBase
 		return new LightProbeNode(this);
 	}
 
+	public var diffuseMap(get,set):CubeTextureBase;
 	private inline function get_diffuseMap():CubeTextureBase
 	{
 		return _diffuseMap;
 	}
 
-	private inline function set_diffuseMap(value:CubeTextureBase):Void
+	private inline function set_diffuseMap(value:CubeTextureBase):CubeTextureBase
 	{
-		_diffuseMap = value;
+		return _diffuseMap = value;
 	}
 
+	public var specularMap(get,set):CubeTextureBase;
 	private inline function get_specularMap():CubeTextureBase
 	{
 		return _specularMap;
 	}
 
-	private inline function set_specularMap(value:CubeTextureBase):Void
+	private inline function set_specularMap(value:CubeTextureBase):CubeTextureBase
 	{
-		_specularMap = value;
+		return _specularMap = value;
 	}
 
 	/**

@@ -140,7 +140,7 @@ class SegmentPass extends MaterialPassBase
 		var context:Context3D = stage3DProxy.context3D;
 		super.activate(stage3DProxy, camera);
 
-		if (stage3DProxy.scissorRect)
+		if (stage3DProxy.scissorRect != null)
 		{
 			_constants[0] = _thickness / Math.min(stage3DProxy.scissorRect.width, stage3DProxy.scissorRect.height);
 		}

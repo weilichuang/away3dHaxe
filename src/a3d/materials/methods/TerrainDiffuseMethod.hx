@@ -5,6 +5,7 @@ import a3d.materials.compilation.ShaderRegisterCache;
 import a3d.materials.compilation.ShaderRegisterElement;
 import a3d.textures.Texture2DBase;
 import a3d.textures.TextureProxyBase;
+import flash.errors.Error;
 import flash.Vector;
 
 import flash.display3D.Context3D;
@@ -40,7 +41,7 @@ class TerrainDiffuseMethod extends BasicDiffuseMethod
 		var data:Vector<Float> = vo.fragmentData;
 		var index:Int = vo.fragmentConstantsIndex;
 		data[index] = _tileData ? _tileData[0] : 1;
-		for (var i:Int = 0; i < _numSplattingLayers; ++i)
+		for (i in 0..._numSplattingLayers)
 		{
 			if (i < 3)
 				data[index + i + 1] = _tileData ? _tileData[i + 1] : 50;
@@ -97,7 +98,7 @@ class TerrainDiffuseMethod extends BasicDiffuseMethod
 		vo.fragmentConstantsIndex = scaleRegister.index * 4;
 		var comps:Vector<String> = Vector<String>([".x", ".y", ".z", ".w"]);
 
-		for (var i:Int = 0; i < _numSplattingLayers; ++i)
+		for (i in 0..._numSplattingLayers)
 		{
 			var scaleRegName:String = i < 3 ? scaleRegister + comps[i + 1] : scaleRegister2 + comps[i - 3];
 			splatTexReg = regCache.getFreeTextureReg();
@@ -131,7 +132,7 @@ class TerrainDiffuseMethod extends BasicDiffuseMethod
 		context.setTextureAt(texIndex + 1, _blendingTexture.getTextureForStage3D(stage3DProxy));
 
 		texIndex += 2;
-		for (i = 0; i < _numSplattingLayers; ++i)
+		for (i in 0..._numSplattingLayers)
 			context.setTextureAt(i + texIndex, _splats[i].getTextureForStage3D(stage3DProxy));
 	}
 

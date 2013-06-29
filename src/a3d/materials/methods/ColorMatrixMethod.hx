@@ -32,14 +32,15 @@ class ColorMatrixMethod extends EffectMethodBase
 	/**
 	 * The ColorMatrixFilter object to transform the color of the material.
 	 */
-	private inline function get_colorMatrix():Array
+	public var colorMatrix(set,set):Array<Float>;
+	private inline function get_colorMatrix():Array<Float>
 	{
 		return _matrix;
 	}
 
-	private inline function set_colorMatrix(value:Array):Void
+	private inline function set_colorMatrix(value:Array<Float>):Array<Float>
 	{
-		_matrix = value;
+		return _matrix = value;
 	}
 
 	/**

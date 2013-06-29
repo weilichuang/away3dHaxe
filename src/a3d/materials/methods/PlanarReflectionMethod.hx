@@ -43,44 +43,48 @@ class PlanarReflectionMethod extends EffectMethodBase
 	/**
 	 * The reflectiveness of the surface.
 	 */
+	public var alpha(get,set):Float;
 	private inline function get_alpha():Float
 	{
 		return _alpha;
 	}
 
-	private inline function set_alpha(value:Float):Void
+	private inline function set_alpha(value:Float):Float
 	{
-		_alpha = value;
+		return _alpha = value;
 	}
 
 	/**
 	 * The PlanarReflectionTexture used to render the reflected view.
 	 */
+	public var texture(get,set):PlanarReflectionTexture;
 	private inline function get_texture():PlanarReflectionTexture
 	{
 		return _texture;
 	}
 
-	private inline function set_texture(value:PlanarReflectionTexture):Void
+	private inline function set_texture(value:PlanarReflectionTexture):PlanarReflectionTexture
 	{
-		_texture = value;
+		return _texture = value;
 	}
 
 	/**
 	 * The amount of displacement on the surface, for use with water waves.
 	 */
+	public var normalDisplacement(get,set):Float;
 	private inline function get_normalDisplacement():Float
 	{
 		return _normalDisplacement;
 	}
 
-	private inline function set_normalDisplacement(value:Float):Void
+	private inline function set_normalDisplacement(value:Float):Float
 	{
 		if (_normalDisplacement == value)
-			return;
+			return _normalDisplacement;
 		if (_normalDisplacement == 0 || value == 0)
 			invalidateShaderProgram();
 		_normalDisplacement = value;
+		return _normalDisplacement;
 	}
 
 	override public function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):Void

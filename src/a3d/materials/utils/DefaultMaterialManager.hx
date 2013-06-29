@@ -16,10 +16,10 @@ class DefaultMaterialManager
 
 	public static function getDefaultMaterial(renderable:IMaterialOwner = null):TextureMaterial
 	{
-		if (!_defaultTexture)
+		if (_defaultTexture == null)
 			createDefaultTexture();
 
-		if (!_defaultMaterial)
+		if (_defaultMaterial == null)
 			createDefaultMaterial();
 
 		//_defaultMaterialRenderables.push(renderable);
@@ -29,7 +29,7 @@ class DefaultMaterialManager
 
 	public static function getDefaultTexture(renderable:IMaterialOwner = null):BitmapTexture
 	{
-		if (!_defaultTexture)
+		if (_defaultTexture == null)
 			createDefaultTexture();
 
 		//_defaultMaterialRenderables.push(renderable);
@@ -46,7 +46,7 @@ class DefaultMaterialManager
 		{
 			for (j in 0...8)
 			{
-				if ((j & 1) ^ (i & 1))
+				if (((j & 1) ^ (i & 1)) != 0)
 					_defaultTextureBitmapData.setPixel(i, j, 0xFFFFFF);
 			}
 		}

@@ -26,25 +26,27 @@ class TextureMaterial extends SinglePassMaterialBase
 
 	}
 
+	public var animateUVs(get, set):Bool;
 	private inline function get_animateUVs():Bool
 	{
 		return _screenPass.animateUVs;
 	}
 
-	private inline function set_animateUVs(value:Bool):Void
+	private inline function set_animateUVs(value:Bool):Bool
 	{
-		_screenPass.animateUVs = value;
+		return _screenPass.animateUVs = value;
 	}
 
 	/**
 	 * The alpha of the surface.
 	 */
+	public var alpha(get, set):Float;
 	private inline function get_alpha():Float
 	{
-		return _screenPass.colorTransform ? _screenPass.colorTransform.alphaMultiplier : 1;
+		return _screenPass.colorTransform != null ? _screenPass.colorTransform.alphaMultiplier : 1;
 	}
 
-	private inline function set_alpha(value:Float):Void
+	private inline function set_alpha(value:Float):Float
 	{
 		if (value > 1)
 			value = 1;
@@ -56,32 +58,38 @@ class TextureMaterial extends SinglePassMaterialBase
 		colorTransform.alphaMultiplier = value;
 		_screenPass.preserveAlpha = requiresBlending;
 		_screenPass.setBlendMode(blendMode == BlendMode.NORMAL && requiresBlending ? BlendMode.LAYER : blendMode);
+		
+		return alpha;
 	}
 
 	/**
 	 * The texture object to use for the albedo colour.
 	 */
+	public var texture(get, set):Texture2DBase;
 	private inline function get_texture():Texture2DBase
 	{
 		return _screenPass.diffuseMethod.texture;
 	}
 
-	private inline function set_texture(value:Texture2DBase):Void
+	private inline function set_texture(value:Texture2DBase):Texture2DBase
 	{
-		_screenPass.diffuseMethod.texture = value;
+		return _screenPass.diffuseMethod.texture = value;
 	}
 
 	/**
 	 * The texture object to use for the ambient colour.
 	 */
+	public var ambientTexture(get, set):Texture2DBase;
 	private inline function get_ambientTexture():Texture2DBase
 	{
 		return _screenPass.ambientMethod.texture;
 	}
 
-	private inline function set_ambientTexture(value:Texture2DBase):Void
+	private inline function set_ambientTexture(value:Texture2DBase):Texture2DBase
 	{
 		_screenPass.ambientMethod.texture = value;
-		_screenPass.diffuseMethod.useAmbientTexture = Bool(value);
+		_screenPass.diffuseMethod.useAmbientTexture = (value != null);
+		
+		return _screenPass.ambientMethod.texture;
 	}
 }

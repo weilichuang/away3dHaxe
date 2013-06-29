@@ -30,27 +30,30 @@ class AlphaMaskMethod extends EffectMethodBase
 		vo.needsUV = !_useSecondaryUV;
 	}
 
+	public var useSecondaryUV(get, set):Bool;
 	private inline function get_useSecondaryUV():Bool
 	{
 		return _useSecondaryUV;
 	}
 
-	private inline function set_useSecondaryUV(value:Bool):Void
+	private inline function set_useSecondaryUV(value:Bool):Bool
 	{
 		if (_useSecondaryUV == value)
-			return;
+			return _useSecondaryUV;
 		_useSecondaryUV = value;
 		invalidateShaderProgram();
+		return _useSecondaryUV;
 	}
 
+	public var texture(get, set):Texture2DBase;
 	private inline function get_texture():Texture2DBase
 	{
 		return _texture;
 	}
 
-	private inline function set_texture(value:Texture2DBase):Void
+	private inline function set_texture(value:Texture2DBase):Texture2DBase
 	{
-		_texture = value;
+		return _texture = value;
 	}
 
 	override public function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):Void
