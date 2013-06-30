@@ -1,11 +1,5 @@
 package a3d.io.library;
 
-import flash.events.EventDispatcher;
-import flash.net.URLRequest;
-import flash.Vector;
-import haxe.ds.StringMap.StringMap;
-
-
 import a3d.events.AssetEvent;
 import a3d.events.LoaderEvent;
 import a3d.events.ParserEvent;
@@ -21,6 +15,13 @@ import a3d.io.loaders.misc.AssetLoaderContext;
 import a3d.io.loaders.misc.AssetLoaderToken;
 import a3d.io.loaders.misc.SingleFileLoader;
 import a3d.io.loaders.parsers.ParserBase;
+import flash.errors.Error;
+import flash.events.EventDispatcher;
+import flash.net.URLRequest;
+import flash.Vector;
+import haxe.ds.StringMap;
+
+
 
 
 
@@ -162,6 +163,8 @@ class AssetLibraryBundle extends EventDispatcher
 	 */
 	public function new()
 	{
+		super();
+		
 		_assets = new Vector<IAsset>();
 		_assetDictionary = new StringMap<StringMap<IAsset>>();
 		_loadingSessions = new Vector<AssetLoader>();
@@ -181,19 +184,19 @@ class AssetLibraryBundle extends EventDispatcher
 	 */
 	public static function getInstance(key:String = 'default'):AssetLibraryBundle
 	{
-		if (!key)
+		if (key == null)
 			key = 'default';
 
-		if (!AssetLibrary._instances.hasOwnProperty(key))
-			AssetLibrary._instances[key] = new AssetLibraryBundle(new AssetLibraryBundleSingletonEnforcer());
+		if (!AssetLibrary._instances.exists(key))
+			AssetLibrary._instances.set(key,new AssetLibraryBundle());
 
-		return AssetLibrary._instances[key];
+		return AssetLibrary._instances.get(key);
 	}
 
 	/**
 	 *
 	 */
-	public function enableParser<T>(parserClass:Class<T>):Void
+	public function enableParser(parserClass:Class<ParserBase>):Void
 	{
 		SingleFileLoader.enableParser(parserClass);
 	}
@@ -201,7 +204,7 @@ class AssetLibraryBundle extends EventDispatcher
 	/**
 	 *
 	 */
-	public function enableParsers<T>(parserClasses:Vector<Class<T>>):Void
+	public function enableParsers(parserClasses:Vector<Class<ParserBase>>):Void
 	{
 		SingleFileLoader.enableParsers(parserClasses);
 	}
@@ -216,17 +219,18 @@ class AssetLibraryBundle extends EventDispatcher
 	 * @see a3d.library.naming.ConflictStrategy
 	 * @see a3d.library.AssetLibrary.conflictPrecedence
 	*/
+	public var conflictStrategy(get,set):ConflictStrategyBase;
 	private function get_conflictStrategy():ConflictStrategyBase
 	{
 		return _strategy;
 	}
 
-	private function set_conflictStrategy(val:ConflictStrategyBase):Void
+	private function set_conflictStrategy(val:ConflictStrategyBase):ConflictStrategyBase
 	{
-		if (!val)
+		if (val == null)
 			throw new Error('namingStrategy must not be null. To ignore naming, use AssetLibrary.IGNORE');
 
-		_strategy = val.create();
+		return _strategy = val.create();
 	}
 
 	/**
@@ -241,14 +245,15 @@ class AssetLibraryBundle extends EventDispatcher
 	 * @see a3d.library.naming.ConflictPrecedence
 	 * @see a3d.library.naming.ConflictStrategy
 	*/
+	public var conflictPrecedence(get,set):String;
 	private function get_conflictPrecedence():String
 	{
 		return _strategyPreference;
 	}
 
-	private function set_conflictPrecedence(val:String):Void
+	private function set_conflictPrecedence(val:String):String
 	{
-		_strategyPreference = val;
+		return _strategyPreference = val;
 	}
 
 	/**
@@ -307,10 +312,10 @@ class AssetLibraryBundle extends EventDispatcher
 			rehashAssetDict();
 		if (ns == null)
 			ns = NamedAssetBase.DEFAULT_NAMESPACE;
-		if (!_assetDictionary.hasOwnProperty(ns))
+		if (!_assetDictionary.exists(ns))
 			return null;
 
-		return _assetDictionary[ns][name];
+		return _assetDictionary.get(ns).get(name);
 	}
 
 	/**
@@ -328,11 +333,19 @@ class AssetLibraryBundle extends EventDispatcher
 			return;
 
 		old = getAsset(asset.name, asset.assetNamespace);
-		ns = asset.assetNamespace || NamedAssetBase.DEFAULT_NAMESPACE;
+		if (asset.assetNamespace != null)
+		{
+			ns = asset.assetNamespace;
+		}
+		else
+		{
+			ns = NamedAssetBase.DEFAULT_NAMESPACE;
+		}
+		
 
 		if (old != null)
 		{
-			_strategy.resolveConflict(asset, old, _assetDictionary[ns], _strategyPreference);
+			_strategy.resolveConflict(asset, old, _assetDictionary.get(ns), _strategyPreference);
 		}
 
 		//create unique-id (for now this is used in AwayBuilder only
@@ -340,9 +353,9 @@ class AssetLibraryBundle extends EventDispatcher
 
 		// Add it
 		_assets.push(asset);
-		if (!_assetDictionary.hasOwnProperty(ns))
-			_assetDictionary[ns] = {};
-		_assetDictionary[ns][asset.name] = asset;
+		if (!_assetDictionary.exists(ns))
+			_assetDictionary.set(ns, new StringMap<IAsset>());
+		_assetDictionary.get(ns).set(asset.name,asset);
 
 		asset.addEventListener(AssetEvent.ASSET_RENAME, onAssetRename);
 		asset.addEventListener(AssetEvent.ASSET_CONFLICT_RESOLVED, onAssetConflictResolved);
@@ -385,7 +398,7 @@ class AssetLibraryBundle extends EventDispatcher
 	public function removeAssetByName(name:String, ns:String = null, dispose:Bool = true):IAsset
 	{
 		var asset:IAsset = getAsset(name, ns);
-		if (asset)
+		if (asset != null)
 			removeAsset(asset, dispose);
 
 		return asset;
@@ -455,7 +468,7 @@ class AssetLibraryBundle extends EventDispatcher
 		}
 
 		// Remove empty namespace
-		if (_assetDictionary.exits(ns))
+		if (_assetDictionary.exists(ns))
 			_assetDictionary.remove(ns);
 	}
 
@@ -464,9 +477,9 @@ class AssetLibraryBundle extends EventDispatcher
 		if (_assetDictDirty)
 			rehashAssetDict();
 
-		if (_assetDictionary.hasOwnProperty(asset.assetNamespace))
+		if (_assetDictionary.exists(asset.assetNamespace))
 		{
-			if (_assetDictionary.get(asset.assetNamespace).exits(asset.name))
+			if (_assetDictionary.get(asset.assetNamespace).exists(asset.name))
 				_assetDictionary.get(asset.assetNamespace).remove(asset.name);
 
 			if (autoRemoveEmptyNamespace)
@@ -474,10 +487,10 @@ class AssetLibraryBundle extends EventDispatcher
 				var key:String;
 				var empty:Bool = true;
 
-				for (key in _assetDictionary[asset.assetNamespace])
+				var map:StringMap<IAsset> = _assetDictionary.get(asset.assetNamespace);
+				if (map.keys().hasNext())
 				{
 					empty = false;
-					break;
 				}
 
 				if (empty)
@@ -492,7 +505,7 @@ class AssetLibraryBundle extends EventDispatcher
 	private function loadResource(req:URLRequest, context:AssetLoaderContext = null, ns:String = null, parser:ParserBase = null):AssetLoaderToken
 	{
 		var loader:AssetLoader = new AssetLoader();
-		if (!_loadingSessions)
+		if (_loadingSessions == null)
 			_loadingSessions = new Vector<AssetLoader>();
 		_loadingSessions.push(loader);
 		loader.addEventListener(LoaderEvent.RESOURCE_COMPLETE, onResourceRetrieved);
@@ -521,7 +534,7 @@ class AssetLibraryBundle extends EventDispatcher
 
 	public function stopAllLoadingSessions():Void
 	{
-		if (!_loadingSessions)
+		if (_loadingSessions == null)
 			_loadingSessions = new Vector<AssetLoader>();
 		var length:Int = _loadingSessions.length;
 		for (i in 0...length)
@@ -578,7 +591,7 @@ class AssetLibraryBundle extends EventDispatcher
 		_assets.fixed = true;
 		for (asset in _assets)
 		{
-			if (!_assetDictionary.exits(asset.assetNamespace))
+			if (!_assetDictionary.exists(asset.assetNamespace))
 				_assetDictionary.set(asset.assetNamespace, new StringMap<IAsset>());
 
 			_assetDictionary.get(asset.assetNamespace).set(asset.name, asset);
@@ -648,7 +661,7 @@ class AssetLibraryBundle extends EventDispatcher
 	 */
 	private function onResourceRetrieved(event:LoaderEvent):Void
 	{
-		var loader:AssetLoader = AssetLoader(event.target);
+		var loader:AssetLoader = Std.instance(event.target,AssetLoader);
 		killLoadingSession(loader);
 		var index:Int = _loadingSessions.indexOf(loader);
 		_loadingSessions.splice(index, 1);
@@ -706,19 +719,19 @@ class AssetLibraryBundle extends EventDispatcher
 
 	private function onAssetRename(ev:AssetEvent):Void
 	{
-		var asset:IAsset = IAsset(ev.currentTarget);
+		var asset:IAsset = Std.instance(ev.currentTarget,IAsset);
 		var old:IAsset = getAsset(asset.assetNamespace, asset.name);
 
 		if (old != null)
-			_strategy.resolveConflict(asset, old, _assetDictionary[asset.assetNamespace], _strategyPreference);
+			_strategy.resolveConflict(asset, old, _assetDictionary.get(asset.assetNamespace), _strategyPreference);
 		else
 		{
-			var dict:Object = _assetDictionary[ev.asset.assetNamespace];
+			var dict:StringMap<IAsset> = _assetDictionary.get(ev.asset.assetNamespace);
 			if (dict == null)
 				return;
 
-			dict[ev.assetPrevName] = null;
-			dict[ev.asset.name] = ev.asset;
+			dict.remove(ev.assetPrevName);
+			dict.set(ev.asset.name, ev.asset);
 		}
 	}
 

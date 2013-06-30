@@ -37,7 +37,7 @@ class ATFTexture extends Texture2DBase
 
 	override private function uploadContent(texture:TextureBase):Void
 	{
-		Texture(texture).uploadCompressedTextureFromByteArray(_atfData.data, 0, false);
+		Std.instance(texture,Texture).uploadCompressedTextureFromByteArray(_atfData.data, 0, false);
 	}
 
 	override private function createTexture(context:Context3D):TextureBase

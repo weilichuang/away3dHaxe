@@ -1,5 +1,7 @@
 package a3d.materials.passes;
 
+import flash.display3D.Context3DProfile;
+import flash.errors.Error;
 import flash.geom.Matrix3D;
 import flash.geom.Vector3D;
 import flash.Vector;
@@ -26,7 +28,7 @@ class ShadowCasterPass extends CompiledPass
 {
 	private var _tangentSpace:Bool;
 	private var _lightVertexConstantIndex:Int;
-	private var _inverseSceneMatrix:Vector<Float> = new Vector<Float>();
+	private var _inverseSceneMatrix:Vector<Float>;
 
 	/**
 	 * Creates a new DefaultScreenPass objects.
@@ -34,9 +36,10 @@ class ShadowCasterPass extends CompiledPass
 	public function new(material:MaterialBase)
 	{
 		super(material);
+		_inverseSceneMatrix = new Vector<Float>();
 	}
 
-	override private function createCompiler(profile:String):ShaderCompiler
+	override private function createCompiler(profile:Context3DProfile):ShaderCompiler
 	{
 		return new LightingShaderCompiler(profile);
 	}
@@ -62,13 +65,13 @@ class ShadowCasterPass extends CompiledPass
 	override private function updateShaderProperties():Void
 	{
 		super.updateShaderProperties();
-		_tangentSpace = LightingShaderCompiler(_compiler).tangentSpace;
+		_tangentSpace = Std.instance(_compiler,LightingShaderCompiler).tangentSpace;
 	}
 
 	override private function updateRegisterIndices():Void
 	{
 		super.updateRegisterIndices();
-		_lightVertexConstantIndex = LightingShaderCompiler(_compiler).lightVertexConstantIndex;
+		_lightVertexConstantIndex = Std.instance(_compiler,LightingShaderCompiler).lightVertexConstantIndex;
 	}
 
 	override public function render(renderable:IRenderable, stage3DProxy:Stage3DProxy, camera:Camera3D, viewProjection:Matrix3D):Void
@@ -116,7 +119,7 @@ class ShadowCasterPass extends CompiledPass
 		// first dirs, then points
 		var dirLight:DirectionalLight;
 		var pointLight:PointLight;
-		var k:UInt, l:UInt;
+		var k:Int, l:Int;
 		var dirPos:Vector3D;
 
 		l = _lightVertexConstantIndex;
@@ -172,9 +175,9 @@ class ShadowCasterPass extends CompiledPass
 
 			if (_tangentSpace)
 			{
-				x = dirPos.x;
-				y = dirPos.y;
-				z = dirPos.z;
+				var x = dirPos.x;
+				var y = dirPos.y;
+				var z = dirPos.z;
 				_vertexConstantData[l++] = _inverseSceneMatrix[0] * x + _inverseSceneMatrix[4] * y + _inverseSceneMatrix[8] * z + _inverseSceneMatrix[12];
 				_vertexConstantData[l++] = _inverseSceneMatrix[1] * x + _inverseSceneMatrix[5] * y + _inverseSceneMatrix[9] * z + _inverseSceneMatrix[13];
 				_vertexConstantData[l++] = _inverseSceneMatrix[2] * x + _inverseSceneMatrix[6] * y + _inverseSceneMatrix[10] * z + _inverseSceneMatrix[14];

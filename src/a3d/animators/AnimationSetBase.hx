@@ -8,7 +8,7 @@ import a3d.errors.AnimationSetError;
 import a3d.io.library.assets.AssetType;
 import a3d.io.library.assets.IAsset;
 import a3d.io.library.assets.NamedAssetBase;
-
+import haxe.ds.WeakMap;
 /**
  * Provides an abstract base class for data set classes that hold animation data for use in animator classes.
  *
@@ -17,13 +17,16 @@ import a3d.io.library.assets.NamedAssetBase;
 class AnimationSetBase extends NamedAssetBase implements IAsset
 {
 	private var _usesCPU:Bool;
-	private var _animations:Vector<AnimationNodeBase> = new Vector<AnimationNodeBase>();
-	private var _animationNames:Vector<String> = new Vector<String>();
-	private var _animationDictionary:Dictionary = new Dictionary(true);
+	private var _animations:Vector<AnimationNodeBase>;
+	private var _animationNames:Vector<String>;
+	private var _animationDictionary:WeakMap<String,AnimationNodeBase>;
 
 	public function new()
 	{
-
+		super();
+		_animations = new Vector<AnimationNodeBase>();
+		_animationNames = new Vector<String>();
+		_animationDictionary = new WeakMap<String,AnimationNodeBase>();
 	}
 
 	/**
@@ -55,6 +58,7 @@ class AnimationSetBase extends NamedAssetBase implements IAsset
 	 * the vertex registers aslready in use on shading materials allows the animation data to utilise
 	 * GPU calls.
 	 */
+	public var usesCPU(get, null):Bool;
 	private function get_usesCPU():Bool
 	{
 		return _usesCPU;
@@ -79,6 +83,7 @@ class AnimationSetBase extends NamedAssetBase implements IAsset
 	/**
 	 * @inheritDoc
 	 */
+	public var assetType(get, null):String;
 	private function get_assetType():String
 	{
 		return AssetType.ANIMATION_SET;
@@ -87,6 +92,7 @@ class AnimationSetBase extends NamedAssetBase implements IAsset
 	/**
 	 * Returns a vector of animation state objects that make up the contents of the animation data set.
 	 */
+	public var animations(get, null):Vector<AnimationNodeBase>;
 	private function get_animations():Vector<AnimationNodeBase>
 	{
 		return _animations;
@@ -95,6 +101,7 @@ class AnimationSetBase extends NamedAssetBase implements IAsset
 	/**
 	 * Returns a vector of animation state objects that make up the contents of the animation data set.
 	 */
+	public var animationNames(get, null):Vector<String>;
 	private function get_animationNames():Vector<String>
 	{
 		return _animationNames;
@@ -107,7 +114,7 @@ class AnimationSetBase extends NamedAssetBase implements IAsset
 	 */
 	public function hasAnimation(name:String):Bool
 	{
-		return _animationDictionary[name] != null;
+		return _animationDictionary.exists(name);
 	}
 
 	/**
@@ -117,7 +124,7 @@ class AnimationSetBase extends NamedAssetBase implements IAsset
 	 */
 	public function getAnimation(name:String):AnimationNodeBase
 	{
-		return _animationDictionary[name];
+		return _animationDictionary.get(name);
 	}
 
 
@@ -129,10 +136,10 @@ class AnimationSetBase extends NamedAssetBase implements IAsset
 	 */
 	public function addAnimation(node:AnimationNodeBase):Void
 	{
-		if (_animationDictionary[node.name])
+		if (_animationDictionary.exists(node.name))
 			throw new AnimationSetError("root node name '" + node.name + "' already exists in the set");
 
-		_animationDictionary[node.name] = node;
+		_animationDictionary.set(node.name,node);
 
 		_animations.push(node);
 

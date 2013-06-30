@@ -3,6 +3,7 @@ package a3d.io.library.naming;
 import a3d.errors.AbstractMethodError;
 import a3d.events.AssetEvent;
 import a3d.io.library.assets.IAsset;
+import haxe.ds.StringMap;
 import haxe.ds.StringMap.StringMap;
 
 /**
@@ -34,7 +35,7 @@ class ConflictStrategyBase
 	 * Resolve a naming conflict between two assets. Must be implemented by concrete strategy
 	 * classes.
 	*/
-	public function resolveConflict(changedAsset:IAsset, oldAsset:IAsset, assetsDictionary: StringMap<StringMap<IAsset>>, precedence:String):Void
+	public function resolveConflict(changedAsset:IAsset, oldAsset:IAsset, assetsDictionary: StringMap<IAsset>, precedence:String):Void
 	{
 		throw new AbstractMethodError();
 	}
@@ -55,7 +56,7 @@ class ConflictStrategyBase
 	 * Provided as a convenience method for all conflict strategy classes, as a way to finalize
 	 * the conflict resolution by applying the new names and dispatching the correct events.
 	*/
-	private function updateNames(ns:String, nonConflictingName:String, oldAsset:IAsset, newAsset:IAsset, assetsDictionary:Dynamic, precedence:String):Void
+	private function updateNames(ns:String, nonConflictingName:String, oldAsset:IAsset, newAsset:IAsset, assetsDictionary:StringMap<IAsset>, precedence:String):Void
 	{
 		var loser_prev_name:String;
 		var winner:IAsset, loser:IAsset;
@@ -65,8 +66,8 @@ class ConflictStrategyBase
 
 		loser_prev_name = loser.name;
 
-		assetsDictionary[winner.name] = winner;
-		assetsDictionary[nonConflictingName] = loser;
+		assetsDictionary.set(winner.name,winner);
+		assetsDictionary.set(nonConflictingName,loser);
 		loser.resetAssetPath(nonConflictingName, ns, false);
 
 		loser.dispatchEvent(new AssetEvent(AssetEvent.ASSET_CONFLICT_RESOLVED, loser, loser_prev_name));

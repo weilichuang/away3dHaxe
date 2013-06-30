@@ -3,6 +3,7 @@ package a3d.animators;
 import flash.display.Sprite;
 import flash.events.Event;
 import flash.geom.Vector3D;
+import flash.Lib;
 import flash.utils.Dictionary;
 import flash.Vector;
 import haxe.ds.WeakMap;
@@ -47,7 +48,7 @@ import a3d.io.library.assets.NamedAssetBase;
  */
 class AnimatorBase extends NamedAssetBase implements IAsset
 {
-	private var _broadcaster:Sprite = new Sprite();
+	private var _broadcaster:Sprite;
 	private var _isPlaying:Bool;
 	private var _autoUpdate:Bool = true;
 	private var _startEvent:AnimatorEvent;
@@ -57,12 +58,12 @@ class AnimatorBase extends NamedAssetBase implements IAsset
 	private var _playbackSpeed:Float = 1;
 
 	private var _animationSet:IAnimationSet;
-	private var _owners:Vector<Mesh> = new Vector<Mesh>();
+	private var _owners:Vector<Mesh>;
 	private var _activeNode:AnimationNodeBase;
 	private var _activeState:IAnimationState;
 	private var _activeAnimationName:String;
 	private var _absoluteTime:Float = 0;
-	private var _animationStates:WeakMap<AnimationNodeBase,AnimationStateBase> = new WeakMap<AnimationNodeBase,AnimationStateBase>();
+	private var _animationStates:WeakMap<AnimationNodeBase,AnimationStateBase>;
 
 	/**
 	 * Enables translation of the animated mesh from data returned per frame via the positionDelta property of the active animation node. Defaults to true.
@@ -73,11 +74,11 @@ class AnimatorBase extends NamedAssetBase implements IAsset
 
 	public function getAnimationState(node:AnimationNodeBase):AnimationStateBase
 	{
-		var className:Class = node.stateClass;
+		var className:Dynamic = node.stateClass;
 
-		if (_animationStates[node] == null)
-			_animationStates[node] = Type.createInstance(className, [this, node]);
-		return _animationStates[node];
+		if (!_animationStates.exists(node))
+			_animationStates.set(node,Std.instance(Type.createInstance(className, [this, node]),AnimationStateBase));
+		return _animationStates.get(node);
 	}
 
 	public function getAnimationStateByName(name:String):AnimationStateBase
@@ -100,7 +101,7 @@ class AnimatorBase extends NamedAssetBase implements IAsset
 	/**
 	 * Returns the animation data set in use by the animator.
 	 */
-	public var animationSet(get, null):Float;
+	public var animationSet(get, null):IAnimationSet;
 	private function get_animationSet():IAnimationSet
 	{
 		return _animationSet;
@@ -150,7 +151,7 @@ class AnimatorBase extends NamedAssetBase implements IAsset
 	private function set_autoUpdate(value:Bool):Bool
 	{
 		if (_autoUpdate == value)
-			return;
+			return _autoUpdate;
 
 		_autoUpdate = value;
 
@@ -198,7 +199,12 @@ class AnimatorBase extends NamedAssetBase implements IAsset
 	 */
 	public function new(animationSet:IAnimationSet)
 	{
+		super();
 		_animationSet = animationSet;
+		
+		_owners = new Vector<Mesh>();
+		_animationStates = new WeakMap<AnimationNodeBase,AnimationStateBase>();
+		_broadcaster = new Sprite();
 	}
 
 	/**
@@ -223,7 +229,8 @@ class AnimatorBase extends NamedAssetBase implements IAsset
 		if (_isPlaying || !_autoUpdate)
 			return;
 
-		_time = _absoluteTime = getTimer();
+		_time = Lib.getTimer();
+		_absoluteTime = _time;
 
 		_isPlaying = true;
 
@@ -281,7 +288,7 @@ class AnimatorBase extends NamedAssetBase implements IAsset
 
 	public function reset(name:String, offset:Float = 0):Void
 	{
-		getAnimationState(_animationSet.getAnimation(name)).offset(offset + _absoluteTime);
+		getAnimationState(_animationSet.getAnimation(name)).offset(Std.int(offset + _absoluteTime));
 	}
 
 	/**
@@ -313,7 +320,7 @@ class AnimatorBase extends NamedAssetBase implements IAsset
 	{
 		_absoluteTime += dt;
 
-		_activeState.update(_absoluteTime);
+		_activeState.update(Std.int(_absoluteTime));
 
 		if (updatePosition)
 			applyPositionDelta();
@@ -324,7 +331,7 @@ class AnimatorBase extends NamedAssetBase implements IAsset
 	 */
 	private function onEnterFrame(event:Event = null):Void
 	{
-		update(getTimer());
+		update(Lib.getTimer());
 	}
 
 	private function applyPositionDelta():Void
@@ -348,7 +355,11 @@ class AnimatorBase extends NamedAssetBase implements IAsset
 	public function dispatchCycleEvent():Void
 	{
 		if (hasEventListener(AnimatorEvent.CYCLE_COMPLETE))
-			dispatchEvent(_cycleEvent || (_cycleEvent = new AnimatorEvent(AnimatorEvent.CYCLE_COMPLETE, this)));
+		{
+			if (_cycleEvent == null)
+				_cycleEvent = new AnimatorEvent(AnimatorEvent.CYCLE_COMPLETE, this);
+			dispatchEvent(_cycleEvent);
+		}
 	}
 
 	/**

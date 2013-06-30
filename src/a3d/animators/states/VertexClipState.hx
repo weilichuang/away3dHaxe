@@ -19,6 +19,7 @@ class VertexClipState extends AnimationClipState implements IVertexAnimationStat
 	/**
 	 * @inheritDoc
 	 */
+	public var currentGeometry(get, null):Geometry;
 	private function get_currentGeometry():Geometry
 	{
 		if (_framesDirty)
@@ -30,6 +31,7 @@ class VertexClipState extends AnimationClipState implements IVertexAnimationStat
 	/**
 	 * @inheritDoc
 	 */
+	public var nextGeometry(get, null):Geometry;
 	private function get_nextGeometry():Geometry
 	{
 		if (_framesDirty)
@@ -58,7 +60,7 @@ class VertexClipState extends AnimationClipState implements IVertexAnimationStat
 		if (_vertexClipNode.looping && _nextFrame >= _vertexClipNode.lastFrame)
 		{
 			_nextGeometry = _frames[0];
-			VertexAnimator(_animator).dispatchCycleEvent();
+			Std.instance(_animator,VertexAnimator).dispatchCycleEvent();
 		}
 		else
 		{

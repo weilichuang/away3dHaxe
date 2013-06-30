@@ -60,7 +60,7 @@ class MD2Parser extends ParserBase
 	private var _vertIndices:Vector<Float>;
 
 	// the current subgeom being built
-	private var _animationSet:VertexAnimationSet = new VertexAnimationSet();
+	private var _animationSet:VertexAnimationSet;
 	private var _firstSubGeom:CompactSubGeometry;
 	private var _uvs:Vector<Float>;
 	private var _finalUV:Vector<Float>;
@@ -85,6 +85,7 @@ class MD2Parser extends ParserBase
 		_textureType = textureType;
 		_ignoreTexturePath = ignoreTexturePath;
 		_clipNodes = new WeakMap<String,VertexClipNode>();
+		_animationSet = new VertexAnimationSet();
 	}
 
 	/**
@@ -117,7 +118,7 @@ class MD2Parser extends ParserBase
 			return;
 
 		var asset:Texture2DBase = Std.instance(resourceDependency.assets[0],Texture2DBase);
-		if (asset)
+		if (asset != null)
 		{
 			var material:MaterialBase;
 			if (materialMode < 2)
@@ -204,7 +205,7 @@ class MD2Parser extends ParserBase
 				parseFrames();
 			}
 			else if ((geoCreated) && (materialFinal))
-				return PARSING_DONE;
+				return ParserBase.PARSING_DONE;
 
 			else if (!geoCreated)
 			{
@@ -222,7 +223,7 @@ class MD2Parser extends ParserBase
 			}
 		}
 
-		return MORE_TO_PARSE;
+		return ParserBase.MORE_TO_PARSE;
 	}
 
 	/**
@@ -355,8 +356,8 @@ class MD2Parser extends ParserBase
 
 		for (i in 0...len)
 		{
-			_finalUV[i << 1] = _uvs[_uvIndices[i] << 1];
-			_finalUV[(i << 1) + 1] = _uvs[_uvIndices[i] << 1 + 1];
+			_finalUV[i << 1] = _uvs[Std.int(_uvIndices[i]) << 1];
+			_finalUV[(i << 1) + 1] = _uvs[Std.int(_uvIndices[i]) << 1 + 1];
 		}
 
 		_parsedFaces = true;
@@ -446,16 +447,18 @@ class MD2Parser extends ParserBase
 			// to skip over a byte that holds the "vertex normal index"
 			for (j in 0..._numVertices)
 			{
-				tvertices.push(sx * _byteData.readUnsignedByte() + tx, sy * _byteData.readUnsignedByte() + ty, sz * _byteData.readUnsignedByte() + tz);
+				tvertices.push(sx * _byteData.readUnsignedByte() + tx);
+				tvertices.push(sy * _byteData.readUnsignedByte() + ty); 
+				tvertices.push(sz * _byteData.readUnsignedByte() + tz);
 				_byteData.position++;
 			}
 
 			k = 0;
 			for (j in 0...vertLen)
 			{
-				fvertices[k++] = tvertices[_vertIndices[j] * 3];
-				fvertices[k++] = tvertices[_vertIndices[j] * 3 + 2];
-				fvertices[k++] = tvertices[_vertIndices[j] * 3 + 1];
+				fvertices[k++] = tvertices[Std.int(_vertIndices[j]) * 3];
+				fvertices[k++] = tvertices[Std.int(_vertIndices[j]) * 3 + 2];
+				fvertices[k++] = tvertices[Std.int(_vertIndices[j]) * 3 + 1];
 			}
 
 			subGeom.fromVectors(fvertices, _finalUV, null, null);
@@ -472,7 +475,7 @@ class MD2Parser extends ParserBase
 				// If another sequence was parsed before this one, starting
 				// a new state means the previous one is complete and can
 				// hence be finalized.
-				if (prevClip)
+				if (prevClip != null)
 				{
 					finalizeAsset(prevClip);
 					_animationSet.addAnimation(prevClip);
@@ -486,7 +489,7 @@ class MD2Parser extends ParserBase
 
 				prevClip = clip;
 			}
-			clip.addFrame(geometry, 1000 / FPS);
+			clip.addFrame(geometry, Std.int(1000 / FPS));
 		}
 
 		// Finalize the last state

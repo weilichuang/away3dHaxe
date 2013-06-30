@@ -1,6 +1,7 @@
 package a3d.io.library.naming;
 
 import a3d.io.library.assets.IAsset;
+import haxe.ds.StringMap;
 
 class IgnoreConflictStrategy extends ConflictStrategyBase
 {
@@ -10,7 +11,8 @@ class IgnoreConflictStrategy extends ConflictStrategyBase
 	}
 
 
-	override public function resolveConflict(changedAsset:IAsset, oldAsset:IAsset, assetsDictionary:Object, precedence:String):Void
+	override public function resolveConflict(changedAsset:IAsset, oldAsset:IAsset, 
+								assetsDictionary:StringMap<IAsset>, precedence:String):Void
 	{
 		// Do nothing, ignore the fact that there is a conflict.
 		return;

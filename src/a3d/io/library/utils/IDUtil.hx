@@ -6,7 +6,7 @@ class IDUtil
 	 *  @private
 	 *  Char codes for 0123456789ABCDEF
 	 */
-	private static inline var ALPHA_CHAR_CODES:Array<Int> = [48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 65, 66, 67, 68, 69, 70];
+	private static var ALPHA_CHAR_CODES:Array<Int> = [48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 65, 66, 67, 68, 69, 70];
 
 	/**
 	  *  Generates a UID (unique identifier) based on ActionScript's
@@ -28,7 +28,12 @@ class IDUtil
 	  */
 	public static function createUID():String
 	{
-		var uid:Array = new Array(36);
+		var uid:Array<Int> = new Array<Int>();
+		for (i in 0...36)
+		{
+			uid[i] = 0;
+		}
+		
 		var index:Int = 0;
 
 		var i:Int;
@@ -51,7 +56,8 @@ class IDUtil
 
 		uid[index++] = 45; // charCode for "-"
 
-		var time:Float = new Date().getTime();
+		var time:Float = Date.now().getTime();
+		//new Date().getTime();
 		// Note: time is the number of milliseconds since 1970,
 		// which is currently more than one trillion.
 		// We use the low 8 hex digits of this number in the UID.
@@ -59,7 +65,7 @@ class IDUtil
 		// Jan 1-4, 1970 (in which case this number could have only
 		// 1-7 hex digits), we pad on the left with 7 zeros
 		// before taking the low digits.
-		var timeString:String = ("0000000" + time.toString(16).toUpperCase()).substr(-8);
+		var timeString:String = ("0000000" + StringTools.hex(Std.int(time))).substr(-8);
 
 		for (i in 0...8)
 		{

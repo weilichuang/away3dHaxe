@@ -1,23 +1,24 @@
 package a3d.io.library.naming;
 	
 import a3d.io.library.assets.IAsset;
+import haxe.ds.StringMap;
 
 class NumSuffixConflictStrategy extends ConflictStrategyBase
 {
 	private var _separator:String;
-	private var _next_suffix:Dynamic;
+	private var _next_suffix:StringMap<Int>;
 
 	public function new(separator:String = '.')
 	{
 		super();
 
 		_separator = separator;
-		_next_suffix = {};
+		_next_suffix = new StringMap<Int>();
 	}
 
 
 	override public function resolveConflict(changedAsset:IAsset, oldAsset:IAsset, 
-											assetsDictionary:Dynamic, precedence:String):Void
+											assetsDictionary:StringMap<IAsset>, precedence:String):Void
 	{
 		var orig:String;
 		var new_name:String;
@@ -31,7 +32,7 @@ class NumSuffixConflictStrategy extends ConflictStrategyBase
 			// use entire name as base
 			base = orig.substring(0, orig.lastIndexOf(_separator));
 			suffix = Std.parseInt(orig.substring(base.length - 1));
-			if (isNaN(suffix))
+			if (Math.isNaN(suffix))
 			{
 				base = orig;
 				suffix = 0;
@@ -43,18 +44,18 @@ class NumSuffixConflictStrategy extends ConflictStrategyBase
 			suffix = 0;
 		}
 
-		if (suffix == 0 && _next_suffix.hasOwnProperty(base))
-			suffix = _next_suffix[base];
+		if (suffix == 0 && _next_suffix.exists(base))
+			suffix = _next_suffix.get(base);
 
 		// Find the first suffixed name that does
 		// not collide with other names.
 		do
 		{
 			suffix++;
-			new_name = base.concat(_separator, suffix);
-		} while (assetsDictionary.hasOwnProperty(new_name));
+			new_name = base + _separator + suffix;
+		} while (assetsDictionary.exists(new_name));
 
-		_next_suffix[base] = suffix;
+		_next_suffix.set(base,suffix);
 
 		updateNames(oldAsset.assetNamespace, new_name, oldAsset, changedAsset, assetsDictionary, precedence);
 	}

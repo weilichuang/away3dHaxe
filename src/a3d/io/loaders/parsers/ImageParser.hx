@@ -98,16 +98,16 @@ class ImageParser extends ParserBase
 		var asset:Texture2DBase;
 		if (Std.is(_data,Bitmap))
 		{
-			asset = new BitmapTexture(Bitmap(_data).bitmapData);
+			asset = new BitmapTexture(Std.instance(_data,Bitmap).bitmapData);
 			finalizeAsset(asset, fileName);
-			return PARSING_DONE;
+			return ParserBase.PARSING_DONE;
 		}
 
 		if (Std.is(_data,BitmapData))
 		{
 			asset = new BitmapTexture(Std.instance(_data,BitmapData));
 			finalizeAsset(asset, fileName);
-			return PARSING_DONE;
+			return ParserBase.PARSING_DONE;
 		}
 
 		_byteData = getByteData();
@@ -118,7 +118,7 @@ class ImageParser extends ParserBase
 				_byteData.position = 0;
 				asset = new ATFTexture(_byteData);
 				finalizeAsset(asset, fileName);
-				return PARSING_DONE;
+				return ParserBase.PARSING_DONE;
 			}
 			else
 			{
@@ -138,7 +138,7 @@ class ImageParser extends ParserBase
 	 */
 	private function onLoadComplete(event:Event):Void
 	{
-		var bmp:BitmapData = Bitmap(_loader.content).bitmapData;
+		var bmp:BitmapData = Std.instance(_loader.content,Bitmap).bitmapData;
 		var asset:BitmapTexture;
 
 		_loader.contentLoaderInfo.removeEventListener(Event.COMPLETE, onLoadComplete);

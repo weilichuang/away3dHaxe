@@ -21,17 +21,17 @@ class ParserUtil
 
 		if (length == 0)
 		{
-			length = Math.POSITIVE_INFINITY;
+			length = Std.int(Math.POSITIVE_INFINITY);
 		}	
 
 		if (Std.is(data,String))
 			return Std.instance(data,String).substr(0, length);
 
 		ba = toByteArray(data);
-		if (ba)
+		if (ba != null)
 		{
 			ba.position = 0;
-			return ba.readUTFBytes(Math.min(ba.bytesAvailable, length));
+			return ba.readUTFBytes(Std.int(Math.min(ba.bytesAvailable, length)));
 		}
 
 		return null;

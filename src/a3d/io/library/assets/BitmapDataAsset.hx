@@ -16,6 +16,7 @@ class BitmapDataAsset extends NamedAssetBase implements IAsset
 	 */
 	public function new(bitmapData:BitmapData = null)
 	{
+		super();
 		_bitmapData = bitmapData;
 	}
 

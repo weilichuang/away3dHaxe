@@ -1,6 +1,7 @@
 package a3d.textures;
 
 import flash.display3D.Context3DTextureFormat;
+import flash.errors.Error;
 import flash.utils.ByteArray;
 
 /**
@@ -13,7 +14,7 @@ class ATFData
 	public static inline var TYPE_CUBE:Int = 0x1;
 
 	public var type:Int;
-	public var format:String;
+	public var format:Context3DTextureFormat;
 	public var width:Int;
 	public var height:Int;
 	public var numTextures:Int;
@@ -42,7 +43,7 @@ class ATFData
 				format = Context3DTextureFormat.COMPRESSED;
 				
 			case 4,5:
-				format = "compressedAlpha";
+				format = Context3DTextureFormat.COMPRESSED_ALPHA;// "compressedAlpha";
 				// explicit string to stay compatible 
 			// with older versions
 			default:

@@ -40,11 +40,11 @@ class MultiPassMaterialBase extends MaterialBase
 	private var _specularLightSources:UInt = 0x01;
 	private var _diffuseLightSources:UInt = 0x03;
 
-	private var _ambientMethod:BasicAmbientMethod = new BasicAmbientMethod();
+	private var _ambientMethod:BasicAmbientMethod;
 	private var _shadowMethod:ShadowMapMethodBase;
-	private var _diffuseMethod:BasicDiffuseMethod = new BasicDiffuseMethod();
-	private var _normalMethod:BasicNormalMethod = new BasicNormalMethod();
-	private var _specularMethod:BasicSpecularMethod = new BasicSpecularMethod();
+	private var _diffuseMethod:BasicDiffuseMethod;
+	private var _normalMethod:BasicNormalMethod;
+	private var _specularMethod:BasicSpecularMethod;
 
 	private var _screenPassesInvalid:Bool = true;
 	private var _enableLightFallOff:Bool = true;
@@ -55,21 +55,27 @@ class MultiPassMaterialBase extends MaterialBase
 	public function new()
 	{
 		super();
+		 _ambientMethod = new BasicAmbientMethod();
+		_diffuseMethod = new BasicDiffuseMethod();
+		_normalMethod= new BasicNormalMethod();
+		_specularMethod = new BasicSpecularMethod();
 	}
 
 	/**
 	 * Whether or not to use fallOff and radius properties for lights.
 	 */
+	public var enableLightFallOff(get,set):Bool;
 	private function get_enableLightFallOff():Bool
 	{
 		return _enableLightFallOff;
 	}
 
-	private function set_enableLightFallOff(value:Bool):Void
+	private function set_enableLightFallOff(value:Bool):Bool
 	{
 		if (_enableLightFallOff != value)
 			invalidateScreenPasses();
 		_enableLightFallOff = value;
+		return _enableLightFallOff;
 	}
 
 	/**
@@ -77,17 +83,19 @@ class MultiPassMaterialBase extends MaterialBase
 	 * invisible or entirely opaque, often used with textures for foliage, etc.
 	 * Recommended values are 0 to disable alpha, or 0.5 to create smooth edges. Default value is 0 (disabled).
 	 */
+	public var alphaThreshold(get,set):Bool;
 	private function get_alphaThreshold():Float
 	{
 		return _alphaThreshold;
 	}
 
-	private function set_alphaThreshold(value:Float):Void
+	private function set_alphaThreshold(value:Float):Float
 	{
 		_alphaThreshold = value;
 		_diffuseMethod.alphaThreshold = value;
 		_depthPass.alphaThreshold = value;
 		_distancePass.alphaThreshold = value;
+		return _alphaThreshold;
 	}
 
 	override private function set_depthCompareMode(value:String):Void

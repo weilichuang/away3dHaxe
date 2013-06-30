@@ -18,7 +18,7 @@ class ConflictStrategy
 	 * Specifies that in case of a naming conflict, one of the assets will be renamed and
 	 * a numeric suffix appended to the base name.
 	*/
-	public static inline var APPEND_NUM_SUFFIX:ConflictStrategyBase = new NumSuffixConflictStrategy();
+	public static var APPEND_NUM_SUFFIX:ConflictStrategyBase = new NumSuffixConflictStrategy();
 
 
 	/**
@@ -26,7 +26,7 @@ class ConflictStrategy
 	 * cases, unless it can be 100% guaranteed that the application does not cause naming
 	 * conflicts in the library (i.e. when an app-level system is in place to prevent this.)
 	*/
-	public static inline var IGNORE:ConflictStrategyBase = new IgnoreConflictStrategy();
+	public static var IGNORE:ConflictStrategyBase = new IgnoreConflictStrategy();
 
 
 	/**
@@ -34,6 +34,6 @@ class ConflictStrategy
 	 * to be 100% sure that naming conflicts never occur unnoticed, and when it's undesirable
 	 * to have the library automatically rename assets to avoid such conflicts.
 	*/
-	public static inline var THROW_ERROR:ConflictStrategyBase = new ErrorConflictStrategy();
+	public static var THROW_ERROR:ConflictStrategyBase = new ErrorConflictStrategy();
 
 }

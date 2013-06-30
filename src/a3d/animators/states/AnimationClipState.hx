@@ -13,10 +13,10 @@ class AnimationClipState extends AnimationStateBase
 	private var _animationClipNode:AnimationClipNodeBase;
 	private var _animationStatePlaybackComplete:AnimationStateEvent;
 	private var _blendWeight:Float;
-	private var _currentFrame:UInt;
-	private var _nextFrame:UInt;
+	private var _currentFrame:Int;
+	private var _nextFrame:Int;
 
-	private var _oldFrame:UInt;
+	private var _oldFrame:Int;
 	private var _timeDir:Int;
 	private var _framesDirty:Bool = true;
 
@@ -27,6 +27,7 @@ class AnimationClipState extends AnimationStateBase
 	 * @see #currentFrame
 	 * @see #nextFrame
 	 */
+	public var blendWeight(get, null):Float;
 	private function get_blendWeight():Float
 	{
 		if (_framesDirty)
@@ -38,7 +39,8 @@ class AnimationClipState extends AnimationStateBase
 	/**
 	 * Returns the current frame of animation in the clip based on the internal playhead position.
 	 */
-	private function get_currentFrame():UInt
+	public var currentFrame(get, null):Int;
+	private function get_currentFrame():Int
 	{
 		if (_framesDirty)
 			updateFrames();
@@ -49,7 +51,8 @@ class AnimationClipState extends AnimationStateBase
 	/**
 	 * Returns the next frame of animation in the clip based on the internal playhead position.
 	 */
-	private function get_nextFrame():UInt
+	public var nextFrame(get, null):Int;
+	private function get_nextFrame():Int
 	{
 		if (_framesDirty)
 			updateFrames();
@@ -88,7 +91,7 @@ class AnimationClipState extends AnimationStateBase
 	 */
 	override public function phase(value:Float):Void
 	{
-		var time:Int = value * _animationClipNode.totalDuration + _startTime;
+		var time:Int = Std.int(value * _animationClipNode.totalDuration) + _startTime;
 
 		if (_time == time - _startTime)
 			return;
@@ -120,8 +123,8 @@ class AnimationClipState extends AnimationStateBase
 		_framesDirty = false;
 
 		var looping:Bool = _animationClipNode.looping;
-		var totalDuration:UInt = _animationClipNode.totalDuration;
-		var lastFrame:UInt = _animationClipNode.lastFrame;
+		var totalDuration:Int = _animationClipNode.totalDuration;
+		var lastFrame:Int = _animationClipNode.lastFrame;
 		var time:Int = _time;
 
 		//trace("time", time, totalDuration)
@@ -148,7 +151,7 @@ class AnimationClipState extends AnimationStateBase
 		else if (_animationClipNode.fixedFrameRate)
 		{
 			var t:Float = time / totalDuration * lastFrame;
-			_currentFrame = t;
+			_currentFrame = Std.int(t);
 			_blendWeight = t - _currentFrame;
 			_nextFrame = _currentFrame + 1;
 		}
@@ -157,13 +160,13 @@ class AnimationClipState extends AnimationStateBase
 			_currentFrame = 0;
 			_nextFrame = 0;
 
-			var dur:UInt = 0, frameTime:UInt;
+			var dur:Int = 0, frameTime:Int;
 			var durations:Vector<UInt> = _animationClipNode.durations;
 
 			do
 			{
 				frameTime = dur;
-				dur += durations[nextFrame];
+				dur += durations[_nextFrame];
 				_currentFrame = _nextFrame++;
 			} while (time > dur);
 

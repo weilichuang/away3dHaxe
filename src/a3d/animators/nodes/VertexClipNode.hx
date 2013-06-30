@@ -12,13 +12,14 @@ import a3d.core.base.Geometry;
  */
 class VertexClipNode extends AnimationClipNodeBase
 {
-	private var _frames:Vector<Geometry> = new Vector<Geometry>();
-	private var _translations:Vector<Vector3D> = new Vector<Vector3D>();
+	private var _frames:Vector<Geometry>;
+	private var _translations:Vector<Vector3D>;
 
 
 	/**
 	 * Returns a vector of geometry frames representing the vertex values of each animation frame in the clip.
 	 */
+	public var frames(get, null):Vector<Geometry>;
 	private function get_frames():Vector<Geometry>
 	{
 		return _frames;
@@ -29,7 +30,11 @@ class VertexClipNode extends AnimationClipNodeBase
 	 */
 	public function new()
 	{
+		super();
+		
 		_stateClass = VertexClipState;
+		_frames = new Vector<Geometry>();
+		_translations = new Vector<Vector3D>();
 	}
 
 
@@ -44,7 +49,15 @@ class VertexClipNode extends AnimationClipNodeBase
 	{
 		_frames.push(geometry);
 		_durations.push(duration);
-		_translations.push(translation || new Vector3D());
+		if (translation != null)
+		{
+			_translations.push(translation);
+		}
+		else
+		{
+			_translations.push(new Vector3D());
+		}
+		
 
 		_numFrames = _durations.length;
 
@@ -58,9 +71,9 @@ class VertexClipNode extends AnimationClipNodeBase
 	{
 		super.updateStitch();
 
-		var i:UInt = _numFrames - 1;
+		var i:Int = _numFrames - 1;
 		var p1:Vector3D, p2:Vector3D, delta:Vector3D;
-		while (i--)
+		while (i-- != 0)
 		{
 			_totalDuration += _durations[i];
 			p1 = _translations[i];

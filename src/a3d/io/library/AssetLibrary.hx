@@ -2,6 +2,7 @@ package a3d.io.library;
 
 import flash.net.URLRequest;
 import flash.Vector;
+import haxe.ds.StringMap;
 
 
 import a3d.io.library.assets.IAsset;
@@ -21,7 +22,7 @@ import a3d.io.loaders.parsers.ParserBase;
  */
 class AssetLibrary
 {
-	public static var _instances:Dynamic = {};
+	public static var _instances:StringMap<AssetLibraryBundle> = new StringMap<AssetLibraryBundle>();
 
 	/**
 	 * Creates a new <code>AssetLibrary</code> object.
@@ -49,7 +50,7 @@ class AssetLibrary
 	/**
 	 *
 	 */
-	public static function enableParser<T>(parserClass:Class<T>):Void
+	public static function enableParser(parserClass:Class<ParserBase>):Void
 	{
 		SingleFileLoader.enableParser(parserClass);
 	}
@@ -57,7 +58,7 @@ class AssetLibrary
 	/**
 	 *
 	 */
-	public static function enableParsers<T>(parserClasses:Vector<Class<T>>):Void
+	public static function enableParsers(parserClasses:Vector<Class<ParserBase>>):Void
 	{
 		SingleFileLoader.enableParsers(parserClasses);
 	}

@@ -1,4 +1,5 @@
 package a3d.materials.compilation;
+import flash.display3D.Context3DProfile;
 import flash.Vector;
 
 
@@ -14,11 +15,12 @@ class LightingShaderCompiler extends ShaderCompiler
 
 
 
-	public function new(profile:String)
+	public function new(profile:Context3DProfile)
 	{
 		super(profile);
 	}
 
+	public var lightVertexConstantIndex(get,null):Int;
 	private function get_lightVertexConstantIndex():Int
 	{
 		return _lightVertexConstantIndex;
@@ -57,6 +59,7 @@ class LightingShaderCompiler extends ShaderCompiler
 		_animationTargetRegisters.push(_sharedRegisters.animatedNormal.toString());
 	}
 
+	public var tangentSpace(get,null):Bool;
 	private function get_tangentSpace():Bool
 	{
 		return _numLightProbes == 0 && methodSetup.normalMethod.hasOutput &&
@@ -175,7 +178,7 @@ class LightingShaderCompiler extends ShaderCompiler
 
 	override private function compileLightingCode():Void
 	{
-		if (_methodSetup.shadowMethod)
+		if (_methodSetup.shadowMethod != null)
 			compileShadowCode();
 
 		_methodSetup.diffuseMethod.shadowRegister = _shadowRegister;
@@ -236,13 +239,13 @@ class LightingShaderCompiler extends ShaderCompiler
 				_registerCache.removeFragmentTempUsage(_sharedRegisters.viewDirFragment);
 		}
 
-		if (_methodSetup.shadowMethod)
+		if (_methodSetup.shadowMethod != null)
 			_registerCache.removeFragmentTempUsage(_shadowRegister);
 	}
 
 	private function compileShadowCode():Void
 	{
-		if (_sharedRegisters.normalFragment)
+		if (_sharedRegisters.normalFragment != null)
 		{
 			_shadowRegister = _sharedRegisters.normalFragment;
 		}
@@ -260,7 +263,7 @@ class LightingShaderCompiler extends ShaderCompiler
 		// init these first so we're sure they're in sequence
 		var len:Int;
 
-		if (dirLightVertexConstants)
+		if (dirLightVertexConstants != null)
 		{
 			len = dirLightVertexConstants.length;
 			for (i in 0...len)
@@ -375,7 +378,7 @@ class LightingShaderCompiler extends ShaderCompiler
 				_vertexCode += "sub " + lightVarying + ", " + lightPosReg + ", " + _sharedRegisters.globalPositionVertex + "\n";
 			}
 
-			if (_enableLightFallOff && _profile != "baselineConstrained")
+			if (_enableLightFallOff && _profile != Context3DProfile.BASELINE_CONSTRAINED)
 			{
 				// calculate attenuation
 				_fragmentCode +=
@@ -415,7 +418,7 @@ class LightingShaderCompiler extends ShaderCompiler
 	private function compileLightProbeCode():Void
 	{
 		var weightReg:String;
-		var weightComponents:Array = [".x", ".y", ".z", ".w"];
+		var weightComponents:Array<String> = [".x", ".y", ".z", ".w"];
 		var weightRegisters:Vector<ShaderRegisterElement> = new Vector<ShaderRegisterElement>();
 		var texReg:ShaderRegisterElement;
 		var addSpec:Bool = _usingSpecularMethod && usesProbesForSpecular();

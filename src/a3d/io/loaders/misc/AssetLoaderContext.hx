@@ -70,7 +70,7 @@ class AssetLoaderContext
 	 * A base URL that will be prepended to all relative dependency URLs found in a loaded resource.
 	 * Absolute paths will not be affected by the value of this property.
 	*/
-	public var dependencyBaseUrl(get,set):Int;
+	public var dependencyBaseUrl(get,set):String;
 	private function get_dependencyBaseUrl():String
 	{
 		return _dependencyBaseUrl;
@@ -78,7 +78,7 @@ class AssetLoaderContext
 
 	private function set_dependencyBaseUrl(val:String):String
 	{
-		_dependencyBaseUrl = val;
+		return _dependencyBaseUrl = val;
 	}
 
 
@@ -172,7 +172,7 @@ class AssetLoaderContext
 	*/
 	public function hasMappingForUrl(url:String):Bool
 	{
-		return _remappedUrls.hasOwnProperty(url);
+		return _remappedUrls.exists(url);
 	}
 
 
@@ -182,6 +182,6 @@ class AssetLoaderContext
 	*/
 	public function getRemappedUrl(originalUrl:String):String
 	{
-		return _remappedUrls[originalUrl];
+		return _remappedUrls.get(originalUrl);
 	}
 }

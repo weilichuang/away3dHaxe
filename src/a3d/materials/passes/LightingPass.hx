@@ -1,6 +1,8 @@
 package a3d.materials.passes;
 
+import a3d.math.MathUtil;
 import flash.display3D.Context3D;
+import flash.display3D.Context3DProfile;
 import flash.geom.Matrix3D;
 import flash.geom.Vector3D;
 import flash.Vector;
@@ -30,11 +32,11 @@ class LightingPass extends CompiledPass
 	private var _includeCasters:Bool = true;
 	private var _tangentSpace:Bool;
 	private var _lightVertexConstantIndex:Int;
-	private var _inverseSceneMatrix:Vector<Float> = new Vector<Float>();
+	private var _inverseSceneMatrix:Vector<Float>;
 
-	private var _directionalLightsOffset:UInt;
-	private var _pointLightsOffset:UInt;
-	private var _lightProbesOffset:UInt;
+	private var _directionalLightsOffset:Int;
+	private var _pointLightsOffset:Int;
+	private var _lightProbesOffset:Int;
 	private var _maxLights:Int = 3;
 
 	/**
@@ -43,56 +45,62 @@ class LightingPass extends CompiledPass
 	public function new(material:MaterialBase)
 	{
 		super(material);
+		_inverseSceneMatrix = new Vector<Float>();
 	}
 
 	// these need to be set before the light picker is assigned
-	private function get_directionalLightsOffset():UInt
+	public var directionalLightsOffset(get,set):Int;
+	private function get_directionalLightsOffset():Int
 	{
 		return _directionalLightsOffset;
 	}
 
-	private function set_directionalLightsOffset(value:UInt):Void
+	private function set_directionalLightsOffset(value:UInt):Int
 	{
-		_directionalLightsOffset = value;
+		return _directionalLightsOffset = value;
 	}
 
-	private function get_pointLightsOffset():UInt
+	public var pointLightsOffset(get,set):Int;
+	private function get_pointLightsOffset():Int
 	{
 		return _pointLightsOffset;
 	}
 
-	private function set_pointLightsOffset(value:UInt):Void
+	private function set_pointLightsOffset(value:Int):Int
 	{
-		_pointLightsOffset = value;
+		return _pointLightsOffset = value;
 	}
 
-	private function get_lightProbesOffset():UInt
+	public var lightProbesOffset(get,set):Int;
+	private function get_lightProbesOffset():Int
 	{
 		return _lightProbesOffset;
 	}
 
-	private function set_lightProbesOffset(value:UInt):Void
+	private function set_lightProbesOffset(value:Int):Int
 	{
-		_lightProbesOffset = value;
+		return _lightProbesOffset = value;
 	}
 
-	override private function createCompiler(profile:String):ShaderCompiler
+	override private function createCompiler(profile:Context3DProfile):ShaderCompiler
 	{
-		_maxLights = profile == "baselineConstrained" ? 1 : 3;
+		_maxLights = profile == Context3DProfile.BASELINE_CONSTRAINED ? 1 : 3;
 		return new LightingShaderCompiler(profile);
 	}
 
+	public var includeCasters(get,set):Bool;
 	private function get_includeCasters():Bool
 	{
 		return _includeCasters;
 	}
 
-	private function set_includeCasters(value:Bool):Void
+	private function set_includeCasters(value:Bool):Bool
 	{
 		if (_includeCasters == value)
-			return;
+			return _includeCasters;
 		_includeCasters = value;
 		invalidateShaderProgram();
+		return _includeCasters;
 	}
 
 	override private function updateLights():Void
@@ -120,18 +128,18 @@ class LightingPass extends CompiledPass
 
 	}
 
-	private function calculateNumDirectionalLights(numDirectionalLights:UInt):Int
+	private function calculateNumDirectionalLights(numDirectionalLights:Int):Int
 	{
-		return Math.min(numDirectionalLights - _directionalLightsOffset, _maxLights);
+		return MathUtil.min(numDirectionalLights - _directionalLightsOffset, _maxLights);
 	}
 
-	private function calculateNumPointLights(numPointLights:UInt):Int
+	private function calculateNumPointLights(numPointLights:Int):Int
 	{
 		var numFree:Int = _maxLights - _numDirectionalLights;
-		return Math.min(numPointLights - _pointLightsOffset, numFree);
+		return MathUtil.min(numPointLights - _pointLightsOffset, numFree);
 	}
 
-	private function calculateNumProbes(numLightProbes:UInt):Int
+	private function calculateNumProbes(numLightProbes:Int):Int
 	{
 		var numChannels:Int;
 		if ((_specularLightSources & LightSources.PROBES) != 0)
@@ -140,19 +148,19 @@ class LightingPass extends CompiledPass
 			++numChannels;
 
 		// 4 channels available
-		return Math.min(numLightProbes - _lightProbesOffset, int(4 / numChannels));
+		return MathUtil.min(numLightProbes - _lightProbesOffset, Std.int(4 / numChannels));
 	}
 
 	override private function updateShaderProperties():Void
 	{
 		super.updateShaderProperties();
-		_tangentSpace = LightingShaderCompiler(_compiler).tangentSpace;
+		_tangentSpace = Std.instance(_compiler,LightingShaderCompiler).tangentSpace;
 	}
 
 	override private function updateRegisterIndices():Void
 	{
 		super.updateRegisterIndices();
-		_lightVertexConstantIndex = LightingShaderCompiler(_compiler).lightVertexConstantIndex;
+		_lightVertexConstantIndex = Std.instance(_compiler,LightingShaderCompiler).lightVertexConstantIndex;
 	}
 
 
@@ -321,9 +329,9 @@ class LightingPass extends CompiledPass
 
 				if (_tangentSpace)
 				{
-					x = dirPos.x;
-					y = dirPos.y;
-					z = dirPos.z;
+					var x:Float = dirPos.x;
+					var y:Float = dirPos.y;
+					var z:Float = dirPos.z;
 					_vertexConstantData[l++] = _inverseSceneMatrix[0] * x + _inverseSceneMatrix[4] * y + _inverseSceneMatrix[8] * z + _inverseSceneMatrix[12];
 					_vertexConstantData[l++] = _inverseSceneMatrix[1] * x + _inverseSceneMatrix[5] * y + _inverseSceneMatrix[9] * z + _inverseSceneMatrix[13];
 					_vertexConstantData[l++] = _inverseSceneMatrix[2] * x + _inverseSceneMatrix[6] * y + _inverseSceneMatrix[10] * z + _inverseSceneMatrix[14];

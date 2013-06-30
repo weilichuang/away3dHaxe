@@ -9,6 +9,7 @@ import a3d.io.loaders.misc.ResourceDependency;
 import a3d.io.loaders.parsers.utils.ParserUtil;
 import a3d.tools.utils.TextureUtils;
 import flash.display.BitmapData;
+import flash.errors.Error;
 import flash.events.EventDispatcher;
 import flash.events.TimerEvent;
 import flash.Lib;
@@ -193,6 +194,7 @@ class ParserBase extends EventDispatcher
 	 */
 	public function new(format:String)
 	{
+		super();
 		_materialMode = 0;
 		_dataFormat = format;
 		_dependencies = new Vector<ResourceDependency>();
@@ -388,7 +390,6 @@ class ParserBase extends EventDispatcher
 			case AssetType.SEGMENT_SET:
 				type_name = 'segmentSet';
 				type_event = AssetEvent.SEGMENT_SET_COMPLETE;
-				break;
 			case AssetType.EFFECTS_METHOD:
 				type_name = 'effectsMethod';
 				type_event = AssetEvent.EFFECTMETHOD_COMPLETE;
@@ -401,7 +402,7 @@ class ParserBase extends EventDispatcher
 
 		// If the asset has no name, give it
 		// a per-type default name.
-		if (!asset.name)
+		if (asset.name == null)
 			asset.name = type_name;
 
 		dispatchEvent(new AssetEvent(AssetEvent.ASSET_COMPLETE, asset));
@@ -460,7 +461,7 @@ class ParserBase extends EventDispatcher
 	 */
 	private function onInterval(event:TimerEvent = null):Void
 	{
-		_lastFrameTime = getTimer();
+		_lastFrameTime = Lib.getTimer();
 		if (proceedParsing() && !_parsingFailure)
 			finishParsing();
 	}

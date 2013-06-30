@@ -1,6 +1,7 @@
 package a3d.animators;
 
 import flash.display3D.Context3D;
+import flash.display3D.Context3DProfile;
 import flash.utils.Dictionary;
 import flash.Vector;
 
@@ -8,7 +9,7 @@ import flash.Vector;
 import a3d.animators.data.VertexAnimationMode;
 import a3d.core.managers.Stage3DProxy;
 import a3d.materials.passes.MaterialPassBase;
-
+import haxe.ds.WeakMap;
 
 
 /**
@@ -20,35 +21,11 @@ class VertexAnimationSet extends AnimationSetBase implements IAnimationSet
 {
 	private var _numPoses:UInt;
 	private var _blendMode:String;
-	private var _streamIndices:Dictionary = new Dictionary(true);
-	private var _useNormals:Dictionary = new Dictionary(true);
-	private var _useTangents:Dictionary = new Dictionary(true);
+	private var _streamIndices:WeakMap<MaterialPassBase,Int>;
+	private var _useNormals:WeakMap<MaterialPassBase,Bool>;
+	private var _useTangents:WeakMap<MaterialPassBase,Bool>;
 	private var _uploadNormals:Bool;
 	private var _uploadTangents:Bool;
-
-	/**
-	 * Returns the number of poses made available at once to the GPU animation code.
-	 */
-	private function get_numPoses():UInt
-	{
-		return _numPoses;
-	}
-
-	/**
-	 * Returns the active blend mode of the vertex animator object.
-	 */
-	private function get_blendMode():String
-	{
-		return _blendMode;
-	}
-
-	/**
-	 * Returns whether or not normal data is used in last set GPU pass of the vertex shader.
-	 */
-	private function get_useNormals():Bool
-	{
-		return _uploadNormals;
-	}
 
 	/**
 	 * Creates a new <code>VertexAnimationSet</code> object.
@@ -63,13 +40,44 @@ class VertexAnimationSet extends AnimationSetBase implements IAnimationSet
 		super();
 		_numPoses = numPoses;
 		_blendMode = blendMode;
+		
+		_streamIndices = new WeakMap<MaterialPassBase,Int>();
+		_useNormals = new WeakMap<MaterialPassBase,Bool>();
+		_useTangents = new WeakMap<MaterialPassBase,Bool>();
 
+	}
+	
+	/**
+	 * Returns the number of poses made available at once to the GPU animation code.
+	 */
+	public var numPoses(get, null):Int;
+	private function get_numPoses():Int
+	{
+		return _numPoses;
+	}
+
+	/**
+	 * Returns the active blend mode of the vertex animator object.
+	 */
+	public var blendMode(get, null):String;
+	private function get_blendMode():String
+	{
+		return _blendMode;
+	}
+
+	/**
+	 * Returns whether or not normal data is used in last set GPU pass of the vertex shader.
+	 */
+	public var useNormals(get, null):Bool;
+	private function get_useNormals():Bool
+	{
+		return _uploadNormals;
 	}
 
 	/**
 	 * @inheritDoc
 	 */
-	public function getAGALVertexCode(pass:MaterialPassBase, sourceRegisters:Vector<String>, targetRegisters:Vector<String>, profile:String):String
+	public function getAGALVertexCode(pass:MaterialPassBase, sourceRegisters:Vector<String>, targetRegisters:Vector<String>, profile:Context3DProfile):String
 	{
 		if (_blendMode == VertexAnimationMode.ABSOLUTE)
 			return getAbsoluteAGALCode(pass, sourceRegisters, targetRegisters);
@@ -83,8 +91,8 @@ class VertexAnimationSet extends AnimationSetBase implements IAnimationSet
 	 */
 	public function activate(stage3DProxy:Stage3DProxy, pass:MaterialPassBase):Void
 	{
-		_uploadNormals = Bool(_useNormals[pass]);
-		_uploadTangents = Bool(_useTangents[pass]);
+		_uploadNormals = _useNormals.get(pass);
+		_uploadTangents = _useTangents.get(pass);
 	}
 
 	/**
@@ -92,7 +100,7 @@ class VertexAnimationSet extends AnimationSetBase implements IAnimationSet
 	 */
 	public function deactivate(stage3DProxy:Stage3DProxy, pass:MaterialPassBase):Void
 	{
-		var index:Int = _streamIndices[pass];
+		var index:Int = _streamIndices.get(pass);
 		var context:Context3D = stage3DProxy.context3D;
 		context.setVertexBufferAt(index, null);
 		if (_uploadNormals)
@@ -104,7 +112,7 @@ class VertexAnimationSet extends AnimationSetBase implements IAnimationSet
 	/**
 	 * @inheritDoc
 	 */
-	public function getAGALFragmentCode(pass:MaterialPassBase, shadedTarget:String, profile:String):String
+	public function getAGALFragmentCode(pass:MaterialPassBase, shadedTarget:String, profile:Context3DProfile):String
 	{
 		return "";
 	}
@@ -133,15 +141,19 @@ class VertexAnimationSet extends AnimationSetBase implements IAnimationSet
 		var code:String = "";
 		var temp1:String = findTempReg(targetRegisters);
 		var temp2:String = findTempReg(targetRegisters, temp1);
-		var regs:Array = ["x", "y", "z", "w"];
+		var regs:Array<String> = ["x", "y", "z", "w"];
 		var len:UInt = sourceRegisters.length;
 		var constantReg:String = "vc" + pass.numUsedVertexConstants;
-		var useTangents:Bool = Bool(_useTangents[pass] = len > 2);
-		_useNormals[pass] = len > 1;
+		
+		_useTangents.set(pass, len > 2);
+		_useNormals.set(pass,len > 1);
+		var useTangents:Bool = _useTangents.get(pass);
 
 		if (len > 2)
 			len = 2;
-		var streamIndex:UInt = _streamIndices[pass] = pass.numUsedStreams;
+			
+		_streamIndices.set(pass, pass.numUsedStreams);
+		var streamIndex:Int = pass.numUsedStreams;
 
 		for (i in 0...len)
 		{
@@ -177,12 +189,17 @@ class VertexAnimationSet extends AnimationSetBase implements IAnimationSet
 	{
 		var code:String = "";
 		var len:UInt = sourceRegisters.length;
-		var regs:Array = ["x", "y", "z", "w"];
+		var regs:Array<String> = ["x", "y", "z", "w"];
 		var temp1:String = findTempReg(targetRegisters);
 		var k:UInt;
-		var useTangents:Bool = Bool(_useTangents[pass] = len > 2);
-		var useNormals:Bool = Bool(_useNormals[pass] = len > 1);
-		var streamIndex:UInt = _streamIndices[pass] = pass.numUsedStreams;
+		
+		_useTangents.set(pass, len > 2);
+		_useNormals.set(pass, len > 1);
+		_streamIndices.set(pass, pass.numUsedStreams);
+		
+		var useTangents:Bool = _useTangents.get(pass);
+		var useNormals:Bool = _useNormals.get(pass);
+		var streamIndex:Int = _streamIndices.get(pass);
 
 		if (len > 2)
 			len = 2;

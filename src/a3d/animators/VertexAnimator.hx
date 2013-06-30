@@ -1,6 +1,7 @@
 package a3d.animators;
 
 import flash.display3D.Context3DProgramType;
+import flash.errors.Error;
 import flash.Vector;
 
 
@@ -25,9 +26,9 @@ import a3d.materials.passes.MaterialPassBase;
 class VertexAnimator extends AnimatorBase implements IAnimator
 {
 	private var _vertexAnimationSet:VertexAnimationSet;
-	private var _poses:Vector<Geometry> = new Vector<Geometry>();
-	private var _weights:Vector<Float> = Vector<Float>([1, 0, 0, 0]);
-	private var _numPoses:UInt;
+	private var _poses:Vector<Geometry>;
+	private var _weights:Vector<Float>;
+	private var _numPoses:Int;
 	private var _blendMode:String;
 	private var _activeVertexState:IVertexAnimationState;
 
@@ -43,6 +44,9 @@ class VertexAnimator extends AnimatorBase implements IAnimator
 		_vertexAnimationSet = vertexAnimationSet;
 		_numPoses = vertexAnimationSet.numPoses;
 		_blendMode = vertexAnimationSet.blendMode;
+		
+		_poses = new Vector<Geometry>();
+		_weights = Vector.ofArray([1., 0, 0, 0]);
 	}
 
 	/**
@@ -57,7 +61,7 @@ class VertexAnimator extends AnimatorBase implements IAnimator
 	 * Plays a sequence with a given name. If the sequence is not found, it may not be loaded yet, and it will retry every frame.
 	 * @param sequenceName The name of the clip to be played.
 	 */
-	public function play(name:String, transition:IAnimationTransition = null, offset:Float = NaN):Void
+	public function play(name:String, transition:IAnimationTransition = null, offset:Float = null):Void
 	{
 		if (_activeAnimationName == name)
 			return;
@@ -76,7 +80,7 @@ class VertexAnimator extends AnimatorBase implements IAnimator
 		if (updatePosition)
 		{
 			//update straight away to reset position deltas
-			_activeState.update(_absoluteTime);
+			_activeState.update(Std.int(_absoluteTime));
 			_activeState.positionDelta;
 		}
 
@@ -85,7 +89,7 @@ class VertexAnimator extends AnimatorBase implements IAnimator
 		start();
 
 		//apply a time offset if specified
-		if (!isNaN(offset))
+		if (!Math.isNaN(offset))
 			reset(name, offset);
 	}
 
@@ -110,14 +114,14 @@ class VertexAnimator extends AnimatorBase implements IAnimator
 		// todo: add code for when running on cpu
 
 		// if no poses defined, set temp data
-		if (!_poses.length)
+		if (_poses.length == 0)
 		{
 			setNullPose(stage3DProxy, renderable, vertexConstantOffset, vertexStreamOffset);
 			return;
 		}
 
 		// this type of animation can only be SubMesh
-		var subMesh:SubMesh = SubMesh(renderable);
+		var subMesh:SubMesh = Std.instance(renderable,SubMesh);
 		var subGeom:ISubGeometry;
 
 		stage3DProxy.context3D.setProgramConstantsFromVector(Context3DProgramType.VERTEX, vertexConstantOffset, _weights, 1);
@@ -128,7 +132,7 @@ class VertexAnimator extends AnimatorBase implements IAnimator
 			s = 1;
 			subGeom = _poses[0].subGeometries[subMesh.index];
 			// set the base sub-geometry so the material can simply pick up on this data
-			if (subGeom)
+			if (subGeom != null)
 				subMesh.subGeometry = subGeom;
 		}
 		else
@@ -136,7 +140,14 @@ class VertexAnimator extends AnimatorBase implements IAnimator
 
 		for (i in s..._numPoses)
 		{
-			subGeom = _poses[i].subGeometries[subMesh.index] || subMesh.subGeometry;
+			if (_poses[i].subGeometries[subMesh.index] != null)
+			{
+				subGeom = _poses[i].subGeometries[subMesh.index];
+			}
+			else 
+			{
+				subGeom =  subMesh.subGeometry;
+			}
 
 			subGeom.activateVertexBuffer(vertexStreamOffset++, stage3DProxy);
 

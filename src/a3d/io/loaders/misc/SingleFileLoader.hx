@@ -1,5 +1,6 @@
 package a3d.io.loaders.misc;
 
+import flash.errors.Error;
 import flash.events.Event;
 import flash.events.EventDispatcher;
 import flash.events.IOErrorEvent;
@@ -147,7 +148,7 @@ class SingleFileLoader extends EventDispatcher
 	private var _data:Dynamic;
 
 	// Image parser only parser that is added by default, to save file size.
-	private static var _parsers:Vector<Class<Dynamic>> = Vector.ofArray([ImageParser]);
+	private static var _parsers:Vector<Class<ParserBase>> = Vector.convert(Vector.ofArray([ImageParser]));
 
 
 	/**
@@ -155,6 +156,7 @@ class SingleFileLoader extends EventDispatcher
 	 */
 	public function new(materialMode:Int = 0)
 	{
+		super();
 		_materialMode = materialMode;
 	}
 
@@ -179,16 +181,16 @@ class SingleFileLoader extends EventDispatcher
 	}
 
 
-	public static function enableParser<T>(parser:Class<T>):Void
+	public static function enableParser(parser:Class<ParserBase>):Void
 	{
 		if (_parsers.indexOf(parser) < 0)
 			_parsers.push(parser);
 	}
 
 
-	public static function enableParsers<T>(parsers:Vector<Class<T>>):Void
+	public static function enableParsers(parsers:Vector<Class<ParserBase>>):Void
 	{
-		var pc:Class<T>;
+		var pc:Class<ParserBase>;
 		for (pc in parsers)
 		{
 			enableParser(pc);
@@ -205,7 +207,7 @@ class SingleFileLoader extends EventDispatcher
 	public function load(urlRequest:URLRequest, parser:ParserBase = null, loadAsRawData:Bool = false):Void
 	{
 		var urlLoader:URLLoader;
-		var dataFormat:String;
+		var dataFormat:URLLoaderDataFormat;
 
 		_loadAsRawData = loadAsRawData;
 		_req = urlRequest;
@@ -314,9 +316,9 @@ class SingleFileLoader extends EventDispatcher
 		var i:Int = len - 1;
 		while (i >= 0)
 		{
-			if (_parsers[i].supportsType(_fileExtension))
+			if (untyped _parsers[i].supportsType(_fileExtension))
 			{
-				return Type.createEmptyInstance(parsers[i]);
+				return Type.createEmptyInstance(_parsers[i]);
 			}
 			i--;
 		}
@@ -338,7 +340,7 @@ class SingleFileLoader extends EventDispatcher
 		var i:Int = len - 1;
 		while (i >= 0)
 		{
-			if (_parsers[i].supportsData(data))
+			if (untyped _parsers[i].supportsData(data))
 			{
 				return Type.createEmptyInstance(_parsers[i]);
 			}
@@ -362,7 +364,7 @@ class SingleFileLoader extends EventDispatcher
 	 */
 	private function handleUrlLoaderError(event:IOErrorEvent):Void
 	{
-		var urlLoader:URLLoader = URLLoader(event.currentTarget);
+		var urlLoader:URLLoader = Std.instance(event.currentTarget,URLLoader);
 		removeListeners(urlLoader);
 
 		if (hasEventListener(LoaderEvent.LOAD_ERROR))
@@ -374,7 +376,7 @@ class SingleFileLoader extends EventDispatcher
 	 */
 	private function handleUrlLoaderComplete(event:Event):Void
 	{
-		var urlLoader:URLLoader = URLLoader(event.currentTarget);
+		var urlLoader:URLLoader = Std.instance(event.currentTarget,URLLoader);
 		removeListeners(urlLoader);
 
 		_data = urlLoader.data;
