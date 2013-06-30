@@ -26,12 +26,12 @@ class NearShadowMapMethod extends SimpleShadowMapMethodBase
 	 * The base shadow map method on which this method's shading is based.
 	 */
 	public var baseMethod(get,set):SimpleShadowMapMethodBase;
-	private inline function get_baseMethod():SimpleShadowMapMethodBase
+	private function get_baseMethod():SimpleShadowMapMethodBase
 	{
 		return _baseMethod;
 	}
 
-	private inline function set_baseMethod(value:SimpleShadowMapMethodBase):SimpleShadowMapMethodBase
+	private function set_baseMethod(value:SimpleShadowMapMethodBase):SimpleShadowMapMethodBase
 	{
 		if (_baseMethod == value)
 			return _baseMethod;
@@ -95,12 +95,12 @@ class NearShadowMapMethod extends SimpleShadowMapMethodBase
 		_baseMethod.epsilon = value;
 	}
 
-	private inline function get_fadeRatio():Float
+	private function get_fadeRatio():Float
 	{
 		return _fadeRatio;
 	}
 
-	private inline function set_fadeRatio(value:Float):Void
+	private function set_fadeRatio(value:Float):Void
 	{
 		_fadeRatio = value;
 	}

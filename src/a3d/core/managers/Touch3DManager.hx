@@ -259,29 +259,29 @@ class Touch3DManager
 	// Getters & setters.
 	// ---------------------------------------------------------------------
 	public var forceTouchMove(get, set):Bool;
-	private inline function get_forceTouchMove():Bool
+	private function get_forceTouchMove():Bool
 	{
 		return _forceTouchMove;
 	}
 
-	private inline function set_forceTouchMove(value:Bool):Bool
+	private function set_forceTouchMove(value:Bool):Bool
 	{
 		return _forceTouchMove = value;
 	}
 
 	public var touchPicker(get, set):IPicker;
-	private inline function get_touchPicker():IPicker
+	private function get_touchPicker():IPicker
 	{
 		return _touchPicker;
 	}
 
-	private inline function set_touchPicker(value:IPicker):IPicker
+	private function set_touchPicker(value:IPicker):IPicker
 	{
 		return _touchPicker = value;
 	}
 
 	public var view(null, set):View3D;
-	private inline function set_view(value:View3D):View3D
+	private function set_view(value:View3D):View3D
 	{
 		return _view = value;
 	}

@@ -38,12 +38,12 @@ class PerspectiveOffCenterLens extends LensBase
 	}
 
 	public var minAngleX(set, set):Float;
-	private inline function get_minAngleX():Float
+	private function get_minAngleX():Float
 	{
 		return _minAngleX;
 	}
 
-	private inline function set_minAngleX(value:Float):Float
+	private function set_minAngleX(value:Float):Float
 	{
 		_minAngleX = value;
 
@@ -55,12 +55,12 @@ class PerspectiveOffCenterLens extends LensBase
 	}
 
 	public var maxAngleX(set, set):Float;
-	private inline function get_maxAngleX():Float
+	private function get_maxAngleX():Float
 	{
 		return _maxAngleX;
 	}
 
-	private inline function set_maxAngleX(value:Float):Float
+	private function set_maxAngleX(value:Float):Float
 	{
 		_maxAngleX = value;
 
@@ -72,12 +72,12 @@ class PerspectiveOffCenterLens extends LensBase
 	}
 
 	public var minAngleY(set, set):Float;
-	private inline function get_minAngleY():Float
+	private function get_minAngleY():Float
 	{
 		return _minAngleY;
 	}
 
-	private inline function set_minAngleY(value:Float):Float
+	private function set_minAngleY(value:Float):Float
 	{
 		_minAngleY = value;
 
@@ -89,12 +89,12 @@ class PerspectiveOffCenterLens extends LensBase
 	}
 
 	public var maxAngleY(set, set):Float;
-	private inline function get_maxAngleY():Float
+	private function get_maxAngleY():Float
 	{
 		return _maxAngleY;
 	}
 
-	private inline function set_maxAngleY(value:Float):Float
+	private function set_maxAngleY(value:Float):Float
 	{
 		_maxAngleY = value;
 

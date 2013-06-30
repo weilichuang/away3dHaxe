@@ -40,17 +40,17 @@ class DynamicGrid
 		_leaves = createLevel(numCellsX, numCellsY, numCellsZ, _cellWidth, _cellHeight, _cellDepth);
 	}
 
-	private inline function get_numCellsX():UInt
+	private function get_numCellsX():UInt
 	{
 		return _numCellsX;
 	}
 
-	private inline function get_numCellsY():UInt
+	private function get_numCellsY():UInt
 	{
 		return _numCellsY;
 	}
 
-	private inline function get_numCellsZ():UInt
+	private function get_numCellsZ():UInt
 	{
 		return _numCellsZ;
 	}
@@ -168,12 +168,12 @@ class DynamicGrid
 		return node;
 	}
 
-	private inline function get_showDebugBounds():Bool
+	private function get_showDebugBounds():Bool
 	{
 		return _showDebugBounds;
 	}
 
-	private inline function set_showDebugBounds(value:Bool):Void
+	private function set_showDebugBounds(value:Bool):Void
 	{
 		var numLeaves:UInt = _leaves.length;
 		_showDebugBounds = showDebugBounds;

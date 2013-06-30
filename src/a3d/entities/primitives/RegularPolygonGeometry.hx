@@ -10,12 +10,12 @@ class RegularPolygonGeometry extends CylinderGeometry
 	/**
 	 * The radius of the regular polygon.
 	 */
-	private inline function get_radius():Float
+	private function get_radius():Float
 	{
 		return _bottomRadius;
 	}
 
-	private inline function set_radius(value:Float):Void
+	private function set_radius(value:Float):Void
 	{
 		_bottomRadius = value;
 		invalidateGeometry();
@@ -25,12 +25,12 @@ class RegularPolygonGeometry extends CylinderGeometry
 	/**
 	 * The number of sides of the regular polygon.
 	 */
-	private inline function get_sides():UInt
+	private function get_sides():UInt
 	{
 		return _segmentsW;
 	}
 
-	private inline function set_sides(value:UInt):Void
+	private function set_sides(value:UInt):Void
 	{
 		segmentsW = value;
 	}
@@ -38,12 +38,12 @@ class RegularPolygonGeometry extends CylinderGeometry
 	/**
 	 * The number of subdivisions from the edge to the center of the regular polygon.
 	 */
-	private inline function get_subdivisions():UInt
+	private function get_subdivisions():UInt
 	{
 		return _segmentsH;
 	}
 
-	private inline function set_subdivisions(value:UInt):Void
+	private function set_subdivisions(value:UInt):Void
 	{
 		segmentsH = value;
 	}

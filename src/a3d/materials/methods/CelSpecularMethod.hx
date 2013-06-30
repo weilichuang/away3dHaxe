@@ -33,12 +33,12 @@ class CelSpecularMethod extends CompositeSpecularMethod
 	 * The smoothness of the highlight edge.
 	 */
 	public var smoothness(set,set):Float;
-	private inline function get_smoothness():Float
+	private function get_smoothness():Float
 	{
 		return _smoothness;
 	}
 
-	private inline function set_smoothness(value:Float):Float
+	private function set_smoothness(value:Float):Float
 	{
 		return _smoothness = value;
 	}
@@ -47,12 +47,12 @@ class CelSpecularMethod extends CompositeSpecularMethod
 	 * The threshold at which the specular highlight should be shown.
 	 */
 	public var specularCutOff(set,set):Float;
-	private inline function get_specularCutOff():Float
+	private function get_specularCutOff():Float
 	{
 		return _specularCutOff;
 	}
 
-	private inline function set_specularCutOff(value:Float):Float
+	private function set_specularCutOff(value:Float):Float
 	{
 		return _specularCutOff = value;
 	}

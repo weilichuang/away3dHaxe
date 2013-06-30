@@ -79,7 +79,7 @@ class Camera3D extends Entity
 	 *
 	 */
 	public var frustumPlanes(get, null):Vector<Plane3D>;
-	private inline function get_frustumPlanes():Vector<Plane3D>
+	private function get_frustumPlanes():Vector<Plane3D>
 	{
 		if (_frustumPlanesDirty)
 			updateFrustum();
@@ -219,12 +219,12 @@ class Camera3D extends Entity
 	 * The lens used by the camera to perform the projection;
 	 */
 	public var lens(get, set):LensBase;
-	private inline function get_lens():LensBase
+	private function get_lens():LensBase
 	{
 		return _lens;
 	}
 
-	private inline function set_lens(value:LensBase):LensBase
+	private function set_lens(value:LensBase):LensBase
 	{
 		if (_lens == value)
 			return _lens;
@@ -247,7 +247,7 @@ class Camera3D extends Entity
 	 * The view projection matrix of the camera.
 	 */
 	public var viewProjection(get, null):Matrix3D;
-	private inline function get_viewProjection():Matrix3D
+	private function get_viewProjection():Matrix3D
 	{
 		if (_viewProjectionDirty)
 		{

@@ -21,7 +21,7 @@ import a3d.io.loaders.parsers.ParserBase;
  *
  * @eventType a3d.events.LoaderEvent
  */
-@:meta(Eventname = "resourceComplete", type = "a3d.events.LoaderEvent"))
+@:meta(Eventname = "resourceComplete", type = "a3d.events.LoaderEvent")
 
 /**
  * Dispatched when a single dependency (which may be the main file of a resource)
@@ -29,14 +29,14 @@ import a3d.io.loaders.parsers.ParserBase;
  *
  * @eventType a3d.events.LoaderEvent
  */
-@:meta(Eventname = "dependencyComplete", type = "a3d.events.LoaderEvent"))
+@:meta(Eventname = "dependencyComplete", type = "a3d.events.LoaderEvent")
 
 /**
  * Dispatched when an error occurs during loading.
  *
  * @eventType a3d.events.LoaderEvent
  */
-@:meta(Eventname = "loadError", type = "a3d.events.LoaderEvent"))
+@:meta(Eventname = "loadError", type = "a3d.events.LoaderEvent")
 
 /**
  * Dispatched when any asset finishes parsing. Also see specific events for each
@@ -44,91 +44,91 @@ import a3d.io.loaders.parsers.ParserBase;
  *
  * @eventType a3d.events.AssetEvent
  */
-@:meta(Eventname = "assetComplete", type = "a3d.events.AssetEvent"))
+@:meta(Eventname = "assetComplete", type = "a3d.events.AssetEvent")
 
 /**
  * Dispatched when a geometry asset has been constructed from a resource.
  *
  * @eventType a3d.events.AssetEvent
  */
-@:meta(Eventname = "geometryComplete", type = "a3d.events.AssetEvent"))
+@:meta(Eventname = "geometryComplete", type = "a3d.events.AssetEvent")
 
 /**
  * Dispatched when a skeleton asset has been constructed from a resource.
  *
  * @eventType a3d.events.AssetEvent
  */
-@:meta(Eventname = "skeletonComplete", type = "a3d.events.AssetEvent"))
+@:meta(Eventname = "skeletonComplete", type = "a3d.events.AssetEvent")
 
 /**
  * Dispatched when a skeleton pose asset has been constructed from a resource.
  *
  * @eventType a3d.events.AssetEvent
  */
-@:meta(Eventname = "skeletonPoseComplete", type = "a3d.events.AssetEvent"))
+@:meta(Eventname = "skeletonPoseComplete", type = "a3d.events.AssetEvent")
 
 /**
  * Dispatched when a container asset has been constructed from a resource.
  *
  * @eventType a3d.events.AssetEvent
  */
-@:meta(Eventname = "containerComplete", type = "a3d.events.AssetEvent"))
+@:meta(Eventname = "containerComplete", type = "a3d.events.AssetEvent")
 
 /**
  * Dispatched when an animation set has been constructed from a group of animation state resources.
  *
  * @eventType a3d.events.AssetEvent
  */
-@:meta(Eventname = "animationNodeComplete", type = "a3d.events.AssetEvent"))
+@:meta(Eventname = "animationNodeComplete", type = "a3d.events.AssetEvent")
 
 /**
  * Dispatched when an animation state has been constructed from a group of animation node resources.
  *
  * @eventType a3d.events.AssetEvent
  */
-@:meta(Eventname = "animationStateComplete", type = "a3d.events.AssetEvent"))
+@:meta(Eventname = "animationStateComplete", type = "a3d.events.AssetEvent")
 
 /**
  * Dispatched when an animation node has been constructed from a resource.
  *
  * @eventType a3d.events.AssetEvent
  */
-@:meta(Eventname = "animationSetComplete", type = "a3d.events.AssetEvent"))
+@:meta(Eventname = "animationSetComplete", type = "a3d.events.AssetEvent")
 
 /**
  * Dispatched when an animation state transition has been constructed from a group of animation node resources.
  *
  * @eventType a3d.events.AssetEvent
  */
-@:meta(Eventname = "stateTransitionComplete", type = "a3d.events.AssetEvent"))
+@:meta(Eventname = "stateTransitionComplete", type = "a3d.events.AssetEvent")
 
 /**
  * Dispatched when a texture asset has been constructed from a resource.
  *
  * @eventType a3d.events.AssetEvent
  */
-@:meta(Eventname = "textureComplete", type = "a3d.events.AssetEvent"))
+@:meta(Eventname = "textureComplete", type = "a3d.events.AssetEvent")
 
 /**
  * Dispatched when a material asset has been constructed from a resource.
  *
  * @eventType a3d.events.AssetEvent
  */
-@:meta(Eventname = "materialComplete", type = "a3d.events.AssetEvent"))
+@:meta(Eventname = "materialComplete", type = "a3d.events.AssetEvent")
 
 /**
  * Dispatched when a animator asset has been constructed from a resource.
  *
  * @eventType a3d.events.AssetEvent
  */
-@:meta(Eventname = "animatorComplete", type = "a3d.events.AssetEvent"))
+@:meta(Eventname = "animatorComplete", type = "a3d.events.AssetEvent")
 
 /**
  * Dispatched when an image asset dimensions are not a power of 2
  *
  * @eventType a3d.events.AssetEvent
  */
-@:meta(Eventname = "textureSizeError", type = "a3d.events.AssetEvent"))
+@:meta(Eventname = "textureSizeError", type = "a3d.events.AssetEvent")
 
 
 /**
@@ -149,8 +149,8 @@ class AssetLoader extends EventDispatcher
 	private var _token:AssetLoaderToken;
 	private var _uri:String;
 
-	private var _errorHandlers:Vector<Function>;
-	private var _parseErrorHandlers:Vector<Function>;
+	private var _errorHandlers:Vector<Dynamic>;
+	private var _parseErrorHandlers:Vector<Dynamic>;
 
 	private var _stack:Vector<ResourceDependency>;
 	private var _baseDependency:ResourceDependency;
@@ -163,18 +163,18 @@ class AssetLoader extends EventDispatcher
 	public function new()
 	{
 		_stack = new Vector<ResourceDependency>();
-		_errorHandlers = new Vector<Function>();
-		_parseErrorHandlers = new Vector<Function>();
+		_errorHandlers = new Vector<Dynamic>();
+		_parseErrorHandlers = new Vector<Dynamic>();
 	}
 
 
-	public static function enableParser(parserClass:Class):Void
+	public static function enableParser<T>(parserClass:Class<T>):Void
 	{
 		SingleFileLoader.enableParser(parserClass);
 	}
 
 
-	public static function enableParsers(parserClasses:Vector<Class>):Void
+	public static function enableParsers<T>(parserClasses:Vector<Class<T>>):Void
 	{
 		SingleFileLoader.enableParsers(parserClasses);
 	}
@@ -192,8 +192,9 @@ class AssetLoader extends EventDispatcher
 		if (!_token)
 		{
 			_token = new AssetLoaderToken(this);
-
-			_uri = req.url = req.url.replace(/\\/g, "/");
+			req.url = ~/\\/g.replace(req.url, "/");
+			//req.url.replace(/\\/g, "/")
+			_uri = req.url;
 			_context = context;
 			_namespace = ns;
 
@@ -215,9 +216,9 @@ class AssetLoader extends EventDispatcher
 	 * @param ns An optional namespace string under which the file is to be loaded, allowing the differentiation of two resources with identical assets
 	 * @param parser An optional parser object for translating the loaded data into a usable resource. If not provided, AssetLoader will attempt to auto-detect the file type.
 	 */
-	public function loadData(data:*, id:String, context:AssetLoaderContext = null, ns:String = null, parser:ParserBase = null):AssetLoaderToken
+	public function loadData(data:Dynamic, id:String, context:AssetLoaderContext = null, ns:String = null, parser:ParserBase = null):AssetLoaderToken
 	{
-		if (!_token)
+		if (_token == null)
 		{
 			_token = new AssetLoaderToken(this);
 
@@ -278,10 +279,10 @@ class AssetLoader extends EventDispatcher
 	 */
 	private function retrieveDependency(dependency:ResourceDependency, parser:ParserBase = null):Void
 	{
-		var data:*;
+		var data:Dynamic;
 
-		var matMode:UInt = 0;
-		if (_context && _context.materialMode != 0)
+		var matMode:Int = 0;
+		if (_context != null && _context.materialMode != 0)
 			matMode = _context.materialMode;
 		_loadingDependency = dependency;
 		_loadingDependency.loader = new SingleFileLoader(matMode);
@@ -289,10 +290,12 @@ class AssetLoader extends EventDispatcher
 
 		// Get already loaded (or mapped) data if available
 		data = _loadingDependency.data;
-		if (_context && _loadingDependency.request && _context.hasDataForUrl(_loadingDependency.request.url))
+		if (_context != null && 
+			_loadingDependency.request != null && 
+			_context.hasDataForUrl(_loadingDependency.request.url))
 			data = _context.getDataForUrl(_loadingDependency.request.url);
 
-		if (data)
+		if (data != null)
 		{
 			if (_loadingDependency.retrieveAsRawData)
 			{
@@ -335,12 +338,12 @@ class AssetLoader extends EventDispatcher
 
 	private function resolveDependencyUrl(dependency:ResourceDependency):String
 	{
-		var scheme_re:RegExp;
+		var scheme_re:EReg;
 		var base:String;
 		var url:String = dependency.request.url;
 
 		// Has the user re-mapped this URL?
-		if (_context && _context.hasMappingForUrl(url))
+		if (_context != null && _context.hasMappingForUrl(url))
 			return _context.getRemappedUrl(url);
 
 		// This is the "base" dependency, i.e. the actual requested asset.
@@ -351,7 +354,8 @@ class AssetLoader extends EventDispatcher
 
 		// Absolute URL? Check if starts with slash or a URL
 		// scheme definition (e.g. ftp://, http://, file://)
-		scheme_re = new RegExp(/^[a-zA-Z]{3,4}:\/\//);
+		scheme_re = ~/^[a-zA-Z]{3,4}:\/\//;
+		//scheme_re = new EReg('^[a-zA-Z]{3,4}:\/\/');
 		if (url.charAt(0) == '/')
 		{
 			if (_context && _context.overrideAbsolutePaths)
@@ -378,7 +382,7 @@ class AssetLoader extends EventDispatcher
 
 		// Since not absolute, just get rid of base file name to find it's
 		// folder and then concatenate dynamic URL
-		if (_context && _context.dependencyBaseUrl)
+		if (_context != null && _context.dependencyBaseUrl)
 		{
 			base = _context.dependencyBaseUrl;
 			return joinUrl(base, url);
@@ -398,9 +402,8 @@ class AssetLoader extends EventDispatcher
 			//loader = null;
 			return;
 		}
-		var i:int, len:int = loader.dependencies.length;
-
-		for (i = 0; i < len; i++)
+		var len:I = loader.dependencies.length;
+		for (i in 0...len)
 		{
 			_loadingDependency.dependencies[i] = loader.dependencies[i];
 		}
@@ -437,11 +440,14 @@ class AssetLoader extends EventDispatcher
 		{
 			// TODO: Consider not doing this even when AssetLoader does
 			// have it's own LOAD_ERROR listener
-			var i:UInt, len:UInt = _errorHandlers.length;
-			for (i = 0; i < len; i++)
+			var len:Int = _errorHandlers.length;
+			for (i in 0...len)
 			{
-				var handlerFunction:Function = _errorHandlers[i];
-				handled ||= Boolean(handlerFunction(event));
+				var handlerFunction:Dynamic = _errorHandlers[i];
+				if (handlerFunction(event))
+				{
+					handled = true;
+				}
 			}
 		}
 
@@ -488,11 +494,14 @@ class AssetLoader extends EventDispatcher
 		{
 			// TODO: Consider not doing this even when AssetLoader does
 			// have it's own LOAD_ERROR listener
-			var i:UInt, len:UInt = _parseErrorHandlers.length;
-			for (i = 0; i < len; i++)
+			var len:Int = _parseErrorHandlers.length;
+			for (i in 0...len)
 			{
-				var handlerFunction:Function = _parseErrorHandlers[i];
-				handled ||= Boolean(handlerFunction(event));
+				var handlerFunction:Dynamic = _parseErrorHandlers[i];
+				if (handlerFunction(event))
+				{
+					handled = true;
+				}
 			}
 		}
 
@@ -660,14 +669,14 @@ class AssetLoader extends EventDispatcher
 	 * return true, the AssetLoader knows that the event wasn't handled and will throw an RTE.
 	*/
 
-	public function addParseErrorHandler(handler:Function):Void
+	public function addParseErrorHandler(handler:Dynamic):Void
 	{
 		if (_parseErrorHandlers.indexOf(handler) < 0)
 			_parseErrorHandlers.push(handler);
 
 	}
 
-	public function addErrorHandler(handler:Function):Void
+	public function addErrorHandler(handler:Dynamic):Void
 	{
 		if (_errorHandlers.indexOf(handler) < 0)
 		{

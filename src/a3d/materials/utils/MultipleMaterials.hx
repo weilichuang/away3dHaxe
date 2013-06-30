@@ -36,12 +36,12 @@ class MultipleMaterials
 	/**
 	* Defines the material applied to the left side of the cube.
 	*/
-	private inline function get_left():MaterialBase
+	private function get_left():MaterialBase
 	{
 		return _left;
 	}
 
-	private inline function set_left(val:MaterialBase):Void
+	private function set_left(val:MaterialBase):Void
 	{
 		if (_left == val)
 			return;
@@ -52,12 +52,12 @@ class MultipleMaterials
 	/**
 	* Defines the material applied to the right side of the cube.
 	*/
-	private inline function get_right():MaterialBase
+	private function get_right():MaterialBase
 	{
 		return _right;
 	}
 
-	private inline function set_right(val:MaterialBase):Void
+	private function set_right(val:MaterialBase):Void
 	{
 		if (_right == val)
 			return;
@@ -68,12 +68,12 @@ class MultipleMaterials
 	/**
 	* Defines the material applied to the bottom side of the cube.
 	*/
-	private inline function get_bottom():MaterialBase
+	private function get_bottom():MaterialBase
 	{
 		return _bottom;
 	}
 
-	private inline function set_bottom(val:MaterialBase):Void
+	private function set_bottom(val:MaterialBase):Void
 	{
 		if (_bottom == val)
 			return;
@@ -84,12 +84,12 @@ class MultipleMaterials
 	/**
 	* Defines the material applied to the top side of the cube.
 	*/
-	private inline function get_top():MaterialBase
+	private function get_top():MaterialBase
 	{
 		return _top;
 	}
 
-	private inline function set_top(val:MaterialBase):Void
+	private function set_top(val:MaterialBase):Void
 	{
 		if (_top == val)
 			return;
@@ -100,12 +100,12 @@ class MultipleMaterials
 	/**
 	* Defines the material applied to the front side of the cube.
 	*/
-	private inline function get_front():MaterialBase
+	private function get_front():MaterialBase
 	{
 		return _front;
 	}
 
-	private inline function set_front(val:MaterialBase):Void
+	private function set_front(val:MaterialBase):Void
 	{
 		if (_front == val)
 			return;
@@ -116,12 +116,12 @@ class MultipleMaterials
 	/**
 	* Defines the material applied to the back side of the cube.
 	*/
-	private inline function get_back():MaterialBase
+	private function get_back():MaterialBase
 	{
 		return _back;
 	}
 
-	private inline function set_back(val:MaterialBase):Void
+	private function set_back(val:MaterialBase):Void
 	{
 		if (_back == val)
 			return;

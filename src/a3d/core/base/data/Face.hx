@@ -53,7 +53,7 @@ class Face
 	 * @param	ind		The index
 	 */
 	public var faceIndex(get, set):UInt;
-	private inline function set_faceIndex(ind:UInt):UInt
+	private function set_faceIndex(ind:UInt):UInt
 	{
 		return _faceIndex = ind;
 	}
@@ -61,7 +61,7 @@ class Face
 	/**
 	 * @return			Returns the tmp index set for this Face object
 	 */
-	private inline function get_faceIndex():UInt
+	private function get_faceIndex():UInt
 	{
 		return _faceIndex;
 	}
@@ -72,7 +72,7 @@ class Face
 	 * @param	ind		The index
 	 */
 	public var uv0Index(get, set):UInt;
-	private inline function set_uv0Index(ind:UInt):UInt
+	private function set_uv0Index(ind:UInt):UInt
 	{
 		return _uv0Index = ind;
 	}
@@ -80,7 +80,7 @@ class Face
 	/**
 	* @return return the index set for uv0 in this Face value object
 	*/
-	private inline function get_uv0Index():UInt
+	private function get_uv0Index():UInt
 	{
 		return _uv0Index;
 	}
@@ -100,7 +100,7 @@ class Face
 	* @return return the u value of the uv0 of this Face value object
 	*/
 	public var uv0u(get, null):Float;
-	private inline function get_uv0u():Float
+	private function get_uv0u():Float
 	{
 		return _uvs[0];
 	}
@@ -109,7 +109,7 @@ class Face
 	* @return return the v value of the uv0 of this Face value object
 	*/
 	public var uv0v(get, null):Float;
-	private inline function get_uv0v():Float
+	private function get_uv0v():Float
 	{
 		return _uvs[1];
 	}
@@ -120,7 +120,7 @@ class Face
 	 * @param	ind		The index
 	 */
 	public var uv1Index(get, set):UInt;
-	private inline function set_uv1Index(ind:UInt):UInt
+	private function set_uv1Index(ind:UInt):UInt
 	{
 		return _uv1Index = ind;
 	}
@@ -128,7 +128,7 @@ class Face
 	/**
 	* @return Returns the index set for uv1 in this Face value object
 	*/
-	private inline function get_uv1Index():UInt
+	private function get_uv1Index():UInt
 	{
 		return _uv1Index;
 	}
@@ -148,7 +148,7 @@ class Face
 	* @return Returns the u value of the uv1 of this Face value object
 	*/
 	public var uv1u(get, null):Float;
-	private inline function get_uv1u():Float
+	private function get_uv1u():Float
 	{
 		return _uvs[2];
 	}
@@ -157,7 +157,7 @@ class Face
 	* @return Returns the v value of the uv1 of this Face value object
 	*/
 	public var uv1v(get, null):Float;
-	private inline function get_uv1v():Float
+	private function get_uv1v():Float
 	{
 		return _uvs[3];
 	}
@@ -168,7 +168,7 @@ class Face
 	 * @param	ind		The index
 	 */
 	public var uv2Index(get, set):UInt;
-	private inline function set_uv2Index(ind:UInt):UInt
+	private function set_uv2Index(ind:UInt):UInt
 	{
 		return _uv2Index = ind;
 	}
@@ -176,7 +176,7 @@ class Face
 	/**
 	* @return return the index set for uv2 in this Face value object
 	*/
-	private inline function get_uv2Index():UInt
+	private function get_uv2Index():UInt
 	{
 		return _uv2Index;
 	}
@@ -196,7 +196,7 @@ class Face
 	* @return return the u value of the uv2 of this Face value object
 	*/
 	public var uv2u(get, null):Float;
-	private inline function get_uv2u():Float
+	private function get_uv2u():Float
 	{
 		return _uvs[4];
 	}
@@ -205,7 +205,7 @@ class Face
 	* @return return the v value of the uv2 of this Face value object
 	*/
 	public var uv2v(get, null):Float;
-	private inline function get_uv2v():Float
+	private function get_uv2v():Float
 	{
 		return _uvs[5];
 	}
@@ -232,7 +232,7 @@ class Face
 	 * @param	ind			The index value to store
 	 */
 	public var v0Index(get, set):UInt;
-	private inline function set_v0Index(ind:UInt):UInt
+	private function set_v0Index(ind:UInt):UInt
 	{
 		return _v0Index = ind;
 	}
@@ -240,7 +240,7 @@ class Face
 	/**
 	* @return Returns the index value of the v0 stored in the Face value object
 	*/
-	private inline function get_v0Index():UInt
+	private function get_v0Index():UInt
 	{
 		return _v0Index;
 	}
@@ -249,7 +249,7 @@ class Face
 	* @return Returns a Vector<Float> representing the v0 stored in the Face value object
 	*/
 	public var v0(get, null):Vector<Float>;
-	private inline function get_v0():Vector<Float>
+	private function get_v0():Vector<Float>
 	{
 		return Vector.ofArray([_vertices[0], _vertices[1], _vertices[2]]);
 	}
@@ -258,7 +258,7 @@ class Face
 	* @return Returns the x value of the v0 stored in the Face value object
 	*/
 	public var v0x(get, null):Float;
-	private inline function get_v0x():Float
+	private function get_v0x():Float
 	{
 		return _vertices[0];
 	}
@@ -267,7 +267,7 @@ class Face
 	* @return Returns the y value of the v0 stored in the Face value object
 	*/
 	public var v0y(get, null):Float;
-	private inline function get_v0y():Float
+	private function get_v0y():Float
 	{
 		return _vertices[1];
 	}
@@ -276,7 +276,7 @@ class Face
 	* @return Returns the z value of the v0 stored in the Face value object
 	*/
 	public var v0z(get, null):Float;
-	private inline function get_v0z():Float
+	private function get_v0z():Float
 	{
 		return _vertices[2];
 	}
@@ -287,7 +287,7 @@ class Face
 	 * @param	ind			The index value to store
 	 */
 	public var v1Index(get, set):UInt;
-	private inline function set_v1Index(ind:UInt):UInt
+	private function set_v1Index(ind:UInt):UInt
 	{
 		return _v1Index = ind;
 	}
@@ -295,7 +295,7 @@ class Face
 	/**
 	* @return Returns the index value of the v1 stored in the Face value object
 	*/
-	private inline function get_v1Index():UInt
+	private function get_v1Index():UInt
 	{
 		return _v1Index;
 	}
@@ -304,7 +304,7 @@ class Face
 	* @return Returns a Vector<Float> representing the v1 stored in the Face value object
 	*/
 	public var v1(get, null):Vector<Float>;
-	private inline function get_v1():Vector<Float>
+	private function get_v1():Vector<Float>
 	{
 		return Vector.ofArray([_vertices[3], _vertices[4], _vertices[5]]);
 	}
@@ -313,7 +313,7 @@ class Face
 	* @return Returns the x value of the v1 stored in the Face value object
 	*/
 	public var v1x(get, null):Float;
-	private inline function get_v1x():Float
+	private function get_v1x():Float
 	{
 		return _vertices[3];
 	}
@@ -322,7 +322,7 @@ class Face
 	* @return Returns the y value of the v1 stored in the Face value object
 	*/
 	public var v1y(get, null):Float;
-	private inline function get_v1y():Float
+	private function get_v1y():Float
 	{
 		return _vertices[4];
 	}
@@ -331,7 +331,7 @@ class Face
 	* @return Returns the z value of the v1 stored in the Face value object
 	*/
 	public var v1z(get, null):Float;
-	private inline function get_v1z():Float
+	private function get_v1z():Float
 	{
 		return _vertices[5];
 	}
@@ -342,7 +342,7 @@ class Face
 	 * @param	ind			The index value to store
 	 */
 	public var v2Index(get, set):UInt;
-	private inline function set_v2Index(ind:UInt):UInt
+	private function set_v2Index(ind:UInt):UInt
 	{
 		return _v2Index = ind;
 	}
@@ -350,7 +350,7 @@ class Face
 	/**
 	* @return return the index value of the v2 stored in the Face value object
 	*/
-	private inline function get_v2Index():UInt
+	private function get_v2Index():UInt
 	{
 		return _v2Index;
 	}
@@ -359,7 +359,7 @@ class Face
 	* @return Returns a Vector<Float> representing the v2 stored in the Face value object
 	*/
 	public var v2(get, null):Vector<Float>;
-	private inline function get_v2():Vector<Float>
+	private function get_v2():Vector<Float>
 	{
 		return Vector.ofArray([_vertices[6], _vertices[7], _vertices[8]]);
 	}
@@ -368,7 +368,7 @@ class Face
 	* @return Returns the x value of the v2 stored in the Face value object
 	*/
 	public var v2x(get, null):Float;
-	private inline function get_v2x():Float
+	private function get_v2x():Float
 	{
 		return _vertices[6];
 	}
@@ -377,7 +377,7 @@ class Face
 	* @return Returns the y value of the v2 stored in the Face value object
 	*/
 	public var v2y(get, null):Float;
-	private inline function get_v2y():Float
+	private function get_v2y():Float
 	{
 		return _vertices[7];
 	}
@@ -386,7 +386,7 @@ class Face
 	* @return Returns the z value of the v2 stored in the Face value object
 	*/
 	public var v2z(get, null):Float;
-	private inline function get_v2z():Float
+	private function get_v2z():Float
 	{
 		return _vertices[8];
 	}

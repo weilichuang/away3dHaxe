@@ -10,7 +10,7 @@ class AssetLibraryIterator
 
 	private var _idx:UInt;
 
-	public function new(assets:Vector<IAsset>, assetTypeFilter:String, namespaceFilter:String, filterFunc:Function)
+	public function new(assets:Vector<IAsset>, assetTypeFilter:String, namespaceFilter:String, filterFunc:Dynamic)
 	{
 		_assets = assets;
 		filter(assetTypeFilter, namespaceFilter, filterFunc);
@@ -24,8 +24,8 @@ class AssetLibraryIterator
 			_filtered[_idx] : null;
 	}
 
-	public function numAssets(get, null):UInt;
-	private function get_numAssets():UInt
+	public var numAssets(get, null):Int;
+	private function get_numAssets():Int
 	{
 		return _filtered.length;
 	}
@@ -55,24 +55,24 @@ class AssetLibraryIterator
 	}
 
 
-	private function filter(assetTypeFilter:String, namespaceFilter:String, filterFunc:Function):Void
+	private function filter(assetTypeFilter:String, namespaceFilter:String, filterFunc:Dynamic):Void
 	{
-		if (assetTypeFilter || namespaceFilter)
+		if (assetTypeFilter != null || namespaceFilter != null)
 		{
 			var idx:UInt;
 			var asset:IAsset;
 
 			idx = 0;
-			_filtered = new Vector<IAsset>;
+			_filtered = new Vector<IAsset>();
 
-			for each (asset in _assets)
+			for (asset in _assets)
 			{
 				// Skip this assets if filtering on type and this is wrong type
-				if (assetTypeFilter && asset.assetType != assetTypeFilter)
+				if (assetTypeFilter != null && asset.assetType != assetTypeFilter)
 					continue;
 
 				// Skip this asset if filtering on namespace and this is wrong namespace
-				if (namespaceFilter && asset.assetNamespace != namespaceFilter)
+				if (namespaceFilter != null && asset.assetNamespace != namespaceFilter)
 					continue;
 
 				// Skip this asset if a filter func has been provided and it returns false

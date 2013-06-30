@@ -47,7 +47,7 @@ class ShaderRegisterElement
 	 * The register's name.
 	 */
 	public var regName(get, null):String;
-	private inline function get_regName():String
+	private function get_regName():String
 	{
 		return _regName;
 	}
@@ -56,7 +56,7 @@ class ShaderRegisterElement
 	 * The register's index.
 	 */
 	public var index(get, null):Int;
-	private inline function get_index():Int
+	private function get_index():Int
 	{
 		return _index;
 	}

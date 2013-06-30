@@ -75,12 +75,12 @@ class Sprite3D extends Entity implements IRenderable
 		}
 	}
 
-	private inline function get_width():Float
+	private function get_width():Float
 	{
 		return _width;
 	}
 
-	private inline function set_width(value:Float):Void
+	private function set_width(value:Float):Void
 	{
 		if (_width == value)
 			return;
@@ -88,12 +88,12 @@ class Sprite3D extends Entity implements IRenderable
 		invalidateTransform();
 	}
 
-	private inline function get_height():Float
+	private function get_height():Float
 	{
 		return _height;
 	}
 
-	private inline function set_height(value:Float):Void
+	private function set_height(value:Float):Void
 	{
 		if (_height == value)
 			return;
@@ -131,23 +131,23 @@ class Sprite3D extends Entity implements IRenderable
 		return _geometry.getIndexBuffer(stage3DProxy);
 	}
 
-	private inline function get_numTriangles():UInt
+	private function get_numTriangles():UInt
 	{
 		return 2;
 	}
 
-	private inline function get_sourceEntity():Entity
+	private function get_sourceEntity():Entity
 	{
 		return this;
 	}
 
-	private inline function get_material():MaterialBase
+	private function get_material():MaterialBase
 	{
 		return _material;
 	}
 
 
-	private inline function set_material(value:MaterialBase):Void
+	private function set_material(value:MaterialBase):Void
 	{
 		if (value == _material)
 			return;
@@ -161,12 +161,12 @@ class Sprite3D extends Entity implements IRenderable
 	/**
 	 * Defines the animator of the mesh. Act on the mesh's geometry. Defaults to null
 	 */
-	private inline function get_animator():IAnimator
+	private function get_animator():IAnimator
 	{
 		return _animator;
 	}
 
-	private inline function get_castsShadows():Bool
+	private function get_castsShadows():Bool
 	{
 		return _shadowCaster;
 	}
@@ -194,57 +194,57 @@ class Sprite3D extends Entity implements IRenderable
 		_transform.prependScale(_width, _height, Math.max(_width, _height));
 	}
 
-	private inline function get_uvTransform():Matrix
+	private function get_uvTransform():Matrix
 	{
 		return null;
 	}
 
-	private inline function get_vertexData():Vector<Float>
+	private function get_vertexData():Vector<Float>
 	{
 		return _geometry.vertexData;
 	}
 
-	private inline function get_indexData():Vector<UInt>
+	private function get_indexData():Vector<UInt>
 	{
 		return _geometry.indexData;
 	}
 
-	private inline function get_UVData():Vector<Float>
+	private function get_UVData():Vector<Float>
 	{
 		return _geometry.UVData;
 	}
 
-	private inline function get_numVertices():UInt
+	private function get_numVertices():UInt
 	{
 		return _geometry.numVertices;
 	}
 
-	private inline function get_vertexStride():UInt
+	private function get_vertexStride():UInt
 	{
 		return _geometry.vertexStride;
 	}
 
-	private inline function get_vertexNormalData():Vector<Float>
+	private function get_vertexNormalData():Vector<Float>
 	{
 		return _geometry.vertexNormalData;
 	}
 
-	private inline function get_vertexTangentData():Vector<Float>
+	private function get_vertexTangentData():Vector<Float>
 	{
 		return _geometry.vertexTangentData;
 	}
 
-	private inline function get_vertexOffset():Int
+	private function get_vertexOffset():Int
 	{
 		return _geometry.vertexOffset;
 	}
 
-	private inline function get_vertexNormalOffset():Int
+	private function get_vertexNormalOffset():Int
 	{
 		return _geometry.vertexNormalOffset;
 	}
 
-	private inline function get_vertexTangentOffset():Int
+	private function get_vertexTangentOffset():Int
 	{
 		return _geometry.vertexTangentOffset;
 	}

@@ -12,7 +12,7 @@ class AnimationNodeBase extends NamedAssetBase implements IAsset
 	public var stateClass(get, null):Dynamic;
 	
 	private var _stateClass:Dynamic;
-	private inline function get_stateClass():Dynamic
+	private function get_stateClass():Dynamic
 	{
 		return _stateClass;
 	}
@@ -36,7 +36,7 @@ class AnimationNodeBase extends NamedAssetBase implements IAsset
 	 * @inheritDoc
 	 */
 	public var assetType(get, null):String;
-	private inline function get_assetType():String
+	private function get_assetType():String
 	{
 		return AssetType.ANIMATION_NODE;
 	}

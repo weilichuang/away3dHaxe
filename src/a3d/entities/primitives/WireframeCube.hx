@@ -32,12 +32,12 @@ class WireframeCube extends WireframePrimitiveBase
 	/**
 	 * The size of the cube along its X-axis.
 	 */
-	private inline function get_width():Float
+	private function get_width():Float
 	{
 		return _width;
 	}
 
-	private inline function set_width(value:Float):Void
+	private function set_width(value:Float):Void
 	{
 		_width = value;
 		invalidateGeometry();
@@ -46,12 +46,12 @@ class WireframeCube extends WireframePrimitiveBase
 	/**
 	 * The size of the cube along its Y-axis.
 	 */
-	private inline function get_height():Float
+	private function get_height():Float
 	{
 		return _height;
 	}
 
-	private inline function set_height(value:Float):Void
+	private function set_height(value:Float):Void
 	{
 		if (value <= 0)
 			throw new Error("Value needs to be greater than 0");
@@ -62,12 +62,12 @@ class WireframeCube extends WireframePrimitiveBase
 	/**
 	 * The size of the cube along its Z-axis.
 	 */
-	private inline function get_depth():Float
+	private function get_depth():Float
 	{
 		return _depth;
 	}
 
-	private inline function set_depth(value:Float):Void
+	private function set_depth(value:Float):Void
 	{
 		_depth = value;
 		invalidateGeometry();

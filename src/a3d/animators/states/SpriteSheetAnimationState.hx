@@ -27,13 +27,13 @@ class SpriteSheetAnimationState extends AnimationClipState implements ISpriteShe
 		_frames = _clipNode.frames;
 	}
 
-	private inline function set_reverse(b:Bool):Void
+	private function set_reverse(b:Bool):Void
 	{
 		_back = false;
 		_reverse = b;
 	}
 
-	private inline function set_backAndForth(b:Bool):Void
+	private function set_backAndForth(b:Bool):Void
 	{
 		if (b)
 			_reverse = false;
@@ -44,7 +44,7 @@ class SpriteSheetAnimationState extends AnimationClipState implements ISpriteShe
 	/**
 	* @inheritDoc
 	*/
-	private inline function get_currentFrameData():SpriteSheetAnimationFrame
+	private function get_currentFrameData():SpriteSheetAnimationFrame
 	{
 		if (_framesDirty)
 			updateFrames();
@@ -56,12 +56,12 @@ class SpriteSheetAnimationState extends AnimationClipState implements ISpriteShe
 	* returns current frame index of the animation.
 	* The index is zero based and counts from first frame of the defined animation.
 	*/
-	private inline function get_currentFrameNumber():UInt
+	private function get_currentFrameNumber():UInt
 	{
 		return _currentFrameID;
 	}
 
-	private inline function set_currentFrameNumber(frameNumber:UInt):Void
+	private function set_currentFrameNumber(frameNumber:UInt):Void
 	{
 		_currentFrameID = (frameNumber > _frames.length - 1) ? _frames.length - 1 : frameNumber;
 		_forcedFrame = true;
@@ -70,7 +70,7 @@ class SpriteSheetAnimationState extends AnimationClipState implements ISpriteShe
 	/**
 		* returns the total frames for the current animation.
 		*/
-	private inline function get_totalFrames():UInt
+	private function get_totalFrames():UInt
 	{
 		return (!_frames) ? 0 : _frames.length;
 	}

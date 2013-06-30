@@ -40,12 +40,12 @@ class FresnelEnvMapMethod extends EffectMethodBase
 	}
 
 	public var mask(get,set):Texture2DBase;
-	private inline function get_mask():Texture2DBase
+	private function get_mask():Texture2DBase
 	{
 		return _mask;
 	}
 
-	private inline function set_mask(value:Texture2DBase):Texture2DBase
+	private function set_mask(value:Texture2DBase):Texture2DBase
 	{
 		if ((value != null) != (_mask != null) ||
 			(value != null && _mask != null && 
@@ -56,12 +56,12 @@ class FresnelEnvMapMethod extends EffectMethodBase
 	}
 
 	public var fresnelPower(get,set):Float;
-	private inline function get_fresnelPower():Float
+	private function get_fresnelPower():Float
 	{
 		return _fresnelPower;
 	}
 
-	private inline function set_fresnelPower(value:Float):Float
+	private function set_fresnelPower(value:Float):Float
 	{
 		return _fresnelPower = value;
 	}
@@ -70,12 +70,12 @@ class FresnelEnvMapMethod extends EffectMethodBase
 	 * The cube environment map to use for the diffuse lighting.
 	 */
 	public var envMap(get,set):CubeTextureBase;
-	private inline function get_envMap():CubeTextureBase
+	private function get_envMap():CubeTextureBase
 	{
 		return _cubeTexture;
 	}
 
-	private inline function set_envMap(value:CubeTextureBase):CubeTextureBase
+	private function set_envMap(value:CubeTextureBase):CubeTextureBase
 	{
 		return _cubeTexture = value;
 	}
@@ -88,12 +88,12 @@ class FresnelEnvMapMethod extends EffectMethodBase
 	}
 
 	public var alpha(get,set):Float;
-	private inline function get_alpha():Float
+	private function get_alpha():Float
 	{
 		return _alpha;
 	}
 
-	private inline function set_alpha(value:Float):Float
+	private function set_alpha(value:Float):Float
 	{
 		return _alpha = value;
 	}
@@ -102,12 +102,12 @@ class FresnelEnvMapMethod extends EffectMethodBase
 	 * The minimum amount of reflectance, ie the reflectance when the view direction is normal to the surface or light direction.
 	 */
 	public var normalReflectance(get,set):Float;
-	private inline function get_normalReflectance():Float
+	private function get_normalReflectance():Float
 	{
 		return _normalReflectance;
 	}
 
-	private inline function set_normalReflectance(value:Float):Float
+	private function set_normalReflectance(value:Float):Float
 	{
 		return _normalReflectance = value;
 	}

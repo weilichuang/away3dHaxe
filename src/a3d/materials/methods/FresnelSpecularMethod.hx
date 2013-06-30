@@ -42,12 +42,12 @@ class FresnelSpecularMethod extends CompositeSpecularMethod
 	 * Defines whether the fresnel effect should be based on the view angle on the surface (if true), or on the angle between the light and the view.
 	 */
 	public var basedOnSurface(get,set):Bool;
-	private inline function get_basedOnSurface():Bool
+	private function get_basedOnSurface():Bool
 	{
 		return !_incidentLight;
 	}
 
-	private inline function set_basedOnSurface(value:Bool):Bool
+	private function set_basedOnSurface(value:Bool):Bool
 	{
 		if (_incidentLight != value)
 			return basedOnSurface;
@@ -60,12 +60,12 @@ class FresnelSpecularMethod extends CompositeSpecularMethod
 	}
 
 	public var fresnelPower(get,set):Float;
-	private inline function get_fresnelPower():Float
+	private function get_fresnelPower():Float
 	{
 		return _fresnelPower;
 	}
 
-	private inline function set_fresnelPower(value:Float):Float
+	private function set_fresnelPower(value:Float):Float
 	{
 		return _fresnelPower = value;
 	}
@@ -80,12 +80,12 @@ class FresnelSpecularMethod extends CompositeSpecularMethod
 	 * The minimum amount of reflectance, ie the reflectance when the view direction is normal to the surface or light direction.
 	 */
 	public var normalReflectance(get,set):Float;
-	private inline function get_normalReflectance():Float
+	private function get_normalReflectance():Float
 	{
 		return _normalReflectance;
 	}
 
-	private inline function set_normalReflectance(value:Float):Float
+	private function set_normalReflectance(value:Float):Float
 	{
 		return _normalReflectance = value;
 	}

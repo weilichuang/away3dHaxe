@@ -49,7 +49,7 @@ import flash.Vector;
 	 * Returns the magnitude of the quaternion object.
 	 */
 	public var magnitude(get, null):Float;
-	private inline function get_magnitude():Float
+	private function get_magnitude():Float
 	{
 		return Math.sqrt(w * w + x * x + y * y + z * z);
 	}

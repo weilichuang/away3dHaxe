@@ -25,37 +25,37 @@ class ShaderMethodSetup extends EventDispatcher
 	private var _methods:Vector<MethodVOSet>;
 
 	public var colorTransformMethodVO(get,null):MethodVO;
-	private inline function get_colorTransformMethodVO():MethodVO
+	private function get_colorTransformMethodVO():MethodVO
 	{
 		return _colorTransformMethodVO;
 	}
 
 	public var normalMethodVO(get,null):MethodVO;
-	private inline function get_normalMethodVO():MethodVO
+	private function get_normalMethodVO():MethodVO
 	{
 		return _normalMethodVO;
 	}
 
 	public var ambientMethodVO(get,null):MethodVO;
-	private inline function get_ambientMethodVO():MethodVO
+	private function get_ambientMethodVO():MethodVO
 	{
 		return _ambientMethodVO;
 	}
 
 	public var shadowMethodVO(get,null):MethodVO;
-	private inline function get_shadowMethodVO():MethodVO
+	private function get_shadowMethodVO():MethodVO
 	{
 		return _shadowMethodVO;
 	}
 
 	public var diffuseMethodVO(get,null):MethodVO;
-	private inline function get_diffuseMethodVO():MethodVO
+	private function get_diffuseMethodVO():MethodVO
 	{
 		return _diffuseMethodVO;
 	}
 
 	public var specularMethodVO(get,null):MethodVO;
-	private inline function get_specularMethodVO():MethodVO
+	private function get_specularMethodVO():MethodVO
 	{
 		return _specularMethodVO;
 	}
@@ -90,12 +90,12 @@ class ShaderMethodSetup extends EventDispatcher
 	}
 
 	public var normalMethod(get,set):BasicNormalMethod;
-	private inline function get_normalMethod():BasicNormalMethod
+	private function get_normalMethod():BasicNormalMethod
 	{
 		return _normalMethod;
 	}
 
-	private inline function set_normalMethod(value:BasicNormalMethod):BasicNormalMethod
+	private function set_normalMethod(value:BasicNormalMethod):BasicNormalMethod
 	{
 		if (_normalMethod != null)
 			_normalMethod.removeEventListener(ShadingMethodEvent.SHADER_INVALIDATED, onShaderInvalidated);
@@ -117,12 +117,12 @@ class ShaderMethodSetup extends EventDispatcher
 	}
 
 	public var ambientMethod(get,set):BasicAmbientMethod;
-	private inline function get_ambientMethod():BasicAmbientMethod
+	private function get_ambientMethod():BasicAmbientMethod
 	{
 		return _ambientMethod;
 	}
 
-	private inline function set_ambientMethod(value:BasicAmbientMethod):BasicAmbientMethod
+	private function set_ambientMethod(value:BasicAmbientMethod):BasicAmbientMethod
 	{
 		if (_ambientMethod != null)
 			_ambientMethod.removeEventListener(ShadingMethodEvent.SHADER_INVALIDATED, onShaderInvalidated);
@@ -142,12 +142,12 @@ class ShaderMethodSetup extends EventDispatcher
 	}
 
 	public var shadowMethod(get,set):ShadowMapMethodBase;
-	private inline function get_shadowMethod():ShadowMapMethodBase
+	private function get_shadowMethod():ShadowMapMethodBase
 	{
 		return _shadowMethod;
 	}
 
-	private inline function set_shadowMethod(value:ShadowMapMethodBase):ShadowMapMethodBase
+	private function set_shadowMethod(value:ShadowMapMethodBase):ShadowMapMethodBase
 	{
 		if (_shadowMethod != null)
 			_shadowMethod.removeEventListener(ShadingMethodEvent.SHADER_INVALIDATED, onShaderInvalidated);
@@ -167,12 +167,12 @@ class ShaderMethodSetup extends EventDispatcher
 	 * The method to perform diffuse shading.
 	 */
 	public var diffuseMethod(get,set):BasicDiffuseMethod;
-	private inline function get_diffuseMethod():BasicDiffuseMethod
+	private function get_diffuseMethod():BasicDiffuseMethod
 	{
 		return _diffuseMethod;
 	}
 
-	private inline function set_diffuseMethod(value:BasicDiffuseMethod):BasicDiffuseMethod
+	private function set_diffuseMethod(value:BasicDiffuseMethod):BasicDiffuseMethod
 	{
 		if (_diffuseMethod != null)
 			_diffuseMethod.removeEventListener(ShadingMethodEvent.SHADER_INVALIDATED, onShaderInvalidated);
@@ -197,12 +197,12 @@ class ShaderMethodSetup extends EventDispatcher
 	 * The method to perform specular shading.
 	 */
 	public var specularMethod(get,set):BasicSpecularMethod;
-	private inline function get_specularMethod():BasicSpecularMethod
+	private function get_specularMethod():BasicSpecularMethod
 	{
 		return _specularMethod;
 	}
 
-	private inline function set_specularMethod(value:BasicSpecularMethod):BasicSpecularMethod
+	private function set_specularMethod(value:BasicSpecularMethod):BasicSpecularMethod
 	{
 		if (_specularMethod != null)
 		{
@@ -230,12 +230,12 @@ class ShaderMethodSetup extends EventDispatcher
 	 * @private
 	 */
 	public var colorTransformMethod(get,set):ColorTransformMethod;
-	private inline function get_colorTransformMethod():ColorTransformMethod
+	private function get_colorTransformMethod():ColorTransformMethod
 	{
 		return _colorTransformMethod;
 	}
 
-	private inline function set_colorTransformMethod(value:ColorTransformMethod):ColorTransformMethod
+	private function set_colorTransformMethod(value:ColorTransformMethod):ColorTransformMethod
 	{
 		if (_colorTransformMethod == value)
 			return _colorTransformMethod;
@@ -309,13 +309,13 @@ class ShaderMethodSetup extends EventDispatcher
 	}
 
 	public var numMethods(get,null):Int;
-	private inline function get_numMethods():Int
+	private function get_numMethods():Int
 	{
 		return _methods.length;
 	}
 
 	public var methods(get,null):Vector<MethodVOSet>;
-	private inline function get_methods():Vector<MethodVOSet>
+	private function get_methods():Vector<MethodVOSet>
 	{
 		return _methods;
 	}

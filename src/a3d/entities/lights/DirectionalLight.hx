@@ -51,7 +51,7 @@ class DirectionalLight extends LightBase
 	 * The direction of the light in scene coordinates.
 	 */
 	public var sceneDirection(get,null):Vector3D;
-	private inline function get_sceneDirection():Vector3D
+	private function get_sceneDirection():Vector3D
 	{
 		if (_sceneTransformDirty)
 			updateSceneTransform();
@@ -62,12 +62,12 @@ class DirectionalLight extends LightBase
 	 * The direction of the light.
 	 */
 	public var direction(get,set):Vector3D;
-	private inline function get_direction():Vector3D
+	private function get_direction():Vector3D
 	{
 		return _direction;
 	}
 
-	private inline function set_direction(value:Vector3D):Vector3D
+	private function set_direction(value:Vector3D):Vector3D
 	{
 		_direction = value;
 		//lookAt(new Vector3D(x + _direction.x, y + _direction.y, z + _direction.z));

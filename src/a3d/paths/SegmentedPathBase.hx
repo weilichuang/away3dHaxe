@@ -17,7 +17,7 @@ class SegmentedPathBase implements IPath
 			pointData = data;
 	}
 
-	private inline function set_pointData(data:Vector<Vector3D>):Void
+	private function set_pointData(data:Vector<Vector3D>):Void
 	{
 		if (data.length < _pointsPerSegment)
 			throw new Error("Path Vector<Vector3D> must contain at least " + _pointsPerSegment + " Vector3D's");
@@ -39,7 +39,7 @@ class SegmentedPathBase implements IPath
 	/**
 	 * The number of segments in the Path
 	 */
-	private inline function get_numSegments():UInt
+	private function get_numSegments():UInt
 	{
 		return _segments.length;
 	}
@@ -49,7 +49,7 @@ class SegmentedPathBase implements IPath
 	 *
 	 * @return	a Vector.&lt;PathSegment&gt;: holding the elements (PathSegment) of the path
 	 */
-	private inline function get_segments():Vector<IPathSegment>
+	private function get_segments():Vector<IPathSegment>
 	{
 		return _segments;
 	}

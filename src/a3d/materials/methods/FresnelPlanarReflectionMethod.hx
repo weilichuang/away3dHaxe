@@ -28,23 +28,23 @@ class FresnelPlanarReflectionMethod extends EffectMethodBase
 	}
 
 	public var alpha(get,set):Float;
-	private inline function get_alpha():Float
+	private function get_alpha():Float
 	{
 		return _alpha;
 	}
 
-	private inline function set_alpha(value:Float):Float
+	private function set_alpha(value:Float):Float
 	{
 		return _alpha = value;
 	}
 
 	public var fresnelPower(get,set):Float;
-	private inline function get_fresnelPower():Float
+	private function get_fresnelPower():Float
 	{
 		return _fresnelPower;
 	}
 
-	private inline function set_fresnelPower(value:Float):Float
+	private function set_fresnelPower(value:Float):Float
 	{
 		return _fresnelPower = value;
 	}
@@ -53,12 +53,12 @@ class FresnelPlanarReflectionMethod extends EffectMethodBase
 	 * The minimum amount of reflectance, ie the reflectance when the view direction is normal to the surface or light direction.
 	 */
 	public var normalReflectance(get,set):Float;
-	private inline function get_normalReflectance():Float
+	private function get_normalReflectance():Float
 	{
 		return _normalReflectance;
 	}
 
-	private inline function set_normalReflectance(value:Float):Float
+	private function set_normalReflectance(value:Float):Float
 	{
 		return _normalReflectance = value;
 	}
@@ -71,23 +71,23 @@ class FresnelPlanarReflectionMethod extends EffectMethodBase
 	}
 
 	public var texture(get,set):PlanarReflectionTexture;
-	private inline function get_texture():PlanarReflectionTexture
+	private function get_texture():PlanarReflectionTexture
 	{
 		return _texture;
 	}
 
-	private inline function set_texture(value:PlanarReflectionTexture):PlanarReflectionTexture
+	private function set_texture(value:PlanarReflectionTexture):PlanarReflectionTexture
 	{
 		return _texture = value;
 	}
 
 	public var normalDisplacement(get,set):Float;
-	private inline function get_normalDisplacement():Float
+	private function get_normalDisplacement():Float
 	{
 		return _normalDisplacement;
 	}
 
-	private inline function set_normalDisplacement(value:Float):Float
+	private function set_normalDisplacement(value:Float):Float
 	{
 		if (_normalDisplacement == value)
 			return _normalDisplacement;

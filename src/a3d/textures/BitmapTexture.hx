@@ -29,15 +29,15 @@ class BitmapTexture extends Texture2DBase
 	}
 
 	public var bitmapData(get, set):BitmapData;
-	private inline function get_bitmapData():BitmapData
+	private function get_bitmapData():BitmapData
 	{
 		return _bitmapData;
 	}
 
-	private inline function set_bitmapData(value:BitmapData):BitmapData
+	private function set_bitmapData(value:BitmapData):BitmapData
 	{
 		if (value == _bitmapData)
-			return value;
+			return _bitmapData;
 
 		if (!TextureUtils.isBitmapDataValid(value))
 			throw new Error("Invalid bitmapData: Width and height must be power of 2 and cannot exceed 2048");
@@ -50,7 +50,7 @@ class BitmapTexture extends Texture2DBase
 		if (_generateMipmaps)
 			getMipMapHolder();
 			
-		return value;
+		return _bitmapData;
 	}
 
 	override private function uploadContent(texture:TextureBase):Void

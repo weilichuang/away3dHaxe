@@ -34,12 +34,12 @@ class DepthOfFieldFilter3D extends Filter3DBase
 	/**
 	 * The amount of pixels between each sample.
 	 */
-	private inline function get_stepSize():Int
+	private function get_stepSize():Int
 	{
 		return _hDofTask.stepSize;
 	}
 
-	private inline function set_stepSize(value:Int):Void
+	private function set_stepSize(value:Int):Void
 	{
 		_vDofTask.stepSize = _hDofTask.stepSize = value;
 	}
@@ -47,12 +47,12 @@ class DepthOfFieldFilter3D extends Filter3DBase
 	/**
 	 * An optional target ObjectContainer3D that will be used to auto-focus on.
 	 */
-	private inline function get_focusTarget():ObjectContainer3D
+	private function get_focusTarget():ObjectContainer3D
 	{
 		return _focusTarget;
 	}
 
-	private inline function set_focusTarget(value:ObjectContainer3D):Void
+	private function set_focusTarget(value:ObjectContainer3D):Void
 	{
 		_focusTarget = value;
 	}
@@ -60,12 +60,12 @@ class DepthOfFieldFilter3D extends Filter3DBase
 	/**
 	 * The distance from the camera to the point that is in focus.
 	 */
-	private inline function get_focusDistance():Float
+	private function get_focusDistance():Float
 	{
 		return _hDofTask.focusDistance;
 	}
 
-	private inline function set_focusDistance(value:Float):Void
+	private function set_focusDistance(value:Float):Void
 	{
 		_hDofTask.focusDistance = _vDofTask.focusDistance = value;
 	}
@@ -73,12 +73,12 @@ class DepthOfFieldFilter3D extends Filter3DBase
 	/**
 	 * The distance between the focus point and the maximum amount of blur.
 	 */
-	private inline function get_range():Float
+	private function get_range():Float
 	{
 		return _hDofTask.range;
 	}
 
-	private inline function set_range(value:Float):Void
+	private function set_range(value:Float):Void
 	{
 		_vDofTask.range = _hDofTask.range = value;
 	}
@@ -86,12 +86,12 @@ class DepthOfFieldFilter3D extends Filter3DBase
 	/**
 	 * The maximum amount of horizontal blur.
 	 */
-	private inline function get_maxBlurX():UInt
+	private function get_maxBlurX():UInt
 	{
 		return _hDofTask.maxBlur;
 	}
 
-	private inline function set_maxBlurX(value:UInt):Void
+	private function set_maxBlurX(value:UInt):Void
 	{
 		_hDofTask.maxBlur = value;
 	}
@@ -99,12 +99,12 @@ class DepthOfFieldFilter3D extends Filter3DBase
 	/**
 	 * The maximum amount of vertical blur.
 	 */
-	private inline function get_maxBlurY():UInt
+	private function get_maxBlurY():UInt
 	{
 		return _vDofTask.maxBlur;
 	}
 
-	private inline function set_maxBlurY(value:UInt):Void
+	private function set_maxBlurY(value:UInt):Void
 	{
 		_vDofTask.maxBlur = value;
 	}

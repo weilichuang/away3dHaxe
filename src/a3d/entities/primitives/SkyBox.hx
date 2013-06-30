@@ -2,6 +2,7 @@ package a3d.entities.primitives;
 
 
 import a3d.animators.IAnimator;
+import a3d.utils.VectorUtil.VectorUtil;
 import flash.Vector;
 
 import a3d.bounds.BoundingVolumeBase;
@@ -35,10 +36,28 @@ class SkyBox extends Entity implements IRenderable
 	// todo: remove SubGeometry, use a simple single buffer with offsets
 	private var _geometry:SubGeometry;
 	private var _material:SkyBoxMaterial;
-	private var _uvTransform:Matrix = new Matrix();
+	private var _uvTransform:Matrix;
 	private var _animator:IAnimator;
 
-	private inline function get_animator():IAnimator
+	
+	/**
+	 * Create a new SkyBox object.
+	 * @param cubeMap The CubeMap to use for the sky box's texture.
+	 */
+	public function new(cubeMap:CubeTextureBase)
+	{
+		super();
+		
+		_uvTransform = new Matrix();
+		
+		_material = new SkyBoxMaterial(cubeMap);
+		_material.addOwner(this);
+		_geometry = new SubGeometry();
+		buildGeometry(_geometry);
+	}
+
+	public var animator(get, null):IAnimator;
+	private function get_animator():IAnimator
 	{
 		return _animator;
 	}
@@ -48,19 +67,7 @@ class SkyBox extends Entity implements IRenderable
 		return new NullBounds();
 	}
 
-	/**
-	 * Create a new SkyBox object.
-	 * @param cubeMap The CubeMap to use for the sky box's texture.
-	 */
-	public function new(cubeMap:CubeTextureBase)
-	{
-		super();
-		_material = new SkyBoxMaterial(cubeMap);
-		_material.addOwner(this);
-		_geometry = new SubGeometry();
-		buildGeometry(_geometry);
-	}
-
+	
 	/**
 	 * @inheritDoc
 	 */
@@ -105,7 +112,8 @@ class SkyBox extends Entity implements IRenderable
 	/**
 	 * The amount of triangles that comprise the SkyBox geometry.
 	 */
-	private inline function get_numTriangles():UInt
+	public var numTriangles(get, null):Int;
+	private function get_numTriangles():Int
 	{
 		return _geometry.numTriangles;
 	}
@@ -113,7 +121,8 @@ class SkyBox extends Entity implements IRenderable
 	/**
 	 * The entity that that initially provided the IRenderable to the render pipeline.
 	 */
-	private inline function get_sourceEntity():Entity
+	public var sourceEntity(get, null):Entity;
+	private function get_sourceEntity():Entity
 	{
 		return null;
 	}
@@ -121,14 +130,16 @@ class SkyBox extends Entity implements IRenderable
 	/**
 	 * The material with which to render the object.
 	 */
-	private inline function get_material():MaterialBase
+	public var material(get, set):MaterialBase;
+	private function get_material():MaterialBase
 	{
 		return _material;
 	}
 
-	private inline function set_material(value:MaterialBase):Void
+	private function set_material(value:MaterialBase):MaterialBase
 	{
 		throw new AbstractMethodError("Unsupported method!");
+		return _material;
 	}
 
 	override private function get_assetType():String
@@ -165,83 +176,95 @@ class SkyBox extends Entity implements IRenderable
 	 */
 	private function buildGeometry(target:SubGeometry):Void
 	{
-		var vertices:Vector<Float> = new <Number>[
-			-1, 1, -1, 1, 1, -1,
+		var vertices:Vector<Float> = Vector.ofArray([
+			-1., 1, -1, 1, 1, -1,
 			1, 1, 1, -1, 1, 1,
 			-1, -1, -1, 1, -1, -1,
 			1, -1, 1, -1, -1, 1
-			];
+			]);
 		vertices.fixed = true;
 
-		var indices:Vector<UInt> = new <uint>[
+		var indices:Vector<UInt> = VectorUtil.toUIntVector([
 			0, 1, 2, 2, 3, 0,
 			6, 5, 4, 4, 7, 6,
 			2, 6, 7, 7, 3, 2,
 			4, 5, 1, 1, 0, 4,
 			4, 0, 3, 3, 7, 4,
 			2, 1, 5, 5, 6, 2
-			];
+			]);
 
 		target.updateVertexData(vertices);
 		target.updateIndexData(indices);
 	}
 
-	private inline function get_castsShadows():Bool
+	public var castsShadows(get,null):Bool;
+	private function get_castsShadows():Bool
 	{
 		return false;
 	}
 
-	private inline function get_uvTransform():Matrix
+	public var uvTransform(get,null):Matrix;
+	private function get_uvTransform():Matrix
 	{
 		return _uvTransform;
 	}
 
-	private inline function get_vertexData():Vector<Float>
+	public var vertexData(get,null):Vector<Float>;
+	private function get_vertexData():Vector<Float>
 	{
 		return _geometry.vertexData;
 	}
 
-	private inline function get_indexData():Vector<UInt>
+	public var indexData(get,null):Vector<UInt>;
+	private function get_indexData():Vector<UInt>
 	{
 		return _geometry.indexData;
 	}
 
-	private inline function get_UVData():Vector<Float>
+	public var UVData(get,null):Vector<Float>;
+	private function get_UVData():Vector<Float>
 	{
 		return _geometry.UVData;
 	}
 
-	private inline function get_numVertices():UInt
+	public var numVertices(get,null):Int;
+	private function get_numVertices():Int
 	{
 		return _geometry.numVertices;
 	}
 
-	private inline function get_vertexStride():UInt
+	public var vertexStride(get,null):Int;
+	private function get_vertexStride():Int
 	{
 		return _geometry.vertexStride;
 	}
 
-	private inline function get_vertexNormalData():Vector<Float>
+	public var vertexNormalData(get,null):Vector<Float>;
+	private function get_vertexNormalData():Vector<Float>
 	{
 		return _geometry.vertexNormalData;
 	}
 
-	private inline function get_vertexTangentData():Vector<Float>
+	public var vertexTangentData(get,null):Vector<Float>;
+	private function get_vertexTangentData():Vector<Float>
 	{
 		return _geometry.vertexTangentData;
 	}
 
-	private inline function get_vertexOffset():Int
+	public var vertexOffset(get,null):Int;
+	private function get_vertexOffset():Int
 	{
 		return _geometry.vertexOffset;
 	}
 
-	private inline function get_vertexNormalOffset():Int
+	public var vertexNormalOffset(get,null):Int;
+	private function get_vertexNormalOffset():Int
 	{
 		return _geometry.vertexNormalOffset;
 	}
 
-	private inline function get_vertexTangentOffset():Int
+	public var vertexTangentOffset(get,null):Int;
+	private function get_vertexTangentOffset():Int
 	{
 		return _geometry.vertexTangentOffset;
 	}

@@ -26,7 +26,7 @@ class BasicNormalMethod extends ShadingMethodBase
 	}
 
 	public var tangentSpace(get, null):Bool;
-	private inline function get_tangentSpace():Bool
+	private function get_tangentSpace():Bool
 	{
 		return true;
 	}
@@ -35,7 +35,7 @@ class BasicNormalMethod extends ShadingMethodBase
 	 * Override this is normal method output is not based on a texture (if not, it will usually always return true)
 	 */
 	public var hasOutput(get, null):Bool;
-	private inline function get_hasOutput():Bool
+	private function get_hasOutput():Bool
 	{
 		return _useTexture;
 	}
@@ -46,12 +46,12 @@ class BasicNormalMethod extends ShadingMethodBase
 	}
 
 	public var normalMap(get, set):Texture2DBase;
-	private inline function get_normalMap():Texture2DBase
+	private function get_normalMap():Texture2DBase
 	{
 		return _texture;
 	}
 
-	private inline function set_normalMap(value:Texture2DBase):Texture2DBase
+	private function set_normalMap(value:Texture2DBase):Texture2DBase
 	{
 		if ((value != null) != _useTexture ||
 			(value != null && _texture != null && 

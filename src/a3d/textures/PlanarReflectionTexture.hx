@@ -66,12 +66,12 @@ class PlanarReflectionTexture extends RenderTexture
 	 * The plane to reflect with.
 	 */
 	public var plane(get, set):Plane3D;
-	private inline function get_plane():Plane3D
+	private function get_plane():Plane3D
 	{
 		return _plane;
 	}
 
-	private inline function set_plane(value:Plane3D):Plane3D
+	private function set_plane(value:Plane3D):Plane3D
 	{
 		return _plane = value;
 	}
@@ -106,12 +106,12 @@ class PlanarReflectionTexture extends RenderTexture
 	 * The renderer to use.
 	 */
 	public var renderer(get, set):RendererBase;
-	private inline function get_renderer():RendererBase
+	private function get_renderer():RendererBase
 	{
 		return _renderer;
 	}
 
-	private inline function set_renderer(value:RendererBase):RendererBase
+	private function set_renderer(value:RendererBase):RendererBase
 	{
 		_renderer.dispose();
 		_renderer = value;
@@ -123,12 +123,12 @@ class PlanarReflectionTexture extends RenderTexture
 	 * A scale factor to reduce the quality of the reflection. Default value is 1 (same quality as the View)
 	 */
 	public var scale(get, set):Float;
-	private inline function get_scale():Float
+	private function get_scale():Float
 	{
 		return _scale;
 	}
 
-	private inline function set_scale(value:Float):Float
+	private function set_scale(value:Float):Float
 	{
 		_scale = value > 1 ? 1 :
 			value < 0 ? 0 :
@@ -168,13 +168,13 @@ class PlanarReflectionTexture extends RenderTexture
 	}
 
 	public var textureRatioX(get, null):Float;
-	private inline function get_textureRatioX():Float
+	private function get_textureRatioX():Float
 	{
 		return _renderer.textureRatioX;
 	}
 
 	public var textureRatioY(get, null):Float;
-	private inline function get_textureRatioY():Float
+	private function get_textureRatioY():Float
 	{
 		return _renderer.textureRatioY;
 	}

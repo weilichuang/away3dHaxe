@@ -24,12 +24,12 @@ class AnimationClipNodeBase extends AnimationNodeBase
 	/**
 	 * Determines whether the contents of the animation node have looping characteristics enabled.
 	 */
-	private inline function get_looping():Bool
+	private function get_looping():Bool
 	{
 		return _looping;
 	}
 
-	private inline function set_looping(value:Bool):Void
+	private function set_looping(value:Bool):Void
 	{
 		if (_looping == value)
 			return;
@@ -43,12 +43,12 @@ class AnimationClipNodeBase extends AnimationNodeBase
 	 * Defines if looping content blends the final frame of animation data with the first (true) or works on the
 	 * assumption that both first and last frames are identical (false). Defaults to false.
 	 */
-	private inline function get_stitchFinalFrame():Bool
+	private function get_stitchFinalFrame():Bool
 	{
 		return _stitchFinalFrame;
 	}
 
-	private inline function set_stitchFinalFrame(value:Bool):Void
+	private function set_stitchFinalFrame(value:Bool):Void
 	{
 		if (_stitchFinalFrame == value)
 			return;
@@ -58,7 +58,7 @@ class AnimationClipNodeBase extends AnimationNodeBase
 		_stitchDirty = true;
 	}
 
-	private inline function get_totalDuration():UInt
+	private function get_totalDuration():UInt
 	{
 		if (_stitchDirty)
 			updateStitch();
@@ -66,7 +66,7 @@ class AnimationClipNodeBase extends AnimationNodeBase
 		return _totalDuration;
 	}
 
-	private inline function get_totalDelta():Vector3D
+	private function get_totalDelta():Vector3D
 	{
 		if (_stitchDirty)
 			updateStitch();
@@ -74,7 +74,7 @@ class AnimationClipNodeBase extends AnimationNodeBase
 		return _totalDelta;
 	}
 
-	private inline function get_lastFrame():UInt
+	private function get_lastFrame():UInt
 	{
 		if (_stitchDirty)
 			updateStitch();
@@ -85,7 +85,7 @@ class AnimationClipNodeBase extends AnimationNodeBase
 	/**
 	 * Returns a vector of time values representing the duration (in milliseconds) of each animation frame in the clip.
 	 */
-	private inline function get_durations():Vector<UInt>
+	private function get_durations():Vector<UInt>
 	{
 		return _durations;
 	}

@@ -79,12 +79,12 @@ class DelaunayMesh extends Mesh
 	/**
 	* The "cloud" of vector3d's to compose the mesh
 	*/
-	private inline function get_vectors():Vector<Vector3D>
+	private function get_vectors():Vector<Vector3D>
 	{
 		return _vectors;
 	}
 
-	private inline function set_vectors(val:Vector<Vector3D>):Void
+	private function set_vectors(val:Vector<Vector3D>):Void
 	{
 		if (_vectors.length < 3)
 			return;
@@ -96,12 +96,12 @@ class DelaunayMesh extends Mesh
 	/**
 	* Defines if the surface of the mesh must be smoothed or not. Default value is true.
 	*/
-	private inline function get_smoothSurface():Bool
+	private function get_smoothSurface():Bool
 	{
 		return _smoothSurface;
 	}
 
-	private inline function set_smoothSurface(val:Bool):Void
+	private function set_smoothSurface(val:Bool):Void
 	{
 		if (_smoothSurface == val)
 			return;
@@ -113,12 +113,12 @@ class DelaunayMesh extends Mesh
 	/**
 	* Defines the projection plane for the class. Default is xz.
 	*/
-	private inline function get_plane():String
+	private function get_plane():String
 	{
 		return _plane;
 	}
 
-	private inline function set_plane(val:String):Void
+	private function set_plane(val:String):Void
 	{
 		if (_plane == val)
 			return;
@@ -132,12 +132,12 @@ class DelaunayMesh extends Mesh
 	/**
 	* Defines if the face orientation needs to be inverted
 	*/
-	private inline function get_flip():Bool
+	private function get_flip():Bool
 	{
 		return _flip;
 	}
 
-	private inline function set_flip(val:Bool):Void
+	private function set_flip(val:Bool):Void
 	{
 		if (_flip == val)
 			return;
@@ -149,12 +149,12 @@ class DelaunayMesh extends Mesh
 	/**
 	* Defines whether the mesh is recentered of not after generation
 	*/
-	private inline function get_centerMesh():Bool
+	private function get_centerMesh():Bool
 	{
 		return _centerMesh;
 	}
 
-	private inline function set_centerMesh(val:Bool):Void
+	private function set_centerMesh(val:Bool):Void
 	{
 		if (_centerMesh == val)
 			return;

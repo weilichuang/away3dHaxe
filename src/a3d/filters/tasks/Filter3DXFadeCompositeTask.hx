@@ -27,22 +27,22 @@ class Filter3DXFadeCompositeTask extends Filter3DTaskBase
 		_data = Vector<Float>([amount, 0, 0, 0]);
 	}
 
-	private inline function get_overlayTexture():TextureBase
+	private function get_overlayTexture():TextureBase
 	{
 		return _overlayTexture;
 	}
 
-	private inline function set_overlayTexture(value:TextureBase):Void
+	private function set_overlayTexture(value:TextureBase):Void
 	{
 		_overlayTexture = value;
 	}
 
-	private inline function get_amount():Float
+	private function get_amount():Float
 	{
 		return _data[0];
 	}
 
-	private inline function set_amount(value:Float):Void
+	private function set_amount(value:Float):Void
 	{
 		_data[0] = value;
 	}

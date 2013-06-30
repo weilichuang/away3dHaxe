@@ -17,12 +17,12 @@ class ColorSegmentPoint
 		_color = color;
 	}
 
-	private inline function get_color():ColorTransform
+	private function get_color():ColorTransform
 	{
 		return _color;
 	}
 
-	private inline function get_life():Float
+	private function get_life():Float
 	{
 		return _life;
 	}

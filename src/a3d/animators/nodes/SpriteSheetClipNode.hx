@@ -22,7 +22,7 @@ class SpriteSheetClipNode extends AnimationClipNodeBase
 	/**
 	 * Returns a vector of SpriteSheetAnimationFrame representing the uv values of each animation frame in the clip.
 	 */
-	private inline function get_frames():Vector<SpriteSheetAnimationFrame>
+	private function get_frames():Vector<SpriteSheetAnimationFrame>
 	{
 		return _frames;
 	}

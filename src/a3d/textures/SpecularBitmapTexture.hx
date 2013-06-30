@@ -33,12 +33,12 @@ class SpecularBitmapTexture extends BitmapTexture
 	}
 
 	public var specularMap(get, set):BitmapData;
-	private inline function get_specularMap():BitmapData
+	private function get_specularMap():BitmapData
 	{
 		return _specularMap;
 	}
 
-	private inline function set_specularMap(value:BitmapData):BitmapData
+	private function set_specularMap(value:BitmapData):BitmapData
 	{
 		_specularMap = value;
 		invalidateContent();
@@ -49,12 +49,12 @@ class SpecularBitmapTexture extends BitmapTexture
 	}
 
 	public var glossMap(get, set):BitmapData;
-	private inline function get_glossMap():BitmapData
+	private function get_glossMap():BitmapData
 	{
 		return _glossMap;
 	}
 
-	private inline function set_glossMap(value:BitmapData):BitmapData
+	private function set_glossMap(value:BitmapData):BitmapData
 	{
 		_glossMap = value;
 		invalidateContent();

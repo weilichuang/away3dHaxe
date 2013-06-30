@@ -33,12 +33,12 @@ class ParticleSegmentedColorState extends ParticleStateBase
 	/**
 	 * Defines the start color transform of the state, when in global mode.
 	 */
-	private inline function get_startColor():ColorTransform
+	private function get_startColor():ColorTransform
 	{
 		return _startColor;
 	}
 
-	private inline function set_startColor(value:ColorTransform):Void
+	private function set_startColor(value:ColorTransform):Void
 	{
 		_startColor = value;
 
@@ -48,12 +48,12 @@ class ParticleSegmentedColorState extends ParticleStateBase
 	/**
 	 * Defines the end color transform of the state, when in global mode.
 	 */
-	private inline function get_endColor():ColorTransform
+	private function get_endColor():ColorTransform
 	{
 		return _endColor;
 	}
 
-	private inline function set_endColor(value:ColorTransform):Void
+	private function set_endColor(value:ColorTransform):Void
 	{
 		_endColor = value;
 		updateColorData();
@@ -62,7 +62,7 @@ class ParticleSegmentedColorState extends ParticleStateBase
 	/**
 	 * Defines the number of segments.
 	 */
-	private inline function get_numSegmentPoint():Int
+	private function get_numSegmentPoint():Int
 	{
 		return _numSegmentPoint;
 	}
@@ -70,23 +70,23 @@ class ParticleSegmentedColorState extends ParticleStateBase
 	/**
 	 * Defines the key points of color
 	 */
-	private inline function get_segmentPoints():Vector<ColorSegmentPoint>
+	private function get_segmentPoints():Vector<ColorSegmentPoint>
 	{
 		return _segmentPoints;
 	}
 
-	private inline function set_segmentPoints(value:Vector<ColorSegmentPoint>):Void
+	private function set_segmentPoints(value:Vector<ColorSegmentPoint>):Void
 	{
 		_segmentPoints = value;
 		updateColorData();
 	}
 
-	private inline function get_usesMultiplier():Bool
+	private function get_usesMultiplier():Bool
 	{
 		return _usesMultiplier;
 	}
 
-	private inline function get_usesOffset():Bool
+	private function get_usesOffset():Bool
 	{
 		return _usesOffset;
 	}

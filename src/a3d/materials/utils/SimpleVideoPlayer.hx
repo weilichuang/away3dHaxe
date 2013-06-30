@@ -225,88 +225,88 @@ class SimpleVideoPlayer implements IVideoPlayer
 	//////////////////////////////////////////////////////
 
 
-	private inline function get_source():String
+	private function get_source():String
 	{
 		return _src;
 	}
 
-	private inline function set_source(src:String):Void
+	private function set_source(src:String):Void
 	{
 		_src = src;
 		if (_playing)
 			_ns.play(_src);
 	}
 
-	private inline function get_loop():Bool
+	private function get_loop():Bool
 	{
 		return _loop;
 	}
 
-	private inline function set_loop(val:Bool):Void
+	private function set_loop(val:Bool):Void
 	{
 		_loop = val;
 	}
 
-	private inline function get_volume():Float
+	private function get_volume():Float
 	{
 		return _ns.soundTransform.volume;
 	}
 
-	private inline function set_volume(val:Float):Void
+	private function set_volume(val:Float):Void
 	{
 		_soundTransform.volume = val;
 		_ns.soundTransform = _soundTransform;
 		_lastVolume = val;
 	}
 
-	private inline function get_pan():Float
+	private function get_pan():Float
 	{
 		return _ns.soundTransform.pan;
 	}
 
-	private inline function set_pan(val:Float):Void
+	private function set_pan(val:Float):Void
 	{
 		_soundTransform.pan = pan;
 		_ns.soundTransform = _soundTransform;
 	}
 
-	private inline function get_mute():Bool
+	private function get_mute():Bool
 	{
 		return _ns.soundTransform.volume == 0;
 	}
 
-	private inline function set_mute(val:Bool):Void
+	private function set_mute(val:Bool):Void
 	{
 		_soundTransform.volume = (val) ? 0 : _lastVolume;
 		_ns.soundTransform = _soundTransform;
 	}
 
-	private inline function get_soundTransform():SoundTransform
+	private function get_soundTransform():SoundTransform
 	{
 		return _ns.soundTransform;
 	}
 
-	private inline function set_soundTransform(val:SoundTransform):Void
+	private function set_soundTransform(val:SoundTransform):Void
 	{
 		_ns.soundTransform = val;
 	}
 
-	private inline function get_width():Int
+	private function get_width():Int
 	{
 		return _video.width;
 	}
 
-	private inline function set_width(val:Int):Void
+	private function set_width(val:Int):Void
 	{
 		_video.width = val;
 	}
 
-	private inline function get_height():Int
+	private function get_height():Int
 	{
 		return _video.height;
 	}
 
-	private inline function set_height(val:Int):Void
+	private function set_height(val:Int):Void
 	{
 		_video.height = val;
 	}
@@ -316,22 +316,22 @@ class SimpleVideoPlayer implements IVideoPlayer
 	// read-only vars
 	//////////////////////////////////////////////////////
 
-	private inline function get_container():Sprite
+	private function get_container():Sprite
 	{
 		return _container;
 	}
 
-	private inline function get_time():Float
+	private function get_time():Float
 	{
 		return _ns.time;
 	}
 
-	private inline function get_playing():Bool
+	private function get_playing():Bool
 	{
 		return _playing;
 	}
 
-	private inline function get_paused():Bool
+	private function get_paused():Bool
 	{
 		return _paused;
 	}

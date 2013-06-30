@@ -10,12 +10,12 @@ class ConeGeometry extends CylinderGeometry
 	/**
 	 * The radius of the bottom end of the cone.
 	 */
-	private inline function get_radius():Float
+	private function get_radius():Float
 	{
 		return _bottomRadius;
 	}
 
-	private inline function set_radius(value:Float):Void
+	private function set_radius(value:Float):Void
 	{
 		_bottomRadius = value;
 		invalidateGeometry();

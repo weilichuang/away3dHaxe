@@ -46,32 +46,32 @@ class LightingPass extends CompiledPass
 	}
 
 	// these need to be set before the light picker is assigned
-	private inline function get_directionalLightsOffset():UInt
+	private function get_directionalLightsOffset():UInt
 	{
 		return _directionalLightsOffset;
 	}
 
-	private inline function set_directionalLightsOffset(value:UInt):Void
+	private function set_directionalLightsOffset(value:UInt):Void
 	{
 		_directionalLightsOffset = value;
 	}
 
-	private inline function get_pointLightsOffset():UInt
+	private function get_pointLightsOffset():UInt
 	{
 		return _pointLightsOffset;
 	}
 
-	private inline function set_pointLightsOffset(value:UInt):Void
+	private function set_pointLightsOffset(value:UInt):Void
 	{
 		_pointLightsOffset = value;
 	}
 
-	private inline function get_lightProbesOffset():UInt
+	private function get_lightProbesOffset():UInt
 	{
 		return _lightProbesOffset;
 	}
 
-	private inline function set_lightProbesOffset(value:UInt):Void
+	private function set_lightProbesOffset(value:UInt):Void
 	{
 		_lightProbesOffset = value;
 	}
@@ -82,12 +82,12 @@ class LightingPass extends CompiledPass
 		return new LightingShaderCompiler(profile);
 	}
 
-	private inline function get_includeCasters():Bool
+	private function get_includeCasters():Bool
 	{
 		return _includeCasters;
 	}
 
-	private inline function set_includeCasters(value:Bool):Void
+	private function set_includeCasters(value:Bool):Void
 	{
 		if (_includeCasters == value)
 			return;
@@ -221,24 +221,24 @@ class LightingPass extends CompiledPass
 		l = _lightVertexConstantIndex;
 		k = _lightFragmentConstantIndex;
 
-		var cast:Int = 0;
+		var c:Int = 0;
 		var dirLights:Vector<DirectionalLight> = _lightPicker.directionalLights;
 		offset = _directionalLightsOffset;
 		len = _lightPicker.directionalLights.length;
 		if (offset > len)
 		{
-			cast = 1;
+			c = 1;
 			offset -= len;
 		}
 
-		for (; cast < numLightTypes; ++cast)
+		while (c < numLightTypes)
 		{
-			if (cast)
+			if (c != 0)
 				dirLights = _lightPicker.castingDirectionalLights;
 			len = dirLights.length;
 			if (len > _numDirectionalLights)
 				len = _numDirectionalLights;
-			for (i = 0; i < len; ++i)
+			for (i in 0...len)
 			{
 				dirLight = dirLights[offset + i];
 				dirPos = dirLight.sceneDirection;
@@ -279,9 +279,10 @@ class LightingPass extends CompiledPass
 				{
 					// break loop
 					i = len;
-					cast = numLightTypes;
+					c = numLightTypes;
 				}
 			}
+			++c;
 		}
 
 		// more directional supported than currently picked, need to clamp all to 0
@@ -299,17 +300,17 @@ class LightingPass extends CompiledPass
 		len = _lightPicker.pointLights.length;
 		if (offset > len)
 		{
-			cast = 1;
+			c = 1;
 			offset -= len;
 		}
 		else
-			cast = 0;
-		for (; cast < numLightTypes; ++cast)
+			c = 0;
+		while (c < numLightTypes)
 		{
-			if (cast)
+			if (c != 0)
 				pointLights = _lightPicker.castingPointLights;
 			len = pointLights.length;
-			for (i = 0; i < len; ++i)
+			for (i in 0...len)
 			{
 				pointLight = pointLights[offset + i];
 				dirPos = pointLight.scenePosition;
@@ -350,17 +351,21 @@ class LightingPass extends CompiledPass
 				{
 					// break loop
 					i = len;
-					cast = numLightTypes;
+					c = numLightTypes;
 				}
 			}
+			++c;
 		}
 
 		// more directional supported than currently picked, need to clamp all to 0
 		if (_numPointLights > total)
 		{
 			i = k + (total - _numPointLights) * 12;
-			for (; k < i; ++k)
+			while (k < i)
+			{
 				_fragmentConstantData[k] = 0;
+				++k;
+			}
 		}
 	}
 
@@ -372,7 +377,7 @@ class LightingPass extends CompiledPass
 		var weights:Vector<Float> = _lightPicker.lightProbeWeights;
 		var len:Int = lightProbes.length - _lightProbesOffset;
 		var addDiff:Bool = usesProbesForDiffuse();
-		var addSpec:Bool = Bool(_methodSetup.specularMethod && usesProbesForSpecular());
+		var addSpec:Bool = (_methodSetup.specularMethod != null && usesProbesForSpecular());
 
 		if (!(addDiff || addSpec))
 			return;
@@ -380,7 +385,7 @@ class LightingPass extends CompiledPass
 		if (len > _numLightProbes)
 			len = _numLightProbes;
 
-		for (var i:UInt = 0; i < len; ++i)
+		for (i in 0...len)
 		{
 			probe = lightProbes[_lightProbesOffset + i];
 
@@ -390,7 +395,7 @@ class LightingPass extends CompiledPass
 				context.setTextureAt(_lightProbeSpecularIndices[i], probe.specularMap.getTextureForStage3D(stage3DProxy));
 		}
 
-		for (i = 0; i < len; ++i)
+		for (i in 0...len)
 			_fragmentConstantData[_probeWeightsIndex + i] = weights[_lightProbesOffset + i];
 	}
 }

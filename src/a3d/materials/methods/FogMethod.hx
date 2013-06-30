@@ -40,34 +40,34 @@ class FogMethod extends EffectMethodBase
 	}
 
 	public var minDistance(get,set):Float;
-	private inline function get_minDistance():Float
+	private function get_minDistance():Float
 	{
 		return _minDistance;
 	}
 
-	private inline function set_minDistance(value:Float):Float
+	private function set_minDistance(value:Float):Float
 	{
 		_minDistance = value;
 	}
 
 	public var maxDistance(get,set):Float;
-	private inline function get_maxDistance():Float
+	private function get_maxDistance():Float
 	{
 		return _maxDistance;
 	}
 
-	private inline function set_maxDistance(value:Float):Float
+	private function set_maxDistance(value:Float):Float
 	{
 		return _maxDistance = value;
 	}
 
 	public var fogColor(get,set):UInt;
-	private inline function get_fogColor():UInt
+	private function get_fogColor():UInt
 	{
 		return _fogColor;
 	}
 
-	private inline function set_fogColor(value:UInt):UInt
+	private function set_fogColor(value:UInt):UInt
 	{
 		_fogColor = value;
 		_fogR = ((value >> 16) & 0xff) / 0xff;

@@ -76,12 +76,12 @@ class Sound3D extends ObjectContainer3D
 	 * @see ISound3DDriver.volume
 	*/
 	public var volume(get, set):Float;
-	private inline function get_volume():Float
+	private function get_volume():Float
 	{
 		return _driver.volume;
 	}
 
-	private inline function set_volume(val:Float):Float
+	private function set_volume(val:Float):Float
 	{
 		return _driver.volume = val;
 	}
@@ -97,12 +97,12 @@ class Sound3D extends ObjectContainer3D
 	 * @see ISound3DDriver.scale
 	*/
 	public var scaleDistance(get, set):Float;
-	private inline function get_scaleDistance():Float
+	private function get_scaleDistance():Float
 	{
 		return _driver.scale;
 	}
 
-	private inline function set_scaleDistance(val:Float):Float
+	private function set_scaleDistance(val:Float):Float
 	{
 		return _driver.scale = val;
 	}
@@ -113,7 +113,7 @@ class Sound3D extends ObjectContainer3D
 	 * playing.
 	*/
 	public var playing(get, null):Float;
-	private inline function get_playing():Bool
+	private function get_playing():Bool
 	{
 		return _playing;
 	}
@@ -124,7 +124,7 @@ class Sound3D extends ObjectContainer3D
 	 * paused.
 	*/
 	public var paused(get, null):Float;
-	private inline function get_paused():Bool
+	private function get_paused():Bool
 	{
 		return _paused;
 	}

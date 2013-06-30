@@ -32,12 +32,12 @@ class ParticleScaleState extends ParticleStateBase
 	/**
 	 * Defines the end scale of the state, when in global mode. Defaults to 1.
 	 */
-	private inline function get_minScale():Float
+	private function get_minScale():Float
 	{
 		return _minScale;
 	}
 
-	private inline function set_minScale(value:Float):Void
+	private function set_minScale(value:Float):Void
 	{
 		_minScale = value;
 
@@ -47,12 +47,12 @@ class ParticleScaleState extends ParticleStateBase
 	/**
 	 * Defines the end scale of the state, when in global mode. Defaults to 1.
 	 */
-	private inline function get_maxScale():Float
+	private function get_maxScale():Float
 	{
 		return _maxScale;
 	}
 
-	private inline function set_maxScale(value:Float):Void
+	private function set_maxScale(value:Float):Void
 	{
 		_maxScale = value;
 
@@ -62,12 +62,12 @@ class ParticleScaleState extends ParticleStateBase
 	/**
 	 * Defines the duration of the animation in seconds, used as a period independent of particle duration when in global mode. Defaults to 1.
 	 */
-	private inline function get_cycleDuration():Float
+	private function get_cycleDuration():Float
 	{
 		return _cycleDuration;
 	}
 
-	private inline function set_cycleDuration(value:Float):Void
+	private function set_cycleDuration(value:Float):Void
 	{
 		_cycleDuration = value;
 
@@ -77,12 +77,12 @@ class ParticleScaleState extends ParticleStateBase
 	/**
 	 * Defines the phase of the cycle in degrees, used as the starting offset of the cycle when in global mode. Defaults to 0.
 	 */
-	private inline function get_cyclePhase():Float
+	private function get_cyclePhase():Float
 	{
 		return _cyclePhase;
 	}
 
-	private inline function set_cyclePhase(value:Float):Void
+	private function set_cyclePhase(value:Float):Void
 	{
 		_cyclePhase = value;
 

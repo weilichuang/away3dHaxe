@@ -27,12 +27,12 @@ class SoftShadowMapMethod extends SimpleShadowMapMethodBase
 	}
 	
 	public var numSamples(set,set):Int;
-	private inline function get_numSamples():Int
+	private function get_numSamples():Int
 	{
 		return _numSamples;
 	}
 
-	private inline function set_numSamples(value:Int):Int
+	private function set_numSamples(value:Int):Int
 	{
 		_numSamples = value;
 		if (_numSamples < 1)
@@ -47,12 +47,12 @@ class SoftShadowMapMethod extends SimpleShadowMapMethodBase
 	}
 
 	public var range(set,set):Float;
-	private inline function get_range():Float
+	private function get_range():Float
 	{
 		return _range;
 	}
 
-	private inline function set_range(value:Float):Float
+	private function set_range(value:Float):Float
 	{
 		return _range = value;
 	}

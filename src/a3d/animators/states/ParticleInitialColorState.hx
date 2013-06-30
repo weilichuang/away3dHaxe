@@ -41,12 +41,12 @@ class ParticleInitialColorState extends ParticleStateBase
 	/**
 	 * Defines the initial color transform of the state, when in global mode.
 	 */
-	private inline function get_initialColor():ColorTransform
+	private function get_initialColor():ColorTransform
 	{
 		return _initialColor;
 	}
 
-	private inline function set_initialColor(value:ColorTransform):Void
+	private function set_initialColor(value:ColorTransform):Void
 	{
 		_initialColor = value;
 	}

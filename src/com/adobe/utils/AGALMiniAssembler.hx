@@ -19,12 +19,12 @@ class AGALMiniAssembler
 	public var error(get, null):String;
 	public var agalcode(get, null):ByteArray;
 
-	private inline function get_error() : String      
+	private function get_error() : String      
 	{
 		return _error;
 	}
 	
-	private inline function get_agalcode() : ByteArray
+	private function get_agalcode() : ByteArray
 	{ 
 		return _agalcode; 
 	}
@@ -61,13 +61,17 @@ class AGALMiniAssembler
 		var lines : Array<String> = reg.replace(source, "\n").split("\n");
 		var nest : Int = 0;
 		var nops : Int = 0;
-		var i : Int;
+		
 		var lng : Int = lines.length;
-
-		i = 0;
+		var i : Int = 0;
 		while (i < lng && _error == "") 
 		{
 			var line : String = lines[i];
+			if (line == "")
+			{
+				i++;
+				continue;
+			}
 
 			// remove comments
 			var startcomment : Int = line.indexOf("//");
@@ -76,8 +80,8 @@ class AGALMiniAssembler
 
 			// grab options
 			reg = ~/<.*>/g;
-			var optsi:Int = -1,
-			options:String = new String(line);
+			var optsi:Int = -1;
+			var options:String = line;
 			if (reg.match(options))
 				optsi = reg.matchedPos().pos;
 
@@ -100,13 +104,18 @@ class AGALMiniAssembler
 					{
 						optsi = -1;
 					}
-
 				}
 			}
 
 			// find opcode
 			reg = ~/^\w{3}/ig;
-			reg.match(line);
+			var matched:Bool = reg.match(line);
+			if (!matched)
+			{
+				i++;
+				continue;
+			}
+			
 			var opCode : String = reg.matched(0);
 			var opFound : OpCode = OPMAP.get(opCode);
 
@@ -134,6 +143,7 @@ class AGALMiniAssembler
 					break;
 				}
 			}
+			
 			if ((opFound.flags & OP_INC_NEST) != 0)
 			{
 				nest++;
@@ -142,6 +152,12 @@ class AGALMiniAssembler
 					_error = "error: nesting to deep, maximum allowed is " + MAX_NESTING + ".";
 					break;
 				}
+			}
+			
+			if (((opFound.flags & OP_VERT_ONLY) != 0) && isFrag)
+			{
+				_error = "error: opcode is only allowed in vertex programs.";
+				break;
 			}
 			
 			if (((opFound.flags & OP_FRAG_ONLY) != 0) && !isFrag) 
@@ -163,9 +179,9 @@ class AGALMiniAssembler
 			}
 
 			// get operands, use regexp
-			reg = ~/vc\[([vof][actps]?)(\d*)?(\.[xyzw](\+\d{1,3})?)?\](\.[xyzw]{1,4})?|([vof][actps]?)(\d*)?(\.[xyzw]{1,4})?/gi;
+			reg = ~/vc\[([vof][acostdip]?)(\d*)?(\.[xyzw](\+\d{1,3})?)?\](\.[xyzw]{1,4})?|([vof][acostdip]?)(\d*)?(\.[xyzw]{1,4})?/gi;
 			var subline : String = line;
-			var regs : Array<String> = new Array<String>();
+			var regs : Array<String> = [];
 			while (reg.match(subline)) 
 			{
 				regs.push(reg.matched(0));
@@ -185,9 +201,7 @@ class AGALMiniAssembler
 			var badreg : Bool    = false;
 			var pad : Int       = 64 + 64 + 32;
 			var regLength : Int = regs.length;
-
-			var j : Int = 0;
-			while (j < regLength)
+			for (j in 0...regLength)
 			{
 				var isRelative : Bool = false;
 				reg = ~/\[.*\]/ig;
@@ -290,20 +304,25 @@ class AGALMiniAssembler
 					while (k < Std.int(maskLength)) 
 					{
 						cv = maskmatch.charCodeAt(k) - "x".charCodeAt(0);
-						if (cv > 2) cv = 3;
-						if (isDest) regmask |= 1 << cv;
-						else regmask |= cv << ( ( k - 1 ) << 1 );
+						if (cv > 2) 
+							cv = 3;
+						if (isDest) 
+							regmask |= 1 << cv;
+						else 
+							regmask |= cv << ( ( k - 1 ) << 1 );
 						++k;
 					}
 					if (!isDest) 
 					{
-						while (k <= 4) {
+						while (k <= 4) 
+						{
 							regmask |= cv << ( ( k - 1 ) << 1 ); // repeat last
 							++k;
 						}
 					}
 				}
-				else regmask = isDest ? 0xf : 0xe4; // id swizzle or mask
+				else 
+					regmask = isDest ? 0xf : 0xe4; // id swizzle or mask
 
 				if (isRelative) 
 				{
@@ -327,7 +346,8 @@ class AGALMiniAssembler
 					}
 					var selmatch : String = reg.matched(0);
 					relsel = selmatch.charCodeAt(1) - "x".charCodeAt(0);
-					if (relsel > 2) relsel = 3;
+					if (relsel > 2) 
+						relsel = 3;
 					reg = ~/\+\d{1,3}/ig;
 					if (reg.match(relreg)) 
 					{
@@ -417,15 +437,14 @@ class AGALMiniAssembler
 						pad -= 64;
 					}
 				}
-				++j;
 			}
 
 			// pad unused regs
-			j = 0;
-			while (j < pad) 
+			var u:Int = 0;
+			while (u < pad) 
 			{
 				_agalcode.writeByte(0);
-				j += 8;
+				u += 8;
 			}
 
 			if (badreg) 

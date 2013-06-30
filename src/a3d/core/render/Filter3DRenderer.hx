@@ -40,7 +40,7 @@ class Filter3DRenderer
 	}
 
 	public var requireDepthRender(get, null):Bool;
-	private inline function get_requireDepthRender():Bool
+	private function get_requireDepthRender():Bool
 	{
 		return _requireDepthRender;
 	}
@@ -53,12 +53,12 @@ class Filter3DRenderer
 	}
 
 	public var filters(get, set):Array<Filter3DBase>;
-	private inline function get_filters():Array<Filter3DBase>
+	private function get_filters():Array<Filter3DBase>
 	{
 		return _filters;
 	}
 
-	private inline function set_filters(value:Array<Filter3DBase>):Array<Filter3DBase>
+	private function set_filters(value:Array<Filter3DBase>):Array<Filter3DBase>
 	{
 		_filters = value;
 		_filterTasksInvalid = true;

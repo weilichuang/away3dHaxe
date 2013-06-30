@@ -173,7 +173,7 @@ class TouchEvent3D extends Event
 	 * The position in scene space where the event took place
 	 */
 	public var scenePosition(get, null):Vector3D;
-	private inline function get_scenePosition():Vector3D
+	private function get_scenePosition():Vector3D
 	{
 		if (Std.is(object,ObjectContainer3D))
 		{
@@ -189,7 +189,7 @@ class TouchEvent3D extends Event
 	 * The normal in scene space where the event took place
 	 */
 	public var sceneNormal(get, null):Vector3D;
-	private inline function get_sceneNormal():Vector3D
+	private function get_sceneNormal():Vector3D
 	{
 		if (Std.is(object,ObjectContainer3D))
 		{

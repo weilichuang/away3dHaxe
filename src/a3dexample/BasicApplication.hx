@@ -1,5 +1,7 @@
 package a3dexample;
 
+import a3d.textures.BitmapTexture;
+import flash.display.BitmapData;
 import flash.display.Sprite;
 import flash.display.StageAlign;
 import flash.display.StageScaleMode;
@@ -23,6 +25,24 @@ class BasicApplication extends Sprite
 	public function new()
 	{
 		super();
+		this.addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
+	}
+	
+	private function onAddedToStage(e:Event):Void 
+	{
+		this.removeEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
+		init();
+	}
+	
+	private function init():Void
+	{
+		
+	}
+	
+	private function createBitmapTexture<T>(cls:Class<T>):BitmapTexture
+	{
+		var bitmapData:BitmapData = cast(Type.createInstance(cls, [0, 0]), BitmapData);
+		return new BitmapTexture(bitmapData);
 	}
 
 	/**

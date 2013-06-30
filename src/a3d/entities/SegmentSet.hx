@@ -249,14 +249,14 @@ class SegmentSet extends Entity implements IRenderable
 	/**
 	* @returns howmany segments are in the SegmentSet
 	*/
-	public var segmentCount(get, null):UInt;
-	private inline function get_segmentCount():UInt
+	public var segmentCount(get, null):Int;
+	private function get_segmentCount():Int
 	{
 		return _indexSegments;
 	}
 
-	public var subSetCount(get, null):UInt;
-	private inline function get_subSetCount():UInt
+	public var subSetCount(get, null):Int;
+	private function get_subSetCount():Int
 	{
 		return _subSetCount;
 	}
@@ -330,7 +330,7 @@ class SegmentSet extends Entity implements IRenderable
 	}
 
 	public var hasData(get, null):Bool;
-	private inline function get_hasData():Bool
+	private function get_hasData():Bool
 	{
 		return _hasData;
 	}
@@ -528,37 +528,37 @@ class SegmentSet extends Entity implements IRenderable
 		return new RenderableNode(this);
 	}
 
-	public var numTriangles(get, null):UInt;
-	private inline function get_numTriangles():UInt
+	public var numTriangles(get, null):Int;
+	private function get_numTriangles():Int
 	{
 		return Std.int(_numIndices / 3);
 	}
 
 	public var sourceEntity(get, null):Entity;
-	private inline function get_sourceEntity():Entity
+	private function get_sourceEntity():Entity
 	{
 		return this;
 	}
 
 	public var castsShadows(get, null):Bool;
-	private inline function get_castsShadows():Bool
+	private function get_castsShadows():Bool
 	{
 		return false;
 	}
 
 	public var material(get, set):MaterialBase;
-	private inline function get_material():MaterialBase
+	private function get_material():MaterialBase
 	{
 		return _material;
 	}
 
 	public var animator(get, null):IAnimator;
-	private inline function get_animator():IAnimator
+	private function get_animator():IAnimator
 	{
 		return _animator;
 	}
 
-	private inline function set_material(value:MaterialBase):MaterialBase
+	private function set_material(value:MaterialBase):MaterialBase
 	{
 		if (value == _material)
 			return _material;
@@ -572,67 +572,67 @@ class SegmentSet extends Entity implements IRenderable
 	}
 
 	public var uvTransform(get, null):Matrix;
-	private inline function get_uvTransform():Matrix
+	private function get_uvTransform():Matrix
 	{
 		return null;
 	}
 
 	public var vertexData(get, null):Vector<Float>;
-	private inline function get_vertexData():Vector<Float>
+	private function get_vertexData():Vector<Float>
 	{
 		return null;
 	}
 
 	public var indexData(get, null):Vector<UInt>;
-	private inline function get_indexData():Vector<UInt>
+	private function get_indexData():Vector<UInt>
 	{
 		return null;
 	}
 
 	public var UVData(get, null):Vector<Float>;
-	private inline function get_UVData():Vector<Float>
+	private function get_UVData():Vector<Float>
 	{
 		return null;
 	}
 
-	public var numVertices(get, null):UInt;
-	private inline function get_numVertices():UInt
+	public var numVertices(get, null):Int;
+	private function get_numVertices():Int
 	{
 		return 0;
 	}
 
-	public var vertexStride(get, null):UInt;
-	private inline function get_vertexStride():UInt
+	public var vertexStride(get, null):Int;
+	private function get_vertexStride():Int
 	{
 		return 11;
 	}
 
 	public var vertexNormalData(get, null):Vector<Float>;
-	private inline function get_vertexNormalData():Vector<Float>
+	private function get_vertexNormalData():Vector<Float>
 	{
 		return null;
 	}
 
 	public var vertexTangentData(get, null):Vector<Float>;
-	private inline function get_vertexTangentData():Vector<Float>
+	private function get_vertexTangentData():Vector<Float>
 	{
 		return null;
 	}
 
 	public var vertexOffset(get, null):Int;
-	private inline function get_vertexOffset():Int
+	private function get_vertexOffset():Int
 	{
 		return 0;
 	}
 
 	public var vertexNormalOffset(get, null):Int;
-	private inline function get_vertexNormalOffset():Int
+	private function get_vertexNormalOffset():Int
 	{
 		return 0;
 	}
 
 	public var vertexTangentOffset(get, null):Int;
-	private inline function get_vertexTangentOffset():Int
+	private function get_vertexTangentOffset():Int
 	{
 		return 0;
 	}

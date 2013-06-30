@@ -14,12 +14,12 @@ class NURBSVertex extends Vertex
 
 	private var _w:Float;
 
-	private inline function get_w():Float
+	private function get_w():Float
 	{
 		return _w;
 	}
 
-	private inline function set_w(w:Float):Void
+	private function set_w(w:Float):Void
 	{
 		_w = w;
 	}

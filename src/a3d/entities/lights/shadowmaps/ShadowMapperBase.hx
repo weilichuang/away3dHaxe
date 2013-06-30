@@ -28,12 +28,12 @@ class ShadowMapperBase
 	private var _shadowsInvalid:Bool;
 
 	public var shadowsInvalid(get,null):Bool;
-	private inline function get_shadowsInvalid():Bool
+	private function get_shadowsInvalid():Bool
 	{
 		return _shadowsInvalid;
 	}
 
-//		private inline function set_shadowsInvalid(value:Bool):Bool
+//		private function set_shadowsInvalid(value:Bool):Bool
 //		{
 //			return _shadowsInvalid = value;
 //		}
@@ -49,12 +49,12 @@ class ShadowMapperBase
 	}
 
 	public var autoUpdateShadows(get,set):Bool;
-	private inline function get_autoUpdateShadows():Bool
+	private function get_autoUpdateShadows():Bool
 	{
 		return _autoUpdateShadows;
 	}
 
-	private inline function set_autoUpdateShadows(value:Bool):Bool
+	private function set_autoUpdateShadows(value:Bool):Bool
 	{
 		return _autoUpdateShadows = value;
 	}
@@ -85,18 +85,18 @@ class ShadowMapperBase
 	}
 
 	public var light(get,set):LightBase;
-	private inline function get_light():LightBase
+	private function get_light():LightBase
 	{
 		return _light;
 	}
 
-	private inline function set_light(value:LightBase):LightBase
+	private function set_light(value:LightBase):LightBase
 	{
 		return _light = value;
 	}
 
 	public var depthMap(get,null):TextureProxyBase;
-	private inline function get_depthMap():TextureProxyBase
+	private function get_depthMap():TextureProxyBase
 	{
 		if (_depthMap == null)
 			_depthMap = createDepthTexture();
@@ -104,12 +104,12 @@ class ShadowMapperBase
 	}
 
 	public var depthMapSize(get,set):UInt;
-	private inline function get_depthMapSize():UInt
+	private function get_depthMapSize():UInt
 	{
 		return _depthMapSize;
 	}
 
-	private inline function set_depthMapSize(value:UInt):UInt
+	private function set_depthMapSize(value:UInt):UInt
 	{
 		if (value == _depthMapSize)
 			return _depthMapSize;

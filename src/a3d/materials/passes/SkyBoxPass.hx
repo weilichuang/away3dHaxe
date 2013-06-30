@@ -32,20 +32,21 @@ class SkyBoxPass extends MaterialPassBase
 		super();
 		mipmap = false;
 		_numUsedTextures = 1;
-		_vertexData = new <Number>[0, 0, 0, 0, 1, 1, 1, 1];
+		_vertexData = Vector.ofArray([0., 0, 0, 0, 1, 1, 1, 1]);
 	}
 
 	/**
 	 * The cube texture to use as the skybox.
 	 */
-	private inline function get_cubeTexture():CubeTextureBase
+	public var cubeTexture(get,set):CubeTextureBase;
+	private function get_cubeTexture():CubeTextureBase
 	{
 		return _cubeTexture;
 	}
 
-	private inline function set_cubeTexture(value:CubeTextureBase):Void
+	private function set_cubeTexture(value:CubeTextureBase):CubeTextureBase
 	{
-		_cubeTexture = value;
+		return _cubeTexture = value;
 	}
 
 	/**

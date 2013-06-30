@@ -44,12 +44,12 @@ class RimLightMethod extends EffectMethodBase
 	}
 
 	public var color(get,set):UInt;
-	private inline function get_color():UInt
+	private function get_color():UInt
 	{
 		return _color;
 	}
 
-	private inline function set_color(value:UInt):UInt
+	private function set_color(value:UInt):UInt
 	{
 		_color = value;
 		_colorR = ((value >> 16) & 0xff) / 0xff;
@@ -59,23 +59,23 @@ class RimLightMethod extends EffectMethodBase
 	}
 
 	public var strength(get,set):UInt;
-	private inline function get_strength():Float
+	private function get_strength():Float
 	{
 		return _strength;
 	}
 
-	private inline function set_strength(value:Float):Float
+	private function set_strength(value:Float):Float
 	{
 		return _strength = value;
 	}
 
 	public var power(get,set):Float;
-	private inline function get_power():Float
+	private function get_power():Float
 	{
 		return _power;
 	}
 
-	private inline function set_power(value:Float):Float
+	private function set_power(value:Float):Float
 	{
 		return _power = value;
 	}

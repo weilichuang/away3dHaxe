@@ -32,7 +32,7 @@ class SkeletonDirectionalState extends AnimationStateBase implements ISkeletonAn
 	 * Defines the direction in degrees of the aniamtion between the forwards (0), right(90) backwards (180) and left(270) input nodes,
 	 * used to produce the skeleton pose output.
 	 */
-	private inline function set_direction(value:Float):Void
+	private function set_direction(value:Float):Void
 	{
 		if (_direction == value)
 			return;
@@ -45,7 +45,7 @@ class SkeletonDirectionalState extends AnimationStateBase implements ISkeletonAn
 		_positionDeltaDirty = true;
 	}
 
-	private inline function get_direction():Float
+	private function get_direction():Float
 	{
 		return _direction;
 	}

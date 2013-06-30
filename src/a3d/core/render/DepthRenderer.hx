@@ -43,12 +43,12 @@ class DepthRenderer extends RendererBase
 	}
 
 	public var disableColor(get, set):Bool;
-	private inline function get_disableColor():Bool
+	private function get_disableColor():Bool
 	{
 		return _disableColor;
 	}
 
-	private inline function set_disableColor(value:Bool):Bool
+	private function set_disableColor(value:Bool):Bool
 	{
 		return _disableColor = value;
 	}

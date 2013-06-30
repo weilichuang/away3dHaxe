@@ -81,12 +81,12 @@ class ParticleBillboardState extends ParticleStateBase
 	/**
 	 * Defines the billboard axis.
 	 */
-	private inline function get_billboardAxis():Vector3D
+	private function get_billboardAxis():Vector3D
 	{
 		return _billboardAxis;
 	}
 
-	private inline function set_billboardAxis(value:Vector3D):Void
+	private function set_billboardAxis(value:Vector3D):Void
 	{
 		_billboardAxis = value ? value.clone() : null;
 		if (_billboardAxis)

@@ -43,12 +43,12 @@ class TextureProjector extends ObjectContainer3D
 	/**
 	 * The aspect ratio of the texture or projection. By default this is the same aspect ratio of the texture (width/height)
 	 */
-	private inline function get_aspectRatio():Float
+	private function get_aspectRatio():Float
 	{
 		return _lens.aspectRatio;
 	}
 
-	private inline function set_aspectRatio(value:Float):Void
+	private function set_aspectRatio(value:Float):Void
 	{
 		_lens.aspectRatio = value;
 	}
@@ -56,12 +56,12 @@ class TextureProjector extends ObjectContainer3D
 	/**
 	 * The vertical field of view of the projection, or the angle of the cone.
 	 */
-	private inline function get_fieldOfView():Float
+	private function get_fieldOfView():Float
 	{
 		return _lens.fieldOfView;
 	}
 
-	private inline function set_fieldOfView(value:Float):Void
+	private function set_fieldOfView(value:Float):Void
 	{
 		_lens.fieldOfView = value;
 	}
@@ -79,12 +79,12 @@ class TextureProjector extends ObjectContainer3D
 	 * Black for ADD,
 	 * Transparent for MIX
 	 */
-	private inline function get_texture():Texture2DBase
+	private function get_texture():Texture2DBase
 	{
 		return _texture;
 	}
 
-	private inline function set_texture(value:Texture2DBase):Void
+	private function set_texture(value:Texture2DBase):Void
 	{
 		if (value == _texture)
 			return;
@@ -94,7 +94,7 @@ class TextureProjector extends ObjectContainer3D
 	/**
 	 * The matrix that projects a point in scene space into the texture coordinates.
 	 */
-	private inline function get_viewProjection():Matrix3D
+	private function get_viewProjection():Matrix3D
 	{
 		if (_viewProjectionInvalid)
 		{

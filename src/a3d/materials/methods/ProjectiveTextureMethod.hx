@@ -67,12 +67,12 @@ class ProjectiveTextureMethod extends EffectMethodBase
 	 * ProjectiveTextureMethod.MIX provides normal alpha blending. To prevent clamping, the texture's alpha should be transparent!
 	 */
 	public var mode(get,set):String;
-	private inline function get_mode():String
+	private function get_mode():String
 	{
 		return _mode;
 	}
 
-	private inline function set_mode(value:String):String
+	private function set_mode(value:String):String
 	{
 		if (_mode == value)
 			return _mode;
@@ -87,12 +87,12 @@ class ProjectiveTextureMethod extends EffectMethodBase
 	 * @see a3d.entities.TextureProjector
 	 */
 	public var projector(get,set):TextureProjector;
-	private inline function get_projector():TextureProjector
+	private function get_projector():TextureProjector
 	{
 		return _projector;
 	}
 
-	private inline function set_projector(value:TextureProjector):TextureProjector
+	private function set_projector(value:TextureProjector):TextureProjector
 	{
 		return _projector = value;
 	}

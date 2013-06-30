@@ -43,12 +43,12 @@ class SinglePassMaterialBase extends MaterialBase
 	 * Whether or not to use fallOff and radius properties for lights.
 	 */
 	public var enableLightFallOff(get, set):Bool;
-	private inline function get_enableLightFallOff():Bool
+	private function get_enableLightFallOff():Bool
 	{
 		return _screenPass.enableLightFallOff;
 	}
 
-	private inline function set_enableLightFallOff(value:Bool):Bool
+	private function set_enableLightFallOff(value:Bool):Bool
 	{
 		return _screenPass.enableLightFallOff = value;
 	}
@@ -59,12 +59,12 @@ class SinglePassMaterialBase extends MaterialBase
 	 * Recommended values are 0 to disable alpha, or 0.5 to create smooth edges. Default value is 0 (disabled).
 	 */
 	public var alphaThreshold(get, set):Float;
-	private inline function get_alphaThreshold():Float
+	private function get_alphaThreshold():Float
 	{
 		return _screenPass.diffuseMethod.alphaThreshold;
 	}
 
-	private inline function set_alphaThreshold(value:Float):Float
+	private function set_alphaThreshold(value:Float):Float
 	{
 		_screenPass.diffuseMethod.alphaThreshold = value;
 		_depthPass.alphaThreshold = value;
@@ -98,23 +98,23 @@ class SinglePassMaterialBase extends MaterialBase
 	}
 
 	public var specularLightSources(get, set):UInt;
-	private inline function get_specularLightSources():UInt
+	private function get_specularLightSources():UInt
 	{
 		return _screenPass.specularLightSources;
 	}
 
-	private inline function set_specularLightSources(value:UInt):UInt
+	private function set_specularLightSources(value:UInt):UInt
 	{
 		return _screenPass.specularLightSources = value;
 	}
 
 	public var diffuseLightSources(get, set):UInt;
-	private inline function get_diffuseLightSources():UInt
+	private function get_diffuseLightSources():UInt
 	{
 		return _screenPass.diffuseLightSources;
 	}
 
-	private inline function set_diffuseLightSources(value:UInt):UInt
+	private function set_diffuseLightSources(value:UInt):UInt
 	{
 		return _screenPass.diffuseLightSources = value;
 	}
@@ -123,12 +123,12 @@ class SinglePassMaterialBase extends MaterialBase
 	 * The ColorTransform object to transform the colour of the material with.
 	 */
 	public var colorTransform(get, set):ColorTransform;
-	private inline function get_colorTransform():ColorTransform
+	private function get_colorTransform():ColorTransform
 	{
 		return _screenPass.colorTransform;
 	}
 
-	private inline function set_colorTransform(value:ColorTransform):ColorTransform
+	private function set_colorTransform(value:ColorTransform):ColorTransform
 	{
 		return _screenPass.colorTransform = value;
 	}
@@ -146,12 +146,12 @@ class SinglePassMaterialBase extends MaterialBase
 	 * be reused across materials.
 	 */
 	public var ambientMethod(get, set):BasicAmbientMethod;
-	private inline function get_ambientMethod():BasicAmbientMethod
+	private function get_ambientMethod():BasicAmbientMethod
 	{
 		return _screenPass.ambientMethod;
 	}
 
-	private inline function set_ambientMethod(value:BasicAmbientMethod):BasicAmbientMethod
+	private function set_ambientMethod(value:BasicAmbientMethod):BasicAmbientMethod
 	{
 		return _screenPass.ambientMethod = value;
 	}
@@ -161,12 +161,12 @@ class SinglePassMaterialBase extends MaterialBase
 	 * be reused across materials.
 	 */
 	public var shadowMethod(get, set):ShadowMapMethodBase;
-	private inline function get_shadowMethod():ShadowMapMethodBase
+	private function get_shadowMethod():ShadowMapMethodBase
 	{
 		return _screenPass.shadowMethod;
 	}
 
-	private inline function set_shadowMethod(value:ShadowMapMethodBase):ShadowMapMethodBase
+	private function set_shadowMethod(value:ShadowMapMethodBase):ShadowMapMethodBase
 	{
 		return _screenPass.shadowMethod = value;
 	}
@@ -176,12 +176,12 @@ class SinglePassMaterialBase extends MaterialBase
 	 * be reused across materials.
 	 */
 	public var diffuseMethod(get, set):BasicDiffuseMethod;
-	private inline function get_diffuseMethod():BasicDiffuseMethod
+	private function get_diffuseMethod():BasicDiffuseMethod
 	{
 		return _screenPass.diffuseMethod;
 	}
 
-	private inline function set_diffuseMethod(value:BasicDiffuseMethod):BasicDiffuseMethod
+	private function set_diffuseMethod(value:BasicDiffuseMethod):BasicDiffuseMethod
 	{
 		return _screenPass.diffuseMethod = value;
 	}
@@ -191,12 +191,12 @@ class SinglePassMaterialBase extends MaterialBase
 	 * be reused across materials.
 	 */
 	public var normalMethod(get, set):BasicNormalMethod;
-	private inline function get_normalMethod():BasicNormalMethod
+	private function get_normalMethod():BasicNormalMethod
 	{
 		return _screenPass.normalMethod;
 	}
 
-	private inline function set_normalMethod(value:BasicNormalMethod):BasicNormalMethod
+	private function set_normalMethod(value:BasicNormalMethod):BasicNormalMethod
 	{
 		return _screenPass.normalMethod = value;
 	}
@@ -206,12 +206,12 @@ class SinglePassMaterialBase extends MaterialBase
 	 * be reused across materials.
 	 */
 	public var specularMethod(get, set):BasicSpecularMethod;
-	private inline function get_specularMethod():BasicSpecularMethod
+	private function get_specularMethod():BasicSpecularMethod
 	{
 		return _screenPass.specularMethod;
 	}
 
-	private inline function set_specularMethod(value:BasicSpecularMethod):BasicSpecularMethod
+	private function set_specularMethod(value:BasicSpecularMethod):BasicSpecularMethod
 	{
 		return _screenPass.specularMethod = value;
 	}
@@ -226,7 +226,7 @@ class SinglePassMaterialBase extends MaterialBase
 	}
 
 	public var numMethods(get, null):Int;
-	private inline function get_numMethods():Int
+	private function get_numMethods():Int
 	{
 		return _screenPass.numMethods;
 	}
@@ -270,12 +270,12 @@ class SinglePassMaterialBase extends MaterialBase
 	 * The tangent space normal map to influence the direction of the surface for each texel.
 	 */
 	public var normalMap(get, set):Texture2DBase;
-	private inline function get_normalMap():Texture2DBase
+	private function get_normalMap():Texture2DBase
 	{
 		return _screenPass.normalMap;
 	}
 
-	private inline function set_normalMap(value:Texture2DBase):Texture2DBase
+	private function set_normalMap(value:Texture2DBase):Texture2DBase
 	{
 		return _screenPass.normalMap = value;
 	}
@@ -285,12 +285,12 @@ class SinglePassMaterialBase extends MaterialBase
 	 * You can use SpecularBitmapTexture if you want to easily set specular and gloss maps from greyscale images, but prepared images are preffered.
 	 */
 	public var specularMap(get, set):Texture2DBase;
-	private inline function get_specularMap():Texture2DBase
+	private function get_specularMap():Texture2DBase
 	{
 		return _screenPass.specularMethod.texture;
 	}
 
-	private inline function set_specularMap(value:Texture2DBase):Texture2DBase
+	private function set_specularMap(value:Texture2DBase):Texture2DBase
 	{
 		if (_screenPass.specularMethod != null)
 			_screenPass.specularMethod.texture = value;
@@ -304,12 +304,12 @@ class SinglePassMaterialBase extends MaterialBase
 	 * The sharpness of the specular highlight.
 	 */
 	public var gloss(get, set):Float;
-	private inline function get_gloss():Float
+	private function get_gloss():Float
 	{
 		return _screenPass.specularMethod != null ? _screenPass.specularMethod.gloss : 0;
 	}
 
-	private inline function set_gloss(value:Float):Float
+	private function set_gloss(value:Float):Float
 	{
 		if (_screenPass.specularMethod != null)
 			_screenPass.specularMethod.gloss = value;
@@ -321,12 +321,12 @@ class SinglePassMaterialBase extends MaterialBase
 	 * The strength of the ambient reflection.
 	 */
 	public var ambient(get, set):Float;
-	private inline function get_ambient():Float
+	private function get_ambient():Float
 	{
 		return _screenPass.ambientMethod.ambient;
 	}
 
-	private inline function set_ambient(value:Float):Float
+	private function set_ambient(value:Float):Float
 	{
 		return _screenPass.ambientMethod.ambient = value;
 	}
@@ -335,12 +335,12 @@ class SinglePassMaterialBase extends MaterialBase
 	 * The overall strength of the specular reflection.
 	 */
 	public var specular(get, set):Float;
-	private inline function get_specular():Float
+	private function get_specular():Float
 	{
 		return _screenPass.specularMethod != null ? _screenPass.specularMethod.specular : 0;
 	}
 
-	private inline function set_specular(value:Float):Float
+	private function set_specular(value:Float):Float
 	{
 		if (_screenPass.specularMethod != null)
 			_screenPass.specularMethod.specular = value;
@@ -351,12 +351,12 @@ class SinglePassMaterialBase extends MaterialBase
 	 * The colour of the ambient reflection.
 	 */
 	public var ambientColor(get, set):UInt;
-	private inline function get_ambientColor():UInt
+	private function get_ambientColor():UInt
 	{
 		return _screenPass.ambientMethod.ambientColor;
 	}
 
-	private inline function set_ambientColor(value:UInt):UInt
+	private function set_ambientColor(value:UInt):UInt
 	{
 		return _screenPass.ambientMethod.ambientColor = value;
 	}
@@ -365,12 +365,12 @@ class SinglePassMaterialBase extends MaterialBase
 	 * The colour of the specular reflection.
 	 */
 	public var specularColor(get, set):UInt;
-	private inline function get_specularColor():UInt
+	private function get_specularColor():UInt
 	{
 		return _screenPass.specularMethod.specularColor;
 	}
 
-	private inline function set_specularColor(value:UInt):UInt
+	private function set_specularColor(value:UInt):UInt
 	{
 		return _screenPass.specularMethod.specularColor = value;
 	}
@@ -380,12 +380,12 @@ class SinglePassMaterialBase extends MaterialBase
 	 * example when using textures of foliage, consider using alphaThreshold instead.
 	 */
 	public var alphaBlending(get, set):Bool;
-	private inline function get_alphaBlending():Bool
+	private function get_alphaBlending():Bool
 	{
 		return _alphaBlending;
 	}
 
-	private inline function set_alphaBlending(value:Bool):Bool
+	private function set_alphaBlending(value:Bool):Bool
 	{
 		_alphaBlending = value;
 		_screenPass.setBlendMode(blendMode == BlendMode.NORMAL && requiresBlending ? BlendMode.LAYER : blendMode);

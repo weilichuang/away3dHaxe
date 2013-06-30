@@ -14,17 +14,17 @@ class SkeletonNaryLERPNode extends AnimationNodeBase
 	private var _inputs:Vector<AnimationNodeBase> = new Vector<AnimationNodeBase>();
 	private var _numInputs:UInt;
 
-	private inline function get_inputs():Vector<AnimationNodeBase>
+	private function get_inputs():Vector<AnimationNodeBase>
 	{
 		return _inputs;
 	}
 
-	private inline function set_inputs(value:Vector<AnimationNodeBase>):Void
+	private function set_inputs(value:Vector<AnimationNodeBase>):Void
 	{
 		_inputs = value;
 	}
 
-	private inline function get_numInputs():UInt
+	private function get_numInputs():UInt
 	{
 		return _numInputs;
 	}

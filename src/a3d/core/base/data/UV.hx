@@ -24,12 +24,12 @@ class UV
 	 * Defines the vertical coordinate of the texture value.
 	 */
 	public var v(get, set):Float;
-	private inline function get_v():Float
+	private function get_v():Float
 	{
 		return _v;
 	}
 
-	private inline function set_v(value:Float):Float
+	private function set_v(value:Float):Float
 	{
 		return _v = value;
 	}
@@ -38,12 +38,12 @@ class UV
 	 * Defines the horizontal coordinate of the texture value.
 	 */
 	public var u(get, set):Float;
-	private inline function get_u():Float
+	private function get_u():Float
 	{
 		return _u;
 	}
 
-	private inline function set_u(value:Float):Float
+	private function set_u(value:Float):Float
 	{
 		return _u = value;
 	}

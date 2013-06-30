@@ -40,12 +40,12 @@ class CelDiffuseMethod extends CompositeDiffuseMethod
 	}
 
 	public var levels(set,set):UInt;
-	private inline function get_levels():UInt
+	private function get_levels():UInt
 	{
 		return _levels;
 	}
 
-	private inline function set_levels(value:UInt):UInt
+	private function set_levels(value:UInt):UInt
 	{
 		return _levels = value;
 	}
@@ -54,12 +54,12 @@ class CelDiffuseMethod extends CompositeDiffuseMethod
 	 * The smoothness of the edge between 2 shading levels.
 	 */
 	public var smoothness(set,set):Float;
-	private inline function get_smoothness():Float
+	private function get_smoothness():Float
 	{
 		return _smoothness;
 	}
 
-	private inline function set_smoothness(value:Float):Float
+	private function set_smoothness(value:Float):Float
 	{
 		return _smoothness = value;
 	}

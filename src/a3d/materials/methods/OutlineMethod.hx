@@ -40,12 +40,12 @@ class OutlineMethod extends EffectMethodBase
 	 * Setting this to false will only cause the outline to appear around the 2D projection of the geometry.
 	 */
 	public var showInnerLines(get,set):Bool;
-	private inline function get_showInnerLines():Bool
+	private function get_showInnerLines():Bool
 	{
 		return _outlinePass.showInnerLines;
 	}
 
-	private inline function set_showInnerLines(value:Bool):Bool
+	private function set_showInnerLines(value:Bool):Bool
 	{
 		return _outlinePass.showInnerLines = value;
 	}
@@ -54,12 +54,12 @@ class OutlineMethod extends EffectMethodBase
 	 * The colour of the outline.
 	 */
 	public var outlineColor(get,set):UInt;
-	private inline function get_outlineColor():UInt
+	private function get_outlineColor():UInt
 	{
 		return _outlinePass.outlineColor;
 	}
 
-	private inline function set_outlineColor(value:UInt):UInt
+	private function set_outlineColor(value:UInt):UInt
 	{
 		return _outlinePass.outlineColor = value;
 	}
@@ -68,12 +68,12 @@ class OutlineMethod extends EffectMethodBase
 	 * The size of the outline.
 	 */
 	public var outlineSize(get,set):Float;
-	private inline function get_outlineSize():Float
+	private function get_outlineSize():Float
 	{
 		return _outlinePass.outlineSize;
 	}
 
-	private inline function set_outlineSize(value:Float):Float
+	private function set_outlineSize(value:Float):Float
 	{
 		return _outlinePass.outlineSize = value;
 	}

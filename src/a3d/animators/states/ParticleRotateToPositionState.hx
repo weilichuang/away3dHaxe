@@ -29,12 +29,12 @@ class ParticleRotateToPositionState extends ParticleStateBase
 	/**
 	 * Defines the position of the point the particle will rotate to face when in global mode. Defaults to 0,0,0.
 	 */
-	private inline function get_position():Vector3D
+	private function get_position():Vector3D
 	{
 		return _position;
 	}
 
-	private inline function set_position(value:Vector3D):Void
+	private function set_position(value:Vector3D):Void
 	{
 		_position = value;
 	}

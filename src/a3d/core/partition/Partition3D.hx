@@ -27,12 +27,12 @@ class Partition3D
 	}
 
 	public var showDebugBounds(get, set):Bool;
-	private inline function get_showDebugBounds():Bool
+	private function get_showDebugBounds():Bool
 	{
 		return _rootNode.showDebugBounds;
 	}
 
-	private inline function set_showDebugBounds(value:Bool):Bool
+	private function set_showDebugBounds(value:Bool):Bool
 	{
 		return _rootNode.showDebugBounds = value;
 	}

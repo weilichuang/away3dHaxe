@@ -25,14 +25,14 @@ class Ray
 	* Defines the origin point of the Ray object
 	* @return	Vector3D		The origin point of the Ray object
 	*/
-	private inline function set_orig(o:Vector3D):Void
+	private function set_orig(o:Vector3D):Void
 	{
 		_orig.x = o.x;
 		_orig.y = o.y;
 		_orig.z = o.z;
 	}
 
-	private inline function get_orig():Vector3D
+	private function get_orig():Vector3D
 	{
 		return _orig;
 	}
@@ -41,14 +41,14 @@ class Ray
 	* Defines the directional vector of the Ray object
 	* @return	Vector3D		The directional vector
 	*/
-	private inline function set_dir(n:Vector3D):Void
+	private function set_dir(n:Vector3D):Void
 	{
 		_dir.x = n.x;
 		_dir.y = n.y;
 		_dir.z = n.z;
 	}
 
-	private inline function get_dir():Vector3D
+	private function get_dir():Vector3D
 	{
 		return _dir;
 	}
@@ -57,7 +57,7 @@ class Ray
 	* Defines the directional normal of the Ray object
 	* @return	Vector3D		The normal of the plane
 	*/
-	private inline function get_planeNormal():Vector3D
+	private function get_planeNormal():Vector3D
 	{
 		return _pn;
 	}

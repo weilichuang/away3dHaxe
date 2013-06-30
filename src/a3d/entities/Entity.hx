@@ -67,12 +67,12 @@ class Entity extends ObjectContainer3D
 	 * @see a3d.core.pick.ShaderPicker
 	 */
 	public var shaderPickingDetails(get,set):Bool;
-	private inline function get_shaderPickingDetails():Bool
+	private function get_shaderPickingDetails():Bool
 	{
 		return _shaderPickingDetails;
 	}
 
-	private inline function set_shaderPickingDetails(value:Bool):Bool
+	private function set_shaderPickingDetails(value:Bool):Bool
 	{
 		return _shaderPickingDetails = value;
 	}
@@ -82,12 +82,12 @@ class Entity extends ObjectContainer3D
 	 * Warning: if set to true, they may not be processed by certain partition systems using static visibility lists, unless they're specifically assigned to the visibility list.
 	 */
 	public var staticNode(get,set):Bool;
-	private inline function get_staticNode():Bool
+	private function get_staticNode():Bool
 	{
 		return _staticNode;
 	}
 
-	private inline function set_staticNode(value:Bool):Bool
+	private function set_staticNode(value:Bool):Bool
 	{
 		return _staticNode = value;
 	}
@@ -96,7 +96,7 @@ class Entity extends ObjectContainer3D
 	 * Returns a unique picking collision value object for the entity.
 	 */
 	public var pickingCollisionVO(get,null):PickingCollisionVO;
-	private inline function get_pickingCollisionVO():PickingCollisionVO
+	private function get_pickingCollisionVO():PickingCollisionVO
 	{
 		if (_pickingCollisionVO == null)
 			_pickingCollisionVO = new PickingCollisionVO(this);
@@ -104,7 +104,7 @@ class Entity extends ObjectContainer3D
 		return _pickingCollisionVO;
 	}
 
-	//private inline function set_pickingCollisionVO(value:PickingCollisionVO):PickingCollisionVO
+	//private function set_pickingCollisionVO(value:PickingCollisionVO):PickingCollisionVO
 	//{
 	//  return _pickingCollisionVO = value;
 	//}
@@ -123,12 +123,12 @@ class Entity extends ObjectContainer3D
 	 *
 	 */
 	public var showBounds(get,set):Bool;
-	private inline function get_showBounds():Bool
+	private function get_showBounds():Bool
 	{
 		return _showBounds;
 	}
 
-	private inline function set_showBounds(value:Bool):Bool
+	private function set_showBounds(value:Bool):Bool
 	{
 		if (value == _showBounds)
 			return _showBounds;
@@ -213,7 +213,7 @@ class Entity extends ObjectContainer3D
 	 * The bounding volume approximating the volume occupied by the Entity.
 	 */
 	public var bounds(get,set):BoundingVolumeBase;
-	private inline function get_bounds():BoundingVolumeBase
+	private function get_bounds():BoundingVolumeBase
 	{
 		if (_boundsInvalid)
 			updateBounds();
@@ -221,7 +221,7 @@ class Entity extends ObjectContainer3D
 		return _bounds;
 	}
 
-	private inline function set_bounds(value:BoundingVolumeBase):BoundingVolumeBase
+	private function set_bounds(value:BoundingVolumeBase):BoundingVolumeBase
 	{
 		removeBounds();
 		_bounds = value;
@@ -234,7 +234,7 @@ class Entity extends ObjectContainer3D
 	}
 
 	public var worldBounds(get,null):BoundingVolumeBase;
-	private inline function get_worldBounds():BoundingVolumeBase
+	private function get_worldBounds():BoundingVolumeBase
 	{
 		if (_worldBoundsInvalid)
 			updateWorldBounds();
@@ -299,12 +299,12 @@ class Entity extends ObjectContainer3D
 	 * @see a3d.core.pick.RaycastPicker
 	 */
 	public var pickingCollider(get,set):IPickingCollider;
-	private inline function get_pickingCollider():IPickingCollider
+	private function get_pickingCollider():IPickingCollider
 	{
 		return _pickingCollider;
 	}
 
-	private inline function set_pickingCollider(value:IPickingCollider):IPickingCollider
+	private function set_pickingCollider(value:IPickingCollider):IPickingCollider
 	{
 		return _pickingCollider = value;
 	}

@@ -4,10 +4,10 @@ import flash.utils.ByteArray;
 
 class ParserUtil
 {
-	public static function toByteArray(data:*):ByteArray
+	public static function toByteArray(data:Dynamic):ByteArray
 	{
 		if (Std.is(data,Class))
-			data = new data();
+			data = Type.createEmptyInstance(data);
 
 		if (Std.is(data,ByteArray))
 			return data;
@@ -15,14 +15,17 @@ class ParserUtil
 			return null;
 	}
 
-	public static function toString(data:*, length:UInt = 0):String
+	public static function toString(data:Dynamic, length:Int = 0):String
 	{
 		var ba:ByteArray;
 
-		length ||= uint.MAX_VALUE;
+		if (length == 0)
+		{
+			length = Math.POSITIVE_INFINITY;
+		}	
 
 		if (Std.is(data,String))
-			return String(data).substr(0, length);
+			return Std.instance(data,String).substr(0, length);
 
 		ba = toByteArray(data);
 		if (ba)

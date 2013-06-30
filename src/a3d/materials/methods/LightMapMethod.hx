@@ -34,12 +34,12 @@ class LightMapMethod extends EffectMethodBase
 	}
 
 	public var blendMode(get,set):String;
-	private inline function get_blendMode():String
+	private function get_blendMode():String
 	{
 		return _blendMode;
 	}
 
-	private inline function set_blendMode(value:String):String
+	private function set_blendMode(value:String):String
 	{
 		if (value != ADD && value != MULTIPLY)
 			throw new Error("Unknown blendmode!");
@@ -51,12 +51,12 @@ class LightMapMethod extends EffectMethodBase
 	}
 
 	public var texture(get,set):Texture2DBase;
-	private inline function get_texture():Texture2DBase
+	private function get_texture():Texture2DBase
 	{
 		return _texture;
 	}
 
-	private inline function set_texture(value:Texture2DBase):Texture2DBase
+	private function set_texture(value:Texture2DBase):Texture2DBase
 	{
 		if (value.hasMipMaps != _texture.hasMipMaps || value.format != _texture.format)
 			invalidateShaderProgram();

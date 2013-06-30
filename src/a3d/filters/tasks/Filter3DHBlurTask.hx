@@ -28,12 +28,12 @@ class Filter3DHBlurTask extends Filter3DTaskBase
 		this.stepSize = stepSize;
 	}
 
-	private inline function get_amount():UInt
+	private function get_amount():UInt
 	{
 		return _amount;
 	}
 
-	private inline function set_amount(value:UInt):Void
+	private function set_amount(value:UInt):Void
 	{
 		if (value == _amount)
 			return;
@@ -44,12 +44,12 @@ class Filter3DHBlurTask extends Filter3DTaskBase
 		calculateStepSize();
 	}
 
-	private inline function get_stepSize():Int
+	private function get_stepSize():Int
 	{
 		return _stepSize;
 	}
 
-	private inline function set_stepSize(value:Int):Void
+	private function set_stepSize(value:Int):Void
 	{
 		if (value == _stepSize)
 			return;

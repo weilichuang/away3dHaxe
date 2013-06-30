@@ -23,7 +23,7 @@ class PointLightNode extends EntityNode
 	/**
 	 * The light object contained in this node.
 	 */
-	private inline function get_light():PointLight
+	private function get_light():PointLight
 	{
 		return _light;
 	}

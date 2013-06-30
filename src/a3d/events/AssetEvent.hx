@@ -47,13 +47,13 @@ class AssetEvent extends Event
 
 	public var asset(get, null):IAsset;
 
-	private inline function get_asset():IAsset
+	private function get_asset():IAsset
 	{
 		return _asset;
 	}
 
 	public var assetPrevName(get, null):String;
-	private inline function get_assetPrevName():String
+	private function get_assetPrevName():String
 	{
 		return _prevName;
 	}

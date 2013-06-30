@@ -18,11 +18,11 @@ import a3d.entities.lights.PointLight;
 
 class LightPickerBase extends NamedAssetBase implements IAsset
 {
-	private var _numPointLights:UInt;
-	private var _numDirectionalLights:UInt;
-	private var _numCastingPointLights:UInt;
-	private var _numCastingDirectionalLights:UInt;
-	private var _numLightProbes:UInt;
+	private var _numPointLights:Int;
+	private var _numDirectionalLights:Int;
+	private var _numCastingPointLights:Int;
+	private var _numCastingDirectionalLights:Int;
+	private var _numLightProbes:Int;
 	private var _allPickedLights:Vector<LightBase>;
 	private var _pointLights:Vector<PointLight>;
 	private var _castingPointLights:Vector<PointLight>;
@@ -41,7 +41,7 @@ class LightPickerBase extends NamedAssetBase implements IAsset
 	}
 
 	public var assetType(get,null):String;
-	private inline function get_assetType():String
+	private function get_assetType():String
 	{
 		return AssetType.LIGHT_PICKER;
 	}
@@ -49,8 +49,8 @@ class LightPickerBase extends NamedAssetBase implements IAsset
 	/**
 	 * The maximum amount of directional lights that will be provided
 	 */
-	public var numDirectionalLights(get,null):UInt;
-	private inline function get_numDirectionalLights():UInt
+	public var numDirectionalLights(get,null):Int;
+	private function get_numDirectionalLights():Int
 	{
 		return _numDirectionalLights;
 	}
@@ -58,8 +58,8 @@ class LightPickerBase extends NamedAssetBase implements IAsset
 	/**
 	 * The maximum amount of point lights that will be provided
 	 */
-	public var numPointLights(get,null):UInt;
-	private inline function get_numPointLights():UInt
+	public var numPointLights(get,null):Int;
+	private function get_numPointLights():Int
 	{
 		return _numPointLights;
 	}
@@ -67,8 +67,8 @@ class LightPickerBase extends NamedAssetBase implements IAsset
 	/**
 	 * The maximum amount of directional lights that cast shadows
 	 */
-	public var numCastingDirectionalLights(get,null):UInt;
-	private inline function get_numCastingDirectionalLights():UInt
+	public var numCastingDirectionalLights(get,null):Int;
+	private function get_numCastingDirectionalLights():Int
 	{
 		return _numCastingDirectionalLights;
 	}
@@ -76,8 +76,8 @@ class LightPickerBase extends NamedAssetBase implements IAsset
 	/**
 	 * The amount of point lights that cast shadows
 	 */
-	public var numCastingPointLights(get,null):UInt;
-	private inline function get_numCastingPointLights():UInt
+	public var numCastingPointLights(get,null):Int;
+	private function get_numCastingPointLights():Int
 	{
 		return _numCastingPointLights;
 	}
@@ -85,50 +85,50 @@ class LightPickerBase extends NamedAssetBase implements IAsset
 	/**
 	 * The maximum amount of light probes that will be provided
 	 */
-	public var numLightProbes(get,null):UInt;
-	private inline function get_numLightProbes():UInt
+	public var numLightProbes(get,null):Int;
+	private function get_numLightProbes():Int
 	{
 		return _numLightProbes;
 	}
 
 	public var pointLights(get,null):Vector<PointLight>;
-	private inline function get_pointLights():Vector<PointLight>
+	private function get_pointLights():Vector<PointLight>
 	{
 		return _pointLights;
 	}
 
 	public var directionalLights(get,null):Vector<DirectionalLight>;
-	private inline function get_directionalLights():Vector<DirectionalLight>
+	private function get_directionalLights():Vector<DirectionalLight>
 	{
 		return _directionalLights;
 	}
 
 	public var castingPointLights(get,null):Vector<PointLight>;
-	private inline function get_castingPointLights():Vector<PointLight>
+	private function get_castingPointLights():Vector<PointLight>
 	{
 		return _castingPointLights;
 	}
 
 	public var castingDirectionalLights(get,null):Vector<DirectionalLight>;
-	private inline function get_castingDirectionalLights():Vector<DirectionalLight>
+	private function get_castingDirectionalLights():Vector<DirectionalLight>
 	{
 		return _castingDirectionalLights;
 	}
 
 	public var lightProbes(get,null):Vector<LightProbe>;
-	private inline function get_lightProbes():Vector<LightProbe>
+	private function get_lightProbes():Vector<LightProbe>
 	{
 		return _lightProbes;
 	}
 
 	public var lightProbeWeights(get,null):Vector<Float>;
-	private inline function get_lightProbeWeights():Vector<Float>
+	private function get_lightProbeWeights():Vector<Float>
 	{
 		return _lightProbeWeights;
 	}
 
 	public var allPickedLights(get,null):Vector<LightBase>;
-	private inline function get_allPickedLights():Vector<LightBase>
+	private function get_allPickedLights():Vector<LightBase>
 	{
 		return _allPickedLights;
 	}

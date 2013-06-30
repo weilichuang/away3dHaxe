@@ -203,12 +203,12 @@ class ShaderRegisterCache
 	 * Indicates the start index from which to retrieve vertex constants.
 	 */
 	public var vertexConstantOffset(get,set):UInt;
-	private inline function get_vertexConstantOffset():UInt
+	private function get_vertexConstantOffset():UInt
 	{
 		return _vertexConstantOffset;
 	}
 
-	private inline function set_vertexConstantOffset(vertexConstantOffset:UInt):UInt
+	private function set_vertexConstantOffset(vertexConstantOffset:UInt):UInt
 	{
 		return _vertexConstantOffset = vertexConstantOffset;
 	}
@@ -217,34 +217,34 @@ class ShaderRegisterCache
 	 * Indicates the start index from which to retrieve vertex attributes.
 	 */
 	public var vertexAttributesOffset(get,set):UInt;
-	private inline function get_vertexAttributesOffset():UInt
+	private function get_vertexAttributesOffset():UInt
 	{
 		return _vertexAttributesOffset;
 	}
 
-	private inline function set_vertexAttributesOffset(value:UInt):UInt
+	private function set_vertexAttributesOffset(value:UInt):UInt
 	{
 		return _vertexAttributesOffset = value;
 	}
 
 	public var varyingsOffset(get,set):UInt;
-	private inline function get_varyingsOffset():UInt
+	private function get_varyingsOffset():UInt
 	{
 		return _varyingsOffset;
 	}
 
-	private inline function set_varyingsOffset(value:UInt):UInt
+	private function set_varyingsOffset(value:UInt):UInt
 	{
 		return _varyingsOffset = value;
 	}
 
 	public var fragmentConstantOffset(get,set):UInt;
-	private inline function get_fragmentConstantOffset():UInt
+	private function get_fragmentConstantOffset():UInt
 	{
 		return _fragmentConstantOffset;
 	}
 
-	private inline function set_fragmentConstantOffset(value:UInt):UInt
+	private function set_fragmentConstantOffset(value:UInt):UInt
 	{
 		return _fragmentConstantOffset = value;
 	}
@@ -253,7 +253,7 @@ class ShaderRegisterCache
 	 * The fragment output register.
 	 */
 	public var fragmentOutputRegister(get,null):ShaderRegisterElement;
-	private inline function get_fragmentOutputRegister():ShaderRegisterElement
+	private function get_fragmentOutputRegister():ShaderRegisterElement
 	{
 		return _fragmentOutputRegister;
 	}
@@ -262,7 +262,7 @@ class ShaderRegisterCache
 	 * The amount of used vertex constant registers.
 	 */
 	public var numUsedVertexConstants(get,null):UInt;
-	private inline function get_numUsedVertexConstants():UInt
+	private function get_numUsedVertexConstants():UInt
 	{
 		return _numUsedVertexConstants;
 	}
@@ -271,7 +271,7 @@ class ShaderRegisterCache
 	 * The amount of used fragment constant registers.
 	 */
 	public var numUsedFragmentConstants(get,null):UInt;
-	private inline function get_numUsedFragmentConstants():UInt
+	private function get_numUsedFragmentConstants():UInt
 	{
 		return _numUsedFragmentConstants;
 	}
@@ -280,19 +280,19 @@ class ShaderRegisterCache
 	 * The amount of used vertex streams.
 	 */
 	public var numUsedStreams(get,null):UInt;
-	private inline function get_numUsedStreams():UInt
+	private function get_numUsedStreams():UInt
 	{
 		return _numUsedStreams;
 	}
 
 	public var numUsedTextures(get,null):UInt;
-	private inline function get_numUsedTextures():UInt
+	private function get_numUsedTextures():UInt
 	{
 		return _numUsedTextures;
 	}
 
 	public var numUsedVaryings(get,null):UInt;
-	private inline function get_numUsedVaryings():UInt
+	private function get_numUsedVaryings():UInt
 	{
 		return _numUsedVaryings;
 	}

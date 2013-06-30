@@ -216,19 +216,19 @@ class AxisAlignedBoundingBox extends BoundingVolumeBase
 	}
 
 	public var halfExtentsX(get, null):Float;
-	private inline function get_halfExtentsX():Float
+	private function get_halfExtentsX():Float
 	{
 		return _halfExtentsX;
 	}
 
 	public var halfExtentsY(get, null):Float;
-	private inline function get_halfExtentsY():Float
+	private function get_halfExtentsY():Float
 	{
 		return _halfExtentsY;
 	}
 
 	public var halfExtentsZ(get, null):Float;
-	private inline function get_halfExtentsZ():Float
+	private function get_halfExtentsZ():Float
 	{
 		return _halfExtentsZ;
 	}

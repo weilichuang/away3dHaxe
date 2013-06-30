@@ -11,40 +11,40 @@ interface ISubGeometry
 	/**
 	 * The total amount of vertices in the SubGeometry.
 	 */
-	var numVertices(get,null):UInt;
+	var numVertices(get,null):Int;
 
 	/**
 	 * The amount of triangles that comprise the IRenderable geometry.
 	 */
-	var numTriangles(get,null):UInt;
+	var numTriangles(get,null):Int;
 
 	/**
 	 * The distance between two consecutive vertex, normal or tangent elements
 	 * This always applies to vertices, normals and tangents.
 	 */
-	var vertexStride(get,null):UInt;
+	var vertexStride(get,null):Int;
 
 	/**
 	 * The distance between two consecutive normal elements
 	 * This always applies to vertices, normals and tangents.
 	 */
-	var vertexNormalStride(get,null):UInt;
+	var vertexNormalStride(get,null):Int;
 
 	/**
 	 * The distance between two consecutive tangent elements
 	 * This always applies to vertices, normals and tangents.
 	 */
-	var vertexTangentStride(get,null):UInt;
+	var vertexTangentStride(get,null):Int;
 
 	/**
 	 * The distance between two consecutive UV elements
 	 */
-	var UVStride(get,null):UInt;
+	var UVStride(get,null):Int;
 
 	/**
 	 * The distance between two secondary UV elements
 	 */
-	var secondaryUVStride(get,null):UInt;
+	var secondaryUVStride(get,null):Int;
 
 	/**
 	 * Assigns the attribute stream for vertex positions.

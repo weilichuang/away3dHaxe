@@ -102,7 +102,7 @@ class PartitionTraverser
 	 * For the EntityCollector, this is the camera's scene position for example.
 	 */
 	public var entryPoint(get,null):Vector3D;
-	private inline function get_entryPoint():Vector3D
+	private function get_entryPoint():Vector3D
 	{
 		return _entryPoint;
 	}

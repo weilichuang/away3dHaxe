@@ -19,7 +19,7 @@ class VertexClipState extends AnimationClipState implements IVertexAnimationStat
 	/**
 	 * @inheritDoc
 	 */
-	private inline function get_currentGeometry():Geometry
+	private function get_currentGeometry():Geometry
 	{
 		if (_framesDirty)
 			updateFrames();
@@ -30,7 +30,7 @@ class VertexClipState extends AnimationClipState implements IVertexAnimationStat
 	/**
 	 * @inheritDoc
 	 */
-	private inline function get_nextGeometry():Geometry
+	private function get_nextGeometry():Geometry
 	{
 		if (_framesDirty)
 			updateFrames();

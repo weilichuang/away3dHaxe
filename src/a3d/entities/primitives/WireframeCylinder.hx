@@ -86,13 +86,13 @@ class WireframeCylinder extends WireframePrimitiveBase
 	/**
 	 * Top radius of the cylinder
 	 */
-	private inline function get_topRadius():Float
+	private function get_topRadius():Float
 	{
 		return _topRadius;
 	}
 
 
-	private inline function set_topRadius(value:Float):Void
+	private function set_topRadius(value:Float):Void
 	{
 		_topRadius = value;
 		invalidateGeometry();
@@ -102,13 +102,13 @@ class WireframeCylinder extends WireframePrimitiveBase
 	/**
 	 * Bottom radius of the cylinder
 	 */
-	private inline function get_bottomRadius():Float
+	private function get_bottomRadius():Float
 	{
 		return _bottomRadius;
 	}
 
 
-	private inline function set_bottomRadius(value:Float):Void
+	private function set_bottomRadius(value:Float):Void
 	{
 		_bottomRadius = value;
 		invalidateGeometry();
@@ -118,13 +118,13 @@ class WireframeCylinder extends WireframePrimitiveBase
 	/**
 	 * The height of the cylinder
 	 */
-	private inline function get_height():Float
+	private function get_height():Float
 	{
 		return _height;
 	}
 
 
-	private inline function set_height(value:Float):Void
+	private function set_height(value:Float):Void
 	{
 		if (height <= 0)
 			throw new Error('Height must be a value greater than zero.');

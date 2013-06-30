@@ -26,15 +26,12 @@ class Basic_View extends BasicApplication
 	public function new()
 	{
 		super();
-		
-		this.addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
-		
 	}
 
 	/**
 	 * Global initialise function
 	 */
-	private function init():Void
+	override private function init():Void
 	{
 		initEngine();
 		initObjects();
@@ -67,12 +64,6 @@ class Basic_View extends BasicApplication
 		_plane.rotationY += 1;
 
 		super.render();
-	}
-	
-	function onAddedToStage(e:Event):Void 
-	{
-		this.removeEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
-		init();
 	}
 }
 

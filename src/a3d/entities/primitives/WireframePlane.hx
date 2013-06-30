@@ -41,12 +41,12 @@ class WireframePlane extends WireframePrimitiveBase
 	/**
 	 * The orientaion in which the plane lies.
 	 */
-	private inline function get_orientation():String
+	private function get_orientation():String
 	{
 		return _orientation;
 	}
 
-	private inline function set_orientation(value:String):Void
+	private function set_orientation(value:String):Void
 	{
 		_orientation = value;
 		invalidateGeometry();
@@ -55,12 +55,12 @@ class WireframePlane extends WireframePrimitiveBase
 	/**
 	 * The size of the cube along its X-axis.
 	 */
-	private inline function get_width():Float
+	private function get_width():Float
 	{
 		return _width;
 	}
 
-	private inline function set_width(value:Float):Void
+	private function set_width(value:Float):Void
 	{
 		_width = value;
 		invalidateGeometry();
@@ -69,12 +69,12 @@ class WireframePlane extends WireframePrimitiveBase
 	/**
 	 * The size of the cube along its Y-axis.
 	 */
-	private inline function get_height():Float
+	private function get_height():Float
 	{
 		return _height;
 	}
 
-	private inline function set_height(value:Float):Void
+	private function set_height(value:Float):Void
 	{
 		if (value <= 0)
 			throw new Error("Value needs to be greater than 0");
@@ -85,12 +85,12 @@ class WireframePlane extends WireframePrimitiveBase
 	/**
 	 * The number of segments that make up the plane along the X-axis.
 	 */
-	private inline function get_segmentsW():Int
+	private function get_segmentsW():Int
 	{
 		return _segmentsW;
 	}
 
-	private inline function set_segmentsW(value:Int):Void
+	private function set_segmentsW(value:Int):Void
 	{
 		_segmentsW = value;
 		removeAllSegments();
@@ -100,12 +100,12 @@ class WireframePlane extends WireframePrimitiveBase
 	/**
 	 * The number of segments that make up the plane along the Y-axis.
 	 */
-	private inline function get_segmentsH():Int
+	private function get_segmentsH():Int
 	{
 		return _segmentsH;
 	}
 
-	private inline function set_segmentsH(value:Int):Void
+	private function set_segmentsH(value:Int):Void
 	{
 		_segmentsH = value;
 		removeAllSegments();

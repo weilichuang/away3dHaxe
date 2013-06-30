@@ -18,12 +18,12 @@ class TextureMultiPassMaterial extends MultiPassMaterialBase
 		this.mipmap = mipmap;
 	}
 
-	private inline function get_animateUVs():Bool
+	private function get_animateUVs():Bool
 	{
 		return _animateUVs;
 	}
 
-	private inline function set_animateUVs(value:Bool):Void
+	private function set_animateUVs(value:Bool):Void
 	{
 		_animateUVs = value;
 	}
@@ -31,12 +31,12 @@ class TextureMultiPassMaterial extends MultiPassMaterialBase
 	/**
 	 * The texture object to use for the albedo colour.
 	 */
-	private inline function get_texture():Texture2DBase
+	private function get_texture():Texture2DBase
 	{
 		return diffuseMethod.texture;
 	}
 
-	private inline function set_texture(value:Texture2DBase):Void
+	private function set_texture(value:Texture2DBase):Void
 	{
 		diffuseMethod.texture = value;
 	}
@@ -44,12 +44,12 @@ class TextureMultiPassMaterial extends MultiPassMaterialBase
 	/**
 	 * The texture object to use for the ambient colour.
 	 */
-	private inline function get_ambientTexture():Texture2DBase
+	private function get_ambientTexture():Texture2DBase
 	{
 		return ambientMethod.texture;
 	}
 
-	private inline function set_ambientTexture(value:Texture2DBase):Void
+	private function set_ambientTexture(value:Texture2DBase):Void
 	{
 		ambientMethod.texture = value;
 		diffuseMethod.useAmbientTexture = Bool(value);

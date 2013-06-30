@@ -22,7 +22,7 @@ class AnimationStateBase implements IAnimationState
 	 * Returns a 3d vector representing the translation delta of the animating entity for the current timestep of animation
 	 */
 	public var positionDelta(get,null):Vector3D;
-	private inline function get_positionDelta():Vector3D
+	private function get_positionDelta():Vector3D
 	{
 		if (_positionDeltaDirty)
 			updatePositionDelta();

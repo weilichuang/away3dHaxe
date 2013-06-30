@@ -32,12 +32,12 @@ class PerspectiveLens extends LensBase
 	 * The vertical field of view of the projection in degrees.
 	 */
 	public var fieldOfView(get, set):Float;
-	private inline function get_fieldOfView():Float
+	private function get_fieldOfView():Float
 	{
 		return _fieldOfView;
 	}
 
-	private inline function set_fieldOfView(value:Float):Float
+	private function set_fieldOfView(value:Float):Float
 	{
 		if (value == _fieldOfView)
 			return _fieldOfView;
@@ -56,12 +56,12 @@ class PerspectiveLens extends LensBase
 	 * The focal length of the projection in units of viewport height.
 	 */
 	public var focalLength(get, set):Float;
-	private inline function get_focalLength():Float
+	private function get_focalLength():Float
 	{
 		return _focalLength;
 	}
 
-	private inline function set_focalLength(value:Float):Float
+	private function set_focalLength(value:Float):Float
 	{
 		if (value == _focalLength)
 			return _focalLength;

@@ -24,42 +24,42 @@ class VDepthOfFieldFilter3D extends Filter3DBase
 		addTask(_dofTask);
 	}
 
-	private inline function get_focusTarget():ObjectContainer3D
+	private function get_focusTarget():ObjectContainer3D
 	{
 		return _focusTarget;
 	}
 
-	private inline function set_focusTarget(value:ObjectContainer3D):Void
+	private function set_focusTarget(value:ObjectContainer3D):Void
 	{
 		_focusTarget = value;
 	}
 
-	private inline function get_focusDistance():Float
+	private function get_focusDistance():Float
 	{
 		return _dofTask.focusDistance;
 	}
 
-	private inline function set_focusDistance(value:Float):Void
+	private function set_focusDistance(value:Float):Void
 	{
 		_dofTask.focusDistance = value;
 	}
 
-	private inline function get_range():Float
+	private function get_range():Float
 	{
 		return _dofTask.range;
 	}
 
-	private inline function set_range(value:Float):Void
+	private function set_range(value:Float):Void
 	{
 		_dofTask.range = value;
 	}
 
-	private inline function get_maxBlur():UInt
+	private function get_maxBlur():UInt
 	{
 		return _dofTask.maxBlur;
 	}
 
-	private inline function set_maxBlur(value:UInt):Void
+	private function set_maxBlur(value:UInt):Void
 	{
 		_dofTask.maxBlur = value;
 	}

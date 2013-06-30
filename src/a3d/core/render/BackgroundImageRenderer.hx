@@ -31,12 +31,12 @@ class BackgroundImageRenderer
 	}
 
 	public var stage3DProxy(get, set):Stage3DProxy;
-	private inline function get_stage3DProxy():Stage3DProxy
+	private function get_stage3DProxy():Stage3DProxy
 	{
 		return _stage3DProxy;
 	}
 
-	private inline function set_stage3DProxy(value:Stage3DProxy):Stage3DProxy
+	private function set_stage3DProxy(value:Stage3DProxy):Stage3DProxy
 	{
 		if (value == _stage3DProxy)
 			return _stage3DProxy;
@@ -133,12 +133,12 @@ class BackgroundImageRenderer
 	}
 
 	public var texture(get, set):Texture2DBase;
-	private inline function get_texture():Texture2DBase
+	private function get_texture():Texture2DBase
 	{
 		return _texture;
 	}
 
-	private inline function set_texture(value:Texture2DBase):Texture2DBase
+	private function set_texture(value:Texture2DBase):Texture2DBase
 	{
 		return _texture = value;
 	}

@@ -58,12 +58,12 @@ class ObliqueNearPlaneLens extends LensBase
 	}
 
 	public var plane(get, set):Plane3D;
-	private inline function get_plane():Plane3D
+	private function get_plane():Plane3D
 	{
 		return _plane;
 	}
 
-	private inline function set_plane(value:Plane3D):Plane3D
+	private function set_plane(value:Plane3D):Plane3D
 	{
 		_plane = value;
 		invalidateMatrix();
@@ -71,7 +71,7 @@ class ObliqueNearPlaneLens extends LensBase
 	}
 
 	public var baseLens(null, set):LensBase;
-	private inline function set_baseLens(value:LensBase):LensBase
+	private function set_baseLens(value:LensBase):LensBase
 	{
 		if (_baseLens)
 			_baseLens.removeEventListener(LensEvent.MATRIX_CHANGED, onLensMatrixChanged);

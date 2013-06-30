@@ -4,9 +4,8 @@ import flash.display.Sprite;
 import flash.events.Event;
 import flash.geom.Vector3D;
 import flash.utils.Dictionary;
-import flash.utils.getTimer;
 import flash.Vector;
-
+import haxe.ds.WeakMap;
 
 import a3d.animators.nodes.AnimationNodeBase;
 import a3d.animators.states.AnimationStateBase;
@@ -63,7 +62,7 @@ class AnimatorBase extends NamedAssetBase implements IAsset
 	private var _activeState:IAnimationState;
 	private var _activeAnimationName:String;
 	private var _absoluteTime:Float = 0;
-	private var _animationStates:Dictionary = new Dictionary(true);
+	private var _animationStates:WeakMap<AnimationNodeBase,AnimationStateBase> = new WeakMap<AnimationNodeBase,AnimationStateBase>();
 
 	/**
 	 * Enables translation of the animated mesh from data returned per frame via the positionDelta property of the active animation node. Defaults to true.
@@ -77,7 +76,7 @@ class AnimatorBase extends NamedAssetBase implements IAsset
 		var className:Class = node.stateClass;
 
 		if (_animationStates[node] == null)
-			_animationStates[node] = new className(this, node);
+			_animationStates[node] = Type.createInstance(className, [this, node]);
 		return _animationStates[node];
 	}
 
@@ -93,7 +92,7 @@ class AnimatorBase extends NamedAssetBase implements IAsset
 	 * @see #playbackSpeed
 	 */
 	public var absoluteTime(get, null):Float;
-	private inline function get_absoluteTime():Float
+	private function get_absoluteTime():Float
 	{
 		return _absoluteTime;
 	}
@@ -102,7 +101,7 @@ class AnimatorBase extends NamedAssetBase implements IAsset
 	 * Returns the animation data set in use by the animator.
 	 */
 	public var animationSet(get, null):Float;
-	private inline function get_animationSet():IAnimationSet
+	private function get_animationSet():IAnimationSet
 	{
 		return _animationSet;
 	}
@@ -111,7 +110,7 @@ class AnimatorBase extends NamedAssetBase implements IAsset
 	 * Returns the current active animation state.
 	 */
 	public var activeState(get, null):IAnimationState;
-	private inline function get_activeState():IAnimationState
+	private function get_activeState():IAnimationState
 	{
 		return _activeState;
 	}
@@ -120,7 +119,7 @@ class AnimatorBase extends NamedAssetBase implements IAsset
 	 * Returns the current active animation node.
 	 */
 	public var activeAnimation(get, null):AnimationNodeBase;
-	private inline function get_activeAnimation():AnimationNodeBase
+	private function get_activeAnimation():AnimationNodeBase
 	{
 		return _animationSet.getAnimation(_activeAnimationName);
 	}
@@ -129,7 +128,7 @@ class AnimatorBase extends NamedAssetBase implements IAsset
 	 * Returns the current active animation node.
 	 */
 	public var activeAnimationName(get, null):String;
-	private inline function get_activeAnimationName():String
+	private function get_activeAnimationName():String
 	{
 		return _activeAnimationName;
 	}
@@ -143,12 +142,12 @@ class AnimatorBase extends NamedAssetBase implements IAsset
 	 * @see #update()
 	 */
 	public var autoUpdate(get, set):Bool;
-	private inline function get_autoUpdate():Bool
+	private function get_autoUpdate():Bool
 	{
 		return _autoUpdate;
 	}
 
-	private inline function set_autoUpdate(value:Bool):Bool
+	private function set_autoUpdate(value:Bool):Bool
 	{
 		if (_autoUpdate == value)
 			return;
@@ -167,12 +166,12 @@ class AnimatorBase extends NamedAssetBase implements IAsset
 	 * Gets and sets the internal time clock of the animator.
 	 */
 	public var time(get, set):Int;
-	private inline function get_time():Int
+	private function get_time():Int
 	{
 		return _time;
 	}
 
-	private inline function set_time(value:Int):Int
+	private function set_time(value:Int):Int
 	{
 		if (_time == value)
 			return _time;
@@ -206,12 +205,12 @@ class AnimatorBase extends NamedAssetBase implements IAsset
 	 * The amount by which passed time should be scaled. Used to slow down or speed up animations. Defaults to 1.
 	 */
 	public var playbackSpeed(get, set):Float;
-	private inline function get_playbackSpeed():Float
+	private function get_playbackSpeed():Float
 	{
 		return _playbackSpeed;
 	}
 
-	private inline function set_playbackSpeed(value:Float):Float
+	private function set_playbackSpeed(value:Float):Float
 	{
 		return _playbackSpeed = value;
 	}
@@ -235,7 +234,7 @@ class AnimatorBase extends NamedAssetBase implements IAsset
 			return;
 
 		if (_startEvent == null)
-			_startEvent = new AnimatorEvent(AnimatorEvent.START, this)
+			_startEvent = new AnimatorEvent(AnimatorEvent.START, this);
 		dispatchEvent(_startEvent);
 	}
 
@@ -363,7 +362,7 @@ class AnimatorBase extends NamedAssetBase implements IAsset
 	 * @inheritDoc
 	 */
 	public var assetType(get, null):String;
-	private inline function get_assetType():String
+	private function get_assetType():String
 	{
 		return AssetType.ANIMATOR;
 	}

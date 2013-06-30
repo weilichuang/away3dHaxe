@@ -20,8 +20,9 @@ class VertexFormatUtil
 				return Context3DVertexBufferFormat.FLOAT_3;
 			case 4:
 				return Context3DVertexBufferFormat.FLOAT_3;
+			default:
+				return null;
 		}
-		return null;
 	}
 	
 }

@@ -19,7 +19,7 @@ class LightingShaderCompiler extends ShaderCompiler
 		super(profile);
 	}
 
-	private inline function get_lightVertexConstantIndex():Int
+	private function get_lightVertexConstantIndex():Int
 	{
 		return _lightVertexConstantIndex;
 	}
@@ -57,7 +57,7 @@ class LightingShaderCompiler extends ShaderCompiler
 		_animationTargetRegisters.push(_sharedRegisters.animatedNormal.toString());
 	}
 
-	private inline function get_tangentSpace():Bool
+	private function get_tangentSpace():Bool
 	{
 		return _numLightProbes == 0 && methodSetup.normalMethod.hasOutput &&
 			_methodSetup.normalMethod.tangentSpace;
@@ -258,12 +258,12 @@ class LightingShaderCompiler extends ShaderCompiler
 	private function initLightRegisters():Void
 	{
 		// init these first so we're sure they're in sequence
-		var i:UInt, len:UInt;
+		var len:Int;
 
 		if (dirLightVertexConstants)
 		{
 			len = dirLightVertexConstants.length;
-			for (i = 0; i < len; ++i)
+			for (i in 0...len)
 			{
 				dirLightVertexConstants[i] = _registerCache.getFreeVertexConstant();
 				if (_lightVertexConstantIndex == -1)
@@ -272,7 +272,7 @@ class LightingShaderCompiler extends ShaderCompiler
 		}
 
 		len = pointLightVertexConstants.length;
-		for (i = 0; i < len; ++i)
+		for (i in 0...len)
 		{
 			pointLightVertexConstants[i] = _registerCache.getFreeVertexConstant();
 			if (_lightVertexConstantIndex == -1)
@@ -280,7 +280,7 @@ class LightingShaderCompiler extends ShaderCompiler
 		}
 
 		len = dirLightFragmentConstants.length;
-		for (i = 0; i < len; ++i)
+		for (i in 0...len)
 		{
 			dirLightFragmentConstants[i] = _registerCache.getFreeFragmentConstant();
 			if (_lightFragmentConstantIndex == -1)
@@ -288,7 +288,7 @@ class LightingShaderCompiler extends ShaderCompiler
 		}
 
 		len = pointLightFragmentConstants.length;
-		for (i = 0; i < len; ++i)
+		for (i in 0...len)
 		{
 			pointLightFragmentConstants[i] = _registerCache.getFreeFragmentConstant();
 			if (_lightFragmentConstantIndex == -1)
@@ -309,7 +309,7 @@ class LightingShaderCompiler extends ShaderCompiler
 		if (!(addSpec || addDiff))
 			return;
 
-		for (var i:UInt = 0; i < _numDirectionalLights; ++i)
+		for (i in 0..._numDirectionalLights)
 		{
 
 			if (tangentSpace)
@@ -354,7 +354,7 @@ class LightingShaderCompiler extends ShaderCompiler
 		if (!(addSpec || addDiff))
 			return;
 
-		for (var i:UInt = 0; i < _numPointLights; ++i)
+		for (i in 0..._numPointLights)
 		{
 			lightPosReg = pointLightVertexConstants[vertexRegIndex++];
 			diffuseColorReg = pointLightFragmentConstants[fragmentRegIndex++];
@@ -417,7 +417,6 @@ class LightingShaderCompiler extends ShaderCompiler
 		var weightReg:String;
 		var weightComponents:Array = [".x", ".y", ".z", ".w"];
 		var weightRegisters:Vector<ShaderRegisterElement> = new Vector<ShaderRegisterElement>();
-		var i:UInt;
 		var texReg:ShaderRegisterElement;
 		var addSpec:Bool = _usingSpecularMethod && usesProbesForSpecular();
 		var addDiff:Bool = usesProbesForDiffuse();
@@ -430,14 +429,14 @@ class LightingShaderCompiler extends ShaderCompiler
 		if (addSpec)
 			_lightProbeSpecularIndices = new Vector<UInt>();
 
-		for (i = 0; i < _numProbeRegisters; ++i)
+		for (i in 0..._numProbeRegisters)
 		{
 			weightRegisters[i] = _registerCache.getFreeFragmentConstant();
 			if (i == 0)
 				_probeWeightsIndex = weightRegisters[i].index * 4;
 		}
 
-		for (i = 0; i < _numLightProbes; ++i)
+		for (i in 0..._numLightProbes)
 		{
 			weightReg = weightRegisters[Math.floor(i / 4)].toString() + weightComponents[i % 4];
 

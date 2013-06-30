@@ -70,7 +70,7 @@ class Drag3D
 		init();
 	}
 
-	private inline function get_object3d():ObjectContainer3D
+	private function get_object3d():ObjectContainer3D
 	{
 		return _object3d;
 	}
@@ -80,7 +80,7 @@ class Drag3D
 	*
 	* @param	b		Bool. Defines if the target object3d planes will be aligned to object rotations or not. Default is false.
 	*/
-	private inline function set_useRotations(b:Bool):Void
+	private function set_useRotations(b:Bool):Void
 	{
 		_useRotations = b;
 
@@ -92,7 +92,7 @@ class Drag3D
 			updateDebug();
 	}
 
-	private inline function get_useRotations():Bool
+	private function get_useRotations():Bool
 	{
 		return _useRotations;
 	}
@@ -103,7 +103,7 @@ class Drag3D
 	* Since the offset is set from center to mouse projection, its usually a good practice to set it during firt mouse down
 	* prior to drag.
 	*/
-	private inline function set_offsetCenter(b:Bool):Void
+	private function set_offsetCenter(b:Bool):Void
 	{
 		if (b && !_object3d)
 			throw new Error("offsetCenter requires that an object3d as been assigned to the Drag3D class first!");
@@ -129,7 +129,7 @@ class Drag3D
 		_bSetOffset = b;
 	}
 
-	private inline function get_offsetCenter():Bool
+	private function get_offsetCenter():Bool
 	{
 		return _bSetOffset;
 	}
@@ -138,7 +138,7 @@ class Drag3D
 	* getIntersect method returns the 3d point in space (Vector3D) where mouse hits the given plane.
 	*@return Vector3D the difference mouse mouse hit to object center
 	*/
-	private inline function get_offsetMouseCenter():Vector3D
+	private function get_offsetMouseCenter():Vector3D
 	{
 		return _offsetCenter;
 	}
@@ -148,7 +148,7 @@ class Drag3D
 	*
 	* @param	b				Bool. Display the planes of the dragged object3d. Default is false;
 	*/
-	private inline function set_debug(b:Bool):Void
+	private function set_debug(b:Bool):Void
 	{
 		_debug = b;
 		if (_debug && _planesContainer == null)
@@ -196,7 +196,7 @@ class Drag3D
 		}
 	}
 
-	private inline function get_debug():Bool
+	private function get_debug():Bool
 	{
 		return _debug;
 	}
@@ -207,7 +207,7 @@ class Drag3D
 	* @param	planeid				String. Plane to drag the object3d on.
 	* Possible strings are Drag3D.PLANE_XZ ("xz"), Drag3D.PLANE_XY ("xy") or Drag3D.PLANE_ZY ("zy"). Default is Drag3D.PLANE_XZ;
 	*/
-	private inline function set_plane(planeid:String):Void
+	private function set_plane(planeid:String):Void
 	{
 		_planeid = planeid.toLowerCase();
 
@@ -273,7 +273,7 @@ class Drag3D
 	*
 	* @param	object3d		ObjectContainer3D. The ObjectContainer3D that will be dragged. Default is null. When null planes will be considered at 0,0,0 world
 	*/
-	private inline function set_object3d(object3d:ObjectContainer3D):Void
+	private function set_object3d(object3d:ObjectContainer3D):Void
 	{
 		_object3d = object3d;
 		if (_debug)
@@ -285,7 +285,7 @@ class Drag3D
 	*
 	* @param	object3d		ObjectContainer3D. The object3d that will be used to define the planes
 	*/
-	private inline function set_planeObject3d(object3d:ObjectContainer3D):Void
+	private function set_planeObject3d(object3d:ObjectContainer3D):Void
 	{
 		updateNormalPlanes(object3d);
 
@@ -298,7 +298,7 @@ class Drag3D
 	*
 	* @param	pos		Vector3D. The Vector3D that will be used to define the planes position
 	*/
-	private inline function set_planePosition(pos:Vector3D):Void
+	private function set_planePosition(pos:Vector3D):Void
 	{
 		switch (_planeid)
 		{

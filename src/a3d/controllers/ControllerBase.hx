@@ -21,12 +21,12 @@ class ControllerBase
 	 * Target object on which the controller acts. Defaults to null.
 	 */
 	public var targetObject(get, set):Entity;
-	private inline function get_targetObject():Entity
+	private function get_targetObject():Entity
 	{
 		return _targetObject;
 	}
 
-	private inline function set_targetObject(val:Entity):Entity
+	private function set_targetObject(val:Entity):Entity
 	{
 		if (_targetObject == val)
 			return _targetObject;
@@ -48,12 +48,12 @@ class ControllerBase
 	 * Determines whether the controller applies updates automatically. Defaults to true
 	 */
 	public var autoUpdate(get, set):Bool;
-	private inline function get_autoUpdate():Bool
+	private function get_autoUpdate():Bool
 	{
 		return _autoUpdate;
 	}
 
-	private inline function set_autoUpdate(val:Bool):Bool
+	private function set_autoUpdate(val:Bool):Bool
 	{
 		if (_autoUpdate == val)
 			return _autoUpdate;

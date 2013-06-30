@@ -86,13 +86,13 @@ class MeshDebugger
 	/*
 	* To set a the color of the normals display. Default is 0xFF3399.
 	*/
-	private inline function set_colorNormals(val:UInt):Void
+	private function set_colorNormals(val:UInt):Void
 	{
 		_colorNormals = val;
 		invalidate();
 	}
 
-	private inline function get_colorNormals():UInt
+	private function get_colorNormals():UInt
 	{
 		return _colorNormals;
 	}
@@ -100,13 +100,13 @@ class MeshDebugger
 	/*
 	* To set a the color of the vertexnormals display. Default is 0x66CCFF.
 	*/
-	private inline function set_colorVertexNormals(val:UInt):Void
+	private function set_colorVertexNormals(val:UInt):Void
 	{
 		_colorVertexNormals = val;
 		invalidate();
 	}
 
-	private inline function get_colorVertexNormals():UInt
+	private function get_colorVertexNormals():UInt
 	{
 		return _colorVertexNormals;
 	}
@@ -114,13 +114,13 @@ class MeshDebugger
 	/*
 	* To set a the color of the tangent display. Default is 0xFFCC00.
 	*/
-	private inline function set_colorTangents(val:UInt):Void
+	private function set_colorTangents(val:UInt):Void
 	{
 		_colorTangents = val;
 		invalidate();
 	}
 
-	private inline function get_colorTangents():UInt
+	private function get_colorTangents():UInt
 	{
 		return _colorTangents;
 	}
@@ -128,14 +128,14 @@ class MeshDebugger
 	/*
 	* To set a the length of the vertexnormals segments. Default is 50.
 	*/
-	private inline function set_lengthVertexNormals(val:Float):Void
+	private function set_lengthVertexNormals(val:Float):Void
 	{
 		val = val < 0 ? 1 : val;
 		_lengthVertexNormals = val;
 		invalidate();
 	}
 
-	private inline function get_lengthVertexNormals():Float
+	private function get_lengthVertexNormals():Float
 	{
 		return _lengthVertexNormals;
 	}
@@ -143,14 +143,14 @@ class MeshDebugger
 	/*
 	* To set a the length of the normals segments. Default is 50.
 	*/
-	private inline function set_lengthNormals(val:Float):Void
+	private function set_lengthNormals(val:Float):Void
 	{
 		val = val < 0 ? 1 : val;
 		_lengthNormals = val;
 		invalidate();
 	}
 
-	private inline function get_lengthNormals():Float
+	private function get_lengthNormals():Float
 	{
 		return _lengthNormals;
 	}
@@ -158,14 +158,14 @@ class MeshDebugger
 	/*
 	* To set a the length of the tangents segments. Default is 50.
 	*/
-	private inline function set_lengthTangents(val:Float):Void
+	private function set_lengthTangents(val:Float):Void
 	{
 		val = val < 0 ? 1 : val;
 		_lengthTangents = val;
 		invalidate();
 	}
 
-	private inline function get_lengthTangents():Float
+	private function get_lengthTangents():Float
 	{
 		return _lengthTangents;
 	}

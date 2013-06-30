@@ -54,7 +54,7 @@ class ImageParser extends ParserBase
 	 * @param data The data block to potentially be parsed.
 	 * @return Whether or not the given data is supported.
 	 */
-	public static function supportsData(data:*):Bool
+	public static function supportsData(data:Dynamic):Bool
 	{
 		//shortcut if asset is IFlexAsset
 		if (Std.is(data,Bitmap))
@@ -153,13 +153,12 @@ class ImageParser extends ParserBase
 			bmp = new BitmapData(8, 8, false, 0x0);
 
 			//create chekerboard for this texture rather than a new Default Material
-			var i:UInt, j:UInt;
-			for (i = 0; i < 8; i++)
+			for (i in 0...8)
 			{
-				for (j = 0; j < 8; j++)
+				for (j in 0...8)
 				{
-					if ((j & 1) ^ (i & 1))
-						bmp.setPixel(i, j, 0XFFFFFF);
+					if (((j & 1) ^ (i & 1)) != 0)
+						bmp.setPixel(i, j, 0xFFFFFF);
 				}
 			}
 		}

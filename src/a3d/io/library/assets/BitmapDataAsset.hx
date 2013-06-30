@@ -34,7 +34,7 @@ class BitmapDataAsset extends NamedAssetBase implements IAsset
 	}
 
 	public var assetType(get, null):String;
-	private inline function get_assetType():String
+	private function get_assetType():String
 	{
 		return AssetType.TEXTURE;
 	}

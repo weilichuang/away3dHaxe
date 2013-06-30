@@ -15,9 +15,9 @@ class CubeGeometry extends PrimitiveBase
 	private var _depth:Float;
 	private var _tile6:Bool;
 
-	private var _segmentsW:Float;
-	private var _segmentsH:Float;
-	private var _segmentsD:Float;
+	private var _segmentsW:Int;
+	private var _segmentsH:Int;
+	private var _segmentsD:Int;
 
 	/**
 	 * Creates a new Cube object.
@@ -30,7 +30,7 @@ class CubeGeometry extends PrimitiveBase
 	 * @param tile6 The type of uv mapping to use. When true, a texture will be subdivided in a 2x3 grid, each used for a single face. When false, the entire image is mapped on each face.
 	 */
 	public function new(width:Float = 100, height:Float = 100, depth:Float = 100,
-		segmentsW:UInt = 1, segmentsH:UInt = 1, segmentsD:UInt = 1, tile6:Bool = true)
+		segmentsW:Int = 1, segmentsH:Int = 1, segmentsD:Int = 1, tile6:Bool = true)
 	{
 		super();
 
@@ -46,43 +46,49 @@ class CubeGeometry extends PrimitiveBase
 	/**
 	 * The size of the cube along its X-axis.
 	 */
-	private inline function get_width():Float
+	public var width(get, set):Float;
+	private function get_width():Float
 	{
 		return _width;
 	}
 
-	private inline function set_width(value:Float):Void
+	private function set_width(value:Float):Float
 	{
 		_width = value;
 		invalidateGeometry();
+		return _width;
 	}
 
 	/**
 	 * The size of the cube along its Y-axis.
 	 */
-	private inline function get_height():Float
+	public var height(get, set):Float;
+	private function get_height():Float
 	{
 		return _height;
 	}
 
-	private inline function set_height(value:Float):Void
+	private function set_height(value:Float):Float
 	{
 		_height = value;
 		invalidateGeometry();
+		return _height;
 	}
 
 	/**
 	 * The size of the cube along its Z-axis.
 	 */
-	private inline function get_depth():Float
+	public var depth(get, set):Float;
+	private function get_depth():Float
 	{
 		return _depth;
 	}
 
-	private inline function set_depth(value:Float):Void
+	private function set_depth(value:Float):Float
 	{
 		_depth = value;
 		invalidateGeometry();
+		return _depth;
 	}
 
 	/**
@@ -93,60 +99,68 @@ class CubeGeometry extends PrimitiveBase
 	 * several shared edges (between the top, front, left and right faces) which simplifies
 	 * texture painting.
 	 */
-	private inline function get_tile6():Bool
+	public var tile6(get, set):Bool;
+	private function get_tile6():Bool
 	{
 		return _tile6;
 	}
 
-	private inline function set_tile6(value:Bool):Void
+	private function set_tile6(value:Bool):Bool
 	{
 		_tile6 = value;
 		invalidateUVs();
+		return _tile6;
 	}
 
 	/**
 	 * The number of segments that make up the cube along the X-axis. Defaults to 1.
 	 */
-	private inline function get_segmentsW():Float
+	public var segmentsW(get, set):Int;
+	private function get_segmentsW():Int
 	{
 		return _segmentsW;
 	}
 
-	private inline function set_segmentsW(value:Float):Void
+	private function set_segmentsW(value:Int):Int
 	{
 		_segmentsW = value;
 		invalidateGeometry();
 		invalidateUVs();
+		return _segmentsW;
 	}
 
 	/**
 	 * The number of segments that make up the cube along the Y-axis. Defaults to 1.
 	 */
-	private inline function get_segmentsH():Float
+	public var segmentsH(get, set):Int;
+	private function get_segmentsH():Int
 	{
 		return _segmentsH;
 	}
 
-	private inline function set_segmentsH(value:Float):Void
+	private function set_segmentsH(value:Int):Int
 	{
 		_segmentsH = value;
 		invalidateGeometry();
 		invalidateUVs();
+		return _segmentsH;
 	}
 
 	/**
 	 * The number of segments that make up the cube along the Z-axis. Defaults to 1.
 	 */
-	private inline function get_segmentsD():Float
+	public var segmentsD(get, set):Int;
+	private function get_segmentsD():Int
 	{
 		return _segmentsD;
 	}
 
-	private inline function set_segmentsD(value:Float):Void
+	private function set_segmentsD(value:Int):Int
 	{
 		_segmentsD = value;
 		invalidateGeometry();
 		invalidateUVs();
+		return _segmentsD;
 	}
 
 	/**
@@ -157,8 +171,8 @@ class CubeGeometry extends PrimitiveBase
 		var data:Vector<Float>;
 		var indices:Vector<UInt>;
 
-		var tl:UInt, tr:UInt, bl:UInt, br:UInt;
-		var i:UInt, j:UInt, inc:UInt = 0;
+		var tl:Int, tr:Int, bl:Int, br:Int;
+		var i:Int, j:Int, inc:Int = 0;
 
 		var vidx:UInt, fidx:UInt; // indices
 		var hw:Float, hh:Float, hd:Float; // halves
@@ -166,17 +180,24 @@ class CubeGeometry extends PrimitiveBase
 
 		var outer_pos:Float;
 
-		var numVerts:UInt = ((_segmentsW + 1) * (_segmentsH + 1) +
+		var numVerts:Int = ((_segmentsW + 1) * (_segmentsH + 1) +
 			(_segmentsW + 1) * (_segmentsD + 1) +
 			(_segmentsH + 1) * (_segmentsD + 1)) * 2;
 
-		var stride:UInt = target.vertexStride;
-		var skip:UInt = stride - 9;
+		var stride:Int = target.vertexStride;
+		var skip:Int = stride - 9;
 
 		if (numVerts == target.numVertices)
 		{
 			data = target.vertexData;
-			indices = target.indexData || new Vector<UInt>((_segmentsW * _segmentsH + _segmentsW * _segmentsD + _segmentsH * _segmentsD) * 12, true);
+			if (target.indexData != null)
+			{
+				indices = target.indexData;
+			}
+			else
+			{
+				indices = new Vector<UInt>((_segmentsW * _segmentsH + _segmentsW * _segmentsD + _segmentsH * _segmentsD) * 12, true);
+			}
 		}
 		else
 		{
@@ -199,11 +220,11 @@ class CubeGeometry extends PrimitiveBase
 		dh = _height / _segmentsH;
 		dd = _depth / _segmentsD;
 
-		for (i = 0; i <= _segmentsW; i++)
+		for (i in 0..._segmentsW + 1)
 		{
 			outer_pos = -hw + i * dw;
 
-			for (j = 0; j <= _segmentsH; j++)
+			for (j in 0..._segmentsH + 1)
 			{
 				// front
 				data[vidx++] = outer_pos;
@@ -229,7 +250,7 @@ class CubeGeometry extends PrimitiveBase
 				data[vidx++] = 0;
 				vidx += skip;
 
-				if (i && j)
+				if (i!= 0 && j!= 0)
 				{
 					tl = 2 * ((i - 1) * (_segmentsH + 1) + (j - 1));
 					tr = 2 * (i * (_segmentsH + 1) + (j - 1));
@@ -254,11 +275,11 @@ class CubeGeometry extends PrimitiveBase
 
 		inc += 2 * (_segmentsW + 1) * (_segmentsH + 1);
 
-		for (i = 0; i <= _segmentsW; i++)
+		for (i in 0..._segmentsW + 1)
 		{
 			outer_pos = -hw + i * dw;
 
-			for (j = 0; j <= _segmentsD; j++)
+			for (j in 0..._segmentsD + 1)
 			{
 				// top
 				data[vidx++] = outer_pos;
@@ -284,7 +305,7 @@ class CubeGeometry extends PrimitiveBase
 				data[vidx++] = 0;
 				vidx += skip;
 
-				if (i && j)
+				if (i!= 0 && j!= 0)
 				{
 					tl = inc + 2 * ((i - 1) * (_segmentsD + 1) + (j - 1));
 					tr = inc + 2 * (i * (_segmentsD + 1) + (j - 1));
@@ -309,11 +330,11 @@ class CubeGeometry extends PrimitiveBase
 
 		inc += 2 * (_segmentsW + 1) * (_segmentsD + 1);
 
-		for (i = 0; i <= _segmentsD; i++)
+		for (i in 0..._segmentsD+1)
 		{
 			outer_pos = hd - i * dd;
 
-			for (j = 0; j <= _segmentsH; j++)
+			for (j in 0..._segmentsH+1)
 			{
 				// left
 				data[vidx++] = -hw;
@@ -339,7 +360,7 @@ class CubeGeometry extends PrimitiveBase
 				data[vidx++] = 1;
 				vidx += skip;
 
-				if (i && j)
+				if (i!= 0 && j!= 0)
 				{
 					tl = inc + 2 * ((i - 1) * (_segmentsH + 1) + (j - 1));
 					tr = inc + 2 * (i * (_segmentsH + 1) + (j - 1));
@@ -371,7 +392,7 @@ class CubeGeometry extends PrimitiveBase
 	 */
 	override private function buildUVs(target:CompactSubGeometry):Void
 	{
-		var i:UInt, j:UInt, uidx:UInt;
+		var uidx:UInt;
 		var data:Vector<Float>;
 
 		var u_tile_dim:Float, v_tile_dim:Float;
@@ -379,13 +400,13 @@ class CubeGeometry extends PrimitiveBase
 		var tl0u:Float, tl0v:Float;
 		var tl1u:Float, tl1v:Float;
 		var du:Float, dv:Float;
-		var stride:UInt = target.UVStride;
-		var numUvs:UInt = ((_segmentsW + 1) * (_segmentsH + 1) +
+		var stride:Int = target.UVStride;
+		var numUvs:Int = ((_segmentsW + 1) * (_segmentsH + 1) +
 			(_segmentsW + 1) * (_segmentsD + 1) +
 			(_segmentsH + 1) * (_segmentsD + 1)) * 2 * stride;
-		var skip:UInt = stride - 2;
+		var skip:Int = stride - 2;
 
-		if (target.UVData && numUvs == target.UVData.length)
+		if (target.UVData != null && numUvs == target.UVData.length)
 			data = target.UVData;
 		else
 		{
@@ -425,9 +446,9 @@ class CubeGeometry extends PrimitiveBase
 		tl1v = 0 * v_tile_step;
 		du = u_tile_dim / _segmentsW;
 		dv = v_tile_dim / _segmentsH;
-		for (i = 0; i <= _segmentsW; i++)
+		for (i in 0..._segmentsW + 1)
 		{
-			for (j = 0; j <= _segmentsH; j++)
+			for (j in 0..._segmentsH + 1)
 			{
 				data[uidx++] = tl0u + i * du;
 				data[uidx++] = tl0v + (v_tile_dim - j * dv);
@@ -445,9 +466,9 @@ class CubeGeometry extends PrimitiveBase
 		tl1v = 0 * v_tile_step;
 		du = u_tile_dim / _segmentsW;
 		dv = v_tile_dim / _segmentsD;
-		for (i = 0; i <= _segmentsW; i++)
+		for (i in 0..._segmentsW + 1)
 		{
-			for (j = 0; j <= _segmentsD; j++)
+			for (j in 0..._segmentsD + 1)
 			{
 				data[uidx++] = tl0u + i * du;
 				data[uidx++] = tl0v + (v_tile_dim - j * dv);
@@ -465,9 +486,9 @@ class CubeGeometry extends PrimitiveBase
 		tl1v = 1 * v_tile_step;
 		du = u_tile_dim / _segmentsD;
 		dv = v_tile_dim / _segmentsH;
-		for (i = 0; i <= _segmentsD; i++)
+		for (i in 0..._segmentsD + 1)
 		{
-			for (j = 0; j <= _segmentsH; j++)
+			for (j in 0..._segmentsH + 1)
 			{
 				data[uidx++] = tl0u + i * du;
 				data[uidx++] = tl0v + (v_tile_dim - j * dv);

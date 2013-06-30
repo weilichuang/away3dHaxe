@@ -140,22 +140,22 @@ class ColorHitMap extends EventDispatcher
 	* The offsetX, offsetY
 	* by default offsetX and offsetY represent the center of the map.
 	*/
-	private inline function set_offsetX(value:Float):Void
+	private function set_offsetX(value:Float):Void
 	{
 		_offsetX = value;
 	}
 
-	private inline function set_offsetY(value:Float):Void
+	private function set_offsetY(value:Float):Void
 	{
 		_offsetY = value;
 	}
 
-	private inline function get_offsetX():Float
+	private function get_offsetX():Float
 	{
 		return _offsetX;
 	}
 
-	private inline function get_offsetY():Float
+	private function get_offsetY():Float
 	{
 		return _offsetY;
 	}
@@ -163,22 +163,22 @@ class ColorHitMap extends EventDispatcher
 	/**
 	* defines the  scaleX and scaleY. Defines the ratio map to the 3d world
 	*/
-	private inline function set_scaleX(value:Float):Void
+	private function set_scaleX(value:Float):Void
 	{
 		_scaleX = value;
 	}
 
-	private inline function set_scaleY(value:Float):Void
+	private function set_scaleY(value:Float):Void
 	{
 		_scaleY = value;
 	}
 
-	private inline function get_scaleX():Float
+	private function get_scaleX():Float
 	{
 		return _scaleX;
 	}
 
-	private inline function get_scaleY():Float
+	private function get_scaleY():Float
 	{
 		return _scaleY;
 	}
@@ -186,7 +186,7 @@ class ColorHitMap extends EventDispatcher
 	/**
 	* The source bitmapdata uses for colour readings
 	*/
-	private inline function set_bitmapData(map:BitmapData):Void
+	private function set_bitmapData(map:BitmapData):Void
 	{
 		_colorMap = map;
 
@@ -194,7 +194,7 @@ class ColorHitMap extends EventDispatcher
 		_offsetY = _colorMap.height * .5;
 	}
 
-	private inline function get_bitmapData():BitmapData
+	private function get_bitmapData():BitmapData
 	{
 		return _colorMap;
 	}

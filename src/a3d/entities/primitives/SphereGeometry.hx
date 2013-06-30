@@ -12,8 +12,8 @@ import flash.Vector;
 class SphereGeometry extends PrimitiveBase
 {
 	private var _radius:Float;
-	private var _segmentsW:UInt;
-	private var _segmentsH:UInt;
+	private var _segmentsW:Int;
+	private var _segmentsH:Int;
 	private var _yUp:Bool;
 
 	/**
@@ -23,7 +23,7 @@ class SphereGeometry extends PrimitiveBase
 	 * @param segmentsH Defines the number of vertical segments that make up the sphere.
 	 * @param yUp Defines whether the sphere poles should lay on the Y-axis (true) or on the Z-axis (false).
 	 */
-	public function new(radius:Float = 50, segmentsW:UInt = 16, segmentsH:UInt = 12, yUp:Bool = true)
+	public function new(radius:Float = 50, segmentsW:Int = 16, segmentsH:Int = 12, yUp:Bool = true)
 	{
 		super();
 
@@ -40,15 +40,23 @@ class SphereGeometry extends PrimitiveBase
 	{
 		var vertices:Vector<Float>;
 		var indices:Vector<UInt>;
-		var i:UInt, j:UInt, triIndex:UInt;
-		var numVerts:UInt = (_segmentsH + 1) * (_segmentsW + 1);
-		var stride:UInt = target.vertexStride;
-		var skip:UInt = stride - 9;
+		var triIndex:Int = 0;
+		var numVerts:Int = (_segmentsH + 1) * (_segmentsW + 1);
+		var stride:Int = target.vertexStride;
+		var skip:Int = stride - 9;
 
 		if (numVerts == target.numVertices)
 		{
 			vertices = target.vertexData;
-			indices = target.indexData || new Vector<UInt>((_segmentsH - 1) * _segmentsW * 6, true);
+			if (target.indexData != null)
+			{
+				indices = target.indexData;
+			}
+			else
+			{
+				indices = new Vector<UInt>((_segmentsH - 1) * _segmentsW * 6, true);
+			}
+			
 		}
 		else
 		{
@@ -61,7 +69,7 @@ class SphereGeometry extends PrimitiveBase
 		var index:UInt = target.vertexOffset;
 		var comp1:Float, comp2:Float, t1:Float, t2:Float;
 
-		for (j = 0; j <= _segmentsH; ++j)
+		for (j in 0..._segmentsH + 1)
 		{
 
 			startIndex = index;
@@ -70,7 +78,7 @@ class SphereGeometry extends PrimitiveBase
 			var z:Float = -_radius * Math.cos(horangle);
 			var ringradius:Float = _radius * Math.sin(horangle);
 
-			for (i = 0; i <= _segmentsW; ++i)
+			for (i in 0..._segmentsW + 1)
 			{
 				var verangle:Float = 2 * Math.PI * i / _segmentsW;
 				var x:Float = ringradius * Math.cos(verangle);
@@ -170,12 +178,12 @@ class SphereGeometry extends PrimitiveBase
 	override private function buildUVs(target:CompactSubGeometry):Void
 	{
 		var i:Int, j:Int;
-		var stride:UInt = target.UVStride;
-		var numUvs:UInt = (_segmentsH + 1) * (_segmentsW + 1) * stride;
+		var stride:Int = target.UVStride;
+		var numUvs:Int = (_segmentsH + 1) * (_segmentsW + 1) * stride;
 		var data:Vector<Float>;
-		var skip:UInt = stride - 2;
+		var skip:Int = stride - 2;
 
-		if (target.UVData && numUvs == target.UVData.length)
+		if (target.UVData != null && numUvs == target.UVData.length)
 			data = target.UVData;
 		else
 		{
@@ -184,9 +192,9 @@ class SphereGeometry extends PrimitiveBase
 		}
 
 		var index:Int = target.UVOffset;
-		for (j = 0; j <= _segmentsH; ++j)
+		for (j in 0..._segmentsH + 1)
 		{
-			for (i = 0; i <= _segmentsW; ++i)
+			for (i in 0..._segmentsW + 1)
 			{
 				data[index++] = i / _segmentsW;
 				data[index++] = j / _segmentsH;
@@ -200,58 +208,66 @@ class SphereGeometry extends PrimitiveBase
 	/**
 	 * The radius of the sphere.
 	 */
-	private inline function get_radius():Float
+	public var radius(get, set):Float;
+	private function get_radius():Float
 	{
 		return _radius;
 	}
 
-	private inline function set_radius(value:Float):Void
+	private function set_radius(value:Float):Float
 	{
 		_radius = value;
 		invalidateGeometry();
+		return _radius;
 	}
 
 	/**
 	 * Defines the number of horizontal segments that make up the sphere. Defaults to 16.
 	 */
-	private inline function get_segmentsW():UInt
+	public var segmentsW(get, set):Int;
+	private function get_segmentsW():Int
 	{
 		return _segmentsW;
 	}
 
-	private inline function set_segmentsW(value:UInt):Void
+	private function set_segmentsW(value:Int):Int
 	{
 		_segmentsW = value;
 		invalidateGeometry();
 		invalidateUVs();
+		return _segmentsW;
 	}
 
 	/**
 	 * Defines the number of vertical segments that make up the sphere. Defaults to 12.
 	 */
-	private inline function get_segmentsH():UInt
+	public var segmentsH(get, set):Int;
+	private function get_segmentsH():Int
 	{
 		return _segmentsH;
 	}
 
-	private inline function set_segmentsH(value:UInt):Void
+	private function set_segmentsH(value:Int):Int
 	{
 		_segmentsH = value;
 		invalidateGeometry();
 		invalidateUVs();
+		return _segmentsH;
 	}
 
 	/**
 	 * Defines whether the sphere poles should lay on the Y-axis (true) or on the Z-axis (false).
 	 */
-	private inline function get_yUp():Bool
+	public var yUp(get, set):Bool;
+	private function get_yUp():Bool
 	{
 		return _yUp;
 	}
 
-	private inline function set_yUp(value:Bool):Void
+	private function set_yUp(value:Bool):Bool
 	{
 		_yUp = value;
 		invalidateGeometry();
+		return _yUp;
 	}
 }

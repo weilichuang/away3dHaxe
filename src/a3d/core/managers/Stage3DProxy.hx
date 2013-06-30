@@ -89,7 +89,7 @@ class Stage3DProxy extends EventDispatcher
 	}
 
 	public var profile(get, null):Context3DProfile;
-	private inline function get_profile():Context3DProfile
+	private function get_profile():Context3DProfile
 	{
 		return _profile;
 	}
@@ -138,12 +138,12 @@ class Stage3DProxy extends EventDispatcher
 	 * Indicates whether the depth and stencil buffer is used
 	 */
 	public var enableDepthAndStencil(get, set):Bool;
-	private inline function get_enableDepthAndStencil():Bool
+	private function get_enableDepthAndStencil():Bool
 	{
 		return _enableDepthAndStencil;
 	}
 
-	private inline function set_enableDepthAndStencil(enableDepthAndStencil:Bool):Bool
+	private function set_enableDepthAndStencil(enableDepthAndStencil:Bool):Bool
 	{
 		_enableDepthAndStencil = enableDepthAndStencil;
 		_backBufferDirty = true;
@@ -151,13 +151,13 @@ class Stage3DProxy extends EventDispatcher
 	}
 
 	public var renderTarget(get, null):TextureBase;
-	private inline function get_renderTarget():TextureBase
+	private function get_renderTarget():TextureBase
 	{
 		return _renderTarget;
 	}
 
 	public var renderSurfaceSelector(get, null):Int;
-	private inline function get_renderSurfaceSelector():Int
+	private function get_renderSurfaceSelector():Int
 	{
 		return _renderSurfaceSelector;
 	}
@@ -252,12 +252,12 @@ class Stage3DProxy extends EventDispatcher
 	}
 
 	public var scissorRect(get, set):Rectangle;
-	private inline function get_scissorRect():Rectangle
+	private function get_scissorRect():Rectangle
 	{
 		return _scissorRect;
 	}
 
-	private inline function set_scissorRect(value:Rectangle):Rectangle
+	private function set_scissorRect(value:Rectangle):Rectangle
 	{
 		_scissorRect = value;
 		_context3D.setScissorRectangle(_scissorRect);
@@ -268,7 +268,7 @@ class Stage3DProxy extends EventDispatcher
 	 * The index of the Stage3D which is managed by this instance of Stage3DProxy.
 	 */
 	public var stage3DIndex(get, null):Int;
-	private inline function get_stage3DIndex():Int
+	private function get_stage3DIndex():Int
 	{
 		return _stage3DIndex;
 	}
@@ -277,7 +277,7 @@ class Stage3DProxy extends EventDispatcher
 	 * The base Stage3D object associated with this proxy.
 	 */
 	public var stage3D(get, null):Stage3D;
-	private inline function get_stage3D():Stage3D
+	private function get_stage3D():Stage3D
 	{
 		return _stage3D;
 	}
@@ -286,7 +286,7 @@ class Stage3DProxy extends EventDispatcher
 	 * The Context3D object associated with the given Stage3D object.
 	 */
 	public var context3D(get, null):Context3D;
-	private inline function get_context3D():Context3D
+	private function get_context3D():Context3D
 	{
 		return _context3D;
 	}
@@ -295,7 +295,7 @@ class Stage3DProxy extends EventDispatcher
 	 * The driver information as reported by the Context3D object (if any)
 	*/
 	public var driverInfo(get, null):String;
-	private inline function get_driverInfo():String
+	private function get_driverInfo():String
 	{
 		return _context3D != null ? _context3D.driverInfo : null;
 	}
@@ -307,7 +307,7 @@ class Stage3DProxy extends EventDispatcher
 	 * as only then will it be guaranteed to be accurate.
 	*/
 	public var usesSoftwareRendering(get, null):Bool;
-	private inline function get_usesSoftwareRendering():Bool
+	private function get_usesSoftwareRendering():Bool
 	{
 		return _usesSoftwareRendering;
 	}
@@ -317,12 +317,12 @@ class Stage3DProxy extends EventDispatcher
 	 * The x position of the Stage3D.
 	 */
 	public var x(get, set):Float;
-	private inline function get_x():Float
+	private function get_x():Float
 	{
 		return _stage3D.x;
 	}
 
-	private inline function set_x(value:Float):Float
+	private function set_x(value:Float):Float
 	{
 		if (_viewPort.x == value)
 			return x;
@@ -338,12 +338,12 @@ class Stage3DProxy extends EventDispatcher
 	 * The y position of the Stage3D.
 	 */
 	public var y(get, set):Float;
-	private inline function get_y():Float
+	private function get_y():Float
 	{
 		return _stage3D.y;
 	}
 
-	private inline function set_y(value:Float):Float
+	private function set_y(value:Float):Float
 	{
 		if (_viewPort.y == value)
 			return y;
@@ -360,12 +360,12 @@ class Stage3DProxy extends EventDispatcher
 	 * The width of the Stage3D.
 	 */
 	public var width(get, set):Int;
-	private inline function get_width():Int
+	private function get_width():Int
 	{
 		return _backBufferWidth;
 	}
 
-	private inline function set_width(width:Int):Int
+	private function set_width(width:Int):Int
 	{
 		if (_viewPort.width == width)
 			return width;
@@ -383,12 +383,12 @@ class Stage3DProxy extends EventDispatcher
 	 * The height of the Stage3D.
 	 */
 	public var height(get, set):Int;
-	private inline function get_height():Int
+	private function get_height():Int
 	{
 		return _backBufferHeight;
 	}
 
-	private inline function set_height(height:Int):Int
+	private function set_height(height:Int):Int
 	{
 		if (_viewPort.height == height)
 			return height;
@@ -406,12 +406,12 @@ class Stage3DProxy extends EventDispatcher
 	 * The antiAliasing of the Stage3D.
 	 */
 	public var antiAlias(get, set):Int;
-	private inline function get_antiAlias():Int
+	private function get_antiAlias():Int
 	{
 		return _antiAlias;
 	}
 
-	private inline function set_antiAlias(antiAlias:Int):Int
+	private function set_antiAlias(antiAlias:Int):Int
 	{
 		_antiAlias = antiAlias;
 		_backBufferDirty = true;
@@ -422,7 +422,7 @@ class Stage3DProxy extends EventDispatcher
 	 * A viewPort rectangle equivalent of the Stage3D size and position.
 	 */
 	public var viewPort(get, null):Rectangle;
-	private inline function get_viewPort():Rectangle
+	private function get_viewPort():Rectangle
 	{
 		_viewportDirty = false;
 
@@ -433,12 +433,12 @@ class Stage3DProxy extends EventDispatcher
 	 * The background color of the Stage3D.
 	 */
 	public var color(get, set):UInt;
-	private inline function get_color():UInt
+	private function get_color():UInt
 	{
 		return _color;
 	}
 
-	private inline function set_color(color:UInt):UInt
+	private function set_color(color:UInt):UInt
 	{
 		return _color = color;
 	}
@@ -448,12 +448,12 @@ class Stage3DProxy extends EventDispatcher
 	 * The visibility of the Stage3D.
 	 */
 	public var visible(get, set):Bool;
-	private inline function get_visible():Bool
+	private function get_visible():Bool
 	{
 		return _stage3D.visible;
 	}
 
-	private inline function set_visible(value:Bool):Bool
+	private function set_visible(value:Bool):Bool
 	{
 		return _stage3D.visible = value;
 	}
@@ -463,12 +463,12 @@ class Stage3DProxy extends EventDispatcher
 	 * The freshly cleared state of the backbuffer before any rendering
 	 */
 	public var bufferClear(get, set):Bool;
-	private inline function get_bufferClear():Bool
+	private function get_bufferClear():Bool
 	{
 		return _bufferClear;
 	}
 
-	private inline function set_bufferClear(newBufferClear:Bool):Bool
+	private function set_bufferClear(newBufferClear:Bool):Bool
 	{
 		return _bufferClear = newBufferClear;
 	}
@@ -477,23 +477,23 @@ class Stage3DProxy extends EventDispatcher
 	 * Access to fire mouseevents across multiple layered view3D instances
 	 */
 	public var mouse3DManager(get, set):Mouse3DManager;
-	private inline function get_mouse3DManager():Mouse3DManager
+	private function get_mouse3DManager():Mouse3DManager
 	{
 		return _mouse3DManager;
 	}
 
-	private inline function set_mouse3DManager(value:Mouse3DManager):Mouse3DManager
+	private function set_mouse3DManager(value:Mouse3DManager):Mouse3DManager
 	{
 		return _mouse3DManager = value;
 	}
 
 	public var touch3DManager(get, set):Touch3DManager;
-	private inline function get_touch3DManager():Touch3DManager
+	private function get_touch3DManager():Touch3DManager
 	{
 		return _touch3DManager;
 	}
 
-	private inline function set_touch3DManager(value:Touch3DManager):Touch3DManager
+	private function set_touch3DManager(value:Touch3DManager):Touch3DManager
 	{
 		return _touch3DManager = value;
 	}

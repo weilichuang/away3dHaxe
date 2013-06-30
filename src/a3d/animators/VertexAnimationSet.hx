@@ -29,7 +29,7 @@ class VertexAnimationSet extends AnimationSetBase implements IAnimationSet
 	/**
 	 * Returns the number of poses made available at once to the GPU animation code.
 	 */
-	private inline function get_numPoses():UInt
+	private function get_numPoses():UInt
 	{
 		return _numPoses;
 	}
@@ -37,7 +37,7 @@ class VertexAnimationSet extends AnimationSetBase implements IAnimationSet
 	/**
 	 * Returns the active blend mode of the vertex animator object.
 	 */
-	private inline function get_blendMode():String
+	private function get_blendMode():String
 	{
 		return _blendMode;
 	}
@@ -45,7 +45,7 @@ class VertexAnimationSet extends AnimationSetBase implements IAnimationSet
 	/**
 	 * Returns whether or not normal data is used in last set GPU pass of the vertex shader.
 	 */
-	private inline function get_useNormals():Bool
+	private function get_useNormals():Bool
 	{
 		return _uploadNormals;
 	}

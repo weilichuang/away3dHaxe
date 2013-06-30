@@ -20,7 +20,7 @@ class ResourceDependency
 	private var _req:URLRequest;
 	private var _assets:Vector<IAsset>;
 	private var _parentParser:ParserBase;
-	private var _data:*;
+	private var _data:Dynamic;
 	private var _retrieveAsRawData:Bool;
 	private var _suppressAssetEvents:Bool;
 	private var _dependencies:Vector<ResourceDependency>;
@@ -29,7 +29,7 @@ class ResourceDependency
 	public var success:Bool;
 
 
-	public function new(id:String, req:URLRequest, data:*, parentParser:ParserBase, retrieveAsRawData:Bool = false, suppressAssetEvents:Bool = false)
+	public function new(id:String, req:URLRequest, data:Dynamic, parentParser:ParserBase, retrieveAsRawData:Bool = false, suppressAssetEvents:Bool = false)
 	{
 		_id = id;
 		_req = req;
@@ -43,37 +43,38 @@ class ResourceDependency
 	}
 
 
-	public function get id():String
+	public var id(get, null):String;
+	private function get_id():String
 	{
 		return _id;
 	}
 
-
-	public function get assets():Vector<IAsset>
+	public var assets(get, null):Vector<IAsset>;
+	private function get_assets():Vector<IAsset>
 	{
 		return _assets;
 	}
 
-
-	public function get dependencies():Vector<ResourceDependency>
+	public var dependencies(get, null):Vector<ResourceDependency>;
+	private function get_dependencies():Vector<ResourceDependency>
 	{
 		return _dependencies;
 	}
 
-
-	public function get request():URLRequest
+	public var request(get, null):URLRequest;
+	private function get_request():URLRequest
 	{
 		return _req;
 	}
 
-
-	public function get retrieveAsRawData():Bool
+	public var retrieveAsRawData(get, null):Bool;
+	private function get_retrieveAsRawData():Bool
 	{
 		return _retrieveAsRawData;
 	}
 
-
-	public function get suppresAssetEvents():Bool
+	public var suppresAssetEvents(get, null):Bool;
+	private function get_suppresAssetEvents():Bool
 	{
 		return _suppressAssetEvents;
 	}
@@ -82,7 +83,8 @@ class ResourceDependency
 	/**
 	 * The data containing the dependency to be parsed, if the resource was already loaded.
 	 */
-	public function get data():*
+	public var data(get, null):Dynamic;
+	private function get_data():Dynamic
 	{
 		return _data;
 	}
@@ -92,7 +94,7 @@ class ResourceDependency
 	 * @private
 	 * Method to set data after having already created the dependency object, e.g. after load.
 	*/
-	public function setData(data:*):Void
+	public function setData(data:Dynamic):Void
 	{
 		_data = data;
 	}
@@ -100,7 +102,8 @@ class ResourceDependency
 	/**
 	 * The parser which is dependent on this ResourceDependency object.
 	 */
-	public function get parentParser():ParserBase
+	public var parentParser(get, null):ParserBase;
+	private function get_parentParser():ParserBase
 	{
 		return _parentParser;
 	}
@@ -112,7 +115,7 @@ class ResourceDependency
 	 */
 	public function resolve():Void
 	{
-		if (_parentParser)
+		if (_parentParser != null)
 			_parentParser.resolveDependency(this);
 	}
 
@@ -121,7 +124,7 @@ class ResourceDependency
 	 */
 	public function resolveFailure():Void
 	{
-		if (_parentParser)
+		if (_parentParser != null)
 			_parentParser.resolveDependencyFailure(this);
 	}
 
@@ -130,7 +133,7 @@ class ResourceDependency
 	 */
 	public function resolveName(asset:IAsset):String
 	{
-		if (_parentParser)
+		if (_parentParser != null)
 			return _parentParser.resolveDependencyName(this, asset);
 		return asset.name;
 	}

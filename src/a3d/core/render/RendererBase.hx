@@ -72,51 +72,51 @@ class RendererBase
 	}
 
 	public var viewWidth(get, set):Float;
-	private inline function get_viewWidth():Float
+	private function get_viewWidth():Float
 	{
 		return _viewWidth;
 	}
 
-	private inline function set_viewWidth(value:Float):Float
+	private function set_viewWidth(value:Float):Float
 	{
 		return _viewWidth = value;
 	}
 
 	public var viewHeight(get, set):Float;
-	private inline function get_viewHeight():Float
+	private function get_viewHeight():Float
 	{
 		return _viewHeight;
 	}
 
-	private inline function set_viewHeight(value:Float):Float
+	private function set_viewHeight(value:Float):Float
 	{
 		return _viewHeight = value;
 	}
 
 	public var renderToTexture(get, null):Bool;
-	private inline function get_renderToTexture():Bool
+	private function get_renderToTexture():Bool
 	{
 		return _renderToTexture;
 	}
 
 	public var renderableSorter(get, set):IEntitySorter;
-	private inline function get_renderableSorter():IEntitySorter
+	private function get_renderableSorter():IEntitySorter
 	{
 		return _renderableSorter;
 	}
 
-	private inline function set_renderableSorter(value:IEntitySorter):IEntitySorter
+	private function set_renderableSorter(value:IEntitySorter):IEntitySorter
 	{
 		return _renderableSorter = value;
 	}
 
 	public var clearOnRender(get, set):Bool;
-	private inline function get_clearOnRender():Bool
+	private function get_clearOnRender():Bool
 	{
 		return _clearOnRender;
 	}
 
-	private inline function set_clearOnRender(value:Bool):Bool
+	private function set_clearOnRender(value:Bool):Bool
 	{
 		return _clearOnRender = value;
 	}
@@ -127,12 +127,12 @@ class RendererBase
 	 * @private
 	 */
 	public var backgroundR(get, set):Float;
-	private inline function get_backgroundR():Float
+	private function get_backgroundR():Float
 	{
 		return _backgroundR;
 	}
 
-	private inline function set_backgroundR(value:Float):Float
+	private function set_backgroundR(value:Float):Float
 	{
 		return _backgroundR = value;
 	}
@@ -143,12 +143,12 @@ class RendererBase
 	 * @private
 	 */
 	public var backgroundG(get, set):Float;
-	private inline function get_backgroundG():Float
+	private function get_backgroundG():Float
 	{
 		return _backgroundG;
 	}
 
-	private inline function set_backgroundG(value:Float):Float
+	private function set_backgroundG(value:Float):Float
 	{
 		return _backgroundG = value;
 	}
@@ -159,12 +159,12 @@ class RendererBase
 	 * @private
 	 */
 	public var backgroundB(get, set):Float;
-	private inline function get_backgroundB():Float
+	private function get_backgroundB():Float
 	{
 		return _backgroundB;
 	}
 
-	private inline function set_backgroundB(value:Float):Float
+	private function set_backgroundB(value:Float):Float
 	{
 		return _backgroundB = value;
 	}
@@ -175,12 +175,12 @@ class RendererBase
 	 * @private
 	 */
 	public var stage3DProxy(get, set):Stage3DProxy;
-	private inline function get_stage3DProxy():Stage3DProxy
+	private function get_stage3DProxy():Stage3DProxy
 	{
 		return _stage3DProxy;
 	}
 
-	private inline function set_stage3DProxy(value:Stage3DProxy):Stage3DProxy
+	private function set_stage3DProxy(value:Stage3DProxy):Stage3DProxy
 	{
 		if (value == _stage3DProxy)
 			return _stage3DProxy;
@@ -217,12 +217,12 @@ class RendererBase
 	 * @private
 	 */
 	public var shareContext(get, set):Bool;
-	private inline function get_shareContext():Bool
+	private function get_shareContext():Bool
 	{
 		return _shareContext;
 	}
 
-	private inline function set_shareContext(value:Bool):Bool
+	private function set_shareContext(value:Bool):Bool
 	{
 		return _shareContext = value;
 	}
@@ -344,23 +344,23 @@ class RendererBase
 	}
 
 	public var backgroundAlpha(get, set):Float;
-	private inline function get_backgroundAlpha():Float
+	private function get_backgroundAlpha():Float
 	{
 		return _backgroundAlpha;
 	}
 
-	private inline function set_backgroundAlpha(value:Float):Float
+	private function set_backgroundAlpha(value:Float):Float
 	{
 		return _backgroundAlpha = value;
 	}
 
 	public var background(get, set):Texture2DBase;
-	private inline function get_background():Texture2DBase
+	private function get_background():Texture2DBase
 	{
 		return _background;
 	}
 
-	private inline function set_background(value:Texture2DBase):Texture2DBase
+	private function set_background(value:Texture2DBase):Texture2DBase
 	{
 		if (_backgroundImageRenderer != null && value == null)
 		{
@@ -380,40 +380,40 @@ class RendererBase
 	}
 
 	public var backgroundImageRenderer(get, null):BackgroundImageRenderer;
-	private inline function get_backgroundImageRenderer():BackgroundImageRenderer
+	private function get_backgroundImageRenderer():BackgroundImageRenderer
 	{
 		return _backgroundImageRenderer;
 	}
 
 	public var antiAlias(get, set):UInt;
-	private inline function get_antiAlias():UInt
+	private function get_antiAlias():UInt
 	{
 		return _antiAlias;
 	}
 
-	private inline function set_antiAlias(antiAlias:UInt):UInt
+	private function set_antiAlias(antiAlias:UInt):UInt
 	{
 		return _antiAlias = antiAlias;
 	}
 
 	public var textureRatioX(get, set):Float;
-	private inline function get_textureRatioX():Float
+	private function get_textureRatioX():Float
 	{
 		return _textureRatioX;
 	}
 
-	private inline function set_textureRatioX(value:Float):Float
+	private function set_textureRatioX(value:Float):Float
 	{
 		return _textureRatioX = value;
 	}
 
 	public var textureRatioY(get, set):Float;
-	private inline function get_textureRatioY():Float
+	private function get_textureRatioY():Float
 	{
 		return _textureRatioY;
 	}
 
-	private inline function set_textureRatioY(value:Float):Float
+	private function set_textureRatioY(value:Float):Float
 	{
 		return _textureRatioY = value;
 	}

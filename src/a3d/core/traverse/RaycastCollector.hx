@@ -36,12 +36,12 @@ class RaycastCollector extends EntityCollector
 	 * Provides the starting position of the ray.
 	 */
 	public var rayPosition(get, set):Vector3D;
-	private inline function get_rayPosition():Vector3D
+	private function get_rayPosition():Vector3D
 	{
 		return _rayPosition;
 	}
 
-	private inline function set_rayPosition(value:Vector3D):Vector3D
+	private function set_rayPosition(value:Vector3D):Vector3D
 	{
 		return _rayPosition = value;
 	}
@@ -51,12 +51,12 @@ class RaycastCollector extends EntityCollector
 	 * Provides the direction vector of the ray.
 	 */
 	public var rayDirection(get, set):Vector3D;
-	private inline function get_rayDirection():Vector3D
+	private function get_rayDirection():Vector3D
 	{
 		return _rayDirection;
 	}
 
-	private inline function set_rayDirection(value:Vector3D):Vector3D
+	private function set_rayDirection(value:Vector3D):Vector3D
 	{
 		return _rayDirection = value;
 	}

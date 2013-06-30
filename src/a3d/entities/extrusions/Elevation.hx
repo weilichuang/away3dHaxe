@@ -67,7 +67,7 @@ class Elevation extends Mesh
 	/**
 	* Locks elevation factor beneath this color reading level. Default is 0;
 	*/
-	private inline function set_minElevation(val:UInt):Void
+	private function set_minElevation(val:UInt):Void
 	{
 		if (_minElevation == val)
 			return;
@@ -76,7 +76,7 @@ class Elevation extends Mesh
 		invalidateGeometry();
 	}
 
-	private inline function get_minElevation():UInt
+	private function get_minElevation():UInt
 	{
 		return _minElevation;
 	}
@@ -85,7 +85,7 @@ class Elevation extends Mesh
 	* Locks elevation factor above this color reading level. Default is 255;
 	* Allows to build "canyon" like landscapes with no additional work on heightmap source.
 	*/
-	private inline function set_maxElevation(val:UInt):Void
+	private function set_maxElevation(val:UInt):Void
 	{
 		if (_maxElevation == val)
 			return;
@@ -94,7 +94,7 @@ class Elevation extends Mesh
 		invalidateGeometry();
 	}
 
-	private inline function get_maxElevation():UInt
+	private function get_maxElevation():UInt
 	{
 		return _maxElevation;
 	}
@@ -103,12 +103,12 @@ class Elevation extends Mesh
 	 * The number of segments that make up the plane along the Y or Z-axis, depending on whether yUp is true or
 	 * false, respectively. Defaults to 1.
 	 */
-	private inline function get_segmentsH():UInt
+	private function get_segmentsH():UInt
 	{
 		return _segmentsH;
 	}
 
-	private inline function set_segmentsH(value:UInt):Void
+	private function set_segmentsH(value:UInt):Void
 	{
 		_segmentsH = value;
 		invalidateGeometry();
@@ -118,23 +118,23 @@ class Elevation extends Mesh
 	/**
 	 * The width of the terrain plane.
 	 */
-	private inline function get_width():Float
+	private function get_width():Float
 	{
 		return _width;
 	}
 
-	private inline function set_width(value:Float):Void
+	private function set_width(value:Float):Void
 	{
 		_width = value;
 		invalidateGeometry();
 	}
 
-	private inline function get_height():Float
+	private function get_height():Float
 	{
 		return _height;
 	}
 
-	private inline function set_height(value:Float):Void
+	private function set_height(value:Float):Void
 	{
 		_height = value;
 	}
@@ -142,12 +142,12 @@ class Elevation extends Mesh
 	/**
 	 * The depth of the terrain plane.
 	 */
-	private inline function get_depth():Float
+	private function get_depth():Float
 	{
 		return _depth;
 	}
 
-	private inline function set_depth(value:Float):Void
+	private function set_depth(value:Float):Void
 	{
 		_depth = value;
 		invalidateGeometry();
@@ -276,7 +276,7 @@ class Elevation extends Mesh
 	/*
 	* Returns the smoothed heightmap
 	*/
-	private inline function get_smoothedHeightMap():BitmapData
+	private function get_smoothedHeightMap():BitmapData
 	{
 		return _smoothedHeightMap;
 	}

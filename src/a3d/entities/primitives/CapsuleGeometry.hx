@@ -207,12 +207,12 @@ class CapsuleGeometry extends PrimitiveBase
 	/**
 	 * The radius of the capsule.
 	 */
-	private inline function get_radius():Float
+	private function get_radius():Float
 	{
 		return _radius;
 	}
 
-	private inline function set_radius(value:Float):Void
+	private function set_radius(value:Float):Void
 	{
 		_radius = value;
 		invalidateGeometry();
@@ -221,12 +221,12 @@ class CapsuleGeometry extends PrimitiveBase
 	/**
 	 * The height of the capsule.
 	 */
-	private inline function get_height():Float
+	private function get_height():Float
 	{
 		return _height;
 	}
 
-	private inline function set_height(value:Float):Void
+	private function set_height(value:Float):Void
 	{
 		_height = value;
 		invalidateGeometry();
@@ -235,12 +235,12 @@ class CapsuleGeometry extends PrimitiveBase
 	/**
 	 * Defines the number of horizontal segments that make up the capsule. Defaults to 16.
 	 */
-	private inline function get_segmentsW():UInt
+	private function get_segmentsW():UInt
 	{
 		return _segmentsW;
 	}
 
-	private inline function set_segmentsW(value:UInt):Void
+	private function set_segmentsW(value:UInt):Void
 	{
 		_segmentsW = value;
 		invalidateGeometry();
@@ -250,12 +250,12 @@ class CapsuleGeometry extends PrimitiveBase
 	/**
 	 * Defines the number of vertical segments that make up the capsule. Defaults to 15. Must be uneven.
 	 */
-	private inline function get_segmentsH():UInt
+	private function get_segmentsH():UInt
 	{
 		return _segmentsH;
 	}
 
-	private inline function set_segmentsH(value:UInt):Void
+	private function set_segmentsH(value:UInt):Void
 	{
 		_segmentsH = (value % 2 == 0) ? value + 1 : value;
 		invalidateGeometry();
@@ -265,12 +265,12 @@ class CapsuleGeometry extends PrimitiveBase
 	/**
 	 * Defines whether the capsule poles should lay on the Y-axis (true) or on the Z-axis (false).
 	 */
-	private inline function get_yUp():Bool
+	private function get_yUp():Bool
 	{
 		return _yUp;
 	}
 
-	private inline function set_yUp(value:Bool):Void
+	private function set_yUp(value:Bool):Void
 	{
 		_yUp = value;
 		invalidateGeometry();

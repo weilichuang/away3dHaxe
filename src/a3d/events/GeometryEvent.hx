@@ -40,7 +40,7 @@ class GeometryEvent extends Event
 	 * The SubGeometry object that is the subject of this event, if appropriate.
 	 */
 	public var subGeometry(get,null):ISubGeometry;
-	private inline function get_subGeometry():ISubGeometry
+	private function get_subGeometry():ISubGeometry
 	{
 		return _subGeometry;
 	}

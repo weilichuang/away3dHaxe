@@ -114,12 +114,12 @@ class SoundTransform3D
 	}
 
 	public var soundTransform(get, set):SoundTransform;
-	private inline function get_soundTransform():SoundTransform
+	private function get_soundTransform():SoundTransform
 	{
 		return _soundTransform;
 	}
 
-	private inline function set_soundTransform(value:SoundTransform):SoundTransform
+	private function set_soundTransform(value:SoundTransform):SoundTransform
 	{
 		_soundTransform = value;
 		update();
@@ -127,12 +127,12 @@ class SoundTransform3D
 	}
 
 	public var scale(get, set):Float;
-	private inline function get_scale():Float
+	private function get_scale():Float
 	{
 		return _scale;
 	}
 
-	private inline function set_scale(value:Float):Float
+	private function set_scale(value:Float):Float
 	{
 		_scale = value;
 		update();
@@ -140,12 +140,12 @@ class SoundTransform3D
 	}
 
 	public var volume(get, set):Float;
-	private inline function get_volume():Float
+	private function get_volume():Float
 	{
 		return _volume;
 	}
 
-	private inline function set_volume(value:Float):Float
+	private function set_volume(value:Float):Float
 	{
 		_volume = value;
 		update();
@@ -153,12 +153,12 @@ class SoundTransform3D
 	}
 
 	public var emitter(get, set):ObjectContainer3D;
-	private inline function get_emitter():ObjectContainer3D
+	private function get_emitter():ObjectContainer3D
 	{
 		return _emitter;
 	}
 
-	private inline function set_emitter(value:ObjectContainer3D):ObjectContainer3D
+	private function set_emitter(value:ObjectContainer3D):ObjectContainer3D
 	{
 		_emitter = value;
 		update();
@@ -166,12 +166,12 @@ class SoundTransform3D
 	}
 
 	public var listener(get, set):ObjectContainer3D;
-	private inline function get_listener():ObjectContainer3D
+	private function get_listener():ObjectContainer3D
 	{
 		return _listener;
 	}
 
-	private inline function set_listener(value:ObjectContainer3D):ObjectContainer3D
+	private function set_listener(value:ObjectContainer3D):ObjectContainer3D
 	{
 		_listener = value;
 		update();

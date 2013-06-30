@@ -12,7 +12,7 @@ class CubeTextureBase extends TextureProxyBase
 	}
 
 	public var size(get, set):Int;
-	private inline function get_size():Int
+	private function get_size():Int
 	{
 		return _width;
 	}

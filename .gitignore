@@ -1,3 +1,5 @@
 # Build and Release Folders
 bin/
+bin-release/
+bin-debug/
 *.db

@@ -36,7 +36,7 @@ class Geometry extends NamedAssetBase implements IAsset
 	}
 	
 	public var assetType(get, null):String;
-	private inline function get_assetType():String
+	private function get_assetType():String
 	{
 		return AssetType.GEOMETRY;
 	}
@@ -45,7 +45,7 @@ class Geometry extends NamedAssetBase implements IAsset
 	 * A collection of SubGeometry objects, each of which contain geometrical data such as vertices, normals, etc.
 	 */
 	public var subGeometries(get, null):Vector<ISubGeometry>;
-	private inline function get_subGeometries():Vector<ISubGeometry>
+	private function get_subGeometries():Vector<ISubGeometry>
 	{
 		return _subGeometries;
 	}

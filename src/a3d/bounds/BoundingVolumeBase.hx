@@ -40,7 +40,7 @@ class BoundingVolumeBase
 	 * The maximum extreme of the bounds
 	 */
 	public var max(get, null):Vector3D;
-	private inline function get_max():Vector3D
+	private function get_max():Vector3D
 	{
 		return _max;
 	}
@@ -49,7 +49,7 @@ class BoundingVolumeBase
 	 * The minimum extreme of the bounds
 	 */
 	public var min(get, null):Vector3D;
-	private inline function get_min():Vector3D
+	private function get_min():Vector3D
 	{
 		return _min;
 	}
@@ -58,7 +58,7 @@ class BoundingVolumeBase
 	 * Returns a vector of values representing the concatenated cartesian triplet of the 8 axial extremities of the bounding volume.
 	 */
 	public var aabbPoints(get, null):Vector<Float>;
-	private inline function get_aabbPoints():Vector<Float>
+	private function get_aabbPoints():Vector<Float>
 	{
 		if (_aabbPointsDirty)
 			updateAABBPoints();
@@ -73,7 +73,7 @@ class BoundingVolumeBase
 	 * @see a3d.entities.Entity#showBounds
 	 */
 	public var boundingRenderable(get, null):WireframePrimitiveBase;
-	private inline function get_boundingRenderable():WireframePrimitiveBase
+	private function get_boundingRenderable():WireframePrimitiveBase
 	{
 		if (_boundingRenderable == null)
 		{

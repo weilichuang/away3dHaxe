@@ -71,13 +71,13 @@ class Grid
 	/**
 	* Defines if the grid unit.
 	*/
-	private inline function set_unit(val:Float):Void
+	private function set_unit(val:Float):Void
 	{
 		_unit = Math.abs(val);
 		_unit = (_unit == 0) ? .001 : _unit;
 	}
 
-	private inline function get_unit():Float
+	private function get_unit():Float
 	{
 		return _unit;
 	}
@@ -85,12 +85,12 @@ class Grid
 	/**
 	* Defines if the grid unit is applied in objectspace or worldspace. In worldspace, objects positions are affected.
 	*/
-	private inline function set_objectSpace(b:Bool):Void
+	private function set_objectSpace(b:Bool):Void
 	{
 		_objectSpace = b;
 	}
 
-	private inline function get_objectSpace():Bool
+	private function get_objectSpace():Bool
 	{
 		return _objectSpace;
 	}

@@ -63,12 +63,12 @@ class CubeReflectionTexture extends RenderCubeTexture
 	 * The origin where the environment map will be rendered. This is usually in the centre of the reflective object.
 	 */
 	public var position(get, set):Vector3D;
-	private inline function get_position():Vector3D
+	private function get_position():Vector3D
 	{
 		return _position;
 	}
 
-	private inline function set_position(value:Vector3D):Vector3D
+	private function set_position(value:Vector3D):Vector3D
 	{
 		return _position = value;
 	}
@@ -77,12 +77,12 @@ class CubeReflectionTexture extends RenderCubeTexture
 	 * The near plane used by the camera lens.
 	 */
 	public var nearPlaneDistance(get, set):Float;
-	private inline function get_nearPlaneDistance():Float
+	private function get_nearPlaneDistance():Float
 	{
 		return _nearPlaneDistance;
 	}
 
-	private inline function set_nearPlaneDistance(value:Float):Float
+	private function set_nearPlaneDistance(value:Float):Float
 	{
 		return _nearPlaneDistance = value;
 	}
@@ -91,12 +91,12 @@ class CubeReflectionTexture extends RenderCubeTexture
 	 * The far plane of the camera lens. Can be used to cut off objects that are too far to be of interest in reflections
 	 */
 	public var farPlaneDistance(get, set):Float;
-	private inline function get_farPlaneDistance():Float
+	private function get_farPlaneDistance():Float
 	{
 		return _farPlaneDistance;
 	}
 
-	private inline function set_farPlaneDistance(value:Float):Float
+	private function set_farPlaneDistance(value:Float):Float
 	{
 		return _farPlaneDistance = value;
 	}
@@ -124,12 +124,12 @@ class CubeReflectionTexture extends RenderCubeTexture
 	 * The renderer to use.
 	 */
 	public var renderer(get, set):RendererBase;
-	private inline function get_renderer():RendererBase
+	private function get_renderer():RendererBase
 	{
 		return _renderer;
 	}
 
-	private inline function set_renderer(value:RendererBase):RendererBase
+	private function set_renderer(value:RendererBase):RendererBase
 	{
 		_renderer.dispose();
 		_renderer = value;

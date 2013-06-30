@@ -44,12 +44,12 @@ class PlaneGeometry extends PrimitiveBase
 	/**
 	 * The number of segments that make up the plane along the X-axis. Defaults to 1.
 	 */
-	private inline function get_segmentsW():UInt
+	private function get_segmentsW():UInt
 	{
 		return _segmentsW;
 	}
 
-	private inline function set_segmentsW(value:UInt):Void
+	private function set_segmentsW(value:UInt):Void
 	{
 		_segmentsW = value;
 		invalidateGeometry();
@@ -60,12 +60,12 @@ class PlaneGeometry extends PrimitiveBase
 	 * The number of segments that make up the plane along the Y or Z-axis, depending on whether yUp is true or
 	 * false, respectively. Defaults to 1.
 	 */
-	private inline function get_segmentsH():UInt
+	private function get_segmentsH():UInt
 	{
 		return _segmentsH;
 	}
 
-	private inline function set_segmentsH(value:UInt):Void
+	private function set_segmentsH(value:UInt):Void
 	{
 		_segmentsH = value;
 		invalidateGeometry();
@@ -75,12 +75,12 @@ class PlaneGeometry extends PrimitiveBase
 	/**
 	 *  Defines whether the normal vector of the plane should point along the Y-axis (true) or Z-axis (false). Defaults to true.
 	 */
-	private inline function get_yUp():Bool
+	private function get_yUp():Bool
 	{
 		return _yUp;
 	}
 
-	private inline function set_yUp(value:Bool):Void
+	private function set_yUp(value:Bool):Void
 	{
 		_yUp = value;
 		invalidateGeometry();
@@ -89,12 +89,12 @@ class PlaneGeometry extends PrimitiveBase
 	/**
 	 * Defines whether the plane will be visible from both sides, with correct vertex normals (as opposed to bothSides on Material). Defaults to false.
 	 */
-	private inline function get_doubleSided():Bool
+	private function get_doubleSided():Bool
 	{
 		return _doubleSided;
 	}
 
-	private inline function set_doubleSided(value:Bool):Void
+	private function set_doubleSided(value:Bool):Void
 	{
 		_doubleSided = value;
 		invalidateGeometry();
@@ -103,12 +103,12 @@ class PlaneGeometry extends PrimitiveBase
 	/**
 	 * The width of the plane.
 	 */
-	private inline function get_width():Float
+	private function get_width():Float
 	{
 		return _width;
 	}
 
-	private inline function set_width(value:Float):Void
+	private function set_width(value:Float):Void
 	{
 		_width = value;
 		invalidateGeometry();
@@ -117,12 +117,12 @@ class PlaneGeometry extends PrimitiveBase
 	/**
 	 * The height of the plane.
 	 */
-	private inline function get_height():Float
+	private function get_height():Float
 	{
 		return _height;
 	}
 
-	private inline function set_height(value:Float):Void
+	private function set_height(value:Float):Void
 	{
 		_height = value;
 		invalidateGeometry();
@@ -136,12 +136,12 @@ class PlaneGeometry extends PrimitiveBase
 		var data:Vector<Float>;
 		var indices:Vector<UInt>;
 		var x:Float, y:Float;
-		var numIndices:UInt;
-		var base:UInt;
-		var tw:UInt = _segmentsW + 1;
-		var numVertices:UInt = (_segmentsH + 1) * tw;
-		var stride:UInt = target.vertexStride;
-		var skip:UInt = stride - 9;
+		var numIndices:Int;
+		var base:Int;
+		var tw:Int = _segmentsW + 1;
+		var numVertices:Int = (_segmentsH + 1) * tw;
+		var stride:Int = target.vertexStride;
+		var skip:Int = stride - 9;
 		if (_doubleSided)
 			numVertices *= 2;
 

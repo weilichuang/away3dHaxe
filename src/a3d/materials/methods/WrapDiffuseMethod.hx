@@ -34,12 +34,12 @@ class WrapDiffuseMethod extends BasicDiffuseMethod
 	}
 
 	public var wrapFactor(get,set):Float;
-	private inline function get_wrapFactor():Float
+	private function get_wrapFactor():Float
 	{
 		return _wrapFactor;
 	}
 
-	private inline function set_wrapFactor(value:Float):Float
+	private function set_wrapFactor(value:Float):Float
 	{
 		_wrapFactor = value;
 		_wrapFactor = 1 / (value + 1);

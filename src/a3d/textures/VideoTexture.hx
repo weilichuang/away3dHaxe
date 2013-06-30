@@ -90,23 +90,23 @@ class VideoTexture extends BitmapTexture
 	 * If false, only the first frame is displayed.
 	 */
 	public var autoPlay(get, set):Bool;
-	private inline function set_autoPlay(b:Bool):Bool
+	private function set_autoPlay(b:Bool):Bool
 	{
 		return _autoPlay = b;
 	}
 
-	private inline function get_autoPlay():Bool
+	private function get_autoPlay():Bool
 	{
 		return _autoPlay;
 	}
 
 	public var materialWidth(get, set):UInt;
-	private inline function get_materialWidth():UInt
+	private function get_materialWidth():UInt
 	{
 		return _materialWidth;
 	}
 
-	private inline function set_materialWidth(value:UInt):UInt
+	private function set_materialWidth(value:UInt):UInt
 	{
 		_materialWidth = validateMaterialSize(value);
 		_player.width = _materialWidth;
@@ -115,12 +115,12 @@ class VideoTexture extends BitmapTexture
 	}
 
 	public var materialHeight(get, set):UInt;
-	private inline function get_materialHeight():UInt
+	private function get_materialHeight():UInt
 	{
 		return _materialHeight;
 	}
 
-	private inline function set_materialHeight(value:UInt):UInt
+	private function set_materialHeight(value:UInt):UInt
 	{
 		_materialHeight = validateMaterialSize(value);
 		_player.width = _materialHeight;
@@ -144,12 +144,12 @@ class VideoTexture extends BitmapTexture
 	 * Indicates whether the material will redraw onEnterFrame
 	 */
 	public var autoUpdate(get, set):Bool;
-	private inline function get_autoUpdate():Bool
+	private function get_autoUpdate():Bool
 	{
 		return _autoUpdate;
 	}
 
-	private inline function set_autoUpdate(value:Bool):Bool
+	private function set_autoUpdate(value:Bool):Bool
 	{
 		if (value == _autoUpdate)
 			return;
@@ -165,7 +165,7 @@ class VideoTexture extends BitmapTexture
 	}
 
 	public var player(get, null):IVideoPlayer;
-	private inline function get_player():IVideoPlayer
+	private function get_player():IVideoPlayer
 	{
 		return _player;
 	}

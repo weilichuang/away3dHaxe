@@ -28,12 +28,13 @@ class ColorMaterial extends SinglePassMaterialBase
 	/**
 	 * The alpha of the surface.
 	 */
-	private inline function get_alpha():Float
+	public var alpha(get, set):Float;
+	private function get_alpha():Float
 	{
 		return _screenPass.diffuseMethod.diffuseAlpha;
 	}
 
-	private inline function set_alpha(value:Float):Void
+	private function set_alpha(value:Float):Float
 	{
 		if (value > 1)
 			value = 1;
@@ -42,19 +43,22 @@ class ColorMaterial extends SinglePassMaterialBase
 		_screenPass.diffuseMethod.diffuseAlpha = _diffuseAlpha = value;
 		_screenPass.preserveAlpha = requiresBlending;
 		_screenPass.setBlendMode(blendMode == BlendMode.NORMAL && requiresBlending ? BlendMode.LAYER : blendMode);
+		
+		return alpha;
 	}
 
 	/**
 	 * The diffuse color of the surface.
 	 */
-	private inline function get_color():UInt
+	public var color(get, set):UInt;
+	private function get_color():UInt
 	{
 		return _screenPass.diffuseMethod.diffuseColor;
 	}
 
-	private inline function set_color(value:UInt):Void
+	private function set_color(value:UInt):UInt
 	{
-		_screenPass.diffuseMethod.diffuseColor = value;
+		return _screenPass.diffuseMethod.diffuseColor = value;
 	}
 
 	/**

@@ -39,22 +39,22 @@ class Mirror
 		_duplicate = duplicate;
 	}
 
-	private inline function set_recenter(b:Bool):Void
+	private function set_recenter(b:Bool):Void
 	{
 		_recenter = b;
 	}
 
-	private inline function get_recenter():Bool
+	private function get_recenter():Bool
 	{
 		return _recenter;
 	}
 
-	private inline function set_duplicate(b:Bool):Void
+	private function set_duplicate(b:Bool):Void
 	{
 		_duplicate = b;
 	}
 
-	private inline function get_duplicate():Bool
+	private function get_duplicate():Bool
 	{
 		return _duplicate;
 	}

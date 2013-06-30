@@ -40,12 +40,12 @@ class DistanceMapPass extends MaterialPassBase
 	 * Recommended values are 0 to disable alpha, or 0.5 to create smooth edges. Default value is 0 (disabled).
 	 */
 	public var alphaThreshold(get, set):Float;
-	private inline function get_alphaThreshold():Float
+	private function get_alphaThreshold():Float
 	{
 		return _alphaThreshold;
 	}
 
-	private inline function set_alphaThreshold(value:Float):Float
+	private function set_alphaThreshold(value:Float):Float
 	{
 		if (value < 0)
 			value = 0;
@@ -64,12 +64,12 @@ class DistanceMapPass extends MaterialPassBase
 	}
 
 	public var alphaMask(get, set):Texture2DBase;
-	private inline function get_alphaMask():Texture2DBase
+	private function get_alphaMask():Texture2DBase
 	{
 		return _alphaMask;
 	}
 
-	private inline function set_alphaMask(value:Texture2DBase):Texture2DBase
+	private function set_alphaMask(value:Texture2DBase):Texture2DBase
 	{
 		return _alphaMask = value;
 	}

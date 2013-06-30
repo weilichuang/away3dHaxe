@@ -3,6 +3,7 @@ package a3d.io.library.naming;
 import a3d.errors.AbstractMethodError;
 import a3d.events.AssetEvent;
 import a3d.io.library.assets.IAsset;
+import haxe.ds.StringMap.StringMap;
 
 /**
  * Abstract base class for naming conflict resolution classes. Extend this to create a
@@ -33,7 +34,7 @@ class ConflictStrategyBase
 	 * Resolve a naming conflict between two assets. Must be implemented by concrete strategy
 	 * classes.
 	*/
-	public function resolveConflict(changedAsset:IAsset, oldAsset:IAsset, assetsDictionary:Object, precedence:String):Void
+	public function resolveConflict(changedAsset:IAsset, oldAsset:IAsset, assetsDictionary: StringMap<StringMap<IAsset>>, precedence:String):Void
 	{
 		throw new AbstractMethodError();
 	}
@@ -54,7 +55,7 @@ class ConflictStrategyBase
 	 * Provided as a convenience method for all conflict strategy classes, as a way to finalize
 	 * the conflict resolution by applying the new names and dispatching the correct events.
 	*/
-	private function updateNames(ns:String, nonConflictingName:String, oldAsset:IAsset, newAsset:IAsset, assetsDictionary:Object, precedence:String):Void
+	private function updateNames(ns:String, nonConflictingName:String, oldAsset:IAsset, newAsset:IAsset, assetsDictionary:Dynamic, precedence:String):Void
 	{
 		var loser_prev_name:String;
 		var winner:IAsset, loser:IAsset;

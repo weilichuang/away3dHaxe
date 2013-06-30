@@ -106,12 +106,12 @@ class CascadeShadowMapper extends DirectionalShadowMapper implements IEventDispa
 		_scissorRectsInvalid = true;
 	}
 
-	private inline function get_numCascades():Int
+	private function get_numCascades():Int
 	{
 		return _numCascades;
 	}
 
-	private inline function set_numCascades(value:Int):Void
+	private function set_numCascades(value:Int):Void
 	{
 		if (value == _numCascades)
 			return;
@@ -278,7 +278,7 @@ class CascadeShadowMapper extends DirectionalShadowMapper implements IEventDispa
 		return _changeDispatcher.willTrigger(type);
 	}
 
-	private inline function get_nearPlaneDistances():Vector<Float>
+	private function get_nearPlaneDistances():Vector<Float>
 	{
 		return _nearPlaneDistances;
 	}

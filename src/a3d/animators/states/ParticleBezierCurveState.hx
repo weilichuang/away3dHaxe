@@ -27,12 +27,12 @@ class ParticleBezierCurveState extends ParticleStateBase
 	/**
 	 * Defines the default control point of the node, used when in global mode.
 	 */
-	private inline function get_controlPoint():Vector3D
+	private function get_controlPoint():Vector3D
 	{
 		return _controlPoint;
 	}
 
-	private inline function set_controlPoint(value:Vector3D):Void
+	private function set_controlPoint(value:Vector3D):Void
 	{
 		_controlPoint = value;
 	}
@@ -40,12 +40,12 @@ class ParticleBezierCurveState extends ParticleStateBase
 	/**
 	 * Defines the default end point of the node, used when in global mode.
 	 */
-	private inline function get_endPoint():Vector3D
+	private function get_endPoint():Vector3D
 	{
 		return _endPoint;
 	}
 
-	private inline function set_endPoint(value:Vector3D):Void
+	private function set_endPoint(value:Vector3D):Void
 	{
 		_endPoint = value;
 	}

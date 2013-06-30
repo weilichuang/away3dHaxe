@@ -52,37 +52,37 @@ class SpriteSheetAnimator extends AnimatorBase implements IAnimator
 	}
 
 	/* Set the playrate of the animation in frames per second (not depending on player fps)*/
-	private inline function set_fps(val:UInt):Void
+	private function set_fps(val:UInt):Void
 	{
 		_ms = 1000 / val;
 		_fps = val;
 	}
 
-	private inline function get_fps():UInt
+	private function get_fps():UInt
 	{
 		return _fps;
 	}
 
 	/* If true, reverse causes the animation to play backwards*/
-	private inline function set_reverse(b:Bool):Void
+	private function set_reverse(b:Bool):Void
 	{
 		_reverse = b;
 		_specsDirty = true;
 	}
 
-	private inline function get_reverse():Bool
+	private function get_reverse():Bool
 	{
 		return _reverse;
 	}
 
 	/* If true, backAndForth causes the animation to play backwards and forward alternatively. Starting forward.*/
-	private inline function set_backAndForth(b:Bool):Void
+	private function set_backAndForth(b:Bool):Void
 	{
 		_backAndForth = b;
 		_specsDirty = true;
 	}
 
-	private inline function get_backAndForth():Bool
+	private function get_backAndForth():Bool
 	{
 		return _backAndForth;
 	}
@@ -100,13 +100,13 @@ class SpriteSheetAnimator extends AnimatorBase implements IAnimator
 	}
 
 	/* returns the current frame*/
-	private inline function get_currentFrameNumber():UInt
+	private function get_currentFrameNumber():UInt
 	{
 		return SpriteSheetAnimationState(_activeState).currentFrameNumber;
 	}
 
 	/* returns the total amount of frame for the current animation*/
-	private inline function get_totalFrames():UInt
+	private function get_totalFrames():UInt
 	{
 		return SpriteSheetAnimationState(_activeState).totalFrames;
 	}

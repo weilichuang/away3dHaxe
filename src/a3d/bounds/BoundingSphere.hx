@@ -28,7 +28,7 @@ class BoundingSphere extends BoundingVolumeBase
 	 * The radius of the bounding sphere, calculated from the contents of the entity.
 	 */
 	public var radius(get, null):Float;
-	private inline function get_radius():Float
+	private function get_radius():Float
 	{
 		return _radius;
 	}

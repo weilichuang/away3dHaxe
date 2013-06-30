@@ -1,48 +1,60 @@
-package example
+package a3dexample;
+
+import flash.events.Event;
+import flash.Lib;
+
+import a3d.entities.Mesh;
+import a3d.entities.primitives.CubeGeometry;
+import a3d.materials.ColorMaterial;
+import a3d.stereo.StereoCamera3D;
+import a3d.stereo.StereoView3D;
+import a3d.stereo.methods.AnaglyphStereoRenderMethod;
+
+class Basic_Stereo extends BasicApplication
 {
-	import flash.events.Event;
-
-	import a3d.entities.Mesh;
-	import a3d.entities.primitives.CubeGeometry;
-	import a3d.materials.ColorMaterial;
-	import a3d.stereo.StereoCamera3D;
-	import a3d.stereo.StereoView3D;
-	import a3d.stereo.methods.AnaglyphStereoRenderMethod;
-
-	class Basic_Stereo extends BasicApplication
+	static function main()
 	{
-		private var _view:StereoView3D;
-		private var _camera:StereoCamera3D;
+		Lib.current.addChild(new Basic_Stereo());
+	}
+	
+	private var _view:StereoView3D;
+	private var _camera:StereoCamera3D;
 
-		private var _cube:Mesh;
+	private var _cube:Mesh;
 
-		public function Basic_Stereo()
-		{
-			super();
+	public function new()
+	{
+		super();
 
-			_camera = new StereoCamera3D();
-			_camera.stereoOffset = 50;
+		
+	}
+	
+	/**
+	 * Global initialise function
+	 */
+	override private function init():Void
+	{
+		_camera = new StereoCamera3D();
+		_camera.stereoOffset = 50;
 
-			_view = new StereoView3D();
-			_view.antiAlias = 4;
-			_view.camera = _camera;
-			_view.stereoEnabled = true;
-			_view.stereoRenderMethod = new AnaglyphStereoRenderMethod();
-			//_view.stereoRenderMethod = new InterleavedStereoRenderMethod();
-			addChild(_view);
+		_view = new StereoView3D();
+		_view.antiAlias = 4;
+		_view.camera = _camera;
+		_view.stereoEnabled = true;
+		_view.stereoRenderMethod = new AnaglyphStereoRenderMethod();
+		//_view.stereoRenderMethod = new InterleavedStereoRenderMethod();
+		addChild(_view);
 
-			_cube = new Mesh(new CubeGeometry(), new ColorMaterial(0xffcc00));
-			_cube.scale(5);
-			_view.scene.addChild(_cube);
+		_cube = new Mesh(new CubeGeometry(), new ColorMaterial(0xffcc00));
+		_cube.scale(5);
+		_view.scene.addChild(_cube);
 
-			addEventListener(Event.ENTER_FRAME, onEnterFrame);
-		}
+		addEventListener(Event.ENTER_FRAME, onEnterFrame);
+	}
 
-
-		override private function render():Void
-		{
-			_cube.rotationY += 2;
-			_view.render();
-		}
+	private function onEnterFrame(e:Event):Void
+	{
+		_cube.rotationY += 2;
+		super.render();
 	}
 }

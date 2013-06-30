@@ -37,12 +37,12 @@ class Merge
 	/**
 	 * Defines if the mesh(es) sources used for the merging are kept or disposed.
 	 */
-	private inline function set_disposeSources(b:Bool):Void
+	private function set_disposeSources(b:Bool):Void
 	{
 		_disposeSources = b;
 	}
 
-	private inline function get_disposeSources():Bool
+	private function get_disposeSources():Bool
 	{
 		return _disposeSources;
 	}
@@ -50,12 +50,12 @@ class Merge
 	/**
 	 * Defines if mesh2 will be merged using its own material information.
 	 */
-	private inline function set_keepMaterial(b:Bool):Void
+	private function set_keepMaterial(b:Bool):Void
 	{
 		_keepMaterial = b;
 	}
 
-	private inline function get_keepMaterial():Bool
+	private function get_keepMaterial():Bool
 	{
 		return _keepMaterial;
 	}
@@ -63,12 +63,12 @@ class Merge
 	/**
 	 * Defines if mesh2 is merged using its objectSpace.
 	 */
-	private inline function set_objectSpace(b:Bool):Void
+	private function set_objectSpace(b:Bool):Void
 	{
 		_objectSpace = b;
 	}
 
-	private inline function get_objectSpace():Bool
+	private function get_objectSpace():Bool
 	{
 		return _objectSpace;
 	}

@@ -21,16 +21,15 @@ import a3d.io.loaders.parsers.ParserBase;
  */
 class AssetLibrary
 {
-	public static var _instances:Object = {};
+	public static var _instances:Dynamic = {};
 
 	/**
 	 * Creates a new <code>AssetLibrary</code> object.
 	 *
 	 * @param se A singleton enforcer for the AssetLibrary ensuring it cannnot be instanced.
 	 */
-	public function new(se:AssetLibrarySingletonEnforcer)
+	public function new()
 	{
-		se = se;
 	}
 
 	/**
@@ -50,7 +49,7 @@ class AssetLibrary
 	/**
 	 *
 	 */
-	public static function enableParser(parserClass:Class):Void
+	public static function enableParser<T>(parserClass:Class<T>):Void
 	{
 		SingleFileLoader.enableParser(parserClass);
 	}
@@ -58,7 +57,7 @@ class AssetLibrary
 	/**
 	 *
 	 */
-	public static function enableParsers(parserClasses:Vector<Class>):Void
+	public static function enableParsers<T>(parserClasses:Vector<Class<T>>):Void
 	{
 		SingleFileLoader.enableParsers(parserClasses);
 	}
@@ -68,14 +67,15 @@ class AssetLibrary
 	 *
 	 * @see a3d.library.AssetLibraryBundle.conflictStrategy
 	*/
-	public static function get_conflictStrategy():ConflictStrategyBase
+	public static var conflictStrategy(get,set):ConflictStrategyBase;
+	private static function get_conflictStrategy():ConflictStrategyBase
 	{
 		return getBundle().conflictStrategy;
 	}
 
-	public static function set_conflictStrategy(val:ConflictStrategyBase):Void
+	private static function set_conflictStrategy(val:ConflictStrategyBase):ConflictStrategyBase
 	{
-		getBundle().conflictStrategy = val;
+		return getBundle().conflictStrategy = val;
 	}
 
 	/**
@@ -98,7 +98,7 @@ class AssetLibrary
 	 *
 	 * @see a3d.library.AssetLibraryBundle.createIterator()
 	*/
-	public static function createIterator(assetTypeFilter:String = null, namespaceFilter:String = null, filterFunc:Function = null):AssetLibraryIterator
+	public static function createIterator(assetTypeFilter:String = null, namespaceFilter:String = null, filterFunc:Dynamic = null):AssetLibraryIterator
 	{
 		return getBundle().createIterator(assetTypeFilter, namespaceFilter, filterFunc);
 	}
@@ -118,7 +118,7 @@ class AssetLibrary
 	 *
 	 * @see a3d.library.AssetLibraryBundle.loadData()
 	 */
-	public static function loadData(data:*, context:AssetLoaderContext = null, ns:String = null, parser:ParserBase = null):AssetLoaderToken
+	public static function loadData(data:Dynamic, context:AssetLoaderContext = null, ns:String = null, parser:ParserBase = null):AssetLoaderToken
 	{
 		return getBundle().loadData(data, context, ns, parser);
 	}
@@ -141,7 +141,7 @@ class AssetLibrary
 	/**
 	 * Short-hand for addEventListener() method on default asset library bundle.
 	 */
-	public static function addEventListener(type:String, listener:Function, useCapture:Bool = false, priority:Int = 0, useWeakReference:Bool = false):Void
+	public static function addEventListener(type:String, listener:Dynamic, useCapture:Bool = false, priority:Int = 0, useWeakReference:Bool = false):Void
 	{
 		getBundle().addEventListener(type, listener, useCapture, priority, useWeakReference);
 	}
@@ -149,7 +149,7 @@ class AssetLibrary
 	/**
 	 * Short-hand for removeEventListener() method on default asset library bundle.
 	 */
-	public static function removeEventListener(type:String, listener:Function, useCapture:Bool = false):Void
+	public static function removeEventListener(type:String, listener:Dynamic, useCapture:Bool = false):Void
 	{
 		getBundle().removeEventListener(type, listener, useCapture);
 	}
@@ -226,9 +226,4 @@ class AssetLibrary
 	{
 		getBundle().removeNamespaceAssets(ns, dispose);
 	}
-}
-
-// singleton enforcer
-class AssetLibrarySingletonEnforcer
-{
 }

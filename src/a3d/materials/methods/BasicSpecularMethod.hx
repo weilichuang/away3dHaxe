@@ -59,12 +59,12 @@ class BasicSpecularMethod extends LightingMethodBase
 	 * The sharpness of the specular highlight.
 	 */
 	public var gloss(get, set):Float;
-	private inline function get_gloss():Float
+	private function get_gloss():Float
 	{
 		return _gloss;
 	}
 
-	private inline function set_gloss(value:Float):Float
+	private function set_gloss(value:Float):Float
 	{
 		return _gloss = value;
 	}
@@ -73,12 +73,12 @@ class BasicSpecularMethod extends LightingMethodBase
 	 * The overall strength of the specular highlights.
 	 */
 	public var specular(get, set):Float;
-	private inline function get_specular():Float
+	private function get_specular():Float
 	{
 		return _specular;
 	}
 
-	private inline function set_specular(value:Float):Float
+	private function set_specular(value:Float):Float
 	{
 		if (value == _specular)
 			return _specular;
@@ -93,12 +93,12 @@ class BasicSpecularMethod extends LightingMethodBase
 	 * The colour of the specular reflection of the surface.
 	 */
 	public var specularColor(get, set):UInt;
-	private inline function get_specularColor():UInt
+	private function get_specularColor():UInt
 	{
 		return _specularColor;
 	}
 
-	private inline function set_specularColor(value:UInt):UInt
+	private function set_specularColor(value:UInt):UInt
 	{
 		if (_specularColor == value)
 			return _specularColor;
@@ -118,12 +118,12 @@ class BasicSpecularMethod extends LightingMethodBase
 	 * from greyscale images, but prepared images are preffered.
 	 */
 	public var texture(get, set):Texture2DBase;
-	private inline function get_texture():Texture2DBase
+	private function get_texture():Texture2DBase
 	{
 		return _texture;
 	}
 
-	private inline function set_texture(value:Texture2DBase):Texture2DBase
+	private function set_texture(value:Texture2DBase):Texture2DBase
 	{
 		if ((value != null) != _useTexture ||
 			(value != null && _texture != null && 
@@ -347,7 +347,7 @@ class BasicSpecularMethod extends LightingMethodBase
 	}
 
 	public var shadowRegister(null,set):ShaderRegisterElement;
-	private inline function set_shadowRegister(shadowReg:ShaderRegisterElement):ShaderRegisterElement
+	private function set_shadowRegister(shadowReg:ShaderRegisterElement):ShaderRegisterElement
 	{
 		return _shadowRegister = shadowReg;
 	}

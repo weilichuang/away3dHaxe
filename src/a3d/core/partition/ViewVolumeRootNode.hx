@@ -30,12 +30,12 @@ class ViewVolumeRootNode extends NodeBase
 		return _dynamicGrid ? _dynamicGrid.findPartitionForEntity(entity) : this;
 	}
 
-	private inline function get_dynamicGrid():DynamicGrid
+	private function get_dynamicGrid():DynamicGrid
 	{
 		return _dynamicGrid;
 	}
 
-	private inline function set_dynamicGrid(value:DynamicGrid):Void
+	private function set_dynamicGrid(value:DynamicGrid):Void
 	{
 		_dynamicGrid = value;
 		_dynamicGrid.showDebugBounds = showDebugBounds;

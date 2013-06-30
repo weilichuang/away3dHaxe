@@ -59,7 +59,7 @@ class SkinnedSubGeometry extends CompactSubGeometry
 	 * If indices have been condensed, this will contain the original index for each condensed index.
 	 */
 	public var condensedIndexLookUp(get, null):Vector<UInt>;
-	private inline function get_condensedIndexLookUp():Vector<UInt>
+	private function get_condensedIndexLookUp():Vector<UInt>
 	{
 		return _condensedIndexLookUp;
 	}
@@ -68,7 +68,7 @@ class SkinnedSubGeometry extends CompactSubGeometry
 	 * The amount of joints used when joint indices have been condensed.
 	 */
 	public var numCondensedJoints(get, null):UInt;
-	private inline function get_numCondensedJoints():UInt
+	private function get_numCondensedJoints():UInt
 	{
 		return _numCondensedJoints;
 	}
@@ -212,7 +212,7 @@ class SkinnedSubGeometry extends CompactSubGeometry
 	/**
 	 * The raw joint weights data.
 	 */
-	private inline function get_jointWeightsData():Vector<Float>
+	private function get_jointWeightsData():Vector<Float>
 	{
 		return _jointWeightsData;
 	}
@@ -231,7 +231,7 @@ class SkinnedSubGeometry extends CompactSubGeometry
 	/**
 	 * The raw joint index data.
 	 */
-	private inline function get_jointIndexData():Vector<Float>
+	private function get_jointIndexData():Vector<Float>
 	{
 		return _jointIndexData;
 	}

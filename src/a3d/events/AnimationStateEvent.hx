@@ -42,7 +42,7 @@ class AnimationStateEvent extends Event
 	 * The animator object that is the subject of this event.
 	 */
 	public var animator(get,null):IAnimator;
-	private inline function get_animator():IAnimator
+	private function get_animator():IAnimator
 	{
 		return _animator;
 	}
@@ -51,7 +51,7 @@ class AnimationStateEvent extends Event
 	 * The animation state object that is the subject of this event.
 	 */
 	public var animationState(get,null):IAnimationState;
-	private inline function get_animationState():IAnimationState
+	private function get_animationState():IAnimationState
 	{
 		return _animationState;
 	}
@@ -60,7 +60,7 @@ class AnimationStateEvent extends Event
 	 * The animation node inside the animation state from which the event originated.
 	 */
 	public var animationNode(get,null):AnimationNodeBase;
-	private inline function get_animationNode():AnimationNodeBase
+	private function get_animationNode():AnimationNodeBase
 	{
 		return _animationNode;
 	}

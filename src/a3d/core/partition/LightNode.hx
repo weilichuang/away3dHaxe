@@ -23,7 +23,7 @@ class LightNode extends EntityNode
 	/**
 	 * The light object contained in this node.
 	 */
-	private inline function get_light():LightBase
+	private function get_light():LightBase
 	{
 		return _light;
 	}

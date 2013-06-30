@@ -43,45 +43,45 @@ class SimpleWaterNormalMethod extends BasicNormalMethod
 	}
 
 	public var water1OffsetX(get,set):Float;
-	private inline function get_water1OffsetX():Float
+	private function get_water1OffsetX():Float
 	{
 		return _water1OffsetX;
 	}
 
-	private inline function set_water1OffsetX(value:Float):Float
+	private function set_water1OffsetX(value:Float):Float
 	{
 		return _water1OffsetX = value;
 	}
 
 	public var water1OffsetY(get,set):Float;
-	private inline function get_water1OffsetY():Float
+	private function get_water1OffsetY():Float
 	{
 		return _water1OffsetY;
 	}
 
-	private inline function set_water1OffsetY(value:Float):Float
+	private function set_water1OffsetY(value:Float):Float
 	{
 		return _water1OffsetY = value;
 	}
 
 	public var water2OffsetX(get,set):Float;
-	private inline function get_water2OffsetX():Float
+	private function get_water2OffsetX():Float
 	{
 		return _water2OffsetX;
 	}
 
-	private inline function set_water2OffsetX(value:Float):Float
+	private function set_water2OffsetX(value:Float):Float
 	{
 		return _water2OffsetX = value;
 	}
 
 	public var water2OffsetY(get,set):Float;
-	private inline function get_water2OffsetY():Float
+	private function get_water2OffsetY():Float
 	{
 		return _water2OffsetY;
 	}
 
-	private inline function set_water2OffsetY(value:Float):Float
+	private function set_water2OffsetY(value:Float):Float
 	{
 		return _water2OffsetY = value;
 	}
@@ -95,12 +95,12 @@ class SimpleWaterNormalMethod extends BasicNormalMethod
 	}
 
 	public var secondaryNormalMap(set,set):Texture2DBase;
-	private inline function get_secondaryNormalMap():Texture2DBase
+	private function get_secondaryNormalMap():Texture2DBase
 	{
 		return _texture2;
 	}
 
-	private inline function set_secondaryNormalMap(value:Texture2DBase):Texture2DBase
+	private function set_secondaryNormalMap(value:Texture2DBase):Texture2DBase
 	{
 		return _texture2 = value;
 	}

@@ -159,12 +159,12 @@ class LinearExtrude extends Mesh
 	/**
 	 * Defines the axis used for the extrusion. Defaults to "y".
 	 */
-	private inline function get_axis():String
+	private function get_axis():String
 	{
 		return _axis;
 	}
 
-	private inline function set_axis(val:String):Void
+	private function set_axis(val:String):Void
 	{
 		if (_axis == val)
 			return;
@@ -176,12 +176,12 @@ class LinearExtrude extends Mesh
 	/**
 	 * An optional MultipleMaterials object that defines left, right, front, back, top and bottom materials to be set on the resulting lathe extrusion.
 	 */
-	private inline function get_materials():MultipleMaterials
+	private function get_materials():MultipleMaterials
 	{
 		return _materials;
 	}
 
-	private inline function set_materials(val:MultipleMaterials):Void
+	private function set_materials(val:MultipleMaterials):Void
 	{
 		_materials = val;
 
@@ -195,12 +195,12 @@ class LinearExtrude extends Mesh
 	/**
 	 * Defines the subdivisions created in the mesh for the total number of revolutions. Defaults to 2, minimum 2.
 	 */
-	private inline function get_subdivision():UInt
+	private function get_subdivision():UInt
 	{
 		return _subdivision;
 	}
 
-	private inline function set_subdivision(val:UInt):Void
+	private function set_subdivision(val:UInt):Void
 	{
 		val = (val < 3) ? 3 : val;
 		if (_subdivision == val)
@@ -212,12 +212,12 @@ class LinearExtrude extends Mesh
 	/**
 	 * Defines if the texture(s) should be stretched to cover the entire mesh or per step between segments. Defaults to true.
 	 */
-	private inline function get_coverAll():Bool
+	private function get_coverAll():Bool
 	{
 		return _coverAll;
 	}
 
-	private inline function set_coverAll(val:Bool):Void
+	private function set_coverAll(val:Bool):Void
 	{
 		if (_coverAll == val)
 			return;
@@ -229,12 +229,12 @@ class LinearExtrude extends Mesh
 	/**
 	 * Defines if the generated faces should be inversed. Default false.
 	 */
-	private inline function get_flip():Bool
+	private function get_flip():Bool
 	{
 		return _flip;
 	}
 
-	private inline function set_flip(val:Bool):Void
+	private function set_flip(val:Bool):Void
 	{
 		if (_flip == val)
 			return;
@@ -246,12 +246,12 @@ class LinearExtrude extends Mesh
 	/**
 	 * Defines whether the mesh is recentered of not after generation
 	 */
-	private inline function get_centerMesh():Bool
+	private function get_centerMesh():Bool
 	{
 		return _centerMesh;
 	}
 
-	private inline function set_centerMesh(val:Bool):Void
+	private function set_centerMesh(val:Bool):Void
 	{
 		if (_centerMesh == val)
 			return;
@@ -271,12 +271,12 @@ class LinearExtrude extends Mesh
 	/**
 	 * Defines the _thickness of the resulting lathed geometry. Defaults to 0 (single face).
 	 */
-	private inline function get_thickness():Float
+	private function get_thickness():Float
 	{
 		return _thickness;
 	}
 
-	private inline function set_thickness(val:Float):Void
+	private function set_thickness(val:Float):Void
 	{
 		val = Math.abs(val);
 		if (_thickness == val)
@@ -289,12 +289,12 @@ class LinearExtrude extends Mesh
 	/**
 	 * Defines the subdivision for the top, bottom, right and left if thickness is set higher to 0. Defaults to 1.
 	 */
-	private inline function get_thicknessSubdivision():UInt
+	private function get_thicknessSubdivision():UInt
 	{
 		return _thicknessSubdivision;
 	}
 
-	private inline function set_thicknessSubdivision(val:UInt):Void
+	private function set_thicknessSubdivision(val:UInt):Void
 	{
 		val = (val < 3) ? 3 : val;
 		if (_thicknessSubdivision == val)
@@ -307,12 +307,12 @@ class LinearExtrude extends Mesh
 	/**
 	 * Defines if the top, bottom, left, right, front or back of the the extrusion is left open.
 	 */
-	private inline function get_ignoreSides():String
+	private function get_ignoreSides():String
 	{
 		return _ignoreSides;
 	}
 
-	private inline function set_ignoreSides(val:String):Void
+	private function set_ignoreSides(val:String):Void
 	{
 		_ignoreSides = val;
 		if (_closePath)

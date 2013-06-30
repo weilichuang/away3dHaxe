@@ -29,7 +29,7 @@ class ParticleNodeBase extends AnimationNodeBase
 	 *
 	 * @see a3d.animators.data.ParticlePropertiesMode
 	 */
-	private inline function get_mode():UInt
+	private function get_mode():UInt
 	{
 		return _mode;
 	}
@@ -40,7 +40,7 @@ class ParticleNodeBase extends AnimationNodeBase
 	 * @see a3d.animators.ParticleAnimationSet
 	 * @see #getAGALVertexCode
 	 */
-	private inline function get_priority():Int
+	private function get_priority():Int
 	{
 		return _priority;
 	}
@@ -51,7 +51,7 @@ class ParticleNodeBase extends AnimationNodeBase
 	 * @see a3d.animators.ParticleAnimationSet
 	 * @see #getAGALVertexCode
 	 */
-	private inline function get_dataLength():Int
+	private function get_dataLength():Int
 	{
 		return _dataLength;
 	}
@@ -62,7 +62,7 @@ class ParticleNodeBase extends AnimationNodeBase
 	 * @see a3d.animators.ParticleAnimationSet
 	 * @see #generatePropertyOfOneParticle
 	 */
-	private inline function get_oneData():Vector<Float>
+	private function get_oneData():Vector<Float>
 	{
 		return _oneData;
 	}

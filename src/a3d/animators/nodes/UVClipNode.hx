@@ -14,7 +14,7 @@ class UVClipNode extends AnimationClipNodeBase
 	/**
 	 * Returns a vector of UV frames representing the uv values of each animation frame in the clip.
 	 */
-	private inline function get_frames():Vector<UVAnimationFrame>
+	private function get_frames():Vector<UVAnimationFrame>
 	{
 		return _frames;
 	}

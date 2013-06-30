@@ -1,15 +1,16 @@
 package a3d.io.loaders.misc;
+import haxe.ds.StringMap.StringMap;
 
 class AssetLoaderContext
 {
-	public static inline var UNDEFINED:UInt = 0;
-	public static inline var SINGLEPASS_MATERIALS:UInt = 1;
-	public static inline var MULTIPASS_MATERIALS:UInt = 2;
+	public static inline var UNDEFINED:Int = 0;
+	public static inline var SINGLEPASS_MATERIALS:Int = 1;
+	public static inline var MULTIPASS_MATERIALS:Int = 2;
 	private var _includeDependencies:Bool;
 	private var _dependencyBaseUrl:String;
-	private var _embeddedDataByUrl:Object;
-	private var _remappedUrls:Object;
-	private var _materialMode:UInt;
+	private var _embeddedDataByUrl:StringMap<Dynamic>;
+	private var _remappedUrls:StringMap<String>;
+	private var _materialMode:Int;
 
 
 	private var _overrideAbsPath:Bool;
@@ -22,12 +23,12 @@ class AssetLoaderContext
 	 *
 	 * @see a3d.loading.AssetLoader
 	*/
-	public function new(includeDependencies:Bool = true, dependencyBaseUrl:String = null)
+	public function new(includeDependencies:Bool = true, dependencyBaseUrl:String = "")
 	{
 		_includeDependencies = includeDependencies;
-		_dependencyBaseUrl = dependencyBaseUrl || '';
-		_embeddedDataByUrl = {};
-		_remappedUrls = {};
+		_dependencyBaseUrl = dependencyBaseUrl;
+		_embeddedDataByUrl = new StringMap<Dynamic>();
+		_remappedUrls = new StringMap<String>();
 		_materialMode = UNDEFINED;
 	}
 
@@ -36,14 +37,15 @@ class AssetLoaderContext
 	 * Defines whether dependencies (all files except the one at the URL given to the load() or
 	 * parseData() operations) should be automatically loaded. Defaults to true.
 	*/
-	public function get includeDependencies():Bool
+	public var includeDependencies(get,set):Bool;
+	private function get_includeDependencies():Bool
 	{
 		return _includeDependencies;
 	}
 
-	public function set includeDependencies(val:Bool):Void
+	private function set_includeDependencies(val:Bool):Bool
 	{
-		_includeDependencies = val;
+		return _includeDependencies = val;
 	}
 
 	/**
@@ -52,14 +54,15 @@ class AssetLoaderContext
 	 * 1 (Force SinglePass) - All Parsers create SinglePassMaterials
 	 * 2 (Force MultiPass) - All Parsers will create MultiPassMaterials
 	*/
-	public function get materialMode():UInt
+	public var materialMode(get,set):Int;
+	private function get_materialMode():Int
 	{
 		return _materialMode;
 	}
 
-	public function set materialMode(materialMode:UInt):Void
+	private function set_materialMode(materialMode:Int):Int
 	{
-		_materialMode = materialMode;
+		return _materialMode = materialMode;
 	}
 
 
@@ -67,12 +70,13 @@ class AssetLoaderContext
 	 * A base URL that will be prepended to all relative dependency URLs found in a loaded resource.
 	 * Absolute paths will not be affected by the value of this property.
 	*/
-	public function get dependencyBaseUrl():String
+	public var dependencyBaseUrl(get,set):Int;
+	private function get_dependencyBaseUrl():String
 	{
 		return _dependencyBaseUrl;
 	}
 
-	public function set dependencyBaseUrl(val:String):Void
+	private function set_dependencyBaseUrl(val:String):String
 	{
 		_dependencyBaseUrl = val;
 	}
@@ -84,14 +88,15 @@ class AssetLoaderContext
 	 * with the dependencyBaseUrl defined in this context. If this is true, and the base path is
 	 * "base", /path/to/asset.jpg will be resolved as base/path/to/asset.jpg.
 	*/
-	public function get overrideAbsolutePaths():Bool
+	public var overrideAbsolutePaths(get,set):Bool;
+	private function get_overrideAbsolutePaths():Bool
 	{
 		return _overrideAbsPath;
 	}
 
-	public function set overrideAbsolutePaths(val:Bool):Void
+	private function set_overrideAbsolutePaths(val:Bool):Bool
 	{
-		_overrideAbsPath = val;
+		return _overrideAbsPath = val;
 	}
 
 
@@ -100,14 +105,15 @@ class AssetLoaderContext
 	 * overridden with the dependencyBaseUrl defined in this context. If this is true, and the base
 	 * path is "base", http://example.com/path/to/asset.jpg will be resolved as base/path/to/asset.jpg.
 	*/
-	public function get overrideFullURLs():Bool
+	public var overrideFullURLs(get,set):Bool;
+	private function get_overrideFullURLs():Bool
 	{
 		return _overrideFullUrls;
 	}
 
-	public function set overrideFullURLs(val:Bool):Void
+	private function set_overrideFullURLs(val:Bool):Bool
 	{
-		_overrideFullUrls = val;
+		return _overrideFullUrls = val;
 	}
 
 
@@ -123,7 +129,7 @@ class AssetLoaderContext
 	*/
 	public function mapUrl(originalUrl:String, newUrl:String):Void
 	{
-		_remappedUrls[originalUrl] = newUrl;
+		_remappedUrls.set(originalUrl,newUrl);
 	}
 
 
@@ -134,9 +140,9 @@ class AssetLoaderContext
 	 * @param originalUrl The original URL which is referenced in the loaded resource.
 	 * @param data The embedded data. Can be ByteArray or a class which can be used to create a bytearray.
 	*/
-	public function mapUrlToData(originalUrl:String, data:*):Void
+	public function mapUrlToData(originalUrl:String, data:Dynamic):Void
 	{
-		_embeddedDataByUrl[originalUrl] = data;
+		_embeddedDataByUrl.set(originalUrl, data);
 	}
 
 
@@ -146,7 +152,7 @@ class AssetLoaderContext
 	*/
 	public function hasDataForUrl(url:String):Bool
 	{
-		return _embeddedDataByUrl.hasOwnProperty(url);
+		return _embeddedDataByUrl.exists(url);
 	}
 
 
@@ -154,9 +160,9 @@ class AssetLoaderContext
 	 * @private
 	 * Returns embedded data for a particular URL.
 	*/
-	public function getDataForUrl(url:String):*
+	public function getDataForUrl(url:String):Dynamic
 	{
-		return _embeddedDataByUrl[url];
+		return _embeddedDataByUrl.get(url);
 	}
 
 

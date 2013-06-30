@@ -55,12 +55,12 @@ class ViewVolume extends NodeBase
 		initCells();
 	}
 
-	private inline function get_minBound():Vector3D
+	private function get_minBound():Vector3D
 	{
 		return new Vector3D(_minX, _minY, _minZ);
 	}
 
-	private inline function get_maxBound():Vector3D
+	private function get_maxBound():Vector3D
 	{
 		return new Vector3D(_maxX, _maxY, _maxZ);
 	}
@@ -185,62 +185,62 @@ class ViewVolume extends NodeBase
 		_cells[index] = null;
 	}
 
-	private inline function get_width():Float
+	private function get_width():Float
 	{
 		return _width;
 	}
 
-	private inline function get_height():Float
+	private function get_height():Float
 	{
 		return _height;
 	}
 
-	private inline function get_depth():Float
+	private function get_depth():Float
 	{
 		return _depth;
 	}
 
-	private inline function get_numCellsX():UInt
+	private function get_numCellsX():UInt
 	{
 		return _numCellsX;
 	}
 
-	private inline function get_numCellsY():UInt
+	private function get_numCellsY():UInt
 	{
 		return _numCellsY;
 	}
 
-	private inline function get_numCellsZ():UInt
+	private function get_numCellsZ():UInt
 	{
 		return _numCellsZ;
 	}
 
-	private inline function get_minX():Float
+	private function get_minX():Float
 	{
 		return _minX;
 	}
 
-	private inline function get_minY():Float
+	private function get_minY():Float
 	{
 		return _minY;
 	}
 
-	private inline function get_minZ():Float
+	private function get_minZ():Float
 	{
 		return _minZ;
 	}
 
-	private inline function get_maxX():Float
+	private function get_maxX():Float
 	{
 		return _maxX;
 	}
 
-	private inline function get_maxY():Float
+	private function get_maxY():Float
 	{
 		return _maxY;
 	}
 
-	private inline function get_maxZ():Float
+	private function get_maxZ():Float
 	{
 		return _maxZ;
 	}

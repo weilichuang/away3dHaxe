@@ -397,12 +397,12 @@ class CylinderGeometry extends PrimitiveBase
 	/**
 	 * The radius of the top end of the cylinder.
 	 */
-	private inline function get_topRadius():Float
+	private function get_topRadius():Float
 	{
 		return _topRadius;
 	}
 
-	private inline function set_topRadius(value:Float):Void
+	private function set_topRadius(value:Float):Void
 	{
 		_topRadius = value;
 		invalidateGeometry();
@@ -411,12 +411,12 @@ class CylinderGeometry extends PrimitiveBase
 	/**
 	 * The radius of the bottom end of the cylinder.
 	 */
-	private inline function get_bottomRadius():Float
+	private function get_bottomRadius():Float
 	{
 		return _bottomRadius;
 	}
 
-	private inline function set_bottomRadius(value:Float):Void
+	private function set_bottomRadius(value:Float):Void
 	{
 		_bottomRadius = value;
 		invalidateGeometry();
@@ -425,12 +425,12 @@ class CylinderGeometry extends PrimitiveBase
 	/**
 	 * The radius of the top end of the cylinder.
 	 */
-	private inline function get_height():Float
+	private function get_height():Float
 	{
 		return _height;
 	}
 
-	private inline function set_height(value:Float):Void
+	private function set_height(value:Float):Void
 	{
 		_height = value;
 		invalidateGeometry();
@@ -439,12 +439,12 @@ class CylinderGeometry extends PrimitiveBase
 	/**
 	 * Defines the number of horizontal segments that make up the cylinder. Defaults to 16.
 	 */
-	private inline function get_segmentsW():UInt
+	private function get_segmentsW():UInt
 	{
 		return _segmentsW;
 	}
 
-	private inline function set_segmentsW(value:UInt):Void
+	private function set_segmentsW(value:UInt):Void
 	{
 		_segmentsW = value;
 		invalidateGeometry();
@@ -454,12 +454,12 @@ class CylinderGeometry extends PrimitiveBase
 	/**
 	 * Defines the number of vertical segments that make up the cylinder. Defaults to 1.
 	 */
-	private inline function get_segmentsH():UInt
+	private function get_segmentsH():UInt
 	{
 		return _segmentsH;
 	}
 
-	private inline function set_segmentsH(value:UInt):Void
+	private function set_segmentsH(value:UInt):Void
 	{
 		_segmentsH = value;
 		invalidateGeometry();
@@ -469,12 +469,12 @@ class CylinderGeometry extends PrimitiveBase
 	/**
 	 * Defines whether the top end of the cylinder is closed (true) or open.
 	 */
-	private inline function get_topClosed():Bool
+	private function get_topClosed():Bool
 	{
 		return _topClosed;
 	}
 
-	private inline function set_topClosed(value:Bool):Void
+	private function set_topClosed(value:Bool):Void
 	{
 		_topClosed = value;
 		invalidateGeometry();
@@ -483,12 +483,12 @@ class CylinderGeometry extends PrimitiveBase
 	/**
 	 * Defines whether the bottom end of the cylinder is closed (true) or open.
 	 */
-	private inline function get_bottomClosed():Bool
+	private function get_bottomClosed():Bool
 	{
 		return _bottomClosed;
 	}
 
-	private inline function set_bottomClosed(value:Bool):Void
+	private function set_bottomClosed(value:Bool):Void
 	{
 		_bottomClosed = value;
 		invalidateGeometry();
@@ -497,12 +497,12 @@ class CylinderGeometry extends PrimitiveBase
 	/**
 	 * Defines whether the cylinder poles should lay on the Y-axis (true) or on the Z-axis (false).
 	 */
-	private inline function get_yUp():Bool
+	private function get_yUp():Bool
 	{
 		return _yUp;
 	}
 
-	private inline function set_yUp(value:Bool):Void
+	private function set_yUp(value:Bool):Void
 	{
 		_yUp = value;
 		invalidateGeometry();

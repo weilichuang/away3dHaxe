@@ -96,22 +96,22 @@ class OutlinePass extends MaterialPassBase
 		}
 	}
 
-	private inline function get_showInnerLines():Bool
+	private function get_showInnerLines():Bool
 	{
 		return _showInnerLines;
 	}
 
-	private inline function set_showInnerLines(value:Bool):Void
+	private function set_showInnerLines(value:Bool):Void
 	{
 		_showInnerLines = value;
 	}
 
-	private inline function get_outlineColor():UInt
+	private function get_outlineColor():UInt
 	{
 		return _outlineColor;
 	}
 
-	private inline function set_outlineColor(value:UInt):Void
+	private function set_outlineColor(value:UInt):Void
 	{
 		_outlineColor = value;
 		_colorData[0] = ((value >> 16) & 0xff) / 0xff;
@@ -119,12 +119,12 @@ class OutlinePass extends MaterialPassBase
 		_colorData[2] = (value & 0xff) / 0xff;
 	}
 
-	private inline function get_outlineSize():Float
+	private function get_outlineSize():Float
 	{
 		return _offsetData[0];
 	}
 
-	private inline function set_outlineSize(value:Float):Void
+	private function set_outlineSize(value:Float):Void
 	{
 		_offsetData[0] = value;
 	}

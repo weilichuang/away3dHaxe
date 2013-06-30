@@ -196,27 +196,27 @@ class AwayStats extends Sprite
 		_init();
 	}
 
-	private inline function get_max_ram():Float
+	private function get_max_ram():Float
 	{
 		return _max_ram;
 	}
 
-	private inline function get_ram():Float
+	private function get_ram():Float
 	{
 		return _ram;
 	}
 
-	private inline function get_avg_fps():Float
+	private function get_avg_fps():Float
 	{
 		return _avg_fps;
 	}
 
-	private inline function get_max_fps():UInt
+	private function get_max_fps():UInt
 	{
 		return _max_fps;
 	}
 
-	private inline function get_fps():Int
+	private function get_fps():Int
 	{
 		return _fps;
 	}

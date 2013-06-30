@@ -23,14 +23,14 @@ import a3d.io.loaders.parsers.ParserDataFormat;
  *
  * @eventType a3d.events.LoaderEvent
  */
-@:meta(Eventname = "dependencyComplete", type = "a3d.events.LoaderEvent"))
+@:meta(Eventname = "dependencyComplete", type = "a3d.events.LoaderEvent")
 
 /**
  * Dispatched when an error occurs during loading.
  *
  * @eventType a3d.events.LoaderEvent
  */
-@:meta(Eventname = "loadError", type = "a3d.events.LoaderEvent"))
+@:meta(Eventname = "loadError", type = "a3d.events.LoaderEvent")
 
 /**
  * Dispatched when any asset finishes parsing. Also see specific events for each
@@ -38,91 +38,91 @@ import a3d.io.loaders.parsers.ParserDataFormat;
  *
  * @eventType a3d.events.AssetEvent
  */
-@:meta(Eventname = "assetComplete", type = "a3d.events.AssetEvent"))
+@:meta(Eventname = "assetComplete", type = "a3d.events.AssetEvent")
 
 /**
  * Dispatched when a geometry asset has been constructed from a resource.
  *
  * @eventType a3d.events.AssetEvent
  */
-@:meta(Eventname = "geometryComplete", type = "a3d.events.AssetEvent"))
+@:meta(Eventname = "geometryComplete", type = "a3d.events.AssetEvent")
 
 /**
  * Dispatched when a skeleton asset has been constructed from a resource.
  *
  * @eventType a3d.events.AssetEvent
  */
-@:meta(Eventname = "skeletonComplete", type = "a3d.events.AssetEvent"))
+@:meta(Eventname = "skeletonComplete", type = "a3d.events.AssetEvent")
 
 /**
  * Dispatched when a skeleton pose asset has been constructed from a resource.
  *
  * @eventType a3d.events.AssetEvent
  */
-@:meta(Eventname = "skeletonPoseComplete", type = "a3d.events.AssetEvent"))
+@:meta(Eventname = "skeletonPoseComplete", type = "a3d.events.AssetEvent")
 
 /**
  * Dispatched when a container asset has been constructed from a resource.
  *
  * @eventType a3d.events.AssetEvent
  */
-@:meta(Eventname = "containerComplete", type = "a3d.events.AssetEvent"))
+@:meta(Eventname = "containerComplete", type = "a3d.events.AssetEvent")
 
 /**
  * Dispatched when an animation set has been constructed from a group of animation state resources.
  *
  * @eventType a3d.events.AssetEvent
  */
-@:meta(Eventname = "animationSetComplete", type = "a3d.events.AssetEvent"))
+@:meta(Eventname = "animationSetComplete", type = "a3d.events.AssetEvent")
 
 /**
  * Dispatched when an animation state has been constructed from a group of animation node resources.
  *
  * @eventType a3d.events.AssetEvent
  */
-@:meta(Eventname = "animationStateComplete", type = "a3d.events.AssetEvent"))
+@:meta(Eventname = "animationStateComplete", type = "a3d.events.AssetEvent")
 
 /**
  * Dispatched when an animation node has been constructed from a resource.
  *
  * @eventType a3d.events.AssetEvent
  */
-@:meta(Eventname = "animationNodeComplete", type = "a3d.events.AssetEvent"))
+@:meta(Eventname = "animationNodeComplete", type = "a3d.events.AssetEvent")
 
 /**
  * Dispatched when an animation state transition has been constructed from a group of animation node resources.
  *
  * @eventType a3d.events.AssetEvent
  */
-@:meta(Eventname = "stateTransitionComplete", type = "a3d.events.AssetEvent"))
+@:meta(Eventname = "stateTransitionComplete", type = "a3d.events.AssetEvent")
 
 /**
  * Dispatched when a texture asset has been constructed from a resource.
  *
  * @eventType a3d.events.AssetEvent
  */
-@:meta(Eventname = "textureComplete", type = "a3d.events.AssetEvent"))
+@:meta(Eventname = "textureComplete", type = "a3d.events.AssetEvent")
 
 /**
  * Dispatched when a material asset has been constructed from a resource.
  *
  * @eventType a3d.events.AssetEvent
  */
-@:meta(Eventname = "materialComplete", type = "a3d.events.AssetEvent"))
+@:meta(Eventname = "materialComplete", type = "a3d.events.AssetEvent")
 
 /**
  * Dispatched when a animator asset has been constructed from a resource.
  *
  * @eventType a3d.events.AssetEvent
  */
-@:meta(Eventname = "animatorComplete", type = "a3d.events.AssetEvent"))
+@:meta(Eventname = "animatorComplete", type = "a3d.events.AssetEvent")
 
 /**
  * Dispatched when an image assets dimensions are not a power of 2
  *
  * @eventType a3d.events.AssetEvent
  */
-@:meta(Eventname = "textureSizeError", type = "a3d.events.AssetEvent"))
+@:meta(Eventname = "textureSizeError", type = "a3d.events.AssetEvent")
 
 
 /**
@@ -143,52 +143,53 @@ class SingleFileLoader extends EventDispatcher
 	private var _fileExtension:String;
 	private var _fileName:String;
 	private var _loadAsRawData:Bool;
-	private var _materialMode:UInt;
-	private var _data:*;
+	private var _materialMode:Int;
+	private var _data:Dynamic;
 
 	// Image parser only parser that is added by default, to save file size.
-	private static var _parsers:Vector<Class> = Vector<Class>([ImageParser]);
+	private static var _parsers:Vector<Class<Dynamic>> = Vector.ofArray([ImageParser]);
 
 
 	/**
 	 * Creates a new SingleFileLoader object.
 	 */
-	public function new(materialMode:UInt = 0)
+	public function new(materialMode:Int = 0)
 	{
-
 		_materialMode = materialMode;
 	}
 
-
-	public function get url():String
+	public var url(get, null):String;
+	private function get_url():String
 	{
-		return _req ? _req.url : '';
+		return _req != null ? _req.url : '';
 	}
 
 
-	public function get data():*
+	public var data(get, null):Dynamic;
+	private function get_data():Dynamic
 	{
 		return _data;
 	}
 
 
-	public function get loadAsRawData():Bool
+	public var loadAsRawData(get, null):Dynamic;
+	private function get_loadAsRawData():Bool
 	{
 		return _loadAsRawData;
 	}
 
 
-	public static function enableParser(parser:Class):Void
+	public static function enableParser<T>(parser:Class<T>):Void
 	{
 		if (_parsers.indexOf(parser) < 0)
 			_parsers.push(parser);
 	}
 
 
-	public static function enableParsers(parsers:Vector<Class>):Void
+	public static function enableParsers<T>(parsers:Vector<Class<T>>):Void
 	{
-		var pc:Class;
-		for each (pc in parsers)
+		var pc:Class<T>;
+		for (pc in parsers)
 		{
 			enableParser(pc);
 		}
@@ -217,22 +218,20 @@ class SingleFileLoader extends EventDispatcher
 		}
 		else
 		{
-			if (parser)
+			if (parser != null)
 				_parser = parser;
 
-			if (!_parser)
+			if (_parser == null)
 				_parser = getParserFromSuffix();
 
-			if (_parser)
+			if (_parser != null)
 			{
 				switch (_parser.dataFormat)
 				{
 					case ParserDataFormat.BINARY:
 						dataFormat = URLLoaderDataFormat.BINARY;
-						break;
 					case ParserDataFormat.PLAIN_TEXT:
 						dataFormat = URLLoaderDataFormat.TEXT;
-						break;
 				}
 
 			}
@@ -258,12 +257,12 @@ class SingleFileLoader extends EventDispatcher
 	 * @param uri The identifier (url or id) of the object to be loaded, mainly used for resource management.
 	 * @param parser An optional parser object that will translate the data into a usable resource. If not provided, AssetLoader will attempt to auto-detect the file type.
 	 */
-	public function parseData(data:*, parser:ParserBase = null, req:URLRequest = null):Void
+	public function parseData(data:Dynamic, parser:ParserBase = null, req:URLRequest = null):Void
 	{
 		if (Std.is(data,Class))
-			data = new data();
+			data = Type.createEmptyInstance(data);
 
-		if (parser)
+		if (parser != null)
 			_parser = parser;
 
 		_req = req;
@@ -274,7 +273,8 @@ class SingleFileLoader extends EventDispatcher
 	/**
 	 * A reference to the parser that will translate the loaded data into a usable resource.
 	 */
-	public function get parser():ParserBase
+	public var parser(get, null):ParserBase;
+	private function get_parser():ParserBase
 	{
 		return _parser;
 	}
@@ -282,9 +282,10 @@ class SingleFileLoader extends EventDispatcher
 	/**
 	 * A list of dependencies that need to be loaded and resolved for the loaded object.
 	 */
-	public function get dependencies():Vector<ResourceDependency>
+	public var dependencies(get, null):Vector<ResourceDependency>;
+	private function get_dependencies():Vector<ResourceDependency>
 	{
-		return _parser ? _parser.dependencies : new Vector<ResourceDependency>;
+		return _parser != null ? _parser.dependencies : new Vector<ResourceDependency>();
 	}
 
 	/**
@@ -296,7 +297,7 @@ class SingleFileLoader extends EventDispatcher
 
 		// Get rid of query string if any and extract suffix
 		var base:String = (url.indexOf('?') > 0) ? url.split('?')[0] : url;
-		var i:int = base.lastIndexOf('.');
+		var i:Int = base.lastIndexOf('.');
 		_fileExtension = base.substr(i + 1).toLowerCase();
 		_fileName = base.substr(0, i);
 	}
@@ -307,12 +308,18 @@ class SingleFileLoader extends EventDispatcher
 	 */
 	private function getParserFromSuffix():ParserBase
 	{
-		var len:UInt = _parsers.length;
+		var len:Int = _parsers.length;
 
 		// go in reverse order to allow application override of default parser added in Away3D proper
-		for (var i:int = len - 1; i >= 0; i--)
+		var i:Int = len - 1;
+		while (i >= 0)
+		{
 			if (_parsers[i].supportsType(_fileExtension))
-				return new _parsers[i]();
+			{
+				return Type.createEmptyInstance(parsers[i]);
+			}
+			i--;
+		}
 
 		return null;
 	}
@@ -323,14 +330,20 @@ class SingleFileLoader extends EventDispatcher
 	 * @param uri The url or id of the object to be parsed.
 	 * @return An instance of the guessed parser.
 	 */
-	private function getParserFromData(data:*):ParserBase
+	private function getParserFromData(data:Dynamic):ParserBase
 	{
-		var len:UInt = _parsers.length;
+		var len:Int = _parsers.length;
 
 		// go in reverse order to allow application override of default parser added in Away3D proper
-		for (var i:int = len - 1; i >= 0; i--)
+		var i:Int = len - 1;
+		while (i >= 0)
+		{
 			if (_parsers[i].supportsData(data))
-				return new _parsers[i]();
+			{
+				return Type.createEmptyInstance(_parsers[i]);
+			}
+			i--;
+		}
 
 		return null;
 	}
@@ -381,16 +394,16 @@ class SingleFileLoader extends EventDispatcher
 	 * Initiates parsing of the loaded data.
 	 * @param data The data to be parsed.
 	 */
-	private function parse(data:*):Void
+	private function parse(data:Dynamic):Void
 	{
 		// If no parser has been defined, try to find one by letting
 		// all plugged in parsers inspect the actual data.
-		if (!_parser)
+		if (_parser == null)
 		{
 			_parser = getParserFromData(data);
 		}
 
-		if (_parser)
+		if (_parser != null)
 		{
 			_parser.addEventListener(ParserEvent.READY_FOR_DEPENDENCIES, onReadyForDependencies);
 			_parser.addEventListener(ParserEvent.PARSE_ERROR, onParseError);
@@ -410,7 +423,7 @@ class SingleFileLoader extends EventDispatcher
 			_parser.addEventListener(AssetEvent.SKELETON_COMPLETE, onAssetComplete);
 			_parser.addEventListener(AssetEvent.SKELETON_POSE_COMPLETE, onAssetComplete);
 
-			if (_req && _req.url)
+			if (_req != null && _req.url != null)
 				_parser.fileName = _req.url;
 			_parser.materialMode = _materialMode;
 			_parser.parseAsync(data);

@@ -423,23 +423,23 @@ class Mouse3DManager
 	// ---------------------------------------------------------------------
 
 	public var forceMouseMove(get, set):Bool;
-	private inline function get_forceMouseMove():Bool
+	private function get_forceMouseMove():Bool
 	{
 		return _forceMouseMove;
 	}
 
-	private inline function set_forceMouseMove(value:Bool):Bool
+	private function set_forceMouseMove(value:Bool):Bool
 	{
 		return _forceMouseMove = value;
 	}
 
 	public var mousePicker(get, set):IPicker;
-	private inline function get_mousePicker():IPicker
+	private function get_mousePicker():IPicker
 	{
 		return _mousePicker;
 	}
 
-	private inline function set_mousePicker(value:IPicker):IPicker
+	private function set_mousePicker(value:IPicker):IPicker
 	{
 		return _mousePicker = value;
 	}

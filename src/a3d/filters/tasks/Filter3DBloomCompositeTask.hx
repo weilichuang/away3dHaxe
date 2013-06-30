@@ -25,12 +25,12 @@ class Filter3DBloomCompositeTask extends Filter3DTaskBase
 		this.exposure = exposure;
 	}
 
-	private inline function get_overlayTexture():TextureBase
+	private function get_overlayTexture():TextureBase
 	{
 		return _overlayTexture;
 	}
 
-	private inline function set_overlayTexture(value:TextureBase):Void
+	private function set_overlayTexture(value:TextureBase):Void
 	{
 		_overlayTexture = value;
 	}
@@ -59,12 +59,12 @@ class Filter3DBloomCompositeTask extends Filter3DTaskBase
 		stage3DProxy._context3D.setTextureAt(1, null);
 	}
 
-	private inline function get_exposure():Float
+	private function get_exposure():Float
 	{
 		return _exposure;
 	}
 
-	private inline function set_exposure(exposure:Float):Void
+	private function set_exposure(exposure:Float):Void
 	{
 		_exposure = exposure;
 		_data[4] = 1 + _exposure / 10;

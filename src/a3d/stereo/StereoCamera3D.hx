@@ -44,7 +44,7 @@ class StereoCamera3D extends Camera3D
 	}
 
 
-	private inline function get_leftCamera():Camera3D
+	private function get_leftCamera():Camera3D
 	{
 		if (_leftCamDirty)
 		{
@@ -68,7 +68,7 @@ class StereoCamera3D extends Camera3D
 	}
 
 
-	private inline function get_rightCamera():Camera3D
+	private function get_rightCamera():Camera3D
 	{
 		if (_rightCamDirty)
 		{
@@ -92,24 +92,24 @@ class StereoCamera3D extends Camera3D
 	}
 
 
-	private inline function get_stereoFocus():Float
+	private function get_stereoFocus():Float
 	{
 		return _focus;
 	}
 
-	private inline function set_stereoFocus(value:Float):Void
+	private function set_stereoFocus(value:Float):Void
 	{
 		_focus = value;
 //			trace('focus:', _focus);
 		invalidateStereoCams();
 	}
 
-	private inline function get_stereoOffset():Float
+	private function get_stereoOffset():Float
 	{
 		return _offset;
 	}
 
-	private inline function set_stereoOffset(value:Float):Void
+	private function set_stereoOffset(value:Float):Void
 	{
 		_offset = value;
 		invalidateStereoCams();

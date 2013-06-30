@@ -54,12 +54,12 @@ class LensBase extends EventDispatcher
 	 * Retrieves the corner points of the lens frustum.
 	 */
 	public var frustumCorners(get,set):Vector<Float>;
-	private inline function get_frustumCorners():Vector<Float>
+	private function get_frustumCorners():Vector<Float>
 	{
 		return _frustumCorners;
 	}
 
-	private inline function set_frustumCorners(frustumCorners:Vector<Float>):Vector<Float>
+	private function set_frustumCorners(frustumCorners:Vector<Float>):Vector<Float>
 	{
 		return _frustumCorners = frustumCorners;
 	}
@@ -68,7 +68,7 @@ class LensBase extends EventDispatcher
 	 * The projection matrix that transforms 3D geometry to normalized homogeneous coordinates.
 	 */
 	public var matrix(get,set):Matrix3D;
-	private inline function get_matrix():Matrix3D
+	private function get_matrix():Matrix3D
 	{
 		if (_matrixInvalid)
 		{
@@ -78,7 +78,7 @@ class LensBase extends EventDispatcher
 		return _matrix;
 	}
 
-	private inline function set_matrix(value:Matrix3D):Matrix3D
+	private function set_matrix(value:Matrix3D):Matrix3D
 	{
 		_matrix = value;
 		invalidateMatrix();
@@ -89,12 +89,12 @@ class LensBase extends EventDispatcher
 	 * The distance to the near plane of the frustum. Anything behind near plane will not be rendered.
 	 */
 	public var near(get,set):Float;
-	private inline function get_near():Float
+	private function get_near():Float
 	{
 		return _near;
 	}
 
-	private inline function set_near(value:Float):Float
+	private function set_near(value:Float):Float
 	{
 		if (value == _near)
 			return _near;
@@ -107,12 +107,12 @@ class LensBase extends EventDispatcher
 	 * The distance to the far plane of the frustum. Anything beyond the far plane will not be rendered.
 	 */
 	public var far(get,set):Float;
-	private inline function get_far():Float
+	private function get_far():Float
 	{
 		return _far;
 	}
 
-	private inline function set_far(value:Float):Float
+	private function set_far(value:Float):Float
 	{
 		if (value == _far)
 			return _far;
@@ -140,7 +140,7 @@ class LensBase extends EventDispatcher
 	}
 
 	public var unprojectionMatrix(get,null):Matrix3D;
-	private inline function get_unprojectionMatrix():Matrix3D
+	private function get_unprojectionMatrix():Matrix3D
 	{
 		if (_unprojectionInvalid)
 		{
@@ -180,12 +180,12 @@ class LensBase extends EventDispatcher
 	 * @private
 	 */
 	public var aspectRatio(get,set):Float;
-	private inline function get_aspectRatio():Float
+	private function get_aspectRatio():Float
 	{
 		return _aspectRatio;
 	}
 
-	private inline function set_aspectRatio(value:Float):Float
+	private function set_aspectRatio(value:Float):Float
 	{
 		if (_aspectRatio == value)
 			return _aspectRatio;

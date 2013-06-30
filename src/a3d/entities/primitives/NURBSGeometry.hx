@@ -40,12 +40,12 @@ class NURBSGeometry extends PrimitiveBase
 	/**
 	 * Defines the control point net to describe the NURBS surface
 	 */
-	private inline function get_controlNet():Vector<NURBSVertex>
+	private function get_controlNet():Vector<NURBSVertex>
 	{
 		return _controlNet;
 	}
 
-	private inline function set_controlNet(value:Vector<NURBSVertex>):Void
+	private function set_controlNet(value:Vector<NURBSVertex>):Void
 	{
 		if (_controlNet == value)
 			return;
@@ -58,12 +58,12 @@ class NURBSGeometry extends PrimitiveBase
 	/**
 	 * Defines the number of control points along the U splines that influence any given point on the curve
 	 */
-	private inline function get_uOrder():Int
+	private function get_uOrder():Int
 	{
 		return _uOrder;
 	}
 
-	private inline function set_uOrder(value:Int):Void
+	private function set_uOrder(value:Int):Void
 	{
 		if (_uOrder == value)
 			return;
@@ -76,12 +76,12 @@ class NURBSGeometry extends PrimitiveBase
 	/**
 	 * Defines the number of control points along the V splines that influence any given point on the curve
 	 */
-	private inline function get_vOrder():Int
+	private function get_vOrder():Int
 	{
 		return _vOrder;
 	}
 
-	private inline function set_vOrder(value:Int):Void
+	private function set_vOrder(value:Int):Void
 	{
 		if (_vOrder == value)
 			return;
@@ -94,12 +94,12 @@ class NURBSGeometry extends PrimitiveBase
 	/**
 	 * Defines the number of control points along the U splines
 	 */
-	private inline function get_uControlPoints():Int
+	private function get_uControlPoints():Int
 	{
 		return _numUContolPoints;
 	}
 
-	private inline function set_uControlPoints(value:Int):Void
+	private function set_uControlPoints(value:Int):Void
 	{
 		if (_numUContolPoints == value)
 			return;
@@ -112,12 +112,12 @@ class NURBSGeometry extends PrimitiveBase
 	/**
 	 * Defines the number of control points along the V splines
 	 */
-	private inline function get_vControlPoints():Int
+	private function get_vControlPoints():Int
 	{
 		return _numVContolPoints;
 	}
 
-	private inline function set_vControlPoints(value:Int):Void
+	private function set_vControlPoints(value:Int):Void
 	{
 		if (_numVContolPoints == value)
 			return;
@@ -131,12 +131,12 @@ class NURBSGeometry extends PrimitiveBase
 	 * Defines the knot sequence in the U direction that determines where and how the control points
 	 * affect the NURBS curve.
 	 */
-	private inline function get_uKnot():Vector<Float>
+	private function get_uKnot():Vector<Float>
 	{
 		return _uKnotSequence;
 	}
 
-	private inline function set_uKnot(value:Vector<Float>):Void
+	private function set_uKnot(value:Vector<Float>):Void
 	{
 		if (_uKnotSequence == value)
 			return;
@@ -153,12 +153,12 @@ class NURBSGeometry extends PrimitiveBase
 	 * Defines the knot sequence in the V direction that determines where and how the control points
 	 * affect the NURBS curve.
 	 */
-	private inline function get_vKnot():Vector<Float>
+	private function get_vKnot():Vector<Float>
 	{
 		return _vKnotSequence;
 	}
 
-	private inline function set_vKnot(value:Vector<Float>):Void
+	private function set_vKnot(value:Vector<Float>):Void
 	{
 		if (_vKnotSequence == value)
 			return;
@@ -174,12 +174,12 @@ class NURBSGeometry extends PrimitiveBase
 	/**
 	 * Defines the number segments (triangle pair) the final curve will be divided into in the U direction
 	 */
-	private inline function get_uSegments():Int
+	private function get_uSegments():Int
 	{
 		return _uSegments;
 	}
 
-	private inline function set_uSegments(value:Int):Void
+	private function set_uSegments(value:Int):Void
 	{
 		if (_uSegments == value)
 			return;
@@ -192,12 +192,12 @@ class NURBSGeometry extends PrimitiveBase
 	/**
 	 * Defines the number segments (triangle pair) the final curve will be divided into in the V direction
 	 */
-	private inline function get_vSegments():Int
+	private function get_vSegments():Int
 	{
 		return _vSegments;
 	}
 
-	private inline function set_vSegments(value:Int):Void
+	private function set_vSegments(value:Int):Void
 	{
 		if (_vSegments == value)
 			return;

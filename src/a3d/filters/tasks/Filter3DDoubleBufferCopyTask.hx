@@ -19,7 +19,7 @@ class Filter3DDoubleBufferCopyTask extends Filter3DTaskBase
 		super();
 	}
 
-	private inline function get_secondaryInputTexture():Texture
+	private function get_secondaryInputTexture():Texture
 	{
 		return _secondaryInputTexture;
 	}

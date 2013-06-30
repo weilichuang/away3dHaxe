@@ -50,12 +50,12 @@ class RaycastPicker implements IPicker
 	 * @inheritDoc
 	 */
 	public var onlyMouseEnabled(get,set):Bool;
-	private inline function get_onlyMouseEnabled():Bool
+	private function get_onlyMouseEnabled():Bool
 	{
 		return _onlyMouseEnabled;
 	}
 
-	private inline function set_onlyMouseEnabled(value:Bool):Bool
+	private function set_onlyMouseEnabled(value:Bool):Bool
 	{
 		return _onlyMouseEnabled = value;
 	}

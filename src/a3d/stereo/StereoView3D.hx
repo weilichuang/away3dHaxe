@@ -29,12 +29,12 @@ class StereoView3D extends View3D
 	}
 
 
-	private inline function get_stereoRenderMethod():StereoRenderMethodBase
+	private function get_stereoRenderMethod():StereoRenderMethodBase
 	{
 		return _stereoRenderer.renderMethod;
 	}
 
-	private inline function set_stereoRenderMethod(value:StereoRenderMethodBase):Void
+	private function set_stereoRenderMethod(value:StereoRenderMethodBase):Void
 	{
 		_stereoRenderer.renderMethod = value;
 	}
@@ -61,12 +61,12 @@ class StereoView3D extends View3D
 	}
 
 
-	private inline function get_stereoEnabled():Bool
+	private function get_stereoEnabled():Bool
 	{
 		return _stereoEnabled;
 	}
 
-	private inline function set_stereoEnabled(val:Bool):Void
+	private function set_stereoEnabled(val:Bool):Void
 	{
 		_stereoEnabled = val;
 	}

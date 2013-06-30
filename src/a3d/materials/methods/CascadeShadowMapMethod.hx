@@ -42,12 +42,12 @@ class CascadeShadowMapMethod extends ShadowMapMethodBase
 	}
 
 	public var baseMethod(set,set):SimpleShadowMapMethodBase;
-	private inline function get_baseMethod():SimpleShadowMapMethodBase
+	private function get_baseMethod():SimpleShadowMapMethodBase
 	{
 		return _baseMethod;
 	}
 
-	private inline function set_baseMethod(value:SimpleShadowMapMethodBase):SimpleShadowMapMethodBase
+	private function set_baseMethod(value:SimpleShadowMapMethodBase):SimpleShadowMapMethodBase
 	{
 		if (_baseMethod == value)
 			return _baseMethod;

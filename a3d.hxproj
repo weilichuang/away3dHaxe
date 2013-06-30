@@ -6,8 +6,8 @@
     <movie input="" />
     <movie path="bin\a3d.swf" />
     <movie fps="60" />
-    <movie width="800" />
-    <movie height="600" />
+    <movie width="1024" />
+    <movie height="768" />
     <movie version="11" />
     <movie minorVersion="7" />
     <movie platform="Flash Player" />
@@ -21,7 +21,7 @@
   <build>
     <option directives="" />
     <option flashStrict="False" />
-    <option mainClass="a3dexample.Basic_View" />
+    <option mainClass="a3dexample.Basic_LoadMD2" />
     <option enabledebug="True" />
     <option additional="" />
   </build>
@@ -32,7 +32,7 @@
   <!-- Class files to compile (other referenced classes will automatically be included) -->
   <compileTargets>
     <compile path="src\Main.hx" />
-    <compile path="src\a3dexample\Basic_View.hx" />
+    <compile path="src\a3dexample\Basic_LoadMD2.hx" />
   </compileTargets>
   <!-- Assets to embed into the output SWF -->
   <library>

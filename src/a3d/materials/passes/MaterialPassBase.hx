@@ -152,12 +152,12 @@ class MaterialPassBase extends EventDispatcher
 	 * The material to which this pass belongs.
 	 */
 	public var material(get, set):MaterialBase;
-	private inline function get_material():MaterialBase
+	private function get_material():MaterialBase
 	{
 		return _material;
 	}
 
-	private inline function set_material(value:MaterialBase):MaterialBase
+	private function set_material(value:MaterialBase):MaterialBase
 	{
 		return _material = value;
 	}
@@ -166,12 +166,12 @@ class MaterialPassBase extends EventDispatcher
 	 * Indicate whether this pass should write to the depth buffer or not. Ignored when blending is enabled.
 	 */
 	public var writeDepth(get, set):Bool;
-	private inline function get_writeDepth():Bool
+	private function get_writeDepth():Bool
 	{
 		return _writeDepth;
 	}
 
-	private inline function set_writeDepth(value:Bool):Bool
+	private function set_writeDepth(value:Bool):Bool
 	{
 		return _writeDepth = value;
 	}
@@ -180,12 +180,12 @@ class MaterialPassBase extends EventDispatcher
 	 * Defines whether any used textures should use mipmapping.
 	 */
 	public var mipmap(get, set):Bool;
-	private inline function get_mipmap():Bool
+	private function get_mipmap():Bool
 	{
 		return _mipmap;
 	}
 
-	private inline function set_mipmap(value:Bool):Bool
+	private function set_mipmap(value:Bool):Bool
 	{
 		if (_mipmap == value)
 			return _mipmap;
@@ -199,12 +199,12 @@ class MaterialPassBase extends EventDispatcher
 	 * Defines whether smoothing should be applied to any used textures.
 	 */
 	public var smooth(get, set):Bool;
-	private inline function get_smooth():Bool
+	private function get_smooth():Bool
 	{
 		return _smooth;
 	}
 
-	private inline function set_smooth(value:Bool):Bool
+	private function set_smooth(value:Bool):Bool
 	{
 		if (_smooth == value)
 			return _smooth;
@@ -217,12 +217,12 @@ class MaterialPassBase extends EventDispatcher
 	 * Defines whether textures should be tiled.
 	 */
 	public var repeat(get, set):Bool;
-	private inline function get_repeat():Bool
+	private function get_repeat():Bool
 	{
 		return _repeat;
 	}
 
-	private inline function set_repeat(value:Bool):Bool
+	private function set_repeat(value:Bool):Bool
 	{
 		if (_repeat == value)
 			return _repeat;
@@ -235,23 +235,23 @@ class MaterialPassBase extends EventDispatcher
 	 * Defines whether or not the material should perform backface culling.
 	 */
 	public var bothSides(get, set):Bool;
-	private inline function get_bothSides():Bool
+	private function get_bothSides():Bool
 	{
 		return _bothSides;
 	}
 
-	private inline function set_bothSides(value:Bool):Bool
+	private function set_bothSides(value:Bool):Bool
 	{
 		return _bothSides = value;
 	}
 
 	public var depthCompareMode(get, set):Context3DCompareMode;
-	private inline function get_depthCompareMode():Context3DCompareMode
+	private function get_depthCompareMode():Context3DCompareMode
 	{
 		return _depthCompareMode;
 	}
 
-	private inline function set_depthCompareMode(value:Context3DCompareMode):Context3DCompareMode
+	private function set_depthCompareMode(value:Context3DCompareMode):Context3DCompareMode
 	{
 		return _depthCompareMode = value;
 	}
@@ -260,12 +260,12 @@ class MaterialPassBase extends EventDispatcher
 	 * The animation used to add vertex code to the shader code.
 	 */
 	public var animationSet(get, set):IAnimationSet;
-	private inline function get_animationSet():IAnimationSet
+	private function get_animationSet():IAnimationSet
 	{
 		return _animationSet;
 	}
 
-	private inline function set_animationSet(value:IAnimationSet):IAnimationSet
+	private function set_animationSet(value:IAnimationSet):IAnimationSet
 	{
 		if (_animationSet == value)
 			return _animationSet;
@@ -281,7 +281,7 @@ class MaterialPassBase extends EventDispatcher
 	 * Specifies whether this pass renders to texture
 	 */
 	public var renderToTexture(get, null):Bool;
-	private inline function get_renderToTexture():Bool
+	private function get_renderToTexture():Bool
 	{
 		return _renderToTexture;
 	}
@@ -309,7 +309,7 @@ class MaterialPassBase extends EventDispatcher
 	 * The amount of used vertex streams in the vertex code. Used by the animation code generation to know from which index on streams are available.
 	 */
 	public var numUsedStreams(get, null):UInt;
-	private inline function get_numUsedStreams():UInt
+	private function get_numUsedStreams():UInt
 	{
 		return _numUsedStreams;
 	}
@@ -318,31 +318,31 @@ class MaterialPassBase extends EventDispatcher
 	 * The amount of used vertex constants in the vertex code. Used by the animation code generation to know from which index on registers are available.
 	 */
 	public var numUsedVertexConstants(get, null):UInt;
-	private inline function get_numUsedVertexConstants():UInt
+	private function get_numUsedVertexConstants():UInt
 	{
 		return _numUsedVertexConstants;
 	}
 
 	public var numUsedVaryings(get, null):UInt;
-	private inline function get_numUsedVaryings():UInt
+	private function get_numUsedVaryings():UInt
 	{
 		return _numUsedVaryings;
 	}
 
 	public var numUsedFragmentConstants(get, null):UInt;
-	private inline function get_numUsedFragmentConstants():UInt
+	private function get_numUsedFragmentConstants():UInt
 	{
 		return _numUsedFragmentConstants;
 	}
 
 	public var needFragmentAnimation(get, null):Bool;
-	private inline function get_needFragmentAnimation():Bool
+	private function get_needFragmentAnimation():Bool
 	{
 		return _needFragmentAnimation;
 	}
 
 	public var needUVAnimation(get, null):Bool;
-	private inline function get_needUVAnimation():Bool
+	private function get_needUVAnimation():Bool
 	{
 		return _needUVAnimation;
 	}
@@ -544,12 +544,12 @@ class MaterialPassBase extends EventDispatcher
 	}
 
 	public var lightPicker(get, set):LightPickerBase;
-	private inline function get_lightPicker():LightPickerBase
+	private function get_lightPicker():LightPickerBase
 	{
 		return _lightPicker;
 	}
 
-	private inline function set_lightPicker(value:LightPickerBase):LightPickerBase
+	private function set_lightPicker(value:LightPickerBase):LightPickerBase
 	{
 		if (_lightPicker != null)
 			_lightPicker.removeEventListener(Event.CHANGE, onLightsChange);
@@ -576,12 +576,12 @@ class MaterialPassBase extends EventDispatcher
 	}
 
 	public var alphaPremultiplied(get, set):Bool;
-	private inline function get_alphaPremultiplied():Bool
+	private function get_alphaPremultiplied():Bool
 	{
 		return _alphaPremultiplied;
 	}
 
-	private inline function set_alphaPremultiplied(value:Bool):Bool
+	private function set_alphaPremultiplied(value:Bool):Bool
 	{
 		_alphaPremultiplied = value;
 		invalidateShaderProgram(false);

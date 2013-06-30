@@ -17,7 +17,7 @@ class CameraEvent extends Event
 	}
 
 	public var camera(get,null):Camera3D;
-	private inline function get_camera():Camera3D
+	private function get_camera():Camera3D
 	{
 		return _camera;
 	}

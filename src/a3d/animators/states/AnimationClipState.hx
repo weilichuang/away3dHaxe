@@ -27,7 +27,7 @@ class AnimationClipState extends AnimationStateBase
 	 * @see #currentFrame
 	 * @see #nextFrame
 	 */
-	private inline function get_blendWeight():Float
+	private function get_blendWeight():Float
 	{
 		if (_framesDirty)
 			updateFrames();
@@ -38,7 +38,7 @@ class AnimationClipState extends AnimationStateBase
 	/**
 	 * Returns the current frame of animation in the clip based on the internal playhead position.
 	 */
-	private inline function get_currentFrame():UInt
+	private function get_currentFrame():UInt
 	{
 		if (_framesDirty)
 			updateFrames();
@@ -49,7 +49,7 @@ class AnimationClipState extends AnimationStateBase
 	/**
 	 * Returns the next frame of animation in the clip based on the internal playhead position.
 	 */
-	private inline function get_nextFrame():UInt
+	private function get_nextFrame():UInt
 	{
 		if (_framesDirty)
 			updateFrames();

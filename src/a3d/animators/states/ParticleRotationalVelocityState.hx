@@ -29,12 +29,12 @@ class ParticleRotationalVelocityState extends ParticleStateBase
 	/**
 	 * Defines the default rotationalVelocity of the state, used when in global mode.
 	 */
-	private inline function get_rotationalVelocity():Vector3D
+	private function get_rotationalVelocity():Vector3D
 	{
 		return _rotationalVelocity;
 	}
 
-	private inline function set_rotationalVelocity(value:Vector3D):Void
+	private function set_rotationalVelocity(value:Vector3D):Void
 	{
 		_rotationalVelocity = value;
 

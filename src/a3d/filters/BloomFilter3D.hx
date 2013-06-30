@@ -50,42 +50,42 @@ class BloomFilter3D extends Filter3DBase
 		super.setRenderTargets(mainTarget, stage3DProxy);
 	}
 
-	private inline function get_exposure():Float
+	private function get_exposure():Float
 	{
 		return _compositeTask.exposure;
 	}
 
-	private inline function set_exposure(value:Float):Void
+	private function set_exposure(value:Float):Void
 	{
 		_compositeTask.exposure = value;
 	}
 
-	private inline function get_blurX():UInt
+	private function get_blurX():UInt
 	{
 		return _hBlurTask.amount;
 	}
 
-	private inline function set_blurX(value:UInt):Void
+	private function set_blurX(value:UInt):Void
 	{
 		_hBlurTask.amount = value;
 	}
 
-	private inline function get_blurY():UInt
+	private function get_blurY():UInt
 	{
 		return _vBlurTask.amount;
 	}
 
-	private inline function set_blurY(value:UInt):Void
+	private function set_blurY(value:UInt):Void
 	{
 		_vBlurTask.amount = value;
 	}
 
-	private inline function get_threshold():Float
+	private function get_threshold():Float
 	{
 		return _brightPassTask.threshold;
 	}
 
-	private inline function set_threshold(value:Float):Void
+	private function set_threshold(value:Float):Void
 	{
 		_brightPassTask.threshold = value;
 	}

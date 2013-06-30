@@ -47,12 +47,12 @@ class ShadingMethodBase extends NamedAssetBase
 	}
 
 	public var sharedRegisters(get,set):ShaderRegisterData;
-	private inline function get_sharedRegisters():ShaderRegisterData
+	private function get_sharedRegisters():ShaderRegisterData
 	{
 		return _sharedRegisters;
 	}
 
-	private inline function set_sharedRegisters(value:ShaderRegisterData):ShaderRegisterData
+	private function set_sharedRegisters(value:ShaderRegisterData):ShaderRegisterData
 	{
 		return _sharedRegisters = value;
 	}
@@ -61,7 +61,7 @@ class ShadingMethodBase extends NamedAssetBase
 	 * Any passes required that render to a texture used by this method.
 	 */
 	public var passes(get,null):Vector<MaterialPassBase>;
-	private inline function get_passes():Vector<MaterialPassBase>
+	private function get_passes():Vector<MaterialPassBase>
 	{
 		return _passes;
 	}

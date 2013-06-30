@@ -27,12 +27,12 @@ class ParticleOscillatorState extends ParticleStateBase
 	/**
 	 * Defines the default oscillator axis (x, y, z) and cycleDuration (w) of the state, used when in global mode.
 	 */
-	private inline function get_oscillator():Vector3D
+	private function get_oscillator():Vector3D
 	{
 		return _oscillator;
 	}
 
-	private inline function set_oscillator(value:Vector3D):Void
+	private function set_oscillator(value:Vector3D):Void
 	{
 		_oscillator = value;
 

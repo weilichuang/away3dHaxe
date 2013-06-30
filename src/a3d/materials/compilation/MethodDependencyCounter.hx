@@ -68,49 +68,49 @@ class MethodDependencyCounter
 	}
 
 	public var tangentDependencies(get, null):UInt;
-	private inline function get_tangentDependencies():UInt
+	private function get_tangentDependencies():UInt
 	{
 		return _tangentDependencies;
 	}
 
 	public var usesGlobalPosFragment(get, null):Bool;
-	private inline function get_usesGlobalPosFragment():Bool
+	private function get_usesGlobalPosFragment():Bool
 	{
 		return _usesGlobalPosFragment;
 	}
 
 	public var projectionDependencies(get, null):UInt;
-	private inline function get_projectionDependencies():UInt
+	private function get_projectionDependencies():UInt
 	{
 		return _projectionDependencies;
 	}
 
 	public var normalDependencies(get, null):UInt;
-	private inline function get_normalDependencies():UInt
+	private function get_normalDependencies():UInt
 	{
 		return _normalDependencies;
 	}
 
 	public var viewDirDependencies(get, null):UInt;
-	private inline function get_viewDirDependencies():UInt
+	private function get_viewDirDependencies():UInt
 	{
 		return _viewDirDependencies;
 	}
 
 	public var uvDependencies(get, null):UInt;
-	private inline function get_uvDependencies():UInt
+	private function get_uvDependencies():UInt
 	{
 		return _uvDependencies;
 	}
 
 	public var secondaryUVDependencies(get, null):UInt;
-	private inline function get_secondaryUVDependencies():UInt
+	private function get_secondaryUVDependencies():UInt
 	{
 		return _secondaryUVDependencies;
 	}
 
 	public var globalPosDependencies(get, null):UInt;
-	private inline function get_globalPosDependencies():UInt
+	private function get_globalPosDependencies():UInt
 	{
 		return _globalPosDependencies;
 	}

@@ -51,34 +51,34 @@ class RefractionEnvMapMethod extends EffectMethodBase
 	 * The cube environment map to use for the refraction.
 	 */
 	public var envMap(get,set):CubeTextureBase;
-	private inline function get_envMap():CubeTextureBase
+	private function get_envMap():CubeTextureBase
 	{
 		return _envMap;
 	}
 
-	private inline function set_envMap(value:CubeTextureBase):CubeTextureBase
+	private function set_envMap(value:CubeTextureBase):CubeTextureBase
 	{
 		return _envMap = value;
 	}
 
 	public var refractionIndex(get,set):Float;
-	private inline function get_refractionIndex():Float
+	private function get_refractionIndex():Float
 	{
 		return _refractionIndex;
 	}
 
-	private inline function set_refractionIndex(value:Float):Float
+	private function set_refractionIndex(value:Float):Float
 	{
 		return _refractionIndex = value;
 	}
 
 	public var dispersionR(get,set):Float;
-	private inline function get_dispersionR():Float
+	private function get_dispersionR():Float
 	{
 		return _dispersionR;
 	}
 
-	private inline function set_dispersionR(value:Float):Float
+	private function set_dispersionR(value:Float):Float
 	{
 		_dispersionR = value;
 
@@ -92,12 +92,12 @@ class RefractionEnvMapMethod extends EffectMethodBase
 	}
 
 	public var dispersionG(get,set):Float;
-	private inline function get_dispersionG():Float
+	private function get_dispersionG():Float
 	{
 		return _dispersionG;
 	}
 
-	private inline function set_dispersionG(value:Float):Float
+	private function set_dispersionG(value:Float):Float
 	{
 		_dispersionG = value;
 
@@ -112,12 +112,12 @@ class RefractionEnvMapMethod extends EffectMethodBase
 	}
 
 	public var dispersionR(get,set):Float;
-	private inline function get_dispersionB():Float
+	private function get_dispersionB():Float
 	{
 		return _dispersionB;
 	}
 
-	private inline function set_dispersionB(value:Float):Float
+	private function set_dispersionB(value:Float):Float
 	{
 		_dispersionB = value;
 
@@ -131,12 +131,12 @@ class RefractionEnvMapMethod extends EffectMethodBase
 	}
 
 	public var alpha(get,set):Float;
-	private inline function get_alpha():Float
+	private function get_alpha():Float
 	{
 		return _alpha;
 	}
 
-	private inline function set_alpha(value:Float):Float
+	private function set_alpha(value:Float):Float
 	{
 		return _alpha = value;
 	}

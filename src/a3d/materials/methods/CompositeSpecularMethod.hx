@@ -47,12 +47,12 @@ class CompositeSpecularMethod extends BasicSpecularMethod
 	 * The base specular method on which this method's shading is based.
 	 */
 	public var baseMethod(set,set):BasicSpecularMethod;
-	private inline function get_baseMethod():BasicSpecularMethod
+	private function get_baseMethod():BasicSpecularMethod
 	{
 		return _baseMethod;
 	}
 
-	private inline function set_baseMethod(value:BasicSpecularMethod):BasicSpecularMethod
+	private function set_baseMethod(value:BasicSpecularMethod):BasicSpecularMethod
 	{
 		if (_baseMethod == value)
 			return _baseMethod;

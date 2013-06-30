@@ -60,12 +60,12 @@ class MultiPassMaterialBase extends MaterialBase
 	/**
 	 * Whether or not to use fallOff and radius properties for lights.
 	 */
-	private inline function get_enableLightFallOff():Bool
+	private function get_enableLightFallOff():Bool
 	{
 		return _enableLightFallOff;
 	}
 
-	private inline function set_enableLightFallOff(value:Bool):Void
+	private function set_enableLightFallOff(value:Bool):Void
 	{
 		if (_enableLightFallOff != value)
 			invalidateScreenPasses();
@@ -77,12 +77,12 @@ class MultiPassMaterialBase extends MaterialBase
 	 * invisible or entirely opaque, often used with textures for foliage, etc.
 	 * Recommended values are 0 to disable alpha, or 0.5 to create smooth edges. Default value is 0 (disabled).
 	 */
-	private inline function get_alphaThreshold():Float
+	private function get_alphaThreshold():Float
 	{
 		return _alphaThreshold;
 	}
 
-	private inline function set_alphaThreshold(value:Float):Void
+	private function set_alphaThreshold(value:Float):Void
 	{
 		_alphaThreshold = value;
 		_diffuseMethod.alphaThreshold = value;
@@ -112,22 +112,22 @@ class MultiPassMaterialBase extends MaterialBase
 		super.activateForDepth(stage3DProxy, camera, distanceBased);
 	}
 
-	private inline function get_specularLightSources():UInt
+	private function get_specularLightSources():UInt
 	{
 		return _specularLightSources;
 	}
 
-	private inline function set_specularLightSources(value:UInt):Void
+	private function set_specularLightSources(value:UInt):Void
 	{
 		_specularLightSources = value;
 	}
 
-	private inline function get_diffuseLightSources():UInt
+	private function get_diffuseLightSources():UInt
 	{
 		return _diffuseLightSources;
 	}
 
-	private inline function set_diffuseLightSources(value:UInt):Void
+	private function set_diffuseLightSources(value:UInt):Void
 	{
 		_diffuseLightSources = value;
 	}
@@ -154,12 +154,12 @@ class MultiPassMaterialBase extends MaterialBase
 	 * The method to perform ambient shading. Note that shading methods cannot
 	 * be reused across materials.
 	 */
-	private inline function get_ambientMethod():BasicAmbientMethod
+	private function get_ambientMethod():BasicAmbientMethod
 	{
 		return _ambientMethod;
 	}
 
-	private inline function set_ambientMethod(value:BasicAmbientMethod):Void
+	private function set_ambientMethod(value:BasicAmbientMethod):Void
 	{
 		value.copyFrom(_ambientMethod);
 		_ambientMethod = value;
@@ -170,12 +170,12 @@ class MultiPassMaterialBase extends MaterialBase
 	 * The method to render shadows cast on this surface. Note that shading methods can not
 	 * be reused across materials.
 	 */
-	private inline function get_shadowMethod():ShadowMapMethodBase
+	private function get_shadowMethod():ShadowMapMethodBase
 	{
 		return _shadowMethod;
 	}
 
-	private inline function set_shadowMethod(value:ShadowMapMethodBase):Void
+	private function set_shadowMethod(value:ShadowMapMethodBase):Void
 	{
 		if (value && _shadowMethod)
 			value.copyFrom(_shadowMethod);
@@ -187,12 +187,12 @@ class MultiPassMaterialBase extends MaterialBase
 	 * The method to perform diffuse shading. Note that shading methods can not
 	 * be reused across materials.
 	 */
-	private inline function get_diffuseMethod():BasicDiffuseMethod
+	private function get_diffuseMethod():BasicDiffuseMethod
 	{
 		return _diffuseMethod;
 	}
 
-	private inline function set_diffuseMethod(value:BasicDiffuseMethod):Void
+	private function set_diffuseMethod(value:BasicDiffuseMethod):Void
 	{
 		value.copyFrom(_diffuseMethod);
 		_diffuseMethod = value;
@@ -203,12 +203,12 @@ class MultiPassMaterialBase extends MaterialBase
 	 * The method to generate the (tangent-space) normal. Note that shading methods can not
 	 * be reused across materials.
 	 */
-	private inline function get_normalMethod():BasicNormalMethod
+	private function get_normalMethod():BasicNormalMethod
 	{
 		return _normalMethod;
 	}
 
-	private inline function set_normalMethod(value:BasicNormalMethod):Void
+	private function set_normalMethod(value:BasicNormalMethod):Void
 	{
 		value.copyFrom(_normalMethod);
 		_normalMethod = value;
@@ -219,12 +219,12 @@ class MultiPassMaterialBase extends MaterialBase
 	 * The method to perform specular shading. Note that shading methods can not
 	 * be reused across materials.
 	 */
-	private inline function get_specularMethod():BasicSpecularMethod
+	private function get_specularMethod():BasicSpecularMethod
 	{
 		return _specularMethod;
 	}
 
-	private inline function set_specularMethod(value:BasicSpecularMethod):Void
+	private function set_specularMethod(value:BasicSpecularMethod):Void
 	{
 		if (value && _specularMethod)
 			value.copyFrom(_specularMethod);
@@ -244,7 +244,7 @@ class MultiPassMaterialBase extends MaterialBase
 		invalidateScreenPasses();
 	}
 
-	private inline function get_numMethods():Int
+	private function get_numMethods():Int
 	{
 		return _effectsPass ? _effectsPass.numMethods : 0;
 	}
@@ -296,12 +296,12 @@ class MultiPassMaterialBase extends MaterialBase
 	/**
 	 * The tangent space normal map to influence the direction of the surface for each texel.
 	 */
-	private inline function get_normalMap():Texture2DBase
+	private function get_normalMap():Texture2DBase
 	{
 		return _normalMethod.normalMap;
 	}
 
-	private inline function set_normalMap(value:Texture2DBase):Void
+	private function set_normalMap(value:Texture2DBase):Void
 	{
 		_normalMethod.normalMap = value;
 	}
@@ -310,12 +310,12 @@ class MultiPassMaterialBase extends MaterialBase
 	 * A specular map that defines the strength of specular reflections for each texel in the red channel, and the gloss factor in the green channel.
 	 * You can use SpecularBitmapTexture if you want to easily set specular and gloss maps from greyscale images, but prepared images are preffered.
 	 */
-	private inline function get_specularMap():Texture2DBase
+	private function get_specularMap():Texture2DBase
 	{
 		return _specularMethod.texture;
 	}
 
-	private inline function set_specularMap(value:Texture2DBase):Void
+	private function set_specularMap(value:Texture2DBase):Void
 	{
 		if (_specularMethod)
 			_specularMethod.texture = value;
@@ -326,12 +326,12 @@ class MultiPassMaterialBase extends MaterialBase
 	/**
 	 * The sharpness of the specular highlight.
 	 */
-	private inline function get_gloss():Float
+	private function get_gloss():Float
 	{
 		return _specularMethod ? _specularMethod.gloss : 0;
 	}
 
-	private inline function set_gloss(value:Float):Void
+	private function set_gloss(value:Float):Void
 	{
 		if (_specularMethod)
 			_specularMethod.gloss = value;
@@ -340,12 +340,12 @@ class MultiPassMaterialBase extends MaterialBase
 	/**
 	 * The strength of the ambient reflection.
 	 */
-	private inline function get_ambient():Float
+	private function get_ambient():Float
 	{
 		return _ambientMethod.ambient;
 	}
 
-	private inline function set_ambient(value:Float):Void
+	private function set_ambient(value:Float):Void
 	{
 		_ambientMethod.ambient = value;
 	}
@@ -353,12 +353,12 @@ class MultiPassMaterialBase extends MaterialBase
 	/**
 	 * The overall strength of the specular reflection.
 	 */
-	private inline function get_specular():Float
+	private function get_specular():Float
 	{
 		return _specularMethod ? _specularMethod.specular : 0;
 	}
 
-	private inline function set_specular(value:Float):Void
+	private function set_specular(value:Float):Void
 	{
 		if (_specularMethod)
 			_specularMethod.specular = value;
@@ -367,12 +367,12 @@ class MultiPassMaterialBase extends MaterialBase
 	/**
 	 * The colour of the ambient reflection.
 	 */
-	private inline function get_ambientColor():UInt
+	private function get_ambientColor():UInt
 	{
 		return _ambientMethod.ambientColor;
 	}
 
-	private inline function set_ambientColor(value:UInt):Void
+	private function set_ambientColor(value:UInt):Void
 	{
 		_ambientMethod.ambientColor = value;
 	}
@@ -380,12 +380,12 @@ class MultiPassMaterialBase extends MaterialBase
 	/**
 	 * The colour of the specular reflection.
 	 */
-	private inline function get_specularColor():UInt
+	private function get_specularColor():UInt
 	{
 		return _specularMethod.specularColor;
 	}
 
-	private inline function set_specularColor(value:UInt):Void
+	private function set_specularColor(value:UInt):Void
 	{
 		_specularMethod.specularColor = value;
 	}

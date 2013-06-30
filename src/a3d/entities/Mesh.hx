@@ -73,12 +73,12 @@ class Mesh extends Entity implements IMaterialOwner implements IAsset
 	 * Indicates whether or not the Mesh can cast shadows. Default value is <code>true</code>.
 	 */
 	public var castsShadows(get, set):Bool;
-	private inline function get_castsShadows():Bool
+	private function get_castsShadows():Bool
 	{
 		return _castsShadows;
 	}
 
-	private inline function set_castsShadows(value:Bool):Bool
+	private function set_castsShadows(value:Bool):Bool
 	{
 		return _castsShadows = value;
 	}
@@ -87,12 +87,12 @@ class Mesh extends Entity implements IMaterialOwner implements IAsset
 	 * Defines the animator of the mesh. Act on the mesh's geometry.  Default value is <code>null</code>.
 	 */
 	public var animator(get, set):IAnimator;
-	private inline function get_animator():IAnimator
+	private function get_animator():IAnimator
 	{
 		return _animator;
 	}
 
-	private inline function set_animator(value:IAnimator):IAnimator
+	private function set_animator(value:IAnimator):IAnimator
 	{
 		if (_animator != null)
 			_animator.removeOwner(this);
@@ -129,12 +129,12 @@ class Mesh extends Entity implements IMaterialOwner implements IAsset
 	 * The geometry used by the mesh that provides it with its shape.
 	 */
 	public var geometry(get, set):Geometry;
-	private inline function get_geometry():Geometry
+	private function get_geometry():Geometry
 	{
 		return _geometry;
 	}
 
-	private inline function set_geometry(value:Geometry):Geometry
+	private function set_geometry(value:Geometry):Geometry
 	{
 		if (_geometry != null)
 		{
@@ -175,12 +175,12 @@ class Mesh extends Entity implements IMaterialOwner implements IAsset
 	 * The material with which to render the Mesh.
 	 */
 	public var material(get, set):MaterialBase;
-	private inline function get_material():MaterialBase
+	private function get_material():MaterialBase
 	{
 		return _material;
 	}
 
-	private inline function set_material(value:MaterialBase):MaterialBase
+	private function set_material(value:MaterialBase):MaterialBase
 	{
 		if (value == _material)
 			return _material;
@@ -198,7 +198,7 @@ class Mesh extends Entity implements IMaterialOwner implements IAsset
 	 * material.
 	 */
 	public var subMeshes(get, null):Vector<SubMesh>;
-	private inline function get_subMeshes():Vector<SubMesh>
+	private function get_subMeshes():Vector<SubMesh>
 	{
 		// Since this getter is invoked every iteration of the render loop, and
 		// the geometry construct could affect the sub-meshes, the geometry is
@@ -212,12 +212,12 @@ class Mesh extends Entity implements IMaterialOwner implements IAsset
 	 * Indicates whether or not the mesh share the same animation geometry.
 	 */
 	public var shareAnimationGeometry(get, set):Bool;
-	private inline function get_shareAnimationGeometry():Bool
+	private function get_shareAnimationGeometry():Bool
 	{
 		return _shareAnimationGeometry;
 	}
 
-	private inline function set_shareAnimationGeometry(value:Bool):Bool
+	private function set_shareAnimationGeometry(value:Bool):Bool
 	{
 		return _shareAnimationGeometry = value;
 	}

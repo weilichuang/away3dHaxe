@@ -43,12 +43,12 @@ class NodeBase
 	}
 
 	public var showDebugBounds(get, set):Bool;
-	private inline function get_showDebugBounds():Bool
+	private function get_showDebugBounds():Bool
 	{
 		return _debugPrimitive != null;
 	}
 
-	private inline function set_showDebugBounds(value:Bool):Bool
+	private function set_showDebugBounds(value:Bool):Bool
 	{
 		if ((_debugPrimitive != null) == value)
 			return showDebugBounds;
@@ -75,12 +75,12 @@ class NodeBase
 	 * The parent node. Null if this node is the root.
 	 */
 	public var parent(get, set):NodeBase;
-	private inline function get_parent():NodeBase
+	private function get_parent():NodeBase
 	{
 		return _parent;
 	}
 
-	private inline function set_parent(value:NodeBase):NodeBase
+	private function set_parent(value:NodeBase):NodeBase
 	{
 		return _parent = value;
 	}

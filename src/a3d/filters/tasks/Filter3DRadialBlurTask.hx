@@ -110,67 +110,67 @@ class Filter3DRadialBlurTask extends Filter3DTaskBase
 		return code;
 	}
 
-	private inline function get_intensity():Float
+	private function get_intensity():Float
 	{
 		return _intensity;
 	}
 
-	private inline function set_intensity(intensity:Float):Void
+	private function set_intensity(intensity:Float):Void
 	{
 		_intensity = intensity;
 		resetUniforms();
 	}
 
-	private inline function get_glowGamma():Float
+	private function get_glowGamma():Float
 	{
 		return _glowGamma;
 	}
 
-	private inline function set_glowGamma(glowGamma:Float):Void
+	private function set_glowGamma(glowGamma:Float):Void
 	{
 		_glowGamma = glowGamma;
 		resetUniforms();
 	}
 
-	private inline function get_blurStart():Float
+	private function get_blurStart():Float
 	{
 		return _blurStart;
 	}
 
-	private inline function set_blurStart(blurStart:Float):Void
+	private function set_blurStart(blurStart:Float):Void
 	{
 		_blurStart = blurStart;
 		resetUniforms();
 	}
 
-	private inline function get_blurWidth():Float
+	private function get_blurWidth():Float
 	{
 		return _blurWidth;
 	}
 
-	private inline function set_blurWidth(blurWidth:Float):Void
+	private function set_blurWidth(blurWidth:Float):Void
 	{
 		_blurWidth = blurWidth;
 		resetUniforms();
 	}
 
-	private inline function get_cx():Float
+	private function get_cx():Float
 	{
 		return _cx;
 	}
 
-	private inline function set_cx(cx:Float):Void
+	private function set_cx(cx:Float):Void
 	{
 		_cx = cx;
 		resetUniforms();
 	}
 
-	private inline function get_cy():Float
+	private function get_cy():Float
 	{
 		return _cy;
 	}
 
-	private inline function set_cy(cy:Float):Void
+	private function set_cy(cy:Float):Void
 	{
 		_cy = cy;
 		resetUniforms();

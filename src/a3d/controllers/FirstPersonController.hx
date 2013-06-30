@@ -34,12 +34,12 @@ class FirstPersonController extends ControllerBase
 	 * @see	#tiltAngle
 	 * @see	#panAngle
 	 */
-	private inline function get_steps():UInt
+	private function get_steps():UInt
 	{
 		return _steps;
 	}
 
-	private inline function set_steps(val:UInt):Void
+	private function set_steps(val:UInt):Void
 	{
 		val = (val < 1) ? 1 : val;
 
@@ -54,12 +54,12 @@ class FirstPersonController extends ControllerBase
 	/**
 	 * Rotation of the camera in degrees around the y axis. Defaults to 0.
 	 */
-	private inline function get_panAngle():Float
+	private function get_panAngle():Float
 	{
 		return _panAngle;
 	}
 
-	private inline function set_panAngle(val:Float):Void
+	private function set_panAngle(val:Float):Void
 	{
 		if (_panAngle == val)
 			return;
@@ -72,12 +72,12 @@ class FirstPersonController extends ControllerBase
 	/**
 	 * Elevation angle of the camera in degrees. Defaults to 90.
 	 */
-	private inline function get_tiltAngle():Float
+	private function get_tiltAngle():Float
 	{
 		return _tiltAngle;
 	}
 
-	private inline function set_tiltAngle(val:Float):Void
+	private function set_tiltAngle(val:Float):Void
 	{
 		val = Math.max(_minTiltAngle, Math.min(_maxTiltAngle, val));
 
@@ -94,12 +94,12 @@ class FirstPersonController extends ControllerBase
 	 *
 	 * @see	#tiltAngle
 	 */
-	private inline function get_minTiltAngle():Float
+	private function get_minTiltAngle():Float
 	{
 		return _minTiltAngle;
 	}
 
-	private inline function set_minTiltAngle(val:Float):Void
+	private function set_minTiltAngle(val:Float):Void
 	{
 		if (_minTiltAngle == val)
 			return;
@@ -114,12 +114,12 @@ class FirstPersonController extends ControllerBase
 	 *
 	 * @see	#tiltAngle
 	 */
-	private inline function get_maxTiltAngle():Float
+	private function get_maxTiltAngle():Float
 	{
 		return _maxTiltAngle;
 	}
 
-	private inline function set_maxTiltAngle(val:Float):Void
+	private function set_maxTiltAngle(val:Float):Void
 	{
 		if (_maxTiltAngle == val)
 			return;

@@ -39,7 +39,7 @@ class AnimatorEvent extends Event
 	}
 
 	public var animator(get,null):AnimatorBase;
-	private inline function get_animator():AnimatorBase
+	private function get_animator():AnimatorBase
 	{
 		return _animator;
 	}

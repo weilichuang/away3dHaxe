@@ -223,12 +223,12 @@ class AnimationRegisterCache extends ShaderRegisterCache
 	}
 
 	
-	private inline function get_numVertexConstant():Int
+	private function get_numVertexConstant():Int
 	{
 		return _numVertexConstant;
 	}
 
-	private inline function get_numFragmentConstant():Int
+	private function get_numFragmentConstant():Int
 	{
 		return _numFragmentConstant;
 	}

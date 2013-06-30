@@ -60,12 +60,12 @@ class Segment
 	 * Defines the starting vertex.
 	 */
 	public var start(get, set):Vector3D;
-	private inline function get_start():Vector3D
+	private function get_start():Vector3D
 	{
 		return _start;
 	}
 
-	private inline function set_start(value:Vector3D):Vector3D
+	private function set_start(value:Vector3D):Vector3D
 	{
 		_start = value;
 		update();
@@ -77,12 +77,12 @@ class Segment
 	 * Defines the ending vertex.
 	 */
 	public var end(get, set):Vector3D;
-	private inline function get_end():Vector3D
+	private function get_end():Vector3D
 	{
 		return _end;
 	}
 
-	private inline function set_end(value:Vector3D):Vector3D
+	private function set_end(value:Vector3D):Vector3D
 	{
 		_end = value;
 		update();
@@ -94,12 +94,12 @@ class Segment
 	 * Defines the ending vertex.
 	 */
 	public var thickness(get, set):Float;
-	private inline function get_thickness():Float
+	private function get_thickness():Float
 	{
 		return _thickness * 2;
 	}
 
-	private inline function set_thickness(value:Float):Float
+	private function set_thickness(value:Float):Float
 	{
 		_thickness = value * .5;
 		update();
@@ -111,12 +111,12 @@ class Segment
 	 * Defines the startColor
 	 */
 	public var startColor(get, set):UInt;
-	private inline function get_startColor():UInt
+	private function get_startColor():UInt
 	{
 		return _startColor;
 	}
 
-	private inline function set_startColor(color:UInt):UInt
+	private function set_startColor(color:UInt):UInt
 	{
 		startR = ((color >> 16) & 0xff) / 255;
 		startG = ((color >> 8) & 0xff) / 255;
@@ -133,12 +133,12 @@ class Segment
 	 * Defines the endColor
 	 */
 	public var endColor(get, set):UInt;
-	private inline function get_endColor():UInt
+	private function get_endColor():UInt
 	{
 		return _endColor;
 	}
 
-	private inline function set_endColor(color:UInt):UInt
+	private function set_endColor(color:UInt):UInt
 	{
 		endR = ((color >> 16) & 0xff) / 255;
 		endG = ((color >> 8) & 0xff) / 255;
@@ -158,34 +158,34 @@ class Segment
 	}
 
 	public var index(get, set):Int;
-	private inline function get_index():Int
+	private function get_index():Int
 	{
 		return _index;
 	}
 
-	private inline function set_index(ind:Int):Int
+	private function set_index(ind:Int):Int
 	{
 		return _index = ind;
 	}
 
 	public var subSetIndex(get, set):Int;
-	private inline function get_subSetIndex():Int
+	private function get_subSetIndex():Int
 	{
 		return _subSetIndex;
 	}
 
-	private inline function set_subSetIndex(ind:Int):Int
+	private function set_subSetIndex(ind:Int):Int
 	{
 		return _subSetIndex = ind;
 	}
 
 	public var segmentsBase(get, set):SegmentSet;
-	private inline function set_segmentsBase(segBase:SegmentSet):SegmentSet
+	private function set_segmentsBase(segBase:SegmentSet):SegmentSet
 	{
 		return _segmentsBase = segBase;
 	}
 
-	private inline function get_segmentsBase():SegmentSet
+	private function get_segmentsBase():SegmentSet
 	{
 		return _segmentsBase;
 	}

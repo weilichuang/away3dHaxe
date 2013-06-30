@@ -46,12 +46,12 @@ class WebcamTexture extends BitmapTexture
 	 * playing. If false, the update() method must be invoked for the texture to redraw.
 	*/
 	public var autoUpdate(get, set):Bool;
-	private inline function get_autoUpdate():Bool
+	private function get_autoUpdate():Bool
 	{
 		return _autoUpdate;
 	}
 
-	private inline function set_autoUpdate(val:Bool):Bool
+	private function set_autoUpdate(val:Bool):Bool
 	{
 		_autoUpdate = val;
 
@@ -66,7 +66,7 @@ class WebcamTexture extends BitmapTexture
 	 * The Camera instance (webcam) used by this texture.
 	*/
 	public var camera(get, null):Camera;
-	private inline function get_camera():Camera
+	private function get_camera():Camera
 	{
 		return _camera;
 	}
@@ -77,12 +77,12 @@ class WebcamTexture extends BitmapTexture
 	 * from the video stream to a BitmapData object.
 	 */
 	public var smoothing(get, set):Bool;
-	private inline function get_smoothing():Bool
+	private function get_smoothing():Bool
 	{
 		return _smoothing;
 	}
 
-	private inline function set_smoothing(value:Bool):Bool
+	private function set_smoothing(value:Bool):Bool
 	{
 		return _smoothing = value;
 	}

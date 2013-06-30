@@ -231,7 +231,7 @@ class FractalTreeRound extends PrimitiveBase
 		return (max - min) * Math.random() + min;
 	}
 
-	private inline function get_leafPositions():Vector<Float>
+	private function get_leafPositions():Vector<Float>
 	{
 		return _leafPositions;
 	}

@@ -121,12 +121,12 @@ class LatheExtrude extends Mesh
 	/*
 	* A Vector<Vector3D> representing the profile information to be repeated/rotated around a given axis.
 	*/
-	private inline function get_profile():Vector<Vector3D>
+	private function get_profile():Vector<Vector3D>
 	{
 		return _profile;
 	}
 
-	private inline function set_profile(val:Vector<Vector3D>):Void
+	private function set_profile(val:Vector<Vector3D>):Void
 	{
 		if (val.length > 1)
 		{
@@ -142,12 +142,12 @@ class LatheExtrude extends Mesh
 	/*
 	* A Number, to offset the original start angle of the rotation. Default is 0;
 	*/
-	private inline function get_startRotationOffset():Float
+	private function get_startRotationOffset():Float
 	{
 		return _startRotationOffset;
 	}
 
-	private inline function set_startRotationOffset(val:Float):Void
+	private function set_startRotationOffset(val:Float):Void
 	{
 		_startRotationOffset = val;
 	}
@@ -155,12 +155,12 @@ class LatheExtrude extends Mesh
 	/**
 	* Defines the axis used for the lathe rotation. Defaults to "y".
 	*/
-	private inline function get_axis():String
+	private function get_axis():String
 	{
 		return _axis;
 	}
 
-	private inline function set_axis(val:String):Void
+	private function set_axis(val:String):Void
 	{
 		if (_axis == val)
 			return;
@@ -172,12 +172,12 @@ class LatheExtrude extends Mesh
 	/**
 	* Defines the number of revolutions performed by the lathe extrusion. Defaults to 1.
 	*/
-	private inline function get_revolutions():Float
+	private function get_revolutions():Float
 	{
 		return _revolutions;
 	}
 
-	private inline function set_revolutions(val:Float):Void
+	private function set_revolutions(val:Float):Void
 	{
 		if (_revolutions == val)
 			return;
@@ -191,12 +191,12 @@ class LatheExtrude extends Mesh
 	*
 	* @see #revolutions
 	*/
-	private inline function get_subdivision():UInt
+	private function get_subdivision():UInt
 	{
 		return _subdivision;
 	}
 
-	private inline function set_subdivision(val:UInt):Void
+	private function set_subdivision(val:UInt):Void
 	{
 		val = (val < 3) ? 3 : val;
 		if (_subdivision == val)
@@ -208,12 +208,12 @@ class LatheExtrude extends Mesh
 	/**
 	* Defines an offset radius applied to the profile. Defaults to 0.
 	*/
-	private inline function get_offsetRadius():Float
+	private function get_offsetRadius():Float
 	{
 		return _offsetRadius;
 	}
 
-	private inline function set_offsetRadius(val:Float):Void
+	private function set_offsetRadius(val:Float):Void
 	{
 		if (_offsetRadius == val)
 			return;
@@ -224,12 +224,12 @@ class LatheExtrude extends Mesh
 	/**
 	* An optional object that defines left, right, front, back, top and bottom materials to be set on the resulting lathe extrusion.
 	*/
-	private inline function get_materials():MultipleMaterials
+	private function get_materials():MultipleMaterials
 	{
 		return _materials;
 	}
 
-	private inline function set_materials(val:MultipleMaterials):Void
+	private function set_materials(val:MultipleMaterials):Void
 	{
 		_materials = val;
 
@@ -242,12 +242,12 @@ class LatheExtrude extends Mesh
 	/**
 	* Defines if the texture(s) should be stretched to cover the entire mesh or per step between segments. Defaults to true.
 	*/
-	private inline function get_coverAll():Bool
+	private function get_coverAll():Bool
 	{
 		return _coverAll;
 	}
 
-	private inline function set_coverAll(val:Bool):Void
+	private function set_coverAll(val:Bool):Void
 	{
 		if (_coverAll == val)
 			return;
@@ -259,12 +259,12 @@ class LatheExtrude extends Mesh
 	/**
 	* Defines if the generated faces should be inversed. Default false.
 	*/
-	private inline function get_flip():Bool
+	private function get_flip():Bool
 	{
 		return _flip;
 	}
 
-	private inline function set_flip(val:Bool):Void
+	private function set_flip(val:Bool):Void
 	{
 		if (_flip == val)
 			return;
@@ -276,12 +276,12 @@ class LatheExtrude extends Mesh
 	/**
 	* Defines if the surface of the mesh must be smoothed or not.
 	*/
-	private inline function get_smoothSurface():Bool
+	private function get_smoothSurface():Bool
 	{
 		return _smoothSurface;
 	}
 
-	private inline function set_smoothSurface(val:Bool):Void
+	private function set_smoothSurface(val:Bool):Void
 	{
 		if (_smoothSurface == val)
 			return;
@@ -293,12 +293,12 @@ class LatheExtrude extends Mesh
 	/**
 	* Defines if the last transformed profile values are saved or not. Useful in combo with rotations less than 1, to ease combinations with other extrusions classes such as SkinExtrude.
 	*/
-	private inline function get_keepLastProfile():Bool
+	private function get_keepLastProfile():Bool
 	{
 		return _keepLastProfile;
 	}
 
-	private inline function set_keepLastProfile(val:Bool):Void
+	private function set_keepLastProfile(val:Bool):Void
 	{
 		if (_keepLastProfile == val)
 			return;
@@ -309,7 +309,7 @@ class LatheExtrude extends Mesh
 	/**
 	* returns the last rotated profile values, if keepLastProfile was true
 	*/
-	private inline function get_lastProfile():Vector<Vector3D>
+	private function get_lastProfile():Vector<Vector3D>
 	{
 		if (keepLastProfile && !_lastProfile)
 			buildExtrude();
@@ -321,12 +321,12 @@ class LatheExtrude extends Mesh
 	/**
 	* Defines if thickness is greater than 0 if the thickness is equally distributed along the volume. Default is false.
 	*/
-	private inline function get_preciseThickness():Bool
+	private function get_preciseThickness():Bool
 	{
 		return _preciseThickness;
 	}
 
-	private inline function set_preciseThickness(val:Bool):Void
+	private function set_preciseThickness(val:Bool):Void
 	{
 		if (_preciseThickness == val)
 			return;
@@ -338,12 +338,12 @@ class LatheExtrude extends Mesh
 	/**
 	 * Defines whether the mesh is recentered of not after generation
 	 */
-	private inline function get_centerMesh():Bool
+	private function get_centerMesh():Bool
 	{
 		return _centerMesh;
 	}
 
-	private inline function set_centerMesh(val:Bool):Void
+	private function set_centerMesh(val:Bool):Void
 	{
 		if (_centerMesh == val)
 			return;
@@ -363,12 +363,12 @@ class LatheExtrude extends Mesh
 	/**
 	* Defines the thickness of the resulting lathed geometry. Defaults to 0 (single face).
 	*/
-	private inline function get_thickness():Float
+	private function get_thickness():Float
 	{
 		return _thickness;
 	}
 
-	private inline function set_thickness(val:Float):Void
+	private function set_thickness(val:Float):Void
 	{
 		if (_thickness == val)
 			return;
@@ -380,12 +380,12 @@ class LatheExtrude extends Mesh
 	/**
 	 * Defines if the top, bottom, left, right, front or back of the the extrusion is left open.
 	*/
-	private inline function get_ignoreSides():String
+	private function get_ignoreSides():String
 	{
 		return _ignoreSides;
 	}
 
-	private inline function set_ignoreSides(val:String):Void
+	private function set_ignoreSides(val:String):Void
 	{
 		_ignoreSides = val;
 		invalidateGeometry();
@@ -394,12 +394,12 @@ class LatheExtrude extends Mesh
 	/**
 	 * Allows the building of shapes such as springs. Rotation must be higher than 1 to have significant effect. Properties of the objects are x,y,z,radius and rotation
 	*/
-	private inline function get_tweek():Object
+	private function get_tweek():Object
 	{
 		return _tweek;
 	}
 
-	private inline function set_tweek(val:Object):Void
+	private function set_tweek(val:Object):Void
 	{
 		_tweek = val;
 		invalidateGeometry();

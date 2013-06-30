@@ -46,7 +46,7 @@ class LoaderEvent extends Event
 	 * The url of the loaded resource.
 	 */
 	public var url(get,null):String;
-	private inline function get_url():String
+	private function get_url():String
 	{
 		return _url;
 	}
@@ -55,7 +55,7 @@ class LoaderEvent extends Event
 	 * The error string on loadError.
 	 */
 	public var message(get,null):String;
-	private inline function get_message():String
+	private function get_message():String
 	{
 		return _message;
 	}
@@ -67,7 +67,7 @@ class LoaderEvent extends Event
 	 * referenced by the base file.
 	*/
 	public var isDependency(get,null):Bool;
-	private inline function get_isDependency():Bool
+	private function get_isDependency():Bool
 	{
 		return _isDependency;
 	}

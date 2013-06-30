@@ -25,12 +25,12 @@ class EnvMapMethod extends EffectMethodBase
 	}
 
 	public var mask(get,set):Texture2DBase;
-	private inline function get_mask():Texture2DBase
+	private function get_mask():Texture2DBase
 	{
 		return _mask;
 	}
 
-	private inline function set_mask(value:Texture2DBase):Texture2DBase
+	private function set_mask(value:Texture2DBase):Texture2DBase
 	{
 		if ((value != null) != (_mask != null) ||
 			(value != null && _mask != null && 
@@ -52,12 +52,12 @@ class EnvMapMethod extends EffectMethodBase
 	 * The cube environment map to use for the diffuse lighting.
 	 */
 	public var envMap(get,set):CubeTextureBase;
-	private inline function get_envMap():CubeTextureBase
+	private function get_envMap():CubeTextureBase
 	{
 		return _cubeTexture;
 	}
 
-	private inline function set_envMap(value:CubeTextureBase):CubeTextureBase
+	private function set_envMap(value:CubeTextureBase):CubeTextureBase
 	{
 		return _cubeTexture = value;
 	}
@@ -73,12 +73,12 @@ class EnvMapMethod extends EffectMethodBase
 	 * The reflectiveness of the surface
 	 */
 	public var alpha(get,set):Float;
-	private inline function get_alpha():Float
+	private function get_alpha():Float
 	{
 		return _alpha;
 	}
 
-	private inline function set_alpha(value:Float):Float
+	private function set_alpha(value:Float):Float
 	{
 		return _alpha = value;
 	}
@@ -88,7 +88,7 @@ class EnvMapMethod extends EffectMethodBase
 		var context:Context3D = stage3DProxy.context3D;
 		vo.fragmentData[vo.fragmentConstantsIndex] = _alpha;
 		context.setTextureAt(vo.texturesIndex, _cubeTexture.getTextureForStage3D(stage3DProxy));
-		if (_mask)
+		if (_mask != null)
 			context.setTextureAt(vo.texturesIndex + 1, _mask.getTextureForStage3D(stage3DProxy));
 	}
 
@@ -114,7 +114,7 @@ class EnvMapMethod extends EffectMethodBase
 			"kil " + temp2 + ".w\n" + // used for real time reflection mapping - if alpha is not 1 (mock texture) kil output
 			"sub " + temp + ", " + temp + ", " + targetReg + "											\n";
 
-		if (_mask)
+		if (_mask != null)
 		{
 			var maskReg:ShaderRegisterElement = regCache.getFreeTextureReg();
 			code += getTex2DSampleCode(vo, temp2, maskReg, _mask, _sharedRegisters.uvVarying) +

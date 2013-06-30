@@ -162,12 +162,12 @@ class View3D extends Sprite
 	}
 
 	public var depthPrepass(get, set):Bool;
-	private inline function get_depthPrepass():Bool
+	private function get_depthPrepass():Bool
 	{
 		return _depthPrepass;
 	}
 
-	private inline function set_depthPrepass(value:Bool):Bool
+	private function set_depthPrepass(value:Bool):Bool
 	{
 		return _depthPrepass = value;
 	}
@@ -179,12 +179,12 @@ class View3D extends Sprite
 	}
 
 	public var stage3DProxy(get, set):Stage3DProxy;
-	private inline function get_stage3DProxy():Stage3DProxy
+	private function get_stage3DProxy():Stage3DProxy
 	{
 		return _stage3DProxy;
 	}
 
-	private inline function set_stage3DProxy(stage3DProxy:Stage3DProxy):Stage3DProxy
+	private function set_stage3DProxy(stage3DProxy:Stage3DProxy):Stage3DProxy
 	{
 		if (_stage3DProxy != null)
 			_stage3DProxy.removeEventListener(Stage3DEvent.VIEWPORT_UPDATED, onViewportUpdated);
@@ -206,12 +206,12 @@ class View3D extends Sprite
 	 * etc to be triggered due to changes in the scene graph. Defaults to false.
 	 */
 	public var forceMouseMove(get, set):Bool;
-	private inline function get_forceMouseMove():Bool
+	private function get_forceMouseMove():Bool
 	{
 		return _mouse3DManager.forceMouseMove;
 	}
 
-	private inline function set_forceMouseMove(value:Bool):Bool
+	private function set_forceMouseMove(value:Bool):Bool
 	{
 		_mouse3DManager.forceMouseMove = value;
 		_touch3DManager.forceTouchMove = value;
@@ -219,12 +219,12 @@ class View3D extends Sprite
 	}
 
 	public var background(get, set):Texture2DBase;
-	private inline function get_background():Texture2DBase
+	private function get_background():Texture2DBase
 	{
 		return _background;
 	}
 
-	private inline function set_background(value:Texture2DBase):Texture2DBase
+	private function set_background(value:Texture2DBase):Texture2DBase
 	{
 		_background = value;
 		_renderer.background = _background;
@@ -238,12 +238,12 @@ class View3D extends Sprite
 	 * layer. Defaults to false.
 	 */
 	public var layeredView(get, set):Bool;
-	private inline function get_layeredView():Bool
+	private function get_layeredView():Bool
 	{
 		return _layeredView;
 	}
 
-	private inline function set_layeredView(value:Bool):Bool
+	private function set_layeredView(value:Bool):Bool
 	{
 		return _layeredView = value;
 	}
@@ -276,12 +276,12 @@ class View3D extends Sprite
 	}
 
 	public var filters3d(get, set):Array<Filter3DBase>;
-	private inline function get_filters3d():Array<Filter3DBase>
+	private function get_filters3d():Array<Filter3DBase>
 	{
 		return _filter3DRenderer != null ? _filter3DRenderer.filters : null;
 	}
 
-	private inline function set_filters3d(value:Array<Filter3DBase>):Array<Filter3DBase>
+	private function set_filters3d(value:Array<Filter3DBase>):Array<Filter3DBase>
 	{
 		if (value != null && value.length == 0)
 			value = null;
@@ -319,12 +319,12 @@ class View3D extends Sprite
 	/**
 	 * The renderer used to draw the scene.
 	 */
-	private inline function get_renderer():RendererBase
+	private function get_renderer():RendererBase
 	{
 		return _renderer;
 	}
 
-	private inline function set_renderer(value:RendererBase):RendererBase
+	private function set_renderer(value:RendererBase):RendererBase
 	{
 		_renderer.dispose();
 		_renderer = value;
@@ -348,12 +348,12 @@ class View3D extends Sprite
 	 * The background color of the screen. This value is only used when clearAll is set to true.
 	 */
 	public var backgroundColor(get, set):UInt;
-	private inline function get_backgroundColor():UInt
+	private function get_backgroundColor():UInt
 	{
 		return _backgroundColor;
 	}
 
-	private inline function set_backgroundColor(value:UInt):UInt
+	private function set_backgroundColor(value:UInt):UInt
 	{
 		_backgroundColor = value;
 		_renderer.backgroundR = ((value >> 16) & 0xff) / 0xff;
@@ -363,12 +363,12 @@ class View3D extends Sprite
 	}
 
 	public var backgroundAlpha(get, set):Float;
-	private inline function get_backgroundAlpha():Float
+	private function get_backgroundAlpha():Float
 	{
 		return _backgroundAlpha;
 	}
 
-	private inline function set_backgroundAlpha(value:Float):Float
+	private function set_backgroundAlpha(value:Float):Float
 	{
 		if (value > 1)
 			value = 1;
@@ -383,7 +383,7 @@ class View3D extends Sprite
 	 * The camera that's used to render the scene for this viewport
 	 */
 	public var camera(get, set):Camera3D;
-	private inline function get_camera():Camera3D
+	private function get_camera():Camera3D
 	{
 		return _camera;
 	}
@@ -391,7 +391,7 @@ class View3D extends Sprite
 	/**
 	 * Set camera that's used to render the scene for this viewport
 	 */
-	private inline function set_camera(camera:Camera3D):Camera3D
+	private function set_camera(camera:Camera3D):Camera3D
 	{
 		_camera.removeEventListener(CameraEvent.LENS_CHANGED, onLensChanged);
 
@@ -413,7 +413,7 @@ class View3D extends Sprite
 	 * The scene that's used to render for this viewport
 	 */
 	public var scene(get, set):Scene3D;
-	private inline function get_scene():Scene3D
+	private function get_scene():Scene3D
 	{
 		return _scene;
 	}
@@ -421,7 +421,7 @@ class View3D extends Sprite
 	/**
 	 * Set the scene that's used to render for this viewport
 	 */
-	private inline function set_scene(scene:Scene3D):Scene3D
+	private function set_scene(scene:Scene3D):Scene3D
 	{
 		_scene.removeEventListener(Scene3DEvent.PARTITION_CHANGED, onScenePartitionChanged);
 		_scene = scene;
@@ -438,7 +438,7 @@ class View3D extends Sprite
 	 * The amount of milliseconds the last render call took
 	 */
 	public var deltaTime(get, null):Float;
-	private inline function get_deltaTime():Float
+	private function get_deltaTime():Float
 	{
 		return _deltaTime;
 	}
@@ -548,12 +548,12 @@ class View3D extends Sprite
 	 * The amount of anti-aliasing to be used.
 	 */
 	public var antiAlias(get, set):UInt;
-	private inline function get_antiAlias():UInt
+	private function get_antiAlias():UInt
 	{
 		return _antiAlias;
 	}
 
-	private inline function set_antiAlias(value:UInt):UInt
+	private function set_antiAlias(value:UInt):UInt
 	{
 		_antiAlias = value;
 		_renderer.antiAlias = value;
@@ -567,7 +567,7 @@ class View3D extends Sprite
 	 * The amount of faces that were pushed through the render pipeline on the last frame render.
 	 */
 	public var renderedFacesCount(get, null):UInt;
-	private inline function get_renderedFacesCount():UInt
+	private function get_renderedFacesCount():UInt
 	{
 		return _entityCollector.numTriangles;
 	}
@@ -577,12 +577,12 @@ class View3D extends Sprite
 	 * to share the same Context3D object.
 	 */
 	public var shareContext(get, set):Bool;
-	private inline function get_shareContext():Bool
+	private function get_shareContext():Bool
 	{
 		return _shareContext;
 	}
 
-	private inline function set_shareContext(value:Bool):Bool
+	private function set_shareContext(value:Bool):Bool
 	{
 		if (_shareContext == value)
 			return _shareContext;
@@ -901,23 +901,23 @@ class View3D extends Sprite
 	}
 
 	public var mousePicker(get, set):IPicker;
-	private inline function get_mousePicker():IPicker
+	private function get_mousePicker():IPicker
 	{
 		return _mouse3DManager.mousePicker;
 	}
 
-	private inline function set_mousePicker(value:IPicker):IPicker
+	private function set_mousePicker(value:IPicker):IPicker
 	{
 		return _mouse3DManager.mousePicker = value;
 	}
 
 	public var touchPicker(get, set):IPicker;
-	private inline function get_touchPicker():IPicker
+	private function get_touchPicker():IPicker
 	{
 		return _touch3DManager.touchPicker;
 	}
 
-	private inline function set_touchPicker(value:IPicker):IPicker
+	private function set_touchPicker(value:IPicker):IPicker
 	{
 		return _touch3DManager.touchPicker = value;
 	}
@@ -929,7 +929,7 @@ class View3D extends Sprite
 	 * @private
 	 */
 	public var entityCollector(get, null):EntityCollector;
-	private inline function get_entityCollector():EntityCollector
+	private function get_entityCollector():EntityCollector
 	{
 		return _entityCollector;
 	}

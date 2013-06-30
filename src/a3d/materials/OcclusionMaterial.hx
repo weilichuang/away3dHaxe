@@ -28,12 +28,12 @@ class OcclusionMaterial extends ColorMaterial
 	/**
 	 * Whether or not an object with this material applied hides other objects.
 	 */
-	private inline function get_occlude():Bool
+	private function get_occlude():Bool
 	{
 		return _occlude;
 	}
 
-	private inline function set_occlude(value:Bool):Void
+	private function set_occlude(value:Bool):Void
 	{
 		_occlude = value;
 	}

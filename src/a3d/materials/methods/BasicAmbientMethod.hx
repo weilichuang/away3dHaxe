@@ -64,12 +64,12 @@ class BasicAmbientMethod extends ShadingMethodBase
 	 * The strength of the ambient reflection of the surface.
 	 */
 	public var ambient(get, set):Float;
-	private inline function get_ambient():Float
+	private function get_ambient():Float
 	{
 		return _ambient;
 	}
 
-	private inline function set_ambient(value:Float):Float
+	private function set_ambient(value:Float):Float
 	{
 		return _ambient = value;
 	}
@@ -78,12 +78,12 @@ class BasicAmbientMethod extends ShadingMethodBase
 	 * The colour of the ambient reflection of the surface.
 	 */
 	public var ambientColor(get, set):UInt;
-	private inline function get_ambientColor():UInt
+	private function get_ambientColor():UInt
 	{
 		return _ambientColor;
 	}
 
-	private inline function set_ambientColor(value:UInt):UInt
+	private function set_ambientColor(value:UInt):UInt
 	{
 		return _ambientColor = value;
 	}
@@ -92,12 +92,12 @@ class BasicAmbientMethod extends ShadingMethodBase
 	 * The bitmapData to use to define the diffuse reflection color per texel.
 	 */
 	public var texture(get, set):Texture2DBase;
-	private inline function get_texture():Texture2DBase
+	private function get_texture():Texture2DBase
 	{
 		return _texture;
 	}
 
-	private inline function set_texture(value:Texture2DBase):Texture2DBase
+	private function set_texture(value:Texture2DBase):Texture2DBase
 	{
 		if ((value != null) != _useTexture ||
 			(value != null && _texture != null && 

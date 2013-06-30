@@ -43,22 +43,22 @@ class ParticleFollowState extends ParticleStateBase
 		_smooth = particleFollowNode.smooth;
 	}
 
-	private inline function get_followTarget():Object3D
+	private function get_followTarget():Object3D
 	{
 		return _followTarget;
 	}
 
-	private inline function set_followTarget(value:Object3D):Void
+	private function set_followTarget(value:Object3D):Void
 	{
 		_followTarget = value;
 	}
 
-	private inline function get_smooth():Bool
+	private function get_smooth():Bool
 	{
 		return _smooth;
 	}
 
-	private inline function set_smooth(value:Bool):Void
+	private function set_smooth(value:Bool):Void
 	{
 		_smooth = value;
 	}

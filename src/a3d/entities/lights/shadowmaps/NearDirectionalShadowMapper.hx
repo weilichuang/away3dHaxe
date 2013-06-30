@@ -20,12 +20,12 @@ class NearDirectionalShadowMapper extends DirectionalShadowMapper
 	 * A value between 0 and 1 to indicate the ratio of the view frustum that needs to be covered by the shadow map.
 	 */
 	public var coverageRatio(get,set):Float;
-	private inline function get_coverageRatio():Float
+	private function get_coverageRatio():Float
 	{
 		return _coverageRatio;
 	}
 
-	private inline function set_coverageRatio(value:Float):Float
+	private function set_coverageRatio(value:Float):Float
 	{
 		if (value > 1)
 			value = 1;

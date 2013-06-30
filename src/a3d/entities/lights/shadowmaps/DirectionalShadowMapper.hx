@@ -41,24 +41,24 @@ class DirectionalShadowMapper extends ShadowMapperBase
 	}
 
 	public var snap(get,set):Float;
-	private inline function get_snap():Float
+	private function get_snap():Float
 	{
 		return _snap;
 	}
 
-	private inline function set_snap(value:Float):Float
+	private function set_snap(value:Float):Float
 	{
 		return _snap = value;
 	}
 
 
 	public var lightOffset(get,set):Float;
-	private inline function get_lightOffset():Float
+	private function get_lightOffset():Float
 	{
 		return _lightOffset;
 	}
 
-	private inline function set_lightOffset(value:Float):Float
+	private function set_lightOffset(value:Float):Float
 	{
 		return _lightOffset = value;
 	}
@@ -67,7 +67,7 @@ class DirectionalShadowMapper extends ShadowMapperBase
 	 * Depth projection matrix that projects from scene space to depth map.
 	 */
 	public var depthProjection(get,null):Matrix3D;
-	private inline function get_depthProjection():Matrix3D
+	private function get_depthProjection():Matrix3D
 	{
 		return _overallDepthCamera.viewProjection;
 	}
@@ -76,7 +76,7 @@ class DirectionalShadowMapper extends ShadowMapperBase
 	 * Depth projection matrix that projects from scene space to depth map.
 	 */
 	public var depth(get,null):Float;
-	private inline function get_depth():Float
+	private function get_depth():Float
 	{
 		return _maxZ - _minZ;
 	}

@@ -19,7 +19,7 @@ class VertexClipNode extends AnimationClipNodeBase
 	/**
 	 * Returns a vector of geometry frames representing the vertex values of each animation frame in the clip.
 	 */
-	private inline function get_frames():Vector<Geometry>
+	private function get_frames():Vector<Geometry>
 	{
 		return _frames;
 	}

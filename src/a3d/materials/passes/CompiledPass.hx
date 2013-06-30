@@ -91,12 +91,12 @@ class CompiledPass extends MaterialPassBase
 	}
 
 	public var enableLightFallOff(get,set):Bool;
-	private inline function get_enableLightFallOff():Bool
+	private function get_enableLightFallOff():Bool
 	{
 		return _enableLightFallOff;
 	}
 
-	private inline function set_enableLightFallOff(value:Bool):Bool
+	private function set_enableLightFallOff(value:Bool):Bool
 	{
 		if (value != _enableLightFallOff)
 			invalidateShaderProgram(true);
@@ -106,30 +106,30 @@ class CompiledPass extends MaterialPassBase
 	}
 	
 	public var forceSeparateMVP(get,set):Bool;
-	private inline function get_forceSeparateMVP():Bool
+	private function get_forceSeparateMVP():Bool
 	{
 		return _forceSeparateMVP;
 	}
 
-	private inline function set_forceSeparateMVP(value:Bool):Bool
+	private function set_forceSeparateMVP(value:Bool):Bool
 	{
 		return _forceSeparateMVP = value;
 	}
 
 	public var numPointLights(get,null):UInt;
-	private inline function get_numPointLights():UInt
+	private function get_numPointLights():UInt
 	{
 		return _numPointLights;
 	}
 
 	public var numDirectionalLights(get,null):UInt;
-	private inline function get_numDirectionalLights():UInt
+	private function get_numDirectionalLights():UInt
 	{
 		return _numDirectionalLights;
 	}
 
 	public var numLightProbes(get,null):UInt;
-	private inline function get_numLightProbes():UInt
+	private function get_numLightProbes():UInt
 	{
 		return _numLightProbes;
 	}
@@ -238,12 +238,12 @@ class CompiledPass extends MaterialPassBase
 	}
 
 	public var preserveAlpha(get,set):Bool;
-	private inline function get_preserveAlpha():Bool
+	private function get_preserveAlpha():Bool
 	{
 		return _preserveAlpha;
 	}
 
-	private inline function set_preserveAlpha(value:Bool):Bool
+	private function set_preserveAlpha(value:Bool):Bool
 	{
 		if (_preserveAlpha == value)
 			return _preserveAlpha;
@@ -253,12 +253,12 @@ class CompiledPass extends MaterialPassBase
 	}
 
 	public var animateUVs(get,set):Bool;
-	private inline function get_animateUVs():Bool
+	private function get_animateUVs():Bool
 	{
 		return _animateUVs;
 	}
 
-	private inline function set_animateUVs(value:Bool):Bool
+	private function set_animateUVs(value:Bool):Bool
 	{
 		_animateUVs = value;
 		if ((value && !_animateUVs) || (!value && _animateUVs))
@@ -280,67 +280,67 @@ class CompiledPass extends MaterialPassBase
 	 * The tangent space normal map to influence the direction of the surface for each texel.
 	 */
 	public var normalMap(get,set):Texture2DBase;
-	private inline function get_normalMap():Texture2DBase
+	private function get_normalMap():Texture2DBase
 	{
 		return _methodSetup.normalMethod.normalMap;
 	}
 
-	private inline function set_normalMap(value:Texture2DBase):Texture2DBase
+	private function set_normalMap(value:Texture2DBase):Texture2DBase
 	{
 		return _methodSetup.normalMethod.normalMap = value;
 	}
 
 	public var normalMethod(get,set):BasicNormalMethod;
-	private inline function get_normalMethod():BasicNormalMethod
+	private function get_normalMethod():BasicNormalMethod
 	{
 		return _methodSetup.normalMethod;
 	}
 
-	private inline function set_normalMethod(value:BasicNormalMethod):BasicNormalMethod
+	private function set_normalMethod(value:BasicNormalMethod):BasicNormalMethod
 	{
 		return _methodSetup.normalMethod = value;
 	}
 
 	public var ambientMethod(get,set):BasicAmbientMethod;
-	private inline function get_ambientMethod():BasicAmbientMethod
+	private function get_ambientMethod():BasicAmbientMethod
 	{
 		return _methodSetup.ambientMethod;
 	}
 
-	private inline function set_ambientMethod(value:BasicAmbientMethod):BasicAmbientMethod
+	private function set_ambientMethod(value:BasicAmbientMethod):BasicAmbientMethod
 	{
 		return _methodSetup.ambientMethod = value;
 	}
 
 	public var shadowMethod(get,set):ShadowMapMethodBase;
-	private inline function get_shadowMethod():ShadowMapMethodBase
+	private function get_shadowMethod():ShadowMapMethodBase
 	{
 		return _methodSetup.shadowMethod;
 	}
 
-	private inline function set_shadowMethod(value:ShadowMapMethodBase):ShadowMapMethodBase
+	private function set_shadowMethod(value:ShadowMapMethodBase):ShadowMapMethodBase
 	{
 		return _methodSetup.shadowMethod = value;
 	}
 
 	public var diffuseMethod(get,set):BasicDiffuseMethod;
-	private inline function get_diffuseMethod():BasicDiffuseMethod
+	private function get_diffuseMethod():BasicDiffuseMethod
 	{
 		return _methodSetup.diffuseMethod;
 	}
 
-	private inline function set_diffuseMethod(value:BasicDiffuseMethod):BasicDiffuseMethod
+	private function set_diffuseMethod(value:BasicDiffuseMethod):BasicDiffuseMethod
 	{
 		return _methodSetup.diffuseMethod = value;
 	}
 
 	public var specularMethod(get,set):BasicSpecularMethod;
-	private inline function get_specularMethod():BasicSpecularMethod
+	private function get_specularMethod():BasicSpecularMethod
 	{
 		return _methodSetup.specularMethod;
 	}
 
-	private inline function set_specularMethod(value:BasicSpecularMethod):BasicSpecularMethod
+	private function set_specularMethod(value:BasicSpecularMethod):BasicSpecularMethod
 	{
 		return _methodSetup.specularMethod = value;
 	}
@@ -642,23 +642,23 @@ class CompiledPass extends MaterialPassBase
 //		}
 
 	public var specularLightSources(get,set):UInt;
-	private inline function get_specularLightSources():UInt
+	private function get_specularLightSources():UInt
 	{
 		return _specularLightSources;
 	}
 
-	private inline function set_specularLightSources(value:UInt):UInt
+	private function set_specularLightSources(value:UInt):UInt
 	{
 		return _specularLightSources = value;
 	}
 
 	public var diffuseLightSources(get,set):UInt;
-	private inline function get_diffuseLightSources():UInt
+	private function get_diffuseLightSources():UInt
 	{
 		return _diffuseLightSources;
 	}
 
-	private inline function set_diffuseLightSources(value:UInt):UInt
+	private function set_diffuseLightSources(value:UInt):UInt
 	{
 		return _diffuseLightSources = value;
 	}

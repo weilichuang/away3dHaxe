@@ -52,7 +52,7 @@ class ParticleSpriteSheetNode extends ParticleNodeBase
 	/**
 	 * Defines the number of columns in the spritesheet, when in global mode. Defaults to 1. Read only.
 	 */
-	private inline function get_numColumns():Float
+	private function get_numColumns():Float
 	{
 		return numColumns;
 	}
@@ -60,7 +60,7 @@ class ParticleSpriteSheetNode extends ParticleNodeBase
 	/**
 	 * Defines the number of rows in the spritesheet, when in global mode. Defaults to 1. Read only.
 	 */
-	private inline function get_numRows():Float
+	private function get_numRows():Float
 	{
 		return numRows;
 	}
@@ -68,7 +68,7 @@ class ParticleSpriteSheetNode extends ParticleNodeBase
 	/**
 	 * Defines the total number of frames used by the spritesheet, when in global mode. Defaults to the number defined by numColumns and numRows. Read only.
 	 */
-	private inline function get_totalFrames():Float
+	private function get_totalFrames():Float
 	{
 		return _totalFrames;
 	}

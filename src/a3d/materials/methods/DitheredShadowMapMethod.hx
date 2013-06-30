@@ -44,12 +44,12 @@ class DitheredShadowMapMethod extends SimpleShadowMapMethodBase
 	}
 
 	public var numSamples(get,set):Int;
-	private inline function get_numSamples():Int
+	private function get_numSamples():Int
 	{
 		return _numSamples;
 	}
 
-	private inline function set_numSamples(value:Int):Int
+	private function set_numSamples(value:Int):Int
 	{
 		_numSamples = value;
 		if (_numSamples < 1)
@@ -77,12 +77,12 @@ class DitheredShadowMapMethod extends SimpleShadowMapMethodBase
 	}
 
 	public var range(get,set):Float;
-	private inline function get_range():Float
+	private function get_range():Float
 	{
 		return _range * 2;
 	}
 
-	private inline function set_range(value:Float):Void
+	private function set_range(value:Float):Void
 	{
 		_range = value / 2;
 		return range;

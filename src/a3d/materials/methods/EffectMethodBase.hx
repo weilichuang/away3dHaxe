@@ -21,7 +21,7 @@ class EffectMethodBase extends ShadingMethodBase implements IAsset
 	}
 
 	public var assetType(get,null):String;
-	private inline function get_assetType():String
+	private function get_assetType():String
 	{
 		return AssetType.EFFECTS_METHOD;
 	}

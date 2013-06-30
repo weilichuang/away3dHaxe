@@ -56,12 +56,12 @@ class UVAnimator extends AnimatorBase implements IAnimator
 	/**
 	* Defines if a rotation is performed automatically each update. The rotationIncrease value is added each iteration.
 	*/
-	private inline function set_autoRotation(b:Bool):Void
+	private function set_autoRotation(b:Bool):Void
 	{
 		_autoRotation = b;
 	}
 
-	private inline function get_autoRotation():Bool
+	private function get_autoRotation():Bool
 	{
 		return _autoRotation;
 	}
@@ -69,12 +69,12 @@ class UVAnimator extends AnimatorBase implements IAnimator
 	/**
 	* if autoRotation = true, the rotation is increased by the rotationIncrease value. Default is 1;
 	*/
-	private inline function set_rotationIncrease(value:Float):Void
+	private function set_rotationIncrease(value:Float):Void
 	{
 		_rotationIncrease = value;
 	}
 
-	private inline function get_rotationIncrease():Float
+	private function get_rotationIncrease():Float
 	{
 		return _rotationIncrease;
 	}
@@ -82,14 +82,14 @@ class UVAnimator extends AnimatorBase implements IAnimator
 	/**
 	* Defines if the animation is translated automatically each update. Ideal to scroll maps. Use setTranslateIncrease to define the offsets.
 	*/
-	private inline function set_autoTranslate(b:Bool):Void
+	private function set_autoTranslate(b:Bool):Void
 	{
 		_autoTranslate = b;
 		if (b && !_translateIncrease)
 			_translateIncrease = Vector<Float>([0, 0]);
 	}
 
-	private inline function get_autoTranslate():Bool
+	private function get_autoTranslate():Bool
 	{
 		return _autoTranslate;
 	}
@@ -106,7 +106,7 @@ class UVAnimator extends AnimatorBase implements IAnimator
 		_translateIncrease[1] = v;
 	}
 
-	private inline function get_translateIncrease():Vector<Float>
+	private function get_translateIncrease():Vector<Float>
 	{
 		return _translateIncrease;
 	}

@@ -25,7 +25,7 @@ class QuadraticPath extends SegmentedPathBase implements IPath
 	/**
 	 * returns true if the smoothPath handler is being used.
 	 */
-	private inline function get_smoothed():Bool
+	private function get_smoothed():Bool
 	{
 		return _smoothed;
 	}
@@ -62,7 +62,7 @@ class QuadraticPath extends SegmentedPathBase implements IPath
 	/**
 	 * returns true if the averagePath handler is being used.
 	 */
-	private inline function get_averaged():Bool
+	private function get_averaged():Bool
 	{
 		return _averaged;
 	}

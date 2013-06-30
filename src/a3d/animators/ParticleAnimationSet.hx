@@ -62,7 +62,7 @@ class ParticleAnimationSet extends AnimationSetBase implements IAnimationSet
 	public var hasColorAddNode:Bool;
 
 	/** @private */
-	private inline function get_animationRegisterCache():AnimationRegisterCache
+	private function get_animationRegisterCache():AnimationRegisterCache
 	{
 		return _animationRegisterCache;
 	}
@@ -70,7 +70,7 @@ class ParticleAnimationSet extends AnimationSetBase implements IAnimationSet
 	/**
 	 * @private
 	 */
-	private inline function set_animationRegisterCache(value:AnimationRegisterCache):Void
+	private function set_animationRegisterCache(value:AnimationRegisterCache):Void
 	{
 		_animationRegisterCache = value;
 	}
@@ -109,7 +109,7 @@ class ParticleAnimationSet extends AnimationSetBase implements IAnimationSet
 	/**
 	 * Returns a vector of the particle animation nodes contained within the set.
 	 */
-	private inline function get_particleNodes():Vector<ParticleNodeBase>
+	private function get_particleNodes():Vector<ParticleNodeBase>
 	{
 		return _particleNodes;
 	}

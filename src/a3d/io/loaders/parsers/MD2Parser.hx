@@ -20,16 +20,16 @@ import a3d.materials.TextureMultiPassMaterial;
 import a3d.materials.utils.DefaultMaterialManager;
 import a3d.textures.Texture2DBase;
 
-
+import haxe.ds.WeakMap;
 
 /**
  * MD2Parser provides a parser for the MD2 data type.
  */
 class MD2Parser extends ParserBase
 {
-	public static var FPS:int = 6;
+	public static var FPS:Int = 6;
 
-	private var _clipNodes:Dictionary = new Dictionary(true);
+	private var _clipNodes:WeakMap<String,VertexClipNode>;
 	private var _byteData:ByteArray;
 	private var _startedParsing:Bool;
 	private var _parsedHeader:Bool;
@@ -37,33 +37,33 @@ class MD2Parser extends ParserBase
 	private var _parsedFaces:Bool;
 	private var _parsedFrames:Bool;
 
-	private var _ident:UInt;
-	private var _version:UInt;
-	private var _skinWidth:UInt;
-	private var _skinHeight:UInt;
-	//private var _frameSize : uint;
-	private var _numSkins:UInt;
-	private var _numVertices:UInt;
-	private var _numST:UInt;
-	private var _numTris:UInt;
-	//private var _numGlCmds : uint;
-	private var _numFrames:UInt;
-	private var _offsetSkins:UInt;
-	private var _offsetST:UInt;
-	private var _offsetTris:UInt;
-	private var _offsetFrames:UInt;
-	//private var _offsetGlCmds : uint;
-	private var _offsetEnd:UInt;
+	private var _ident:Int;
+	private var _version:Int;
+	private var _skinWidth:Int;
+	private var _skinHeight:Int;
+	//private var _frameSize : Int;
+	private var _numSkins:Int;
+	private var _numVertices:Int;
+	private var _numST:Int;
+	private var _numTris:Int;
+	//private var _numGlCmds : Int;
+	private var _numFrames:Int;
+	private var _offsetSkins:Int;
+	private var _offsetST:Int;
+	private var _offsetTris:Int;
+	private var _offsetFrames:Int;
+	//private var _offsetGlCmds : Int;
+	private var _offsetEnd:Int;
 
-	private var _uvIndices:Vector<Number>;
-	private var _indices:Vector<uint>;
-	private var _vertIndices:Vector<Number>;
+	private var _uvIndices:Vector<Float>;
+	private var _indices:Vector<UInt>;
+	private var _vertIndices:Vector<Float>;
 
 	// the current subgeom being built
 	private var _animationSet:VertexAnimationSet = new VertexAnimationSet();
 	private var _firstSubGeom:CompactSubGeometry;
-	private var _uvs:Vector<Number>;
-	private var _finalUV:Vector<Number>;
+	private var _uvs:Vector<Float>;
+	private var _finalUV:Vector<Float>;
 
 	private var _materialNames:Vector<String>;
 	private var _textureType:String;
@@ -84,6 +84,7 @@ class MD2Parser extends ParserBase
 		super(ParserDataFormat.BINARY);
 		_textureType = textureType;
 		_ignoreTexturePath = ignoreTexturePath;
+		_clipNodes = new WeakMap<String,VertexClipNode>();
 	}
 
 	/**
@@ -102,7 +103,7 @@ class MD2Parser extends ParserBase
 	 * @param data The data block to potentially be parsed.
 	 * @return Whether or not the given data is supported.
 	 */
-	public static function supportsData(data:*):Bool
+	public static function supportsData(data:Dynamic):Bool
 	{
 		return (ParserUtil.toString(data, 4) == 'IDP2');
 	}
@@ -261,16 +262,16 @@ class MD2Parser extends ParserBase
 	{
 		var url:String;
 		var name:String;
-		var extIndex:int;
-		var slashIndex:int;
+		var extIndex:Int;
+		var slashIndex:Int;
 		_materialNames = new Vector<String>();
 		_byteData.position = _offsetSkins;
 
-		var regExp:RegExp = new RegExp("[^a-zA-Z0-9\\_\/.]", "g");
-		for (var i:UInt = 0; i < _numSkins; ++i)
+		var regExp:EReg = ~/[^a-zA-Z0-9\\_\/./g;
+		for (i in 0..._numSkins)
 		{
 			name = _byteData.readUTFBytes(64);
-			name = name.replace(regExp, "");
+			name = regExp.replace(name, "");
 			extIndex = name.lastIndexOf(".");
 			if (_ignoreTexturePath)
 			{
@@ -306,11 +307,11 @@ class MD2Parser extends ParserBase
 	 */
 	private function parseUV():Void
 	{
-		var j:UInt;
+		var j:Int = 0;
 
-		_uvs = new Vector<Number>(_numST * 2);
+		_uvs = new Vector<Float>(_numST * 2);
 		_byteData.position = _offsetST;
-		for (var i:UInt = 0; i < _numST; i++)
+		for (i in 0..._numST)
 		{
 			_uvs[j++] = _byteData.readShort() / _skinWidth;
 			_uvs[j++] = _byteData.readShort() / _skinHeight;
@@ -324,16 +325,15 @@ class MD2Parser extends ParserBase
 	 */
 	private function parseFaces():Void
 	{
-		var a:UInt, b:UInt, c:UInt, ta:UInt, tb:UInt, tc:UInt;
-		var i:UInt;
+		var a:Int, b:Int, c:Int, ta:Int, tb:Int, tc:Int;
 
-		_vertIndices = new Vector<Number>();
-		_uvIndices = new Vector<Number>();
-		_indices = new Vector<uint>();
+		_vertIndices = new Vector<Float>();
+		_uvIndices = new Vector<Float>();
+		_indices = new Vector<UInt>();
 
 		_byteData.position = _offsetTris;
 
-		for (i = 0; i < _numTris; i++)
+		for (i in 0..._numTris)
 		{
 			//collect vertex indices
 			a = _byteData.readUnsignedShort();
@@ -350,13 +350,13 @@ class MD2Parser extends ParserBase
 			addIndex(c, tc);
 		}
 
-		var len:UInt = _uvIndices.length;
-		_finalUV = new Vector<Number>(len * 2, true);
+		var len:Int = _uvIndices.length;
+		_finalUV = new Vector<Float>(len * 2, true);
 
-		for (i = 0; i < len; ++i)
+		for (i in 0...len)
 		{
-			_finalUV[uint(i << 1)] = _uvs[uint(_uvIndices[i] << 1)];
-			_finalUV[uint(((i << 1) + 1))] = _uvs[uint((_uvIndices[i] << 1) + 1)];
+			_finalUV[i << 1] = _uvs[_uvIndices[i] << 1];
+			_finalUV[(i << 1) + 1] = _uvs[_uvIndices[i] << 1 + 1];
 		}
 
 		_parsedFaces = true;
@@ -368,9 +368,9 @@ class MD2Parser extends ParserBase
 	 * @param vertexIndex The original index in the vertex list.
 	 * @param uvIndex The original index in the uv list.
 	 */
-	private function addIndex(vertexIndex:UInt, uvIndex:UInt):Void
+	private function addIndex(vertexIndex:Int, uvIndex:Int):Void
 	{
-		var index:int = findIndex(vertexIndex, uvIndex);
+		var index:Int = findIndex(vertexIndex, uvIndex);
 
 		if (index == -1)
 		{
@@ -390,11 +390,10 @@ class MD2Parser extends ParserBase
 	 * @param uvIndex The original index in the uv list.
 	 * @return The index of the final mesh corresponding to the original vertex and uv index. -1 if it doesn't exist yet.
 	 */
-	private function findIndex(vertexIndex:UInt, uvIndex:UInt):int
+	private function findIndex(vertexIndex:Int, uvIndex:Int):Int
 	{
-		var len:UInt = _vertIndices.length;
-
-		for (var i:UInt = 0; i < len; ++i)
+		var len:Int = _vertIndices.length;
+		for (i in 0...len)
 			if (_vertIndices[i] == vertexIndex && _uvIndices[i] == uvIndex)
 				return i;
 
@@ -412,23 +411,26 @@ class MD2Parser extends ParserBase
 		var geometry:Geometry;
 		var subGeom:CompactSubGeometry;
 		var vertLen:UInt = _vertIndices.length;
-		var fvertices:Vector<Number>;
-		var tvertices:Vector<Number>;
-		var i:UInt, j:int, k:UInt;
+		var fvertices:Vector<Float>;
+		var tvertices:Vector<Float>;
+		var k:Int;
 		//var ch : uint;
 		var name:String = "";
 		var prevClip:VertexClipNode = null;
 
 		_byteData.position = _offsetFrames;
 
-		for (i = 0; i < _numFrames; i++)
+		for (i in 0..._numFrames)
 		{
 			subGeom = new CompactSubGeometry();
-			_firstSubGeom ||= subGeom;
+			if (_firstSubGeom == null)
+			{
+				_firstSubGeom = subGeom;
+			}
 			geometry = new Geometry();
 			geometry.addSubGeometry(subGeom);
-			tvertices = new Vector<Number>();
-			fvertices = new Vector<Number>(vertLen * 3, true);
+			tvertices = new Vector<Float>();
+			fvertices = new Vector<Float>(vertLen * 3, true);
 
 			sx = _byteData.readFloat();
 			sy = _byteData.readFloat();
@@ -442,17 +444,18 @@ class MD2Parser extends ParserBase
 
 			// Note, the extra data.position++ in the for loop is there
 			// to skip over a byte that holds the "vertex normal index"
-			for (j = 0; j < _numVertices; j++, _byteData.position++)
+			for (j in 0..._numVertices)
 			{
 				tvertices.push(sx * _byteData.readUnsignedByte() + tx, sy * _byteData.readUnsignedByte() + ty, sz * _byteData.readUnsignedByte() + tz);
+				_byteData.position++;
 			}
 
 			k = 0;
-			for (j = 0; j < vertLen; j++)
+			for (j in 0...vertLen)
 			{
-				fvertices[k++] = tvertices[uint(_vertIndices[j] * 3)];
-				fvertices[k++] = tvertices[uint(_vertIndices[j] * 3 + 2)];
-				fvertices[k++] = tvertices[uint(_vertIndices[j] * 3 + 1)];
+				fvertices[k++] = tvertices[_vertIndices[j] * 3];
+				fvertices[k++] = tvertices[_vertIndices[j] * 3 + 2];
+				fvertices[k++] = tvertices[_vertIndices[j] * 3 + 1];
 			}
 
 			subGeom.fromVectors(fvertices, _finalUV, null, null);
@@ -462,9 +465,9 @@ class MD2Parser extends ParserBase
 			subGeom.autoDeriveVertexNormals = false;
 			subGeom.autoDeriveVertexTangents = false;
 
-			var clip:VertexClipNode = _clipNodes[name];
+			var clip:VertexClipNode = _clipNodes.get(name);
 
-			if (!clip)
+			if (clip == null)
 			{
 				// If another sequence was parsed before this one, starting
 				// a new state means the previous one is complete and can
@@ -479,7 +482,7 @@ class MD2Parser extends ParserBase
 				clip.name = name;
 				clip.stitchFinalFrame = true;
 
-				_clipNodes[name] = clip;
+				_clipNodes.set(name, clip);
 
 				prevClip = clip;
 			}
@@ -487,7 +490,7 @@ class MD2Parser extends ParserBase
 		}
 
 		// Finalize the last state
-		if (prevClip)
+		if (prevClip != null)
 		{
 			finalizeAsset(prevClip);
 			_animationSet.addAnimation(prevClip);
@@ -502,17 +505,17 @@ class MD2Parser extends ParserBase
 	private function readFrameName():String
 	{
 		var name:String = "";
-		var k:UInt = 0;
-		for (var j:UInt = 0; j < 16; j++)
+		var k:Int = 0;
+		for (j in 0...16)
 		{
-			var ch:UInt = _byteData.readUnsignedByte();
+			var ch:Int = _byteData.readUnsignedByte();
 
-			if (uint(ch) > 0x39 && uint(ch) <= 0x7A && k == 0)
+			if (ch > 0x39 && ch <= 0x7A && k == 0)
 			{
 				name += String.fromCharCode(ch);
 			}
 
-			if (uint(ch) >= 0x30 && uint(ch) <= 0x39)
+			if (ch >= 0x30 && ch <= 0x39)
 			{
 				k++;
 			}

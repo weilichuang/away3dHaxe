@@ -53,18 +53,18 @@ interface IRenderable extends IMaterialOwner
 	/**
 	 * The total amount of vertices in the SubGeometry.
 	 */
-	var numVertices(get,null):UInt;
+	var numVertices(get,null):Int;
 
 	/**
 	 * The amount of triangles that comprise the IRenderable geometry.
 	 */
-	var numTriangles(get,null):UInt;
+	var numTriangles(get,null):Int;
 
 	/**
 	 * The number of data elements in the buffers per vertex.
 	 * This always applies to vertices, normals and tangents.
 	 */
-	var vertexStride(get,null):UInt;
+	var vertexStride(get,null):Int;
 
 	/**
 	 * Assigns the attribute stream for vertex positions.

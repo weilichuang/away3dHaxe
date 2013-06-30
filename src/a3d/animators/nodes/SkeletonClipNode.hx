@@ -24,7 +24,7 @@ class SkeletonClipNode extends AnimationClipNodeBase
 	/**
 	 * Returns a vector of skeleton poses representing the pose of each animation frame in the clip.
 	 */
-	private inline function get_frames():Vector<SkeletonPose>
+	private function get_frames():Vector<SkeletonPose>
 	{
 		return _frames;
 	}

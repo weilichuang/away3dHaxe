@@ -17,7 +17,7 @@ class LensEvent extends Event
 	}
 
 	public var lens(get,null):LensBase;
-	private inline function get_lens():LensBase
+	private function get_lens():LensBase
 	{
 		return _lens;
 	}

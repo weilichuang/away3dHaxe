@@ -72,7 +72,7 @@ class Weld
 	/**
 	 * returns howmany vertices were deleted during the welding operation.
 	 */
-	private inline function get_verticesRemovedCount():UInt
+	private function get_verticesRemovedCount():UInt
 	{
 		if (isNaN(_vertCnt))
 			return 0;
@@ -83,7 +83,7 @@ class Weld
 	/**
 	 * returns howmany vertices were added during the welding operation.
 	 */
-	private inline function get_verticesAddedCount():UInt
+	private function get_verticesAddedCount():UInt
 	{
 		if (isNaN(_vertCnt))
 			return 0;

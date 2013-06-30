@@ -14,7 +14,7 @@ import a3d.core.managers.Stage3DProxy;
 
 class CompactSubGeometry extends SubGeometryBase implements ISubGeometry
 {
-	public var numVertices(get, null):UInt;
+	public var numVertices(get, null):Int;
 	
 	private var _vertexDataInvalid:Vector<Bool>;
 	private var _vertexBuffer:Vector<VertexBuffer3D>;
@@ -39,7 +39,7 @@ class CompactSubGeometry extends SubGeometryBase implements ISubGeometry
 		_bufferContext = new Vector<Context3D>(8);
 	}
 
-	private inline function get_numVertices():UInt
+	private function get_numVertices():Int
 	{
 		return _numVertices;
 	}
@@ -265,29 +265,29 @@ class CompactSubGeometry extends SubGeometryBase implements ISubGeometry
 		invalidateBuffers(_vertexDataInvalid);
 	}
 
-	override private function get_vertexStride():UInt
+	override private function get_vertexStride():Int
 	{
 		return 13;
 	}
 
-	override private function get_vertexNormalStride():UInt
+	override private function get_vertexNormalStride():Int
 	{
 		return 13;
 	}
 
-	override private function get_vertexTangentStride():UInt
+	override private function get_vertexTangentStride():Int
 	{
 		return 13;
 	}
 
-	override private function get_UVStride():UInt
+	override private function get_UVStride():Int
 	{
 		return 13;
 	}
 
 
-	public var secondaryUVStride(get, null):UInt;
-	private inline function get_secondaryUVStride():UInt
+	public var secondaryUVStride(get, null):Int;
+	private function get_secondaryUVStride():Int
 	{
 		return 13;
 	}
@@ -313,7 +313,7 @@ class CompactSubGeometry extends SubGeometryBase implements ISubGeometry
 	}
 
 	public var secondaryUVOffset(get, null):Int;
-	private inline function get_secondaryUVOffset():Int
+	private function get_secondaryUVOffset():Int
 	{
 		return 11;
 	}

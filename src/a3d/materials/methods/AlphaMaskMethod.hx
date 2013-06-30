@@ -31,12 +31,12 @@ class AlphaMaskMethod extends EffectMethodBase
 	}
 
 	public var useSecondaryUV(get, set):Bool;
-	private inline function get_useSecondaryUV():Bool
+	private function get_useSecondaryUV():Bool
 	{
 		return _useSecondaryUV;
 	}
 
-	private inline function set_useSecondaryUV(value:Bool):Bool
+	private function set_useSecondaryUV(value:Bool):Bool
 	{
 		if (_useSecondaryUV == value)
 			return _useSecondaryUV;
@@ -46,12 +46,12 @@ class AlphaMaskMethod extends EffectMethodBase
 	}
 
 	public var texture(get, set):Texture2DBase;
-	private inline function get_texture():Texture2DBase
+	private function get_texture():Texture2DBase
 	{
 		return _texture;
 	}
 
-	private inline function set_texture(value:Texture2DBase):Texture2DBase
+	private function set_texture(value:Texture2DBase):Texture2DBase
 	{
 		return _texture = value;
 	}

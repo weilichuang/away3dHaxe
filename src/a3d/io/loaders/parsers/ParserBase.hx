@@ -11,9 +11,9 @@ import a3d.tools.utils.TextureUtils;
 import flash.display.BitmapData;
 import flash.events.EventDispatcher;
 import flash.events.TimerEvent;
+import flash.Lib;
 import flash.net.URLRequest;
 import flash.utils.ByteArray;
-import flash.utils.getTimer;
 import flash.utils.Timer;
 import flash.Vector;
 
@@ -24,7 +24,7 @@ import flash.Vector;
  *
  * @eventType a3d.events.ParserEvent
  */
-@:meta(Eventname = "parseComplete", type = "a3d.events.ParserEvent"))
+@:meta(Eventname = "parseComplete", type = "a3d.events.ParserEvent")
 
 /**
  * Dispatched when parser pauses to wait for dependencies, used internally to trigger
@@ -33,14 +33,14 @@ import flash.Vector;
  *
  * @eventType a3d.events.ParserEvent
  */
-@:meta(Eventname = "readyForDependencies", type = "a3d.events.ParserEvent"))
+@:meta(Eventname = "readyForDependencies", type = "a3d.events.ParserEvent")
 
 /**
  * Dispatched if an error was caught during parsing.
  *
  * @eventType a3d.events.ParserEvent
  */
-@:meta(Eventname = "parseError", type = "a3d.events.ParserEvent"))
+@:meta(Eventname = "parseError", type = "a3d.events.ParserEvent")
 
 /**
  * Dispatched when any asset finishes parsing. Also see specific events for each
@@ -48,84 +48,84 @@ import flash.Vector;
  *
  * @eventType a3d.events.AssetEvent
  */
-@:meta(Eventname = "assetComplete", type = "a3d.events.AssetEvent"))
+@:meta(Eventname = "assetComplete", type = "a3d.events.AssetEvent")
 
 /**
  * Dispatched when a geometry asset has been constructed from a resource.
  *
  * @eventType a3d.events.AssetEvent
  */
-@:meta(Eventname = "geometryComplete", type = "a3d.events.AssetEvent"))
+@:meta(Eventname = "geometryComplete", type = "a3d.events.AssetEvent")
 
 /**
  * Dispatched when a skeleton asset has been constructed from a resource.
  *
  * @eventType a3d.events.AssetEvent
  */
-@:meta(Eventname = "skeletonComplete", type = "a3d.events.AssetEvent"))
+@:meta(Eventname = "skeletonComplete", type = "a3d.events.AssetEvent")
 
 /**
  * Dispatched when a skeleton pose asset has been constructed from a resource.
  *
  * @eventType a3d.events.AssetEvent
  */
-@:meta(Eventname = "skeletonPoseComplete", type = "a3d.events.AssetEvent"))
+@:meta(Eventname = "skeletonPoseComplete", type = "a3d.events.AssetEvent")
 
 /**
  * Dispatched when a container asset has been constructed from a resource.
  *
  * @eventType a3d.events.AssetEvent
  */
-@:meta(Eventname = "containerComplete", type = "a3d.events.AssetEvent"))
+@:meta(Eventname = "containerComplete", type = "a3d.events.AssetEvent")
 
 /**
  * Dispatched when an animation set has been constructed from a group of animation state resources.
  *
  * @eventType a3d.events.AssetEvent
  */
-@:meta(Eventname = "animationSetComplete", type = "a3d.events.AssetEvent"))
+@:meta(Eventname = "animationSetComplete", type = "a3d.events.AssetEvent")
 
 /**
  * Dispatched when an animation state has been constructed from a group of animation node resources.
  *
  * @eventType a3d.events.AssetEvent
  */
-@:meta(Eventname = "animationStateComplete", type = "a3d.events.AssetEvent"))
+@:meta(Eventname = "animationStateComplete", type = "a3d.events.AssetEvent")
 
 /**
  * Dispatched when an animation node has been constructed from a resource.
  *
  * @eventType a3d.events.AssetEvent
  */
-@:meta(Eventname = "animationNodeComplete", type = "a3d.events.AssetEvent"))
+@:meta(Eventname = "animationNodeComplete", type = "a3d.events.AssetEvent")
 
 /**
  * Dispatched when an animation state transition has been constructed from a group of animation node resources.
  *
  * @eventType a3d.events.AssetEvent
  */
-@:meta(Eventname = "stateTransitionComplete", type = "a3d.events.AssetEvent"))
+@:meta(Eventname = "stateTransitionComplete", type = "a3d.events.AssetEvent")
 
 /**
  * Dispatched when a texture asset has been constructed from a resource.
  *
  * @eventType a3d.events.AssetEvent
  */
-@:meta(Eventname = "textureComplete", type = "a3d.events.AssetEvent"))
+@:meta(Eventname = "textureComplete", type = "a3d.events.AssetEvent")
 
 /**
  * Dispatched when a material asset has been constructed from a resource.
  *
  * @eventType a3d.events.AssetEvent
  */
-@:meta(Eventname = "materialComplete", type = "a3d.events.AssetEvent"))
+@:meta(Eventname = "materialComplete", type = "a3d.events.AssetEvent")
 
 /**
  * Dispatched when a animator asset has been constructed from a resource.
  *
  * @eventType a3d.events.AssetEvent
  */
-@:meta(Eventname = "animatorComplete", type = "a3d.events.AssetEvent"))
+@:meta(Eventname = "animatorComplete", type = "a3d.events.AssetEvent")
 
 
 
@@ -153,7 +153,7 @@ class ParserBase extends EventDispatcher
 {
 	public var fileName:String;
 	private var _dataFormat:String;
-	private var _data:*;
+	private var _data:Dynamic;
 	private var _frameLimit:Float;
 	private var _lastFrameTime:Float;
 
@@ -172,17 +172,17 @@ class ParserBase extends EventDispatcher
 	private var _parsingComplete:Bool;
 	private var _parsingFailure:Bool;
 	private var _timer:Timer;
-	private var _materialMode:UInt;
+	private var _materialMode:Int;
 
 	/**
 	 * Returned by <code>proceedParsing</code> to indicate no more parsing is needed.
 	 */
-	private static const PARSING_DONE:Bool = true;
+	private static inline var PARSING_DONE:Bool = true;
 
 	/**
 	 * Returned by <code>proceedParsing</code> to indicate more parsing is needed, allowing asynchronous parsing.
 	 */
-	private static const MORE_TO_PARSE:Bool = false;
+	private static inline var MORE_TO_PARSE:Bool = false;
 
 
 	/**
@@ -210,34 +210,36 @@ class ParserBase extends EventDispatcher
 		return isValid;
 	}
 
-	public function set parsingFailure(b:Bool):Void
+	public var parsingFailure(get, set):Bool;
+	private function set_parsingFailure(b:Bool):Bool
 	{
-		_parsingFailure = b;
+		return _parsingFailure = b;
 	}
 
-	public function get parsingFailure():Bool
+	private function get_parsingFailure():Bool
 	{
 		return _parsingFailure;
 	}
 
-
-	public function get parsingPaused():Bool
+	public var parsingPaused(get, null):Bool;
+	private function get_parsingPaused():Bool
 	{
 		return _parsingPaused;
 	}
 
-
-	public function get parsingComplete():Bool
+	public var parsingComplete(get, null):Bool;
+	private function get_parsingComplete():Bool
 	{
 		return _parsingComplete;
 	}
 
-	public function set materialMode(newMaterialMode:UInt):Void
+	public var materialMode(get, set):Int;
+	private function set_materialMode(newMaterialMode:Int):Int
 	{
-		_materialMode = newMaterialMode;
+		return _materialMode = newMaterialMode;
 	}
 
-	public function get materialMode():UInt
+	private function get_materialMode():Int
 	{
 		return _materialMode;
 	}
@@ -245,7 +247,8 @@ class ParserBase extends EventDispatcher
 	/**
 	 * The data format of the file data to be parsed. Can be either <code>ParserDataFormat.BINARY</code> or <code>ParserDataFormat.PLAIN_TEXT</code>.
 	 */
-	public function get dataFormat():String
+	public var dataFormat(get, null):String;
+	private function get_dataFormat():String
 	{
 		return _dataFormat;
 	}
@@ -260,7 +263,7 @@ class ParserBase extends EventDispatcher
 	 * actual time spent on a frame can exceed this number since time-checks can
 	 * only be performed between logical sections of the parsing procedure.
 	 */
-	public function parseAsync(data:*, frameLimit:Float = 30):Void
+	public function parseAsync(data:Dynamic, frameLimit:Float = 30):Void
 	{
 		_data = data;
 		startParsing(frameLimit);
@@ -269,7 +272,8 @@ class ParserBase extends EventDispatcher
 	/**
 	 * A list of dependencies that need to be loaded and resolved for the object being parsed.
 	 */
-	public function get dependencies():Vector<ResourceDependency>
+	public var dependencies(get, null):Vector<ResourceDependency>;
+	private function get_dependencies():Vector<ResourceDependency>
 	{
 		return _dependencies;
 	}
@@ -309,7 +313,7 @@ class ParserBase extends EventDispatcher
 	public function resumeParsingAfterDependencies():Void
 	{
 		_parsingPaused = false;
-		if (_timer)
+		if (_timer != null)
 		{
 			_timer.start();
 		}
@@ -330,75 +334,57 @@ class ParserBase extends EventDispatcher
 			case AssetType.LIGHT_PICKER:
 				type_name = 'lightPicker';
 				type_event = AssetEvent.LIGHTPICKER_COMPLETE;
-				break;
 			case AssetType.LIGHT:
 				type_name = 'light';
 				type_event = AssetEvent.LIGHT_COMPLETE;
-				break;
 			case AssetType.ANIMATOR:
 				type_name = 'animator';
 				type_event = AssetEvent.ANIMATOR_COMPLETE;
-				break;
 			case AssetType.ANIMATION_SET:
 				type_name = 'animationSet';
 				type_event = AssetEvent.ANIMATION_SET_COMPLETE;
-				break;
 			case AssetType.ANIMATION_STATE:
 				type_name = 'animationState';
 				type_event = AssetEvent.ANIMATION_STATE_COMPLETE;
-				break;
 			case AssetType.ANIMATION_NODE:
 				type_name = 'animationNode';
 				type_event = AssetEvent.ANIMATION_NODE_COMPLETE;
-				break;
 			case AssetType.STATE_TRANSITION:
 				type_name = 'stateTransition';
 				type_event = AssetEvent.STATE_TRANSITION_COMPLETE;
-				break;
 			case AssetType.TEXTURE:
 				type_name = 'texture';
 				type_event = AssetEvent.TEXTURE_COMPLETE;
-				break;
 			case AssetType.TEXTURE_PROJECTOR:
 				type_name = 'textureProjector';
 				type_event = AssetEvent.TEXTURE_PROJECTOR_COMPLETE;
-				break;
 			case AssetType.CONTAINER:
 				type_name = 'container';
 				type_event = AssetEvent.CONTAINER_COMPLETE;
-				break;
 			case AssetType.GEOMETRY:
 				type_name = 'geometry';
 				type_event = AssetEvent.GEOMETRY_COMPLETE;
-				break;
 			case AssetType.MATERIAL:
 				type_name = 'material';
 				type_event = AssetEvent.MATERIAL_COMPLETE;
-				break;
 			case AssetType.MESH:
 				type_name = 'mesh';
 				type_event = AssetEvent.MESH_COMPLETE;
-				break;
 			case AssetType.SKELETON:
 				type_name = 'skeleton';
 				type_event = AssetEvent.SKELETON_COMPLETE;
-				break;
 			case AssetType.SKELETON_POSE:
 				type_name = 'skelpose';
 				type_event = AssetEvent.SKELETON_POSE_COMPLETE;
-				break;
 			case AssetType.ENTITY:
 				type_name = 'entity';
 				type_event = AssetEvent.ENTITY_COMPLETE;
-				break;
 			case AssetType.SKYBOX:
 				type_name = 'skybox';
 				type_event = AssetEvent.SKYBOX_COMPLETE;
-				break;
 			case AssetType.CAMERA:
 				type_name = 'camera';
 				type_event = AssetEvent.CAMERA_COMPLETE;
-				break;
 			case AssetType.SEGMENT_SET:
 				type_name = 'segmentSet';
 				type_event = AssetEvent.SEGMENT_SET_COMPLETE;
@@ -406,16 +392,12 @@ class ParserBase extends EventDispatcher
 			case AssetType.EFFECTS_METHOD:
 				type_name = 'effectsMethod';
 				type_event = AssetEvent.EFFECTMETHOD_COMPLETE;
-				break;
 			case AssetType.SHADOW_MAP_METHOD:
 				type_name = 'effectsMethod';
 				type_event = AssetEvent.SHADOWMAPMETHOD_COMPLETE;
-				break;
 			default:
 				throw new Error('Unhandled asset type ' + asset.assetType + '. Report as bug!');
-				break;
 		}
-		;
 
 		// If the asset has no name, give it
 		// a per-type default name.
@@ -439,7 +421,7 @@ class ParserBase extends EventDispatcher
 
 	private function dieWithError(message:String = 'Unknown parsing error'):Void
 	{
-		if (_timer)
+		if (_timer != null)
 		{
 			_timer.removeEventListener(TimerEvent.TIMER, onInterval);
 			_timer.stop();
@@ -449,7 +431,7 @@ class ParserBase extends EventDispatcher
 	}
 
 
-	private function addDependency(id:String, req:URLRequest, retrieveAsRawData:Bool = false, data:* = null, suppressErrorEvents:Bool = false):Void
+	private function addDependency(id:String, req:URLRequest, retrieveAsRawData:Bool = false, data:Dynamic = null, suppressErrorEvents:Bool = false):Void
 	{
 		_dependencies.push(new ResourceDependency(id, req, data, this, retrieveAsRawData, suppressErrorEvents));
 	}
@@ -457,7 +439,7 @@ class ParserBase extends EventDispatcher
 
 	private function pauseAndRetrieveDependencies():Void
 	{
-		if (_timer)
+		if (_timer != null)
 			_timer.stop();
 		_parsingPaused = true;
 		dispatchEvent(new ParserEvent(ParserEvent.READY_FOR_DEPENDENCIES));
@@ -470,7 +452,7 @@ class ParserBase extends EventDispatcher
 	 */
 	private function hasTime():Bool
 	{
-		return ((getTimer() - _lastFrameTime) < _frameLimit);
+		return ((Lib.getTimer() - _lastFrameTime) < _frameLimit);
 	}
 
 	/**
@@ -501,7 +483,7 @@ class ParserBase extends EventDispatcher
 	 */
 	private function finishParsing():Void
 	{
-		if (_timer)
+		if (_timer != null)
 		{
 			_timer.removeEventListener(TimerEvent.TIMER, onInterval);
 			_timer.stop();

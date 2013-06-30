@@ -27,12 +27,12 @@ class WireframePrimitiveBase extends SegmentSet
 	}
 
 	public var color(get, set):UInt;
-	private inline function get_color():UInt
+	private function get_color():UInt
 	{
 		return _color;
 	}
 
-	private inline function set_color(value:UInt):UInt
+	private function set_color(value:UInt):UInt
 	{
 		_color = value;
 
@@ -47,12 +47,12 @@ class WireframePrimitiveBase extends SegmentSet
 	}
 
 	public var thickness(get, set):Float;
-	private inline function get_thickness():Float
+	private function get_thickness():Float
 	{
 		return _thickness;
 	}
 
-	private inline function set_thickness(value:Float):Float
+	private function set_thickness(value:Float):Float
 	{
 		_thickness = value;
 

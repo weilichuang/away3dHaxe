@@ -38,7 +38,7 @@ class ParserEvent extends Event
 	 * Additional human-readable message. Usually supplied for PARSE_ERROR events.
 	*/
 	public var message(get, null):String;
-	private inline function get_message():String
+	private function get_message():String
 	{
 		return _message;
 	}

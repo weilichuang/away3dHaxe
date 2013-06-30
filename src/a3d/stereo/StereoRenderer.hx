@@ -39,12 +39,12 @@ class StereoRenderer
 	}
 
 
-	private inline function get_renderMethod():StereoRenderMethodBase
+	private function get_renderMethod():StereoRenderMethodBase
 	{
 		return _method;
 	}
 
-	private inline function set_renderMethod(value:StereoRenderMethodBase):Void
+	private function set_renderMethod(value:StereoRenderMethodBase):Void
 	{
 		_method = value;
 		_program3DInvalid = true;

@@ -11,65 +11,69 @@ import a3d.entities.lights.PointLight;
 
 class StaticLightPicker extends LightPickerBase
 {
-	private var _lights:Array;
+	private var _lights:Array<LightBase>;
 
-	public function new(lights:Array)
+	public function new(lights:Array<LightBase>)
 	{
+		super();
 		this.lights = lights;
 	}
 
-	private inline function get_lights():Array
+	public var lights(get, set):Array<LightBase>;
+	private function get_lights():Array<LightBase>
 	{
 		return _lights;
 	}
 
-	private inline function set_lights(value:Array):Void
+	private function set_lights(value:Array<LightBase>):Array<LightBase>
 	{
-		var numPointLights:UInt = 0;
-		var numDirectionalLights:UInt = 0;
-		var numCastingPointLights:UInt = 0;
-		var numCastingDirectionalLights:UInt = 0;
-		var numLightProbes:UInt = 0;
+		var numPointLights:Int = 0;
+		var numDirectionalLights:Int = 0;
+		var numCastingPointLights:Int = 0;
+		var numCastingDirectionalLights:Int = 0;
+		var numLightProbes:Int = 0;
 		var light:LightBase;
 
-		if (_lights)
+		if (_lights != null)
 			clearListeners();
 
 		_lights = value;
-		_allPickedLights = Vector<LightBase>(value);
+		_allPickedLights = Vector.ofArray(value);
 		_pointLights = new Vector<PointLight>();
 		_castingPointLights = new Vector<PointLight>();
 		_directionalLights = new Vector<DirectionalLight>();
 		_castingDirectionalLights = new Vector<DirectionalLight>();
 		_lightProbes = new Vector<LightProbe>();
 
-		var len:UInt = value.length;
-		for (var i:UInt = 0; i < len; ++i)
+		var len:Int = value.length;
+		for (i in 0...len)
 		{
 			light = value[i];
 			light.addEventListener(LightEvent.CASTS_SHADOW_CHANGE, onCastShadowChange);
 			if (Std.is(light,PointLight))
 			{
 				if (light.castsShadows)
-					_castingPointLights[numCastingPointLights++] = PointLight(light);
+					_castingPointLights[numCastingPointLights++] = Std.instance(light,PointLight);
 				else
-					_pointLights[numPointLights++] = PointLight(light);
+					_pointLights[numPointLights++] = Std.instance(light,PointLight);
 
 			}
 			else if (Std.is(light,DirectionalLight))
 			{
 				if (light.castsShadows)
-					_castingDirectionalLights[numCastingDirectionalLights++] = DirectionalLight(light);
+					_castingDirectionalLights[numCastingDirectionalLights++] = Std.instance(light,DirectionalLight);
 				else
-					_directionalLights[numDirectionalLights++] = DirectionalLight(light);
+					_directionalLights[numDirectionalLights++] = Std.instance(light,DirectionalLight);
 			}
 			else if (Std.is(light,LightProbe))
-				_lightProbes[numLightProbes++] = LightProbe(light);
+				_lightProbes[numLightProbes++] = Std.instance(light,LightProbe);
 		}
 
-		if (_numDirectionalLights == numDirectionalLights && _numPointLights == numPointLights && _numLightProbes == numLightProbes &&
-			_numCastingPointLights == numCastingPointLights && _numCastingDirectionalLights == numCastingDirectionalLights)
-			return;
+		if (_numDirectionalLights == numDirectionalLights && 
+			_numPointLights == numPointLights && _numLightProbes == numLightProbes &&
+			_numCastingPointLights == numCastingPointLights && 
+			_numCastingDirectionalLights == numCastingDirectionalLights)
+			return _lights;
 
 		_numDirectionalLights = numDirectionalLights;
 		_numCastingDirectionalLights = numCastingDirectionalLights;
@@ -82,12 +86,14 @@ class StaticLightPicker extends LightPickerBase
 
 		// notify material lights have changed
 		dispatchEvent(new Event(Event.CHANGE));
+		
+		return _lights;
 	}
 
 	private function clearListeners():Void
 	{
-		var len:UInt = _lights.length;
-		for (var i:Int = 0; i < len; ++i)
+		var len:Int = _lights.length;
+		for (i in 0...len)
 			_lights[i].removeEventListener(LightEvent.CASTS_SHADOW_CHANGE, onCastShadowChange);
 	}
 
@@ -96,7 +102,7 @@ class StaticLightPicker extends LightPickerBase
 		// TODO: Assign to special caster collections, just append it to the lights in SinglePass
 		// But keep seperated in multipass
 
-		var light:LightBase = LightBase(event.target);
+		var light:LightBase = Std.instance(event.target,LightBase);
 
 		if (Std.is(light,PointLight))
 			updatePointCasting(Std.instance(light,PointLight));

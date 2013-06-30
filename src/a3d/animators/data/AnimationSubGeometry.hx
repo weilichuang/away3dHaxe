@@ -86,17 +86,17 @@ class AnimationSubGeometry
 			_bufferDirty[i] = true;
 	}
 
-	private inline function get_vertexData():Vector<Float>
+	private function get_vertexData():Vector<Float>
 	{
 		return _vertexData;
 	}
 
-	private inline function get_numVertices():UInt
+	private function get_numVertices():UInt
 	{
 		return _numVertices;
 	}
 
-	private inline function get_totalLenOfOneVertex():UInt
+	private function get_totalLenOfOneVertex():UInt
 	{
 		return _totalLenOfOneVertex;
 	}

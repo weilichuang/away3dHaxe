@@ -27,12 +27,12 @@ class OrthographicLens extends LensBase
 	 * The vertical field of view of the projection.
 	 */
 	public var projectionHeight(set, set):Float;
-	private inline function get_projectionHeight():Float
+	private function get_projectionHeight():Float
 	{
 		return _projectionHeight;
 	}
 
-	private inline function set_projectionHeight(value:Float):Float
+	private function set_projectionHeight(value:Float):Float
 	{
 		if (value == _projectionHeight)
 			return _projectionHeight;

@@ -186,7 +186,7 @@ package com.adobe.utils
 					break;
 				}
 				if (verbose)
-					trace("emit opcode=" + opFound);
+					trace("emit opcode = " + opFound);
 
 				agalcode.writeUnsignedInt(opFound.emitCode);
 				nops++;

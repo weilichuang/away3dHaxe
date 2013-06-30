@@ -78,8 +78,8 @@ class SubGeometry extends SubGeometryBase implements ISubGeometry
 		_vertexTangentBufferContext = new Vector<Context3D>(8);
 	}
 
-	public var numVertices(get, null):UInt;
-	private inline function get_numVertices():UInt
+	public var numVertices(get, null):Int;
+	private function get_numVertices():Int
 	{
 		return _numVertices;
 	}
@@ -345,7 +345,7 @@ class SubGeometry extends SubGeometryBase implements ISubGeometry
 	}
 
 	public var secondaryUVData(get, null):Vector<Float>;
-	private inline function get_secondaryUVData():Vector<Float>
+	private function get_secondaryUVData():Vector<Float>
 	{
 		return _secondaryUvs;
 	}
@@ -482,28 +482,28 @@ class SubGeometry extends SubGeometryBase implements ISubGeometry
 		}
 	}
 
-	override private function get_vertexStride():UInt
+	override private function get_vertexStride():Int
 	{
 		return 3;
 	}
 
-	override private function get_vertexTangentStride():UInt
+	override private function get_vertexTangentStride():Int
 	{
 		return 3;
 	}
 
-	override private function get_vertexNormalStride():UInt
+	override private function get_vertexNormalStride():Int
 	{
 		return 3;
 	}
 
-	override private function get_UVStride():UInt
+	override private function get_UVStride():Int
 	{
 		return 2;
 	}
 
-	public var secondaryUVStride(get, null):UInt;
-	private inline function get_secondaryUVStride():UInt
+	public var secondaryUVStride(get, null):Int;
+	private function get_secondaryUVStride():Int
 	{
 		return 2;
 	}
@@ -529,7 +529,7 @@ class SubGeometry extends SubGeometryBase implements ISubGeometry
 	}
 
 	public var secondaryUVOffset(get, null):Int;
-	private inline function get_secondaryUVOffset():Int
+	private function get_secondaryUVOffset():Int
 	{
 		return 0;
 	}

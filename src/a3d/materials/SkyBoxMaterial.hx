@@ -22,6 +22,7 @@ class SkyBoxMaterial extends MaterialBase
 	 */
 	public function new(cubeMap:CubeTextureBase)
 	{
+		super();
 		_cubeMap = cubeMap;
 		addPass(_skyboxPass = new SkyBoxPass());
 		_skyboxPass.cubeTexture = _cubeMap;
@@ -30,18 +31,22 @@ class SkyBoxMaterial extends MaterialBase
 	/**
 	 * The CubeMap to use as the skybox.
 	 */
-	private inline function get_cubeMap():CubeTextureBase
+	public var cubeMap(get, set):CubeTextureBase;
+	private function get_cubeMap():CubeTextureBase
 	{
 		return _cubeMap;
 	}
 
-	private inline function set_cubeMap(value:CubeTextureBase):Void
+	private function set_cubeMap(value:CubeTextureBase):CubeTextureBase
 	{
-		if (value && _cubeMap && (value.hasMipMaps != _cubeMap.hasMipMaps || value.format != _cubeMap.format))
+		if (value != null && _cubeMap != null && 
+			(value.hasMipMaps != _cubeMap.hasMipMaps || value.format != _cubeMap.format))
 			invalidatePasses(null);
 
 		_cubeMap = value;
 
 		_skyboxPass.cubeTexture = _cubeMap;
+		
+		return _cubeMap;
 	}
 }

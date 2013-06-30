@@ -48,12 +48,12 @@ class SuperShaderPass extends CompiledPass
 	}
 
 	public var includeCasters(get,set):Bool;
-	private inline function get_includeCasters():Bool
+	private function get_includeCasters():Bool
 	{
 		return _includeCasters;
 	}
 
-	private inline function set_includeCasters(value:Bool):Bool
+	private function set_includeCasters(value:Bool):Bool
 	{
 		if (_includeCasters == value)
 			return _includeCasters;
@@ -67,12 +67,12 @@ class SuperShaderPass extends CompiledPass
 	 * The ColorTransform object to transform the colour of the material with.
 	 */
 	public var colorTransform(get,set):ColorTransform;
-	private inline function get_colorTransform():ColorTransform
+	private function get_colorTransform():ColorTransform
 	{
 		return _methodSetup.colorTransformMethod != null ? _methodSetup.colorTransformMethod.colorTransform : null;
 	}
 
-	private inline function set_colorTransform(value:ColorTransform):ColorTransform
+	private function set_colorTransform(value:ColorTransform):ColorTransform
 	{
 		if (value != null)
 		{
@@ -90,12 +90,12 @@ class SuperShaderPass extends CompiledPass
 	}
 
 	public var colorTransformMethod(get,set):ColorTransformMethod;
-	private inline function get_colorTransformMethod():ColorTransformMethod
+	private function get_colorTransformMethod():ColorTransformMethod
 	{
 		return _methodSetup.colorTransformMethod;
 	}
 
-	private inline function set_colorTransformMethod(value:ColorTransformMethod):ColorTransformMethod
+	private function set_colorTransformMethod(value:ColorTransformMethod):ColorTransformMethod
 	{
 		return _methodSetup.colorTransformMethod = value;
 	}
@@ -110,7 +110,7 @@ class SuperShaderPass extends CompiledPass
 	}
 
 	public var numMethods(get,null):Int;
-	private inline function get_numMethods():Int
+	private function get_numMethods():Int
 	{
 		return _methodSetup.numMethods;
 	}
@@ -380,12 +380,12 @@ class SuperShaderPass extends CompiledPass
 	}
 
 	public var ignoreLights(get,set):Bool;
-	private inline function set_ignoreLights(ignoreLights:Bool):Bool
+	private function set_ignoreLights(ignoreLights:Bool):Bool
 	{
 		return _ignoreLights = ignoreLights;
 	}
 
-	private inline function get_ignoreLights():Bool
+	private function get_ignoreLights():Bool
 	{
 		return _ignoreLights;
 	}

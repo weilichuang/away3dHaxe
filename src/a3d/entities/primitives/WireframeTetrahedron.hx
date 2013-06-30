@@ -38,12 +38,12 @@ class WireframeTetrahedron extends WireframePrimitiveBase
 	/**
 	 * The orientation in which the plane lies
 	 */
-	private inline function get_orientation():String
+	private function get_orientation():String
 	{
 		return _orientation;
 	}
 
-	private inline function set_orientation(value:String):Void
+	private function set_orientation(value:String):Void
 	{
 		_orientation = value;
 		invalidateGeometry();
@@ -52,12 +52,12 @@ class WireframeTetrahedron extends WireframePrimitiveBase
 	/**
 	 * The size of the tetrahedron bottom.
 	 */
-	private inline function get_width():Float
+	private function get_width():Float
 	{
 		return _width;
 	}
 
-	private inline function set_width(value:Float):Void
+	private function set_width(value:Float):Void
 	{
 		if (value <= 0)
 			throw new Error("Value needs to be greater than 0");
@@ -68,12 +68,12 @@ class WireframeTetrahedron extends WireframePrimitiveBase
 	/**
 	 * The size of the tetrahedron height.
 	 */
-	private inline function get_height():Float
+	private function get_height():Float
 	{
 		return _height;
 	}
 
-	private inline function set_height(value:Float):Void
+	private function set_height(value:Float):Void
 	{
 		if (value <= 0)
 			throw new Error("Value needs to be greater than 0");

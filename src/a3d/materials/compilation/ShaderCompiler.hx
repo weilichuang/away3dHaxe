@@ -50,16 +50,16 @@ class ShaderCompiler
 	private var _cameraPositionIndex:Int = -1;
 	private var _probeWeightsIndex:Int = -1;
 
-	private var _specularLightSources:UInt;
-	private var _diffuseLightSources:UInt;
+	private var _specularLightSources:Int;
+	private var _diffuseLightSources:Int;
 
 	private var _numLights:Int;
-	private var _numLightProbes:UInt;
-	private var _numPointLights:UInt;
-	private var _numDirectionalLights:UInt;
+	private var _numLightProbes:Int;
+	private var _numPointLights:Int;
+	private var _numDirectionalLights:Int;
 
-	private var _numProbeRegisters:UInt;
-	private var _combinedLightSources:UInt;
+	private var _numProbeRegisters:Int;
+	private var _combinedLightSources:Int;
 
 	private var _usingSpecularMethod:Bool;
 
@@ -82,41 +82,41 @@ class ShaderCompiler
 	}
 
 	public var enableLightFallOff(get,set):Bool;
-	private inline function get_enableLightFallOff():Bool
+	private function get_enableLightFallOff():Bool
 	{
 		return _enableLightFallOff;
 	}
 
-	private inline function set_enableLightFallOff(value:Bool):Bool
+	private function set_enableLightFallOff(value:Bool):Bool
 	{
 		return _enableLightFallOff = value;
 	}
 
 	public var needUVAnimation(get,null):Bool;
-	private inline function get_needUVAnimation():Bool
+	private function get_needUVAnimation():Bool
 	{
 		return _needUVAnimation;
 	}
 
 	public var UVTarget(get,null):String;
-	private inline function get_UVTarget():String
+	private function get_UVTarget():String
 	{
 		return _UVTarget;
 	}
 
 	public var UVSource(get,null):String;
-	private inline function get_UVSource():String
+	private function get_UVSource():String
 	{
 		return _UVSource;
 	}
 
 	public var forceSeperateMVP(get,set):Bool;
-	private inline function get_forceSeperateMVP():Bool
+	private function get_forceSeperateMVP():Bool
 	{
 		return _forceSeperateMVP;
 	}
 
-	private inline function set_forceSeperateMVP(value:Bool):Bool
+	private function set_forceSeperateMVP(value:Bool):Bool
 	{
 		return _forceSeperateMVP = value;
 	}
@@ -129,34 +129,34 @@ class ShaderCompiler
 	}
 
 	public var animateUVs(get,set):Bool;
-	private inline function get_animateUVs():Bool
+	private function get_animateUVs():Bool
 	{
 		return _animateUVs;
 	}
 
-	private inline function set_animateUVs(value:Bool):Bool
+	private function set_animateUVs(value:Bool):Bool
 	{
 		return _animateUVs = value;
 	}
 
 	public var alphaPremultiplied(get,set):Bool;
-	private inline function get_alphaPremultiplied():Bool
+	private function get_alphaPremultiplied():Bool
 	{
 		return _alphaPremultiplied;
 	}
 
-	private inline function set_alphaPremultiplied(value:Bool):Bool
+	private function set_alphaPremultiplied(value:Bool):Bool
 	{
 		return _alphaPremultiplied = value;
 	}
 
 	public var preserveAlpha(get,set):Bool;
-	private inline function get_preserveAlpha():Bool
+	private function get_preserveAlpha():Bool
 	{
 		return _preserveAlpha;
 	}
 
-	private inline function set_preserveAlpha(value:Bool):Bool
+	private function set_preserveAlpha(value:Bool):Bool
 	{
 		return _preserveAlpha = value;
 	}
@@ -175,12 +175,12 @@ class ShaderCompiler
 	}
 
 	public var methodSetup(get,set):ShaderMethodSetup;
-	private inline function get_methodSetup():ShaderMethodSetup
+	private function get_methodSetup():ShaderMethodSetup
 	{
 		return _methodSetup;
 	}
 
-	private inline function set_methodSetup(value:ShaderMethodSetup):ShaderMethodSetup
+	private function set_methodSetup(value:ShaderMethodSetup):ShaderMethodSetup
 	{
 		return _methodSetup = value;
 	}
@@ -417,7 +417,7 @@ class ShaderCompiler
 	}
 
 	public var commonsDataIndex(get,null):Int;
-	private inline function get_commonsDataIndex():Int
+	private function get_commonsDataIndex():Int
 	{
 		return _commonsDataIndex;
 	}
@@ -441,31 +441,31 @@ class ShaderCompiler
 	}
 
 	public var numUsedVertexConstants(get,null):UInt;
-	private inline function get_numUsedVertexConstants():UInt
+	private function get_numUsedVertexConstants():UInt
 	{
 		return _registerCache.numUsedVertexConstants;
 	}
 
 	public var numUsedFragmentConstants(get,null):UInt;
-	private inline function get_numUsedFragmentConstants():UInt
+	private function get_numUsedFragmentConstants():UInt
 	{
 		return _registerCache.numUsedFragmentConstants;
 	}
 
 	public var numUsedStreams(get,null):UInt;
-	private inline function get_numUsedStreams():UInt
+	private function get_numUsedStreams():UInt
 	{
 		return _registerCache.numUsedStreams;
 	}
 
 	public var numUsedTextures(get,null):UInt;
-	private inline function get_numUsedTextures():UInt
+	private function get_numUsedTextures():UInt
 	{
 		return _registerCache.numUsedTextures;
 	}
 
 	public var numUsedVaryings(get,null):UInt;
-	private inline function get_numUsedVaryings():UInt
+	private function get_numUsedVaryings():UInt
 	{
 		return _registerCache.numUsedVaryings;
 	}
@@ -512,23 +512,23 @@ class ShaderCompiler
 
 
 	public var specularLightSources(get,set):UInt;
-	private inline function get_specularLightSources():UInt
+	private function get_specularLightSources():UInt
 	{
 		return _specularLightSources;
 	}
 
-	private inline function set_specularLightSources(value:UInt):UInt
+	private function set_specularLightSources(value:UInt):UInt
 	{
 		return _specularLightSources = value;
 	}
 
 	public var diffuseLightSources(get,set):UInt;
-	private inline function get_diffuseLightSources():UInt
+	private function get_diffuseLightSources():UInt
 	{
 		return _diffuseLightSources;
 	}
 
-	private inline function set_diffuseLightSources(value:UInt):UInt
+	private function set_diffuseLightSources(value:UInt):UInt
 	{
 		return _diffuseLightSources = value;
 	}
@@ -549,151 +549,151 @@ class ShaderCompiler
 	}
 
 	public var uvBufferIndex(get,null):Int;
-	private inline function get_uvBufferIndex():Int
+	private function get_uvBufferIndex():Int
 	{
 		return _uvBufferIndex;
 	}
 
 	public var uvTransformIndex(get,null):Int;
-	private inline function get_uvTransformIndex():Int
+	private function get_uvTransformIndex():Int
 	{
 		return _uvTransformIndex;
 	}
 
 	public var secondaryUVBufferIndex(get,null):Int;
-	private inline function get_secondaryUVBufferIndex():Int
+	private function get_secondaryUVBufferIndex():Int
 	{
 		return _secondaryUVBufferIndex;
 	}
 	
 	public var normalBufferIndex(get,null):Int;
-	private inline function get_normalBufferIndex():Int
+	private function get_normalBufferIndex():Int
 	{
 		return _normalBufferIndex;
 	}
 	
 	public var tangentBufferIndex(get,null):Int;
-	private inline function get_tangentBufferIndex():Int
+	private function get_tangentBufferIndex():Int
 	{
 		return _tangentBufferIndex;
 	}
 
 	public var lightFragmentConstantIndex(get,null):Int;
-	private inline function get_lightFragmentConstantIndex():Int
+	private function get_lightFragmentConstantIndex():Int
 	{
 		return _lightFragmentConstantIndex;
 	}
 
 	public var cameraPositionIndex(get,null):Int;
-	private inline function get_cameraPositionIndex():Int
+	private function get_cameraPositionIndex():Int
 	{
 		return _cameraPositionIndex;
 	}
 
 	public var sceneMatrixIndex(get,null):Int;
-	private inline function get_sceneMatrixIndex():Int
+	private function get_sceneMatrixIndex():Int
 	{
 		return _sceneMatrixIndex;
 	}
 
 	public var sceneNormalMatrixIndex(get,null):Int;
-	private inline function get_sceneNormalMatrixIndex():Int
+	private function get_sceneNormalMatrixIndex():Int
 	{
 		return _sceneNormalMatrixIndex;
 	}
 
 	public var probeWeightsIndex(get,null):Int;
-	private inline function get_probeWeightsIndex():Int
+	private function get_probeWeightsIndex():Int
 	{
 		return _probeWeightsIndex;
 	}
 
 	public var vertexCode(get,null):String;
-	private inline function get_vertexCode():String
+	private function get_vertexCode():String
 	{
 		return _vertexCode;
 	}
 
 	public var fragmentCode(get,null):String;
-	private inline function get_fragmentCode():String
+	private function get_fragmentCode():String
 	{
 		return _fragmentCode;
 	}
 
 	public var fragmentLightCode(get,null):String;
-	private inline function get_fragmentLightCode():String
+	private function get_fragmentLightCode():String
 	{
 		return _fragmentLightCode;
 	}
 
 	public var fragmentPostLightCode(get,null):String;
-	private inline function get_fragmentPostLightCode():String
+	private function get_fragmentPostLightCode():String
 	{
 		return _fragmentPostLightCode;
 	}
 
 	public var shadedTarget(get,null):String;
-	private inline function get_shadedTarget():String
+	private function get_shadedTarget():String
 	{
 		return _sharedRegisters.shadedTarget.toString();
 	}
 
 
 	public var numPointLights(get,set):UInt;
-	private inline function get_numPointLights():UInt
+	private function get_numPointLights():UInt
 	{
 		return _numPointLights;
 	}
 
-	private inline function set_numPointLights(numPointLights:UInt):UInt
+	private function set_numPointLights(numPointLights:UInt):UInt
 	{
 		return _numPointLights = numPointLights;
 	}
 
 
 	public var numDirectionalLights(get,set):UInt;
-	private inline function get_numDirectionalLights():UInt
+	private function get_numDirectionalLights():UInt
 	{
 		return _numDirectionalLights;
 	}
 
-	private inline function set_numDirectionalLights(value:UInt):UInt
+	private function set_numDirectionalLights(value:UInt):UInt
 	{
 		return _numDirectionalLights = value;
 	}
 
 
 	public var numLightProbes(get,set):UInt;
-	private inline function get_numLightProbes():UInt
+	private function get_numLightProbes():UInt
 	{
 		return _numLightProbes;
 	}
 
-	private inline function set_numLightProbes(value:UInt):UInt
+	private function set_numLightProbes(value:UInt):UInt
 	{
 		return _numLightProbes = value;
 	}
 
 	public var usingSpecularMethod(get,null):Bool;
-	private inline function get_usingSpecularMethod():Bool
+	private function get_usingSpecularMethod():Bool
 	{
 		return _usingSpecularMethod;
 	}
 
 	public var animatableAttributes(get,null):Vector<String>;
-	private inline function get_animatableAttributes():Vector<String>
+	private function get_animatableAttributes():Vector<String>
 	{
 		return _animatableAttributes;
 	}
 
 	public var animationTargetRegisters(get,null):Vector<String>;
-	private inline function get_animationTargetRegisters():Vector<String>
+	private function get_animationTargetRegisters():Vector<String>
 	{
 		return _animationTargetRegisters;
 	}
 
 	public var usesNormals(get,null):Bool;
-	private inline function get_usesNormals():Bool
+	private function get_usesNormals():Bool
 	{
 		return _dependencyCounter.normalDependencies > 0 && _methodSetup.normalMethod.hasOutput;
 	}
@@ -747,13 +747,13 @@ class ShaderCompiler
 	}
 
 	public var lightProbeDiffuseIndices(get,null):Vector<UInt>;
-	private inline function get_lightProbeDiffuseIndices():Vector<UInt>
+	private function get_lightProbeDiffuseIndices():Vector<UInt>
 	{
 		return _lightProbeDiffuseIndices;
 	}
 
 	public var lightProbeSpecularIndices(get,null):Vector<UInt>;
-	private inline function get_lightProbeSpecularIndices():Vector<UInt>
+	private function get_lightProbeSpecularIndices():Vector<UInt>
 	{
 		return _lightProbeSpecularIndices;
 	}

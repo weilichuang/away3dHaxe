@@ -20,12 +20,12 @@ class MotionBlurFilter3D extends Filter3DBase
 		addTask(_copyTask);
 	}
 
-	private inline function get_strength():Float
+	private function get_strength():Float
 	{
 		return _compositeTask.amount;
 	}
 
-	private inline function set_strength(value:Float):Void
+	private function set_strength(value:Float):Void
 	{
 		_compositeTask.amount = value;
 	}

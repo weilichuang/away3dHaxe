@@ -44,12 +44,12 @@ class PlanarReflectionMethod extends EffectMethodBase
 	 * The reflectiveness of the surface.
 	 */
 	public var alpha(get,set):Float;
-	private inline function get_alpha():Float
+	private function get_alpha():Float
 	{
 		return _alpha;
 	}
 
-	private inline function set_alpha(value:Float):Float
+	private function set_alpha(value:Float):Float
 	{
 		return _alpha = value;
 	}
@@ -58,12 +58,12 @@ class PlanarReflectionMethod extends EffectMethodBase
 	 * The PlanarReflectionTexture used to render the reflected view.
 	 */
 	public var texture(get,set):PlanarReflectionTexture;
-	private inline function get_texture():PlanarReflectionTexture
+	private function get_texture():PlanarReflectionTexture
 	{
 		return _texture;
 	}
 
-	private inline function set_texture(value:PlanarReflectionTexture):PlanarReflectionTexture
+	private function set_texture(value:PlanarReflectionTexture):PlanarReflectionTexture
 	{
 		return _texture = value;
 	}
@@ -72,12 +72,12 @@ class PlanarReflectionMethod extends EffectMethodBase
 	 * The amount of displacement on the surface, for use with water waves.
 	 */
 	public var normalDisplacement(get,set):Float;
-	private inline function get_normalDisplacement():Float
+	private function get_normalDisplacement():Float
 	{
 		return _normalDisplacement;
 	}
 
-	private inline function set_normalDisplacement(value:Float):Float
+	private function set_normalDisplacement(value:Float):Float
 	{
 		if (_normalDisplacement == value)
 			return _normalDisplacement;

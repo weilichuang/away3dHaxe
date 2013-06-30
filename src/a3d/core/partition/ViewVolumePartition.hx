@@ -36,12 +36,12 @@ class ViewVolumePartition extends Partition3D
 	 * A dynamic grid to be able to determine visibility of dynamic objects. If none is provided, dynamic objects are only frustum-culled.
 	 * If provided, ViewVolumes need to have visible grid cells assigned from the same DynamicGrid instance.
 	 */
-	private inline function get_dynamicGrid():DynamicGrid
+	private function get_dynamicGrid():DynamicGrid
 	{
 		return ViewVolumeRootNode(_rootNode).dynamicGrid;
 	}
 
-	private inline function set_dynamicGrid(value:DynamicGrid):Void
+	private function set_dynamicGrid(value:DynamicGrid):Void
 	{
 		ViewVolumeRootNode(_rootNode).dynamicGrid = value;
 	}

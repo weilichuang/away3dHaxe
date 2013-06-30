@@ -19,12 +19,12 @@ class Filter3DBrightPassTask extends Filter3DTaskBase
 		_brightPassData = Vector<Float>([threshold, 1 / (1 - threshold), 0, 0]);
 	}
 
-	private inline function get_threshold():Float
+	private function get_threshold():Float
 	{
 		return _threshold;
 	}
 
-	private inline function set_threshold(value:Float):Void
+	private function set_threshold(value:Float):Void
 	{
 		_threshold = value;
 		_brightPassData[0] = value;

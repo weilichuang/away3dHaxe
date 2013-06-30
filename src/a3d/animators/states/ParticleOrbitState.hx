@@ -35,12 +35,12 @@ class ParticleOrbitState extends ParticleStateBase
 	/**
 	 * Defines the radius of the orbit when in global mode. Defaults to 100.
 	 */
-	private inline function get_radius():Float
+	private function get_radius():Float
 	{
 		return _radius;
 	}
 
-	private inline function set_radius(value:Float):Void
+	private function set_radius(value:Float):Void
 	{
 		_radius = value;
 
@@ -50,12 +50,12 @@ class ParticleOrbitState extends ParticleStateBase
 	/**
 	 * Defines the duration of the orbit in seconds, used as a period independent of particle duration when in global mode. Defaults to 1.
 	 */
-	private inline function get_cycleDuration():Float
+	private function get_cycleDuration():Float
 	{
 		return _cycleDuration;
 	}
 
-	private inline function set_cycleDuration(value:Float):Void
+	private function set_cycleDuration(value:Float):Void
 	{
 		_cycleDuration = value;
 
@@ -65,12 +65,12 @@ class ParticleOrbitState extends ParticleStateBase
 	/**
 	 * Defines the phase of the orbit in degrees, used as the starting offset of the cycle when in global mode. Defaults to 0.
 	 */
-	private inline function get_cyclePhase():Float
+	private function get_cyclePhase():Float
 	{
 		return _cyclePhase;
 	}
 
-	private inline function set_cyclePhase(value:Float):Void
+	private function set_cyclePhase(value:Float):Void
 	{
 		_cyclePhase = value;
 
@@ -80,12 +80,12 @@ class ParticleOrbitState extends ParticleStateBase
 	/**
 	 * Defines the euler rotation in degrees, applied to the orientation of the orbit when in global mode.
 	 */
-	private inline function get_eulers():Vector3D
+	private function get_eulers():Vector3D
 	{
 		return _eulers;
 	}
 
-	private inline function set_eulers(value:Vector3D):Void
+	private function set_eulers(value:Vector3D):Void
 	{
 		_eulers = value;
 

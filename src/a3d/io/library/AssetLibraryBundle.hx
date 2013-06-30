@@ -3,6 +3,7 @@ package a3d.io.library;
 import flash.events.EventDispatcher;
 import flash.net.URLRequest;
 import flash.Vector;
+import haxe.ds.StringMap.StringMap;
 
 
 import a3d.events.AssetEvent;
@@ -151,7 +152,7 @@ class AssetLibraryBundle extends EventDispatcher
 	private var _strategyPreference:String;
 
 	private var _assets:Vector<IAsset>;
-	private var _assetDictionary:Object;
+	private var _assetDictionary:StringMap<StringMap<IAsset>>;
 	private var _assetDictDirty:Bool;
 
 	/**
@@ -161,9 +162,9 @@ class AssetLibraryBundle extends EventDispatcher
 	 */
 	public function new()
 	{
-		_assets = new Vector<IAsset>;
-		_assetDictionary = {};
-		_loadingSessions = new Vector<AssetLoader>;
+		_assets = new Vector<IAsset>();
+		_assetDictionary = new StringMap<StringMap<IAsset>>();
+		_loadingSessions = new Vector<AssetLoader>();
 
 		conflictStrategy = ConflictStrategy.IGNORE.create();
 		conflictPrecedence = ConflictPrecedence.FAVOR_NEW;
@@ -192,7 +193,7 @@ class AssetLibraryBundle extends EventDispatcher
 	/**
 	 *
 	 */
-	public function enableParser(parserClass:Class):Void
+	public function enableParser<T>(parserClass:Class<T>):Void
 	{
 		SingleFileLoader.enableParser(parserClass);
 	}
@@ -200,7 +201,7 @@ class AssetLibraryBundle extends EventDispatcher
 	/**
 	 *
 	 */
-	public function enableParsers(parserClasses:Vector<Class>):Void
+	public function enableParsers<T>(parserClasses:Vector<Class<T>>):Void
 	{
 		SingleFileLoader.enableParsers(parserClasses);
 	}
@@ -215,12 +216,12 @@ class AssetLibraryBundle extends EventDispatcher
 	 * @see a3d.library.naming.ConflictStrategy
 	 * @see a3d.library.AssetLibrary.conflictPrecedence
 	*/
-	private inline function get_conflictStrategy():ConflictStrategyBase
+	private function get_conflictStrategy():ConflictStrategyBase
 	{
 		return _strategy;
 	}
 
-	private inline function set_conflictStrategy(val:ConflictStrategyBase):Void
+	private function set_conflictStrategy(val:ConflictStrategyBase):Void
 	{
 		if (!val)
 			throw new Error('namingStrategy must not be null. To ignore naming, use AssetLibrary.IGNORE');
@@ -240,12 +241,12 @@ class AssetLibraryBundle extends EventDispatcher
 	 * @see a3d.library.naming.ConflictPrecedence
 	 * @see a3d.library.naming.ConflictStrategy
 	*/
-	private inline function get_conflictPrecedence():String
+	private function get_conflictPrecedence():String
 	{
 		return _strategyPreference;
 	}
 
-	private inline function set_conflictPrecedence(val:String):Void
+	private function set_conflictPrecedence(val:String):Void
 	{
 		_strategyPreference = val;
 	}
@@ -264,7 +265,7 @@ class AssetLibraryBundle extends EventDispatcher
 	 *
 	 * @see a3d.library.assets.AssetType
 	 */
-	public function createIterator(assetTypeFilter:String = null, namespaceFilter:String = null, filterFunc:Function = null):AssetLibraryIterator
+	public function createIterator(assetTypeFilter:String = null, namespaceFilter:String = null, filterFunc:Dynamic = null):AssetLibraryIterator
 	{
 		return new AssetLibraryIterator(_assets, assetTypeFilter, namespaceFilter, filterFunc);
 	}
@@ -290,7 +291,7 @@ class AssetLibraryBundle extends EventDispatcher
 	 * @param ns An optional namespace string under which the file is to be loaded, allowing the differentiation of two resources with identical assets
 	 * @param parser An optional parser object for translating the loaded data into a usable resource. If not provided, AssetLoader will attempt to auto-detect the file type.
 	 */
-	public function loadData(data:*, context:AssetLoaderContext = null, ns:String = null, parser:ParserBase = null):AssetLoaderToken
+	public function loadData(data:Dynamic, context:AssetLoaderContext = null, ns:String = null, parser:ParserBase = null):AssetLoaderToken
 	{
 		return parseResource(data, context, ns, parser);
 	}
@@ -401,7 +402,7 @@ class AssetLibraryBundle extends EventDispatcher
 		if (dispose)
 		{
 			var asset:IAsset;
-			for each (asset in _assets)
+			for (asset in _assets)
 				asset.dispose();
 		}
 
@@ -432,7 +433,7 @@ class AssetLibraryBundle extends EventDispatcher
 
 		if (ns == null)
 			ns = NamedAssetBase.DEFAULT_NAMESPACE;
-		for each (asset in old_assets)
+		for (asset in old_assets)
 		{
 			// Remove from dict if in the supplied namespace. If not,
 			// transfer over to the new vector.
@@ -454,8 +455,8 @@ class AssetLibraryBundle extends EventDispatcher
 		}
 
 		// Remove empty namespace
-		if (_assetDictionary.hasOwnProperty(ns))
-			delete _assetDictionary[ns];
+		if (_assetDictionary.exits(ns))
+			_assetDictionary.remove(ns);
 	}
 
 	private function removeAssetFromDict(asset:IAsset, autoRemoveEmptyNamespace:Bool = true):Void
@@ -465,8 +466,8 @@ class AssetLibraryBundle extends EventDispatcher
 
 		if (_assetDictionary.hasOwnProperty(asset.assetNamespace))
 		{
-			if (_assetDictionary[asset.assetNamespace].hasOwnProperty(asset.name))
-				delete _assetDictionary[asset.assetNamespace][asset.name];
+			if (_assetDictionary.get(asset.assetNamespace).exits(asset.name))
+				_assetDictionary.get(asset.assetNamespace).remove(asset.name);
 
 			if (autoRemoveEmptyNamespace)
 			{
@@ -480,7 +481,7 @@ class AssetLibraryBundle extends EventDispatcher
 				}
 
 				if (empty)
-					delete _assetDictionary[asset.assetNamespace];
+					_assetDictionary.remove(asset.assetNamespace);
 			}
 		}
 	}
@@ -492,7 +493,7 @@ class AssetLibraryBundle extends EventDispatcher
 	{
 		var loader:AssetLoader = new AssetLoader();
 		if (!_loadingSessions)
-			_loadingSessions = new Vector<AssetLoader>;
+			_loadingSessions = new Vector<AssetLoader>();
 		_loadingSessions.push(loader);
 		loader.addEventListener(LoaderEvent.RESOURCE_COMPLETE, onResourceRetrieved);
 		loader.addEventListener(LoaderEvent.DEPENDENCY_COMPLETE, onDependencyRetrieved);
@@ -520,11 +521,10 @@ class AssetLibraryBundle extends EventDispatcher
 
 	public function stopAllLoadingSessions():Void
 	{
-		var i:Int;
 		if (!_loadingSessions)
-			_loadingSessions = new Vector<AssetLoader>;
+			_loadingSessions = new Vector<AssetLoader>();
 		var length:Int = _loadingSessions.length;
-		for (i = 0; i < length; i++)
+		for (i in 0...length)
 		{
 			killLoadingSession(_loadingSessions[i]);
 		}
@@ -539,11 +539,11 @@ class AssetLibraryBundle extends EventDispatcher
 	 * @param parser An optional parser object that will translate the data into a usable resource.
 	 * @return A handle to the retrieved resource.
 	 */
-	private function parseResource(data:*, context:AssetLoaderContext = null, ns:String = null, parser:ParserBase = null):AssetLoaderToken
+	private function parseResource(data:Dynamic, context:AssetLoaderContext = null, ns:String = null, parser:ParserBase = null):AssetLoaderToken
 	{
 		var loader:AssetLoader = new AssetLoader();
-		if (!_loadingSessions)
-			_loadingSessions = new Vector<AssetLoader>;
+		if (_loadingSessions == null)
+			_loadingSessions = new Vector<AssetLoader>();
 		_loadingSessions.push(loader);
 		loader.addEventListener(LoaderEvent.RESOURCE_COMPLETE, onResourceRetrieved);
 		loader.addEventListener(LoaderEvent.DEPENDENCY_COMPLETE, onDependencyRetrieved);
@@ -573,15 +573,15 @@ class AssetLibraryBundle extends EventDispatcher
 	{
 		var asset:IAsset;
 
-		_assetDictionary = {};
+		_assetDictionary = new StringMap<StringMap<IAsset>>();
 
 		_assets.fixed = true;
-		for each (asset in _assets)
+		for (asset in _assets)
 		{
-			if (!_assetDictionary.hasOwnProperty(asset.assetNamespace))
-				_assetDictionary[asset.assetNamespace] = {};
+			if (!_assetDictionary.exits(asset.assetNamespace))
+				_assetDictionary.set(asset.assetNamespace, new StringMap<IAsset>());
 
-			_assetDictionary[asset.assetNamespace][asset.name] = asset;
+			_assetDictionary.get(asset.assetNamespace).set(asset.name, asset);
 		}
 		_assets.fixed = false;
 

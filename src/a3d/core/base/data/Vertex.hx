@@ -34,12 +34,12 @@ class Vertex
 	* To define/store the index of value object
 	* @param	ind		The index
 	*/
-	private inline function set_index(ind:UInt):UInt
+	private function set_index(ind:UInt):UInt
 	{
 		return _index = ind;
 	}
 
-	private inline function get_index():UInt
+	private function get_index():UInt
 	{
 		return _index;
 	}
@@ -48,12 +48,12 @@ class Vertex
 	* To define/store the x value of the value object
 	* @param	value		The x value
 	*/
-	private inline function get_x():Float
+	private function get_x():Float
 	{
 		return _x;
 	}
 
-	private inline function set_x(value:Float):Float
+	private function set_x(value:Float):Float
 	{
 		return _x = value;
 	}
@@ -62,12 +62,12 @@ class Vertex
 	* To define/store the y value of the value object
 	* @param	value		The y value
 	*/
-	private inline function get_y():Float
+	private function get_y():Float
 	{
 		return _y;
 	}
 
-	private inline function set_y(value:Float):Float
+	private function set_y(value:Float):Float
 	{
 		return _y = value;
 	}
@@ -76,12 +76,12 @@ class Vertex
 	* To define/store the z value of the value object
 	* @param	value		The z value
 	*/
-	private inline function get_z():Float
+	private function get_z():Float
 	{
 		return _z;
 	}
 
-	private inline function set_z(value:Float):Float
+	private function set_z(value:Float):Float
 	{
 		return _z = value;
 	}

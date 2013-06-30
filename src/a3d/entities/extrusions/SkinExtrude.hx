@@ -68,12 +68,12 @@ class SkinExtrude extends Mesh
 	/**
 	 * Defines if the texture(s) should be stretched to cover the entire mesh or per step between segments. Defaults to false.
 	 */
-	private inline function get_profiles():Vector<Vector<Vector3D>>
+	private function get_profiles():Vector<Vector<Vector3D>>
 	{
 		return _profiles;
 	}
 
-	private inline function set_profiles(val:Vector<Vector<Vector3D>>):Void
+	private function set_profiles(val:Vector<Vector<Vector3D>>):Void
 	{
 		_profiles = val;
 		invalidateGeometry();
@@ -82,12 +82,12 @@ class SkinExtrude extends Mesh
 	/**
 	 * Defines if the texture(s) should be stretched to cover the entire mesh or per step between segments. Defaults to false.
 	 */
-	private inline function get_coverAll():Bool
+	private function get_coverAll():Bool
 	{
 		return _coverAll;
 	}
 
-	private inline function set_coverAll(val:Bool):Void
+	private function set_coverAll(val:Bool):Void
 	{
 		if (_coverAll == val)
 			return;
@@ -99,12 +99,12 @@ class SkinExtrude extends Mesh
 	/**
 	* Defines if the last vector of Vector3D are joined to the first one, closing the shape. works from 3 vector.&lt;Vector3D&gt; entered.
 	*/
-	private inline function get_closeShape():Bool
+	private function get_closeShape():Bool
 	{
 		return _closeShape;
 	}
 
-	private inline function set_closeShape(val:Bool):Void
+	private function set_closeShape(val:Bool):Void
 	{
 		if (_closeShape == val)
 			return;
@@ -116,12 +116,12 @@ class SkinExtrude extends Mesh
 	/**
 	 * Defines if the face orientatio needs to be inverted
 	 */
-	private inline function get_flip():Bool
+	private function get_flip():Bool
 	{
 		return _flip;
 	}
 
-	private inline function set_flip(val:Bool):Void
+	private function set_flip(val:Bool):Void
 	{
 		if (_flip == val)
 			return;
@@ -133,12 +133,12 @@ class SkinExtrude extends Mesh
 	/**
 	 * Defines whether the mesh is _centerMeshed of not after generation
 	 */
-	private inline function get_centerMesh():Bool
+	private function get_centerMesh():Bool
 	{
 		return _centerMesh;
 	}
 
-	private inline function set_centerMesh(val:Bool):Void
+	private function set_centerMesh(val:Bool):Void
 	{
 		if (_centerMesh == val)
 			return;
@@ -155,12 +155,12 @@ class SkinExtrude extends Mesh
 		}
 	}
 
-	private inline function get_subdivision():Float
+	private function get_subdivision():Float
 	{
 		return _subdivision;
 	}
 
-	private inline function set_subdivision(val:Float):Void
+	private function set_subdivision(val:Float):Void
 	{
 		if (_subdivision == val)
 			return;

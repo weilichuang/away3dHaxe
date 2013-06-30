@@ -23,12 +23,12 @@ class ATFCubeTexture extends CubeTextureBase
 	}
 
 	public var atfData(get, set):ATFData;
-	private inline function get_atfData():ATFData
+	private function get_atfData():ATFData
 	{
 		return _atfData;
 	}
 
-	private inline function set_atfData(value:ATFData):ATFData
+	private function set_atfData(value:ATFData):ATFData
 	{
 		_atfData = value;
 

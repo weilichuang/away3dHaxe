@@ -33,12 +33,12 @@ class ParticleSpriteSheetState extends ParticleStateBase
 	/**
 	 * Defines the cycle phase, when in global mode. Defaults to zero.
 	 */
-	private inline function get_cyclePhase():Float
+	private function get_cyclePhase():Float
 	{
 		return _cyclePhase;
 	}
 
-	private inline function set_cyclePhase(value:Float):Void
+	private function set_cyclePhase(value:Float):Void
 	{
 		_cyclePhase = value;
 
@@ -48,12 +48,12 @@ class ParticleSpriteSheetState extends ParticleStateBase
 	/**
 	 * Defines the cycle duration in seconds, when in global mode. Defaults to 1.
 	 */
-	private inline function get_cycleDuration():Float
+	private function get_cycleDuration():Float
 	{
 		return _cycleDuration;
 	}
 
-	private inline function set_cycleDuration(value:Float):Void
+	private function set_cycleDuration(value:Float):Void
 	{
 		_cycleDuration = value;
 

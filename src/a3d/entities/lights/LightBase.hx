@@ -54,12 +54,12 @@ class LightBase extends Entity
 	}
 
 	public var castsShadows(get,set):Bool;
-	private inline function get_castsShadows():Bool
+	private function get_castsShadows():Bool
 	{
 		return _castsShadows;
 	}
 
-	private inline function set_castsShadows(value:Bool):Bool
+	private function set_castsShadows(value:Bool):Bool
 	{
 		if (_castsShadows == value)
 			return _castsShadows;
@@ -92,13 +92,13 @@ class LightBase extends Entity
 	 * The specular emission strength of the light. Default value is <code>1</code>.
 	 */
 	public var specular(get,set):Float;
-	private inline function get_specular():Float
+	private function get_specular():Float
 	{
 		return _specular;
 	}
 
 
-	private inline function set_specular(value:Float):Float
+	private function set_specular(value:Float):Float
 	{
 		if (value < 0)
 			value = 0;
@@ -112,12 +112,12 @@ class LightBase extends Entity
 	 * The diffuse emission strength of the light. Default value is <code>1</code>.
 	 */
 	public var diffuse(get,set):Float;
-	private inline function get_diffuse():Float
+	private function get_diffuse():Float
 	{
 		return _diffuse;
 	}
 
-	private inline function set_diffuse(value:Float):Float
+	private function set_diffuse(value:Float):Float
 	{
 		if (value < 0)
 			value = 0;
@@ -132,12 +132,12 @@ class LightBase extends Entity
 	 * The color of the light. Default value is <code>0xffffff</code>.
 	 */
 	public var color(get,set):UInt;
-	private inline function get_color():UInt
+	private function get_color():UInt
 	{
 		return _color;
 	}
 
-	private inline function set_color(value:UInt):UInt
+	private function set_color(value:UInt):UInt
 	{
 		_color = value;
 		_colorR = ((_color >> 16) & 0xff) / 0xff;
@@ -153,12 +153,12 @@ class LightBase extends Entity
 	 * The ambient emission strength of the light. Default value is <code>0</code>.
 	 */
 	public var ambient(get,set):Float;
-	private inline function get_ambient():Float
+	private function get_ambient():Float
 	{
 		return _ambient;
 	}
 
-	private inline function set_ambient(value:Float):Float
+	private function set_ambient(value:Float):Float
 	{
 		if (value < 0)
 			value = 0;
@@ -171,7 +171,7 @@ class LightBase extends Entity
 	}
 
 	public var ambientColor(get,set):UInt;
-	private inline function get_ambientColor():UInt
+	private function get_ambientColor():UInt
 	{
 		return _ambientColor;
 	}
@@ -179,7 +179,7 @@ class LightBase extends Entity
 	/**
 	 * The ambient emission colour of the light. Default value is <code>0xffffff</code>.
 	 */
-	private inline function set_ambientColor(value:UInt):UInt
+	private function set_ambientColor(value:UInt):UInt
 	{
 		_ambientColor = value;
 		updateAmbient();
@@ -242,12 +242,12 @@ class LightBase extends Entity
 	}
 
 	public var shadowMapper(get,set):ShadowMapperBase;
-	private inline function get_shadowMapper():ShadowMapperBase
+	private function get_shadowMapper():ShadowMapperBase
 	{
 		return _shadowMapper;
 	}
 
-	private inline function set_shadowMapper(value:ShadowMapperBase):ShadowMapperBase
+	private function set_shadowMapper(value:ShadowMapperBase):ShadowMapperBase
 	{
 		_shadowMapper = value;
 		_shadowMapper.light = this;

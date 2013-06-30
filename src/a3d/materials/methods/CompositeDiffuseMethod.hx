@@ -21,12 +21,12 @@ class CompositeDiffuseMethod extends BasicDiffuseMethod
 	/**
 	 * The base diffuse method on which this method's shading is based.
 	 */
-	private inline function get_baseMethod():BasicDiffuseMethod
+	private function get_baseMethod():BasicDiffuseMethod
 	{
 		return _baseMethod;
 	}
 
-	private inline function set_baseMethod(value:BasicDiffuseMethod):Void
+	private function set_baseMethod(value:BasicDiffuseMethod):Void
 	{
 		if (_baseMethod == value)
 			return;

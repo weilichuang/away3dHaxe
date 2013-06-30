@@ -36,7 +36,7 @@ class ParticleStateBase extends AnimationStateBase
 		_needUpdateTime = needUpdateTime;
 	}
 
-	private inline function get_needUpdateTime():Bool
+	private function get_needUpdateTime():Bool
 	{
 		return _needUpdateTime;
 	}

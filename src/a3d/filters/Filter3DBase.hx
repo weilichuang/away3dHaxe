@@ -20,7 +20,7 @@ class Filter3DBase
 	}
 
 	public var requireDepthRender(get, null):Bool;
-	private inline function get_requireDepthRender():Bool
+	private function get_requireDepthRender():Bool
 	{
 		return _requireDepthRender;
 	}
@@ -33,7 +33,7 @@ class Filter3DBase
 	}
 
 	public var tasks(get, null):Vector<Filter3DTaskBase>;
-	private inline function get_tasks():Vector<Filter3DTaskBase>
+	private function get_tasks():Vector<Filter3DTaskBase>
 	{
 		return _tasks;
 	}
@@ -44,12 +44,12 @@ class Filter3DBase
 	}
 	
 	public var textureWidth(get, set):Int;
-	private inline function get_textureWidth():Int
+	private function get_textureWidth():Int
 	{
 		return _textureWidth;
 	}
 
-	private inline function set_textureWidth(value:Int):Int
+	private function set_textureWidth(value:Int):Int
 	{
 		for (i in 0..._tasks.length)
 			_tasks[i].textureWidth = value;
@@ -58,12 +58,12 @@ class Filter3DBase
 	}
 
 	public var textureHeight(get, set):Int;
-	private inline function get_textureHeight():Int
+	private function get_textureHeight():Int
 	{
 		return _textureHeight;
 	}
 
-	private inline function set_textureHeight(value:Int):Int
+	private function set_textureHeight(value:Int):Int
 	{
 		for (i in 0..._tasks.length)
 			_tasks[i].textureHeight = value;

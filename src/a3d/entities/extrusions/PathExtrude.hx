@@ -122,12 +122,12 @@ class PathExtrude extends Mesh
 		_keepExtremes = keepExtremes;
 	}
 
-	private inline function get_upAxis():Vector3D
+	private function get_upAxis():Vector3D
 	{
 		return _upAxis;
 	}
 
-	private inline function set_upAxis(value:Vector3D):Void
+	private function set_upAxis(value:Vector3D):Void
 	{
 		_upAxis = value;
 	}
@@ -168,12 +168,12 @@ class PathExtrude extends Mesh
 	/**
 	 * Defines whether the mesh is recentered of not after generation
 	 */
-	private inline function get_centerMesh():Bool
+	private function get_centerMesh():Bool
 	{
 		return _centerMesh;
 	}
 
-	private inline function set_centerMesh(val:Bool):Void
+	private function set_centerMesh(val:Bool):Void
 	{
 		if (_centerMesh == val)
 			return;
@@ -193,12 +193,12 @@ class PathExtrude extends Mesh
 	/**
 	 * Defines the uv's u values are spreaded procentually over the entire surface to prevent the maps to be stretched.
 	 */
-	private inline function get_distributeU():Bool
+	private function get_distributeU():Bool
 	{
 		return _distributeU;
 	}
 
-	private inline function set_distributeU(val:Bool):Void
+	private function set_distributeU(val:Bool):Void
 	{
 		if (_distributeU == val)
 			return;
@@ -225,12 +225,12 @@ class PathExtrude extends Mesh
 	/**
 	 * Defines the <code>Path</code> object representing path to extrude along. Required.
 	 */
-	private inline function get_path():IPath
+	private function get_path():IPath
 	{
 		return _path;
 	}
 
-	private inline function set_path(val:IPath):Void
+	private function set_path(val:IPath):Void
 	{
 		_path = val;
 		_geomDirty = true;
@@ -239,12 +239,12 @@ class PathExtrude extends Mesh
 	/**
 	 * Defines a Vector.&lt;Vector3D&gt; of Vector3D objects representing the profile information to be projected along the Path object. Required.
 	 */
-	private inline function get_profile():Vector<Vector3D>
+	private function get_profile():Vector<Vector3D>
 	{
 		return _profile;
 	}
 
-	private inline function set_profile(val:Vector<Vector3D>):Void
+	private function set_profile(val:Vector<Vector3D>):Void
 	{
 		_profile = val;
 
@@ -257,12 +257,12 @@ class PathExtrude extends Mesh
 	/**
 	 * An optional Vector.&lt;Vector3D&gt; of <code>Vector3D</code> objects that defines a series of scales to be set on each PathSegment.
 	 */
-	private inline function get_scales():Vector<Vector3D>
+	private function get_scales():Vector<Vector3D>
 	{
 		return _scales;
 	}
 
-	private inline function set_scales(val:Vector<Vector3D>):Void
+	private function set_scales(val:Vector<Vector3D>):Void
 	{
 		_scales = val;
 		_geomDirty = true;
@@ -271,12 +271,12 @@ class PathExtrude extends Mesh
 	/**
 	 * An optional Vector.&lt;Vector3D&gt; of <code>Vector3D</code> objects that defines a series of rotations to be set on each PathSegment.
 	 */
-	private inline function get_rotations():Vector<Vector3D>
+	private function get_rotations():Vector<Vector3D>
 	{
 		return _rotations;
 	}
 
-	private inline function set_rotations(val:Vector<Vector3D>):Void
+	private function set_rotations(val:Vector<Vector3D>):Void
 	{
 		_rotations = val;
 		_geomDirty = true;
@@ -285,12 +285,12 @@ class PathExtrude extends Mesh
 	/**
 	 * An optional Vector.&lt;MaterialBase&gt;. It defines a series of materials to be set on each PathSegment if coverAll is set to false.
 	 */
-	private inline function get_materials():Vector<MaterialBase>
+	private function get_materials():Vector<MaterialBase>
 	{
 		return _materials;
 	}
 
-	private inline function set_materials(val:Vector<MaterialBase>):Void
+	private function set_materials(val:Vector<MaterialBase>):Void
 	{
 		if (val == null)
 			return;
@@ -301,12 +301,12 @@ class PathExtrude extends Mesh
 	/**
 	 * Defines the subdivisions created in the mesh for each PathSegment. Defaults to 2, minimum 2.
 	 */
-	private inline function get_subdivision():Int
+	private function get_subdivision():Int
 	{
 		return _subdivision;
 	}
 
-	private inline function set_subdivision(val:Int):Void
+	private function set_subdivision(val:Int):Void
 	{
 		val = (val < 2) ? 2 : val;
 
@@ -320,12 +320,12 @@ class PathExtrude extends Mesh
 	/**
 	 * Defines if the texture(s) should be stretched to cover the entire mesh or per step between segments. Defaults to true.
 	 */
-	private inline function get_coverAll():Bool
+	private function get_coverAll():Bool
 	{
 		return _coverAll;
 	}
 
-	private inline function set_coverAll(val:Bool):Void
+	private function set_coverAll(val:Bool):Void
 	{
 		if (_coverAll == val)
 			return;
@@ -339,12 +339,12 @@ class PathExtrude extends Mesh
 	 * Uv mapping is less distorted on complex shapes once applied. Depending on Path length, extra construct time might be significant.
 	 * Defaults to false.
 	 */
-	private inline function get_distribute():Bool
+	private function get_distribute():Bool
 	{
 		return _distribute;
 	}
 
-	private inline function set_distribute(val:Bool):Void
+	private function set_distribute(val:Bool):Void
 	{
 		if (_distribute == val)
 			return;
@@ -356,12 +356,12 @@ class PathExtrude extends Mesh
 	/**
 	 * Defines if the surface of the mesh must be smoothed or not.
 	 */
-	private inline function get_smoothSurface():Bool
+	private function get_smoothSurface():Bool
 	{
 		return _smoothSurface;
 	}
 
-	private inline function set_smoothSurface(val:Bool):Void
+	private function set_smoothSurface(val:Bool):Void
 	{
 		if (_smoothSurface == val)
 			return;
@@ -373,12 +373,12 @@ class PathExtrude extends Mesh
 	/**
 	 * Defines if the texture(s) should applied per segment. Default false.
 	 */
-	private inline function set_coverSegment(b:Bool):Void
+	private function set_coverSegment(b:Bool):Void
 	{
 		_coverSegment = b;
 	}
 
-	private inline function get_coverSegment():Bool
+	private function get_coverSegment():Bool
 	{
 		return _coverSegment;
 	}
@@ -388,12 +388,12 @@ class PathExtrude extends Mesh
 	 * The mapping considers first and last profile points are the most distant from each other. Most left and most right on the map.
 	 * Note that it is NOT suitable for most cases. It is helpfull for roads definition, usually seen from above with simple profile. It prevents then distorts and eases map designs.
 	 */
-	private inline function get_mapFit():Bool
+	private function get_mapFit():Bool
 	{
 		return _mapFit;
 	}
 
-	private inline function set_mapFit(val:Bool):Void
+	private function set_mapFit(val:Bool):Void
 	{
 		if (_mapFit == val)
 			return;
@@ -408,12 +408,12 @@ class PathExtrude extends Mesh
 	/**
 	 * Defines if the generated faces should be inversed. Default false.
 	 */
-	private inline function get_flip():Bool
+	private function get_flip():Bool
 	{
 		return _flip;
 	}
 
-	private inline function set_flip(val:Bool):Void
+	private function set_flip(val:Bool):Void
 	{
 		if (_flip == val)
 			return;
@@ -425,12 +425,12 @@ class PathExtrude extends Mesh
 	/**
 	 * Defines if the last PathSegment should join the first one and close the loop. Defaults to false.
 	 */
-	private inline function get_closePath():Bool
+	private function get_closePath():Bool
 	{
 		return _closePath;
 	}
 
-	private inline function set_closePath(val:Bool):Void
+	private function set_closePath(val:Bool):Void
 	{
 		if (_closePath == val)
 			return;
@@ -444,12 +444,12 @@ class PathExtrude extends Mesh
 	 *
 	 * @see #profile
 	 */
-	private inline function get_aligntoPath():Bool
+	private function get_aligntoPath():Bool
 	{
 		return _alignToPath;
 	}
 
-	private inline function set_alignToPath(val:Bool):Void
+	private function set_alignToPath(val:Bool):Void
 	{
 		if (_alignToPath == val)
 			return;
@@ -461,12 +461,12 @@ class PathExtrude extends Mesh
 	/**
 	 * Defines if a scaling of a PathSegment defined from the scales array of <code>Vector3D</code> objects should affect the whole PathSegment evenly or be smoothly interpolated from previous PathSegment scale. Defaults to true.
 	 */
-	private inline function get_smoothScale():Bool
+	private function get_smoothScale():Bool
 	{
 		return _smoothScale;
 	}
 
-	private inline function set_smoothScale(val:Bool):Void
+	private function set_smoothScale(val:Bool):Void
 	{
 		if (_smoothScale == val)
 			return;
@@ -482,12 +482,12 @@ class PathExtrude extends Mesh
 	 * @see getStartProfile
 	 * @see getEndProfile
 	 */
-	private inline function get_keepExtremes():Bool
+	private function get_keepExtremes():Bool
 	{
 		return _keepExtremes;
 	}
 
-	private inline function set_keepExtremes(b:Bool):Void
+	private function set_keepExtremes(b:Bool):Void
 	{
 		_keepExtremes = b;
 	}
@@ -496,7 +496,7 @@ class PathExtrude extends Mesh
 	 * returns a vector of vector3d's representing the transformed profile coordinates at the start of the extrude shape
 	 * null if "keepExtremes" is false or if the extrusion has not been builded yet.
 	 */
-	private inline function get_startProfile():Vector<Vector3D>
+	private function get_startProfile():Vector<Vector3D>
 	{
 		if (!_path || !_startPoints)
 			return null;
@@ -508,7 +508,7 @@ class PathExtrude extends Mesh
 	 * returns a vector of vector3d's representing the transformed profile coordinates at the end of the extrude shape
 	 * null if "keepExtremes" is false or if the extrusion has not been builded yet.
 	 */
-	private inline function get_endProfile():Vector<Vector3D>
+	private function get_endProfile():Vector<Vector3D>
 	{
 		if (!_path || !_endPoints)
 			return null;

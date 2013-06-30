@@ -33,12 +33,12 @@ class Filter3DHDepthOfFFieldTask extends Filter3DTaskBase
 		this.stepSize = stepSize;
 	}
 
-	private inline function get_stepSize():Int
+	private function get_stepSize():Int
 	{
 		return _stepSize;
 	}
 
-	private inline function set_stepSize(value:Int):Void
+	private function set_stepSize(value:Int):Void
 	{
 		if (value == _stepSize)
 			return;
@@ -48,34 +48,34 @@ class Filter3DHDepthOfFFieldTask extends Filter3DTaskBase
 		updateBlurData();
 	}
 
-	private inline function get_range():Float
+	private function get_range():Float
 	{
 		return _range;
 	}
 
-	private inline function set_range(value:Float):Void
+	private function set_range(value:Float):Void
 	{
 		_range = value;
 		_data[8] = 1 / value;
 	}
 
 
-	private inline function get_focusDistance():Float
+	private function get_focusDistance():Float
 	{
 		return _focusDistance;
 	}
 
-	private inline function set_focusDistance(value:Float):Void
+	private function set_focusDistance(value:Float):Void
 	{
 		_data[3] = _focusDistance = value;
 	}
 
-	private inline function get_maxBlur():UInt
+	private function get_maxBlur():UInt
 	{
 		return _maxBlur;
 	}
 
-	private inline function set_maxBlur(value:UInt):Void
+	private function set_maxBlur(value:UInt):Void
 	{
 		if (_maxBlur == value)
 			return;

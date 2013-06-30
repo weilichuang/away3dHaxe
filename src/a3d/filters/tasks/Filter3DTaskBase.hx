@@ -36,12 +36,12 @@ class Filter3DTaskBase
 	 * The texture scale for the input of this texture. This will define the output of the previous entry in the chain
 	 */
 	public var textureScale(get, set):Int;
-	private inline function get_textureScale():Int
+	private function get_textureScale():Int
 	{
 		return _textureScale;
 	}
 
-	private inline function set_textureScale(value:Int):Int
+	private function set_textureScale(value:Int):Int
 	{
 		if (_textureScale == value)
 			return _textureScale;
@@ -54,23 +54,23 @@ class Filter3DTaskBase
 	}
 
 	public var target(get,set):Texture;
-	private inline function get_target():Texture
+	private function get_target():Texture
 	{
 		return _target;
 	}
 
-	private inline function set_target(value:Texture):Texture
+	private function set_target(value:Texture):Texture
 	{
 		return _target = value;
 	}
 
 	public var textureWidth(get,set):Int;
-	private inline function get_textureWidth():Int
+	private function get_textureWidth():Int
 	{
 		return _textureWidth;
 	}
 
-	private inline function set_textureWidth(value:Int):Int
+	private function set_textureWidth(value:Int):Int
 	{
 		if (_textureWidth == value)
 			return _textureWidth;
@@ -82,12 +82,12 @@ class Filter3DTaskBase
 	}
 
 	public var textureHeight(get,set):Int;
-	private inline function get_textureHeight():Int
+	private function get_textureHeight():Int
 	{
 		return _textureHeight;
 	}
 
-	private inline function set_textureHeight(value:Int):Int
+	private function set_textureHeight(value:Int):Int
 	{
 		if (_textureHeight == value)
 			return _textureHeight;
@@ -167,7 +167,7 @@ class Filter3DTaskBase
 	}
 
 	public var requireDepthRender(get,null):Bool;
-	private inline function get_requireDepthRender():Bool
+	private function get_requireDepthRender():Bool
 	{
 		return _requireDepthRender;
 	}

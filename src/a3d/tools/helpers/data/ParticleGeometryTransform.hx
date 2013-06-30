@@ -16,7 +16,7 @@ class ParticleGeometryTransform
 	{
 	}
 
-	private inline function set_vertexTransform(value:Matrix3D):Void
+	private function set_vertexTransform(value:Matrix3D):Void
 	{
 		_defaultVertexTransform = value;
 		_defaultInvVertexTransform = value.clone();
@@ -24,22 +24,22 @@ class ParticleGeometryTransform
 		_defaultInvVertexTransform.transpose();
 	}
 
-	private inline function set_UVTransform(value:Matrix):Void
+	private function set_UVTransform(value:Matrix):Void
 	{
 		_defaultUVTransform = value;
 	}
 
-	private inline function get_UVTransform():Matrix
+	private function get_UVTransform():Matrix
 	{
 		return _defaultUVTransform;
 	}
 
-	private inline function get_vertexTransform():Matrix3D
+	private function get_vertexTransform():Matrix3D
 	{
 		return _defaultVertexTransform;
 	}
 
-	private inline function get_invVertexTransform():Matrix3D
+	private function get_invVertexTransform():Matrix3D
 	{
 		return _defaultInvVertexTransform;
 	}

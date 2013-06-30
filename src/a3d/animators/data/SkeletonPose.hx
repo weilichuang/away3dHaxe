@@ -26,7 +26,7 @@ class SkeletonPose extends NamedAssetBase implements IAsset
 	/**
 	 * The total number of joint poses in the skeleton pose.
 	 */
-	private inline function get_numJointPoses():UInt
+	private function get_numJointPoses():UInt
 	{
 		return jointPoses.length;
 	}
@@ -42,7 +42,7 @@ class SkeletonPose extends NamedAssetBase implements IAsset
 	/**
 	 * @inheritDoc
 	 */
-	private inline function get_assetType():String
+	private function get_assetType():String
 	{
 		return AssetType.SKELETON_POSE;
 	}
