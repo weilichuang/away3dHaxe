@@ -259,11 +259,11 @@ class SuperShaderPass extends CompiledPass
 		// first dirs, then points
 		var dirLight:DirectionalLight;
 		var pointLight:PointLight;
-		var i:UInt, k:UInt;
+		var i:Int, k:Int;
 		var len:Int;
 		var dirPos:Vector3D;
-		var total:UInt = 0;
-		var numLightTypes:UInt = _includeCasters ? 2 : 1;
+		var total:Int = 0;
+		var numLightTypes:Int = _includeCasters ? 2 : 1;
 
 		k = _lightFragmentConstantIndex;
 

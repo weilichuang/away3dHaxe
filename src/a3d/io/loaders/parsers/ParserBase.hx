@@ -158,22 +158,12 @@ class ParserBase extends EventDispatcher
 	private var _frameLimit:Float;
 	private var _lastFrameTime:Float;
 
-	private function getTextData():String
-	{
-		return ParserUtil.toString(_data);
-	}
-
-	private function getByteData():ByteArray
-	{
-		return ParserUtil.toByteArray(_data);
-	}
-
 	private var _dependencies:Vector<ResourceDependency>;
 	private var _parsingPaused:Bool;
 	private var _parsingComplete:Bool;
 	private var _parsingFailure:Bool;
 	private var _timer:Timer;
-	private var _materialMode:Int;
+	private var _materialMode:Int = 0;
 
 	/**
 	 * Returned by <code>proceedParsing</code> to indicate no more parsing is needed.
@@ -194,10 +184,19 @@ class ParserBase extends EventDispatcher
 	 */
 	public function new(format:String)
 	{
-		super();
-		_materialMode = 0;
-		_dataFormat = format;
 		_dependencies = new Vector<ResourceDependency>();
+		super();
+		_dataFormat = format;
+	}
+	
+	private function getTextData():String
+	{
+		return ParserUtil.toString(_data);
+	}
+
+	private function getByteData():ByteArray
+	{
+		return ParserUtil.toByteArray(_data);
 	}
 
 	/**

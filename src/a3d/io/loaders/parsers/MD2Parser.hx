@@ -264,7 +264,7 @@ class MD2Parser extends ParserBase
 		var url:String;
 		var name:String;
 		var extIndex:Int;
-		var slashIndex:Int;
+		var slashIndex:Int = 0;
 		_materialNames = new Vector<String>();
 		_byteData.position = _offsetSkins;
 
@@ -356,8 +356,11 @@ class MD2Parser extends ParserBase
 
 		for (i in 0...len)
 		{
-			_finalUV[i << 1] = _uvs[Std.int(_uvIndices[i]) << 1];
-			_finalUV[(i << 1) + 1] = _uvs[Std.int(_uvIndices[i]) << 1 + 1];
+			var t:Int = Std.int(_uvIndices[i]);
+			t = t << 1;
+			var t2:Int = i << 1;
+			_finalUV[t2] = _uvs[t];
+			_finalUV[t2 + 1] = _uvs[t + 1];
 		}
 
 		_parsedFaces = true;

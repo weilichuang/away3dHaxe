@@ -45,7 +45,9 @@ class ImageParser extends ParserBase
 	public static function supportsType(extension:String):Bool
 	{
 		extension = extension.toLowerCase();
-		return extension == "jpg" || extension == "jpeg" || extension == "png" || extension == "gif" || extension == "bmp" || extension == "atf";
+		return extension == "jpg" || extension == "jpeg" || 
+				extension == "png" || extension == "gif" || 
+				extension == "bmp" || extension == "atf";
 	}
 
 

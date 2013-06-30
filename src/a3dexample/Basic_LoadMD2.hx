@@ -1,35 +1,25 @@
 ﻿package a3dexample;
 
-import flash.events.Event;
-import flash.events.MouseEvent;
-import flash.utils.ByteArray;
-
 import a3d.animators.VertexAnimationSet;
 import a3d.animators.VertexAnimator;
 import a3d.controllers.HoverController;
-import a3d.entities.Mesh;
 import a3d.entities.lights.DirectionalLight;
+import a3d.entities.Mesh;
 import a3d.entities.primitives.PlaneGeometry;
 import a3d.events.AssetEvent;
 import a3d.io.library.AssetLibrary;
 import a3d.io.library.assets.AssetType;
 import a3d.io.loaders.misc.AssetLoaderContext;
 import a3d.io.loaders.parsers.MD2Parser;
-import a3d.materials.TextureMaterial;
 import a3d.materials.lightpickers.StaticLightPicker;
 import a3d.materials.methods.FilteredShadowMapMethod;
-import a3d.utils.Cast;
+import a3d.materials.TextureMaterial;
+import flash.events.Event;
+import flash.events.MouseEvent;
+import flash.Lib;
+import flash.utils.ByteArray;
 
-//plane textures
-@:bitmap("embeds/floor_diffuse.jpg") class FloorDiffuse extends flash.display.BitmapData { }
-//ogre diffuse texture
-@:bitmap("embeds/ogre/ogre_diffuse.jpg") class OgreDiffuse extends flash.display.BitmapData { }
-//ogre normal map texture
-@:bitmap("embeds/ogre/ogre_normals.jpg") class OgreNormals extends flash.display.BitmapData { }
-//ogre specular map texture
-@:bitmap("embeds/ogre/ogre_specular.jpg") class OgreSpecular extends flash.display.BitmapData { }
-//solider ant model
-@:file("embeds/ogre/ogre.md2") class OgreModel extends ByteArray { }
+
 
 class Basic_LoadMD2 extends BasicApplication
 {
@@ -94,7 +84,7 @@ class Basic_LoadMD2 extends BasicApplication
 
 		//setup the url map for textures in the 3ds file
 		var assetLoaderContext:AssetLoaderContext = new AssetLoaderContext();
-		assetLoaderContext.mapUrlToData("igdosh.jpg", new OgreDiffuse());
+		assetLoaderContext.mapUrlToData("igdosh.jpg", new OgreDiffuse(0,0));
 
 		//setup parser to be used on AssetLibrary
 		AssetLibrary.loadData(new OgreModel(), assetLoaderContext, null, new MD2Parser());
@@ -163,8 +153,8 @@ class Basic_LoadMD2 extends BasicApplication
 
 
 			//create 16 different clones of the ogre
-			var numWide:Float = 4;
-			var numDeep:Float = 4;
+			var numWide:Int = 4;
+			var numDeep:Int = 4;
 			var k:Int = 0;
 			for (i in 0...numWide)
 			{
@@ -225,3 +215,14 @@ class Basic_LoadMD2 extends BasicApplication
 		stage.removeEventListener(Event.MOUSE_LEAVE, onStageMouseLeave);
 	}
 }
+
+//plane textures
+@:bitmap("embeds/floor_diffuse.jpg") class FloorDiffuse extends flash.display.BitmapData { }
+//ogre diffuse texture
+@:bitmap("embeds/ogre/ogre_diffuse.jpg") class OgreDiffuse extends flash.display.BitmapData { }
+//ogre normal map texture
+@:bitmap("embeds/ogre/ogre_normals.png") class OgreNormals extends flash.display.BitmapData { }
+//ogre specular map texture
+@:bitmap("embeds/ogre/ogre_specular.jpg") class OgreSpecular extends flash.display.BitmapData { }
+//solider ant model
+@:file("embeds/ogre/ogre.md2") class OgreModel extends ByteArray { }

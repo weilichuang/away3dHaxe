@@ -19,7 +19,7 @@ import haxe.ds.WeakMap;
  */
 class VertexAnimationSet extends AnimationSetBase implements IAnimationSet
 {
-	private var _numPoses:UInt;
+	private var _numPoses:Int = 0;
 	private var _blendMode:String;
 	private var _streamIndices:WeakMap<MaterialPassBase,Int>;
 	private var _useNormals:WeakMap<MaterialPassBase,Bool>;
@@ -191,7 +191,7 @@ class VertexAnimationSet extends AnimationSetBase implements IAnimationSet
 		var len:UInt = sourceRegisters.length;
 		var regs:Array<String> = ["x", "y", "z", "w"];
 		var temp1:String = findTempReg(targetRegisters);
-		var k:UInt;
+		var k:Int = 0;
 		
 		_useTangents.set(pass, len > 2);
 		_useNormals.set(pass, len > 1);

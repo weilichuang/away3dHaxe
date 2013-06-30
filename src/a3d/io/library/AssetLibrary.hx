@@ -84,14 +84,15 @@ class AssetLibrary
 	 *
 	 * @see a3d.library.AssetLibraryBundle.conflictPrecedence
 	*/
+	public static var conflictPrecedence(get,set):String;
 	public static function get_conflictPrecedence():String
 	{
 		return getBundle().conflictPrecedence;
 	}
 
-	public static function set_conflictPrecedence(val:String):Void
+	public static function set_conflictPrecedence(val:String):String
 	{
-		getBundle().conflictPrecedence = val;
+		return getBundle().conflictPrecedence = val;
 	}
 
 	/**

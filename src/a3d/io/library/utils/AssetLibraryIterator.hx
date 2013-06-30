@@ -8,7 +8,7 @@ class AssetLibraryIterator
 	private var _assets:Vector<IAsset>;
 	private var _filtered:Vector<IAsset>;
 
-	private var _idx:UInt;
+	private var _idx:Int;
 
 	public function new(assets:Vector<IAsset>, assetTypeFilter:String, namespaceFilter:String, filterFunc:Dynamic)
 	{

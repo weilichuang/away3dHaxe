@@ -207,7 +207,7 @@ class SingleFileLoader extends EventDispatcher
 	public function load(urlRequest:URLRequest, parser:ParserBase = null, loadAsRawData:Bool = false):Void
 	{
 		var urlLoader:URLLoader;
-		var dataFormat:URLLoaderDataFormat;
+		var dataFormat:URLLoaderDataFormat = URLLoaderDataFormat.BINARY;
 
 		_loadAsRawData = loadAsRawData;
 		_req = urlRequest;

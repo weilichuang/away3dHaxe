@@ -141,7 +141,7 @@ class LightingPass extends CompiledPass
 
 	private function calculateNumProbes(numLightProbes:Int):Int
 	{
-		var numChannels:Int;
+		var numChannels:Int = 0;
 		if ((_specularLightSources & LightSources.PROBES) != 0)
 			++numChannels;
 		if ((_diffuseLightSources & LightSources.PROBES) != 0)
@@ -218,11 +218,11 @@ class LightingPass extends CompiledPass
 	{
 		var dirLight:DirectionalLight;
 		var pointLight:PointLight;
-		var i:UInt, k:UInt;
+		var i:Int, k:Int;
 		var len:Int;
 		var dirPos:Vector3D;
-		var total:UInt = 0;
-		var numLightTypes:UInt = _includeCasters ? 2 : 1;
+		var total:Int = 0;
+		var numLightTypes:Int = _includeCasters ? 2 : 1;
 		var l:Int;
 		var offset:Int;
 
@@ -285,9 +285,9 @@ class LightingPass extends CompiledPass
 
 				if (++total == _numDirectionalLights)
 				{
-					// break loop
-					i = len;
 					c = numLightTypes;
+					// break loop
+					break;
 				}
 			}
 			++c;
@@ -357,9 +357,9 @@ class LightingPass extends CompiledPass
 
 				if (++total == _numPointLights)
 				{
-					// break loop
-					i = len;
 					c = numLightTypes;
+					// break loop
+					break;
 				}
 			}
 			++c;

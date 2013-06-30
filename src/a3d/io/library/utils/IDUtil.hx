@@ -76,8 +76,14 @@ class IDUtil
 		{
 			uid[index++] = ALPHA_CHAR_CODES[Math.floor(Math.random() * 16)];
 		}
+		
+		var b:StringBuf = new StringBuf();
+		for (i in 0...uid.length)
+		{
+			b.addChar(uid[i]);
+		}
 
-		return String.fromCharCode.apply(null, uid);
+		return b.toString();
 	}
 
 

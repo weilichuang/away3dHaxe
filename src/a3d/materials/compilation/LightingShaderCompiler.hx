@@ -304,8 +304,8 @@ class LightingShaderCompiler extends ShaderCompiler
 		var diffuseColorReg:ShaderRegisterElement;
 		var specularColorReg:ShaderRegisterElement;
 		var lightDirReg:ShaderRegisterElement;
-		var vertexRegIndex:Int;
-		var fragmentRegIndex:Int;
+		var vertexRegIndex:Int = 0;
+		var fragmentRegIndex:Int = 0;
 		var addSpec:Bool = _usingSpecularMethod && usesLightsForSpecular();
 		var addDiff:Bool = usesLightsForDiffuse();
 
@@ -349,8 +349,8 @@ class LightingShaderCompiler extends ShaderCompiler
 		var specularColorReg:ShaderRegisterElement;
 		var lightPosReg:ShaderRegisterElement;
 		var lightDirReg:ShaderRegisterElement;
-		var vertexRegIndex:Int;
-		var fragmentRegIndex:Int;
+		var vertexRegIndex:Int = 0;
+		var fragmentRegIndex:Int = 0;
 		var addSpec:Bool = _usingSpecularMethod && usesLightsForSpecular();
 		var addDiff:Bool = usesLightsForDiffuse();
 

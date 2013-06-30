@@ -70,9 +70,9 @@ class CompiledPass extends MaterialPassBase
 	private var _preserveAlpha:Bool = true;
 	private var _animateUVs:Bool;
 
-	private var _numPointLights:UInt;
-	private var _numDirectionalLights:UInt;
-	private var _numLightProbes:UInt;
+	private var _numPointLights:Int;
+	private var _numDirectionalLights:Int;
+	private var _numLightProbes:Int;
 
 	private var _enableLightFallOff:Bool = true;
 

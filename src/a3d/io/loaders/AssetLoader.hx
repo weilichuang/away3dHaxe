@@ -361,7 +361,7 @@ class AssetLoader extends EventDispatcher
 		//scheme_re = new EReg('^[a-zA-Z]{3,4}:\/\/');
 		if (url.charAt(0) == '/')
 		{
-			if (_context != null && _context.overrideAbsolutePaths != null)
+			if (_context != null && _context.overrideAbsolutePaths)
 			{
 				return joinUrl(_context.dependencyBaseUrl, url);
 			}
@@ -374,7 +374,7 @@ class AssetLoader extends EventDispatcher
 		{
 			// If overriding full URLs, get rid of scheme (e.g. "http://")
 			// and replace with the dependencyBaseUrl defined by user.
-			if (_context != null && _context.overrideFullURLs != null)
+			if (_context != null && _context.overrideFullURLs)
 			{
 				var noscheme_url:String;
 
@@ -427,7 +427,7 @@ class AssetLoader extends EventDispatcher
 	 */
 	private function onRetrievalFailed(event:LoaderEvent):Void
 	{
-		var handled:Bool;
+		var handled:Bool = false;
 		var isDependency:Bool = (_loadingDependency != _baseDependency);
 		var loader:SingleFileLoader = Std.instance(event.target,SingleFileLoader);
 
@@ -481,7 +481,7 @@ class AssetLoader extends EventDispatcher
 
 	private function onParserError(event:ParserEvent):Void
 	{
-		var handled:Bool;
+		var handled:Bool = false;
 		var isDependency:Bool = (_loadingDependency != _baseDependency);
 		var loader:SingleFileLoader = Std.instance(event.target,SingleFileLoader);
 

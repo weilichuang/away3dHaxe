@@ -1,5 +1,6 @@
 package a3d.materials.methods;
 
+import flash.errors.Error;
 import flash.geom.Vector3D;
 import flash.Vector;
 
@@ -131,31 +132,26 @@ class SimpleShadowMapMethodBase extends ShadowMapMethodBase
 	private function getPlanarFragmentCode(vo:MethodVO, regCache:ShaderRegisterCache, targetReg:ShaderRegisterElement):String
 	{
 		throw new AbstractMethodError();
-		vo = vo;
-		regCache = regCache;
-		targetReg = targetReg;
 		return "";
 	}
 
 	private function getPointFragmentCode(vo:MethodVO, regCache:ShaderRegisterCache, targetReg:ShaderRegisterElement):String
 	{
 		throw new AbstractMethodError();
-		vo = vo;
-		regCache = regCache;
-		targetReg = targetReg;
 		return "";
 	}
 
 	override public function setRenderState(vo:MethodVO, renderable:IRenderable, stage3DProxy:Stage3DProxy, camera:Camera3D):Void
 	{
 		if (!_usePoint)
-			DirectionalShadowMapper(_shadowMapper).depthProjection.copyRawDataTo(vo.vertexData, vo.vertexConstantsIndex + 4, true);
+			Std.instance(_shadowMapper,DirectionalShadowMapper).depthProjection.copyRawDataTo(vo.vertexData, vo.vertexConstantsIndex + 4, true);
 	}
 
 	public function getCascadeFragmentCode(vo:MethodVO, regCache:ShaderRegisterCache, decodeRegister:ShaderRegisterElement, depthTexture:ShaderRegisterElement, depthProjection:ShaderRegisterElement,
 		targetRegister:ShaderRegisterElement):String
 	{
 		throw new Error("This shadow method is incompatible with cascade shadows");
+		return "";
 	}
 
 	/**
@@ -169,7 +165,7 @@ class SimpleShadowMapMethodBase extends ShadowMapMethodBase
 		if (_usePoint)
 			fragmentData[index + 4] = -Math.pow(1 / (Std.instance(_castingLight,PointLight).fallOff * _epsilon), 2);
 		else
-			vo.vertexData[vo.vertexConstantsIndex + 3] = -1 / (DirectionalShadowMapper(_shadowMapper).depth * _epsilon);
+			vo.vertexData[vo.vertexConstantsIndex + 3] = -1 / (Std.instance(_shadowMapper,DirectionalShadowMapper).depth * _epsilon);
 
 		fragmentData[index + 5] = 1 - _alpha;
 		if (_usePoint)
@@ -179,7 +175,7 @@ class SimpleShadowMapMethodBase extends ShadowMapMethodBase
 			fragmentData[index + 9] = pos.y;
 			fragmentData[index + 10] = pos.z;
 			// used to decompress distance
-			var f:Float = PointLight(_castingLight).fallOff;
+			var f:Float = Std.instance(_castingLight,PointLight).fallOff;
 			fragmentData[index + 11] = 1 / (2 * f * f);
 		}
 		stage3DProxy.context3D.setTextureAt(vo.texturesIndex, _castingLight.shadowMapper.depthMap.getTextureForStage3D(stage3DProxy));
