@@ -9,19 +9,22 @@ import flash.Vector;
  */
 class SpriteSheetClipNode extends AnimationClipNodeBase
 {
-	private var _frames:Vector<SpriteSheetAnimationFrame> = new Vector<SpriteSheetAnimationFrame>();
+	private var _frames:Vector<SpriteSheetAnimationFrame>;
 
 	/**
 	 * Creates a new <code>SpriteSheetClipNode</code> object.
 	 */
 	public function new()
 	{
+		super();
 		_stateClass = SpriteSheetAnimationState;
+		_frames = new Vector<SpriteSheetAnimationFrame>();
 	}
 
 	/**
 	 * Returns a vector of SpriteSheetAnimationFrame representing the uv values of each animation frame in the clip.
 	 */
+	public var frames(get,null):Vector<SpriteSheetAnimationFrame>;
 	private function get_frames():Vector<SpriteSheetAnimationFrame>
 	{
 		return _frames;
@@ -33,7 +36,7 @@ class SpriteSheetClipNode extends AnimationClipNodeBase
 	 * @param spriteSheetAnimationFrame The frame object to add to the timeline of the node.
 	 * @param duration The specified duration of the frame in milliseconds.
 	 */
-	public function addFrame(spriteSheetAnimationFrame:SpriteSheetAnimationFrame, duration:UInt):Void
+	public function addFrame(spriteSheetAnimationFrame:SpriteSheetAnimationFrame, duration:Int):Void
 	{
 		_frames.push(spriteSheetAnimationFrame);
 		_durations.push(duration);

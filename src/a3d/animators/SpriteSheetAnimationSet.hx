@@ -19,6 +19,7 @@ class SpriteSheetAnimationSet extends AnimationSetBase implements IAnimationSet
 
 	public function new()
 	{
+		super();
 	}
 
 	/**

@@ -3,6 +3,7 @@ package a3dexample;
 import flash.display.Bitmap;
 import flash.display.BitmapData;
 import flash.geom.Vector3D;
+import flash.Lib;
 import flash.Vector;
 
 import a3d.animators.SpriteSheetAnimationSet;
@@ -18,9 +19,9 @@ import a3d.tools.helpers.SpriteSheetHelper;
 import a3d.utils.Cast;
 
 //the sprite sheets sources
-@:bitmap("embeds/spritesheets/testSheet1.jpg") class testSheet1 extends flash.display.BitmapData { }
+@:bitmap("embeds/spritesheets/testSheet1.jpg") class TestSheet1 extends flash.display.BitmapData { }
 
-@:bitmap("embeds/spritesheets/testSheet2.jpg") class testSheet2 extends flash.display.BitmapData { }
+@:bitmap("embeds/spritesheets/testSheet2.jpg") class TestSheet2 extends flash.display.BitmapData { }
 
 
 class Basic_SpriteSheetAnimation extends BasicApplication
@@ -76,7 +77,7 @@ class Basic_SpriteSheetAnimation extends BasicApplication
 	{
 		//if the animation is something that plays non stop, and fits a single map,
 		// you can use a regular TextureMaterial
-		var material:TextureMaterial = new TextureMaterial(createBitmapTexture(testSheet1));
+		var material:TextureMaterial = new TextureMaterial(createBitmapTexture(TestSheet1));
 
 		// the name of the animation
 		var animID:String = "mySingleMapAnim";
@@ -111,14 +112,16 @@ class Basic_SpriteSheetAnimation extends BasicApplication
 	private function prepareMultipleMaps():Void
 	{
 		//the first map, we the beginning of the animation
-		var bmd1:BitmapData = Bitmap(new testSheet1()).bitmapData;
+		var bmd1:BitmapData = new TestSheet1(0,0);
 		var texture1:BitmapTexture = new BitmapTexture(bmd1);
 
 		//the rest of teh animation
-		var bmd2:BitmapData = Bitmap(new testSheet2()).bitmapData;
+		var bmd2:BitmapData = new TestSheet2(0,0);
 		var texture2:BitmapTexture = new BitmapTexture(bmd2);
 
-		var diffuses:Vector<Texture2DBase> = Vector<Texture2DBase>([texture1, texture2]);
+		var diffuses:Vector<Texture2DBase> = new Vector<Texture2DBase>();
+		diffuses.push(texture1);
+		diffuses.push(texture2);
 		var material:SpriteSheetMaterial = new SpriteSheetMaterial(diffuses);
 
 		// the name of the animation

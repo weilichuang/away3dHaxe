@@ -1,7 +1,7 @@
 package a3dexample;
 
-import away3d.entities.primitives.SkyBox;
-import away3d.textures.BitmapCubeTexture;
+import a3d.entities.primitives.SkyBox;
+import a3d.textures.BitmapCubeTexture;
 
 /**
  * ...

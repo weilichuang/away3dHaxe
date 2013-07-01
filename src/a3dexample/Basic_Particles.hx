@@ -6,6 +6,7 @@ import flash.display.StageScaleMode;
 import flash.events.Event;
 import flash.events.MouseEvent;
 import flash.geom.Vector3D;
+import flash.Lib;
 import flash.Vector;
 
 import a3d.animators.ParticleAnimationSet;
@@ -24,8 +25,10 @@ import a3d.entities.primitives.PlaneGeometry;
 import a3d.tools.helpers.ParticleGeometryHelper;
 import a3d.utils.Cast;
 
+using Reflect;
+
 //particle image
-@:bitmap("embeds/blue.jpg") class ParticleImg extends flash.display.BitmapData { }
+@:bitmap("embeds/blue.png") class ParticleImg extends flash.display.BitmapData { }
 
 class Basic_Particles extends BasicApplication
 {
@@ -43,7 +46,7 @@ class Basic_Particles extends BasicApplication
 	private var _particleAnimator:ParticleAnimator;
 
 	//navigation variables
-	private var _move:Boolean = false;
+	private var _move:Bool = false;
 	private var _lastPanAngle:Float;
 	private var _lastTiltAngle:Float;
 	private var _lastMouseX:Float;
@@ -119,7 +122,10 @@ class Basic_Particles extends BasicApplication
 		var degree1:Float = Math.random() * Math.PI;
 		var degree2:Float = Math.random() * Math.PI * 2;
 		var r:Float = Math.random() * 50 + 400;
-		prop[ParticleVelocityNode.VELOCITY_VECTOR3D] = new Vector3D(r * Math.sin(degree1) * Math.cos(degree2), r * Math.cos(degree1) * Math.cos(degree2), r * Math.sin(degree2));
+		prop.setField(ParticleVelocityNode.VELOCITY_VECTOR3D,
+			new Vector3D(r * Math.sin(degree1) * Math.cos(degree2), 
+			r * Math.cos(degree1) * Math.cos(degree2), 
+			r * Math.sin(degree2)));
 	}
 
 	/**

@@ -13,7 +13,7 @@ class SpriteSheetAnimationState extends AnimationClipState implements ISpriteShe
 {
 	private var _frames:Vector<SpriteSheetAnimationFrame>;
 	private var _clipNode:SpriteSheetClipNode;
-	private var _currentFrameID:UInt = 0;
+	private var _currentFrameID:Int = 0;
 	private var _reverse:Bool;
 	private var _back:Bool;
 	private var _backAndForth:Bool;
@@ -27,23 +27,26 @@ class SpriteSheetAnimationState extends AnimationClipState implements ISpriteShe
 		_frames = _clipNode.frames;
 	}
 
-	private function set_reverse(b:Bool):Void
+	public var reverse(null, set):Bool;
+	private function set_reverse(b:Bool):Bool
 	{
 		_back = false;
-		_reverse = b;
+		return _reverse = b;
 	}
 
-	private function set_backAndForth(b:Bool):Void
+	public var backAndForth(null, set):Bool;
+	private function set_backAndForth(b:Bool):Bool
 	{
 		if (b)
 			_reverse = false;
 		_back = false;
-		_backAndForth = b;
+		return _backAndForth = b;
 	}
 
 	/**
 	* @inheritDoc
 	*/
+	public var currentFrameData(get, null):SpriteSheetAnimationFrame;
 	private function get_currentFrameData():SpriteSheetAnimationFrame
 	{
 		if (_framesDirty)
@@ -56,23 +59,26 @@ class SpriteSheetAnimationState extends AnimationClipState implements ISpriteShe
 	* returns current frame index of the animation.
 	* The index is zero based and counts from first frame of the defined animation.
 	*/
-	private function get_currentFrameNumber():UInt
+	public var currentFrameNumber(get, set):Int;
+	private function get_currentFrameNumber():Int
 	{
 		return _currentFrameID;
 	}
 
-	private function set_currentFrameNumber(frameNumber:UInt):Void
+	private function set_currentFrameNumber(frameNumber:Int):Int
 	{
 		_currentFrameID = (frameNumber > _frames.length - 1) ? _frames.length - 1 : frameNumber;
 		_forcedFrame = true;
+		return _currentFrameID;
 	}
 
 	/**
 		* returns the total frames for the current animation.
 		*/
-	private function get_totalFrames():UInt
+	public var totalFrames(get, null):Int;
+	private function get_totalFrames():Int
 	{
-		return (!_frames) ? 0 : _frames.length;
+		return (_frames == null) ? 0 : _frames.length;
 	}
 
 	/**
@@ -113,7 +119,7 @@ class SpriteSheetAnimationState extends AnimationClipState implements ISpriteShe
 					}
 				}
 
-				SpriteSheetAnimator(_animator).dispatchCycleEvent();
+				Std.instance(_animator,SpriteSheetAnimator).dispatchCycleEvent();
 			}
 
 		}
@@ -142,7 +148,7 @@ class SpriteSheetAnimationState extends AnimationClipState implements ISpriteShe
 					}
 				}
 
-				SpriteSheetAnimator(_animator).dispatchCycleEvent();
+				Std.instance(_animator,SpriteSheetAnimator).dispatchCycleEvent();
 			}
 		}
 

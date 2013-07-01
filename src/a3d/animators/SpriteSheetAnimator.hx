@@ -1,8 +1,9 @@
 package a3d.animators;
 
+import a3d.utils.TimerUtil;
 import flash.display3D.Context3DProgramType;
-import flash.utils.getTimer;
-import flash.utils.setTimeout;
+import flash.errors.Error;
+import flash.Lib;
 import flash.Vector;
 
 
@@ -30,11 +31,11 @@ class SpriteSheetAnimator extends AnimatorBase implements IAnimator
 {
 	private var _activeSpriteSheetState:ISpriteSheetAnimationState;
 	private var _spriteSheetAnimationSet:SpriteSheetAnimationSet;
-	private var _frame:SpriteSheetAnimationFrame = new SpriteSheetAnimationFrame();
+	private var _frame:SpriteSheetAnimationFrame;
 	private var _vectorFrame:Vector<Float>;
-	private var _fps:UInt = 10;
-	private var _ms:UInt = 100;
-	private var _lastTime:UInt;
+	private var _fps:Int = 10;
+	private var _ms:Int = 100;
+	private var _lastTime:Int;
 	private var _reverse:Bool;
 	private var _backAndForth:Bool;
 	private var _specsDirty:Bool;
@@ -49,25 +50,28 @@ class SpriteSheetAnimator extends AnimatorBase implements IAnimator
 		super(spriteSheetAnimationSet);
 		_spriteSheetAnimationSet = spriteSheetAnimationSet;
 		_vectorFrame = new Vector<Float>();
+		_frame = new SpriteSheetAnimationFrame();
 	}
 
 	/* Set the playrate of the animation in frames per second (not depending on player fps)*/
-	private function set_fps(val:UInt):Void
+	public var fps(get, set):Int;
+	private function set_fps(val:Int):Int
 	{
-		_ms = 1000 / val;
-		_fps = val;
+		_ms = Std.int(1000 / val);
+		return _fps = val;
 	}
 
-	private function get_fps():UInt
+	private function get_fps():Int
 	{
 		return _fps;
 	}
 
 	/* If true, reverse causes the animation to play backwards*/
-	private function set_reverse(b:Bool):Void
+	public var reverse(get, set):Bool;
+	private function set_reverse(b:Bool):Bool
 	{
-		_reverse = b;
 		_specsDirty = true;
+		return _reverse = b;
 	}
 
 	private function get_reverse():Bool
@@ -76,10 +80,11 @@ class SpriteSheetAnimator extends AnimatorBase implements IAnimator
 	}
 
 	/* If true, backAndForth causes the animation to play backwards and forward alternatively. Starting forward.*/
-	private function set_backAndForth(b:Bool):Void
+	public var backAndForth(get, set):Bool;
+	private function set_backAndForth(b:Bool):Bool
 	{
-		_backAndForth = b;
 		_specsDirty = true;
+		return _backAndForth = b;
 	}
 
 	private function get_backAndForth():Bool
@@ -100,15 +105,17 @@ class SpriteSheetAnimator extends AnimatorBase implements IAnimator
 	}
 
 	/* returns the current frame*/
-	private function get_currentFrameNumber():UInt
+	public var currentFrameNumber(get, null):Int;
+	private function get_currentFrameNumber():Int
 	{
-		return SpriteSheetAnimationState(_activeState).currentFrameNumber;
+		return Std.instance(_activeState,SpriteSheetAnimationState).currentFrameNumber;
 	}
 
 	/* returns the total amount of frame for the current animation*/
-	private function get_totalFrames():UInt
+	public var totalFrames(get, null):Int;
+	private function get_totalFrames():Int
 	{
-		return SpriteSheetAnimationState(_activeState).totalFrames;
+		return Std.instance(_activeState,SpriteSheetAnimationState).totalFrames;
 	}
 
 	/**
@@ -125,10 +132,10 @@ class SpriteSheetAnimator extends AnimatorBase implements IAnimator
 			return;
 
 		//because textures are already uploaded, we can't offset the uv's yet
-		var swapped:Bool;
+		var swapped:Bool = false;
 
 		if (Std.is(material,SpriteSheetMaterial) && _mapDirty)
-			swapped = SpriteSheetMaterial(material).swap(_frame.mapID);
+			swapped = Std.instance(material,SpriteSheetMaterial).swap(_frame.mapID);
 
 		if (!swapped)
 		{
@@ -145,10 +152,8 @@ class SpriteSheetAnimator extends AnimatorBase implements IAnimator
 	/**
 	 * @inheritDoc
 	 */
-	public function play(name:String, transition:IAnimationTransition = null, offset:Float = NaN):Void
+	public function play(name:String, transition:IAnimationTransition = null, offset:Float = null):Void
 	{
-		transition = transition;
-		offset = offset;
 		if (_activeAnimationName == name)
 			return;
 
@@ -159,7 +164,7 @@ class SpriteSheetAnimator extends AnimatorBase implements IAnimator
 
 		_activeNode = _animationSet.getAnimation(name);
 		_activeState = getAnimationState(_activeNode);
-		_frame = SpriteSheetAnimationState(_activeState).currentFrameData;
+		_frame = Std.instance(_activeState,SpriteSheetAnimationState).currentFrameData;
 		_activeSpriteSheetState = Std.instance(_activeState,ISpriteSheetAnimationState);
 
 		start();
@@ -172,19 +177,19 @@ class SpriteSheetAnimator extends AnimatorBase implements IAnimator
 	{
 		if (_specsDirty)
 		{
-			SpriteSheetAnimationState(_activeSpriteSheetState).reverse = _reverse;
-			SpriteSheetAnimationState(_activeSpriteSheetState).backAndForth = _backAndForth;
+			Std.instance(_activeSpriteSheetState,SpriteSheetAnimationState).reverse = _reverse;
+			Std.instance(_activeSpriteSheetState,SpriteSheetAnimationState).backAndForth = _backAndForth;
 			_specsDirty = false;
 		}
 
 		_absoluteTime += dt;
-		var now:Int = getTimer();
+		var now:Int = Lib.getTimer();
 
 		if ((now - _lastTime) > _ms)
 		{
 			_mapDirty = true;
-			_activeSpriteSheetState.update(_absoluteTime);
-			_frame = SpriteSheetAnimationState(_activeSpriteSheetState).currentFrameData;
+			_activeSpriteSheetState.update(Std.int(_absoluteTime));
+			_frame = Std.instance(_activeSpriteSheetState,SpriteSheetAnimationState).currentFrameData;
 			_lastTime = now;
 
 		}
@@ -204,13 +209,13 @@ class SpriteSheetAnimator extends AnimatorBase implements IAnimator
 		return new SpriteSheetAnimator(_spriteSheetAnimationSet);
 	}
 
-	private function gotoFrame(frameNumber:UInt, doPlay:Bool):Void
+	private function gotoFrame(frameNumber:Int, doPlay:Bool):Void
 	{
-		if (!_activeState)
+		if (_activeState == null)
 			return;
-		SpriteSheetAnimationState(_activeState).currentFrameNumber = (frameNumber == 0) ? frameNumber : frameNumber - 1;
+		Std.instance(_activeState,SpriteSheetAnimationState).currentFrameNumber = (frameNumber == 0) ? frameNumber : frameNumber - 1;
 		var currentMapID:UInt = _frame.mapID;
-		_frame = SpriteSheetAnimationState(_activeSpriteSheetState).currentFrameData;
+		_frame = Std.instance(_activeSpriteSheetState,SpriteSheetAnimationState).currentFrameData;
 
 		if (doPlay)
 		{
@@ -221,7 +226,7 @@ class SpriteSheetAnimator extends AnimatorBase implements IAnimator
 			if (currentMapID != _frame.mapID)
 			{
 				_mapDirty = true;
-				setTimeout(stop, _fps);
+				TimerUtil.setTimeout(stop, _fps);
 			}
 			else
 			{

@@ -2,6 +2,7 @@ package a3d.materials;
 
 
 import a3d.textures.Texture2DBase;
+import flash.errors.Error;
 import flash.Vector;
 
 
@@ -51,23 +52,23 @@ class SpriteSheetMaterial extends TextureMaterial
 
 		super(_TBDiffuse, smooth, repeat, mipmap);
 
-		if (_TBNormal)
+		if (_TBNormal != null)
 			this.normalMap = _TBNormal;
 
-		if (_TBSpecular)
+		if (_TBSpecular != null)
 			this.specularMap = _TBSpecular;
 
 	}
 
 	private function initTextures():Void
 	{
-		if (!_diffuses || _diffuses.length == 0)
+		if (_diffuses == null || _diffuses.length == 0)
 			throw new Error("you must pass at least one bitmapdata into diffuses param!");
 
 		_TBDiffuse = _diffuses[0];
 
 
-		if (_normals && _normals.length > 0)
+		if (_normals != null && _normals.length > 0)
 		{
 			if (_normals.length != _diffuses.length)
 				throw new Error("The amount of normals bitmapDatas must be same as the amount of diffuses param!");
@@ -75,7 +76,7 @@ class SpriteSheetMaterial extends TextureMaterial
 			_TBNormal = _normals[0];
 		}
 
-		if (_speculars && _speculars.length > 0)
+		if (_speculars != null && _speculars.length > 0)
 		{
 			if (_speculars.length != _diffuses.length)
 				throw new Error("The amount of normals bitmapDatas must be same as the amount of diffuses param!");
@@ -98,10 +99,10 @@ class SpriteSheetMaterial extends TextureMaterial
 			_TBDiffuse = _diffuses[mapID];
 			this.texture = _TBDiffuse;
 
-			if (_TBNormal)
+			if (_TBNormal != null)
 				this.normalMap = _TBNormal = _normals[mapID];
 
-			if (_TBSpecular)
+			if (_TBSpecular != null)
 				this.specularMap = _TBSpecular = _speculars[mapID];
 
 			return true;

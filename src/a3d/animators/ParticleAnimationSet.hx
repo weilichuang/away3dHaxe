@@ -312,10 +312,10 @@ class ParticleAnimationSet extends AnimationSetBase implements IAnimationSet
 
 		var i:Int, j:Int;
 		var animationSubGeometry:AnimationSubGeometry = null;
-		var newAnimationSubGeometry:Bool=false;
-		var subGeometry:ISubGeometry;
-		var subMesh:SubMesh;
-		var localNode:ParticleNodeBase;
+		var newAnimationSubGeometry:Bool = false;
+		var subGeometry:ISubGeometry = null;
+		var subMesh:SubMesh = null;
+		var localNode:ParticleNodeBase = null;
 
 		for (i in 0...mesh.subMeshes.length)
 		{
@@ -342,7 +342,7 @@ class ParticleAnimationSet extends AnimationSetBase implements IAnimationSet
 			animationSubGeometry.createVertexData(subGeometry.numVertices, _totalLenOfOneVertex);
 		}
 
-		if (newAnimationSubGeometry)
+		if (!newAnimationSubGeometry)
 			return;
 
 		var particles:Vector<ParticleData> = geometry.particles;

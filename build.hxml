@@ -1,0 +1,78 @@
+-cp src
+-swf bin/Haxe_Basic_Fire.swf
+-swf-version 11.7
+--flash-strict
+-swf-header 1024:768:60:0xffffff
+-lib feffects
+-D advanced-telemetry
+-main a3dexample.Basic_Fire
+
+--next
+-cp src
+-swf bin/Haxe_Basic_Particles.swf
+-swf-version 11.7
+--flash-strict
+-lib feffects
+-swf-header 1024:768:60:0xffffff
+-D advanced-telemetry
+-main a3dexample.Basic_Particles
+
+--next
+-cp src
+-swf bin/Haxe_Basic_Shading.swf
+-swf-version 11.7
+--flash-strict
+-lib feffects
+-swf-header 1024:768:60:0xffffff
+-D advanced-telemetry
+-main a3dexample.Basic_Shading
+
+--next
+-cp src
+-swf bin/Haxe_Basic_SkyBox.swf
+-swf-version 11.7
+--flash-strict
+-lib feffects
+-swf-header 1024:768:60:0xffffff
+-D advanced-telemetry
+-main a3dexample.Basic_SkyBox
+
+--next
+-cp src
+-swf bin/Haxe_Basic_SpriteSheetAnimation.swf
+-swf-version 11.7
+--flash-strict
+-lib feffects
+-swf-header 1024:768:60:0xffffff
+-D advanced-telemetry
+-main a3dexample.Basic_SpriteSheetAnimation
+
+--next
+-cp src
+-swf bin/Haxe_Basic_Tweening3D.swf
+-swf-version 11.7
+--flash-strict
+-lib feffects
+-swf-header 1024:768:60:0xffffff
+-D advanced-telemetry
+-main a3dexample.Basic_Tweening3D
+
+--next
+-cp src
+-swf bin/Haxe_Basic_UVAnimation.swf
+-swf-version 11.7
+--flash-strict
+-lib feffects
+-swf-header 1024:768:60:0xffffff
+-D advanced-telemetry
+-main a3dexample.Basic_UVAnimation
+
+--next
+-cp src
+-swf bin/Haxe_Basic_View.swf
+-swf-version 11.7
+--flash-strict
+-lib feffects
+-swf-header 1024:768:60:0xffffff
+-D advanced-telemetry
+-main a3dexample.Basic_View

@@ -1,25 +1,15 @@
 package a3dexample;
 
-import feffects.Tween;
+import a3d.core.pick.PickingColliderType;
+import a3d.entities.Mesh;
+import a3d.entities.primitives.CubeGeometry;
+import a3d.entities.primitives.PlaneGeometry;
+import a3d.events.MouseEvent3D;
+import a3d.materials.TextureMaterial;
 import flash.geom.Vector3D;
 import flash.Lib;
 
-import a3d.core.pick.PickingColliderType;
-import a3d.entities.Mesh;
-import a3d.events.MouseEvent3D;
-import a3d.materials.TextureMaterial;
-import a3d.entities.primitives.CubeGeometry;
-import a3d.entities.primitives.PlaneGeometry;
-import a3d.utils.Cast;
-
-import caurina.transitions.Tweener;
-import caurina.transitions.properties.CurveModifiers;
-
 using feffects.Tween.TweenObject;
-
-@:bitmap("embeds/floor_diffuse.jpg") class FloorDiffuse extends flash.display.BitmapData { }
-
-@:bitmap("embeds/trinket_diffuse.jpg") class TrinketDiffuse extends flash.display.BitmapData { }
 
 class Basic_Tweening3D extends BasicApplication
 {
@@ -78,9 +68,6 @@ class Basic_Tweening3D extends BasicApplication
 
 		//add mouse listener
 		_plane.addEventListener(MouseEvent3D.MOUSE_UP, _onMouseUp);
-
-		//initialize Tweener curve modifiers
-		CurveModifiers.init();
 	}
 
 	/**
@@ -94,3 +81,7 @@ class Basic_Tweening3D extends BasicApplication
 		//Tweener.addTween(_cube, {time: 0.5, x: ev.scenePosition.x, z: ev.scenePosition.z, _bezier: {x: _cube.x, z: ev.scenePosition.z}});
 	}
 }
+
+
+@:bitmap("embeds/floor_diffuse.jpg") class FloorDiffuse extends flash.display.BitmapData { }
+@:bitmap("embeds/trinket_diffuse.jpg") class TrinketDiffuse extends flash.display.BitmapData { }

@@ -1,9 +1,12 @@
 package a3d.tools.helpers;
 
 import flash.display.BitmapData;
+import flash.display.BlendMode;
 import flash.display.MovieClip;
+import flash.errors.Error;
 import flash.geom.Matrix;
 import flash.geom.Point;
+import flash.Vector.Vector;
 
 import a3d.animators.data.SpriteSheetAnimationFrame;
 import a3d.animators.nodes.SpriteSheetClipNode;
@@ -33,13 +36,13 @@ class SpriteSheetHelper
 	 *
 	 * @return Vector.&lt;Texture2DBase&gt; 	The generated Texture2DBase vector for the SpriteSheetMaterial.
 	 */
-	public function generateFromMovieClip(sourceMC:MovieClip, cols:UInt, rows:UInt, width:UInt, height:UInt, transparent:Bool = false, backgroundColor:UInt = 0):Vector<Texture2DBase>
+	public function generateFromMovieClip(sourceMC:MovieClip, cols:Int, rows:Int, width:Int, height:Int, transparent:Bool = false, backgroundColor:UInt = 0):Vector<Texture2DBase>
 	{
 		var spriteSheets:Vector<Texture2DBase> = new Vector<Texture2DBase>();
-		var framesCount:UInt = sourceMC.totalFrames;
-		var i:UInt = framesCount;
-		var w:UInt = width;
-		var h:UInt = height;
+		var framesCount:Int = sourceMC.totalFrames;
+		var i:Int = framesCount;
+		var w:Int = width;
+		var h:Int = height;
 
 		if (!TextureUtils.isPowerOfTwo(w))
 			w = TextureUtils.getBestPowerOf2(w);
@@ -47,37 +50,38 @@ class SpriteSheetHelper
 			h = TextureUtils.getBestPowerOf2(h);
 
 		var spriteSheet:BitmapData;
-		var destCellW:Float = Math.round(h / cols);
-		var destCellH:Float = Math.round(w / rows);
+		var destCellW:Int = Math.round(h / cols);
+		var destCellH:Int = Math.round(w / rows);
 		//var cellRect:Rectangle = new Rectangle(0, 0, destCellW, destCellH);
 
-		var mcFrameW:UInt = sourceMC.width;
-		var mcFrameH:UInt = sourceMC.height;
+		var mcFrameW:Int = Std.int(sourceMC.width);
+		var mcFrameH:Int = Std.int(sourceMC.height);
 
 		var sclw:Float = destCellW / mcFrameW;
 		var sclh:Float = destCellH / mcFrameH;
 		var t:Matrix = new Matrix();
 		t.scale(sclw, sclh);
 
-		var tmpCache:BitmapData = new BitmapData(mcFrameW * sclw, mcFrameH * sclh, transparent, transparent ? 0x00FFFFFF : backgroundColor);
+		var tmpCache:BitmapData = new BitmapData(Std.int(mcFrameW * sclw), 
+										Std.int(mcFrameH * sclh), transparent, transparent ? 0x00FFFFFF : backgroundColor);
 
-		var u:UInt, v:UInt;
-		var cellsPerMap:UInt = cols * rows;
-		var maps:UInt = framesCount / cellsPerMap;
+		var u:Int, v:Int;
+		var cellsPerMap:Int = cols * rows;
+		var maps:Int = Std.int(framesCount / cellsPerMap);
 		if (maps < framesCount / cellsPerMap)
 			maps++;
 
 		var pastePoint:Point = new Point();
-		var frameNum:UInt = 0;
+		var frameNum:Int = 0;
 		var bitmapTexture:BitmapTexture;
 
-		while (maps--)
+		while (maps-- > 0)
 		{
 
 			u = v = 0;
 			spriteSheet = new BitmapData(w, h, transparent, transparent ? 0x00FFFFFF : backgroundColor);
 
-			for (i = 0; i < cellsPerMap; i++)
+			for (i in 0...cellsPerMap)
 			{
 				frameNum++;
 				if (frameNum <= framesCount)
@@ -85,7 +89,7 @@ class SpriteSheetHelper
 					pastePoint.x = Math.round(destCellW * u);
 					pastePoint.y = Math.round(destCellH * v);
 					sourceMC.gotoAndStop(frameNum);
-					tmpCache.draw(sourceMC, t, null, "normal", tmpCache.rect, true);
+					tmpCache.draw(sourceMC, t, null, BlendMode.NORMAL, tmpCache.rect, true);
 					spriteSheet.copyPixels(tmpCache, tmpCache.rect, pastePoint);
 
 					if (transparent)
@@ -126,13 +130,13 @@ class SpriteSheetHelper
 	 *
 	 * @return SpriteSheetClipNode 		SpriteSheetClipNode: The SpriteSheetClipNode filled with the data
 	 */
-	public function generateSpriteSheetClipNode(animID:String, cols:UInt, rows:UInt, mapCount:UInt = 1, from:UInt = 0, to:UInt = 0):SpriteSheetClipNode
+	public function generateSpriteSheetClipNode(animID:String, cols:Int, rows:Int, mapCount:Int = 1, from:Int = 0, to:Int = 0):SpriteSheetClipNode
 	{
 		var spriteSheetClipNode:SpriteSheetClipNode = new SpriteSheetClipNode();
 		spriteSheetClipNode.name = animID;
 
-		var u:UInt, v:UInt;
-		var framesCount:UInt = cols * rows;
+		var u:Int, v:Int;
+		var framesCount:Int = cols * rows;
 
 		if (mapCount < 1)
 			mapCount = 1;
@@ -147,14 +151,14 @@ class SpriteSheetHelper
 
 		var frame:SpriteSheetAnimationFrame;
 
-		var i:UInt, j:UInt;
-		var animFrames:UInt = 0;
+		var i:Int, j:Int;
+		var animFrames:Int = 0;
 
-		for (i = 0; i < mapCount; ++i)
+		for (i in 0...mapCount)
 		{
 			u = v = 0;
 
-			for (j = 0; j < framesCount; ++j)
+			for (j in 0...framesCount)
 			{
 
 				if (animFrames >= from && animFrames < to)

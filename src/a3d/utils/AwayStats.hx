@@ -110,13 +110,13 @@ class AwayStats extends Sprite
 	private var _minimized:Bool;
 	private var _showing_driv_info:Bool;
 
-	private static inline var _WIDTH:Float = 125;
-	private static inline var _MAX_HEIGHT:Float = 85;
-	private static inline var _MIN_HEIGHT:Float = 51;
+	private static inline var _WIDTH:Int = 125;
+	private static inline var _MAX_HEIGHT:Int = 85;
+	private static inline var _MIN_HEIGHT:Int = 51;
 	private static inline var _UPPER_Y:Float = -1;
 	private static inline var _MID_Y:Float = 9;
 	private static inline var _LOWER_Y:Float = 19;
-	private static inline var _DIAG_HEIGHT:Float = _MAX_HEIGHT - 50;
+	private static inline var _DIAG_HEIGHT:Int = _MAX_HEIGHT - 50;
 	private static inline var _BOTTOM_BAR_HEIGHT:Float = 31;
 
 	private static inline var _POLY_COL:UInt = 0xffcc00;
