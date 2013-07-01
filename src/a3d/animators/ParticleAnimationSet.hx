@@ -24,7 +24,7 @@ import a3d.entities.Mesh;
 import a3d.materials.passes.MaterialPassBase;
 import haxe.ds.WeakMap;
 
-import a3d.utils.VectorUtil;
+using a3d.utils.VectorUtil;
 
 /**
  * The animation data set used by particle-based animators, containing particle animation data.
@@ -311,8 +311,8 @@ class ParticleAnimationSet extends AnimationSetBase implements IAnimationSet
 			throw new Error("Particle animation can only be performed on a ParticleGeometry object");
 
 		var i:Int, j:Int;
-		var animationSubGeometry:AnimationSubGeometry;
-		var newAnimationSubGeometry:Bool;
+		var animationSubGeometry:AnimationSubGeometry = null;
+		var newAnimationSubGeometry:Bool=false;
 		var subGeometry:ISubGeometry;
 		var subMesh:SubMesh;
 		var localNode:ParticleNodeBase;
@@ -342,12 +342,12 @@ class ParticleAnimationSet extends AnimationSetBase implements IAnimationSet
 			animationSubGeometry.createVertexData(subGeometry.numVertices, _totalLenOfOneVertex);
 		}
 
-		if (newAnimationSubGeometry == null)
+		if (newAnimationSubGeometry)
 			return;
 
 		var particles:Vector<ParticleData> = geometry.particles;
-		var particlesLength:UInt = particles.length;
-		var numParticles:UInt = geometry.numParticles;
+		var particlesLength:Int = particles.length;
+		var numParticles:Int = geometry.numParticles;
 		var particleProperties:ParticleProperties = new ParticleProperties();
 		var particle:ParticleData;
 
@@ -356,11 +356,11 @@ class ParticleAnimationSet extends AnimationSetBase implements IAnimationSet
 		var counterForVertex:Int;
 		var counterForOneData:Int;
 		var oneData:Vector<Float>;
-		var numVertices:UInt;
+		var numVertices:Int;
 		var vertexData:Vector<Float>;
-		var vertexLength:UInt;
-		var startingOffset:UInt;
-		var vertexOffset:UInt;
+		var vertexLength:Int;
+		var startingOffset:Int;
+		var vertexOffset:Int;
 
 		//default values for particle param
 		particleProperties.total = numParticles;

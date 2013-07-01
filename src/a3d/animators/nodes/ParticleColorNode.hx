@@ -109,14 +109,14 @@ class ParticleColorNode extends ParticleNodeBase
 		if (animationRegisterCache.needFragmentAnimation)
 		{
 			var temp:ShaderRegisterElement = animationRegisterCache.getFreeVertexVectorTemp();
-			var sin:ShaderRegisterElement;
+			var sin:ShaderRegisterElement = null;
 			if (usesCycle)
 			{
 				var cycleConst:ShaderRegisterElement = animationRegisterCache.getFreeVertexConstant();
 				animationRegisterCache.setRegisterIndex(this, CYCLE_INDEX, cycleConst.index);
 
 				animationRegisterCache.addVertexTempUsages(temp, 1);
-				var sin:ShaderRegisterElement = animationRegisterCache.getFreeVertexSingleTemp();
+				sin = animationRegisterCache.getFreeVertexSingleTemp();
 				animationRegisterCache.removeVertexTempUsage(temp);
 
 				code += "mul " + sin + "," + animationRegisterCache.vertexTime + "," + cycleConst + ".x\n";
@@ -189,7 +189,7 @@ class ParticleColorNode extends ParticleNodeBase
 		if (endColor == null)
 			throw new Error("there is no " + COLOR_END_COLORTRANSFORM + " in param!");
 
-		var i:UInt;
+		var i:Int = 0;
 
 		if (!usesCycle)
 		{

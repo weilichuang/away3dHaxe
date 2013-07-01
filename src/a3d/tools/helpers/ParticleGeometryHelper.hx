@@ -141,10 +141,23 @@ class ParticleGeometryHelper
 								tempUV = UVTransform.transformPoint(tempUV);
 							}
 							//this is faster than that only push one data
-							vertices.push(tempVertex.x, tempVertex.y, tempVertex.z, tempNormal.x,
-								tempNormal.y, tempNormal.z, tempTangents.x, tempTangents.y,
-								tempTangents.z, tempUV.x, tempUV.y, sourceVertices[product + 11],
-								sourceVertices[product + 12]);
+							vertices.push(tempVertex.x);
+							vertices.push(tempVertex.y);
+							vertices.push(tempVertex.z);
+								
+							vertices.push(tempNormal.x);
+							vertices.push(tempNormal.y);
+							vertices.push(tempNormal.z);
+							
+							vertices.push(tempTangents.x);
+							vertices.push(tempTangents.y);
+							vertices.push(tempTangents.z);
+							
+							vertices.push(tempUV.x);
+							vertices.push(tempUV.y);
+							
+							vertices.push(sourceVertices[product + 11]);
+							vertices.push(sourceVertices[product + 12]);
 						}
 					}
 					else
@@ -153,10 +166,19 @@ class ParticleGeometryHelper
 						{
 							product = k * 13;
 							//this is faster than that only push one data
-							vertices.push(sourceVertices[product], sourceVertices[product + 1], sourceVertices[product + 2], sourceVertices[product + 3],
-								sourceVertices[product + 4], sourceVertices[product + 5], sourceVertices[product + 6], sourceVertices[product + 7],
-								sourceVertices[product + 8], sourceVertices[product + 9], sourceVertices[product + 10], sourceVertices[product + 11],
-								sourceVertices[product + 12]);
+							vertices.push(sourceVertices[product]);
+							vertices.push(sourceVertices[product + 1]);
+							vertices.push(sourceVertices[product + 2]);
+							vertices.push(sourceVertices[product + 3]);
+							vertices.push(sourceVertices[product + 4]);
+							vertices.push(sourceVertices[product + 5]);
+							vertices.push(sourceVertices[product + 6]);
+							vertices.push(sourceVertices[product + 7]);
+							vertices.push(sourceVertices[product + 8]);
+							vertices.push(sourceVertices[product + 9]);
+							vertices.push(sourceVertices[product + 10]);
+							vertices.push(sourceVertices[product + 11]);
+							vertices.push(sourceVertices[product + 12]);
 						}
 					}
 				}
@@ -170,7 +192,9 @@ class ParticleGeometryHelper
 				for (k in 0...tempLen)
 				{
 					product = k * 3;
-					indices.push(sourceIndices[product] + vertexCounter, sourceIndices[product + 1] + vertexCounter, sourceIndices[product + 2] + vertexCounter);
+					indices.push(sourceIndices[product] + vertexCounter);
+					indices.push(sourceIndices[product + 1] + vertexCounter);
+					indices.push(sourceIndices[product + 2] + vertexCounter);
 				}
 			}
 		}

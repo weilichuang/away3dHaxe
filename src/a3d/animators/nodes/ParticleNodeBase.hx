@@ -96,7 +96,8 @@ class ParticleNodeBase extends AnimationNodeBase
 
 	private static function getNodeNameFromClass(particleNodeClass:Dynamic):String
 	{
-		return Type.getClassName(particleNodeClass).replace('Node', '').split('::')[1];
+		var className:String = Type.getClassName(particleNodeClass);
+		return StringTools.replace(className, "Node", "").split('::')[1];
 	}
 
 	/**

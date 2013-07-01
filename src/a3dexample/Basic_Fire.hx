@@ -39,7 +39,7 @@ import a3d.entities.lights.PointLight;
 
 
 //fire texture
-@:bitmap("embeds/blue.jpg") class FireTexture extends flash.display.BitmapData { }
+@:bitmap("embeds/blue.png") class FireTexture extends flash.display.BitmapData { }
 //plane textures
 @:bitmap("embeds/floor_diffuse.jpg") class FloorDiffuse extends flash.display.BitmapData { }
 @:bitmap("embeds/floor_specular.jpg") class FloorSpecular extends flash.display.BitmapData { }
