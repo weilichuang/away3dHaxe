@@ -1,6 +1,7 @@
 package a3d.animators;
 
 import flash.display3D.Context3D;
+import flash.display3D.Context3DProfile;
 import flash.Vector;
 
 import a3d.core.managers.Stage3DProxy;
@@ -18,13 +19,13 @@ class UVAnimationSet extends AnimationSetBase implements IAnimationSet
 
 	public function new()
 	{
-
+		super();
 	}
 
 	/**
 	* @inheritDoc
 	*/
-	public function getAGALVertexCode(pass:MaterialPassBase, sourceRegisters:Vector<String>, targetRegisters:Vector<String>, profile:String):String
+	public function getAGALVertexCode(pass:MaterialPassBase, sourceRegisters:Vector<String>, targetRegisters:Vector<String>, profile:Context3DProfile):String
 	{
 		_agalCode = "mov " + targetRegisters[0] + ", " + sourceRegisters[0] + "\n";
 
@@ -50,7 +51,7 @@ class UVAnimationSet extends AnimationSetBase implements IAnimationSet
 	/**
 	 * @inheritDoc
 	 */
-	public function getAGALFragmentCode(pass:MaterialPassBase, shadedTarget:String, profile:String):String
+	public function getAGALFragmentCode(pass:MaterialPassBase, shadedTarget:String, profile:Context3DProfile):String
 	{
 		return "";
 	}

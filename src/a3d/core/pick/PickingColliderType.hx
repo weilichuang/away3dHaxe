@@ -12,21 +12,21 @@ class PickingColliderType
 	/**
 	 * Default null collider that forces picker to only use entity bounds for hit calculations on an Entity
 	 */
-	public static inline var BOUNDS_ONLY:IPickingCollider = null;
+	public static var BOUNDS_ONLY:IPickingCollider = null;
 
 	/**
 	 * Pure AS3 picking collider that returns the first encountered hit on an Entity. Useful for low poly meshes and applying to many mesh instances.
 	 *
 	 * @see a3d.core.pick.AS3PickingCollider
 	 */
-	public static inline var AS3_FIRST_ENCOUNTERED:IPickingCollider = new AS3PickingCollider(false);
+	public static var AS3_FIRST_ENCOUNTERED:IPickingCollider = new AS3PickingCollider(false);
 
 	/**
 	 * Pure AS3 picking collider that returns the best (closest) hit on an Entity. Useful for low poly meshes and applying to many mesh instances.
 	 *
 	 * @see a3d.core.pick.AS3PickingCollider
 	 */
-	public static inline var AS3_BEST_HIT:IPickingCollider = new AS3PickingCollider(true);
+	public static var AS3_BEST_HIT:IPickingCollider = new AS3PickingCollider(true);
 
 	/**
 	 * PixelBender-based picking collider that returns the first encountered hit on an Entity. Useful for fast picking high poly meshes on desktop devices.
@@ -34,7 +34,7 @@ class PickingColliderType
 	 *
 	 * @see a3d.core.pick.PBPickingCollider
 	 */
-	public static inline var PB_FIRST_ENCOUNTERED:IPickingCollider = new PBPickingCollider(false);
+	public static var PB_FIRST_ENCOUNTERED:IPickingCollider = new PBPickingCollider(false);
 
 	/**
 	 * PixelBender-based picking collider that returns the best (closest) hit on an Entity. Useful for fast picking high poly meshes on desktop devices.
@@ -42,7 +42,7 @@ class PickingColliderType
 	 *
 	 * @see a3d.core.pick.PBPickingCollider
 	 */
-	public static inline var PB_BEST_HIT:IPickingCollider = new PBPickingCollider(true);
+	public static var PB_BEST_HIT:IPickingCollider = new PBPickingCollider(true);
 
 	/**
 	 * Auto-selecting picking collider that returns the first encountered hit on an Entity.
@@ -53,7 +53,7 @@ class PickingColliderType
 	 * @see a3d.core.pick.AutoPickingCollider
 	 * @see a3d.core.pick.AutoPickingCollider#triangleThreshold
 	 */
-	public static inline var AUTO_FIRST_ENCOUNTERED:IPickingCollider = new AutoPickingCollider(false);
+	public static var AUTO_FIRST_ENCOUNTERED:IPickingCollider = new AutoPickingCollider(false);
 
 	/**
 	 * Auto-selecting picking collider that returns the best (closest) hit on an Entity
@@ -64,5 +64,5 @@ class PickingColliderType
 	 * @see a3d.core.pick.AutoPickingCollider
 	 * @see a3d.core.pick.AutoPickingCollider#triangleThreshold
 	 */
-	public static inline var AUTO_BEST_HIT:IPickingCollider = new AutoPickingCollider(true);
+	public static var AUTO_BEST_HIT:IPickingCollider = new AutoPickingCollider(true);
 }

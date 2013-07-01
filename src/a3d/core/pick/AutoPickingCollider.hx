@@ -21,7 +21,7 @@ class AutoPickingCollider implements IPickingCollider
 	/**
 	 * Represents the number of triangles encountered in a <code>SubMesh</code> object over which PixelBender is used.
 	 */
-	public var triangleThreshold:UInt = 1024;
+	public var triangleThreshold:Int = 1024;
 
 	/**
 	 * Creates a new <code>AutoPickingCollider</code> object.

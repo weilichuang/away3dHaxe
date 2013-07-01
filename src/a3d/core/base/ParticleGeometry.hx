@@ -10,11 +10,11 @@ class ParticleGeometry extends Geometry
 {
 	public var particles:Vector<ParticleData>;
 
-	public var numParticles:UInt;
+	public var numParticles:Int;
 
 	public function new()
 	{
-
+		super();
 	}
 
 }

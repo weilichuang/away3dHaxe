@@ -5,7 +5,7 @@ package a3d.animators.data;
  * Dynamic class for holding the local properties of a particle, used for processing the static properties
  * of particles in the particle animation set before beginning upload to the GPU.
  */
-dynamic class ParticleProperties
+class ParticleProperties implements Dynamic<Dynamic>
 {
 	/**
 	 * The index of the current particle being set.

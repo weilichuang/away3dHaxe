@@ -238,7 +238,7 @@ class MouseEvent3D extends Event
 	{
 		if (Std.is(object,ObjectContainer3D))
 		{
-			return Lib.as(object,ObjectContainer3D).sceneTransform.transformVector(localPosition);
+			return Std.instance(object,ObjectContainer3D).sceneTransform.transformVector(localPosition);
 		}
 		else
 		{

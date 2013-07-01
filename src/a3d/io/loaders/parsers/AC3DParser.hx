@@ -32,31 +32,31 @@ import a3d.textures.Texture2DBase;
  */
 class AC3DParser extends ParserBase
 {
-	private const LIMIT:UInt = 65535;
-	private const CR:String = String.fromCharCode(10);
+	private var LIMIT:Int = 65535;
+	private var CR:String = String.fromCharCode(10);
 
 	private var _textData:String;
 	private var _startedParsing:Bool;
 	private var _activeContainer:ObjectContainer3D;
 	private var _meshList:Vector<Mesh>;
-	private var _trunk:Array;
-	private var _containersList:Array = [];
-	private var _tmpcontainerpos:Vector3D = new Vector3D(0.0, 0.0, 0.0);
-	private var _tmpos:Vector3D = new Vector3D(0.0, 0.0, 0.0);
-	private var _kidsCount:int = 0;
+	private var _trunk:Array<String>;
+	private var _containersList:Array<ObjectContainer3D>;
+	private var _tmpcontainerpos:Vector3D;
+	private var _tmpos:Vector3D;
+	private var _kidsCount:Int = 0;
 	private var _activeMesh:Mesh;
 	private var _vertices:Vector<Vertex>;
-	private var _uvs:Array;
+	private var _uvs:Array<Dynamic>;
 	private var _parsesV:Bool;
 	private var _isQuad:Bool;
-	private var _quadCount:int;
+	private var _quadCount:Int;
 	private var _lastType:String = "";
-	private var _charIndex:UInt;
-	private var _oldIndex:UInt;
-	private var _stringLen:UInt;
-	private var _materialList:Array;
+	private var _charIndex:Int;
+	private var _oldIndex:Int;
+	private var _stringLen:Int;
+	private var _materialList:Array<MaterialBase>;
 
-	private var _groupCount:UInt;
+	private var _groupCount:Int;
 
 	/**
 	 * Creates a new AC3DParser object.
@@ -67,6 +67,10 @@ class AC3DParser extends ParserBase
 	public function new()
 	{
 		super(ParserDataFormat.PLAIN_TEXT);
+		
+		_containersList = [];
+		_tmpcontainerpos = new Vector3D(0.0, 0.0, 0.0);
+		_tmpos = new Vector3D(0.0, 0.0, 0.0);
 	}
 
 	/**
@@ -85,20 +89,20 @@ class AC3DParser extends ParserBase
 	 * @param data The data block to potentially be parsed.
 	 * @return Whether or not the given data is supported.
 	 */
-	public static function supportsData(data:*):Bool
+	public static function supportsData(data:Dynamic):Bool
 	{
 		var ba:ByteArray;
 		var str:String;
 
 		ba = ParserUtil.toByteArray(data);
-		if (ba)
+		if (ba != null)
 		{
 			ba.position = 0;
 			str = ba.readUTFBytes(4);
 		}
 		else
 		{
-			str = Std.is(data,String) ? String(data).substr(0, 4) : null;
+			str = Std.is(data,String) ? Std.instance(data,String).substr(0, 4) : null;
 		}
 
 		if (str == 'AC3D')
@@ -163,7 +167,7 @@ class AC3DParser extends ParserBase
 		}
 
 		var nameid:String;
-		var refscount:int;
+		var refscount:Int;
 		var tUrl:String = "";
 		//var m:Mesh;
 		var cont:ObjectContainer3D;
@@ -439,26 +443,26 @@ class AC3DParser extends ParserBase
 		var uv1:UV;
 		var uv2:UV;
 
-		var vertices:Vector<Number> = new Vector<Number>();
-		var indices:Vector<uint> = new Vector<uint>();
-		var uvs:Vector<Number> = new Vector<Number>();
+		var vertices:Vector<Float> = new Vector<Float>();
+		var indices:Vector<UInt> = new Vector<UInt>();
+		var uvs:Vector<Float> = new Vector<Float>();
 
 		var subGeomsData:Array = [vertices, indices, uvs];
 		//var j:uint;
-		var dic:Dictionary = new Dictionary();
+		var dic:StringMap<Int> = new StringMap<Int>();
 		var ref:String;
 
-		for (var i:UInt = 0; i < _uvs.length; i += 6)
+		var i:Int = 0;
+		for (i < _uvs.length)
 		{
-
 			if (indices.length + 3 > LIMIT)
 			{
-				vertices = new Vector<Number>();
-				indices = new Vector<uint>();
-				uvs = new Vector<Number>();
+				vertices = new Vector<Float>();
+				indices = new Vector<UInt>();
+				uvs = new Vector<Float>();
 				subGeomsData.push(vertices, indices, uvs);
 				dic = null;
-				dic = new Dictionary();
+				dic = new StringMap<Int>();
 			}
 
 			uv0 = _uvs[i + 1];
@@ -471,54 +475,67 @@ class AC3DParser extends ParserBase
 
 			//face order other than away
 			ref = v1.toString() + uv1.toString();
-			if (dic[ref])
+			if (dic.exists(ref))
 			{
-				indices.push(dic[ref]);
+				indices.push(dic.get(ref));
 			}
 			else
 			{
-				dic[ref] = vertices.length / 3;
-				indices.push(dic[ref]);
-				vertices.push(v1.x, v1.y, v1.z);
-				uvs.push(uv1.u, uv1.v);
+				dic.set(ref,Std.int(vertices.length / 3));
+				indices.push(dic.get(ref));
+				vertices.push(v1.x);
+				vertices.push(v1.y);
+				vertices.push(v1.z);
+				uvs.push(uv1.u);
+				uvs.push(uv1.v);
 			}
 
 			ref = v0.toString() + uv0.toString();
-			if (dic[ref])
+			if (dic.exists(ref))
 			{
-				indices.push(dic[ref]);
+				indices.push(dic.get(ref));
 			}
 			else
 			{
-				dic[ref] = vertices.length / 3;
-				indices.push(dic[ref]);
-				vertices.push(v0.x, v0.y, v0.z);
-				uvs.push(uv0.u, uv0.v);
+				dic.set(ref,Std.int(vertices.length / 3));
+				indices.push(dic.get(ref));
+				vertices.push(v0.x);
+				vertices.push(v0.y);
+				vertices.push(v0.z);
+				uvs.push(uv0.u);
+				uvs.push(uv0.v);
 			}
 
 			ref = v2.toString() + uv2.toString();
-			if (dic[ref])
+			if (dic.exists(ref))
 			{
-				indices.push(dic[ref]);
+				indices.push(dic.get(ref));
 			}
 			else
 			{
-				dic[ref] = vertices.length / 3;
-				indices.push(dic[ref]);
-				vertices.push(v2.x, v2.y, v2.z);
-				uvs.push(uv2.u, uv2.v);
+				dic.set(ref,Std.int(vertices.length / 3));
+				indices.push(dic.get(ref));
+				vertices.push(v2.x);
+				vertices.push(v2.y);
+				vertices.push(v2.z);
+				uvs.push(uv2.u);
+				uvs.push(uv2.v);
 			}
+			
+			i += 6;
 		}
 
 		var sub_geom:CompactSubGeometry;
 		var geom:Geometry = mesh.geometry;
 
-		for (i = 0; i < subGeomsData.length; i += 3)
+		i = 0;
+		for (i < subGeomsData.length)
 		{
 			sub_geom = new CompactSubGeometry();
 			sub_geom.fromVectors(subGeomsData[i], subGeomsData[i + 2], null, null);
 			sub_geom.updateIndexData(subGeomsData[i + 1]);
 			geom.addSubGeometry(sub_geom);
+			i += 3;
 		}
 
 		mesh.x = -_tmpos.x;
@@ -538,8 +555,8 @@ class AC3DParser extends ParserBase
 
 	private function retrieveMeshFromID(id:String):Mesh
 	{
-		if (_meshList[parseInt(id)])
-			return _meshList[parseInt(id)];
+		if (_meshList[Std.parseInt(id)] != null)
+			return _meshList[Std.parseInt(id)];
 
 		return null;
 	}
@@ -581,7 +598,7 @@ class AC3DParser extends ParserBase
 
 	private function parseMaterialLine(materialString:String):MaterialBase
 	{
-		var trunk:Array = materialString.split(" ");
+		var trunk:Array<String> = materialString.split(" ");
 
 
 		var color:UInt = 0x000000;

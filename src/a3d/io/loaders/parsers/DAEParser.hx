@@ -267,7 +267,7 @@ class DAEParser extends ParserBase
 		var i:UInt;
 		for each (var sub:CompactSubGeometry in geometry.subGeometries)
 		{
-			var vertexData:Vector<Number> = sub.vertexData;
+			var vertexData:Vector<Float> = sub.vertexData;
 
 			for (i = sub.vertexOffset; i < vertexData.length; i += sub.vertexStride)
 			{
@@ -288,16 +288,16 @@ class DAEParser extends ParserBase
 		var sub:CompactSubGeometry;
 		var skinned_sub_geom:SkinnedSubGeometry;
 		var primitive:DAEPrimitive;
-		var jointIndices:Vector<Number>;
-		var jointWeights:Vector<Number>;
+		var jointIndices:Vector<Float>;
+		var jointWeights:Vector<Float>;
 		var i:UInt, j:UInt, k:UInt, l:int;
 
 		for (i = 0; i < geometry.subGeometries.length; i++)
 		{
 			sub = CompactSubGeometry(geometry.subGeometries[i]);
 			primitive = mesh.primitives[i];
-			jointIndices = new Vector<Number>(skin.maxBones * primitive.vertices.length, true);
-			jointWeights = new Vector<Number>(skin.maxBones * primitive.vertices.length, true);
+			jointIndices = new Vector<Float>(skin.maxBones * primitive.vertices.length, true);
+			jointWeights = new Vector<Float>(skin.maxBones * primitive.vertices.length, true);
 			l = 0;
 
 			for (j = 0; j < primitive.vertices.length; j++)
@@ -430,7 +430,7 @@ class DAEParser extends ParserBase
 
 		var targets:Vector<Geometry> = new Vector<Geometry>();
 		base = getGeometryByName(morph.source);
-		var vertexData:Vector<Number>;
+		var vertexData:Vector<Float>;
 		var sub:CompactSubGeometry;
 		var startWeight:Float = 1.0;
 		var i:UInt, j:UInt, k:UInt;
@@ -930,8 +930,8 @@ class DAEParser extends ParserBase
 	private function translatePrimitive(mesh:DAEMesh, primitive:DAEPrimitive, reverseTriangles:Bool = true, autoDeriveVertexNormals:Bool = true, autoDeriveVertexTangents:Bool = true):CompactSubGeometry
 	{
 		var sub:CompactSubGeometry = new CompactSubGeometry();
-		var indexData:Vector<uint> = new Vector<uint>();
-		var data:Vector<Number> = new Vector<Number>();
+		var indexData:Vector<UInt> = new Vector<UInt>();
+		var data:Vector<Float> = new Vector<Float>();
 		var faces:Vector<DAEFace> = primitive.create(mesh);
 		var v:DAEVertex, f:DAEFace;
 		var i:UInt, j:UInt;
@@ -1061,7 +1061,7 @@ class DAEElement
 	private function convertMatrix(matrix:Matrix3D):Void
 	{
 		var indices:Vector<int> = Vector<int>([2, 6, 8, 9, 11, 14]);
-		var raw:Vector<Number> = matrix.rawData;
+		var raw:Vector<Float> = matrix.rawData;
 		for (var i:UInt = 0; i < indices.length; i++)
 			raw[indices[i]] *= -1.0;
 
@@ -1077,11 +1077,11 @@ class DAEElement
 		return (tmp.name().localName == "COLLADA" ? tmp : null);
 	}
 
-	private function readFloatArray(element:XML):Vector<Number>
+	private function readFloatArray(element:XML):Vector<Float>
 	{
 		var raw:String = readText(element);
 		var parts:Array = raw.split(/\s+/);
-		var floats:Vector<Number> = new Vector<Number>();
+		var floats:Vector<Float> = new Vector<Float>();
 
 		for (var i:UInt = 0; i < parts.length; i++)
 			floats.push(parseFloat(parts[i]));
@@ -1198,7 +1198,7 @@ class DAESource extends DAEElement
 {
 	public var accessor:DAEAccessor;
 	public var type:String;
-	public var floats:Vector<Number>;
+	public var floats:Vector<Float>;
 	public var ints:Vector<int>;
 	public var bools:Vector<Boolean>;
 	public var strings:Vector<String>;
@@ -1841,7 +1841,7 @@ class DAEColorOrTexture extends DAEElement
 		switch (nodeName)
 		{
 			case "color":
-				var values:Vector<Number> = readFloatArray(child);
+				var values:Vector<Float> = readFloatArray(child);
 				this.color = new DAEColor();
 				this.color.r = values[0];
 				this.color.g = values[1];
@@ -2057,7 +2057,7 @@ class DAEMaterial extends DAEElement
 class DAETransform extends DAEElement
 {
 	public var type:String;
-	public var data:Vector<Number>;
+	public var data:Vector<Float>;
 
 	public function new(element:XML = null)
 	{
@@ -2189,8 +2189,8 @@ class DAENode extends DAEElement
 	public function getAnimatedMatrix(time:Float):Matrix3D
 	{
 		var matrix:Matrix3D = new Matrix3D();
-		var tdata:Vector<Number>;
-		var odata:Vector<Number>;
+		var tdata:Vector<Float>;
+		var odata:Vector<Float>;
 		var channelsBySID:Object = {};
 		var transform:DAETransform;
 		var channel:DAEChannel;
@@ -2463,7 +2463,7 @@ class DAEMorph extends DAEEffect
 	public var source:String;
 	public var method:String;
 	public var targets:Vector<String>;
-	public var weights:Vector<Number>;
+	public var weights:Vector<Float>;
 
 	public function DAEMorph(element:XML = null)
 	{
@@ -2477,7 +2477,7 @@ class DAEMorph extends DAEEffect
 		this.method = element.@method.toString();
 		this.method = this.method.length ? this.method : "NORMALIZED";
 		this.targets = new Vector<String>();
-		this.weights = new Vector<Number>();
+		this.weights = new Vector<Float>();
 
 		var sources:Object = {};
 		var source:DAESource;
@@ -2591,7 +2591,7 @@ class DAESkin extends DAEElement
 
 	private function parseBindShapeMatrix(element:XML):Void
 	{
-		var values:Vector<Number> = readFloatArray(element);
+		var values:Vector<Float> = readFloatArray(element);
 		this.bind_shape_matrix = new Matrix3D(values);
 		this.bind_shape_matrix.transpose();
 		if (DAEElement.USE_LEFT_HANDED)
@@ -2723,8 +2723,8 @@ class DAEController extends DAEElement
 
 class DAESampler extends DAEElement
 {
-	public var input:Vector<Number>;
-	public var output:Vector<Vector<Number>>;
+	public var input:Vector<Float>;
+	public var output:Vector<Vector<Float>>;
 	public var dataType:String;
 	public var interpolation:Vector<String>;
 	public var minTime:Float;
@@ -2752,8 +2752,8 @@ class DAESampler extends DAEElement
 		var input:DAEInput;
 		var source:DAESource;
 		var i:UInt, j:UInt;
-		this.input = new Vector<Number>();
-		this.output = new Vector<Vector<Number>>();
+		this.input = new Vector<Float>();
+		this.output = new Vector<Vector<Float>>();
 		this.interpolation = new Vector<String>();
 		this.minTime = 0;
 		this.maxTime = 0;
@@ -2839,7 +2839,7 @@ class DAEFrameData
 {
 	public var frame:UInt;
 	public var time:Float;
-	public var data:Vector<Number>;
+	public var data:Vector<Float>;
 	public var dt:Float;
 	public var valid:Bool;
 
@@ -2979,7 +2979,7 @@ class DAELightType extends DAEElement
 	{
 		if (nodeName == "color")
 		{
-			var f:Vector<Number> = readFloatArray(child);
+			var f:Vector<Float> = readFloatArray(child);
 			this.color = new DAEColor();
 			color.r = f[0];
 			color.g = f[1];

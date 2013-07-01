@@ -38,7 +38,7 @@ class Parsers
 	 *
 	 * @see a3d.loading.AssetLibrary.enableParser
 	*/
-	public static inline var ALL_BUNDLED:Vector<Class> = Vector<Class>([
+	public static inline var ALL_BUNDLED:Vector<Class<ParserBase>> = Vector.ofArray([
 		AC3DParser, AWD1Parser, AWD2Parser, AWDParser, Max3DSParser, DXFParser,
 		MD2Parser, MD5AnimParser, MD5MeshParser, OBJParser,
 		DAEParser

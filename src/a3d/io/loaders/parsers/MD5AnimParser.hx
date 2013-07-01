@@ -201,7 +201,7 @@ class MD5AnimParser extends ParserBase
 		var j:int;
 		var translate:Vector3D = new Vector3D();
 		var orientation:Quaternion = new Quaternion();
-		var components:Vector<Number> = frameData.components;
+		var components:Vector<Float> = frameData.components;
 		var skelPose:SkeletonPose = new SkeletonPose();
 		var jointPoses:Vector<JointPose> = skelPose.jointPoses;
 
@@ -397,7 +397,7 @@ class MD5AnimParser extends ParserBase
 			if (_reachedEOF)
 				sendEOFError();
 			data = new FrameData();
-			data.components = new Vector<Number>(_numAnimatedComponents, true);
+			data.components = new Vector<Float>(_numAnimatedComponents, true);
 
 			for (var i:int = 0; i < _numAnimatedComponents; ++i)
 			{
@@ -677,7 +677,7 @@ class BaseFrameData
 class FrameData
 {
 	public var index:int;
-	public var components:Vector<Number>;
+	public var components:Vector<Float>;
 
 	public function FrameData()
 	{

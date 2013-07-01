@@ -26,7 +26,7 @@ import a3d.io.loaders.parsers.ParserBase;
  *
  * @eventType a3d.events.LoaderEvent
  */
-@:meta(Eventname = "resourceComplete", type = "a3d.events.LoaderEvent"))
+@:meta(Eventname = "resourceComplete", type = "a3d.events.LoaderEvent")
 
 /**
  * Dispatched when a single dependency (which may be the main file of a resource)
@@ -34,14 +34,14 @@ import a3d.io.loaders.parsers.ParserBase;
  *
  * @eventType a3d.events.LoaderEvent
  */
-@:meta(Eventname = "dependencyComplete", type = "a3d.events.LoaderEvent"))
+@:meta(Eventname = "dependencyComplete", type = "a3d.events.LoaderEvent")
 
 /**
  * Dispatched when an error occurs during loading.
  *
  * @eventType a3d.events.LoaderEvent
  */
-@:meta(Eventname = "loadError", type = "a3d.events.LoaderEvent"))
+@:meta(Eventname = "loadError", type = "a3d.events.LoaderEvent")
 
 /**
  * Dispatched when any asset finishes parsing. Also see specific events for each
@@ -49,84 +49,84 @@ import a3d.io.loaders.parsers.ParserBase;
  *
  * @eventType a3d.events.AssetEvent
  */
-@:meta(Eventname = "assetComplete", type = "a3d.events.AssetEvent"))
+@:meta(Eventname = "assetComplete", type = "a3d.events.AssetEvent")
 
 /**
  * Dispatched when a geometry asset has been constructed from a resource.
  *
  * @eventType a3d.events.AssetEvent
  */
-@:meta(Eventname = "geometryComplete", type = "a3d.events.AssetEvent"))
+@:meta(Eventname = "geometryComplete", type = "a3d.events.AssetEvent")
 
 /**
  * Dispatched when a skeleton asset has been constructed from a resource.
  *
  * @eventType a3d.events.AssetEvent
  */
-@:meta(Eventname = "skeletonComplete", type = "a3d.events.AssetEvent"))
+@:meta(Eventname = "skeletonComplete", type = "a3d.events.AssetEvent")
 
 /**
  * Dispatched when a skeleton pose asset has been constructed from a resource.
  *
  * @eventType a3d.events.AssetEvent
  */
-@:meta(Eventname = "skeletonPoseComplete", type = "a3d.events.AssetEvent"))
+@:meta(Eventname = "skeletonPoseComplete", type = "a3d.events.AssetEvent")
 
 /**
  * Dispatched when a container asset has been constructed from a resource.
  *
  * @eventType a3d.events.AssetEvent
  */
-@:meta(Eventname = "containerComplete", type = "a3d.events.AssetEvent"))
+@:meta(Eventname = "containerComplete", type = "a3d.events.AssetEvent")
 
 /**
  * Dispatched when an animation set has been constructed from a group of animation state resources.
  *
  * @eventType a3d.events.AssetEvent
  */
-@:meta(Eventname = "animationSetComplete", type = "a3d.events.AssetEvent"))
+@:meta(Eventname = "animationSetComplete", type = "a3d.events.AssetEvent")
 
 /**
  * Dispatched when an animation state has been constructed from a group of animation node resources.
  *
  * @eventType a3d.events.AssetEvent
  */
-@:meta(Eventname = "animationStateComplete", type = "a3d.events.AssetEvent"))
+@:meta(Eventname = "animationStateComplete", type = "a3d.events.AssetEvent")
 
 /**
  * Dispatched when an animation node has been constructed from a resource.
  *
  * @eventType a3d.events.AssetEvent
  */
-@:meta(Eventname = "animationNodeComplete", type = "a3d.events.AssetEvent"))
+@:meta(Eventname = "animationNodeComplete", type = "a3d.events.AssetEvent")
 
 /**
  * Dispatched when an animation state transition has been constructed from a group of animation node resources.
  *
  * @eventType a3d.events.AssetEvent
  */
-@:meta(Eventname = "stateTransitionComplete", type = "a3d.events.AssetEvent"))
+@:meta(Eventname = "stateTransitionComplete", type = "a3d.events.AssetEvent")
 
 /**
  * Dispatched when a texture asset has been constructed from a resource.
  *
  * @eventType a3d.events.AssetEvent
  */
-@:meta(Eventname = "textureComplete", type = "a3d.events.AssetEvent"))
+@:meta(Eventname = "textureComplete", type = "a3d.events.AssetEvent")
 
 /**
  * Dispatched when a material asset has been constructed from a resource.
  *
  * @eventType a3d.events.AssetEvent
  */
-@:meta(Eventname = "materialComplete", type = "a3d.events.AssetEvent"))
+@:meta(Eventname = "materialComplete", type = "a3d.events.AssetEvent")
 
 /**
  * Dispatched when a animator asset has been constructed from a resource.
  *
  * @eventType a3d.events.AssetEvent
  */
-@:meta(Eventname = "animatorComplete", type = "a3d.events.AssetEvent"))
+@:meta(Eventname = "animatorComplete", type = "a3d.events.AssetEvent")
 
 
 
@@ -215,7 +215,7 @@ class Loader3D extends ObjectContainer3D
 	 * @param ns An optional namespace string under which the file is to be loaded, allowing the differentiation of two resources with identical assets
 	 * @param parser An optional parser object for translating the loaded data into a usable resource. If not provided, AssetLoader will attempt to auto-detect the file type.
 	 */
-	public function loadData(data:*, context:AssetLoaderContext = null, ns:String = null, parser:ParserBase = null):AssetLoaderToken
+	public function loadData(data:Dynamic, context:AssetLoaderContext = null, ns:String = null, parser:ParserBase = null):AssetLoaderToken
 	{
 		var token:AssetLoaderToken;
 
@@ -254,13 +254,13 @@ class Loader3D extends ObjectContainer3D
 	}
 
 
-	public static function enableParser(parserClass:Class):Void
+	public static function enableParser(parserClass:Class<ParserBase>):Void
 	{
 		SingleFileLoader.enableParser(parserClass);
 	}
 
 
-	public static function enableParsers(parserClasses:Vector<Class>):Void
+	public static function enableParsers(parserClasses:Vector<Class<ParserBase>>):Void
 	{
 		SingleFileLoader.enableParsers(parserClasses);
 	}
@@ -298,19 +298,16 @@ class Loader3D extends ObjectContainer3D
 			switch (ev.asset.assetType)
 			{
 				case AssetType.LIGHT:
-					obj = LightBase(ev.asset);
-					break;
+					obj = Std.instance(ev.asset,LightBase);
 				case AssetType.CONTAINER:
-					obj = ObjectContainer3D(ev.asset);
-					break;
+					obj = Std.instance(ev.asset,ObjectContainer3D);
 				case AssetType.MESH:
-					obj = Mesh(ev.asset);
-					break;
+					obj = Std.instance(ev.asset,Mesh);
 			}
 
 			// If asset was of fitting type, and doesn't
 			// already have a parent, add to loader container
-			if (obj && obj.parent == null)
+			if (obj != null && obj.parent == null)
 			{
 				addChild(obj);
 			}
@@ -340,11 +337,11 @@ class Loader3D extends ObjectContainer3D
 			lib = AssetLibraryBundle.getInstance(_assetLibId);
 			lib.stopAllLoadingSessions();
 			_loadingSessions = null;
-			return
+			return;
 		}
-		var i:int;
-		var length:int = _loadingSessions.length;
-		for (i = 0; i < length; i++)
+		
+		var length:Int = _loadingSessions.length;
+		for (i  in 0...length)
 		{
 			removeListeners(_loadingSessions[i]);
 			_loadingSessions[i].stop();
@@ -368,7 +365,7 @@ class Loader3D extends ObjectContainer3D
 
 	private function onResourceComplete(ev:Event):Void
 	{
-		removeListeners(EventDispatcher(ev.currentTarget));
+		removeListeners(Std.instance(ev.currentTarget,EventDispatcher));
 		this.dispatchEvent(ev.clone());
 	}
 }

@@ -1,5 +1,6 @@
 package a3dexample;
 
+import feffects.Tween;
 import flash.geom.Vector3D;
 import flash.Lib;
 
@@ -13,6 +14,8 @@ import a3d.utils.Cast;
 
 import caurina.transitions.Tweener;
 import caurina.transitions.properties.CurveModifiers;
+
+using feffects.Tween.TweenObject;
 
 @:bitmap("embeds/floor_diffuse.jpg") class FloorDiffuse extends flash.display.BitmapData { }
 
@@ -85,6 +88,9 @@ class Basic_Tweening3D extends BasicApplication
 	 */
 	private function _onMouseUp(ev:MouseEvent3D):Void
 	{
-		Tweener.addTween(_cube, {time: 0.5, x: ev.scenePosition.x, z: ev.scenePosition.z, _bezier: {x: _cube.x, z: ev.scenePosition.z}});
+		_cube.tween( { x:ev.scenePosition.x, z:ev.scenePosition.z }, 500).start();
+		//_cube.x = ev.scenePosition.x;
+		//_cube.z = ev.scenePosition.z;
+		//Tweener.addTween(_cube, {time: 0.5, x: ev.scenePosition.x, z: ev.scenePosition.z, _bezier: {x: _cube.x, z: ev.scenePosition.z}});
 	}
 }

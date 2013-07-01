@@ -41,7 +41,6 @@ class ParticleBillboardNode extends ParticleNodeBase
 	 */
 	override public function getAGALVertexCode(pass:MaterialPassBase, animationRegisterCache:AnimationRegisterCache):String
 	{
-		pass = pass;
 		var rotationMatrixRegister:ShaderRegisterElement = animationRegisterCache.getFreeVertexConstant();
 		animationRegisterCache.setRegisterIndex(this, MATRIX_INDEX, rotationMatrixRegister.index);
 		animationRegisterCache.getFreeVertexConstant();
@@ -51,7 +50,7 @@ class ParticleBillboardNode extends ParticleNodeBase
 		var code:String = "m33 " + animationRegisterCache.scaleAndRotateTarget + ".xyz," + animationRegisterCache.scaleAndRotateTarget + ".xyz," + rotationMatrixRegister + "\n";
 
 		var shaderRegisterElement:ShaderRegisterElement;
-		for each (shaderRegisterElement in animationRegisterCache.rotationRegisters)
+		for (shaderRegisterElement in animationRegisterCache.rotationRegisters)
 			code += "m33 " + shaderRegisterElement.regName + shaderRegisterElement.index + ".xyz," + shaderRegisterElement + "," + rotationMatrixRegister + "\n";
 
 		return code;

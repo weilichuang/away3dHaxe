@@ -22,7 +22,7 @@ import a3d.math.MathUtil;
  */
 class ParticleBillboardState extends ParticleStateBase
 {
-	private var _matrix:Matrix3D = new Matrix3D;
+	private var _matrix:Matrix3D;
 
 	private var _billboardAxis:Vector3D;
 
@@ -33,16 +33,14 @@ class ParticleBillboardState extends ParticleStateBase
 	{
 		super(animator, particleNode);
 		billboardAxis = particleNode.billboardAxis;
+		_matrix = new Matrix3D();
 	}
 
 
 	override public function setRenderState(stage3DProxy:Stage3DProxy, renderable:IRenderable, animationSubGeometry:AnimationSubGeometry, animationRegisterCache:AnimationRegisterCache, camera:Camera3D):Void
 	{
-		// TODO: not used
-		animationSubGeometry = animationSubGeometry;
-
 		var comps:Vector<Vector3D>;
-		if (_billboardAxis)
+		if (_billboardAxis != null)
 		{
 			var pos:Vector3D = renderable.sceneTransform.position;
 			var look:Vector3D = camera.sceneTransform.position.subtract(pos);
@@ -58,7 +56,7 @@ class ParticleBillboardState extends ParticleStateBase
 			_matrix.copyColumnFrom(1, _billboardAxis);
 			_matrix.copyColumnFrom(2, look);
 			_matrix.copyColumnFrom(3, pos);
-			_matrix.appendRotation(-comps[1].w * MathUtil.RADIANS_TO_DEGREES, comps[1]);
+			_matrix.appendRotation(-comps[1].w * MathUtil.RADIANS_TO_DEGREES(), comps[1]);
 		}
 		else
 		{
@@ -71,7 +69,7 @@ class ParticleBillboardState extends ParticleStateBase
 
 			//recreate the matrix with just the rotation data
 			_matrix.identity();
-			_matrix.appendRotation(-comps[1].w * MathUtil.RADIANS_TO_DEGREES, comps[1]);
+			_matrix.appendRotation(-comps[1].w * MathUtil.RADIANS_TO_DEGREES(), comps[1]);
 		}
 
 		//set a new matrix transform constant
@@ -81,16 +79,18 @@ class ParticleBillboardState extends ParticleStateBase
 	/**
 	 * Defines the billboard axis.
 	 */
+	public var billboardAxis(get,null):Vector3D;
 	private function get_billboardAxis():Vector3D
 	{
 		return _billboardAxis;
 	}
 
-	private function set_billboardAxis(value:Vector3D):Void
+	private function set_billboardAxis(value:Vector3D):Vector3D
 	{
-		_billboardAxis = value ? value.clone() : null;
-		if (_billboardAxis)
+		_billboardAxis = value != null ? value.clone() : null;
+		if (_billboardAxis != null)
 			_billboardAxis.normalize();
+		return _billboardAxis;
 	}
 
 }

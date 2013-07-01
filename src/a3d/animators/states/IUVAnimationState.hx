@@ -12,16 +12,16 @@ interface IUVAnimationState extends IAnimationState
 	/**
 	 * Returns the current UV frame of animation in the clip based on the internal playhead position.
 	 */
-	function get_currentUVFrame():UVAnimationFrame;
+	var currentUVFrame(get,null):UVAnimationFrame;
 
 	/**
 	 * Returns the next UV frame of animation in the clip based on the internal playhead position.
 	 */
-	function get_nextUVFrame():UVAnimationFrame;
+	var nextUVFrame(get,null):UVAnimationFrame;
 
 	/**
 	 * Returns a fractional value between 0 and 1 representing the blending ratio of the current playhead position
 	 * between the current uv frame (0) and next uv frame (1) of the animation.
 	 */
-	function get_blendWeight():Float;
+	var blendWeight(get,null):Float;
 }

@@ -1,5 +1,6 @@
 package a3d.animators.nodes;
 
+import flash.errors.Error;
 import flash.geom.Vector3D;
 
 
@@ -12,6 +13,7 @@ import a3d.materials.compilation.ShaderRegisterElement;
 import a3d.materials.passes.MaterialPassBase;
 
 
+using Reflect;
 
 /**
  * A particle animation node used to set the starting velocity of a particle.
@@ -42,7 +44,7 @@ class ParticleVelocityNode extends ParticleNodeBase
 
 		_stateClass = ParticleVelocityState;
 
-		this.velocity = velocity || new Vector3D();
+		this.velocity = velocity != null ? velocity : new Vector3D();
 	}
 
 	/**
@@ -50,7 +52,6 @@ class ParticleVelocityNode extends ParticleNodeBase
 	 */
 	override public function getAGALVertexCode(pass:MaterialPassBase, animationRegisterCache:AnimationRegisterCache):String
 	{
-		pass = pass;
 		var velocityValue:ShaderRegisterElement = (_mode == ParticlePropertiesMode.GLOBAL) ? animationRegisterCache.getFreeVertexConstant() : animationRegisterCache.getFreeVertexAttribute();
 		animationRegisterCache.setRegisterIndex(this, VELOCITY_INDEX, velocityValue.index);
 
@@ -78,7 +79,7 @@ class ParticleVelocityNode extends ParticleNodeBase
 	 */
 	override public function generatePropertyOfOneParticle(param:ParticleProperties):Void
 	{
-		var _tempVelocity:Vector3D = param[VELOCITY_VECTOR3D];
+		var _tempVelocity:Vector3D = param.field(VELOCITY_VECTOR3D);
 		if (_tempVelocity == null)
 			throw new Error("there is no " + VELOCITY_VECTOR3D + " in param!");
 

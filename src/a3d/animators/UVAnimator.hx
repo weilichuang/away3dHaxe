@@ -1,6 +1,7 @@
 package a3d.animators;
 
 import flash.display3D.Context3DProgramType;
+import flash.errors.Error;
 import flash.geom.Matrix;
 import flash.Vector;
 
@@ -26,7 +27,7 @@ import a3d.math.MathUtil;
 class UVAnimator extends AnimatorBase implements IAnimator
 {
 	private var _uvAnimationSet:UVAnimationSet;
-	private var _deltaFrame:UVAnimationFrame = new UVAnimationFrame();
+	private var _deltaFrame:UVAnimationFrame;
 	private var _activeUVState:IUVAnimationState;
 
 	private var _uvTransform:Matrix;
@@ -47,18 +48,20 @@ class UVAnimator extends AnimatorBase implements IAnimator
 	{
 		super(uvAnimationSet);
 
+		_deltaFrame = new UVAnimationFrame();
 		_uvTransform = new Matrix();
-		_matrix2d = Vector<Float>([1, 0, 0, 0, 1, 0, 0, 0]);
-		_translate = Vector<Float>([0, 0, 0.5, 0.5]);
+		_matrix2d = Vector.ofArray([1., 0, 0, 0, 1, 0, 0, 0]);
+		_translate = Vector.ofArray([0., 0, 0.5, 0.5]);
 		_uvAnimationSet = uvAnimationSet;
 	}
 
 	/**
 	* Defines if a rotation is performed automatically each update. The rotationIncrease value is added each iteration.
 	*/
-	private function set_autoRotation(b:Bool):Void
+	public var autoRotation(get, set):Bool;
+	private function set_autoRotation(b:Bool):Bool
 	{
-		_autoRotation = b;
+		return _autoRotation = b;
 	}
 
 	private function get_autoRotation():Bool
@@ -69,9 +72,10 @@ class UVAnimator extends AnimatorBase implements IAnimator
 	/**
 	* if autoRotation = true, the rotation is increased by the rotationIncrease value. Default is 1;
 	*/
-	private function set_rotationIncrease(value:Float):Void
+	public var rotationIncrease(get, set):Float;
+	private function set_rotationIncrease(value:Float):Float
 	{
-		_rotationIncrease = value;
+		return _rotationIncrease = value;
 	}
 
 	private function get_rotationIncrease():Float
@@ -82,11 +86,13 @@ class UVAnimator extends AnimatorBase implements IAnimator
 	/**
 	* Defines if the animation is translated automatically each update. Ideal to scroll maps. Use setTranslateIncrease to define the offsets.
 	*/
-	private function set_autoTranslate(b:Bool):Void
+	public var autoTranslate(get, set):Bool;
+	private function set_autoTranslate(b:Bool):Bool
 	{
 		_autoTranslate = b;
-		if (b && !_translateIncrease)
-			_translateIncrease = Vector<Float>([0, 0]);
+		if (b && _translateIncrease == null)
+			_translateIncrease = Vector.ofArray([0., 0]);
+		return _autoTranslate;
 	}
 
 	private function get_autoTranslate():Bool
@@ -100,12 +106,13 @@ class UVAnimator extends AnimatorBase implements IAnimator
 	*/
 	public function setTranslateIncrease(u:Float, v:Float):Void
 	{
-		if (!_translateIncrease)
-			_translateIncrease = Vector<Float>([0, 0]);
+		if (_translateIncrease == null)
+			_translateIncrease = Vector.ofArray([0., 0]);
 		_translateIncrease[0] = u;
 		_translateIncrease[1] = v;
 	}
 
+	public var translateIncrease(get, null):Vector<Float>;
 	private function get_translateIncrease():Vector<Float>
 	{
 		return _translateIncrease;
@@ -119,7 +126,7 @@ class UVAnimator extends AnimatorBase implements IAnimator
 		var material:TextureMaterial = Std.instance(renderable.material,TextureMaterial);
 		var subMesh:SubMesh = Std.instance(renderable,SubMesh);
 
-		if (!material || !subMesh)
+		if (material == null || subMesh == null)
 			return;
 
 		if (autoTranslate)
@@ -139,7 +146,7 @@ class UVAnimator extends AnimatorBase implements IAnimator
 			_deltaFrame.rotation += _rotationIncrease;
 
 		if (_deltaFrame.rotation != 0)
-			_uvTransform.rotate(_deltaFrame.rotation * MathUtil.DEGREES_TO_RADIANS);
+			_uvTransform.rotate(_deltaFrame.rotation * MathUtil.DEGREES_TO_RADIANS());
 		if (_deltaFrame.scaleU != 1 || _deltaFrame.scaleV != 1)
 			_uvTransform.scale(_deltaFrame.scaleU, _deltaFrame.scaleV);
 
@@ -157,10 +164,8 @@ class UVAnimator extends AnimatorBase implements IAnimator
 	/**
 	* @inheritDoc
 	*/
-	public function play(name:String, transition:IAnimationTransition = null, offset:Float = NaN):Void
+	public function play(name:String, transition:IAnimationTransition = null, offset:Float = null):Void
 	{
-		transition = transition;
-		offset = offset;
 		if (_activeAnimationName == name)
 			return;
 
@@ -182,13 +187,13 @@ class UVAnimator extends AnimatorBase implements IAnimator
 	override private function updateDeltaTime(dt:Float):Void
 	{
 		_absoluteTime += dt;
-		_activeUVState.update(_absoluteTime);
+		_activeUVState.update(Std.int(_absoluteTime));
 
 		var currentUVFrame:UVAnimationFrame = _activeUVState.currentUVFrame;
 		var nextUVFrame:UVAnimationFrame = _activeUVState.nextUVFrame;
 		var blendWeight:Float = _activeUVState.blendWeight;
 
-		if (currentUVFrame && nextUVFrame)
+		if (currentUVFrame != null && nextUVFrame != null)
 		{
 			_deltaFrame.offsetU = currentUVFrame.offsetU + blendWeight * (nextUVFrame.offsetU - currentUVFrame.offsetU);
 			_deltaFrame.offsetV = currentUVFrame.offsetV + blendWeight * (nextUVFrame.offsetV - currentUVFrame.offsetV);
@@ -207,8 +212,8 @@ class UVAnimator extends AnimatorBase implements IAnimator
 	}
 
 	/**
-* @inheritDoc
-*/
+	* @inheritDoc
+	*/
 	public function clone():IAnimator
 	{
 		return new UVAnimator(_uvAnimationSet);

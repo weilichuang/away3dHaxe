@@ -1,6 +1,7 @@
 package a3d.animators;
 
 import flash.display3D.Context3DProgramType;
+import flash.errors.Error;
 import flash.utils.Dictionary;
 import flash.Vector;
 
@@ -16,7 +17,7 @@ import a3d.core.base.ISubGeometry;
 import a3d.core.base.SubMesh;
 import a3d.core.managers.Stage3DProxy;
 import a3d.materials.passes.MaterialPassBase;
-
+import haxe.ds.WeakMap;
 
 
 /**
@@ -32,11 +33,11 @@ class ParticleAnimator extends AnimatorBase implements IAnimator
 {
 
 	private var _particleAnimationSet:ParticleAnimationSet;
-	private var _animationParticleStates:Vector<ParticleStateBase> = new Vector<ParticleStateBase>;
-	private var _animatorParticleStates:Vector<ParticleStateBase> = new Vector<ParticleStateBase>;
-	private var _timeParticleStates:Vector<ParticleStateBase> = new Vector<ParticleStateBase>;
-	private var _totalLenOfOneVertex:UInt = 0;
-	private var _animatorSubGeometries:Dictionary = new Dictionary(true);
+	private var _animationParticleStates:Vector<ParticleStateBase>;
+	private var _animatorParticleStates:Vector<ParticleStateBase>;
+	private var _timeParticleStates:Vector<ParticleStateBase>;
+	private var _totalLenOfOneVertex:Int = 0;
+	private var _animatorSubGeometries:WeakMap<ISubGeometry,AnimationSubGeometry>;
 
 	/**
 	 * Creates a new <code>ParticleAnimator</code> object.
@@ -46,11 +47,17 @@ class ParticleAnimator extends AnimatorBase implements IAnimator
 	public function new(particleAnimationSet:ParticleAnimationSet)
 	{
 		super(particleAnimationSet);
+		
+		_animationParticleStates = new Vector<ParticleStateBase>();
+		_animatorParticleStates = new Vector<ParticleStateBase>();
+		_timeParticleStates = new Vector<ParticleStateBase>();
+		_animatorSubGeometries = new WeakMap<ISubGeometry,AnimationSubGeometry>();
+	
 		_particleAnimationSet = particleAnimationSet;
 
 		var state:ParticleStateBase;
 		var node:ParticleNodeBase;
-		for each (node in _particleAnimationSet.particleNodes)
+		for (node in _particleAnimationSet.particleNodes)
 		{
 			state = Std.instance(getAnimationState(node),ParticleStateBase);
 			if (node.mode == ParticlePropertiesMode.LOCAL_DYNAMIC)
@@ -87,7 +94,7 @@ class ParticleAnimator extends AnimatorBase implements IAnimator
 		var state:ParticleStateBase;
 
 		if (subMesh == null)
-			throw(new Error("Must be subMesh"));
+			throw new Error("Must be subMesh") ;
 
 		//process animation sub geometries
 		if (subMesh.animationSubGeometry == null)
@@ -95,7 +102,7 @@ class ParticleAnimator extends AnimatorBase implements IAnimator
 
 		var animationSubGeometry:AnimationSubGeometry = subMesh.animationSubGeometry;
 
-		for each (state in _animationParticleStates)
+		for (state in _animationParticleStates)
 			state.setRenderState(stage3DProxy, renderable, animationSubGeometry, animationRegisterCache, camera);
 
 		//process animator subgeometries
@@ -104,15 +111,13 @@ class ParticleAnimator extends AnimatorBase implements IAnimator
 
 		var animatorSubGeometry:AnimationSubGeometry = subMesh.animatorSubGeometry;
 
-		for each (state in _animatorParticleStates)
+		for (state in _animatorParticleStates)
 			state.setRenderState(stage3DProxy, renderable, animatorSubGeometry, animationRegisterCache, camera);
 
-		stage3DProxy.context3D.setProgramConstantsFromVector(Context3DProgramType.VERTEX, animationRegisterCache.vertexConstantOffset, animationRegisterCache.vertexConstantData, animationRegisterCache.
-			numVertexConstant);
+		stage3DProxy.context3D.setProgramConstantsFromVector(Context3DProgramType.VERTEX, animationRegisterCache.vertexConstantOffset, animationRegisterCache.vertexConstantData, animationRegisterCache.numVertexConstant);
 
 		if (animationRegisterCache.numFragmentConstant > 0)
-			stage3DProxy.context3D.setProgramConstantsFromVector(Context3DProgramType.FRAGMENT, animationRegisterCache.fragmentConstantOffset, animationRegisterCache.fragmentConstantData, animationRegisterCache.
-				numFragmentConstant);
+			stage3DProxy.context3D.setProgramConstantsFromVector(Context3DProgramType.FRAGMENT, animationRegisterCache.fragmentConstantOffset, animationRegisterCache.fragmentConstantData, animationRegisterCache.numFragmentConstant);
 	}
 
 	/**
@@ -129,9 +134,9 @@ class ParticleAnimator extends AnimatorBase implements IAnimator
 	override public function start():Void
 	{
 		super.start();
-		for each (var state:ParticleStateBase in _timeParticleStates)
+		for (state in _timeParticleStates)
 		{
-			state.offset(_absoluteTime);
+			state.offset(Std.int(_absoluteTime));
 		}
 	}
 
@@ -142,9 +147,9 @@ class ParticleAnimator extends AnimatorBase implements IAnimator
 	{
 		_absoluteTime += dt;
 
-		for each (var state:ParticleStateBase in _timeParticleStates)
+		for(state in _timeParticleStates)
 		{
-			state.update(_absoluteTime);
+			state.update(Std.int(_absoluteTime));
 		}
 	}
 
@@ -153,9 +158,9 @@ class ParticleAnimator extends AnimatorBase implements IAnimator
 	 */
 	public function resetTime(offset:Int = 0):Void
 	{
-		for each (var state:ParticleStateBase in _timeParticleStates)
+		for (state in _timeParticleStates)
 		{
-			state.offset(_absoluteTime + offset);
+			state.offset(Std.int(_absoluteTime + offset));
 		}
 		update(time);
 	}
@@ -163,7 +168,7 @@ class ParticleAnimator extends AnimatorBase implements IAnimator
 	override public function dispose():Void
 	{
 		var subGeometry:AnimationSubGeometry;
-		for each (subGeometry in _animatorSubGeometries)
+		for (subGeometry in _animatorSubGeometries)
 		{
 			subGeometry.dispose();
 		}
@@ -172,7 +177,10 @@ class ParticleAnimator extends AnimatorBase implements IAnimator
 	private function generateAnimatorSubGeometry(subMesh:SubMesh):Void
 	{
 		var subGeometry:ISubGeometry = subMesh.subGeometry;
-		var animatorSubGeometry:AnimationSubGeometry = subMesh.animatorSubGeometry = _animatorSubGeometries[subGeometry] = new AnimationSubGeometry();
+		
+		var animatorSubGeometry:AnimationSubGeometry = new AnimationSubGeometry();
+		_animatorSubGeometries.set(subGeometry,animatorSubGeometry);
+		subMesh.animatorSubGeometry = animatorSubGeometry;
 
 		//create the vertexData vector that will be used for local state data
 		animatorSubGeometry.createVertexData(subGeometry.numVertices, _totalLenOfOneVertex);

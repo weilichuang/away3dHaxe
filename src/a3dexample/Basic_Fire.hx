@@ -1,11 +1,13 @@
 package a3dexample;
 
+import a3d.entities.lights.LightBase;
 import flash.display.BlendMode;
 import flash.events.Event;
 import flash.events.MouseEvent;
 import flash.events.TimerEvent;
 import flash.geom.ColorTransform;
 import flash.geom.Vector3D;
+import flash.Lib;
 import flash.utils.Timer;
 import flash.Vector;
 
@@ -73,7 +75,7 @@ class Basic_Fire extends BasicApplication
 	private var fireObjects:Vector<FireVO>;
 
 	//navigation variables
-	private var move:Boolean = false;
+	private var move:Bool = false;
 	private var lastPanAngle:Float;
 	private var lastTiltAngle:Float;
 	private var lastMouseX:Float;
@@ -185,7 +187,7 @@ class Basic_Fire extends BasicApplication
 		var particle:Geometry = new PlaneGeometry(10, 10, 1, 1, false);
 
 		//combine them into a list
-		var geometrySet:Vector<Geometry> = new Vector<Geometry>;
+		var geometrySet:Vector<Geometry> = new Vector<Geometry>();
 		for (i in 0...500)
 			geometrySet.push(particle);
 
@@ -240,20 +242,20 @@ class Basic_Fire extends BasicApplication
 		var degree1:Float = Math.random() * Math.PI * 2;
 		var degree2:Float = Math.random() * Math.PI * 2;
 		var r:Float = 15;
-		prop[ParticleVelocityNode.VELOCITY_VECTOR3D] = new Vector3D(r * Math.sin(degree1) * Math.cos(degree2), r * Math.cos(degree1) * Math.cos(degree2), r * Math.sin(degree2));
+		untyped prop[ParticleVelocityNode.VELOCITY_VECTOR3D] = new Vector3D(r * Math.sin(degree1) * Math.cos(degree2), r * Math.cos(degree1) * Math.cos(degree2), r * Math.sin(degree2));
 	}
 
 	/**
 	 * Returns an array of active lights in the scene
 	 */
-	private function getAllLights():Array
+	private function getAllLights():Array<LightBase>
 	{
-		var lights:Array = new Array();
+		var lights:Array<LightBase> = [];
 
 		lights.push(directionalLight);
 
-		for each (var fireVO:FireVO in fireObjects)
-			if (fireVO.light)
+		for (fireVO in fireObjects)
+			if (fireVO.light != null)
 				lights.push(fireVO.light);
 
 		return lights;
@@ -296,12 +298,12 @@ class Basic_Fire extends BasicApplication
 
 		//animate lights
 		var fireVO:FireVO;
-		for each (fireVO in fireObjects)
+		for (fireVO in fireObjects)
 		{
 			//update flame light
 			var light:PointLight = fireVO.light;
 
-			if (!light)
+			if (light == null)
 				continue;
 
 			if (fireVO.strength < 1)

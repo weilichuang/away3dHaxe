@@ -1,6 +1,7 @@
 package a3d.animators.states;
 
 import flash.display3D.Context3DVertexBufferFormat;
+import flash.errors.Error;
 import flash.geom.ColorTransform;
 import flash.geom.Vector3D;
 
@@ -116,10 +117,6 @@ class ParticleColorState extends ParticleStateBase
 
 	override public function setRenderState(stage3DProxy:Stage3DProxy, renderable:IRenderable, animationSubGeometry:AnimationSubGeometry, animationRegisterCache:AnimationRegisterCache, camera:Camera3D):Void
 	{
-		// TODO: not used
-		renderable = renderable;
-		camera = camera;
-
 		if (animationRegisterCache.needFragmentAnimation)
 		{
 			var dataOffset:UInt = _particleColorNode.dataOffset;
@@ -132,38 +129,30 @@ class ParticleColorState extends ParticleStateBase
 			{
 				if (_particleColorNode.mode == ParticlePropertiesMode.LOCAL_STATIC)
 				{
-					animationSubGeometry.activateVertexBuffer(animationRegisterCache.getRegisterIndex(_animationNode, ParticleColorNode.START_MULTIPLIER_INDEX), dataOffset, stage3DProxy, Context3DVertexBufferFormat.
-						FLOAT_4);
+					animationSubGeometry.activateVertexBuffer(animationRegisterCache.getRegisterIndex(_animationNode, ParticleColorNode.START_MULTIPLIER_INDEX), dataOffset, stage3DProxy, Context3DVertexBufferFormat.FLOAT_4);
 					dataOffset += 4;
-					animationSubGeometry.activateVertexBuffer(animationRegisterCache.getRegisterIndex(_animationNode, ParticleColorNode.DELTA_MULTIPLIER_INDEX), dataOffset, stage3DProxy, Context3DVertexBufferFormat.
-						FLOAT_4);
+					animationSubGeometry.activateVertexBuffer(animationRegisterCache.getRegisterIndex(_animationNode, ParticleColorNode.DELTA_MULTIPLIER_INDEX), dataOffset, stage3DProxy, Context3DVertexBufferFormat.FLOAT_4);
 					dataOffset += 4;
 				}
 				else
 				{
-					animationRegisterCache.setVertexConst(animationRegisterCache.getRegisterIndex(_animationNode, ParticleColorNode.START_MULTIPLIER_INDEX), _startMultiplierData.x, _startMultiplierData.
-						y, _startMultiplierData.z, _startMultiplierData.w);
-					animationRegisterCache.setVertexConst(animationRegisterCache.getRegisterIndex(_animationNode, ParticleColorNode.DELTA_MULTIPLIER_INDEX), _deltaMultiplierData.x, _deltaMultiplierData.
-						y, _deltaMultiplierData.z, _deltaMultiplierData.w);
+					animationRegisterCache.setVertexConst(animationRegisterCache.getRegisterIndex(_animationNode, ParticleColorNode.START_MULTIPLIER_INDEX), _startMultiplierData.x, _startMultiplierData.y, _startMultiplierData.z, _startMultiplierData.w);
+					animationRegisterCache.setVertexConst(animationRegisterCache.getRegisterIndex(_animationNode, ParticleColorNode.DELTA_MULTIPLIER_INDEX), _deltaMultiplierData.x, _deltaMultiplierData.y, _deltaMultiplierData.z, _deltaMultiplierData.w);
 				}
 			}
 			if (_usesOffset)
 			{
 				if (_particleColorNode.mode == ParticlePropertiesMode.LOCAL_STATIC)
 				{
-					animationSubGeometry.activateVertexBuffer(animationRegisterCache.getRegisterIndex(_animationNode, ParticleColorNode.START_OFFSET_INDEX), dataOffset, stage3DProxy, Context3DVertexBufferFormat.
-						FLOAT_4);
+					animationSubGeometry.activateVertexBuffer(animationRegisterCache.getRegisterIndex(_animationNode, ParticleColorNode.START_OFFSET_INDEX), dataOffset, stage3DProxy, Context3DVertexBufferFormat.FLOAT_4);
 					dataOffset += 4;
-					animationSubGeometry.activateVertexBuffer(animationRegisterCache.getRegisterIndex(_animationNode, ParticleColorNode.DELTA_OFFSET_INDEX), dataOffset, stage3DProxy, Context3DVertexBufferFormat.
-						FLOAT_4);
+					animationSubGeometry.activateVertexBuffer(animationRegisterCache.getRegisterIndex(_animationNode, ParticleColorNode.DELTA_OFFSET_INDEX), dataOffset, stage3DProxy, Context3DVertexBufferFormat.FLOAT_4);
 					dataOffset += 4;
 				}
 				else
 				{
-					animationRegisterCache.setVertexConst(animationRegisterCache.getRegisterIndex(_animationNode, ParticleColorNode.START_OFFSET_INDEX), _startOffsetData.x, _startOffsetData.y, _startOffsetData.
-						z, _startOffsetData.w);
-					animationRegisterCache.setVertexConst(animationRegisterCache.getRegisterIndex(_animationNode, ParticleColorNode.DELTA_OFFSET_INDEX), _deltaOffsetData.x, _deltaOffsetData.y, _deltaOffsetData.
-						z, _deltaOffsetData.w);
+					animationRegisterCache.setVertexConst(animationRegisterCache.getRegisterIndex(_animationNode, ParticleColorNode.START_OFFSET_INDEX), _startOffsetData.x, _startOffsetData.y, _startOffsetData.z, _startOffsetData.w);
+					animationRegisterCache.setVertexConst(animationRegisterCache.getRegisterIndex(_animationNode, ParticleColorNode.DELTA_OFFSET_INDEX), _deltaOffsetData.x, _deltaOffsetData.y, _deltaOffsetData.z, _deltaOffsetData.w);
 				}
 			}
 		}
@@ -174,9 +163,11 @@ class ParticleColorState extends ParticleStateBase
 		if (_usesCycle)
 		{
 			if (_cycleDuration <= 0)
-				throw(new Error("the cycle duration must be greater than zero"));
+				throw new Error("the cycle duration must be greater than zero");
+				
 			_cycleData = new Vector3D(Math.PI * 2 / _cycleDuration, _cyclePhase * Math.PI / 180, 0, 0);
 		}
+		
 		if (_particleColorNode.mode == ParticlePropertiesMode.GLOBAL)
 		{
 			if (_usesCycle)
@@ -209,8 +200,7 @@ class ParticleColorState extends ParticleStateBase
 				if (_usesOffset)
 				{
 					_startOffsetData = new Vector3D(_startColor.redOffset / 255, _startColor.greenOffset / 255, _startColor.blueOffset / 255, _startColor.alphaOffset / 255);
-					_deltaOffsetData = new Vector3D((_endColor.redOffset - _startColor.redOffset) / 255, (_endColor.greenOffset - _startColor.greenOffset) / 255, (_endColor.blueOffset - _startColor.
-						blueOffset) / 255, (_endColor.alphaOffset - _startColor.alphaOffset) / 255);
+					_deltaOffsetData = new Vector3D((_endColor.redOffset - _startColor.redOffset) / 255, (_endColor.greenOffset - _startColor.greenOffset) / 255, (_endColor.blueOffset - _startColor.blueOffset) / 255, (_endColor.alphaOffset - _startColor.alphaOffset) / 255);
 				}
 			}
 		}

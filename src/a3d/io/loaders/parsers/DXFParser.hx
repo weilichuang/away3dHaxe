@@ -45,9 +45,9 @@ class DXFParser extends ParserBase
 
 	private var _meshesDic:Dictionary;
 
-	private var _vertices:Vector<Number>;
-	private var _uvs:Vector<Number>;
-	private var _indices:Vector<uint>;
+	private var _vertices:Vector<Float>;
+	private var _uvs:Vector<Float>;
+	private var _indices:Vector<UInt>;
 	private var _subGeometry:CompactSubGeometry;
 
 	private var _polyLines:Vector<Vector3D>;
@@ -578,9 +578,9 @@ class DXFParser extends ParserBase
 		_subGeometry.autoDeriveVertexTangents = true;
 		geom.addSubGeometry(_subGeometry);
 
-		_vertices = new Vector<Number>();
-		_uvs = new Vector<Number>();
-		_indices = new Vector<uint>;
+		_vertices = new Vector<Float>();
+		_uvs = new Vector<Float>();
+		_indices = new Vector<UInt>;
 	}
 
 	private function finalizeLine():Void

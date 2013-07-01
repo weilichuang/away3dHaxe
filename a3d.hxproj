@@ -21,18 +21,18 @@
   <build>
     <option directives="" />
     <option flashStrict="False" />
-    <option mainClass="a3dexample.Basic_View" />
+    <option mainClass="a3dexample.Basic_Fire" />
     <option enabledebug="True" />
-    <option additional="" />
+    <option additional="-D advanced-telemetry" />
   </build>
   <!-- haxelib libraries -->
   <haxelib>
-    <!-- example: <library name="..." /> -->
+    <library name="-lib feffects" />
   </haxelib>
   <!-- Class files to compile (other referenced classes will automatically be included) -->
   <compileTargets>
     <compile path="src\Main.hx" />
-    <compile path="src\a3dexample\Basic_View.hx" />
+    <compile path="src\a3dexample\Basic_Fire.hx" />
   </compileTargets>
   <!-- Assets to embed into the output SWF -->
   <library>

@@ -16,17 +16,26 @@ class ParticleGeometryTransform
 	{
 	}
 
-	private function set_vertexTransform(value:Matrix3D):Void
+	public var vertexTransform(get, set):Matrix3D;
+	private function get_vertexTransform():Matrix3D
+	{
+		return _defaultVertexTransform;
+	}
+	
+	private function set_vertexTransform(value:Matrix3D):Matrix3D
 	{
 		_defaultVertexTransform = value;
 		_defaultInvVertexTransform = value.clone();
 		_defaultInvVertexTransform.invert();
 		_defaultInvVertexTransform.transpose();
+		
+		return _defaultVertexTransform;
 	}
 
-	private function set_UVTransform(value:Matrix):Void
+	public var UVTransform(get, set):Matrix;
+	private function set_UVTransform(value:Matrix):Matrix
 	{
-		_defaultUVTransform = value;
+		return _defaultUVTransform = value;
 	}
 
 	private function get_UVTransform():Matrix
@@ -34,11 +43,9 @@ class ParticleGeometryTransform
 		return _defaultUVTransform;
 	}
 
-	private function get_vertexTransform():Matrix3D
-	{
-		return _defaultVertexTransform;
-	}
+	
 
+	public var invVertexTransform(get, null):Matrix3D;
 	private function get_invVertexTransform():Matrix3D
 	{
 		return _defaultInvVertexTransform;

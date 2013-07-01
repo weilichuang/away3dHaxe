@@ -289,7 +289,7 @@ class MD5MeshParser extends ParserBase
 		var ch:String;
 		var vertexData:Vector<VertexData>;
 		var weights:Vector<JointData>;
-		var indices:Vector<uint>;
+		var indices:Vector<UInt>;
 
 		if (token != "{")
 			sendUnknownKeywordError();
@@ -311,7 +311,7 @@ class MD5MeshParser extends ParserBase
 					vertexData = new Vector<VertexData>(getNextInt(), true);
 					break;
 				case MESH_NUM_TRIS_TOKEN:
-					indices = new Vector<uint>(getNextInt() * 3, true);
+					indices = new Vector<UInt>(getNextInt() * 3, true);
 					break;
 				case MESH_NUM_WEIGHTS_TOKEN:
 					weights = new Vector<JointData>(getNextInt(), true);
@@ -343,7 +343,7 @@ class MD5MeshParser extends ParserBase
 	 * @param indices The indices for the faces.
 	 * @return A SkinnedSubGeometry instance containing all geometrical data for the current mesh.
 	 */
-	private function translateGeom(vertexData:Vector<VertexData>, weights:Vector<JointData>, indices:Vector<uint>):SkinnedSubGeometry
+	private function translateGeom(vertexData:Vector<VertexData>, weights:Vector<JointData>, indices:Vector<UInt>):SkinnedSubGeometry
 	{
 		var len:int = vertexData.length;
 		var v1:int, v2:int, v3:int;
@@ -352,10 +352,10 @@ class MD5MeshParser extends ParserBase
 		var bindPose:Matrix3D;
 		var pos:Vector3D;
 		var subGeom:SkinnedSubGeometry = new SkinnedSubGeometry(_maxJointCount);
-		var uvs:Vector<Number> = new Vector<Number>(len * 2, true);
-		var vertices:Vector<Number> = new Vector<Number>(len * 3, true);
-		var jointIndices:Vector<Number> = new Vector<Number>(len * _maxJointCount, true);
-		var jointWeights:Vector<Number> = new Vector<Number>(len * _maxJointCount, true);
+		var uvs:Vector<Float> = new Vector<Float>(len * 2, true);
+		var vertices:Vector<Float> = new Vector<Float>(len * 3, true);
+		var jointIndices:Vector<Float> = new Vector<Float>(len * _maxJointCount, true);
+		var jointWeights:Vector<Float> = new Vector<Float>(len * _maxJointCount, true);
 		var l:int;
 		var nonZeroWeights:int;
 
@@ -415,7 +415,7 @@ class MD5MeshParser extends ParserBase
 	 * Retrieve the next triplet of vertex indices that form a face.
 	 * @param indices The index list in which to store the read data.
 	 */
-	private function parseTri(indices:Vector<uint>):Void
+	private function parseTri(indices:Vector<UInt>):Void
 	{
 		var index:int = getNextInt() * 3;
 		indices[index] = getNextInt();
@@ -701,7 +701,7 @@ class MeshData
 {
 	public var vertexData:Vector<VertexData>;
 	public var weightData:Vector<JointData>;
-	public var indices:Vector<uint>;
+	public var indices:Vector<UInt>;
 
 	public function MeshData()
 	{

@@ -14,7 +14,7 @@ import a3d.entities.Camera3D;
 import a3d.core.base.IRenderable;
 import a3d.core.managers.Stage3DProxy;
 
-
+import haxe.ds.WeakMap;
 
 /**
  * ...
@@ -23,8 +23,8 @@ class ParticleStateBase extends AnimationStateBase
 {
 	private var _particleNode:ParticleNodeBase;
 
-	private var _dynamicProperties:Vector<Vector3D> = new Vector<Vector3D>();
-	private var _dynamicPropertiesDirty:Dictionary = new Dictionary(true);
+	private var _dynamicProperties:Vector<Vector3D>;
+	private var _dynamicPropertiesDirty:WeakMap<AnimationSubGeometry,Bool>;
 
 	private var _needUpdateTime:Bool;
 
@@ -34,8 +34,12 @@ class ParticleStateBase extends AnimationStateBase
 
 		_particleNode = particleNode;
 		_needUpdateTime = needUpdateTime;
+		
+		_dynamicProperties = new Vector<Vector3D>();
+		_dynamicPropertiesDirty = new WeakMap<AnimationSubGeometry,Bool>();
 	}
 
+	public var needUpdateTime(get,null):Bool;
 	private function get_needUpdateTime():Bool
 	{
 		return _needUpdateTime;
@@ -48,53 +52,59 @@ class ParticleStateBase extends AnimationStateBase
 
 	private function updateDynamicProperties(animationSubGeometry:AnimationSubGeometry):Void
 	{
-		_dynamicPropertiesDirty[animationSubGeometry] = true;
+		_dynamicPropertiesDirty.set(animationSubGeometry,true);
 
 		var animationParticles:Vector<ParticleAnimationData> = animationSubGeometry.animationParticles;
 		var vertexData:Vector<Float> = animationSubGeometry.vertexData;
-		var totalLenOfOneVertex:UInt = animationSubGeometry.totalLenOfOneVertex;
-		var dataLength:UInt = _particleNode.dataLength;
-		var dataOffset:UInt = _particleNode.dataOffset;
-		var vertexLength:UInt;
+		var totalLenOfOneVertex:Int = animationSubGeometry.totalLenOfOneVertex;
+		var dataLength:Int = _particleNode.dataLength;
+		var dataOffset:Int = _particleNode.dataOffset;
+		var vertexLength:Int;
 //			var particleOffset:UInt;
-		var startingOffset:UInt;
-		var vertexOffset:UInt;
+		var startingOffset:Int;
+		var vertexOffset:Int;
 		var data:Vector3D;
 		var animationParticle:ParticleAnimationData;
 
 //			var numParticles:UInt = _positions.length/dataLength;
-		var numParticles:UInt = _dynamicProperties.length;
-		var i:UInt = 0;
-		var j:UInt = 0;
-		var k:UInt = 0;
+		var numParticles:Int = _dynamicProperties.length;
+		var i:Int = 0;
+		var j:Int = 0;
+		var k:Int = 0;
 
 		//loop through all particles
 		while (i < numParticles)
 		{
 			//loop through each particle data for the current particle
-			while (j < numParticles && (animationParticle = animationParticles[j]).index == i)
+			while (j < numParticles && 
+				(animationParticle = animationParticles[j]).index == i)
 			{
 				data = _dynamicProperties[i];
 				vertexLength = animationParticle.numVertices * totalLenOfOneVertex;
 				startingOffset = animationParticle.startVertexIndex * totalLenOfOneVertex + dataOffset;
 				//loop through each vertex in the particle data
-				for (k = 0; k < vertexLength; k += totalLenOfOneVertex)
+				k = 0; 
+				while (k < vertexLength)
 				{
 					vertexOffset = startingOffset + k;
 //					particleOffset = i * dataLength;
 					//loop through all vertex data for the current particle data
-					for (k = 0; k < vertexLength; k += totalLenOfOneVertex)
+					var m:Int = 0;
+					while (m < vertexLength)
 					{
-						vertexOffset = startingOffset + k;
+						vertexOffset = startingOffset + m;
 						vertexData[vertexOffset++] = data.x;
 						vertexData[vertexOffset++] = data.y;
 						vertexData[vertexOffset++] = data.z;
 
 						if (dataLength == 4)
 							vertexData[vertexOffset++] = data.w;
+							
+						m += totalLenOfOneVertex;
 					}
 					//loop through each value in the particle vertex
-//					switch(dataLength) {
+//					switch(dataLength) 
+					//{
 //						case 4:
 //							vertexData[vertexOffset++] = _positions[particleOffset++];
 //						case 3:
@@ -104,6 +114,7 @@ class ParticleStateBase extends AnimationStateBase
 //						case 1:
 //							vertexData[vertexOffset++] = _positions[particleOffset++];
 //					}
+					k += totalLenOfOneVertex;
 				}
 				j++;
 			}

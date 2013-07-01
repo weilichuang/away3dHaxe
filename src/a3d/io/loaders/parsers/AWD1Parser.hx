@@ -24,19 +24,19 @@ import a3d.textures.Texture2DBase;
  */
 class AWD1Parser extends ParserBase
 {
-	private const LIMIT:UInt = 65535;
+	private var LIMIT:UInt = 65535;
 
 	private var _textData:String;
 	private var _startedParsing:Bool;
-	private var _objs:Array;
-	private var _geos:Array;
-	private var _oList:Array;
-	private var _aC:Array;
-	private var _dline:Array;
+	private var _objs:Array<Dynamic>;
+	private var _geos:Array<Dynamic>;
+	private var _oList:Array<Dynamic>;
+	private var _aC:Array<Dynamic>;
+	private var _dline:Array<String>;
 	private var _container:ObjectContainer3D;
 	private var _meshList:Vector<Mesh>;
 	private var _inited:Bool;
-	private var _uvs:Array;
+	private var _uvs:Array<Dynamic>;
 	private var _charIndex:UInt;
 	private var _oldIndex:UInt;
 	private var _stringLength:UInt;
@@ -73,7 +73,7 @@ class AWD1Parser extends ParserBase
 	 * @param data The data block to potentially be parsed.
 	 * @return Whether or not the given data is supported.
 	 */
-	public static function supportsData(data:*):Bool
+	public static function supportsData(data:Dynamic):Bool
 	{
 		var ba:ByteArray;
 		var str1:String;
@@ -108,12 +108,12 @@ class AWD1Parser extends ParserBase
 		var asset:Texture2DBase = Std.instance(resourceDependency.assets[0],Texture2DBase);
 		var m:Mesh = retrieveMeshFromID(resourceDependency.id);
 
-		if (m && asset)
+		if (m != null && asset != null)
 		{
 			if (materialMode < 2)
-				TextureMaterial(m.material).texture = asset;
+				Std.instance(m.material,TextureMaterial).texture = asset;
 			else
-				TextureMultiPassMaterial(m.material).texture = asset;
+				Std.instance(m.material,TextureMultiPassMaterial).texture = asset;
 
 		}
 	}
@@ -208,7 +208,7 @@ class AWD1Parser extends ParserBase
 				if (_buffer == 0)
 				{
 					_id = _dline[0];
-					m = new Matrix3D(Vector<Number>([parseFloat(_dline[1]), parseFloat(_dline[5]), parseFloat(_dline[9]), 0, parseFloat(_dline[2]), parseFloat(_dline[6]), parseFloat(_dline[10]), 0,
+					m = new Matrix3D(Vector<Float>([parseFloat(_dline[1]), parseFloat(_dline[5]), parseFloat(_dline[9]), 0, parseFloat(_dline[2]), parseFloat(_dline[6]), parseFloat(_dline[10]), 0,
 						parseFloat(_dline[3]), parseFloat(_dline[7]), parseFloat(_dline[11]), 0, parseFloat(_dline[4]), parseFloat(_dline[8]), parseFloat(_dline[12]), 1]));
 
 					++_buffer;
@@ -267,7 +267,7 @@ class AWD1Parser extends ParserBase
 
 				_id = parseInt(_dline[0]);
 				cont = (_aC.length == 0) ? _container : new ObjectContainer3D();
-				m = new Matrix3D(Vector<Number>([parseFloat(_dline[1]), parseFloat(_dline[5]), parseFloat(_dline[9]), 0, parseFloat(_dline[2]), parseFloat(_dline[6]), parseFloat(_dline[10]), 0, parseFloat(_dline[3]),
+				m = new Matrix3D(Vector<Float>([parseFloat(_dline[1]), parseFloat(_dline[5]), parseFloat(_dline[9]), 0, parseFloat(_dline[2]), parseFloat(_dline[6]), parseFloat(_dline[10]), 0, parseFloat(_dline[3]),
 					parseFloat(_dline[7]), parseFloat(_dline[11]), 0, parseFloat(_dline[4]), parseFloat(_dline[8]), parseFloat(_dline[12]), 1]));
 
 				cont.transform = m;
@@ -286,10 +286,10 @@ class AWD1Parser extends ParserBase
 			var ref:Object;
 			var mesh:Mesh;
 
-			for (i = 0; i < _objs.length; ++i)
+			for (i in 0..._objs.length)
 			{
 				ref = _objs[i];
-				if (ref && ref.geo)
+				if (ref != null && ref.geo != null)
 				{
 					mesh = new Mesh(new Geometry(), null);
 					mesh.name = ref.name;
@@ -330,32 +330,32 @@ class AWD1Parser extends ParserBase
 		return MORE_TO_PARSE;
 	}
 
-	private function parseFacesToMesh(geo:Object, mesh:Mesh):Void
+	private function parseFacesToMesh(geo:Dynamic, mesh:Mesh):Void
 	{
-		var j:int;
+		var j:Int;
 		var av:Array;
 		var au:Array;
 
 		var aRef:Array;
 		var mRef:Array;
 
-		var vertices:Vector<Number> = new Vector<Number>();
-		var indices:Vector<uint> = new Vector<uint>();
-		var uvs:Vector<Number> = new Vector<Number>();
+		var vertices:Vector<Float> = new Vector<Float>();
+		var indices:Vector<UInt> = new Vector<UInt>();
+		var uvs:Vector<Float> = new Vector<Float>();
 		var index:UInt;
 		var vindex:UInt;
 		var uindex:UInt;
 
 		aRef = geo.f.split(",");
-		if (geo.m)
+		if (geo.m != null)
 			mRef = geo.m.split(",");
 
 		var sub_geom:CompactSubGeometry;
 		var geom:Geometry = mesh.geometry;
 
-		for (j = 0; j < aRef.length; j += 6)
+		j = 0;
+		for (j < aRef.length)
 		{
-
 			if (indices.length + 3 > LIMIT)
 			{
 				sub_geom = new CompactSubGeometry();
@@ -363,9 +363,9 @@ class AWD1Parser extends ParserBase
 				sub_geom.fromVectors(vertices, uvs, null, null);
 				geom.addSubGeometry(sub_geom);
 
-				vertices = new Vector<Number>();
-				indices = new Vector<uint>();
-				uvs = new Vector<Number>();
+				vertices = new Vector<Float>();
+				indices = new Vector<UInt>();
+				uvs = new Vector<Float>();
 				vindex = index = uindex = 0;
 			}
 
@@ -377,32 +377,34 @@ class AWD1Parser extends ParserBase
 			vindex++;
 
 			//face is inverted compared to f10 awd generator
-			av = geo.aV[parseInt(aRef[j + 1], 16)].split("/");
-			vertices[index++] = parseFloat(av[0]);
-			vertices[index++] = parseFloat(av[1]);
-			vertices[index++] = parseFloat(av[2]);
+			av = geo.aV[Std.parseInt(aRef[j + 1], 16)].split("/");
+			vertices[index++] = Std.parseFloat(av[0]);
+			vertices[index++] = Std.parseFloat(av[1]);
+			vertices[index++] = Std.parseFloat(av[2]);
 
-			av = geo.aV[parseInt(aRef[j], 16)].split("/");
-			vertices[index++] = parseFloat(av[0]);
-			vertices[index++] = parseFloat(av[1]);
-			vertices[index++] = parseFloat(av[2]);
+			av = geo.aV[Std.parseInt(aRef[j], 16)].split("/");
+			vertices[index++] = Std.parseFloat(av[0]);
+			vertices[index++] = Std.parseFloat(av[1]);
+			vertices[index++] = Std.parseFloat(av[2]);
 
-			av = geo.aV[parseInt(aRef[j + 2], 16)].split("/");
-			vertices[index++] = parseFloat(av[0]);
-			vertices[index++] = parseFloat(av[1]);
-			vertices[index++] = parseFloat(av[2]);
+			av = geo.aV[Std.parseInt(aRef[j + 2], 16)].split("/");
+			vertices[index++] = Std.parseFloat(av[0]);
+			vertices[index++] = Std.parseFloat(av[1]);
+			vertices[index++] = Std.parseFloat(av[2]);
 
-			au = geo.aU[parseInt(aRef[j + 4], 16)].split("/");
-			uvs[uindex++] = parseFloat(au[0]);
-			uvs[uindex++] = 1 - parseFloat(au[1]);
+			au = geo.aU[Std.parseInt(aRef[j + 4], 16)].split("/");
+			uvs[uindex++] = Std.parseFloat(au[0]);
+			uvs[uindex++] = 1 - Std.parseFloat(au[1]);
 
-			au = geo.aU[parseInt(aRef[j + 3], 16)].split("/");
-			uvs[uindex++] = parseFloat(au[0]);
-			uvs[uindex++] = 1 - parseFloat(au[1]);
+			au = geo.aU[Std.parseInt(aRef[j + 3], 16)].split("/");
+			uvs[uindex++] = Std.parseFloat(au[0]);
+			uvs[uindex++] = 1 - Std.parseFloat(au[1]);
 
-			au = geo.aU[parseInt(aRef[j + 5], 16)].split("/");
-			uvs[uindex++] = parseFloat(au[0]);
-			uvs[uindex++] = 1 - parseFloat(au[1]);
+			au = geo.aU[Std.parseInt(aRef[j + 5], 16)].split("/");
+			uvs[uindex++] = Std.parseFloat(au[0]);
+			uvs[uindex++] = 1 - Std.parseFloat(au[1]);
+			
+			j += 6;
 		}
 
 		sub_geom = new CompactSubGeometry();
@@ -413,8 +415,8 @@ class AWD1Parser extends ParserBase
 
 	private function retrieveMeshFromID(id:String):Mesh
 	{
-		for (var i:int = 0; i < _meshList.length; ++i)
-			if (Mesh(_meshList[i]).name == id)
+		for (i in 0..._meshList.length)
+			if (Std.instance(_meshList[i],Mesh).name == id)
 				return Mesh(_meshList[i]);
 
 		return null;
@@ -422,11 +424,11 @@ class AWD1Parser extends ParserBase
 
 	private function read(str:String):String
 	{
-		var start:int = 0;
+		var start:Int = 0;
 		var chunk:String;
 		var dec:String = "";
-		var charcount:int = str.length;
-		for (var i:int = 0; i < charcount; ++i)
+		var charcount:Int = str.length;
+		for (i in 0...charcount)
 		{
 			if (str.charCodeAt(i) >= 44 && str.charCodeAt(i) <= 48)
 			{

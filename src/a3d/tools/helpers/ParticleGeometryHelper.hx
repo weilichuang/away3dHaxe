@@ -38,25 +38,25 @@ class ParticleGeometryHelper
 		var subGeometry:CompactSubGeometry;
 		var i:Int;
 		var j:Int;
-		var sub2SubMap:Vector<Int> = new Vector<Int>;
+		var sub2SubMap:Vector<Int> = new Vector<Int>();
 
-		var tempVertex:Vector3D = new Vector3D;
-		var tempNormal:Vector3D = new Vector3D;
-		var tempTangents:Vector3D = new Vector3D;
-		var tempUV:Point = new Point;
+		var tempVertex:Vector3D = new Vector3D();
+		var tempNormal:Vector3D = new Vector3D();
+		var tempTangents:Vector3D = new Vector3D();
+		var tempUV:Point = new Point();
 
-		for (i = 0; i < numParticles; i++)
+		for (i in 0...numParticles)
 		{
 			sourceSubGeometries = geometries[i].subGeometries;
 			numSubGeometries = sourceSubGeometries.length;
-			for (var srcIndex:Int = 0; srcIndex < numSubGeometries; srcIndex++)
+			for (srcIndex in 0...numSubGeometries)
 			{
 				//create a different particle subgeometry group for each source subgeometry in a particle.
 				if (sub2SubMap.length <= srcIndex)
 				{
 					sub2SubMap.push(subGeometries.length);
-					verticesVector.push(new Vector<Float>);
-					indicesVector.push(new Vector<UInt>);
+					verticesVector.push(new Vector<Float>());
+					indicesVector.push(new Vector<UInt>());
 					subGeometries.push(new CompactSubGeometry());
 					vertexCounters.push(0);
 				}
@@ -68,8 +68,8 @@ class ParticleGeometryHelper
 				{
 					//update submap and add new subgeom vectors
 					sub2SubMap[srcIndex] = subGeometries.length;
-					verticesVector.push(new Vector<Float>);
-					indicesVector.push(new Vector<UInt>);
+					verticesVector.push(new Vector<Float>());
+					indicesVector.push(new Vector<UInt>());
 					subGeometries.push(new CompactSubGeometry());
 					vertexCounters.push(0);
 				}
@@ -97,20 +97,20 @@ class ParticleGeometryHelper
 				var product:UInt;
 				var sourceVertices:Vector<Float>;
 
-				if (compact)
+				if (compact != null)
 				{
 					tempLen = compact.numVertices;
 					compact.numTriangles;
 					sourceVertices = compact.vertexData;
 
-					if (transforms)
+					if (transforms != null)
 					{
 						var particleGeometryTransform:ParticleGeometryTransform = transforms[i];
 						var vertexTransform:Matrix3D = particleGeometryTransform.vertexTransform;
 						var invVertexTransform:Matrix3D = particleGeometryTransform.invVertexTransform;
 						var UVTransform:Matrix = particleGeometryTransform.UVTransform;
 
-						for (k = 0; k < tempLen; k++)
+						for (k in 0...tempLen)
 						{
 							/*
 							* 0 - 2: vertex position X, Y, Z
@@ -130,13 +130,13 @@ class ParticleGeometryHelper
 							tempTangents.z = sourceVertices[product + 8];
 							tempUV.x = sourceVertices[product + 9];
 							tempUV.y = sourceVertices[product + 10];
-							if (vertexTransform)
+							if (vertexTransform != null)
 							{
 								tempVertex = vertexTransform.transformVector(tempVertex);
 								tempNormal = invVertexTransform.deltaTransformVector(tempNormal);
 								tempTangents = invVertexTransform.deltaTransformVector(tempNormal);
 							}
-							if (UVTransform)
+							if (UVTransform != null)
 							{
 								tempUV = UVTransform.transformPoint(tempUV);
 							}
@@ -149,7 +149,7 @@ class ParticleGeometryHelper
 					}
 					else
 					{
-						for (k = 0; k < tempLen; k++)
+						for (k in 0...tempLen)
 						{
 							product = k * 13;
 							//this is faster than that only push one data
@@ -167,7 +167,7 @@ class ParticleGeometryHelper
 
 				var sourceIndices:Vector<UInt> = sourceSubGeometry.indexData;
 				tempLen = sourceSubGeometry.numTriangles;
-				for (k = 0; k < tempLen; k++)
+				for (k in 0...tempLen)
 				{
 					product = k * 3;
 					indices.push(sourceIndices[product] + vertexCounter, sourceIndices[product + 1] + vertexCounter, sourceIndices[product + 2] + vertexCounter);
@@ -180,7 +180,7 @@ class ParticleGeometryHelper
 		particleGeometry.numParticles = numParticles;
 
 		numParticles = subGeometries.length;
-		for (i = 0; i < numParticles; i++)
+		for (i in 0...numParticles)
 		{
 			subGeometry = subGeometries[i];
 			subGeometry.updateData(verticesVector[i]);

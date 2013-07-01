@@ -9,6 +9,7 @@ import flash.Vector;
 
 import a3d.core.base.SubMesh;
 
+@:file("pb/RayTriangleKernel.pbj") class RayTriangleKernelClass extends ByteArray { }
 /**
  * PixelBender-based picking collider for entity objects. Used with the <code>RaycastPicker</code> picking object.
  *
@@ -17,8 +18,7 @@ import a3d.core.base.SubMesh;
  */
 class PBPickingCollider extends PickingColliderBase implements IPickingCollider
 {
-	[Embed("/pb/RayTriangleKernel.pbj", mimeType = "application/octet-stream")]
-	private var RayTriangleKernelClass:Class;
+	
 
 	private var _findClosestCollision:Bool;
 
@@ -31,12 +31,14 @@ class PBPickingCollider extends PickingColliderBase implements IPickingCollider
 	 *
 	 * @param findClosestCollision Determines whether the picking collider searches for the closest collision along the ray. Defaults to false.
 	 */
-	public function PBPickingCollider(findClosestCollision:Bool = false)
+	public function new(findClosestCollision:Bool = false)
 	{
+		super();
+		
 		_findClosestCollision = findClosestCollision;
 
 		_kernelOutputBuffer = new Vector<Float>();
-		_rayTriangleKernel = new Shader(Std.instance(new RayTriangleKernelClass(),ByteArray));
+		_rayTriangleKernel = new Shader(new RayTriangleKernelClass());
 	}
 
 	/**
@@ -61,11 +63,11 @@ class PBPickingCollider extends PickingColliderBase implements IPickingCollider
 		var indexData:Vector<UInt> = subMesh.indexData;
 		var vertexData:Vector<Float> = subMesh.subGeometry.vertexPositionData;
 		var uvData:Vector<Float> = subMesh.UVData;
-		var numericIndexData:Vector<Float> = Vector<Float>(indexData);
+		var numericIndexData:Vector<Float> = Vector.convert(indexData);
 		var indexBufferDims:Point = evaluateArrayAsGrid(numericIndexData);
 
 		// if working on a clone, no need to resend data to pb
-		if (!_lastSubMeshUploaded || _lastSubMeshUploaded !== subMesh)
+		if (_lastSubMeshUploaded == null|| _lastSubMeshUploaded != subMesh)
 		{
 			// send vertices to pb
 			var duplicateVertexData:Vector<Float> = vertexData.concat();
@@ -85,7 +87,7 @@ class PBPickingCollider extends PickingColliderBase implements IPickingCollider
 		_lastSubMeshUploaded = subMesh;
 
 		// run kernel.
-		var shaderJob:ShaderJob = new ShaderJob(_rayTriangleKernel, _kernelOutputBuffer, indexBufferDims.x, indexBufferDims.y);
+		var shaderJob:ShaderJob = new ShaderJob(_rayTriangleKernel, _kernelOutputBuffer, Std.int(indexBufferDims.x), Std.int(indexBufferDims.y));
 		shaderJob.start(true);
 
 		// find a proper collision from pb's output
@@ -132,15 +134,17 @@ class PBPickingCollider extends PickingColliderBase implements IPickingCollider
 
 	private function evaluateArrayAsGrid(array:Vector<Float>):Point
 	{
-		var count:UInt = array.length / 3;
-		var w:UInt = Math.floor(Math.sqrt(count));
-		var h:UInt = w;
-		var i:UInt;
+		var count:Int = Std.int(array.length / 3);
+		var w:Int = Math.floor(Math.sqrt(count));
+		var h:Int = w;
+		var i:Int;
 		while (w * h < count)
 		{
 			for (i in 0...w)
 			{
-				array.push(0.0, 0.0, 0.0);
+				array.push(0.0);
+				array.push(0.0);
+				array.push(0.0);
 			}
 			h++;
 		}

@@ -1,6 +1,7 @@
 package a3d.animators;
 
 import flash.display3D.Context3D;
+import flash.display3D.Context3DProfile;
 
 
 import a3d.core.managers.Stage3DProxy;
@@ -39,7 +40,7 @@ class SkeletonAnimationSet extends AnimationSetBase implements IAnimationSet
 	/**
 	 * @inheritDoc
 	 */
-	public function getAGALVertexCode(pass:MaterialPassBase, sourceRegisters:Vector<String>, targetRegisters:Vector<String>, profile:String):String
+	public function getAGALVertexCode(pass:MaterialPassBase, sourceRegisters:Vector<String>, targetRegisters:Vector<String>, profile:Context3DProfile):String
 	{
 		var len:UInt = sourceRegisters.length;
 
@@ -103,7 +104,7 @@ class SkeletonAnimationSet extends AnimationSetBase implements IAnimationSet
 	/**
 	 * @inheritDoc
 	 */
-	public function getAGALFragmentCode(pass:MaterialPassBase, shadedTarget:String, profile:String):String
+	public function getAGALFragmentCode(pass:MaterialPassBase, shadedTarget:String, profile:Context3DProfile):String
 	{
 		return "";
 	}

@@ -1,5 +1,6 @@
 package a3d.animators.nodes;
 
+import flash.errors.Error;
 import flash.geom.ColorTransform;
 
 
@@ -12,7 +13,7 @@ import a3d.animators.states.ParticleColorState;
 import a3d.materials.compilation.ShaderRegisterElement;
 import a3d.materials.passes.MaterialPassBase;
 
-
+using Reflect;
 
 
 /**
@@ -91,8 +92,8 @@ class ParticleColorNode extends ParticleNodeBase
 		this.usesCycle = usesCycle;
 		this.usesPhase = usesPhase;
 
-		this.startColor = startColor || new ColorTransform();
-		this.endColor = endColor || new ColorTransform();
+		this.startColor = startColor != null ? startColor : new ColorTransform();
+		this.endColor = endColor != null ?  endColor : new ColorTransform();
 		this.cycleDuration = cycleDuration;
 		this.cyclePhase = cyclePhase;
 
@@ -104,12 +105,11 @@ class ParticleColorNode extends ParticleNodeBase
 	 */
 	override public function getAGALVertexCode(pass:MaterialPassBase, animationRegisterCache:AnimationRegisterCache):String
 	{
-		pass = pass;
 		var code:String = "";
 		if (animationRegisterCache.needFragmentAnimation)
 		{
 			var temp:ShaderRegisterElement = animationRegisterCache.getFreeVertexVectorTemp();
-
+			var sin:ShaderRegisterElement;
 			if (usesCycle)
 			{
 				var cycleConst:ShaderRegisterElement = animationRegisterCache.getFreeVertexConstant();
@@ -181,13 +181,13 @@ class ParticleColorNode extends ParticleNodeBase
 	 */
 	override public function generatePropertyOfOneParticle(param:ParticleProperties):Void
 	{
-		var startColor:ColorTransform = param[COLOR_START_COLORTRANSFORM];
+		var startColor:ColorTransform = param.field(COLOR_START_COLORTRANSFORM);
 		if (startColor == null)
-			throw(new Error("there is no " + COLOR_START_COLORTRANSFORM + " in param!"));
+			throw new Error("there is no " + COLOR_START_COLORTRANSFORM + " in param!");
 
-		var endColor:ColorTransform = param[COLOR_END_COLORTRANSFORM];
+		var endColor:ColorTransform = param.field(COLOR_END_COLORTRANSFORM);
 		if (endColor == null)
-			throw(new Error("there is no " + COLOR_END_COLORTRANSFORM + " in param!"));
+			throw new Error("there is no " + COLOR_END_COLORTRANSFORM + " in param!");
 
 		var i:UInt;
 

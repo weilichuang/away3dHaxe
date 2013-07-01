@@ -369,10 +369,10 @@ class OBJParser extends ParserBase
 		var numVerts:UInt;
 		var subs:Vector<ISubGeometry>;
 
-		var vertices:Vector<Number> = new Vector<Number>();
-		var uvs:Vector<Number> = new Vector<Number>();
-		var normals:Vector<Number> = new Vector<Number>();
-		var indices:Vector<uint> = new Vector<uint>();
+		var vertices:Vector<Float> = new Vector<Float>();
+		var uvs:Vector<Float> = new Vector<Float>();
+		var normals:Vector<Float> = new Vector<Float>();
+		var indices:Vector<UInt> = new Vector<UInt>();
 
 		_realIndices = [];
 		_vertexIndex = 0;
@@ -399,7 +399,7 @@ class OBJParser extends ParserBase
 		}
 	}
 
-	private function translateVertexData(face:FaceData, vertexIndex:int, vertices:Vector<Number>, uvs:Vector<Number>, indices:Vector<uint>, normals:Vector<Number>):Void
+	private function translateVertexData(face:FaceData, vertexIndex:int, vertices:Vector<Float>, uvs:Vector<Float>, indices:Vector<UInt>, normals:Vector<Float>):Void
 	{
 		var index:UInt;
 		var vertex:Vertex;
@@ -1013,9 +1013,9 @@ class LoadedMaterial
 
 class FaceData
 {
-	public var vertexIndices:Vector<uint> = new Vector<uint>();
-	public var uvIndices:Vector<uint> = new Vector<uint>();
-	public var normalIndices:Vector<uint> = new Vector<uint>();
+	public var vertexIndices:Vector<UInt> = new Vector<UInt>();
+	public var uvIndices:Vector<UInt> = new Vector<UInt>();
+	public var normalIndices:Vector<UInt> = new Vector<UInt>();
 	public var indexIds:Vector<String> = new Vector<String>(); // used for real index lookups
 
 	public function new()

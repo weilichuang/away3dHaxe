@@ -86,17 +86,20 @@ class AnimationSubGeometry
 			_bufferDirty[i] = true;
 	}
 
+	public var vertexData(get,null):Vector<Float>;
 	private function get_vertexData():Vector<Float>
 	{
 		return _vertexData;
 	}
 
-	private function get_numVertices():UInt
+	public var numVertices(get,null):Int;
+	private function get_numVertices():Int
 	{
 		return _numVertices;
 	}
 
-	private function get_totalLenOfOneVertex():UInt
+	public var totalLenOfOneVertex(get,null):Int;
+	private function get_totalLenOfOneVertex():Int
 	{
 		return _totalLenOfOneVertex;
 	}

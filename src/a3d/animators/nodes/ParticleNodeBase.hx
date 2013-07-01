@@ -1,6 +1,5 @@
 package a3d.animators.nodes;
 
-import flash.utils.getQualifiedClassName;
 import flash.Vector;
 
 
@@ -16,7 +15,7 @@ import a3d.materials.passes.MaterialPassBase;
  */
 class ParticleNodeBase extends AnimationNodeBase
 {
-	private var _mode:UInt;
+	private var _mode:Int;
 	private var _priority:Int;
 
 	private var _dataLength:UInt = 3;
@@ -29,7 +28,8 @@ class ParticleNodeBase extends AnimationNodeBase
 	 *
 	 * @see a3d.animators.data.ParticlePropertiesMode
 	 */
-	private function get_mode():UInt
+	public var mode(get,null):Int;
+	private function get_mode():Int
 	{
 		return _mode;
 	}
@@ -40,6 +40,7 @@ class ParticleNodeBase extends AnimationNodeBase
 	 * @see a3d.animators.ParticleAnimationSet
 	 * @see #getAGALVertexCode
 	 */
+	public var priority(get,null):Int;
 	private function get_priority():Int
 	{
 		return _priority;
@@ -51,6 +52,7 @@ class ParticleNodeBase extends AnimationNodeBase
 	 * @see a3d.animators.ParticleAnimationSet
 	 * @see #getAGALVertexCode
 	 */
+	public var dataLength(get,null):Int;
 	private function get_dataLength():Int
 	{
 		return _dataLength;
@@ -62,6 +64,7 @@ class ParticleNodeBase extends AnimationNodeBase
 	 * @see a3d.animators.ParticleAnimationSet
 	 * @see #generatePropertyOfOneParticle
 	 */
+	public var oneData(get,null):Vector<Float>;
 	private function get_oneData():Vector<Float>
 	{
 		return _oneData;
@@ -73,12 +76,7 @@ class ParticleNodeBase extends AnimationNodeBase
 	private static var LOCAL_DYNAMIC:String = 'LocalDynamic';
 
 	//modes list
-	private static var MODES:Object =
-		{
-			0: GLOBAL,
-			1: LOCAL_STATIC,
-			2: LOCAL_DYNAMIC
-		};
+	private static var MODES:Array<String> = [GLOBAL,LOCAL_STATIC,LOCAL_DYNAMIC];
 
 	/**
 	 *
@@ -86,9 +84,9 @@ class ParticleNodeBase extends AnimationNodeBase
 	 * @param	particleNodeMode  - mode of particle node ParticlePropertiesMode.GLOBAL, ParticlePropertiesMode.LOCAL_DYNAMIC or ParticlePropertiesMode.LOCAL_STATIC
 	 * @return 	particle node name
 	 */
-	public static function getParticleNodeName(particleNodeClass:Object, particleNodeMode:UInt):String
+	public static function getParticleNodeName(particleNodeClass:Dynamic, particleNodeMode:UInt):String
 	{
-		var nodeName:String = particleNodeClass['ANIMATION_NODE_NAME'];
+		var nodeName:String = untyped particleNodeClass['ANIMATION_NODE_NAME'];
 
 		if (nodeName == "" || nodeName == null)
 			nodeName = getNodeNameFromClass(particleNodeClass);
@@ -96,9 +94,9 @@ class ParticleNodeBase extends AnimationNodeBase
 		return nodeName + MODES[particleNodeMode];
 	}
 
-	private static function getNodeNameFromClass(particleNodeClass:Object):String
+	private static function getNodeNameFromClass(particleNodeClass:Dynamic):String
 	{
-		return getQualifiedClassName(particleNodeClass).replace('Node', '').split('::')[1];
+		return Type.getClassName(particleNodeClass).replace('Node', '').split('::')[1];
 	}
 
 	/**
@@ -111,6 +109,8 @@ class ParticleNodeBase extends AnimationNodeBase
 	 */
 	public function new(name:String, mode:UInt, dataLength:UInt, priority:Int = 1)
 	{
+		super();
+		
 		name = name + MODES[mode];
 
 		this.name = name;
@@ -126,8 +126,6 @@ class ParticleNodeBase extends AnimationNodeBase
 	 */
 	public function getAGALVertexCode(pass:MaterialPassBase, animationRegisterCache:AnimationRegisterCache):String
 	{
-		pass = pass;
-		animationRegisterCache = animationRegisterCache;
 		return "";
 	}
 
@@ -136,8 +134,6 @@ class ParticleNodeBase extends AnimationNodeBase
 	 */
 	public function getAGALFragmentCode(pass:MaterialPassBase, animationRegisterCache:AnimationRegisterCache):String
 	{
-		pass = pass;
-		animationRegisterCache = animationRegisterCache;
 		return "";
 	}
 
@@ -146,8 +142,6 @@ class ParticleNodeBase extends AnimationNodeBase
 	 */
 	public function getAGALUVCode(pass:MaterialPassBase, animationRegisterCache:AnimationRegisterCache):String
 	{
-		pass = pass;
-		animationRegisterCache = animationRegisterCache;
 		return "";
 	}
 

@@ -15,6 +15,7 @@ import a3d.entities.Camera3D;
 import a3d.core.base.IRenderable;
 import a3d.core.managers.Stage3DProxy;
 
+import haxe.ds.WeakMap;
 
 
 /**
@@ -28,14 +29,15 @@ class ParticleVelocityState extends ParticleStateBase
 	/**
 	 * Defines the default velocity vector of the state, used when in global mode.
 	 */
+	public var velocity(get,set):Vector3D;
 	private function get_velocity():Vector3D
 	{
 		return _velocity;
 	}
 
-	private function set_velocity(value:Vector3D):Void
+	private function set_velocity(value:Vector3D):Vector3D
 	{
-		_velocity = value;
+		return _velocity = value;
 	}
 
 	/**
@@ -50,7 +52,7 @@ class ParticleVelocityState extends ParticleStateBase
 	{
 		_dynamicProperties = value;
 
-		_dynamicPropertiesDirty = new Dictionary(true);
+		_dynamicPropertiesDirty = new WeakMap<AnimationSubGeometry,Bool>();
 	}
 
 	public function new(animator:ParticleAnimator, particleVelocityNode:ParticleVelocityNode)
@@ -63,8 +65,12 @@ class ParticleVelocityState extends ParticleStateBase
 
 	override public function setRenderState(stage3DProxy:Stage3DProxy, renderable:IRenderable, animationSubGeometry:AnimationSubGeometry, animationRegisterCache:AnimationRegisterCache, camera:Camera3D):Void
 	{
-		if (_particleVelocityNode.mode == ParticlePropertiesMode.LOCAL_DYNAMIC && !_dynamicPropertiesDirty[animationSubGeometry])
+		if (_particleVelocityNode.mode == ParticlePropertiesMode.LOCAL_DYNAMIC && 
+			!_dynamicPropertiesDirty.exists(animationSubGeometry))
+		{
 			updateDynamicProperties(animationSubGeometry);
+		}
+			
 
 		var index:Int = animationRegisterCache.getRegisterIndex(_animationNode, ParticleVelocityNode.VELOCITY_INDEX);
 

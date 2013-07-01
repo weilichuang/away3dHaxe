@@ -1,5 +1,6 @@
 package a3d.animators.nodes;
 
+import flash.errors.Error;
 import flash.geom.Vector3D;
 
 
@@ -12,6 +13,7 @@ import a3d.materials.compilation.ShaderRegisterElement;
 import a3d.materials.passes.MaterialPassBase;
 
 
+using Reflect;
 
 /**
  * A particle animation node used to control the scale variation of a particle over time.
@@ -78,8 +80,6 @@ class ParticleScaleNode extends ParticleNodeBase
 	 */
 	override public function getAGALVertexCode(pass:MaterialPassBase, animationRegisterCache:AnimationRegisterCache):String
 	{
-		pass = pass;
-
 		var code:String = "";
 		var temp:ShaderRegisterElement = animationRegisterCache.getFreeVertexSingleTemp();
 
@@ -116,16 +116,16 @@ class ParticleScaleNode extends ParticleNodeBase
 	 */
 	override public function generatePropertyOfOneParticle(param:ParticleProperties):Void
 	{
-		var scale:Vector3D = param[SCALE_VECTOR3D];
+		var scale:Vector3D = param.field(SCALE_VECTOR3D);
 		if (scale == null)
-			throw(new Error("there is no " + SCALE_VECTOR3D + " in param!"));
+			throw new Error("there is no " + SCALE_VECTOR3D + " in param!");
 
 		if (usesCycle)
 		{
 			_oneData[0] = (scale.x + scale.y) / 2;
 			_oneData[1] = Math.abs(scale.x - scale.y) / 2;
 			if (scale.z <= 0)
-				throw(new Error("the cycle duration must be greater than zero"));
+				throw new Error("the cycle duration must be greater than zero");
 			_oneData[2] = Math.PI * 2 / scale.z;
 			if (usesPhase)
 				_oneData[3] = scale.w * Math.PI / 180;

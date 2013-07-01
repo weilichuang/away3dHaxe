@@ -15,6 +15,7 @@ class UVClipState extends AnimationClipState implements IUVAnimationState
 	/**
 	 * @inheritDoc
 	 */
+	public var currentUVFrame(get,null):UVAnimationFrame;
 	private function get_currentUVFrame():UVAnimationFrame
 	{
 		if (_framesDirty)
@@ -26,6 +27,7 @@ class UVClipState extends AnimationClipState implements IUVAnimationState
 	/**
 	 * @inheritDoc
 	 */
+	public var nextUVFrame(get,null):UVAnimationFrame;
 	private function get_nextUVFrame():UVAnimationFrame
 	{
 		if (_framesDirty)

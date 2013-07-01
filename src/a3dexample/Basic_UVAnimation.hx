@@ -16,7 +16,7 @@ import a3d.textures.BitmapTexture;
 
 @:bitmap("embeds/road.jpg") class MyRoad extends flash.display.BitmapData { }
 
-@:bitmap("embeds/wheel.jpg") class MyWheel extends flash.display.BitmapData { }
+@:bitmap("embeds/wheel.png") class MyWheel extends flash.display.BitmapData { }
 
 
 class Basic_UVAnimation extends BasicApplication
@@ -67,7 +67,7 @@ class Basic_UVAnimation extends BasicApplication
 		/* 1: The top left plane, will display the endless rotation of a image*/
 		animID = "anim_rotation";
 		//material declaration
-		diffuse = Bitmap(new MyWheel()).bitmapData;
+		diffuse = new MyWheel(0,0);
 		bt = new BitmapTexture(diffuse);
 		mat = new TextureMaterial(bt);
 
@@ -91,7 +91,7 @@ class Basic_UVAnimation extends BasicApplication
 
 		/* 2: The top right plane, will display the endless scroll of an image*/
 		animID = "anim_translate";
-		diffuse = Bitmap(new MyRoad()).bitmapData;
+		diffuse = new MyRoad(0,0);
 		bt = new BitmapTexture(diffuse);
 		mat = new TextureMaterial(bt);
 		// the road map that we use is seamless, so we set repeat to true to prevent elongated pixel
@@ -115,7 +115,7 @@ class Basic_UVAnimation extends BasicApplication
 		/* 3: The down left plane, will display an animation using keyframes.*/
 		animID = "anim3";
 		//material setup, similar to the above examples
-		diffuse = Bitmap(new MyRoad()).bitmapData;
+		diffuse = new MyRoad(0,0);
 		bt = new BitmapTexture(diffuse);
 		mat = new TextureMaterial(bt);
 		mat.repeat = true;
@@ -132,7 +132,7 @@ class Basic_UVAnimation extends BasicApplication
 
 		/* 4: The down right plane, will display another animation using another set of keyframes. */
 		animID = "anim4";
-		diffuse = Bitmap(new MyWheel()).bitmapData;
+		diffuse = new MyWheel(0,0);
 		bt = new BitmapTexture(diffuse);
 		mat = new TextureMaterial(bt);
 		mat.repeat = true;
@@ -188,7 +188,7 @@ class Basic_UVAnimation extends BasicApplication
 		uvAnimationSet.addAnimation(node);
 
 		var frame:UVAnimationFrame;
-		var duration:uint = 1000;
+		var duration:Int = 1000;
 		var offset:Float = 0;
 
 		frame = new UVAnimationFrame();

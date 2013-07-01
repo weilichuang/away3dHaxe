@@ -1,6 +1,9 @@
 package a3d.animators;
 
+import a3d.utils.VectorUtil;
 import flash.display3D.Context3D;
+import flash.display3D.Context3DProfile;
+import flash.errors.Error;
 import flash.utils.Dictionary;
 import flash.Vector;
 
@@ -19,8 +22,9 @@ import a3d.core.base.data.ParticleData;
 import a3d.core.managers.Stage3DProxy;
 import a3d.entities.Mesh;
 import a3d.materials.passes.MaterialPassBase;
+import haxe.ds.WeakMap;
 
-
+import a3d.utils.VectorUtil;
 
 /**
  * The animation data set used by particle-based animators, containing particle animation data.
@@ -44,10 +48,10 @@ class ParticleAnimationSet extends AnimationSetBase implements IAnimationSet
 	 */
 	public static inline var COLOR_PRIORITY:Int = 18;
 
-	private var _animationSubGeometries:Dictionary = new Dictionary(true);
-	private var _particleNodes:Vector<ParticleNodeBase> = new Vector<ParticleNodeBase>();
-	private var _localDynamicNodes:Vector<ParticleNodeBase> = new Vector<ParticleNodeBase>();
-	private var _localStaticNodes:Vector<ParticleNodeBase> = new Vector<ParticleNodeBase>();
+	private var _animationSubGeometries:WeakMap<ISubGeometry,AnimationSubGeometry>;
+	private var _particleNodes:Vector<ParticleNodeBase>;
+	private var _localDynamicNodes:Vector<ParticleNodeBase>;
+	private var _localStaticNodes:Vector<ParticleNodeBase>;
 	private var _totalLenOfOneVertex:Int = 0;
 
 	//set true if has an node which will change UV
@@ -62,6 +66,7 @@ class ParticleAnimationSet extends AnimationSetBase implements IAnimationSet
 	public var hasColorAddNode:Bool;
 
 	/** @private */
+	public var animationRegisterCache(get,set):AnimationRegisterCache;
 	private function get_animationRegisterCache():AnimationRegisterCache
 	{
 		return _animationRegisterCache;
@@ -70,9 +75,9 @@ class ParticleAnimationSet extends AnimationSetBase implements IAnimationSet
 	/**
 	 * @private
 	 */
-	private function set_animationRegisterCache(value:AnimationRegisterCache):Void
+	private function set_animationRegisterCache(value:AnimationRegisterCache):AnimationRegisterCache
 	{
-		_animationRegisterCache = value;
+		return _animationRegisterCache = value;
 	}
 
 	/**
@@ -90,7 +95,7 @@ class ParticleAnimationSet extends AnimationSetBase implements IAnimationSet
 	 * <code>startTime</code>, <code>duration</code> and <code>delay</code>. The use of these properties is determined by the setting
 	 * arguments passed in the constructor of the particle animation set. By default, only the <code>startTime</code> property is required.
 	 */
-	public var initParticleFunc:Function;
+	public var initParticleFunc:ParticleProperties->Void;
 
 
 	/**
@@ -102,6 +107,13 @@ class ParticleAnimationSet extends AnimationSetBase implements IAnimationSet
 	 */
 	public function new(usesDuration:Bool = false, usesLooping:Bool = false, usesDelay:Bool = false)
 	{
+		super();
+		
+		_animationSubGeometries = new WeakMap<ISubGeometry,AnimationSubGeometry>();
+		_particleNodes= new Vector<ParticleNodeBase>();
+		_localDynamicNodes = new Vector<ParticleNodeBase>();
+		_localStaticNodes = new Vector<ParticleNodeBase>();
+		
 		//automatically add a particle time node to the set
 		addAnimation(_timeNode = new ParticleTimeNode(usesDuration, usesLooping, usesDelay));
 	}
@@ -109,6 +121,7 @@ class ParticleAnimationSet extends AnimationSetBase implements IAnimationSet
 	/**
 	 * Returns a vector of the particle animation nodes contained within the set.
 	 */
+	public var particleNodes(get,null):Vector<ParticleNodeBase>;
 	private function get_particleNodes():Vector<ParticleNodeBase>
 	{
 		return _particleNodes;
@@ -141,7 +154,7 @@ class ParticleAnimationSet extends AnimationSetBase implements IAnimationSet
 			i--;
 		}
 
-		_particleNodes.splice(i + 1, 0, n);
+		_particleNodes.insert(i + 1, n);
 
 		super.addAnimation(node);
 	}
@@ -169,11 +182,11 @@ class ParticleAnimationSet extends AnimationSetBase implements IAnimationSet
 	/**
 	 * @inheritDoc
 	 */
-	public function getAGALVertexCode(pass:MaterialPassBase, sourceRegisters:Vector<String>, targetRegisters:Vector<String>, profile:String):String
+	public function getAGALVertexCode(pass:MaterialPassBase, sourceRegisters:Vector<String>, targetRegisters:Vector<String>, profile:Context3DProfile):String
 	{
 		//grab animationRegisterCache from the materialpassbase or create a new one if the first time
 		if (pass.animationRegisterCache == null)
-			pass.animationRegisterCache = new AnimationRegisterCache(profile)
+			pass.animationRegisterCache = new AnimationRegisterCache(profile);
 		
 		_animationRegisterCache = pass.animationRegisterCache;
 
@@ -199,18 +212,18 @@ class ParticleAnimationSet extends AnimationSetBase implements IAnimationSet
 
 
 		var node:ParticleNodeBase;
-		for each (node in _particleNodes)
+		for (node in _particleNodes)
 			if (node.priority < POST_PRIORITY)
 				code += node.getAGALVertexCode(pass, _animationRegisterCache);
 
 		code += _animationRegisterCache.getCombinationCode();
 
-		for each (node in _particleNodes)
+		for (node in _particleNodes)
 			if (node.priority >= POST_PRIORITY && node.priority < COLOR_PRIORITY)
 				code += node.getAGALVertexCode(pass, _animationRegisterCache);
 
 		code += _animationRegisterCache.initColorRegisters();
-		for each (node in _particleNodes)
+		for (node in _particleNodes)
 			if (node.priority >= COLOR_PRIORITY)
 				code += node.getAGALVertexCode(pass, _animationRegisterCache);
 		code += _animationRegisterCache.getColorPassCode();
@@ -228,7 +241,7 @@ class ParticleAnimationSet extends AnimationSetBase implements IAnimationSet
 			_animationRegisterCache.setUVSourceAndTarget(UVSource, UVTarget);
 			code += "mov " + _animationRegisterCache.uvTarget + ".xy," + _animationRegisterCache.uvAttribute.toString() + "\n";
 			var node:ParticleNodeBase;
-			for each (node in _particleNodes)
+			for (node in _particleNodes)
 			{
 				code += node.getAGALUVCode(pass, _animationRegisterCache);
 			}
@@ -244,7 +257,7 @@ class ParticleAnimationSet extends AnimationSetBase implements IAnimationSet
 	/**
 	 * @inheritDoc
 	 */
-	public function getAGALFragmentCode(pass:MaterialPassBase, shadedTarget:String, profile:String):String
+	public function getAGALFragmentCode(pass:MaterialPassBase, shadedTarget:String, profile:Context3DProfile):String
 	{
 		return _animationRegisterCache.getColorCombinationCode(shadedTarget);
 	}
@@ -280,7 +293,7 @@ class ParticleAnimationSet extends AnimationSetBase implements IAnimationSet
 	{
 		var subGeometry:AnimationSubGeometry;
 
-		for each (subGeometry in _animationSubGeometries)
+		for (subGeometry in _animationSubGeometries)
 			subGeometry.dispose();
 
 		super.dispose();
@@ -290,12 +303,12 @@ class ParticleAnimationSet extends AnimationSetBase implements IAnimationSet
 	public function generateAnimationSubGeometries(mesh:Mesh):Void
 	{
 		if (initParticleFunc == null)
-			throw(new Error("no initParticleFunc set"));
+			throw new Error("no initParticleFunc set");
 
 		var geometry:ParticleGeometry = Std.instance(mesh.geometry,ParticleGeometry);
 
 		if (geometry == null)
-			throw(new Error("Particle animation can only be performed on a ParticleGeometry object"));
+			throw new Error("Particle animation can only be performed on a ParticleGeometry object");
 
 		var i:Int, j:Int;
 		var animationSubGeometry:AnimationSubGeometry;
@@ -310,9 +323,9 @@ class ParticleAnimationSet extends AnimationSetBase implements IAnimationSet
 			subGeometry = subMesh.subGeometry;
 			if (mesh.shareAnimationGeometry)
 			{
-				animationSubGeometry = _animationSubGeometries[subGeometry];
+				animationSubGeometry = _animationSubGeometries.get(subGeometry);
 
-				if (animationSubGeometry)
+				if (animationSubGeometry != null)
 				{
 					subMesh.animationSubGeometry = animationSubGeometry;
 					continue;
@@ -321,7 +334,7 @@ class ParticleAnimationSet extends AnimationSetBase implements IAnimationSet
 
 			animationSubGeometry = subMesh.animationSubGeometry = new AnimationSubGeometry();
 			if (mesh.shareAnimationGeometry)
-				_animationSubGeometries[subGeometry] = animationSubGeometry;
+				_animationSubGeometries.set(subGeometry, animationSubGeometry);
 
 			newAnimationSubGeometry = true;
 
@@ -365,14 +378,14 @@ class ParticleAnimationSet extends AnimationSetBase implements IAnimationSet
 			initParticleFunc(particleProperties);
 
 			//create the next set of node properties for the particle
-			for each (localNode in _localStaticNodes)
+			for (localNode in _localStaticNodes)
 				localNode.generatePropertyOfOneParticle(particleProperties);
 
 			//loop through all particle data for the curent particle
 			while (j < particlesLength && (particle = particles[j]).particleIndex == i)
 			{
 				//find the target animationSubGeometry
-				for each (subMesh in mesh.subMeshes)
+				for (subMesh in mesh.subMeshes)
 				{
 					if (subMesh.subGeometry == particle.subGeometry)
 					{
@@ -386,26 +399,29 @@ class ParticleAnimationSet extends AnimationSetBase implements IAnimationSet
 				startingOffset = animationSubGeometry.numProcessedVertices * _totalLenOfOneVertex;
 
 				//loop through each static local node in the animation set
-				for each (localNode in _localStaticNodes)
+				for (localNode in _localStaticNodes)
 				{
 					oneData = localNode.oneData;
 					oneDataLen = localNode.dataLength;
 					oneDataOffset = startingOffset + localNode.dataOffset;
 
 					//loop through each vertex set in the vertex data
-					for (counterForVertex = 0; counterForVertex < vertexLength; counterForVertex += _totalLenOfOneVertex)
+					counterForVertex = 0;
+					while ( counterForVertex < vertexLength)
 					{
 						vertexOffset = oneDataOffset + counterForVertex;
 
 						//add the data for the local node to the vertex data
-						for (counterForOneData = 0; counterForOneData < oneDataLen; counterForOneData++)
+						for (counterForOneData in 0...oneDataLen)
 							vertexData[vertexOffset + counterForOneData] = oneData[counterForOneData];
+						
+						counterForVertex += _totalLenOfOneVertex;
 					}
 
 				}
 
 				//store particle properties if they need to be retreived for dynamic local nodes
-				if (_localDynamicNodes.length)
+				if (_localDynamicNodes.length != 0)
 					animationSubGeometry.animationParticles.push(new ParticleAnimationData(i, particleProperties.startTime, particleProperties.duration, particleProperties.delay, particle));
 
 				animationSubGeometry.numProcessedVertices += numVertices;

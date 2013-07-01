@@ -9,22 +9,27 @@ import flash.Vector;
  */
 class UVClipNode extends AnimationClipNodeBase
 {
-	private var _frames:Vector<UVAnimationFrame> = new Vector<UVAnimationFrame>();
+	private var _frames:Vector<UVAnimationFrame>;
 
-	/**
-	 * Returns a vector of UV frames representing the uv values of each animation frame in the clip.
-	 */
-	private function get_frames():Vector<UVAnimationFrame>
-	{
-		return _frames;
-	}
+	
 
 	/**
 	 * Creates a new <code>UVClipNode</code> object.
 	 */
 	public function new()
 	{
+		super();
 		_stateClass = UVClipState;
+		_frames = new Vector<UVAnimationFrame>();
+	}
+	
+	/**
+	 * Returns a vector of UV frames representing the uv values of each animation frame in the clip.
+	 */
+	public var frames(get,null):Vector<UVAnimationFrame>;
+	private function get_frames():Vector<UVAnimationFrame>
+	{
+		return _frames;
 	}
 
 	/**
@@ -48,13 +53,13 @@ class UVClipNode extends AnimationClipNodeBase
 	override private function updateStitch():Void
 	{
 		super.updateStitch();
-		var i:UInt;
-
+		
+		var i:Int = 0;
 		if (_durations.length > 0)
 		{
 
 			i = _numFrames - 1;
-			while (i--)
+			while (i-- != 0)
 			{
 				_totalDuration += _durations[i];
 			}

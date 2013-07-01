@@ -1,6 +1,7 @@
 package a3d.animators.states;
 
 import flash.display3D.Context3DVertexBufferFormat;
+import flash.errors.Error;
 import flash.geom.Vector3D;
 
 
@@ -135,7 +136,7 @@ class ParticleScaleState extends ParticleStateBase
 			if (_usesCycle)
 			{
 				if (_cycleDuration <= 0)
-					throw(new Error("the cycle duration must be greater than zero"));
+					throw new Error("the cycle duration must be greater than zero");
 				_scaleData = new Vector3D((_minScale + _maxScale) / 2, Math.abs(_minScale - _maxScale) / 2, Math.PI * 2 / _cycleDuration, _cyclePhase * Math.PI / 180);
 			}
 			else

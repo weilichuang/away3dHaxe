@@ -6,8 +6,8 @@ import flash.display.StageScaleMode;
 import flash.events.Event;
 import flash.events.MouseEvent;
 import flash.geom.Vector3D;
+import flash.Lib;
 import flash.utils.ByteArray;
-import flash.utils.getTimer;
 
 import a3d.entities.View3D;
 import a3d.controllers.HoverController;
@@ -56,7 +56,7 @@ class Basic_Load3DS extends BasicApplication
 	private var _ground:Mesh;
 
 	//navigation variables
-	private var _move:Boolean = false;
+	private var _move:Bool = false;
 	private var _lastPanAngle:Float;
 	private var _lastTiltAngle:Float;
 	private var _lastMouseX:Float;
@@ -96,7 +96,7 @@ class Basic_Load3DS extends BasicApplication
 
 		//setup the url map for textures in the 3ds file
 		var assetLoaderContext:AssetLoaderContext = new AssetLoaderContext();
-		assetLoaderContext.mapUrlToData("texture.jpg", new AntTexture());
+		assetLoaderContext.mapUrlToData("texture.jpg", new AntTexture(0,0));
 
 		//setup materials
 		_groundMaterial = new TextureMaterial(createBitmapTexture(SandTexture));
@@ -141,8 +141,8 @@ class Basic_Load3DS extends BasicApplication
 			_cameraController.tiltAngle = 0.3 * (stage.mouseY - _lastMouseY) + _lastTiltAngle;
 		}
 
-		_direction.x = -Math.sin(getTimer() / 4000);
-		_direction.z = -Math.cos(getTimer() / 4000);
+		_direction.x = -Math.sin(Lib.getTimer() / 4000);
+		_direction.z = -Math.cos(Lib.getTimer() / 4000);
 		_light.direction = _direction;
 
 		super.render();

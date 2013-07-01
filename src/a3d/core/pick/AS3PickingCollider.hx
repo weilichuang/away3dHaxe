@@ -22,6 +22,7 @@ class AS3PickingCollider extends PickingColliderBase implements IPickingCollider
 	 */
 	public function new(findClosestCollision:Bool = false)
 	{
+		super();
 		_findClosestCollision = findClosestCollision;
 	}
 
@@ -31,7 +32,7 @@ class AS3PickingCollider extends PickingColliderBase implements IPickingCollider
 	public function testSubMeshCollision(subMesh:SubMesh, pickingCollisionVO:PickingCollisionVO, shortestCollisionDistance:Float):Bool
 	{
 		var t:Float;
-		var i0:UInt, i1:UInt, i2:UInt;
+		var i0:Int, i1:Int, i2:Int;
 		var rx:Float, ry:Float, rz:Float;
 		var nx:Float, ny:Float, nz:Float;
 		var cx:Float, cy:Float, cz:Float;
@@ -49,18 +50,19 @@ class AS3PickingCollider extends PickingColliderBase implements IPickingCollider
 		var collisionTriangleIndex:Int = -1;
 		var bothSides:Bool = subMesh.material.bothSides;
 
-		var vertexStride:UInt = subMesh.vertexStride;
-		var vertexOffset:UInt = subMesh.vertexOffset;
-		var uvStride:UInt = subMesh.UVStride;
-		var uvOffset:UInt = subMesh.UVOffset;
+		var vertexStride:Int = subMesh.vertexStride;
+		var vertexOffset:Int = subMesh.vertexOffset;
+		var uvStride:Int = subMesh.UVStride;
+		var uvOffset:Int = subMesh.UVOffset;
 		var numIndices:Int = indexData.length;
 
 		// sweep all triangles
-		for (var index:UInt = 0; index < numIndices; index += 3)
+		var index:Int = 0;
+		while (index < numIndices)
 		{ 
 			// evaluate triangle indices
 			i0 = vertexOffset + indexData[index] * vertexStride;
-			i1 = vertexOffset + indexData[index + 1 * vertexStride;
+			i1 = vertexOffset + indexData[index + 1] * vertexStride;
 			i2 = vertexOffset + indexData[index + 2] * vertexStride;
 
 			// evaluate triangle vertices
@@ -90,7 +92,7 @@ class AS3PickingCollider extends PickingColliderBase implements IPickingCollider
 			nz *= nl;
 
 			// -- plane intersection test --
-			nDotV = nx * rayDirection.x + ny * +rayDirection.y + nz * rayDirection.z; // rayDirection . normal
+			nDotV = nx * rayDirection.x + ny * rayDirection.y + nz * rayDirection.z; // rayDirection . normal
 			// an intersection must exist
 			if ((!bothSides && nDotV < 0.0) || (bothSides && nDotV != 0.0))
 			{ 
@@ -115,16 +117,22 @@ class AS3PickingCollider extends PickingColliderBase implements IPickingCollider
 				v = coeff * (Q2Q2 * RQ1 - Q1Q2 * RQ2);
 				w = coeff * (-Q1Q2 * RQ1 + Q1Q1 * RQ2);
 				if (v < 0)
+				{
+					index += 3;
 					continue;
+				}
 				if (w < 0)
+				{
+					index += 3;
 					continue;
+				}
 				u = 1 - v - w;
 				
 				// all tests passed
 				if (!(u < 0) && t > 0 && t < shortestCollisionDistance)
 				{ 
 					shortestCollisionDistance = t;
-					collisionTriangleIndex = index / 3;
+					collisionTriangleIndex = Std.int(index / 3);
 					pickingCollisionVO.rayEntryDistance = t;
 					pickingCollisionVO.localPosition = new Vector3D(cx, cy, cz);
 					pickingCollisionVO.localNormal = new Vector3D(nx, ny, nz);
@@ -137,6 +145,7 @@ class AS3PickingCollider extends PickingColliderBase implements IPickingCollider
 						return true;
 				}
 			}
+			index += 3;
 		}
 
 		if (collisionTriangleIndex >= 0)
