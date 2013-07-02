@@ -1,5 +1,6 @@
 package a3dexample;
 
+import a3d.entities.primitives.SphereGeometry;
 import a3d.textures.BitmapTexture;
 import flash.events.Event;
 import flash.geom.Vector3D;
@@ -54,6 +55,13 @@ class Basic_View extends BasicApplication
 		var material:TextureMaterial = new TextureMaterial(new BitmapTexture(new FloorDiffuse(0, 0)));
 		_plane = new Mesh(new PlaneGeometry(700, 700), material);
 		view.scene.addChild(_plane);
+		
+		var sphere:Mesh = new Mesh(new SphereGeometry(100, 40, 20), material);
+		sphere.x = 0;
+		sphere.y = 100;
+		sphere.z = 0;
+
+		view.scene.addChild(sphere);
 	}
 
 	/**

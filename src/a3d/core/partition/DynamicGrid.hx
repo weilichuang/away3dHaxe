@@ -3,6 +3,7 @@ package a3d.core.partition;
 
 import a3d.bounds.BoundingVolumeBase;
 import a3d.entities.Entity;
+import flash.errors.Error;
 import flash.Vector;
 
 import flash.geom.Vector3D;
@@ -18,9 +19,9 @@ class DynamicGrid
 	private var _minY:Float;
 	private var _minZ:Float;
 	private var _leaves:Vector<InvertedOctreeNode>;
-	private var _numCellsX:UInt;
-	private var _numCellsY:UInt;
-	private var _numCellsZ:UInt;
+	private var _numCellsX:Int;
+	private var _numCellsY:Int;
+	private var _numCellsZ:Int;
 	private var _cellWidth:Float;
 	private var _cellHeight:Float;
 	private var _cellDepth:Float;
@@ -40,22 +41,25 @@ class DynamicGrid
 		_leaves = createLevel(numCellsX, numCellsY, numCellsZ, _cellWidth, _cellHeight, _cellDepth);
 	}
 
-	private function get_numCellsX():UInt
+	public var numCellsX(get, null):Int;
+	private function get_numCellsX():Int
 	{
 		return _numCellsX;
 	}
 
-	private function get_numCellsY():UInt
+	public var numCellsY(get, null):Int;
+	private function get_numCellsY():Int
 	{
 		return _numCellsY;
 	}
 
-	private function get_numCellsZ():UInt
+	public var numCellsZ(get, null):Int;
+	private function get_numCellsZ():Int
 	{
 		return _numCellsZ;
 	}
 
-	public function getCellAt(x:UInt, y:UInt, z:UInt):InvertedOctreeNode
+	public inline function getCellAt(x:Int, y:Int, z:Int):InvertedOctreeNode
 	{
 		if (x >= _numCellsX || y >= _numCellsY || z >= _numCellsZ)
 			throw new Error("Index out of bounds!");
@@ -68,7 +72,7 @@ class DynamicGrid
 		var nodes:Vector<InvertedOctreeNode> = new Vector<InvertedOctreeNode>(numCellsX * numCellsY * numCellsZ);
 		var parents:Vector<InvertedOctreeNode>;
 		var node:InvertedOctreeNode;
-		var i:UInt;
+		var i:Int;
 		var minX:Float, minY:Float, minZ:Float;
 		var numParentsX:UInt, numParentsY:UInt, numParentsZ:UInt;
 
@@ -168,17 +172,19 @@ class DynamicGrid
 		return node;
 	}
 
+	public var showDebugBounds(get, set):Bool;
 	private function get_showDebugBounds():Bool
 	{
 		return _showDebugBounds;
 	}
 
-	private function set_showDebugBounds(value:Bool):Void
+	private function set_showDebugBounds(value:Bool):Bool
 	{
-		var numLeaves:UInt = _leaves.length;
+		var numLeaves:Int = _leaves.length;
 		_showDebugBounds = showDebugBounds;
 		for (i in 0...numLeaves)
 			_leaves[i].showDebugBounds = value;
+		return _showDebugBounds;
 	}
 
 	public function getCellsIntersecting(minBounds:Vector3D, maxBounds:Vector3D):Vector<InvertedOctreeNode>
@@ -218,12 +224,12 @@ class DynamicGrid
 		else if (minIndexZ >= _numCellsZ)
 			minIndexZ = _numCellsZ - 1;
 
-		var i:UInt;
-		for (z in minIndexZ...maxIndexZ+1)
+		var i:Int = 0;
+		for (z in minIndexZ...maxIndexZ + 1)
 		{
-			for (y in minIndexY...maxIndexY+1)
+			for (y in minIndexY...maxIndexY + 1)
 			{
-				for (x in minIndexX...maxIndexX+1)
+				for (x in minIndexX...maxIndexX + 1)
 				{
 					cells[i++] = getCellAt(x, y, z);
 				}

@@ -25,6 +25,7 @@ class MeshNode extends EntityNode
 	/**
 	 * The mesh object contained in the partition node.
 	 */
+	public var mesh(get, null):Mesh;
 	private function get_mesh():Mesh
 	{
 		return _mesh;

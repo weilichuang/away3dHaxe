@@ -1,5 +1,6 @@
 package a3d.core.partition;
 
+import flash.errors.Error;
 import flash.geom.Vector3D;
 import flash.Vector;
 
@@ -55,11 +56,13 @@ class ViewVolume extends NodeBase
 		initCells();
 	}
 
+	public var minBound(get, null):Vector3D;
 	private function get_minBound():Vector3D
 	{
 		return new Vector3D(_minX, _minY, _minZ);
 	}
 
+	public var maxBound(get, null):Vector3D;
 	private function get_maxBound():Vector3D
 	{
 		return new Vector3D(_maxX, _maxY, _maxZ);
@@ -69,7 +72,7 @@ class ViewVolume extends NodeBase
 	{
 		if (traverser.enterNode(this))
 		{
-			if (_debugPrimitive)
+			if (_debugPrimitive != null)
 				traverser.applyRenderable(_debugPrimitive);
 
 			if (!active)
@@ -120,7 +123,7 @@ class ViewVolume extends NodeBase
 	{
 		var index:Int = getCellIndex(indexX, indexY, indexZ);
 		var statics:Vector<EntityNode> = _cells[index].visibleStatics;
-		if (!statics)
+		if (statics == null)
 			return;
 		index = statics.indexOf(entity.getEntityPartitionNode());
 		if (index >= 0)
@@ -132,7 +135,7 @@ class ViewVolume extends NodeBase
 	{
 		var index:Int = getCellIndex(indexX, indexY, indexZ);
 		var dynamics:Vector<InvertedOctreeNode> = _cells[index].visibleDynamics;
-		if (!dynamics)
+		if (dynamics == null)
 			return;
 		index = dynamics.indexOf(cell);
 		if (index >= 0)
@@ -185,67 +188,68 @@ class ViewVolume extends NodeBase
 		_cells[index] = null;
 	}
 
+	public var width(get,null):Float;
 	private function get_width():Float
 	{
 		return _width;
 	}
-
+	public var height(get,null):Float;
 	private function get_height():Float
 	{
 		return _height;
 	}
-
+	public var depth(get,null):Float;
 	private function get_depth():Float
 	{
 		return _depth;
 	}
-
-	private function get_numCellsX():UInt
+	public var numCellsX(get,null):Int;
+	private function get_numCellsX():Int
 	{
 		return _numCellsX;
 	}
-
-	private function get_numCellsY():UInt
+	public var numCellsY(get,null):Int;
+	private function get_numCellsY():Int
 	{
 		return _numCellsY;
 	}
-
-	private function get_numCellsZ():UInt
+	public var numCellsZ(get,null):Int;
+	private function get_numCellsZ():Int
 	{
 		return _numCellsZ;
 	}
-
+	public var minX(get,null):Float;
 	private function get_minX():Float
 	{
 		return _minX;
 	}
-
+	public var minY(get,null):Float;
 	private function get_minY():Float
 	{
 		return _minY;
 	}
-
+	public var minZ(get,null):Float;
 	private function get_minZ():Float
 	{
 		return _minZ;
 	}
-
+	public var maxX(get,null):Float;
 	private function get_maxX():Float
 	{
 		return _maxX;
 	}
-
+	public var maxY(get,null):Float;
 	private function get_maxY():Float
 	{
 		return _maxY;
 	}
-
+	public var maxZ(get,null):Float;
 	private function get_maxZ():Float
 	{
 		return _maxZ;
 	}
 
-	private function getCellIndex(indexX:UInt, indexY:UInt, indexZ:UInt):UInt
+	private function getCellIndex(indexX:Int, indexY:Int, indexZ:Int):UInt
 	{
 		if (indexX >= _numCellsX || indexY >= _numCellsY || indexZ >= _numCellsZ)
 			throw new Error("Index out of bounds");
@@ -299,7 +303,7 @@ class ViewVolume extends NodeBase
 	{
 		var cell:ViewCell = _cells[getCellIndex(indexX, indexY, indexZ)];
 		addStaticsForRegion(scene, minBounds, maxBounds, cell);
-		if (dynamicGrid)
+		if (dynamicGrid != null)
 			addDynamicsForRegion(dynamicGrid, minBounds, maxBounds, cell);
 	}
 
@@ -412,6 +416,12 @@ class ViewVolume extends NodeBase
 
 class ViewCell
 {
-	public var visibleStatics:Vector<EntityNode> = new Vector<EntityNode>();
-	public var visibleDynamics:Vector<InvertedOctreeNode> = new Vector<InvertedOctreeNode>();
+	public var visibleStatics:Vector<EntityNode>;
+	public var visibleDynamics:Vector<InvertedOctreeNode>;
+	
+	public function new()
+	{
+		visibleStatics = new Vector<EntityNode>();
+		visibleDynamics = new Vector<InvertedOctreeNode>();
+	}
 }

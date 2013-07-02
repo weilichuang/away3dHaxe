@@ -90,13 +90,16 @@ class Basic_Shading extends BasicApplication
 		view.scene = scene;
 		view.camera = camera;
 
+		view.camera.z = -1000;
+		view.camera.y = 800;
+		view.camera.lookAt(new Vector3D());
 		//setup controller to be used on the camera
-		cameraController = new HoverController(camera);
-		cameraController.distance = 1000;
-		cameraController.minTiltAngle = 0;
-		cameraController.maxTiltAngle = 90;
-		cameraController.panAngle = 45;
-		cameraController.tiltAngle = 20;
+		//cameraController = new HoverController(camera);
+		//cameraController.distance = 1000;
+		//cameraController.minTiltAngle = 0;
+		//cameraController.maxTiltAngle = 90;
+		//cameraController.panAngle = 45;
+		//cameraController.tiltAngle = 20;
 	}
 
 	/**

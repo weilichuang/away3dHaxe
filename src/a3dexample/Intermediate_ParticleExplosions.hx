@@ -37,394 +37,400 @@ THE SOFTWARE.
 
 */
 
-package a3dexample
+package a3dexample;
+
+import flash.display.BitmapData;
+import flash.events.Event;
+import flash.events.MouseEvent;
+import flash.geom.Vector3D;
+import flash.Lib;
+import flash.Vector.Vector;
+
+import a3d.animators.ParticleAnimationSet;
+import a3d.animators.ParticleAnimator;
+import a3d.animators.data.ParticleProperties;
+import a3d.animators.data.ParticlePropertiesMode;
+import a3d.animators.nodes.ParticleBezierCurveNode;
+import a3d.animators.nodes.ParticleBillboardNode;
+import a3d.animators.nodes.ParticlePositionNode;
+import a3d.entities.Camera3D;
+import a3d.entities.Scene3D;
+import a3d.entities.View3D;
+import a3d.controllers.HoverController;
+import a3d.core.base.Geometry;
+import a3d.core.base.ParticleGeometry;
+import a3d.entities.Mesh;
+import a3d.entities.lights.PointLight;
+import a3d.materials.ColorMaterial;
+import a3d.materials.lightpickers.StaticLightPicker;
+import a3d.entities.primitives.PlaneGeometry;
+import a3d.tools.helpers.ParticleGeometryHelper;
+import a3d.utils.Cast;
+
+using Reflect;
+
+
+class Intermediate_ParticleExplosions extends BasicApplication
 {
-	import flash.display.BitmapData;
-	import flash.events.Event;
-	import flash.events.MouseEvent;
-	import flash.geom.Vector3D;
-	import flash.utils.getTimer;
-
-	import a3d.animators.ParticleAnimationSet;
-	import a3d.animators.ParticleAnimator;
-	import a3d.animators.data.ParticleProperties;
-	import a3d.animators.data.ParticlePropertiesMode;
-	import a3d.animators.nodes.ParticleBezierCurveNode;
-	import a3d.animators.nodes.ParticleBillboardNode;
-	import a3d.animators.nodes.ParticlePositionNode;
-	import a3d.entities.Camera3D;
-	import a3d.entities.Scene3D;
-	import a3d.entities.View3D;
-	import a3d.controllers.HoverController;
-	import a3d.core.base.Geometry;
-	import a3d.core.base.ParticleGeometry;
-	import a3d.entities.Mesh;
-	import a3d.entities.lights.PointLight;
-	import a3d.materials.ColorMaterial;
-	import a3d.materials.lightpickers.StaticLightPicker;
-	import a3d.entities.primitives.PlaneGeometry;
-	import a3d.tools.helpers.ParticleGeometryHelper;
-	import a3d.utils.Cast;
-
-	class Intermediate_ParticleExplosions extends BasicApplication
+	static function main()
 	{
-		private const PARTICLE_SIZE:UInt = 3;
-		private const NUM_ANIMATORS:UInt = 4;
+		Lib.current.addChild(new Intermediate_ParticleExplosions());
+	}
+	
+	private var PARTICLE_SIZE:Int = 3;
+	private var NUM_ANIMATORS:Int = 4;
 
-		//ADobe AIR image
-		[Embed(source = "../embeds/air.png")]
-		private var AIRImage:Class;
+	//engine variables
+	private var cameraController:HoverController;
 
-		//Adobe Flash player image
-		[Embed(source = "../embeds/player.png")]
-		private var PlayerImage:Class;
+	//light variables
+	private var greenLight:PointLight;
+	private var blueLight:PointLight;
+	//private var whitelight:DirectionalLight;
+	//private var direction:Vector3D = new Vector3D();
+	private var lightPicker:StaticLightPicker;
 
-		//engine variables
-		private var cameraController:HoverController;
+	//data variables
+	private var redPoints:Vector<Vector3D>;
+	private var whitePoints:Vector<Vector3D>;
+	private var redSeparation:Int;
+	private var whiteSeparation:Int;
 
-		//light variables
-		private var greenLight:PointLight;
-		private var blueLight:PointLight;
-		//private var whitelight:DirectionalLight;
-		//private var direction:Vector3D = new Vector3D();
-		private var lightPicker:StaticLightPicker;
+	//material objects
+	private var whiteMaterial:ColorMaterial;
+	private var redMaterial:ColorMaterial;
 
-		//data variables
-		private var redPoints:Vector<Vector3D> = new Vector<Vector3D>();
-		private var whitePoints:Vector<Vector3D> = new Vector<Vector3D>();
-		private var redSeparation:int;
-		private var whiteSeparation:int;
+	//particle objects
+	private var redGeometry:ParticleGeometry;
+	private var whiteGeometry:ParticleGeometry;
+	private var redAnimationSet:ParticleAnimationSet;
+	private var whiteAnimationSet:ParticleAnimationSet;
 
-		//material objects
-		private var whiteMaterial:ColorMaterial;
-		private var redMaterial:ColorMaterial;
+	//scene objects
+	private var redParticleMesh:Mesh;
+	private var whiteParticleMesh:Mesh;
+	private var redAnimators:Vector<ParticleAnimator>;
+	private var whiteAnimators:Vector<ParticleAnimator>;
 
-		//particle objects
-		private var redGeometry:ParticleGeometry;
-		private var whiteGeometry:ParticleGeometry;
-		private var redAnimationSet:ParticleAnimationSet;
-		private var whiteAnimationSet:ParticleAnimationSet;
+	//navigation variables
+	private var angle:Float = 0;
+	private var move:Bool = false;
+	private var lastPanAngle:Float;
+	private var lastTiltAngle:Float;
+	private var lastMouseX:Float;
+	private var lastMouseY:Float;
 
-		//scene objects
-		private var redParticleMesh:Mesh;
-		private var whiteParticleMesh:Mesh;
-		private var redAnimators:Vector<ParticleAnimator>;
-		private var whiteAnimators:Vector<ParticleAnimator>;
+	/**
+	 * Constructor
+	 */
+	public function new()
+	{
+		super();
+		redPoints = new Vector<Vector3D>();
+		whitePoints= new Vector<Vector3D>();
+	}
 
-		//navigation variables
-		private var angle:Float = 0;
-		private var move:Bool = false;
-		private var lastPanAngle:Float;
-		private var lastTiltAngle:Float;
-		private var lastMouseX:Float;
-		private var lastMouseY:Float;
+	/**
+	 * Global initialise function
+	 */
+	override private function init():Void
+	{
+		initEngine();
+		initLights();
+		initMaterials();
+		initParticles();
+		initObjects();
+		initListeners();
+	}
 
-		/**
-		 * Constructor
-		 */
-		public function new()
+	/**
+	 * Initialise the engine
+	 */
+	override private function initEngine():Void
+	{
+		super.initEngine();
+
+
+		scene = new Scene3D();
+
+		camera = new Camera3D();
+
+		view.scene = scene;
+		view.camera = camera;
+
+		//setup controller to be used on the camera
+		view.camera.z = -600;
+		view.camera.y = 500;
+		view.camera.lookAt(new Vector3D());
+		//cameraController = new HoverController(camera, null, 225, 10, 1000);
+	}
+
+	/**
+	 * Initialise the lights
+	 */
+	private function initLights():Void
+	{
+		//create a green point light
+		greenLight = new PointLight();
+		greenLight.color = 0x00FF00;
+		greenLight.ambient = 1;
+		greenLight.fallOff = 600;
+		greenLight.radius = 100;
+		greenLight.specular = 2;
+		scene.addChild(greenLight);
+
+		//create a red pointlight
+		blueLight = new PointLight();
+		blueLight.color = 0x0000FF;
+		blueLight.fallOff = 600;
+		blueLight.radius = 100;
+		blueLight.specular = 2;
+		scene.addChild(blueLight);
+
+		//create a lightpicker for the green and red light
+		lightPicker = new StaticLightPicker([greenLight, blueLight]);
+	}
+
+	/**
+	 * Initialise the materials
+	 */
+	private function initMaterials():Void
+	{
+
+		//setup the red particle material
+		redMaterial = new ColorMaterial(0xBE0E0E);
+		redMaterial.alphaPremultiplied = true;
+		redMaterial.bothSides = true;
+		redMaterial.lightPicker = lightPicker;
+
+		//setup the white particle material
+		whiteMaterial = new ColorMaterial(0xBEBEBE);
+		whiteMaterial.alphaPremultiplied = true;
+		whiteMaterial.bothSides = true;
+		whiteMaterial.lightPicker = lightPicker;
+	}
+
+	/**
+	 * Initialise the particles
+	 */
+	private function initParticles():Void
+	{
+		var bitmapData:BitmapData;
+		var point:Vector3D;
+
+		//create red and white point vectors for the Adobe Flash Player image
+		bitmapData = new PlayerImage(0,0);
+
+		for (i in 0...bitmapData.width)
 		{
-			init();
-		}
-
-		/**
-		 * Global initialise function
-		 */
-		private function init():Void
-		{
-			initEngine();
-			initLights();
-			initMaterials();
-			initParticles();
-			initObjects();
-			initListeners();
-		}
-
-		/**
-		 * Initialise the engine
-		 */
-		override private function initEngine():Void
-		{
-			super.initEngine();
-
-
-			scene = new Scene3D();
-
-			camera = new Camera3D();
-
-			view.scene = scene;
-			view.camera = camera;
-
-			//setup controller to be used on the camera
-			cameraController = new HoverController(camera, null, 225, 10, 1000);
-		}
-
-		/**
-		 * Initialise the lights
-		 */
-		private function initLights():Void
-		{
-			//create a green point light
-			greenLight = new PointLight();
-			greenLight.color = 0x00FF00;
-			greenLight.ambient = 1;
-			greenLight.fallOff = 600;
-			greenLight.radius = 100;
-			greenLight.specular = 2;
-			scene.addChild(greenLight);
-
-			//create a red pointlight
-			blueLight = new PointLight();
-			blueLight.color = 0x0000FF;
-			blueLight.fallOff = 600;
-			blueLight.radius = 100;
-			blueLight.specular = 2;
-			scene.addChild(blueLight);
-
-			//create a lightpicker for the green and red light
-			lightPicker = new StaticLightPicker([greenLight, blueLight]);
-		}
-
-		/**
-		 * Initialise the materials
-		 */
-		private function initMaterials():Void
-		{
-
-			//setup the red particle material
-			redMaterial = new ColorMaterial(0xBE0E0E);
-			redMaterial.alphaPremultiplied = true;
-			redMaterial.bothSides = true;
-			redMaterial.lightPicker = lightPicker;
-
-			//setup the white particle material
-			whiteMaterial = new ColorMaterial(0xBEBEBE);
-			whiteMaterial.alphaPremultiplied = true;
-			whiteMaterial.bothSides = true;
-			whiteMaterial.lightPicker = lightPicker;
-		}
-
-		/**
-		 * Initialise the particles
-		 */
-		private function initParticles():Void
-		{
-			var bitmapData:BitmapData;
-			var i:int;
-			var j:int;
-			var point:Vector3D;
-
-			//create red and white point vectors for the Adobe Flash Player image
-			bitmapData = Cast.bitmapData(PlayerImage);
-
-			for (i = 0; i < bitmapData.width; i++)
+			for (j in 0...bitmapData.height)
 			{
-				for (j = 0; j < bitmapData.height; j++)
-				{
-					point = new Vector3D(PARTICLE_SIZE * (i - bitmapData.width / 2 - 100), PARTICLE_SIZE * (-j + bitmapData.height / 2));
-					if (((bitmapData.getPixel(i, j) >> 8) & 0xff) <= 0xb0)
-						redPoints.push(point);
-					else
-						whitePoints.push(point);
-				}
-			}
-
-			//define where one logo stops and another starts
-			redSeparation = redPoints.length;
-			whiteSeparation = whitePoints.length;
-
-			//create red and white point vectors for the Adobe AIR image
-			bitmapData = Cast.bitmapData(AIRImage);
-
-			for (i = 0; i < bitmapData.width; i++)
-			{
-				for (j = 0; j < bitmapData.height; j++)
-				{
-					point = new Vector3D(PARTICLE_SIZE * (i - bitmapData.width / 2 + 100), PARTICLE_SIZE * (-j + bitmapData.height / 2));
-					if (((bitmapData.getPixel(i, j) >> 8) & 0xff) <= 0xb0)
-						redPoints.push(point);
-					else
-						whitePoints.push(point);
-				}
-			}
-
-			var numRed:UInt = redPoints.length;
-			var numWhite:UInt = whitePoints.length;
-
-			//setup the base geometry for one particle
-			var plane:PlaneGeometry = new PlaneGeometry(PARTICLE_SIZE, PARTICLE_SIZE, 1, 1, false);
-
-			//combine them into a list
-			var redGeometrySet:Vector<Geometry> = new Vector<Geometry>;
-			for (i = 0; i < numRed; i++)
-				redGeometrySet.push(plane);
-
-			var whiteGeometrySet:Vector<Geometry> = new Vector<Geometry>;
-			for (i = 0; i < numWhite; i++)
-				whiteGeometrySet.push(plane);
-
-			//generate the particle geometries
-			redGeometry = ParticleGeometryHelper.generateGeometry(redGeometrySet);
-			whiteGeometry = ParticleGeometryHelper.generateGeometry(whiteGeometrySet);
-
-			//define the red particle animations and init function
-			redAnimationSet = new ParticleAnimationSet(true);
-			redAnimationSet.addAnimation(new ParticleBillboardNode());
-			redAnimationSet.addAnimation(new ParticleBezierCurveNode(ParticlePropertiesMode.LOCAL_STATIC));
-			redAnimationSet.addAnimation(new ParticlePositionNode(ParticlePropertiesMode.LOCAL_STATIC));
-			redAnimationSet.initParticleFunc = initRedParticleFunc;
-
-			//define the white particle animations and init function
-			whiteAnimationSet = new ParticleAnimationSet();
-			whiteAnimationSet.addAnimation(new ParticleBillboardNode());
-			whiteAnimationSet.addAnimation(new ParticleBezierCurveNode(ParticlePropertiesMode.LOCAL_STATIC));
-			whiteAnimationSet.addAnimation(new ParticlePositionNode(ParticlePropertiesMode.LOCAL_STATIC));
-			whiteAnimationSet.initParticleFunc = initWhiteParticleFunc;
-		}
-
-		/**
-		 * Initialise the scene objects
-		 */
-		private function initObjects():Void
-		{
-			//initialise animators vectors
-			redAnimators = new Vector<ParticleAnimator>(NUM_ANIMATORS, true);
-			whiteAnimators = new Vector<ParticleAnimator>(NUM_ANIMATORS, true);
-
-			//create the red particle mesh
-			redParticleMesh = new Mesh(redGeometry, redMaterial);
-
-			//create the white particle mesh
-			whiteParticleMesh = new Mesh(whiteGeometry, whiteMaterial);
-
-			var i:UInt = 0;
-			for (i = 0; i < NUM_ANIMATORS; i++)
-			{
-				//clone the red particle mesh
-				redParticleMesh = redParticleMesh.clone() as Mesh;
-				redParticleMesh.rotationY = 45 * (i - 1);
-				scene.addChild(redParticleMesh);
-
-				//clone the white particle mesh
-				whiteParticleMesh = whiteParticleMesh.clone() as Mesh;
-				whiteParticleMesh.rotationY = 45 * (i - 1);
-				scene.addChild(whiteParticleMesh);
-
-				//create and start the red particle animator
-				redAnimators[i] = new ParticleAnimator(redAnimationSet);
-				redParticleMesh.animator = redAnimators[i];
-				scene.addChild(redParticleMesh);
-
-				//create and start the white particle animator
-				whiteAnimators[i] = new ParticleAnimator(whiteAnimationSet);
-				whiteParticleMesh.animator = whiteAnimators[i];
-				scene.addChild(whiteParticleMesh);
+				point = new Vector3D(PARTICLE_SIZE * (i - bitmapData.width / 2 - 100), PARTICLE_SIZE * (-j + bitmapData.height / 2));
+				if (((bitmapData.getPixel(i, j) >> 8) & 0xff) <= 0xb0)
+					redPoints.push(point);
+				else
+					whitePoints.push(point);
 			}
 		}
 
-		/**
-		 * Initialiser function for red particle properties
-		 */
-		private function initRedParticleFunc(properties:ParticleProperties):Void
+		//define where one logo stops and another starts
+		redSeparation = redPoints.length;
+		whiteSeparation = whitePoints.length;
+
+		//create red and white point vectors for the Adobe AIR image
+		bitmapData = new AIRImage(0,0);
+
+		for (i in 0...bitmapData.width)
 		{
-			properties.startTime = 0;
-			properties.duration = 1;
-			var degree1:Float = Math.random() * Math.PI * 2;
-			var degree2:Float = Math.random() * Math.PI * 2;
-			var r:Float = 500;
-
-			if (properties.index < redSeparation)
-				properties[ParticleBezierCurveNode.BEZIER_END_VECTOR3D] = new Vector3D(200 * PARTICLE_SIZE, 0, 0);
-			else
-				properties[ParticleBezierCurveNode.BEZIER_END_VECTOR3D] = new Vector3D(-200 * PARTICLE_SIZE, 0, 0);
-
-			properties[ParticleBezierCurveNode.BEZIER_CONTROL_VECTOR3D] = new Vector3D(r * Math.sin(degree1) * Math.cos(degree2), r * Math.cos(degree1) * Math.cos(degree2), 2 * r * Math.sin(degree2));
-			properties[ParticlePositionNode.POSITION_VECTOR3D] = redPoints[properties.index];
-		}
-
-		/**
-		 * Initialiser function for white particle properties
-		 */
-		private function initWhiteParticleFunc(properties:ParticleProperties):Void
-		{
-			properties.startTime = 0;
-			properties.duration = 1;
-			var degree1:Float = Math.random() * Math.PI * 2;
-			var degree2:Float = Math.random() * Math.PI * 2;
-			var r:Float = 500;
-
-			if (properties.index < whiteSeparation)
-				properties[ParticleBezierCurveNode.BEZIER_END_VECTOR3D] = new Vector3D(200 * PARTICLE_SIZE, 0, 0);
-			else
-				properties[ParticleBezierCurveNode.BEZIER_END_VECTOR3D] = new Vector3D(-200 * PARTICLE_SIZE, 0, 0);
-
-			properties[ParticleBezierCurveNode.BEZIER_CONTROL_VECTOR3D] = new Vector3D(r * Math.sin(degree1) * Math.cos(degree2), r * Math.cos(degree1) * Math.cos(degree2), r * Math.sin(degree2));
-			properties[ParticlePositionNode.POSITION_VECTOR3D] = whitePoints[properties.index];
-		}
-
-		/**
-		 * Navigation and render loop
-		 */
-		override private function render():Void
-		{
-			//update the camera position
-			cameraController.panAngle += 0.2;
-
-			//update the particle animator playhead positions
-			var i:UInt;
-			var time:UInt;
-			for (i = 0; i < NUM_ANIMATORS; i++)
+			for (j in 0...bitmapData.height)
 			{
-				time = 1000 * (Math.sin(getTimer() / 5000 + Math.PI * i / 4) + 1);
-				redAnimators[i].update(time);
-				whiteAnimators[i].update(time);
+				point = new Vector3D(PARTICLE_SIZE * (i - bitmapData.width / 2 + 100), PARTICLE_SIZE * (-j + bitmapData.height / 2));
+				if (((bitmapData.getPixel(i, j) >> 8) & 0xff) <= 0xb0)
+					redPoints.push(point);
+				else
+					whitePoints.push(point);
 			}
-
-			if (move)
-			{
-				cameraController.panAngle = 0.3 * (stage.mouseX - lastMouseX) + lastPanAngle;
-				cameraController.tiltAngle = 0.3 * (stage.mouseY - lastMouseY) + lastTiltAngle;
-			}
-
-			//update the light positions
-			angle += Math.PI / 180;
-			greenLight.x = Math.sin(angle) * 600;
-			greenLight.z = Math.cos(angle) * 600;
-			blueLight.x = Math.sin(angle + Math.PI) * 600;
-			blueLight.z = Math.cos(angle + Math.PI) * 600;
-
-			super.render();
 		}
 
-		/**
-		 * Mouse down listener for navigation
-		 */
-		override private function onMouseDown(event:MouseEvent):Void
-		{
-			lastPanAngle = cameraController.panAngle;
-			lastTiltAngle = cameraController.tiltAngle;
-			lastMouseX = stage.mouseX;
-			lastMouseY = stage.mouseY;
-			move = true;
-			stage.addEventListener(Event.MOUSE_LEAVE, onStageMouseLeave);
-		}
+		var numRed:Int = redPoints.length;
+		var numWhite:Int = whitePoints.length;
 
-		/**
-		 * Mouse up listener for navigation
-		 */
-		override private function onMouseUp(event:MouseEvent):Void
-		{
-			move = false;
-			stage.removeEventListener(Event.MOUSE_LEAVE, onStageMouseLeave);
-		}
+		//setup the base geometry for one particle
+		var plane:PlaneGeometry = new PlaneGeometry(PARTICLE_SIZE, PARTICLE_SIZE, 1, 1, false);
 
-		/**
-		 * Mouse stage leave listener for navigation
-		 */
-		private function onStageMouseLeave(event:Event):Void
+		//combine them into a list
+		var redGeometrySet:Vector<Geometry> = new Vector<Geometry>();
+		for (i in 0...numRed)
+			redGeometrySet.push(plane);
+
+		var whiteGeometrySet:Vector<Geometry> = new Vector<Geometry>();
+		for (i in 0...numWhite)
+			whiteGeometrySet.push(plane);
+
+		//generate the particle geometries
+		redGeometry = ParticleGeometryHelper.generateGeometry(redGeometrySet);
+		whiteGeometry = ParticleGeometryHelper.generateGeometry(whiteGeometrySet);
+
+		//define the red particle animations and init function
+		redAnimationSet = new ParticleAnimationSet(true);
+		redAnimationSet.addAnimation(new ParticleBillboardNode());
+		redAnimationSet.addAnimation(new ParticleBezierCurveNode(ParticlePropertiesMode.LOCAL_STATIC));
+		redAnimationSet.addAnimation(new ParticlePositionNode(ParticlePropertiesMode.LOCAL_STATIC));
+		redAnimationSet.initParticleFunc = initRedParticleFunc;
+
+		//define the white particle animations and init function
+		whiteAnimationSet = new ParticleAnimationSet();
+		whiteAnimationSet.addAnimation(new ParticleBillboardNode());
+		whiteAnimationSet.addAnimation(new ParticleBezierCurveNode(ParticlePropertiesMode.LOCAL_STATIC));
+		whiteAnimationSet.addAnimation(new ParticlePositionNode(ParticlePropertiesMode.LOCAL_STATIC));
+		whiteAnimationSet.initParticleFunc = initWhiteParticleFunc;
+	}
+
+	/**
+	 * Initialise the scene objects
+	 */
+	private function initObjects():Void
+	{
+		//initialise animators vectors
+		redAnimators = new Vector<ParticleAnimator>(NUM_ANIMATORS, true);
+		whiteAnimators = new Vector<ParticleAnimator>(NUM_ANIMATORS, true);
+
+		//create the red particle mesh
+		redParticleMesh = new Mesh(redGeometry, redMaterial);
+
+		//create the white particle mesh
+		whiteParticleMesh = new Mesh(whiteGeometry, whiteMaterial);
+
+		for (i in 0...NUM_ANIMATORS)
 		{
-			move = false;
-			stage.removeEventListener(Event.MOUSE_LEAVE, onStageMouseLeave);
+			//clone the red particle mesh
+			redParticleMesh = Std.instance(redParticleMesh.clone(),Mesh);
+			redParticleMesh.rotationY = 45 * (i - 1);
+			scene.addChild(redParticleMesh);
+
+			//clone the white particle mesh
+			whiteParticleMesh = Std.instance(whiteParticleMesh.clone(),Mesh);
+			whiteParticleMesh.rotationY = 45 * (i - 1);
+			scene.addChild(whiteParticleMesh);
+
+			//create and start the red particle animator
+			redAnimators[i] = new ParticleAnimator(redAnimationSet);
+			redParticleMesh.animator = redAnimators[i];
+			scene.addChild(redParticleMesh);
+
+			//create and start the white particle animator
+			whiteAnimators[i] = new ParticleAnimator(whiteAnimationSet);
+			whiteParticleMesh.animator = whiteAnimators[i];
+			scene.addChild(whiteParticleMesh);
 		}
 	}
+
+	/**
+	 * Initialiser function for red particle properties
+	 */
+	private function initRedParticleFunc(properties:ParticleProperties):Void
+	{
+		properties.startTime = 0;
+		properties.duration = 1;
+		var degree1:Float = Math.random() * Math.PI * 2;
+		var degree2:Float = Math.random() * Math.PI * 2;
+		var r:Float = 500;
+
+		if (properties.index < redSeparation)
+			properties.setField(ParticleBezierCurveNode.BEZIER_END_VECTOR3D,new Vector3D(200 * PARTICLE_SIZE, 0, 0));
+		else
+			properties.setField(ParticleBezierCurveNode.BEZIER_END_VECTOR3D,new Vector3D(-200 * PARTICLE_SIZE, 0, 0));
+
+		properties.setField(ParticleBezierCurveNode.BEZIER_CONTROL_VECTOR3D,new Vector3D(r * Math.sin(degree1) * Math.cos(degree2), r * Math.cos(degree1) * Math.cos(degree2), 2 * r * Math.sin(degree2)));
+		properties.setField(ParticlePositionNode.POSITION_VECTOR3D,redPoints[properties.index]);
+	}
+
+	/**
+	 * Initialiser function for white particle properties
+	 */
+	private function initWhiteParticleFunc(properties:ParticleProperties):Void
+	{
+		properties.startTime = 0;
+		properties.duration = 1;
+		var degree1:Float = Math.random() * Math.PI * 2;
+		var degree2:Float = Math.random() * Math.PI * 2;
+		var r:Float = 500;
+
+		if (properties.index < whiteSeparation)
+			properties.setField(ParticleBezierCurveNode.BEZIER_END_VECTOR3D, new Vector3D(200 * PARTICLE_SIZE, 0, 0));
+		else
+			properties.setField(ParticleBezierCurveNode.BEZIER_END_VECTOR3D,new Vector3D(-200 * PARTICLE_SIZE, 0, 0));
+
+		properties.setField(ParticleBezierCurveNode.BEZIER_CONTROL_VECTOR3D,new Vector3D(r * Math.sin(degree1) * Math.cos(degree2), r * Math.cos(degree1) * Math.cos(degree2), r * Math.sin(degree2)));
+		properties.setField(ParticlePositionNode.POSITION_VECTOR3D,whitePoints[properties.index]);
+	}
+
+	/**
+	 * Navigation and render loop
+	 */
+	override private function render():Void
+	{
+		//update the camera position
+		//cameraController.panAngle += 0.2;
+
+		//update the particle animator playhead positions
+		var time:Int;
+		for (i in 0...NUM_ANIMATORS)
+		{
+			time = Std.int(1000 * (Math.sin(Lib.getTimer() / 5000 + Math.PI * i / 4) + 1));
+			redAnimators[i].update(time);
+			whiteAnimators[i].update(time);
+		}
+
+		if (move)
+		{
+			cameraController.panAngle = 0.3 * (stage.mouseX - lastMouseX) + lastPanAngle;
+			cameraController.tiltAngle = 0.3 * (stage.mouseY - lastMouseY) + lastTiltAngle;
+		}
+
+		//update the light positions
+		angle += Math.PI / 180;
+		greenLight.x = Math.sin(angle) * 600;
+		greenLight.z = Math.cos(angle) * 600;
+		blueLight.x = Math.sin(angle + Math.PI) * 600;
+		blueLight.z = Math.cos(angle + Math.PI) * 600;
+
+		super.render();
+	}
+
+	/**
+	 * Mouse down listener for navigation
+	 */
+	override private function onMouseDown(event:MouseEvent):Void
+	{
+		lastPanAngle = cameraController.panAngle;
+		lastTiltAngle = cameraController.tiltAngle;
+		lastMouseX = stage.mouseX;
+		lastMouseY = stage.mouseY;
+		move = true;
+		stage.addEventListener(Event.MOUSE_LEAVE, onStageMouseLeave);
+	}
+
+	/**
+	 * Mouse up listener for navigation
+	 */
+	override private function onMouseUp(event:MouseEvent):Void
+	{
+		move = false;
+		stage.removeEventListener(Event.MOUSE_LEAVE, onStageMouseLeave);
+	}
+
+	/**
+	 * Mouse stage leave listener for navigation
+	 */
+	private function onStageMouseLeave(event:Event):Void
+	{
+		move = false;
+		stage.removeEventListener(Event.MOUSE_LEAVE, onStageMouseLeave);
+	}
 }
+
+@:bitmap("embeds/air.png") class AIRImage extends flash.display.BitmapData { }
+@:bitmap("embeds/player.png") class PlayerImage extends flash.display.BitmapData { }
+
+

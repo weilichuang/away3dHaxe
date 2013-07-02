@@ -24,25 +24,26 @@ class ViewVolumePartition extends Partition3D
 	 */
 	public function addViewVolume(viewVolume:ViewVolume):Void
 	{
-		ViewVolumeRootNode(_rootNode).addViewVolume(viewVolume);
+		Std.instance(_rootNode,ViewVolumeRootNode).addViewVolume(viewVolume);
 	}
 
 	public function removeViewVolume(viewVolume:ViewVolume):Void
 	{
-		ViewVolumeRootNode(_rootNode).removeViewVolume(viewVolume);
+		Std.instance(_rootNode,ViewVolumeRootNode).removeViewVolume(viewVolume);
 	}
 
 	/**
 	 * A dynamic grid to be able to determine visibility of dynamic objects. If none is provided, dynamic objects are only frustum-culled.
 	 * If provided, ViewVolumes need to have visible grid cells assigned from the same DynamicGrid instance.
 	 */
+	public var dynamicGrid(get, set):DynamicGrid;
 	private function get_dynamicGrid():DynamicGrid
 	{
-		return ViewVolumeRootNode(_rootNode).dynamicGrid;
+		return Std.instance(_rootNode,ViewVolumeRootNode).dynamicGrid;
 	}
 
-	private function set_dynamicGrid(value:DynamicGrid):Void
+	private function set_dynamicGrid(value:DynamicGrid):DynamicGrid
 	{
-		ViewVolumeRootNode(_rootNode).dynamicGrid = value;
+		return Std.instance(_rootNode,ViewVolumeRootNode).dynamicGrid = value;
 	}
 }

@@ -1,6 +1,7 @@
 package a3d.core.partition;
 
 import flash.geom.Vector3D;
+import flash.Vector.Vector;
 
 
 import a3d.core.traverse.PartitionTraverser;
@@ -15,30 +16,33 @@ class ViewVolumeRootNode extends NodeBase
 
 	public function new()
 	{
+		super();
 		_viewVolumes = new Vector<ViewVolume>();
 	}
 
 	override private function set_showDebugBounds(value:Bool):Void
 	{
 		super.showDebugBounds = value;
-		if (_dynamicGrid)
+		if (_dynamicGrid != null)
 			_dynamicGrid.showDebugBounds = true;
 	}
 
 	override public function findPartitionForEntity(entity:Entity):NodeBase
 	{
-		return _dynamicGrid ? _dynamicGrid.findPartitionForEntity(entity) : this;
+		return _dynamicGrid != null ? _dynamicGrid.findPartitionForEntity(entity) : this;
 	}
 
+	public var dynamicGrid(get, set):DynamicGrid;
 	private function get_dynamicGrid():DynamicGrid
 	{
 		return _dynamicGrid;
 	}
 
-	private function set_dynamicGrid(value:DynamicGrid):Void
+	private function set_dynamicGrid(value:DynamicGrid):DynamicGrid
 	{
 		_dynamicGrid = value;
 		_dynamicGrid.showDebugBounds = showDebugBounds;
+		return _dynamicGrid;
 	}
 
 	public function addViewVolume(viewVolume:ViewVolume):Void
@@ -58,7 +62,7 @@ class ViewVolumeRootNode extends NodeBase
 
 	override public function acceptTraverser(traverser:PartitionTraverser):Void
 	{
-		if (!(_activeVolume && _activeVolume.contains(traverser.entryPoint)))
+		if (!(_activeVolume != null && _activeVolume.contains(traverser.entryPoint)))
 		{
 			var volume:ViewVolume = getVolumeContaining(traverser.entryPoint);
 
@@ -68,10 +72,10 @@ class ViewVolumeRootNode extends NodeBase
 			// keep the active one if no volume is found (it may be just be a small error)
 			else if (volume != _activeVolume)
 			{
-				if (_activeVolume)
+				if (_activeVolume != null)
 					_activeVolume.active = false;
 				_activeVolume = volume;
-				if (_activeVolume)
+				if (_activeVolume != null)
 					_activeVolume.active = true;
 			}
 		}

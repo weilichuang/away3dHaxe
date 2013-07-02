@@ -62,8 +62,6 @@ class SpringController extends LookAtController
 
 	override public function update(interpolate:Bool = true):Void
 	{
-		interpolate = interpolate; // prevents unused warning
-
 		var offs:Vector3D;
 
 		if (_lookAtObject == null || _targetObject == null)

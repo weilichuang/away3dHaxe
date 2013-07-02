@@ -24,9 +24,9 @@ class PickingColliderBase
 	private function getCollisionNormal(indexData:Vector<UInt>, vertexData:Vector<Float>, triangleIndex:UInt):Vector3D
 	{
 		var normal:Vector3D = new Vector3D();
-		var i0:UInt = indexData[triangleIndex] * 3;
-		var i1:UInt = indexData[triangleIndex + 1] * 3;
-		var i2:UInt = indexData[triangleIndex + 2] * 3;
+		var i0:Int = indexData[triangleIndex] * 3;
+		var i1:Int = indexData[triangleIndex + 1] * 3;
+		var i2:Int = indexData[triangleIndex + 2] * 3;
 		var p0:Vector3D = new Vector3D(vertexData[i0], vertexData[i0 + 1], vertexData[i0 + 2]);
 		var p1:Vector3D = new Vector3D(vertexData[i1], vertexData[i1 + 1], vertexData[i1 + 2]);
 		var p2:Vector3D = new Vector3D(vertexData[i2], vertexData[i2 + 1], vertexData[i2 + 2]);

@@ -8,6 +8,7 @@ import a3d.errors.AbstractMethodError;
 import a3d.events.LightEvent;
 import a3d.io.library.assets.AssetType;
 import a3d.entities.lights.shadowmaps.ShadowMapperBase;
+import a3d.math.MathUtil;
 
 import flash.geom.Matrix3D;
 
@@ -160,11 +161,7 @@ class LightBase extends Entity
 
 	private function set_ambient(value:Float):Float
 	{
-		if (value < 0)
-			value = 0;
-		else if (value > 1)
-			value = 1;
-		_ambient = value;
+		_ambient = MathUtil.fclamp(value, 0, 1);
 		updateAmbient();
 		
 		return _ambient;

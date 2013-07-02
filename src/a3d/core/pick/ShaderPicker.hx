@@ -372,8 +372,8 @@ class ShaderPicker implements IPicker
 		var x1:Float, y1:Float, z1:Float;
 		var x2:Float, y2:Float, z2:Float;
 		var x3:Float, y3:Float, z3:Float;
-		var i:Int = 0, j:UInt = 1, k:UInt = 2;
-		var t1:UInt, t2:UInt, t3:UInt;
+		var i:Int = 0, j:Int = 1, k:Int = 2;
+		var t1:Int, t2:Int, t3:Int;
 		var v0x:Float, v0y:Float, v0z:Float;
 		var v1x:Float, v1y:Float, v1z:Float;
 		var v2x:Float, v2y:Float, v2z:Float;

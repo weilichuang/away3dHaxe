@@ -93,10 +93,10 @@ class PositionRenderer extends RendererBase
 
 		_program3D = context.createProgram();
 
-		vertexCode = "m44 vt0, va0, vc0	\n" +
-			"mov op, vt0		\n" +
-			"rcp vt1.x, vt0.w	\n" +
-			"mul v0, vt0, vt1.x	\n";
+		vertexCode = "m44 vt0, va0, vc0\n" +
+					 "mov op, vt0	\n" +
+					 "rcp vt1.x, vt0.w\n" +
+					 "mul v0, vt0, vt1.x\n";
 		fragmentCode = "mov oc, v0\n";
 
 		_program3D.upload(new AGALMiniAssembler(Debug.active).assemble(Context3DProgramType.VERTEX, vertexCode),

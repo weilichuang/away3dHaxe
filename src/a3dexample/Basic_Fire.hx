@@ -92,7 +92,7 @@ class Basic_Fire extends BasicApplication
 	/**
 	 * Global initialise function
 	 */
-	override  private function init():Void
+	override private function init():Void
 	{
 		initEngine();
 		initLights();
@@ -117,13 +117,19 @@ class Basic_Fire extends BasicApplication
 		view.scene = scene;
 		view.camera = camera;
 
+		//setup the camera
+		view.camera.z = -600;
+		view.camera.y = 500;
+		view.camera.lookAt(new Vector3D());
+		
+		//HoverController有问题，检查
 		//setup controller to be used on the camera
-		cameraController = new HoverController(camera);
-		cameraController.distance = 1000;
-		cameraController.minTiltAngle = 0;
-		cameraController.maxTiltAngle = 90;
-		cameraController.panAngle = 45;
-		cameraController.tiltAngle = 20;
+		//cameraController = new HoverController(camera);
+		//cameraController.distance = 1000;
+		//cameraController.minTiltAngle = 0;
+		//cameraController.maxTiltAngle = 90;
+		//cameraController.panAngle = 45;
+		//cameraController.tiltAngle = 20;
 	}
 
 	/**
@@ -199,6 +205,8 @@ class Basic_Fire extends BasicApplication
 	 */
 	private function initObjects():Void
 	{
+		view.scene.addChild(new SnowSkyBox());
+		
 		fireObjects = new Vector<FireVO>();
 		
 		plane = new Mesh(new PlaneGeometry(1000, 1000), planeMaterial);

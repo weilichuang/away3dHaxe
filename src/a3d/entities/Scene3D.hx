@@ -58,7 +58,7 @@ class Scene3D extends EventDispatcher
 	public function traversePartitions(traverser:PartitionTraverser):Void
 	{
 		traverser.scene = this;
-		var len:UInt = _partitions.length;
+		var len:Int = _partitions.length;
 		for(i in 0...len)
 			_partitions[i].traverse(traverser);
 	}

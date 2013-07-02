@@ -32,7 +32,7 @@ class PartitionTraverser
 	/**
 	 * A property that can be used to avoid processing a partition more than once.
 	 */
-	public static var collectionMark:UInt;
+	public static var collectionMark:Int;
 
 	public function new()
 	{

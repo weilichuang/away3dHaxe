@@ -23,6 +23,7 @@ class LightProbeNode extends EntityNode
 	/**
 	 * The light object contained in this node.
 	 */
+	public var light(get, null):LightProbe;
 	private function get_light():LightProbe
 	{
 		return _light;

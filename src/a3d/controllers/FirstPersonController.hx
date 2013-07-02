@@ -34,50 +34,57 @@ class FirstPersonController extends ControllerBase
 	 * @see	#tiltAngle
 	 * @see	#panAngle
 	 */
-	private function get_steps():UInt
+	public var steps(get, set):Int;
+	private function get_steps():Int
 	{
 		return _steps;
 	}
 
-	private function set_steps(val:UInt):Void
+	private function set_steps(val:Int):Int
 	{
 		val = (val < 1) ? 1 : val;
 
 		if (_steps == val)
-			return;
+			return _steps;
 
 		_steps = val;
 
 		notifyUpdate();
+		
+		return _steps;
 	}
 
 	/**
 	 * Rotation of the camera in degrees around the y axis. Defaults to 0.
 	 */
+	public var panAngle(get, set):Float;
 	private function get_panAngle():Float
 	{
 		return _panAngle;
 	}
 
-	private function set_panAngle(val:Float):Void
+	private function set_panAngle(val:Float):Float
 	{
 		if (_panAngle == val)
-			return;
+			return _panAngle;
 
 		_panAngle = val;
 
 		notifyUpdate();
+		
+		return _panAngle;
 	}
 
 	/**
 	 * Elevation angle of the camera in degrees. Defaults to 90.
 	 */
+	public var tiltAngle(get, set):Float;
 	private function get_tiltAngle():Float
 	{
 		return _tiltAngle;
 	}
 
-	private function set_tiltAngle(val:Float):Void
+	private function set_tiltAngle(val:Float):Float
 	{
 		val = Math.max(_minTiltAngle, Math.min(_maxTiltAngle, val));
 
@@ -87,6 +94,8 @@ class FirstPersonController extends ControllerBase
 		_tiltAngle = val;
 
 		notifyUpdate();
+		
+		return _tiltAngle;
 	}
 
 	/**
@@ -94,19 +103,22 @@ class FirstPersonController extends ControllerBase
 	 *
 	 * @see	#tiltAngle
 	 */
+	public var minTiltAngle(get, set):Float;
 	private function get_minTiltAngle():Float
 	{
 		return _minTiltAngle;
 	}
 
-	private function set_minTiltAngle(val:Float):Void
+	private function set_minTiltAngle(val:Float):Float
 	{
 		if (_minTiltAngle == val)
-			return;
+			return _minTiltAngle;
 
 		_minTiltAngle = val;
 
 		tiltAngle = Math.max(_minTiltAngle, Math.min(_maxTiltAngle, _tiltAngle));
+		
+		return _minTiltAngle;
 	}
 
 	/**
@@ -114,19 +126,21 @@ class FirstPersonController extends ControllerBase
 	 *
 	 * @see	#tiltAngle
 	 */
+	public var maxTiltAngle(get, set):Float;
 	private function get_maxTiltAngle():Float
 	{
 		return _maxTiltAngle;
 	}
 
-	private function set_maxTiltAngle(val:Float):Void
+	private function set_maxTiltAngle(val:Float):Float
 	{
 		if (_maxTiltAngle == val)
-			return;
+			return _maxTiltAngle;
 
 		_maxTiltAngle = val;
 
 		tiltAngle = Math.max(_minTiltAngle, Math.min(_maxTiltAngle, _tiltAngle));
+		return _maxTiltAngle;
 	}
 
 	/**

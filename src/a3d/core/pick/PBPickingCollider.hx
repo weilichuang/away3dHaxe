@@ -91,10 +91,10 @@ class PBPickingCollider extends PickingColliderBase implements IPickingCollider
 		shaderJob.start(true);
 
 		// find a proper collision from pb's output
-		var i:UInt;
+		var i:Int;
 		var t:Float;
 		var collisionTriangleIndex:Int = -1;
-		var len:UInt = _kernelOutputBuffer.length;
+		var len:Int = _kernelOutputBuffer.length;
 		i = 0;
 		while (i < len)
 		{

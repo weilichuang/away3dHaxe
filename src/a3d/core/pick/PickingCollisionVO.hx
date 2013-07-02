@@ -38,7 +38,7 @@ class PickingCollisionVO
 	/**
 	 * The index of the face where the event took pl ace.
 	 */
-	public var index:UInt;
+	public var index:Int;
 
 	/**
 	 * The index of the subGeometry where the event took place.

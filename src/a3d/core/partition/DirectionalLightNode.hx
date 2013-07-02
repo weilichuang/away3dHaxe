@@ -23,6 +23,7 @@ class DirectionalLightNode extends EntityNode
 	/**
 	 * The light object contained in this node.
 	 */
+	public var light(get, null):DirectionalLight;
 	private function get_light():DirectionalLight
 	{
 		return _light;

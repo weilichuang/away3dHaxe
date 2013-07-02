@@ -28,7 +28,7 @@ class RaycastPicker implements IPicker
 	private var _onlyMouseEnabled:Bool = true;
 
 	private var _entities:Vector<Entity>;
-	private var _numEntities:UInt;
+	private var _numEntities:Int;
 	private var _hasCollisions:Bool;
 
 
@@ -67,8 +67,6 @@ class RaycastPicker implements IPicker
 	{
 		//cast ray through the collection of entities on the view
 		var collector:EntityCollector = view.entityCollector;
-		//var i:UInt;
-
 		if (collector.numMouseEnableds == 0)
 			return null;
 

@@ -12,7 +12,7 @@ import a3d.animators.states.ParticleBezierCurveState;
 import a3d.materials.compilation.ShaderRegisterElement;
 import a3d.materials.passes.MaterialPassBase;
 
-
+using Reflect;
 
 /**
  * A particle animation node used to control the position of a particle over time along a bezier curve.
@@ -118,11 +118,11 @@ class ParticleBezierCurveNode extends ParticleNodeBase
 	 */
 	override public function generatePropertyOfOneParticle(param:ParticleProperties):Void
 	{
-		var bezierControl:Vector3D = param[BEZIER_CONTROL_VECTOR3D];
+		var bezierControl:Vector3D = param.field(BEZIER_CONTROL_VECTOR3D);
 		if (bezierControl == null)
 			throw new Error("there is no " + BEZIER_CONTROL_VECTOR3D + " in param!");
 
-		var bezierEnd:Vector3D = param[BEZIER_END_VECTOR3D];
+		var bezierEnd:Vector3D = param.field(BEZIER_END_VECTOR3D);
 		if (bezierEnd == null)
 			throw new Error("there is no " + BEZIER_END_VECTOR3D + " in param!");
 

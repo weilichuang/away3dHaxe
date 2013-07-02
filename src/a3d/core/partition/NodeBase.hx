@@ -25,14 +25,14 @@ class NodeBase
 {
 	private var _parent:NodeBase;
 	private var _childNodes:Vector<NodeBase>;
-	private var _numChildNodes:UInt;
+	private var _numChildNodes:Int;
 	private var _debugPrimitive:WireframePrimitiveBase;
 
 	private var _numEntities:Int;
 	/**
 	 *internal use
 	 */
-	public var collectionMark:UInt;
+	public var collectionMark:Int;
 
 	/**
 	 * Creates a new NodeBase object.
@@ -181,7 +181,7 @@ class NodeBase
 
 		if (traverser.enterNode(this))
 		{
-			var i:UInt=0;
+			var i:Int = 0;
 			while (i < _numChildNodes)
 				_childNodes[i++].acceptTraverser(traverser);
 

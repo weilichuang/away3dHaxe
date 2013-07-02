@@ -15,7 +15,7 @@ import a3d.entities.Camera3D;
 import a3d.core.base.IRenderable;
 import a3d.core.managers.Stage3DProxy;
 
-
+import haxe.ds.WeakMap;
 
 /**
  * ...
@@ -52,7 +52,7 @@ class ParticlePositionState extends ParticleStateBase
 	{
 		_dynamicProperties = value;
 
-		_dynamicPropertiesDirty = new Dictionary(true);
+		_dynamicPropertiesDirty = new WeakMap<AnimationSubGeometry,Bool>();
 	}
 
 	public function new(animator:ParticleAnimator, particlePositionNode:ParticlePositionNode)
@@ -68,7 +68,7 @@ class ParticlePositionState extends ParticleStateBase
 	 */
 	override public function setRenderState(stage3DProxy:Stage3DProxy, renderable:IRenderable, animationSubGeometry:AnimationSubGeometry, animationRegisterCache:AnimationRegisterCache, camera:Camera3D):Void
 	{
-		if (_particlePositionNode.mode == ParticlePropertiesMode.LOCAL_DYNAMIC && !_dynamicPropertiesDirty[animationSubGeometry])
+		if (_particlePositionNode.mode == ParticlePropertiesMode.LOCAL_DYNAMIC && !_dynamicPropertiesDirty.get(animationSubGeometry))
 			updateDynamicProperties(animationSubGeometry);
 
 		var index:Int = animationRegisterCache.getRegisterIndex(_animationNode, ParticlePositionNode.POSITION_INDEX);

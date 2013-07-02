@@ -51,7 +51,8 @@ class DefaultRenderer extends RendererBase
 
 	override private function set_stage3DProxy(value:Stage3DProxy):Stage3DProxy
 	{
-		super.stage3DProxy = value;
+		super.set_stage3DProxy(value);
+		
 		_distanceRenderer.stage3DProxy = _depthRenderer.stage3DProxy = value;
 		return super.stage3DProxy;
 	}
@@ -74,7 +75,7 @@ class DefaultRenderer extends RendererBase
 	{
 		var dirLights:Vector<DirectionalLight> = entityCollector.directionalLights;
 		var pointLights:Vector<PointLight> = entityCollector.pointLights;
-		var len:UInt, i:UInt;
+		var len:Int;
 		var light:LightBase;
 		var shadowMapper:ShadowMapperBase;
 
@@ -175,8 +176,8 @@ class DefaultRenderer extends RendererBase
 	 */
 	private function drawRenderables(item:RenderableListItem, entityCollector:EntityCollector, which:Int):Void
 	{
-		var numPasses:UInt;
-		var j:UInt;
+		var numPasses:Int;
+		var j:Int;
 		var camera:Camera3D = entityCollector.camera;
 		var item2:RenderableListItem;
 
