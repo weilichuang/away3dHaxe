@@ -33,35 +33,41 @@ class ParticleSegmentedColorState extends ParticleStateBase
 	/**
 	 * Defines the start color transform of the state, when in global mode.
 	 */
+	public var startColor(get,set):ColorTransform;
 	private function get_startColor():ColorTransform
 	{
 		return _startColor;
 	}
 
-	private function set_startColor(value:ColorTransform):Void
+	private function set_startColor(value:ColorTransform):ColorTransform
 	{
 		_startColor = value;
 
 		updateColorData();
+		
+		return _startColor;
 	}
 
 	/**
 	 * Defines the end color transform of the state, when in global mode.
 	 */
+	public var endColor(get,set):ColorTransform;
 	private function get_endColor():ColorTransform
 	{
 		return _endColor;
 	}
 
-	private function set_endColor(value:ColorTransform):Void
+	private function set_endColor(value:ColorTransform):ColorTransform
 	{
 		_endColor = value;
 		updateColorData();
+		return _endColor;
 	}
 
 	/**
 	 * Defines the number of segments.
 	 */
+	public var numSegmentPoint(get,null):Int;
 	private function get_numSegmentPoint():Int
 	{
 		return _numSegmentPoint;
@@ -70,22 +76,26 @@ class ParticleSegmentedColorState extends ParticleStateBase
 	/**
 	 * Defines the key points of color
 	 */
+	public var segmentPoints(get,set):Vector<ColorSegmentPoint>;
 	private function get_segmentPoints():Vector<ColorSegmentPoint>
 	{
 		return _segmentPoints;
 	}
 
-	private function set_segmentPoints(value:Vector<ColorSegmentPoint>):Void
+	private function set_segmentPoints(value:Vector<ColorSegmentPoint>):Vector<ColorSegmentPoint>
 	{
 		_segmentPoints = value;
 		updateColorData();
+		return _segmentPoints;
 	}
 
+	public var usesMultiplier(get,null):Bool;
 	private function get_usesMultiplier():Bool
 	{
 		return _usesMultiplier;
 	}
 
+	public var usesOffset(get,null):Bool;
 	private function get_usesOffset():Bool
 	{
 		return _usesOffset;
@@ -124,7 +134,7 @@ class ParticleSegmentedColorState extends ParticleStateBase
 		_timeLifeData = new Vector<Float>;
 		_multiplierData = new Vector<Float>;
 		_offsetData = new Vector<Float>;
-		var i:Int;
+
 		for (i in 0..._numSegmentPoint)
 		{
 			if (i == 0)

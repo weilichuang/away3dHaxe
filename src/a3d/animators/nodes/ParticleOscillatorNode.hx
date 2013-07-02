@@ -1,5 +1,6 @@
 package a3d.animators.nodes;
 
+import flash.errors.Error;
 import flash.geom.Vector3D;
 
 
@@ -11,7 +12,7 @@ import a3d.animators.states.ParticleOscillatorState;
 import a3d.materials.compilation.ShaderRegisterElement;
 import a3d.materials.passes.MaterialPassBase;
 
-
+using Reflect;
 
 /**
  * A particle animation node used to control the position of a particle over time using simple harmonic motion.
@@ -42,7 +43,7 @@ class ParticleOscillatorNode extends ParticleNodeBase
 
 		_stateClass = ParticleOscillatorState;
 
-		this.oscillator = oscillator || new Vector3D();
+		this.oscillator = oscillator != null ? oscillator : new Vector3D();
 	}
 
 	/**
@@ -50,7 +51,6 @@ class ParticleOscillatorNode extends ParticleNodeBase
 	 */
 	override public function getAGALVertexCode(pass:MaterialPassBase, animationRegisterCache:AnimationRegisterCache):String
 	{
-		pass = pass;
 		var oscillatorRegister:ShaderRegisterElement = (_mode == ParticlePropertiesMode.GLOBAL) ? animationRegisterCache.getFreeVertexConstant() : animationRegisterCache.getFreeVertexAttribute();
 		animationRegisterCache.setRegisterIndex(this, OSCILLATOR_INDEX, oscillatorRegister.index);
 		var temp:ShaderRegisterElement = animationRegisterCache.getFreeVertexVectorTemp();
@@ -92,15 +92,15 @@ class ParticleOscillatorNode extends ParticleNodeBase
 	override public function generatePropertyOfOneParticle(param:ParticleProperties):Void
 	{
 		//(Vector3D.x,Vector3D.y,Vector3D.z) is oscillator axis, Vector3D.w is oscillator cycle duration
-		var drift:Vector3D = param[OSCILLATOR_VECTOR3D];
+		var drift:Vector3D = param.field(OSCILLATOR_VECTOR3D);
 		if (drift == null)
-			throw(new Error("there is no " + OSCILLATOR_VECTOR3D + " in param!"));
+			throw new Error("there is no " + OSCILLATOR_VECTOR3D + " in param!");
 
 		_oneData[0] = drift.x;
 		_oneData[1] = drift.y;
 		_oneData[2] = drift.z;
 		if (drift.w <= 0)
-			throw(new Error("the cycle duration must greater than zero"));
+			throw new Error("the cycle duration must greater than zero");
 		_oneData[3] = Math.PI * 2 / drift.w;
 	}
 }

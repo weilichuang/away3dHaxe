@@ -11,20 +11,22 @@ import flash.Vector;
  */
 class SkeletonNaryLERPNode extends AnimationNodeBase
 {
-	private var _inputs:Vector<AnimationNodeBase> = new Vector<AnimationNodeBase>();
-	private var _numInputs:UInt;
+	private var _inputs:Vector<AnimationNodeBase>;
+	private var _numInputs:Int;
 
+	public var inputs(get,set):Vector<AnimationNodeBase>;
 	private function get_inputs():Vector<AnimationNodeBase>
 	{
 		return _inputs;
 	}
 
-	private function set_inputs(value:Vector<AnimationNodeBase>):Void
+	private function set_inputs(value:Vector<AnimationNodeBase>):Vector<AnimationNodeBase>
 	{
-		_inputs = value;
+		return _inputs = value;
 	}
 
-	private function get_numInputs():UInt
+	public var numInputs(get,null):Int;
+	private function get_numInputs():Int
 	{
 		return _numInputs;
 	}
@@ -34,7 +36,9 @@ class SkeletonNaryLERPNode extends AnimationNodeBase
 	 */
 	public function new()
 	{
+		super();
 		_stateClass = SkeletonNaryLERPState;
+		_inputs = new Vector<AnimationNodeBase>();
 	}
 
 	/**
@@ -52,7 +56,7 @@ class SkeletonNaryLERPNode extends AnimationNodeBase
 	 *
 	 * @param index The input index for which the skeleton animation node is requested.
 	 */
-	public function getInputAt(index:UInt):AnimationNodeBase
+	public function getInputAt(index:Int):AnimationNodeBase
 	{
 		return _inputs[index];
 	}

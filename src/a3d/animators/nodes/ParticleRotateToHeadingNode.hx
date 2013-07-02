@@ -9,7 +9,7 @@ import a3d.animators.states.ParticleRotateToHeadingState;
 import a3d.materials.compilation.ShaderRegisterElement;
 import a3d.materials.passes.MaterialPassBase;
 
-
+using Reflect;
 
 /**
  * A particle animation node used to control the rotation of a particle to match its heading vector.
@@ -34,7 +34,6 @@ class ParticleRotateToHeadingNode extends ParticleNodeBase
 	 */
 	override public function getAGALVertexCode(pass:MaterialPassBase, animationRegisterCache:AnimationRegisterCache):String
 	{
-		pass = pass;
 		var code:String = "";
 		var len:Int = animationRegisterCache.rotationRegisters.length;
 		var i:Int;

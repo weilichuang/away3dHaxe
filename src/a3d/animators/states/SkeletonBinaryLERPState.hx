@@ -28,17 +28,20 @@ class SkeletonBinaryLERPState extends AnimationStateBase implements ISkeletonAni
 	 * @see inputA
 	 * @see inputB
 	 */
+	public var blendWeight(get,set):Float;
 	private function get_blendWeight():Float
 	{
 		return _blendWeight;
 	}
 
-	private function set_blendWeight(value:Float):Void
+	private function set_blendWeight(value:Float):Float
 	{
 		_blendWeight = value;
 
 		_positionDeltaDirty = true;
 		_skeletonPoseDirty = true;
+		
+		return _blendWeight;
 	}
 
 	public function new(animator:IAnimator, skeletonAnimationNode:SkeletonBinaryLERPNode)

@@ -41,14 +41,15 @@ class ParticleInitialColorState extends ParticleStateBase
 	/**
 	 * Defines the initial color transform of the state, when in global mode.
 	 */
+	public var initialColor(get,set):ColorTransform;
 	private function get_initialColor():ColorTransform
 	{
 		return _initialColor;
 	}
 
-	private function set_initialColor(value:ColorTransform):Void
+	private function set_initialColor(value:ColorTransform):ColorTransform
 	{
-		_initialColor = value;
+		return _initialColor = value;
 	}
 
 	/**
@@ -56,10 +57,6 @@ class ParticleInitialColorState extends ParticleStateBase
 	 */
 	override public function setRenderState(stage3DProxy:Stage3DProxy, renderable:IRenderable, animationSubGeometry:AnimationSubGeometry, animationRegisterCache:AnimationRegisterCache, camera:Camera3D):Void
 	{
-		// TODO: not used
-		renderable = renderable;
-		camera = camera;
-
 		if (animationRegisterCache.needFragmentAnimation)
 		{
 			if (_particleInitialColorNode.mode == ParticlePropertiesMode.LOCAL_STATIC)
@@ -67,24 +64,20 @@ class ParticleInitialColorState extends ParticleStateBase
 				var dataOffset:UInt = _particleInitialColorNode.dataOffset;
 				if (_usesMultiplier)
 				{
-					animationSubGeometry.activateVertexBuffer(animationRegisterCache.getRegisterIndex(_animationNode, ParticleInitialColorNode.MULTIPLIER_INDEX), dataOffset, stage3DProxy, Context3DVertexBufferFormat.
-						FLOAT_4);
+					animationSubGeometry.activateVertexBuffer(animationRegisterCache.getRegisterIndex(_animationNode, ParticleInitialColorNode.MULTIPLIER_INDEX), dataOffset, stage3DProxy, Context3DVertexBufferFormat.FLOAT_4);
 					dataOffset += 4;
 				}
 				if (_usesOffset)
 				{
-					animationSubGeometry.activateVertexBuffer(animationRegisterCache.getRegisterIndex(_animationNode, ParticleInitialColorNode.OFFSET_INDEX), dataOffset, stage3DProxy, Context3DVertexBufferFormat.
-						FLOAT_4);
+					animationSubGeometry.activateVertexBuffer(animationRegisterCache.getRegisterIndex(_animationNode, ParticleInitialColorNode.OFFSET_INDEX), dataOffset, stage3DProxy, Context3DVertexBufferFormat.FLOAT_4);
 				}
 			}
 			else
 			{
 				if (_usesMultiplier)
-					animationRegisterCache.setVertexConst(animationRegisterCache.getRegisterIndex(_animationNode, ParticleInitialColorNode.MULTIPLIER_INDEX), _multiplierData.x, _multiplierData.y, _multiplierData.
-						z, _multiplierData.w);
+					animationRegisterCache.setVertexConst(animationRegisterCache.getRegisterIndex(_animationNode, ParticleInitialColorNode.MULTIPLIER_INDEX), _multiplierData.x, _multiplierData.y, _multiplierData.z, _multiplierData.w);
 				if (_usesOffset)
-					animationRegisterCache.setVertexConst(animationRegisterCache.getRegisterIndex(_animationNode, ParticleInitialColorNode.OFFSET_INDEX), _offsetData.x, _offsetData.y, _offsetData.
-						z, _offsetData.w);
+					animationRegisterCache.setVertexConst(animationRegisterCache.getRegisterIndex(_animationNode, ParticleInitialColorNode.OFFSET_INDEX), _offsetData.x, _offsetData.y, _offsetData.z, _offsetData.w);
 			}
 		}
 	}

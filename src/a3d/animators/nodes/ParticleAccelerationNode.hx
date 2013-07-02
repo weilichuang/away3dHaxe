@@ -1,5 +1,6 @@
 package a3d.animators.nodes;
 
+import flash.errors.Error;
 import flash.geom.Vector3D;
 
 import a3d.animators.IAnimator;
@@ -9,6 +10,8 @@ import a3d.animators.data.ParticlePropertiesMode;
 import a3d.animators.states.ParticleAccelerationState;
 import a3d.materials.compilation.ShaderRegisterElement;
 import a3d.materials.passes.MaterialPassBase;
+
+using Reflect;
 
 /**
  * A particle animation node used to apply a constant acceleration vector to the motion of a particle.
@@ -33,13 +36,13 @@ class ParticleAccelerationNode extends ParticleNodeBase
 	 * @param               mode            Defines whether the mode of operation acts on local properties of a particle or global properties of the node.
 	 * @param    [optional] acceleration    Defines the default acceleration vector of the node, used when in global mode.
 	 */
-	public function new(mode:UInt, acceleration:Vector3D = null)
+	public function new(mode:Int, acceleration:Vector3D = null)
 	{
 		super("ParticleAcceleration", mode, 3);
 
 		_stateClass = ParticleAccelerationState;
 
-		acceleration = acceleration || new Vector3D();
+		acceleration = acceleration != null ? acceleration : new Vector3D();
 	}
 
 	/**
@@ -47,8 +50,6 @@ class ParticleAccelerationNode extends ParticleNodeBase
 	 */
 	override public function getAGALVertexCode(pass:MaterialPassBase, animationRegisterCache:AnimationRegisterCache):String
 	{
-		pass = pass;
-
 		var accelerationValue:ShaderRegisterElement = (_mode == ParticlePropertiesMode.GLOBAL) ? animationRegisterCache.getFreeVertexConstant() : animationRegisterCache.getFreeVertexAttribute();
 		animationRegisterCache.setRegisterIndex(this, ACCELERATION_INDEX, accelerationValue.index);
 
@@ -84,7 +85,7 @@ class ParticleAccelerationNode extends ParticleNodeBase
 	 */
 	override public function generatePropertyOfOneParticle(param:ParticleProperties):Void
 	{
-		var tempAcceleration:Vector3D = param[ACCELERATION_VECTOR3D];
+		var tempAcceleration:Vector3D = param.field(ACCELERATION_VECTOR3D);
 		if (tempAcceleration == null)
 			throw new Error("there is no " + ACCELERATION_VECTOR3D + " in param!");
 

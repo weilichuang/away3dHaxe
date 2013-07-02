@@ -41,7 +41,7 @@ class ParticleInitialColorNode extends ParticleNodeBase
 
 		this.usesMultiplier = usesMultiplier;
 		this.usesOffset = usesOffset;
-		this.initialColor = initialColor || new ColorTransform();
+		this.initialColor = initialColor != null ? initialColor : new ColorTransform();
 		super("ParticleInitialColor", mode, (usesMultiplier && usesOffset) ? 8 : 4, ParticleAnimationSet.COLOR_PRIORITY);
 	}
 
@@ -96,7 +96,7 @@ class ParticleInitialColorNode extends ParticleNodeBase
 		if (initialColor == null)
 			throw(new Error("there is no " + COLOR_INITIAL_COLORTRANSFORM + " in param!"));
 
-		var i:UInt;
+		var i:Int = 0;
 
 		//multiplier
 		if (usesMultiplier)

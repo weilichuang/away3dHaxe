@@ -1,5 +1,6 @@
 package a3d.animators.nodes;
 
+import flash.errors.Error;
 import flash.geom.ColorTransform;
 import flash.Vector;
 
@@ -12,18 +13,18 @@ import a3d.animators.states.ParticleSegmentedColorState;
 import a3d.materials.compilation.ShaderRegisterElement;
 import a3d.materials.passes.MaterialPassBase;
 
-
+using Reflect;
 
 class ParticleSegmentedColorNode extends ParticleNodeBase
 {
 	/** @private */
-	public static inline var START_MULTIPLIER_INDEX:UInt = 0;
+	public static inline var START_MULTIPLIER_INDEX:Int = 0;
 
 	/** @private */
-	public static inline var START_OFFSET_INDEX:UInt = 1;
+	public static inline var START_OFFSET_INDEX:Int = 1;
 
 	/** @private */
-	public static inline var TIME_DATA_INDEX:UInt = 2;
+	public static inline var TIME_DATA_INDEX:Int = 2;
 
 	/** @private */
 	public var usesMultiplier:Bool;
@@ -46,7 +47,7 @@ class ParticleSegmentedColorNode extends ParticleNodeBase
 		super("ParticleSegmentedColor", ParticlePropertiesMode.GLOBAL, 0, ParticleAnimationSet.COLOR_PRIORITY);
 
 		if (numSegmentPoint > 4)
-			throw(new Error("the numSegmentPoint must be less or equal 4"));
+			throw new Error("the numSegmentPoint must be less or equal 4");
 		this.usesMultiplier = usesMultiplier;
 		this.usesOffset = usesOffset;
 		this.numSegmentPoint = numSegmentPoint;

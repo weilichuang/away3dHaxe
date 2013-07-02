@@ -1,5 +1,6 @@
 package a3d.animators.nodes;
 
+import flash.errors.Error;
 import flash.geom.Vector3D;
 
 
@@ -11,7 +12,7 @@ import a3d.animators.states.ParticleRotationalVelocityState;
 import a3d.materials.compilation.ShaderRegisterElement;
 import a3d.materials.passes.MaterialPassBase;
 
-
+using Reflect;
 
 /**
  * A particle animation node used to set the starting rotational velocity of a particle.
@@ -41,7 +42,7 @@ class ParticleRotationalVelocityNode extends ParticleNodeBase
 
 		super("ParticleRotationalVelocity", mode, 4);
 
-		rotationalVelocity = rotationalVelocity || new Vector3D();
+		this.rotationalVelocity = rotationalVelocity != null ? rotationalVelocity : new Vector3D();
 	}
 
 	/**
@@ -145,9 +146,9 @@ class ParticleRotationalVelocityNode extends ParticleNodeBase
 	override public function generatePropertyOfOneParticle(param:ParticleProperties):Void
 	{
 		//(Vector3d.x,Vector3d.y,Vector3d.z) is rotation axis,Vector3d.w is cycle duration
-		var rotate:Vector3D = param[ROTATIONALVELOCITY_VECTOR3D];
+		var rotate:Vector3D = param.field(ROTATIONALVELOCITY_VECTOR3D);
 		if (rotate == null)
-			throw(new Error("there is no " + ROTATIONALVELOCITY_VECTOR3D + " in param!"));
+			throw new Error("there is no " + ROTATIONALVELOCITY_VECTOR3D + " in param!");
 
 		if (rotate.length <= 0)
 			rotate.z = 1; //set the default direction
@@ -158,7 +159,7 @@ class ParticleRotationalVelocityNode extends ParticleNodeBase
 		_oneData[1] = rotate.y;
 		_oneData[2] = rotate.z;
 		if (rotate.w <= 0)
-			throw(new Error("the cycle duration must greater than zero"));
+			throw new Error("the cycle duration must greater than zero");
 		// it's used as angle/2 in agal
 		_oneData[3] = Math.PI / rotate.w;
 	}

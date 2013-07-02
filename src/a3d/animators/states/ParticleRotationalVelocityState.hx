@@ -1,6 +1,7 @@
 package a3d.animators.states;
 
 import flash.display3D.Context3DVertexBufferFormat;
+import flash.errors.Error;
 import flash.geom.Vector3D;
 import flash.utils.Dictionary;
 import flash.Vector;
@@ -29,16 +30,19 @@ class ParticleRotationalVelocityState extends ParticleStateBase
 	/**
 	 * Defines the default rotationalVelocity of the state, used when in global mode.
 	 */
+	public var rotationalVelocity(get,set):Vector3D;
 	private function get_rotationalVelocity():Vector3D
 	{
 		return _rotationalVelocity;
 	}
 
-	private function set_rotationalVelocity(value:Vector3D):Void
+	private function set_rotationalVelocity(value:Vector3D):Vector3D
 	{
 		_rotationalVelocity = value;
 
 		updateRotationalVelocityData();
+		
+		return _rotationalVelocity;
 	}
 
 	/**
@@ -71,10 +75,6 @@ class ParticleRotationalVelocityState extends ParticleStateBase
 	 */
 	override public function setRenderState(stage3DProxy:Stage3DProxy, renderable:IRenderable, animationSubGeometry:AnimationSubGeometry, animationRegisterCache:AnimationRegisterCache, camera:Camera3D):Void
 	{
-		// TODO: not used
-		renderable = renderable;
-		camera = camera;
-
 		if (_particleRotationalVelocityNode.mode == ParticlePropertiesMode.LOCAL_DYNAMIC && !_dynamicPropertiesDirty[animationSubGeometry])
 			updateDynamicProperties(animationSubGeometry);
 
@@ -91,7 +91,7 @@ class ParticleRotationalVelocityState extends ParticleStateBase
 		if (_particleRotationalVelocityNode.mode == ParticlePropertiesMode.GLOBAL)
 		{
 			if (_rotationalVelocity.w <= 0)
-				throw(new Error("the cycle duration must greater than zero"));
+				throw new Error("the cycle duration must greater than zero");
 			var rotation:Vector3D = _rotationalVelocity.clone();
 
 			if (rotation.length <= 0)

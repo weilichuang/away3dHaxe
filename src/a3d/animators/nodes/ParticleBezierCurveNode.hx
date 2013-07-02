@@ -1,5 +1,6 @@
 package a3d.animators.nodes;
 
+import flash.errors.Error;
 import flash.geom.Vector3D;
 
 
@@ -55,8 +56,8 @@ class ParticleBezierCurveNode extends ParticleNodeBase
 
 		_stateClass = ParticleBezierCurveState;
 
-		this.controlPoint = controlPoint || new Vector3D();
-		this.endPoint = endPoint || new Vector3D();
+		this.controlPoint = controlPoint == null ? controlPoint : new Vector3D();
+		this.endPoint = endPoint == null ?  endPoint : new Vector3D();
 	}
 
 	/**
@@ -64,7 +65,6 @@ class ParticleBezierCurveNode extends ParticleNodeBase
 	 */
 	override public function getAGALVertexCode(pass:MaterialPassBase, animationRegisterCache:AnimationRegisterCache):String
 	{
-		pass = pass;
 		var controlValue:ShaderRegisterElement = (_mode == ParticlePropertiesMode.GLOBAL) ? animationRegisterCache.getFreeVertexConstant() : animationRegisterCache.getFreeVertexAttribute();
 		animationRegisterCache.setRegisterIndex(this, BEZIER_CONTROL_INDEX, controlValue.index);
 

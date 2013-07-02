@@ -1,5 +1,6 @@
 package a3d.animators.nodes;
 
+import flash.errors.Error;
 import flash.geom.Vector3D;
 
 
@@ -11,7 +12,7 @@ import a3d.animators.states.ParticlePositionState;
 import a3d.materials.compilation.ShaderRegisterElement;
 import a3d.materials.passes.MaterialPassBase;
 
-
+using Reflect;
 
 /**
  * A particle animation node used to set the starting position of a particle.
@@ -42,7 +43,7 @@ class ParticlePositionNode extends ParticleNodeBase
 
 		_stateClass = ParticlePositionState;
 
-		this.position = position || new Vector3D();
+		this.position = position != null ? position : new Vector3D();
 	}
 
 	/**
@@ -50,7 +51,6 @@ class ParticlePositionNode extends ParticleNodeBase
 	 */
 	override public function getAGALVertexCode(pass:MaterialPassBase, animationRegisterCache:AnimationRegisterCache):String
 	{
-		pass = pass;
 		var positionAttribute:ShaderRegisterElement = (_mode == ParticlePropertiesMode.GLOBAL) ? animationRegisterCache.getFreeVertexConstant() : animationRegisterCache.getFreeVertexAttribute();
 		animationRegisterCache.setRegisterIndex(this, POSITION_INDEX, positionAttribute.index);
 
@@ -70,9 +70,9 @@ class ParticlePositionNode extends ParticleNodeBase
 	 */
 	override public function generatePropertyOfOneParticle(param:ParticleProperties):Void
 	{
-		var offset:Vector3D = param[POSITION_VECTOR3D];
+		var offset:Vector3D = param.field(POSITION_VECTOR3D);
 		if (offset == null)
-			throw(new Error("there is no " + POSITION_VECTOR3D + " in param!"));
+			throw new Error("there is no " + POSITION_VECTOR3D + " in param!");
 
 		_oneData[0] = offset.x;
 		_oneData[1] = offset.y;

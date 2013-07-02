@@ -43,24 +43,26 @@ class ParticleFollowState extends ParticleStateBase
 		_smooth = particleFollowNode.smooth;
 	}
 
+	public var followTarget(get,set):Object3D;
 	private function get_followTarget():Object3D
 	{
 		return _followTarget;
 	}
 
-	private function set_followTarget(value:Object3D):Void
+	private function set_followTarget(value:Object3D):Object3D
 	{
-		_followTarget = value;
+		return _followTarget = value;
 	}
 
+	public var smooth(get,set):Bool;
 	private function get_smooth():Bool
 	{
 		return _smooth;
 	}
 
-	private function set_smooth(value:Bool):Void
+	private function set_smooth(value:Bool):Bool
 	{
-		_smooth = value;
+		return _smooth = value;
 	}
 
 	/**
@@ -68,10 +70,6 @@ class ParticleFollowState extends ParticleStateBase
 	 */
 	override public function setRenderState(stage3DProxy:Stage3DProxy, renderable:IRenderable, animationSubGeometry:AnimationSubGeometry, animationRegisterCache:AnimationRegisterCache, camera:Camera3D):Void
 	{
-		// TODO: not used
-		renderable = renderable;
-		camera = camera;
-
 		if (_followTarget)
 		{
 			if (_particleFollowNode.usesPosition)

@@ -23,6 +23,7 @@ class SkeletonDifferenceNode extends AnimationNodeBase
 	 */
 	public function new()
 	{
+		super();
 		_stateClass = SkeletonDifferenceState;
 	}
 

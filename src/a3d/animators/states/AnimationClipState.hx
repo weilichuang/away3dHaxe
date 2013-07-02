@@ -2,6 +2,7 @@ package a3d.animators.states;
 
 import a3d.animators.IAnimator;
 import a3d.animators.nodes.AnimationClipNodeBase;
+import a3d.animators.nodes.AnimationNodeBase;
 import a3d.events.AnimationStateEvent;
 import flash.Vector;
 
@@ -19,6 +20,11 @@ class AnimationClipState extends AnimationStateBase
 	private var _oldFrame:Int;
 	private var _timeDir:Int;
 	private var _framesDirty:Bool = true;
+	
+	public function new(animator:IAnimator, animationNode:AnimationNodeBase)
+	{
+		super(animator,animationNode);
+	}
 
 	/**
 	 * Returns a fractional value between 0 and 1 representing the blending ratio of the current playhead position

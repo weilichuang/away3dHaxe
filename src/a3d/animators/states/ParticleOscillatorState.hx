@@ -1,6 +1,7 @@
 package a3d.animators.states;
 
 import flash.display3D.Context3DVertexBufferFormat;
+import flash.errors.Error;
 import flash.geom.Vector3D;
 
 
@@ -27,16 +28,19 @@ class ParticleOscillatorState extends ParticleStateBase
 	/**
 	 * Defines the default oscillator axis (x, y, z) and cycleDuration (w) of the state, used when in global mode.
 	 */
+	public var oscillator(get,set):Vector3D;
 	private function get_oscillator():Vector3D
 	{
 		return _oscillator;
 	}
 
-	private function set_oscillator(value:Vector3D):Void
+	private function set_oscillator(value:Vector3D):Vector3D
 	{
 		_oscillator = value;
 
 		updateOscillatorData();
+		
+		return _oscillator;
 	}
 
 	public function new(animator:ParticleAnimator, particleOscillatorNode:ParticleOscillatorNode)
@@ -67,7 +71,7 @@ class ParticleOscillatorState extends ParticleStateBase
 		if (_particleOscillatorNode.mode == ParticlePropertiesMode.GLOBAL)
 		{
 			if (_oscillator.w <= 0)
-				throw(new Error("the cycle duration must greater than zero"));
+				throw new Error("the cycle duration must greater than zero");
 			if (_oscillatorData == null)
 				_oscillatorData = new Vector3D();
 			_oscillatorData.x = _oscillator.x;

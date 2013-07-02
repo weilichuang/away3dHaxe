@@ -27,27 +27,29 @@ class ParticleBezierCurveState extends ParticleStateBase
 	/**
 	 * Defines the default control point of the node, used when in global mode.
 	 */
+	public var controlPoint(get,set):Vector3D;
 	private function get_controlPoint():Vector3D
 	{
 		return _controlPoint;
 	}
 
-	private function set_controlPoint(value:Vector3D):Void
+	private function set_controlPoint(value:Vector3D):Vector3D
 	{
-		_controlPoint = value;
+		return _controlPoint = value;
 	}
 
 	/**
 	 * Defines the default end point of the node, used when in global mode.
 	 */
+	public var endPoint(get,set):Vector3D;
 	private function get_endPoint():Vector3D
 	{
 		return _endPoint;
 	}
 
-	private function set_endPoint(value:Vector3D):Void
+	private function set_endPoint(value:Vector3D):Vector3D
 	{
-		_endPoint = value;
+		return _endPoint = value;
 	}
 
 	public function new(animator:ParticleAnimator, particleBezierCurveNode:ParticleBezierCurveNode)
@@ -62,10 +64,6 @@ class ParticleBezierCurveState extends ParticleStateBase
 
 	override public function setRenderState(stage3DProxy:Stage3DProxy, renderable:IRenderable, animationSubGeometry:AnimationSubGeometry, animationRegisterCache:AnimationRegisterCache, camera:Camera3D):Void
 	{
-		// TODO: not used
-		renderable = renderable;
-		camera = camera;
-
 		var controlIndex:Int = animationRegisterCache.getRegisterIndex(_animationNode, ParticleBezierCurveNode.BEZIER_CONTROL_INDEX);
 		var endIndex:Int = animationRegisterCache.getRegisterIndex(_animationNode, ParticleBezierCurveNode.BEZIER_END_INDEX);
 

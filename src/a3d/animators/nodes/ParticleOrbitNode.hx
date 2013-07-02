@@ -1,5 +1,6 @@
 package a3d.animators.nodes;
 
+import flash.errors.Error;
 import flash.geom.Vector3D;
 
 
@@ -11,7 +12,7 @@ import a3d.animators.states.ParticleOrbitState;
 import a3d.materials.compilation.ShaderRegisterElement;
 import a3d.materials.passes.MaterialPassBase;
 
-
+using Reflect;
 
 /**
  * A particle animation node used to control the position of a particle over time around a circular orbit.
@@ -77,7 +78,7 @@ class ParticleOrbitNode extends ParticleNodeBase
 		this.radius = radius;
 		this.cycleDuration = cycleDuration;
 		this.cyclePhase = cyclePhase;
-		this.eulers = eulers || new Vector3D();
+		this.eulers = eulers != null ? eulers : new Vector3D();
 	}
 
 	/**
@@ -85,8 +86,6 @@ class ParticleOrbitNode extends ParticleNodeBase
 	 */
 	override public function getAGALVertexCode(pass:MaterialPassBase, animationRegisterCache:AnimationRegisterCache):String
 	{
-		pass = pass;
-
 		var orbitRegister:ShaderRegisterElement = (_mode == ParticlePropertiesMode.GLOBAL) ? animationRegisterCache.getFreeVertexConstant() : animationRegisterCache.getFreeVertexAttribute();
 		animationRegisterCache.setRegisterIndex(this, ORBIT_INDEX, orbitRegister.index);
 
@@ -160,13 +159,13 @@ class ParticleOrbitNode extends ParticleNodeBase
 	override public function generatePropertyOfOneParticle(param:ParticleProperties):Void
 	{
 		//Vector3D.x is radius, Vector3D.y is cycle duration, Vector3D.z is phase
-		var orbit:Vector3D = param[ORBIT_VECTOR3D];
+		var orbit:Vector3D = param.field(ORBIT_VECTOR3D);
 		if (orbit == null)
 			throw new Error("there is no " + ORBIT_VECTOR3D + " in param!");
 
 		_oneData[0] = orbit.x;
 		if (usesCycle && orbit.y <= 0)
-			throw(new Error("the cycle duration must be greater than zero"));
+			throw new Error("the cycle duration must be greater than zero");
 		_oneData[1] = Math.PI * 2 / (!usesCycle ? 1 : orbit.y);
 		_oneData[2] = orbit.x * Math.PI * 2;
 		if (usesPhase)

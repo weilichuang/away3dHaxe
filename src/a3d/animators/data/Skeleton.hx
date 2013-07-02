@@ -22,7 +22,8 @@ class Skeleton extends NamedAssetBase implements IAsset
 	/**
 	 * The total number of joints in the skeleton.
 	 */
-	private function get_numJoints():UInt
+	public var numJoints(get, null):Int;
+	private function get_numJoints():Int
 	{
 		return joints.length;
 	}
@@ -32,6 +33,7 @@ class Skeleton extends NamedAssetBase implements IAsset
 	 */
 	public function new()
 	{
+		super();
 		// in the long run, it might be a better idea to not store Joint objects, but keep all data in Vectors, that we can upload easily?
 		joints = new Vector<SkeletonJoint>();
 	}
@@ -74,7 +76,7 @@ class Skeleton extends NamedAssetBase implements IAsset
 		// c) maintaining a dictionary (for safety) would dictate an interface to access SkeletonJoints,
 		//    rather than direct array access.  this would be sub-optimal.
 		var jointIndex:Int;
-		for each (var joint:SkeletonJoint in joints)
+		for (var joint:SkeletonJoint in joints)
 		{
 			if (joint.name == jointName)
 			{
@@ -97,6 +99,7 @@ class Skeleton extends NamedAssetBase implements IAsset
 	/**
 	 * @inheritDoc
 	*/
+	public var assetType(get, null):String;
 	private function get_assetType():String
 	{
 		return AssetType.SKELETON;

@@ -596,7 +596,7 @@ class SubGeomAnimationState
 	public var animatedVertexData:Vector<Float>;
 	public var dirty:Bool = true;
 
-	public function SubGeomAnimationState(subGeom:CompactSubGeometry)
+	public function new(subGeom:CompactSubGeometry)
 	{
 		animatedVertexData = subGeom.vertexData.concat();
 	}

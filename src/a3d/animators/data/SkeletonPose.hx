@@ -26,7 +26,8 @@ class SkeletonPose extends NamedAssetBase implements IAsset
 	/**
 	 * The total number of joint poses in the skeleton pose.
 	 */
-	private function get_numJointPoses():UInt
+	public var numJointPoses(get, null):Int;
+	private function get_numJointPoses():Int
 	{
 		return jointPoses.length;
 	}
@@ -36,12 +37,14 @@ class SkeletonPose extends NamedAssetBase implements IAsset
 	 */
 	public function new()
 	{
+		super();
 		jointPoses = new Vector<JointPose>();
 	}
 
 	/**
 	 * @inheritDoc
 	 */
+	public var assetType(get, null):String;
 	private function get_assetType():String
 	{
 		return AssetType.SKELETON_POSE;
@@ -83,7 +86,7 @@ class SkeletonPose extends NamedAssetBase implements IAsset
 		// c) maintaining a dictionary (for safety) would dictate an interface to access JointPoses,
 		//    rather than direct array access.  this would be sub-optimal.
 		var jointPoseIndex:Int;
-		for each (var jointPose:JointPose in jointPoses)
+		for (var jointPose:JointPose in jointPoses)
 		{
 			if (jointPose.name == jointName)
 			{

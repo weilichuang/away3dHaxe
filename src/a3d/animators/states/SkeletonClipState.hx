@@ -26,6 +26,7 @@ class SkeletonClipState extends AnimationClipState implements ISkeletonAnimation
 	/**
 	 * Returns the current skeleton pose frame of animation in the clip based on the internal playhead position.
 	 */
+	public var currentPose(get,null):SkeletonPose;
 	private function get_currentPose():SkeletonPose
 	{
 		if (_framesDirty)
@@ -37,6 +38,7 @@ class SkeletonClipState extends AnimationClipState implements ISkeletonAnimation
 	/**
 	 * Returns the next skeleton pose frame of animation in the clip based on the internal playhead position.
 	 */
+	public var nextPose(get,null):SkeletonPose;
 	private function get_nextPose():SkeletonPose
 	{
 		if (_framesDirty)

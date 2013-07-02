@@ -12,11 +12,11 @@ interface ISpriteSheetAnimationNode
 	/**
 	 * Returns the current SpriteSheetAnimationFrame of animation in the clip based on the internal playhead position.
 	 */
-	function get_currentFrameData():SpriteSheetAnimationFrame;
+	var currentFrameData(get,null):SpriteSheetAnimationFrame;
 
 	/**
 	 * Returns the current frame number.
 	 */
-	function get_currentFrameNumber():UInt;
+	var currentFrameNumber(get,null):Int;
 
 }

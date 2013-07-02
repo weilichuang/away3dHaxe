@@ -24,6 +24,7 @@ class SkeletonClipNode extends AnimationClipNodeBase
 	/**
 	 * Returns a vector of skeleton poses representing the pose of each animation frame in the clip.
 	 */
+	public var frames(get, null):Vector<SkeletonPose>;
 	private function get_frames():Vector<SkeletonPose>
 	{
 		return _frames;
@@ -34,6 +35,7 @@ class SkeletonClipNode extends AnimationClipNodeBase
 	 */
 	public function new()
 	{
+		super();
 		_stateClass = SkeletonClipState;
 	}
 
@@ -68,9 +70,9 @@ class SkeletonClipNode extends AnimationClipNodeBase
 	{
 		super.updateStitch();
 
-		var i:UInt = _numFrames - 1;
+		var i:Int = _numFrames - 1;
 		var p1:Vector3D, p2:Vector3D, delta:Vector3D;
-		while (i--)
+		while (i-- > 0)
 		{
 			_totalDuration += _durations[i];
 			p1 = _frames[i].jointPoses[0].translation;

@@ -17,10 +17,10 @@ import a3d.materials.passes.MaterialPassBase;
 class ParticleFollowNode extends ParticleNodeBase
 {
 	/** @private */
-	public static inline var FOLLOW_POSITION_INDEX:UInt = 0;
+	public static inline var FOLLOW_POSITION_INDEX:Int = 0;
 
 	/** @private */
-	public static inline var FOLLOW_ROTATION_INDEX:UInt = 1;
+	public static inline var FOLLOW_ROTATION_INDEX:Int = 1;
 
 	/** @private */
 	public var usesPosition:Bool;
@@ -54,8 +54,6 @@ class ParticleFollowNode extends ParticleNodeBase
 	 */
 	override public function getAGALVertexCode(pass:MaterialPassBase, animationRegisterCache:AnimationRegisterCache):String
 	{
-		pass = pass;
-
 		//TODO: use Quaternion to implement this function
 		var code:String = "";
 		if (usesRotation)

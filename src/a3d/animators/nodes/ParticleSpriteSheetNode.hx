@@ -1,5 +1,7 @@
 package a3d.animators.nodes;
 
+import a3d.math.MathUtil;
+import flash.errors.Error;
 import flash.geom.Vector3D;
 
 
@@ -12,7 +14,7 @@ import a3d.animators.states.ParticleSpriteSheetState;
 import a3d.materials.compilation.ShaderRegisterElement;
 import a3d.materials.passes.MaterialPassBase;
 
-
+using Reflect;
 
 /**
  * A particle animation node used when a spritesheet texture is required to animate the particle.
@@ -84,8 +86,7 @@ class ParticleSpriteSheetNode extends ParticleNodeBase
 	 * @param    [optional] totalFrames     Defines the total number of frames used by the spritesheet, when in global mode. Defaults to the number defined by numColumns and numRows.
 	 * @param    [optional] looping         Defines whether the spritesheet animation is set to loop indefinitely. Defaults to true.
 	 */
-	public function new(mode:UInt, usesCycle:Bool, usesPhase:Bool, numColumns:Int = 1, numRows:UInt = 1, cycleDuration:Float = 1, cyclePhase:Float = 0, totalFrames:UInt =
-		uint.MAX_VALUE)
+	public function new(mode:UInt, usesCycle:Bool, usesPhase:Bool, numColumns:Int = 1, numRows:UInt = 1, cycleDuration:Float = 1, cyclePhase:Float = 0, totalFrames:Int = 1000000)
 	{
 		var len:Int;
 		if (usesCycle)
@@ -105,7 +106,7 @@ class ParticleSpriteSheetNode extends ParticleNodeBase
 		this.numRows = numRows;
 		this.cyclePhase = cyclePhase;
 		this.cycleDuration = cycleDuration;
-		this._totalFrames = Math.min(totalFrames, numColumns * numRows);
+		this._totalFrames = MathUtil.min(totalFrames, numColumns * numRows);
 	}
 
 	/**
@@ -113,8 +114,6 @@ class ParticleSpriteSheetNode extends ParticleNodeBase
 	 */
 	override public function getAGALUVCode(pass:MaterialPassBase, animationRegisterCache:AnimationRegisterCache):String
 	{
-		pass = pass;
-
 		//get 2 vc
 		var uvParamConst1:ShaderRegisterElement = animationRegisterCache.getFreeVertexConstant();
 		var uvParamConst2:ShaderRegisterElement = (_mode == ParticlePropertiesMode.GLOBAL) ? animationRegisterCache.getFreeVertexConstant() : animationRegisterCache.getFreeVertexAttribute();
@@ -207,11 +206,12 @@ class ParticleSpriteSheetNode extends ParticleNodeBase
 	{
 		if (usesCycle)
 		{
-			var uvCycle:Vector3D = param[UV_VECTOR3D];
+			var uvCycle:Vector3D = param.field(UV_VECTOR3D);
 			if (uvCycle == null)
-				throw(new Error("there is no " + UV_VECTOR3D + " in param!"));
+				throw new Error("there is no " + UV_VECTOR3D + " in param!");
 			if (uvCycle.x <= 0)
-				throw(new Error("the cycle duration must be greater than zero"));
+				throw new Error("the cycle duration must be greater than zero");
+				
 			var uTotal:Float = _totalFrames / numColumns;
 			_oneData[0] = uTotal / uvCycle.x;
 			_oneData[1] = uvCycle.x;

@@ -10,12 +10,12 @@ class ParticleProperties implements Dynamic<Dynamic>
 	/**
 	 * The index of the current particle being set.
 	 */
-	public var index:UInt;
+	public var index:Int;
 
 	/**
 	 * The total number of particles being processed by the particle animation set.
 	 */
-	public var total:UInt;
+	public var total:Int;
 
 	/**
 	 * The start time of the particle.

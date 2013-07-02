@@ -1,6 +1,7 @@
 package a3d.animators.states;
 
 import flash.display3D.Context3DVertexBufferFormat;
+import flash.errors.Error;
 import flash.Vector;
 
 
@@ -33,31 +34,36 @@ class ParticleSpriteSheetState extends ParticleStateBase
 	/**
 	 * Defines the cycle phase, when in global mode. Defaults to zero.
 	 */
+	public var cyclePhase(get,set):Float;
 	private function get_cyclePhase():Float
 	{
 		return _cyclePhase;
 	}
 
-	private function set_cyclePhase(value:Float):Void
+	private function set_cyclePhase(value:Float):Float
 	{
 		_cyclePhase = value;
 
 		updateSpriteSheetData();
+		return _cyclePhase;
 	}
 
 	/**
 	 * Defines the cycle duration in seconds, when in global mode. Defaults to 1.
 	 */
+	public var cycleDuration(get,set):Float;
 	private function get_cycleDuration():Float
 	{
 		return _cycleDuration;
 	}
 
-	private function set_cycleDuration(value:Float):Void
+	private function set_cycleDuration(value:Float):Float
 	{
 		_cycleDuration = value;
 
 		updateSpriteSheetData();
+		
+		return _cycleDuration;
 	}
 
 	public function new(animator:ParticleAnimator, particleSpriteSheetNode:ParticleSpriteSheetNode)
@@ -115,7 +121,7 @@ class ParticleSpriteSheetState extends ParticleStateBase
 		if (_usesCycle)
 		{
 			if (_cycleDuration <= 0)
-				throw(new Error("the cycle duration must be greater than zero"));
+				throw new Error("the cycle duration must be greater than zero");
 			_spriteSheetData[4] = uTotal / _cycleDuration;
 			_spriteSheetData[5] = _cycleDuration;
 			if (_usesPhase)

@@ -1,5 +1,6 @@
 package a3d.animators;
 
+import flash.errors.Error;
 import flash.events.EventDispatcher;
 import flash.geom.Vector3D;
 import flash.Vector;
@@ -14,7 +15,7 @@ class PathAnimator extends EventDispatcher
 {
 	private var _path:IPath;
 	private var _time:Float;
-	private var _index:UInt = 0;
+	private var _index:Int = 0;
 	private var _rotations:Vector<Vector3D>;
 	private var _alignToPath:Bool;
 	private var _target:Object3D;
@@ -45,6 +46,8 @@ class PathAnimator extends EventDispatcher
 	 */
 	public function new(path:IPath = null, target:Object3D = null, offset:Vector3D = null, alignToPath:Bool = true, lookAtTarget:Object3D = null, rotations:Vector<Vector3D> = null)
 	{
+		super();
+		
 		_index = 0;
 		_time = _lastTime = 0;
 
@@ -63,14 +66,15 @@ class PathAnimator extends EventDispatcher
 			_alignToPath = false;
 	}
 
+	public var upAxis(get,set):Vector3D;
 	private function get_upAxis():Vector3D
 	{
 		return _upAxis;
 	}
 
-	private function set_upAxis(value:Vector3D):Void
+	private function set_upAxis(value:Vector3D):Vector3D
 	{
-		_upAxis = value;
+		return _upAxis = value;
 	}
 
 	/**
@@ -242,9 +246,10 @@ class PathAnimator extends EventDispatcher
 	/**
 	 * defines if the object animated along the path must be aligned to the path.
 	 */
-	private function set_alignToPath(b:Bool):Void
+	public var alignToPath(get,set):Bool;
+	private function set_alignToPath(b:Bool):Bool
 	{
-		_alignToPath = b;
+		return _alignToPath = b;
 	}
 
 	private function get_alignToPath():Bool
@@ -255,6 +260,7 @@ class PathAnimator extends EventDispatcher
 	/**
 	 * returns the current interpolated position on the path with no optional offset applied
 	 */
+	public var position(get,null):Vector3D;
 	private function get_position():Vector3D
 	{
 		return _position;
@@ -264,9 +270,10 @@ class PathAnimator extends EventDispatcher
 	 * defines the path to follow
 	 * @see Path
 	 */
-	private function set_path(value:IPath):Void
+	public var path(get,set):IPath;
+	private function set_path(value:IPath):IPath
 	{
-		_path = value;
+		return _path = value;
 	}
 
 	private function get_path():IPath
@@ -277,32 +284,36 @@ class PathAnimator extends EventDispatcher
 	/**
 	 * Represents the progress of the animation playhead from the start (0) to the end (1) of the animation.
 	 */
+	public var progress(get,set):Float;
 	private function get_progress():Float
 	{
 		return _time;
 	}
 
-	private function set_progress(val:Float):Void
+	private function set_progress(val:Float):Float
 	{
 		if (_time == val)
-			return;
+			return _time;
 
 		updateProgress(val);
+		
+		return _time;
 	}
 
 	/**
 	 * returns the segment index that is used at a given time;
 	 * @param     t        [Number]. A Number between 0 and 1. If no params, actual pathanimator time segment index is returned.
 	 */
-	public function getTimeSegment(t:Float = NaN):Float
+	public function getTimeSegment(t:Float = null):Float
 	{
-		t = (isNaN(t)) ? _time : t;
+		t = Math.isNaN(t) ? _time : t;
 		return Math.floor(_path.numSegments * t);
 	}
 
 	/**
 	 * returns the actual interpolated rotation along the path.
 	 */
+	public var orientation(get,null):Vector3D;
 	private function get_orientation():Vector3D
 	{
 		return _rot;
@@ -311,9 +322,10 @@ class PathAnimator extends EventDispatcher
 	/**
 	 * sets the object to be animated along the path.
 	 */
-	private function set_target(object3d:Object3D):Void
+	public var target(get,set):Object3D;
+	private function set_target(object3d:Object3D):Object3D
 	{
-		_target = object3d;
+		return _target = object3d;
 	}
 
 	private function get_target():Object3D
@@ -324,11 +336,14 @@ class PathAnimator extends EventDispatcher
 	/**
 	 * sets the object that the animated object will be looking at along the path
 	 */
-	private function set_lookAtObject(object3d:Object3D):Void
+	public var lookAtObject(get,set):Object3D;
+	private function set_lookAtObject(object3d:Object3D):Object3D
 	{
 		_lookAtTarget = object3d;
 		if (_alignToPath)
 			_alignToPath = false;
+		
+		return _lookAtTarget;
 	}
 
 
@@ -340,27 +355,31 @@ class PathAnimator extends EventDispatcher
 	/**
 	 * sets an optional Vector.&lt;Vector3D&gt; of rotations. if the object3d is animated along a PathExtrude object, use the very same vector to follow the "curves".
 	 */
-	private function set_rotations(value:Vector<Vector3D>):Void
+	public var rotations(null,set):Vector<Vector3D>;
+	private function set_rotations(value:Vector<Vector3D>):Vector<Vector3D>
 	{
 		_rotations = value;
 
-		if (_rotations && !_rot)
+		if (_rotations != null && _rot == null)
 		{
 			_rot = new Vector3D();
 			_tmpOffset = new Vector3D();
 		}
+		
+		return _rotations;
 	}
 
 	/**
 	 * Set the pointer to a given segment along the path
 	 */
-	private function set_index(val:UInt):Void
+	public var index(get,set):Int;
+	private function set_index(val:Int):Int
 	{
-		_index = (val > _path.numSegments - 1) ? _path.numSegments - 1 : (val > 0) ? val : 0;
+		return _index = (val > _path.numSegments - 1) ? _path.numSegments - 1 : (val > 0) ? val : 0;
 	}
 
 
-	private function get_index():UInt
+	private function get_index():Int
 	{
 		return _index;
 	}
@@ -370,7 +389,7 @@ class PathAnimator extends EventDispatcher
 	 *
 	 * @param    listener        The listener function
 	 */
-	public function addOnCycle(listener:Function):Void
+	public function addOnCycle(listener:PathEvent->Void):Void
 	{
 		_lastTime = 0;
 		_bCycle = true;
@@ -382,7 +401,7 @@ class PathAnimator extends EventDispatcher
 	 *
 	 * @param        listener        The listener function
 	 */
-	public function removeOnCycle(listener:Function):Void
+	public function removeOnCycle(listener:PathEvent->Void):Void
 	{
 		_bCycle = false;
 		this.removeEventListener(PathEvent.CYCLE, listener);
@@ -394,7 +413,7 @@ class PathAnimator extends EventDispatcher
 	 * @param        listener        The listener function
 	 */
 	//note: If there are requests for this, it could be extended to more than one rangeEvent per path.
-	public function addOnRange(listener:Function, from:Float = 0, to:Float = 0):Void
+	public function addOnRange(listener:PathEvent->Void, from:Float = 0, to:Float = 0):Void
 	{
 		_from = from;
 		_to = to;
@@ -407,7 +426,7 @@ class PathAnimator extends EventDispatcher
 	 *
 	 * @param        listener        The listener function
 	 */
-	public function removeOnRange(listener:Function):Void
+	public function removeOnRange(listener:PathEvent->Void):Void
 	{
 		_from = 0;
 		_to = 0;
@@ -420,7 +439,7 @@ class PathAnimator extends EventDispatcher
 	 *
 	 * @param        listener        The listener function
 	 */
-	public function addOnChangeSegment(listener:Function):Void
+	public function addOnChangeSegment(listener:PathEvent->Void):Void
 	{
 		_bSegment = true;
 		_lastSegment = 0;
@@ -432,7 +451,7 @@ class PathAnimator extends EventDispatcher
 	 *
 	 * @param        listener        The listener function
 	 */
-	public function removeOnChangeSegment(listener:Function):Void
+	public function removeOnChangeSegment(listener:PathEvent->Void):Void
 	{
 		_bSegment = false;
 		_lastSegment = 0;
@@ -450,8 +469,7 @@ class PathAnimator extends EventDispatcher
 
 	private function updateObjectPosition(rotate:Bool = false):Void
 	{
-
-		if (rotate && _offset)
+		if (rotate && _offset != null)
 		{
 
 			_tmpOffset.x = _offset.x;
@@ -464,7 +482,7 @@ class PathAnimator extends EventDispatcher
 			_position.z += _tmpOffset.z;
 
 		}
-		else if (_offset)
+		else if (_offset != null)
 		{
 
 			_position.x += _offset.x;

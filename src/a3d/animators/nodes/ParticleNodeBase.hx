@@ -18,10 +18,10 @@ class ParticleNodeBase extends AnimationNodeBase
 	private var _mode:Int;
 	private var _priority:Int;
 
-	private var _dataLength:UInt = 3;
+	private var _dataLength:Int = 3;
 	private var _oneData:Vector<Float>;
 
-	public var dataOffset:UInt;
+	public var dataOffset:Int;
 
 	/**
 	 * Returns the property mode of the particle animation node. Typically set in the node constructor
@@ -108,7 +108,7 @@ class ParticleNodeBase extends AnimationNodeBase
 	 * @param               dataLength      Defines the length of the data used by the node when in <code>LOCAL_STATIC</code> mode.
 	 * @param    [optional] priority        the priority of the particle animation node, used to order the agal generated in a particle animation set. Defaults to 1.
 	 */
-	public function new(name:String, mode:UInt, dataLength:UInt, priority:Int = 1)
+	public function new(name:String, mode:Int, dataLength:Int, priority:Int = 1)
 	{
 		super();
 		

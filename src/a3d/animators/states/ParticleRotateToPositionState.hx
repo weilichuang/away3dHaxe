@@ -23,25 +23,28 @@ class ParticleRotateToPositionState extends ParticleStateBase
 {
 	private var _particleRotateToPositionNode:ParticleRotateToPositionNode;
 	private var _position:Vector3D;
-	private var _matrix:Matrix3D = new Matrix3D;
+	private var _matrix:Matrix3D;
 	private var _offset:Vector3D;
 
 	/**
 	 * Defines the position of the point the particle will rotate to face when in global mode. Defaults to 0,0,0.
 	 */
+	public var position(get,set):Vector3D;
 	private function get_position():Vector3D
 	{
 		return _position;
 	}
 
-	private function set_position(value:Vector3D):Void
+	private function set_position(value:Vector3D):Vector3D
 	{
-		_position = value;
+		return _position = value;
 	}
 
 	public function new(animator:ParticleAnimator, particleRotateToPositionNode:ParticleRotateToPositionNode)
 	{
 		super(animator, particleRotateToPositionNode);
+		
+		_matrix = new Matrix3D();
 
 		_particleRotateToPositionNode = particleRotateToPositionNode;
 		_position = _particleRotateToPositionNode.position;

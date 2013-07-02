@@ -18,7 +18,7 @@ import a3d.materials.passes.MaterialPassBase;
 class ParticleUVNode extends ParticleNodeBase
 {
 	/** @private */
-	public static inline var UV_INDEX:UInt = 0;
+	public static inline var UV_INDEX:Int = 0;
 
 	/** @private */
 	public var uvData:Vector3D;
@@ -66,44 +66,51 @@ class ParticleUVNode extends ParticleNodeBase
 	/**
 	 *
 	 */
+	public var cycle(get, set):Float;
 	private function get_cycle():Float
 	{
 		return _cycle;
 	}
 
-	private function set_cycle(value:Float):Void
+	private function set_cycle(value:Float):Float
 	{
 		_cycle = value;
 
 		updateUVData();
+		
+		return _cycle;
 	}
 
 	/**
 	 *
 	 */
+	public var scale(get, set):Float;
 	private function get_scale():Float
 	{
 		return _scale;
 	}
 
-	private function set_scale(value:Float):Void
+	private function set_scale(value:Float):Float
 	{
 		_scale = value;
 
 		updateUVData();
+		
+		return _scale;
 	}
 
 	/**
 	 *
 	 */
+	public var axis(get, set):String;
 	private function get_axis():String
 	{
 		return _axis;
 	}
 
-	private function set_axis(value:String):Void
+	private function set_axis(value:String):String
 	{
-		_axis = value;
+		return _axis = value;
 	}
 
 	/**
@@ -111,7 +118,6 @@ class ParticleUVNode extends ParticleNodeBase
 	 */
 	override public function getAGALUVCode(pass:MaterialPassBase, animationRegisterCache:AnimationRegisterCache):String
 	{
-		pass = pass;
 		var code:String = "";
 
 		if (animationRegisterCache.needUVAnimation)

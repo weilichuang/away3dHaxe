@@ -1,5 +1,6 @@
 package a3d.animators.utils;
 
+import flash.errors.Error;
 import flash.geom.Matrix3D;
 import flash.geom.Orientation3D;
 import flash.geom.Vector3D;
@@ -15,7 +16,7 @@ class SkeletonUtils
 	public static function generateDifferenceClip(source:SkeletonClipNode, referencePose:SkeletonPose):SkeletonClipNode
 	{
 		var diff:SkeletonClipNode = new SkeletonClipNode();
-		var numFrames:UInt = source.frames.length;
+		var numFrames:Int = source.frames.length;
 
 		for (i in 0...numFrames)
 			diff.addFrame(generateDifferencePose(source.frames[i], referencePose), source.durations[i]);
