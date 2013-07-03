@@ -21,9 +21,11 @@ class AnimationClipState extends AnimationStateBase
 	private var _timeDir:Int;
 	private var _framesDirty:Bool = true;
 	
-	public function new(animator:IAnimator, animationNode:AnimationNodeBase)
+	public function new(animator:IAnimator, animationClipNode:AnimationClipNodeBase)
 	{
-		super(animator,animationNode);
+		super(animator, animationClipNode);
+
+		_animationClipNode = animationClipNode;
 	}
 
 	/**
@@ -64,13 +66,6 @@ class AnimationClipState extends AnimationStateBase
 			updateFrames();
 
 		return _nextFrame;
-	}
-
-	public function new(animator:IAnimator, animationClipNode:AnimationClipNodeBase)
-	{
-		super(animator, animationClipNode);
-
-		_animationClipNode = animationClipNode;
 	}
 
 	/**

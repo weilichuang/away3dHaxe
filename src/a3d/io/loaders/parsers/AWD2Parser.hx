@@ -2387,7 +2387,7 @@ class AWD2Parser extends ParserBase
 		return _newBlockBytes.readUTFBytes(len);
 	}
 
-	private function parseProperties(expected:Object):AWDProperties
+	private function parseProperties(expected:Dynamic):AWDProperties
 	{
 		var list_end:UInt;
 		var list_len:UInt;
@@ -2396,7 +2396,7 @@ class AWD2Parser extends ParserBase
 
 		list_len = _newBlockBytes.readUnsignedInt();
 		list_end = _newBlockBytes.position + list_len;
-		if (expected)
+		if (expected != null)
 		{
 			while (_newBlockBytes.position < list_end)
 			{
@@ -2432,7 +2432,7 @@ class AWD2Parser extends ParserBase
 		return props;
 	}
 
-	private function parseUserAttributes():Object
+	private function parseUserAttributes():Dynamic
 	{
 		var attributes:Object;
 		var list_len:UInt;
@@ -2470,37 +2470,25 @@ class AWD2Parser extends ParserBase
 				{
 					case AWDSTRING:
 						attr_val = _newBlockBytes.readUTFBytes(attr_len);
-						break;
 					case INT8:
 						attr_val = _newBlockBytes.readByte();
-						break;
 					case INT16:
 						attr_val = _newBlockBytes.readShort();
-						break;
 					case INT32:
 						attr_val = _newBlockBytes.readInt();
-						break;
-					case BOOL:
-					case UINT8:
+					case BOOL,UINT8:
 						attr_val = _newBlockBytes.readUnsignedByte();
-						break;
 					case UINT16:
 						attr_val = _newBlockBytes.readUnsignedShort();
-						break;
-					case UINT32:
-					case BADDR:
+					case UINT32,BADDR:
 						attr_val = _newBlockBytes.readUnsignedInt();
-						break;
 					case FLOAT32:
 						attr_val = _newBlockBytes.readFloat();
-						break;
 					case FLOAT64:
 						attr_val = _newBlockBytes.readDouble();
-						break;
 					default:
 						attr_val = 'unimplemented attribute type ' + attr_type;
 						_newBlockBytes.position += attr_len;
-						break;
 				}
 
 				if (_debug)
@@ -2517,7 +2505,7 @@ class AWD2Parser extends ParserBase
 
 	private function getDefaultMaterial():IAsset
 	{
-		if (!_defaultBitmapMaterial)
+		if (_defaultBitmapMaterial == null)
 		{
 			_defaultBitmapMaterial = DefaultMaterialManager.getDefaultMaterial();
 		}
@@ -2526,7 +2514,7 @@ class AWD2Parser extends ParserBase
 
 	private function getDefaultTexture():IAsset
 	{
-		if (!_defaultTexture)
+		if (_defaultTexture == null)
 		{
 			_defaultTexture = DefaultMaterialManager.getDefaultTexture();
 		}
@@ -2535,9 +2523,9 @@ class AWD2Parser extends ParserBase
 
 	private function getDefaultCubeTexture():IAsset
 	{
-		if (!_defaultCubeTexture)
+		if (_defaultCubeTexture == null)
 		{
-			if (!_defaultTexture)
+			if (_defaultTexture == null)
 			{
 				_defaultTexture = DefaultMaterialManager.getDefaultTexture();
 			}
@@ -2557,12 +2545,9 @@ class AWD2Parser extends ParserBase
 					return getDefaultCubeTexture();
 				if (extraTypeInfo == "SingleTexture")
 					return getDefaultTexture();
-				break;
 			case (assetType == AssetType.MATERIAL):
 				return getDefaultMaterial()
-				break;
 			default:
-				break;
 		}
 		return null;
 
@@ -2570,7 +2555,7 @@ class AWD2Parser extends ParserBase
 
 	private function getAssetByID(assetID:UInt, assetTypesToGet:Array, extraTypeInfo:String = "SingleTexture"):Array
 	{
-		var returnArray:Array = new Array();
+		var returnArray:Array<Dynamic> = [];
 		var typeCnt:int = 0;
 		if (assetID > 0)
 		{
@@ -2637,50 +2622,35 @@ class AWD2Parser extends ParserBase
 			case INT8:
 				elem_len = 1;
 				read_func = _newBlockBytes.readByte;
-				break;
 			case INT16:
 				elem_len = 2;
 				read_func = _newBlockBytes.readShort;
-				break;
 			case INT32:
 				elem_len = 4;
 				read_func = _newBlockBytes.readInt;
-				break;
 			case UINT8:
 				elem_len = 1;
 				read_func = _newBlockBytes.readUnsignedByte;
-				break;
 			case UINT16:
 				elem_len = 2;
 				read_func = _newBlockBytes.readUnsignedShort;
-				break;
 			case UINT32:
 			case COLOR:
 			case BADDR:
 				elem_len = 4;
 				read_func = _newBlockBytes.readUnsignedInt;
-				break;
 			case FLOAT32:
 				elem_len = 4;
 				read_func = _newBlockBytes.readFloat;
-				break;
 			case FLOAT64:
 				elem_len = 8;
 				read_func = _newBlockBytes.readDouble;
-				break;
 
 			case AWDSTRING:
 				return _newBlockBytes.readUTFBytes(len);
-			case VECTOR2x1:
-			case VECTOR3x1:
-			case VECTOR4x1:
-			case MTX3x2:
-			case MTX3x3:
-			case MTX4x3:
-			case MTX4x4:
+			case VECTOR2x1,VECTOR3x1,VECTOR4x1,MTX3x2,MTX3x3,MTX4x3, MTX4x4:
 				elem_len = 8;
 				read_func = _newBlockBytes.readDouble;
-				break;
 		}
 
 		if (elem_len < len)
@@ -2725,9 +2695,8 @@ class AWD2Parser extends ParserBase
 
 	private function parseMatrix32RawData():Vector<Float>
 	{
-		var i:UInt;
 		var mtx_raw:Vector<Float> = new Vector<Float>(6, true);
-		for (i = 0; i < 6; i++)
+		for (i in 0...6)
 			mtx_raw[i] = _newBlockBytes.readFloat();
 
 		return mtx_raw;
@@ -2762,7 +2731,7 @@ class AWD2Parser extends ParserBase
 		mtx_raw[15] = 1.0;
 
 		//TODO: fix max exporter to remove NaN values in joint 0 inverse bind pose
-		if (isNaN(mtx_raw[0]))
+		if (Math.isNaN(mtx_raw[0]))
 		{
 			mtx_raw[0] = 1;
 			mtx_raw[1] = 0;
@@ -2785,7 +2754,7 @@ class AWD2Parser extends ParserBase
 
 class AWDBlock
 {
-	public var id:UInt;
+	public var id:Int;
 	public var name:String;
 	public var data:*;
 	public var len:*;
@@ -2795,7 +2764,7 @@ class AWDBlock
 	public var errorMessages:Vector<String>;
 	public var uvsForVertexAnimation:Vector<Vector<Float>>;
 
-	public function AWDBlock()
+	public function new()
 	{
 	}
 
@@ -2807,7 +2776,7 @@ class AWDBlock
 	}
 }
 
-class bitFlags
+class BitFlags
 {
 	public static inline var FLAG1:UInt = 1;
 	public static inline var FLAG2:UInt = 2;
@@ -2832,7 +2801,7 @@ class bitFlags
 	}
 }
 
-dynamic class AWDProperties
+class AWDProperties implements Dynamic<Dynamic>
 {
 	public function setValue(key:Int, value:*):Void
 	{

@@ -67,7 +67,7 @@ class ParticleFollowNode extends ParticleNodeBase
 			animationRegisterCache.addVertexTempUsages(temp2, 1);
 			var temp3:ShaderRegisterElement = animationRegisterCache.getFreeVertexVectorTemp();
 
-			var temp4:ShaderRegisterElement;
+			var temp4:ShaderRegisterElement = null;
 			if (animationRegisterCache.hasBillboard)
 			{
 				animationRegisterCache.addVertexTempUsages(temp3, 1);

@@ -7,7 +7,7 @@ class ParserUtil
 	public static function toByteArray(data:Dynamic):ByteArray
 	{
 		if (Std.is(data,Class))
-			data = Type.createEmptyInstance(data);
+			data = Type.createInstance(data,[]);
 
 		if (Std.is(data,ByteArray))
 			return data;

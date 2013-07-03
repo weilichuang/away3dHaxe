@@ -184,9 +184,10 @@ class ParserBase extends EventDispatcher
 	 */
 	public function new(format:String)
 	{
-		_dependencies = new Vector<ResourceDependency>();
 		super();
+		_materialMode = 0;
 		_dataFormat = format;
+		_dependencies = new Vector<ResourceDependency>();
 	}
 	
 	private function getTextData():String

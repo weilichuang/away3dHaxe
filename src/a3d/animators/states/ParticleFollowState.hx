@@ -26,14 +26,14 @@ class ParticleFollowState extends ParticleStateBase
 	private var _particleFollowNode:ParticleFollowNode;
 	private var _followTarget:Object3D;
 
-	private var _targetPos:Vector3D = new Vector3D;
-	private var _targetEuler:Vector3D = new Vector3D;
+	private var _targetPos:Vector3D;
+	private var _targetEuler:Vector3D;
 	private var _prePos:Vector3D;
 	private var _preEuler:Vector3D;
 	private var _smooth:Bool;
 
 	//temporary vector3D for calculation
-	private var temp:Vector3D = new Vector3D();
+	private var temp:Vector3D;
 
 	public function new(animator:ParticleAnimator, particleFollowNode:ParticleFollowNode)
 	{
@@ -41,6 +41,10 @@ class ParticleFollowState extends ParticleStateBase
 
 		_particleFollowNode = particleFollowNode;
 		_smooth = particleFollowNode.smooth;
+		
+		_targetPos = new Vector3D();
+		_targetEuler = new Vector3D();
+		temp = new Vector3D();
 	}
 
 	public var followTarget(get,set):Object3D;
@@ -70,7 +74,7 @@ class ParticleFollowState extends ParticleStateBase
 	 */
 	override public function setRenderState(stage3DProxy:Stage3DProxy, renderable:IRenderable, animationSubGeometry:AnimationSubGeometry, animationRegisterCache:AnimationRegisterCache, camera:Camera3D):Void
 	{
-		if (_followTarget)
+		if (_followTarget != null)
 		{
 			if (_particleFollowNode.usesPosition)
 			{
@@ -84,7 +88,7 @@ class ParticleFollowState extends ParticleStateBase
 				_targetEuler.x = _followTarget.rotationX;
 				_targetEuler.y = _followTarget.rotationY;
 				_targetEuler.z = _followTarget.rotationZ;
-				_targetEuler.scaleBy(MathUtil.DEGREES_TO_RADIANS);
+				_targetEuler.scaleBy(MathUtil.DEGREES_TO_RADIANS());
 			}
 		}
 		//initialization
@@ -137,9 +141,9 @@ class ParticleFollowState extends ParticleStateBase
 		var vertexData:Vector<Float> = animationSubGeometry.vertexData;
 
 		var changed:Bool = false;
-		var len:UInt = data.length;
-		var interpolatedPos:Vector3D;
-		var posVelocity:Vector3D;
+		var len:Int = data.length;
+		var interpolatedPos:Vector3D = null;
+		var posVelocity:Vector3D = null;
 		if (_smooth)
 		{
 			posVelocity = _prePos.subtract(_targetPos);
@@ -187,10 +191,10 @@ class ParticleFollowState extends ParticleStateBase
 		var vertexData:Vector<Float> = animationSubGeometry.vertexData;
 
 		var changed:Bool = false;
-		var len:UInt = data.length;
+		var len:Int = data.length;
 
-		var interpolatedRotation:Vector3D;
-		var rotationVelocity:Vector3D;
+		var interpolatedRotation:Vector3D = null;
+		var rotationVelocity:Vector3D = null;
 
 		if (_smooth)
 		{
@@ -240,13 +244,13 @@ class ParticleFollowState extends ParticleStateBase
 		var vertexData:Vector<Float> = animationSubGeometry.vertexData;
 
 		var changed:Bool = false;
-		var len:UInt = data.length;
+		var len:Int = data.length;
 
-		var interpolatedPos:Vector3D;
-		var interpolatedRotation:Vector3D;
+		var interpolatedPos:Vector3D = null;
+		var interpolatedRotation:Vector3D = null;
 
-		var posVelocity:Vector3D;
-		var rotationVelocity:Vector3D;
+		var posVelocity:Vector3D = null;
+		var rotationVelocity:Vector3D = null;
 		if (_smooth)
 		{
 			posVelocity = _prePos.subtract(_targetPos);

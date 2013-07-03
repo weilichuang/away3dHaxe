@@ -435,7 +435,7 @@ class AssetLibraryBundle extends EventDispatcher
 	 */
 	public function removeNamespaceAssets(ns:String = null, dispose:Bool = true):Void
 	{
-		var idx:UInt = 0;
+		var idx:Int = 0;
 		var asset:IAsset;
 		var old_assets:Vector<IAsset>;
 

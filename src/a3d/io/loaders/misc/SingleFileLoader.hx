@@ -262,7 +262,7 @@ class SingleFileLoader extends EventDispatcher
 	public function parseData(data:Dynamic, parser:ParserBase = null, req:URLRequest = null):Void
 	{
 		if (Std.is(data,Class))
-			data = Type.createEmptyInstance(data);
+			data = Type.createInstance(data,[]);
 
 		if (parser != null)
 			_parser = parser;
@@ -287,7 +287,14 @@ class SingleFileLoader extends EventDispatcher
 	public var dependencies(get, null):Vector<ResourceDependency>;
 	private function get_dependencies():Vector<ResourceDependency>
 	{
-		return _parser != null ? _parser.dependencies : new Vector<ResourceDependency>();
+		if (_parser != null)
+		{
+			return _parser.dependencies;
+		}
+		else
+		{
+			return new Vector<ResourceDependency>();
+		}
 	}
 
 	/**
@@ -318,7 +325,7 @@ class SingleFileLoader extends EventDispatcher
 		{
 			if (untyped _parsers[i].supportsType(_fileExtension))
 			{
-				return Type.createEmptyInstance(_parsers[i]);
+				return Type.createInstance(_parsers[i],[]);
 			}
 			i--;
 		}
@@ -342,7 +349,7 @@ class SingleFileLoader extends EventDispatcher
 		{
 			if (untyped _parsers[i].supportsData(data))
 			{
-				return Type.createEmptyInstance(_parsers[i]);
+				return Type.createInstance(_parsers[i],[]);
 			}
 			i--;
 		}

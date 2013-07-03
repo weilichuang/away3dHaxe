@@ -60,7 +60,7 @@ class SegmentPass extends MaterialPassBase
 			"sub vt4.y, vt0.z, vt1.z			\n" + // Q0.z - Q1.z
 
 			// fix divide by zero for horizontal lines	
-			"seq vt4.z, vt4.y vc6.x			\n" + // offset = (Q0.z - Q1.z)==0 ? 1 : 0
+			"seq vt4.z, vt4.y, vc6.x			\n" + // offset = (Q0.z - Q1.z)==0 ? 1 : 0
 			"add vt4.y, vt4.y, vt4.z			\n" + // ( Q0.z - Q1.z ) + offset
 
 			"div vt4.z, vt4.x, vt4.y			\n" + // t = ( Q0.z - near ) / ( Q0.z - Q1.z )

@@ -31,7 +31,7 @@ class Cast
 			return data;
 
 		if (Std.is(data,Class))
-			data = Type.createEmptyInstance(data);
+			data = Type.createInstance(data,[]);
 
 		return cast(data,String);
 	}
@@ -42,7 +42,7 @@ class Cast
 			return data;
 
 		if (Std.is(data,Class))
-			data = Type.createEmptyInstance(data);
+			data = Type.createInstance(data,[]);
 
 		return cast(data,ByteArray);
 	}
@@ -53,7 +53,7 @@ class Cast
 			return data;
 
 		if (Std.is(data,Class))
-			data = Type.createEmptyInstance(data);
+			data = Type.createInstance(data,[]);
 
 		return cast(data,XML);
 	}
@@ -284,7 +284,7 @@ class Cast
 		{
 			try
 			{
-				data = Type.createEmptyInstance(data);
+				data = Type.createInstance(data,[]);
 			}
 			catch (bitmapError:ArgumentError)
 			{
@@ -327,7 +327,7 @@ class Cast
 		{
 			try
 			{
-				data = Type.createEmptyInstance(data);
+				data = Type.createInstance(data,[]);
 			}
 			catch (materialError:ArgumentError)
 			{
