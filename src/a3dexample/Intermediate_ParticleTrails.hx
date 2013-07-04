@@ -203,7 +203,7 @@ class Intermediate_ParticleTrails extends BasicApplication
 	private function initObjects():Void
 	{
 		//create wireframe axes
-		//scene.addChild(new WireframeAxesGrid(10, 1500));
+		scene.addChild(new WireframeAxesGrid(10, 1500));
 
 		//create follow targets
 		followTarget1 = new Object3D();

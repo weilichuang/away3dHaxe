@@ -119,7 +119,7 @@ class SegmentPass extends MaterialPassBase
 		_calcMatrix.copyFrom(renderable.sourceEntity.sceneTransform);
 		_calcMatrix.append(camera.inverseSceneTransform);
 
-		var subSetCount:UInt = Std.instance(renderable,SegmentSet).subSetCount;
+		var subSetCount:Int = Std.instance(renderable,SegmentSet).subSetCount;
 
 		if (Std.instance(renderable,SegmentSet).hasData)
 		{

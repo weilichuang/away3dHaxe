@@ -42,9 +42,10 @@ class WireframeAxesGrid extends SegmentSet
 		var v1 : Vector3D = new Vector3D(0, 0, 0) ;
 		var inc:Float = -bound;
 
-		while(inc<=bound){
-
-			switch(plane){
+		while (inc <= bound)
+		{
+			switch(plane)
+			{
 				case PLANE_ZY:
 					v0.x = 0;
 					v0.y = inc;
