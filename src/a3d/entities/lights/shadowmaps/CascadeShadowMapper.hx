@@ -1,6 +1,7 @@
 package a3d.entities.lights.shadowmaps;
 
 import flash.display3D.textures.TextureBase;
+import flash.errors.Error;
 import flash.events.Event;
 import flash.events.EventDispatcher;
 import flash.events.IEventDispatcher;
@@ -34,7 +35,7 @@ class CascadeShadowMapper extends DirectionalShadowMapper implements IEventDispa
 	private var _changeDispatcher:EventDispatcher;
 	private var _nearPlaneDistances:Vector<Float>;
 
-	public function new(numCascades:UInt = 3)
+	public function new(numCascades:Int = 3)
 	{
 		super();
 		if (numCascades < 1 || numCascades > 4)
@@ -73,19 +74,21 @@ class CascadeShadowMapper extends DirectionalShadowMapper implements IEventDispa
 		_nearPlaneDistances = new Vector<Float>(_numCascades, true);
 
 		var s:Float = 1;
-		for (var i:Int = _numCascades - 1; i >= 0; --i)
+		var i:Int = _numCascades - 1;
+		while (i >= 0)
 		{
 			_splitRatios[i] = s;
 			s *= .4;
+			--i;
 		}
 
-		_texOffsetsX = new <Number>[-1, 1, -1, 1];
-		_texOffsetsY = new <Number>[1, 1, -1, -1];
+		_texOffsetsX = Vector.ofArray([-1., 1, -1, 1]);
+		_texOffsetsY = Vector.ofArray([1., 1, -1, -1]);
 		_scissorRects = new Vector<Rectangle>(4, true);
 		_depthLenses = new Vector<FreeMatrixLens>();
 		_depthCameras = new Vector<Camera3D>();
 
-		for (i = 0; i < _numCascades; ++i)
+		for (i in 0..._numCascades)
 		{
 			_depthLenses[i] = new FreeMatrixLens();
 			_depthCameras[i] = new Camera3D(_depthLenses[i]);
@@ -93,12 +96,16 @@ class CascadeShadowMapper extends DirectionalShadowMapper implements IEventDispa
 	}
 
 	// will not be allowed
-	override private function set_depthMapSize(value:UInt):Void
+	override private function set_depthMapSize(value:Int):UInt
 	{
 		if (value == _depthMapSize)
-			return;
+			return _depthMapSize;
+			
 		super.depthMapSize = value;
+		
 		invalidateScissorRects();
+		
+		return _depthMapSize;
 	}
 
 	private function invalidateScissorRects():Void
@@ -106,21 +113,24 @@ class CascadeShadowMapper extends DirectionalShadowMapper implements IEventDispa
 		_scissorRectsInvalid = true;
 	}
 
+	public var numCascades(get, set):Int;
 	private function get_numCascades():Int
 	{
 		return _numCascades;
 	}
 
-	private function set_numCascades(value:Int):Void
+	private function set_numCascades(value:Int):Int
 	{
 		if (value == _numCascades)
-			return;
+			return _numCascades;
 		if (value < 1 || value > 4)
 			throw new Error("numCascades must be an integer between 1 and 4");
 		_numCascades = value;
 		invalidateScissorRects();
 		init();
 		dispatchEvent(new Event(Event.CHANGE));
+		
+		return _numCascades;
 	}
 
 	override private function drawDepthMap(target:TextureBase, scene:Scene3D, renderer:DepthRenderer):Void
@@ -162,7 +172,7 @@ class CascadeShadowMapper extends DirectionalShadowMapper implements IEventDispa
 		_overallDepthLens.matrix = _matrix;
 		updateCullPlanes(viewCamera);
 
-		for (var i:Int = 0; i < _numCascades; ++i)
+		for (i in 0..._numCascades)
 		{
 			matrix = _depthLenses[i].matrix;
 
@@ -225,12 +235,12 @@ class CascadeShadowMapper extends DirectionalShadowMapper implements IEventDispa
 			minX -= _snap; // because int() rounds up for < 0
 		if (minY < 0)
 			minY -= _snap;
-		minX = int(minX / _snap) * _snap;
-		minY = int(minY / _snap) * _snap;
+		minX = Std.int(minX / _snap) * _snap;
+		minY = Std.int(minY / _snap) * _snap;
 
 		var snap2:Float = 2 * _snap;
-		w = int(w / snap2 + 1) * snap2;
-		h = int(h / snap2 + 1) * snap2;
+		w = Std.int(w / snap2 + 1) * snap2;
+		h = Std.int(h / snap2 + 1) * snap2;
 
 		maxX = minX + w;
 		maxY = minY + h;
@@ -253,12 +263,12 @@ class CascadeShadowMapper extends DirectionalShadowMapper implements IEventDispa
 		matrix.appendScale(.5, .5, 1);
 	}
 
-	public function addEventListener(type:String, listener:Function, useCapture:Bool = false, priority:Int = 0, useWeakReference:Bool = false):Void
+	public function addEventListener(type:String, listener:Dynamic, useCapture:Bool = false, priority:Int = 0, useWeakReference:Bool = false):Void
 	{
 		_changeDispatcher.addEventListener(type, listener, useCapture, priority, useWeakReference);
 	}
 
-	public function removeEventListener(type:String, listener:Function, useCapture:Bool = false):Void
+	public function removeEventListener(type:String, listener:Dynamic, useCapture:Bool = false):Void
 	{
 		_changeDispatcher.removeEventListener(type, listener, useCapture);
 	}
@@ -278,6 +288,7 @@ class CascadeShadowMapper extends DirectionalShadowMapper implements IEventDispa
 		return _changeDispatcher.willTrigger(type);
 	}
 
+	public var nearPlaneDistances(get,null):Vector<Float>;
 	private function get_nearPlaneDistances():Vector<Float>
 	{
 		return _nearPlaneDistances;

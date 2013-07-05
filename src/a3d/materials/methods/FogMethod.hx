@@ -47,7 +47,7 @@ class FogMethod extends EffectMethodBase
 
 	private function set_minDistance(value:Float):Float
 	{
-		_minDistance = value;
+		return _minDistance = value;
 	}
 
 	public var maxDistance(get,set):Float;

@@ -25,10 +25,10 @@ class CompositeSpecularMethod extends BasicSpecularMethod
 	 * @param modulateMethod The method which will add the code to alter the base method's strength. It needs to have the signature modSpecular(t : ShaderRegisterElement, regCache : ShaderRegisterCache) : String, in which t.w will contain the specular strength and t.xyz will contain the half-vector or the reflection vector.
 	 * @param baseSpecularMethod The base specular method on which this method's shading is based.
 	 */
-	public function new(modulateMethod:Function, baseSpecularMethod:BasicSpecularMethod = null)
+	public function new(modulateMethod:Dynamic, baseSpecularMethod:BasicSpecularMethod = null)
 	{
 		super();
-		_baseMethod = baseSpecularMethod || new BasicSpecularMethod();
+		_baseMethod = baseSpecularMethod != null ? baseSpecularMethod : new BasicSpecularMethod();
 		_baseMethod.modulateMethod = modulateMethod;
 		_baseMethod.addEventListener(ShadingMethodEvent.SHADER_INVALIDATED, onShaderInvalidated);
 	}
@@ -46,7 +46,7 @@ class CompositeSpecularMethod extends BasicSpecularMethod
 	/**
 	 * The base specular method on which this method's shading is based.
 	 */
-	public var baseMethod(set,set):BasicSpecularMethod;
+	public var baseMethod(get,set):BasicSpecularMethod;
 	private function get_baseMethod():BasicSpecularMethod
 	{
 		return _baseMethod;
@@ -72,9 +72,9 @@ class CompositeSpecularMethod extends BasicSpecularMethod
 		return _baseMethod.gloss;
 	}
 
-	override private function set_gloss(value:Float):Void
+	override private function set_gloss(value:Float):Float
 	{
-		_baseMethod.gloss = value;
+		return _baseMethod.gloss = value;
 	}
 
 	/**
@@ -85,9 +85,9 @@ class CompositeSpecularMethod extends BasicSpecularMethod
 		return _baseMethod.specular;
 	}
 
-	override private function set_specular(value:Float):Void
+	override private function set_specular(value:Float):Float
 	{
-		_baseMethod.specular = value;
+		return _baseMethod.specular = value;
 	}
 
 	/**
@@ -115,9 +115,9 @@ class CompositeSpecularMethod extends BasicSpecularMethod
 		return _baseMethod.texture;
 	}
 
-	override private function set_texture(value:Texture2DBase):Void
+	override private function set_texture(value:Texture2DBase):Texture2DBase
 	{
-		_baseMethod.texture = value;
+		return _baseMethod.texture = value;
 	}
 
 	/**
@@ -136,9 +136,9 @@ class CompositeSpecularMethod extends BasicSpecularMethod
 	/**
 	 * @inheritDoc
 	 */
-	override private function set_sharedRegisters(value:ShaderRegisterData):Void
+	override private function set_sharedRegisters(value:ShaderRegisterData):ShaderRegisterData
 	{
-		super.sharedRegisters = _baseMethod.sharedRegisters = value;
+		return super.sharedRegisters = _baseMethod.sharedRegisters = value;
 	}
 
 	/**
@@ -196,10 +196,10 @@ class CompositeSpecularMethod extends BasicSpecularMethod
 		_baseMethod.cleanCompilationData();
 	}
 
-	override private function set_shadowRegister(value:ShaderRegisterElement):Void
+	override private function set_shadowRegister(value:ShaderRegisterElement):ShaderRegisterElement
 	{
-		super.shadowRegister = value;
 		_baseMethod.shadowRegister = value;
+		return super.shadowRegister = value;
 	}
 
 	private function onShaderInvalidated(event:ShadingMethodEvent):Void

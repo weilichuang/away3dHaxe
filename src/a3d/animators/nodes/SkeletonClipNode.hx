@@ -13,7 +13,7 @@ import a3d.animators.states.SkeletonClipState;
  */
 class SkeletonClipNode extends AnimationClipNodeBase
 {
-	private var _frames:Vector<SkeletonPose> = new Vector<SkeletonPose>();
+	private var _frames:Vector<SkeletonPose>;
 
 	/**
 	 * Determines whether to use SLERP equations (true) or LERP equations (false) in the calculation
@@ -25,10 +25,7 @@ class SkeletonClipNode extends AnimationClipNodeBase
 	 * Returns a vector of skeleton poses representing the pose of each animation frame in the clip.
 	 */
 	public var frames(get, null):Vector<SkeletonPose>;
-	private function get_frames():Vector<SkeletonPose>
-	{
-		return _frames;
-	}
+	
 
 	/**
 	 * Creates a new <code>SkeletonClipNode</code> object.
@@ -36,6 +33,7 @@ class SkeletonClipNode extends AnimationClipNodeBase
 	public function new()
 	{
 		super();
+		_frames = new Vector<SkeletonPose>();
 		_stateClass = SkeletonClipState;
 	}
 
@@ -93,5 +91,10 @@ class SkeletonClipNode extends AnimationClipNodeBase
 			_totalDelta.y += delta.y;
 			_totalDelta.z += delta.z;
 		}
+	}
+	
+	private function get_frames():Vector<SkeletonPose>
+	{
+		return _frames;
 	}
 }

@@ -111,7 +111,7 @@ class RefractionEnvMapMethod extends EffectMethodBase
 		return _dispersionG;
 	}
 
-	public var dispersionR(get,set):Float;
+	public var dispersionB(get,set):Float;
 	private function get_dispersionB():Float
 	{
 		return _dispersionB;

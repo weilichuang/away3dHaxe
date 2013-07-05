@@ -14,7 +14,6 @@ class LightMapDiffuseMethod extends CompositeDiffuseMethod
 	public static inline var MULTIPLY:String = "multiply";
 	public static inline var ADD:String = "add";
 
-	private var _texture:Texture2DBase;
 	private var _blendMode:String;
 	private var _useSecondaryUV:Bool;
 

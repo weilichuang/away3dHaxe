@@ -23,16 +23,17 @@ class JointPose
 	/**
 	 * The rotation of the pose stored as a quaternion
 	 */
-	public var orientation:Quaternion = new Quaternion();
+	public var orientation:Quaternion;
 
 	/**
 	 * The translation of the pose
 	 */
-	public var translation:Vector3D = new Vector3D();
+	public var translation:Vector3D;
 
 	public function new()
 	{
-
+		orientation = new Quaternion();
+		translation = new Vector3D();
 	}
 
 	/**

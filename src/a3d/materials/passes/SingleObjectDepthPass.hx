@@ -7,6 +7,7 @@ import flash.display3D.textures.Texture;
 import flash.geom.Matrix3D;
 import flash.utils.Dictionary;
 import flash.Vector;
+import haxe.ds.ObjectMap;
 
 
 import a3d.entities.Camera3D;
@@ -22,8 +23,8 @@ import a3d.entities.lights.LightBase;
  */
 class SingleObjectDepthPass extends MaterialPassBase
 {
-	private var _textures:Vector<Dictionary>;
-	private var _projections:Dictionary;
+	private var _textures:Vector<ObjectMap<IRenderable,Texture>>;
+	private var _projections:ObjectMap<IRenderable,Matrix3D>;
 	private var _textureSize:UInt;
 	private var _polyOffset:Vector<Float>;
 	private var _enc:Vector<Float>;
@@ -42,13 +43,13 @@ class SingleObjectDepthPass extends MaterialPassBase
 		_textureSize = textureSize;
 		_numUsedStreams = 2;
 		_numUsedVertexConstants = 7;
-		_polyOffset = new <Number>[polyOffset, 0, 0, 0];
-		_enc = Vector<Float>([1.0, 255.0, 65025.0, 16581375.0,
+		_polyOffset = Vector.ofArray([polyOffset, 0, 0, 0]);
+		_enc = Vector.ofArray([1.0, 255.0, 65025.0, 16581375.0,
 			1.0 / 255.0, 1.0 / 255.0, 1.0 / 255.0, 0.0
 			]);
 
-		_animatableAttributes = Vector<String>(["va0", "va1"]);
-		_animationTargetRegisters = Vector<String>(["vt0", "vt1"]);
+		_animatableAttributes = Vector.ofArray(["va0", "va1"]);
+		_animationTargetRegisters = Vector.ofArray(["vt0", "vt1"]);
 	}
 
 	/**
@@ -56,13 +57,15 @@ class SingleObjectDepthPass extends MaterialPassBase
 	 */
 	override public function dispose():Void
 	{
-		if (_textures)
+		if (_textures != null)
 		{
-			for (var i:UInt = 0; i < _textures.length; ++i)
+			for (i in 0..._textures.length)
 			{
-				for each (var vec:Vector<Texture> in _textures[i])
+				var vec:Vector<Texture>;
+				//var values:Iterator<Texture> = _textures[i].iterator();
+				for (vec in _textures[i])
 				{
-					for (var j:UInt = 0; j < vec.length; ++j)
+					for (j in 0...vec.length)
 					{
 						vec[j].dispose();
 					}
@@ -74,21 +77,23 @@ class SingleObjectDepthPass extends MaterialPassBase
 
 	private function updateProjectionTextures():Void
 	{
-		if (_textures)
+		if (_textures != null)
 		{
-			for (var i:UInt = 0; i < _textures.length; ++i)
+			for (i in 0..._textures.length)
 			{
-				for each (var vec:Vector<Texture> in _textures[i])
+				var vec:Vector<Texture>;
+				for (vec in _textures[i])
 				{
-					for (var j:UInt = 0; j < vec.length; ++j)
+					for (j in 0...vec.length)
 					{
 						vec[j].dispose();
 					}
 				}
 			}
+			_textures = null;
 		}
 
-		_textures = new Vector<Dictionary>(8);
+		_textures = new Vector<ObjectMap<IRenderable,Texture>>(8);
 		_projections = new Dictionary();
 		_projectionTexturesInvalid = false;
 	}
@@ -118,8 +123,6 @@ class SingleObjectDepthPass extends MaterialPassBase
 	 */
 	override public function getFragmentCode(animationCode:String):String
 	{
-		// TODO: not used
-		animationCode = animationCode;
 		var code:String = "";
 
 		// encode float -> rgba
@@ -139,7 +142,7 @@ class SingleObjectDepthPass extends MaterialPassBase
 	 */
 	public function getDepthMap(renderable:IRenderable, stage3DProxy:Stage3DProxy):Texture
 	{
-		return _textures[stage3DProxy.stage3DIndex][renderable];
+		return _textures[stage3DProxy.stage3DIndex].get(renderable);
 	}
 
 	/**
@@ -149,7 +152,7 @@ class SingleObjectDepthPass extends MaterialPassBase
 	 */
 	public function getProjection(renderable:IRenderable):Matrix3D
 	{
-		return _projections[renderable];
+		return _projections.get(renderable);
 	}
 
 	/**
@@ -165,21 +168,21 @@ class SingleObjectDepthPass extends MaterialPassBase
 		var lights:Vector<LightBase> = _lightPicker.allPickedLights;
 
 		if (_textures[contextIndex] == null)
-			_textures[contextIndex] = new Dictionary();
+			_textures[contextIndex] = new ObjectMap<IRenderable,Texture>();
 
-		if (!_projections[renderable])
-			_projections[renderable] = new Matrix3D();
+		if (!_projections.exists(renderable))
+			_projections.set(renderable,new Matrix3D());
 
 		len = lights.length;
 		// local position = enough
 		light = lights[0];
 
-		matrix = light.getObjectProjectionMatrix(renderable, _projections[renderable]);
+		matrix = light.getObjectProjectionMatrix(renderable, _projections.get(renderable));
 
 		// todo: use texture proxy?
-		if (_textures[contextIndex][renderable] == null)
-			_textures[contextIndex][renderable] = context.createTexture(_textureSize, _textureSize, Context3DTextureFormat.BGRA, true);
-		var target:Texture = _textures[contextIndex][renderable];
+		if (!_textures[contextIndex].exists(renderable))
+			_textures[contextIndex].set(renderable,context.createTexture(_textureSize, _textureSize, Context3DTextureFormat.BGRA, true));
+		var target:Texture = _textures[contextIndex].get(renderable);
 
 		stage3DProxy.setRenderTarget(target, true);
 		context.clear(1.0, 1.0, 1.0);

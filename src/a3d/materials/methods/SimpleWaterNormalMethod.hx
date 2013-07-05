@@ -90,11 +90,11 @@ class SimpleWaterNormalMethod extends BasicNormalMethod
 	override private function set_normalMap(value:Texture2DBase):Texture2DBase
 	{
 		if (value == null)
-			return;
+			return super.normalMap;
 		return super.normalMap = value;
 	}
 
-	public var secondaryNormalMap(set,set):Texture2DBase;
+	public var secondaryNormalMap(get,set):Texture2DBase;
 	private function get_secondaryNormalMap():Texture2DBase
 	{
 		return _texture2;
@@ -129,7 +129,7 @@ class SimpleWaterNormalMethod extends BasicNormalMethod
 		data[index + 6] = _water2OffsetX;
 		data[index + 7] = _water2OffsetY;
 
-		if (_useSecondNormalMap >= 0)
+		if (_useSecondNormalMap)
 		{
 			stage3DProxy.context3D.setTextureAt(vo.texturesIndex + 1, _texture2.getTextureForStage3D(stage3DProxy));
 		}

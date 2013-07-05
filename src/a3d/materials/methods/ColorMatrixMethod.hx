@@ -4,6 +4,7 @@ package a3d.materials.methods;
 import a3d.core.managers.Stage3DProxy;
 import a3d.materials.compilation.ShaderRegisterCache;
 import a3d.materials.compilation.ShaderRegisterElement;
+import flash.errors.Error;
 import flash.Vector;
 
 
@@ -15,12 +16,12 @@ import flash.Vector;
 class ColorMatrixMethod extends EffectMethodBase
 {
 	//private var _data:Vector<Float>;
-	private var _matrix:Array;
+	private var _matrix:Array<Float>;
 
 	/**
 	 * Creates a new ColorTransformMethod.
 	 */
-	public function new(matrix:Array)
+	public function new(matrix:Array<Float>)
 	{
 		super();
 		if (matrix.length != 20)
@@ -32,7 +33,7 @@ class ColorMatrixMethod extends EffectMethodBase
 	/**
 	 * The ColorMatrixFilter object to transform the color of the material.
 	 */
-	public var colorMatrix(set,set):Array<Float>;
+	public var colorMatrix(get,set):Array<Float>;
 	private function get_colorMatrix():Array<Float>
 	{
 		return _matrix;
@@ -68,7 +69,7 @@ class ColorMatrixMethod extends EffectMethodBase
 	 */
 	override public function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):Void
 	{
-		var matrix:Array = _matrix;
+		var matrix:Array<Float> = _matrix;
 		var index:Int = vo.fragmentConstantsIndex;
 		var data:Vector<Float> = vo.fragmentData;
 		// r

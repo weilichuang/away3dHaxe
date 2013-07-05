@@ -51,8 +51,14 @@ class CapsuleGeometry extends PrimitiveBase
 		if (numVerts == target.numVertices)
 		{
 			data = target.vertexData;
-			indices = target.indexData || new Vector<UInt>((_segmentsH - 1) * _segmentsW * 6, true);
-
+			if (target.indexData != null)
+			{
+				indices = target.indexData;
+			}
+			else
+			{
+				indices = new Vector<UInt>((_segmentsH - 1) * _segmentsW * 6, true);
+			}
 		}
 		else
 		{
@@ -61,7 +67,7 @@ class CapsuleGeometry extends PrimitiveBase
 			invalidateUVs();
 		}
 
-		for (j = 0; j <= _segmentsH; ++j)
+		for (j in 0..._segmentsH+1)
 		{
 
 			var horangle:Float = Math.PI * j / _segmentsH;
@@ -69,7 +75,7 @@ class CapsuleGeometry extends PrimitiveBase
 			var ringradius:Float = _radius * Math.sin(horangle);
 			startIndex = index;
 
-			for (i = 0; i <= _segmentsW; ++i)
+			for (i in 0..._segmentsW+1)
 			{
 				var verangle:Float = 2 * Math.PI * i / _segmentsW;
 				var x:Float = ringradius * Math.cos(verangle);
@@ -180,7 +186,7 @@ class CapsuleGeometry extends PrimitiveBase
 		var UVlen:UInt = (_segmentsH + 1) * (_segmentsW + 1) * stride;
 		var skip:UInt = stride - 2;
 
-		if (target.UVData && UVlen == target.UVData.length)
+		if (target.UVData != null && UVlen == target.UVData.length)
 		{
 			data = target.UVData;
 		}
@@ -191,9 +197,9 @@ class CapsuleGeometry extends PrimitiveBase
 		}
 
 		index = target.UVOffset;
-		for (j = 0; j <= _segmentsH; ++j)
+		for (j in 0..._segmentsH+1)
 		{
-			for (i = 0; i <= _segmentsW; ++i)
+			for (i in 0..._segmentsW+1)
 			{
 				data[index++] = i / _segmentsW;
 				data[index++] = j / _segmentsH;

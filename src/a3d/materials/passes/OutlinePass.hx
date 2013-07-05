@@ -7,7 +7,8 @@ import flash.display3D.Context3DTriangleFace;
 import flash.geom.Matrix3D;
 import flash.utils.Dictionary;
 import flash.Vector;
-
+import haxe.ds.ObjectMap;
+import haxe.ds.StringMap;
 
 import a3d.entities.Camera3D;
 import a3d.core.base.Geometry;
@@ -19,7 +20,7 @@ import a3d.core.managers.Stage3DProxy;
 import a3d.entities.Mesh;
 import a3d.math.Matrix3DUtils;
 
-
+using a3d.math.MathUtil;
 
 class OutlinePass extends MaterialPassBase
 {
@@ -27,7 +28,7 @@ class OutlinePass extends MaterialPassBase
 	private var _colorData:Vector<Float>;
 	private var _offsetData:Vector<Float>;
 	private var _showInnerLines:Bool;
-	private var _outlineMeshes:Dictionary;
+	private var _outlineMeshes:ObjectMap<IRenderable,Mesh>;
 	private var _dedicatedMeshes:Bool;
 
 	/**
@@ -52,10 +53,10 @@ class OutlinePass extends MaterialPassBase
 		_showInnerLines = showInnerLines;
 		_dedicatedMeshes = dedicatedMeshes;
 		if (dedicatedMeshes)
-			_outlineMeshes = new Dictionary();
+			_outlineMeshes = new ObjectMap<IRenderable,Mesh>();
 
-		_animatableAttributes = Vector<String>(["va0", "va1"]);
-		_animationTargetRegisters = Vector<String>(["vt0", "vt1"]);
+		_animatableAttributes = Vector.ofArray(["va0", "va1"]);
+		_animationTargetRegisters = Vector.ofArray(["vt0", "vt1"]);
 
 	}
 
@@ -67,20 +68,20 @@ class OutlinePass extends MaterialPassBase
 	{
 		if (_dedicatedMeshes)
 		{
-			for (var i:Int = 0; i < mesh.subMeshes.length; ++i)
+			for (i in 0...mesh.subMeshes.length)
 			{
 				disposeDedicated(mesh.subMeshes[i]);
 			}
 		}
 	}
 
-	private function disposeDedicated(keySubMesh:Object):Void
+	private function disposeDedicated(keySubMesh:Dynamic):Void
 	{
 		var mesh:Mesh;
-		mesh = Mesh(_dedicatedMeshes[keySubMesh]);
+		mesh = _outlineMeshes.get(keySubMesh);
 		mesh.geometry.dispose();
 		mesh.dispose();
-		delete _dedicatedMeshes[keySubMesh];
+		_outlineMeshes.remove(keySubMesh);
 	}
 
 	override public function dispose():Void
@@ -89,44 +90,49 @@ class OutlinePass extends MaterialPassBase
 
 		if (_dedicatedMeshes)
 		{
-			for (var key:Object in _outlineMeshes)
+			var key:Dynamic;
+			for (key in _outlineMeshes)
 			{
 				disposeDedicated(key);
 			}
 		}
 	}
 
+	public var showInnerLines(get,set):Bool;
 	private function get_showInnerLines():Bool
 	{
 		return _showInnerLines;
 	}
 
-	private function set_showInnerLines(value:Bool):Void
+	private function set_showInnerLines(value:Bool):Bool
 	{
-		_showInnerLines = value;
+		return _showInnerLines = value;
 	}
 
+	public var outlineColor(get,set):UInt;
 	private function get_outlineColor():UInt
 	{
 		return _outlineColor;
 	}
 
-	private function set_outlineColor(value:UInt):Void
+	private function set_outlineColor(value:UInt):UInt
 	{
 		_outlineColor = value;
 		_colorData[0] = ((value >> 16) & 0xff) / 0xff;
 		_colorData[1] = ((value >> 8) & 0xff) / 0xff;
 		_colorData[2] = (value & 0xff) / 0xff;
+		return _outlineColor;
 	}
 
+	public var outlineSize(get,set):Float;
 	private function get_outlineSize():Float
 	{
 		return _offsetData[0];
 	}
 
-	private function set_outlineSize(value:Float):Void
+	private function set_outlineSize(value:Float):Float
 	{
-		_offsetData[0] = value;
+		return _offsetData[0] = value;
 	}
 
 	/**
@@ -150,8 +156,6 @@ class OutlinePass extends MaterialPassBase
 	 */
 	override public function getFragmentCode(animationCode:String):String
 	{
-		// TODO: not used
-		animationCode = animationCode;
 		return "mov oc, fc0\n";
 	}
 
@@ -191,9 +195,9 @@ class OutlinePass extends MaterialPassBase
 
 		if (_dedicatedMeshes)
 		{
-			if (_outlineMeshes[renderable] == null)
-				_outlineMeshes[renderable] = createDedicatedMesh(SubMesh(renderable).subGeometry)
-			mesh = _outlineMeshes[renderable];
+			if (!_outlineMeshes.exists(renderable))
+				_outlineMeshes.set(renderable, createDedicatedMesh(Std.instance(renderable,SubMesh).subGeometry));
+			mesh = _outlineMeshes.get(renderable);
 			dedicatedRenderable = mesh.subMeshes[0];
 
 			context.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX, 0, matrix3D, true);
@@ -216,7 +220,7 @@ class OutlinePass extends MaterialPassBase
 	{
 		var mesh:Mesh = new Mesh(new Geometry(), null);
 		var dest:SubGeometry = new SubGeometry();
-		var indexLookUp:Array = [];
+		var indexLookUp:StringMap<Int> = new StringMap<Int>();
 		var srcIndices:Vector<UInt> = source.indexData;
 		var srcVertices:Vector<Float> = source.vertexData;
 		var dstIndices:Vector<UInt> = new Vector<UInt>();
@@ -231,7 +235,7 @@ class OutlinePass extends MaterialPassBase
 		var stride:Int = source.vertexStride;
 		var offset:Int = source.vertexOffset;
 
-		for (var i:Int = 0; i < len; ++i)
+		for (i in 0...len)
 		{
 			index = offset + srcIndices[i] * stride;
 			x = srcVertices[index];
@@ -239,14 +243,14 @@ class OutlinePass extends MaterialPassBase
 			z = srcVertices[index + 2];
 			key = x.toPrecision(5) + "/" + y.toPrecision(5) + "/" + z.toPrecision(5);
 
-			if (indexLookUp[key])
+			if (indexLookUp.exists(key))
 			{
-				index = indexLookUp[key] - 1;
+				index = indexLookUp.get(key) - 1;
 			}
 			else
 			{
-				index = vertexCount / 3;
-				indexLookUp[key] = index + 1;
+				index = Std.int(vertexCount / 3);
+				indexLookUp.set(key, index + 1);
 				dstVertices[vertexCount++] = x;
 				dstVertices[vertexCount++] = y;
 				dstVertices[vertexCount++] = z;

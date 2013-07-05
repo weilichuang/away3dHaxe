@@ -2,6 +2,7 @@ package a3d.animators;
 
 import flash.display3D.Context3D;
 import flash.display3D.Context3DProfile;
+import flash.Vector;
 
 
 import a3d.core.managers.Stage3DProxy;

@@ -41,9 +41,11 @@ class CompositeDiffuseMethod extends BasicDiffuseMethod
 	 * @param modulateMethod The method which will add the code to alter the base method's strength. It needs to have the signature clampDiffuse(t : ShaderRegisterElement, regCache : ShaderRegisterCache) : String, in which t.w will contain the diffuse strength.
 	 * @param baseDiffuseMethod The base diffuse method on which this method's shading is based.
 	 */
-	public function new(modulateMethod:Function = null, baseDiffuseMethod:BasicDiffuseMethod = null)
+	public function new(modulateMethod:Dynamic = null, baseDiffuseMethod:BasicDiffuseMethod = null)
 	{
-		_baseMethod = baseDiffuseMethod || new BasicDiffuseMethod();
+		super();
+		
+		_baseMethod = baseDiffuseMethod != null ? baseDiffuseMethod : new BasicDiffuseMethod();
 		_baseMethod.modulateMethod = modulateMethod;
 		_baseMethod.addEventListener(ShadingMethodEvent.SHADER_INVALIDATED, onShaderInvalidated);
 	}
@@ -72,9 +74,9 @@ class CompositeDiffuseMethod extends BasicDiffuseMethod
 		return _baseMethod.alphaThreshold;
 	}
 
-	override private function set_alphaThreshold(value:Float):Void
+	override private function set_alphaThreshold(value:Float):Float
 	{
-		_baseMethod.alphaThreshold = value;
+		return _baseMethod.alphaThreshold = value;
 	}
 
 	/**
@@ -88,9 +90,9 @@ class CompositeDiffuseMethod extends BasicDiffuseMethod
 	/**
 	 * @inheritDoc
 	 */
-	override private function set_texture(value:Texture2DBase):Void
+	override private function set_texture(value:Texture2DBase):Texture2DBase
 	{
-		_baseMethod.texture = value;
+		return _baseMethod.texture = value;
 	}
 
 	/**
@@ -112,17 +114,17 @@ class CompositeDiffuseMethod extends BasicDiffuseMethod
 	/**
 	 * @inheritDoc
 	 */
-	override private function set_diffuseColor(diffuseColor:UInt):Void
+	override private function set_diffuseColor(diffuseColor:UInt):UInt
 	{
-		_baseMethod.diffuseColor = diffuseColor;
+		return _baseMethod.diffuseColor = diffuseColor;
 	}
 
 	/**
 	 * @inheritDoc
 	 */
-	override private function set_diffuseAlpha(value:Float):Void
+	override private function set_diffuseAlpha(value:Float):Float
 	{
-		_baseMethod.diffuseAlpha = value;
+		return _baseMethod.diffuseAlpha = value;
 	}
 
 	/**
@@ -201,15 +203,15 @@ class CompositeDiffuseMethod extends BasicDiffuseMethod
 	/**
 	 * @inheritDoc
 	 */
-	override private function set_sharedRegisters(value:ShaderRegisterData):Void
+	override private function set_sharedRegisters(value:ShaderRegisterData):ShaderRegisterData
 	{
-		super.sharedRegisters = _baseMethod.sharedRegisters = value;
+		return super.sharedRegisters = _baseMethod.sharedRegisters = value;
 	}
 
-	override private function set_shadowRegister(value:ShaderRegisterElement):Void
+	override private function set_shadowRegister(value:ShaderRegisterElement):ShaderRegisterElement
 	{
-		super.shadowRegister = value;
 		_baseMethod.shadowRegister = value;
+		return super.shadowRegister = value;
 	}
 
 	private function onShaderInvalidated(event:ShadingMethodEvent):Void

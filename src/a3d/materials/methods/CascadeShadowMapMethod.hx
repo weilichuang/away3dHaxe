@@ -1,5 +1,6 @@
 package a3d.materials.methods;
 
+import flash.errors.Error;
 import flash.events.Event;
 import flash.Vector;
 
@@ -34,14 +35,14 @@ class CascadeShadowMapMethod extends ShadowMapMethodBase
 			throw new Error("CascadeShadowMapMethod is only compatible with DirectionalLight");
 		_cascadeShadowMapper = Std.instance(_castingLight.shadowMapper,CascadeShadowMapper);
 
-		if (!_cascadeShadowMapper)
+		if (_cascadeShadowMapper == null)
 			throw new Error("NearShadowMapMethod requires a light that has a CascadeShadowMapper instance assigned to shadowMapper.");
 
 		_cascadeShadowMapper.addEventListener(Event.CHANGE, onCascadeChange, false, 0, true);
 		_baseMethod.addEventListener(ShadingMethodEvent.SHADER_INVALIDATED, onShaderInvalidated, false, 0, true);
 	}
 
-	public var baseMethod(set,set):SimpleShadowMapMethodBase;
+	public var baseMethod(get,set):SimpleShadowMapMethodBase;
 	private function get_baseMethod():SimpleShadowMapMethodBase
 	{
 		return _baseMethod;
@@ -67,10 +68,10 @@ class CascadeShadowMapMethod extends ShadowMapMethodBase
 		vo.needsProjection = true;
 	}
 
-	override private function set_sharedRegisters(value:ShaderRegisterData):Void
+	override private function set_sharedRegisters(value:ShaderRegisterData):ShaderRegisterData
 	{
-		super.sharedRegisters = value;
 		_baseMethod.sharedRegisters = value;
+		return super.sharedRegisters = value;
 	}
 
 	override public function initConstants(vo:MethodVO):Void
@@ -109,7 +110,7 @@ class CascadeShadowMapMethod extends ShadowMapMethodBase
 
 		var temp:ShaderRegisterElement = regCache.getFreeVertexVectorTemp();
 
-		for (var i:Int = 0; i < _cascadeShadowMapper.numCascades; ++i)
+		for (i in 0..._cascadeShadowMapper.numCascades)
 		{
 			code += "m44 " + temp + ", " + _sharedRegisters.globalPositionVertex + ", " + _cascadeProjections[i] + "\n" +
 				"add " + _depthMapCoordVaryings[i] + ", " + temp + ", " + dataReg + ".zzwz\n";
@@ -123,7 +124,7 @@ class CascadeShadowMapMethod extends ShadowMapMethodBase
 		_cascadeProjections = new Vector<ShaderRegisterElement>(_cascadeShadowMapper.numCascades);
 		_depthMapCoordVaryings = new Vector<ShaderRegisterElement>(_cascadeShadowMapper.numCascades);
 
-		for (var i:Int = 0; i < _cascadeShadowMapper.numCascades; ++i)
+		for (i in 0..._cascadeShadowMapper.numCascades)
 		{
 			_depthMapCoordVaryings[i] = regCache.getFreeVarying();
 			_cascadeProjections[i] = regCache.getFreeVertexConstant();
@@ -140,7 +141,7 @@ class CascadeShadowMapMethod extends ShadowMapMethodBase
 		var decReg:ShaderRegisterElement = regCache.getFreeFragmentConstant();
 		var dataReg:ShaderRegisterElement = regCache.getFreeFragmentConstant();
 		var planeDistanceReg:ShaderRegisterElement = regCache.getFreeFragmentConstant();
-		var planeDistances:Vector<String> = new <String>[planeDistanceReg + ".x", planeDistanceReg + ".y", planeDistanceReg + ".z", planeDistanceReg + ".w"];
+		var planeDistances:Vector<String> = Vector.ofArray([planeDistanceReg + ".x", planeDistanceReg + ".y", planeDistanceReg + ".z", planeDistanceReg + ".w"]);
 		var code:String;
 
 		vo.fragmentConstantsIndex = decReg.index * 4;
@@ -154,7 +155,8 @@ class CascadeShadowMapMethod extends ShadowMapMethodBase
 		// assume lowest partition is selected, will be overwritten later otherwise
 		code = "mov " + uvCoord + ", " + _depthMapCoordVaryings[numCascades - 1] + "\n";
 
-		for (var i:Int = numCascades - 2; i >= 0; --i)
+		var i:Int = numCascades - 2;
+		while ( i >= 0)
 		{
 			var uvProjection:ShaderRegisterElement = _depthMapCoordVaryings[i];
 
@@ -167,6 +169,8 @@ class CascadeShadowMapMethod extends ShadowMapMethodBase
 			code += "sub " + temp + ", " + uvProjection + ", " + uvCoord + "\n" +
 				"mul " + temp + ", " + temp + ", " + inQuad + ".z\n" +
 				"add " + uvCoord + ", " + uvCoord + ", " + temp + "\n";
+				
+			--i;
 		}
 
 		regCache.removeFragmentTempUsage(inQuad);
@@ -198,7 +202,7 @@ class CascadeShadowMapMethod extends ShadowMapMethodBase
 
 		var numCascades:Int = _cascadeShadowMapper.numCascades;
 		vertexIndex += 4;
-		for (var k:Int = 0; k < numCascades; ++k)
+		for (k in 0...numCascades)
 		{
 			_cascadeShadowMapper.getDepthProjections(k).copyRawDataTo(vertexData, vertexIndex, true);
 			vertexIndex += 16;

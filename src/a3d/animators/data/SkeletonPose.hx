@@ -86,7 +86,8 @@ class SkeletonPose extends NamedAssetBase implements IAsset
 		// c) maintaining a dictionary (for safety) would dictate an interface to access JointPoses,
 		//    rather than direct array access.  this would be sub-optimal.
 		var jointPoseIndex:Int;
-		for (var jointPose:JointPose in jointPoses)
+		var jointPose:JointPose;
+		for (jointPose in jointPoses)
 		{
 			if (jointPose.name == jointName)
 			{

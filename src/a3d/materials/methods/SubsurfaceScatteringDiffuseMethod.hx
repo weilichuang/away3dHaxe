@@ -89,7 +89,7 @@ class SubsurfaceScatteringDiffuseMethod extends CompositeDiffuseMethod
 	 * The amount by which the light scatters. It can be used to set the translucent surface's thickness. Use low
 	 * values for skin.
 	 */
-	public var scattering(set,set):Float;
+	public var scattering(get,set):Float;
 	private function get_scattering():Float
 	{
 		return _scattering;
@@ -103,7 +103,7 @@ class SubsurfaceScatteringDiffuseMethod extends CompositeDiffuseMethod
 	/**
 	 * The translucency of the object.
 	 */
-	public var translucency(set,set):Float;
+	public var translucency(get,set):Float;
 	private function get_translucency():Float
 	{
 		return _translucency;
@@ -117,7 +117,7 @@ class SubsurfaceScatteringDiffuseMethod extends CompositeDiffuseMethod
 	/**
 	 * The colour the light becomes inside the object.
 	 */
-	public var scatterColor(set,set):UInt;
+	public var scatterColor(get,set):UInt;
 	private function get_scatterColor():UInt
 	{
 		return _scatterColor;
@@ -131,11 +131,7 @@ class SubsurfaceScatteringDiffuseMethod extends CompositeDiffuseMethod
 		_scatterB = (scatterColor & 0xff) / 0xff;
 		return _scatterColor;
 	}
-	}
-
-	/**
-	 * @inheritDoc
-	 */
+	
 	override public function getVertexCode(vo:MethodVO, regCache:ShaderRegisterCache):String
 	{
 		var code:String = super.getVertexCode(vo, regCache);
@@ -242,7 +238,7 @@ class SubsurfaceScatteringDiffuseMethod extends CompositeDiffuseMethod
 		var depthReg:ShaderRegisterElement = regCache.getFreeTextureReg();
 
 
-		if (sharedRegisters.viewDirFragment)
+		if (sharedRegisters.viewDirFragment != null)
 		{
 			_targetReg = sharedRegisters.viewDirFragment;
 		}

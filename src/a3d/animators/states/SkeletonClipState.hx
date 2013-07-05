@@ -1,5 +1,6 @@
 package a3d.animators.states;
 
+import flash.errors.Error;
 import flash.geom.Vector3D;
 import flash.Vector;
 
@@ -15,14 +16,25 @@ import a3d.animators.nodes.SkeletonClipNode;
  */
 class SkeletonClipState extends AnimationClipState implements ISkeletonAnimationState
 {
-	private var _rootPos:Vector3D = new Vector3D();
+	private var _rootPos:Vector3D;
 	private var _frames:Vector<SkeletonPose>;
 	private var _skeletonClipNode:SkeletonClipNode;
-	private var _skeletonPose:SkeletonPose = new SkeletonPose();
+	private var _skeletonPose:SkeletonPose;
 	private var _skeletonPoseDirty:Bool = true;
 	private var _currentPose:SkeletonPose;
 	private var _nextPose:SkeletonPose;
 
+	public function new(animator:IAnimator, skeletonClipNode:SkeletonClipNode)
+	{
+		super(animator, skeletonClipNode);
+		
+		_rootPos = new Vector3D();
+		_skeletonPose = new SkeletonPose();
+
+		_skeletonClipNode = skeletonClipNode;
+		_frames = _skeletonClipNode.frames;
+	}
+	
 	/**
 	 * Returns the current skeleton pose frame of animation in the clip based on the internal playhead position.
 	 */
@@ -45,14 +57,6 @@ class SkeletonClipState extends AnimationClipState implements ISkeletonAnimation
 			updateFrames();
 
 		return _nextPose;
-	}
-
-	public function new(animator:IAnimator, skeletonClipNode:SkeletonClipNode)
-	{
-		super(animator, skeletonClipNode);
-
-		_skeletonClipNode = skeletonClipNode;
-		_frames = _skeletonClipNode.frames;
 	}
 
 	/**
@@ -88,7 +92,7 @@ class SkeletonClipState extends AnimationClipState implements ISkeletonAnimation
 		if (_skeletonClipNode.looping && _nextFrame >= _skeletonClipNode.lastFrame)
 		{
 			_nextPose = _frames[0];
-			SkeletonAnimator(_animator).dispatchCycleEvent();
+			Std.instance(_animator,SkeletonAnimator).dispatchCycleEvent();
 		}
 		else
 		{
@@ -105,7 +109,7 @@ class SkeletonClipState extends AnimationClipState implements ISkeletonAnimation
 	{
 		_skeletonPoseDirty = false;
 
-		if (!_skeletonClipNode.totalDuration)
+		if (_skeletonClipNode.totalDuration == 0)
 			return;
 
 		if (_framesDirty)

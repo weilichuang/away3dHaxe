@@ -42,5 +42,10 @@ class MathUtil
 		return a < b ? a : b;
 	}
 	
+	public static inline function toPrecision(value:Float,precision:Int):String
+	{
+		return untyped value.toPrecision(precision);
+	}
+	
 }
 

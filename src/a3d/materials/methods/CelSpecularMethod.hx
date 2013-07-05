@@ -32,7 +32,7 @@ class CelSpecularMethod extends CompositeSpecularMethod
 	/**
 	 * The smoothness of the highlight edge.
 	 */
-	public var smoothness(set,set):Float;
+	public var smoothness(get,set):Float;
 	private function get_smoothness():Float
 	{
 		return _smoothness;
@@ -46,7 +46,7 @@ class CelSpecularMethod extends CompositeSpecularMethod
 	/**
 	 * The threshold at which the specular highlight should be shown.
 	 */
-	public var specularCutOff(set,set):Float;
+	public var specularCutOff(get,set):Float;
 	private function get_specularCutOff():Float
 	{
 		return _specularCutOff;
@@ -86,9 +86,6 @@ class CelSpecularMethod extends CompositeSpecularMethod
 	 */
 	private function clampSpecular(methodVO:MethodVO, target:ShaderRegisterElement, regCache:ShaderRegisterCache, sharedRegisters:ShaderRegisterData):String
 	{
-		methodVO = methodVO;
-		regCache = regCache;
-		sharedRegisters = sharedRegisters;
 		return "sub " + target + ".y, " + target + ".w, " + _dataReg + ".y\n" + // x - cutoff
 			"div " + target + ".y, " + target + ".y, " + _dataReg + ".x\n" + // (x - cutoff)/epsilon
 			"sat " + target + ".y, " + target + ".y\n" +

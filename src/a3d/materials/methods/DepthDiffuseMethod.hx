@@ -3,6 +3,7 @@ package a3d.materials.methods;
 
 import a3d.materials.compilation.ShaderRegisterCache;
 import a3d.materials.compilation.ShaderRegisterElement;
+import flash.errors.Error;
 import flash.Vector;
 
 
@@ -45,7 +46,7 @@ class DepthDiffuseMethod extends BasicDiffuseMethod
 		// incorporate input from ambient
 		if (vo.numLights > 0)
 		{
-			if (_shadowRegister)
+			if (_shadowRegister != null)
 				code += "mul " + _totalLightColorReg + ".xyz, " + _totalLightColorReg + ".xyz, " + _shadowRegister + ".w\n";
 			code += "add " + targetReg + ".xyz, " + _totalLightColorReg + ".xyz, " + targetReg + ".xyz\n" +
 				"sat " + targetReg + ".xyz, " + targetReg + ".xyz\n";

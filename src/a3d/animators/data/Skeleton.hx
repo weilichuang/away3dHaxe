@@ -76,7 +76,8 @@ class Skeleton extends NamedAssetBase implements IAsset
 		// c) maintaining a dictionary (for safety) would dictate an interface to access SkeletonJoints,
 		//    rather than direct array access.  this would be sub-optimal.
 		var jointIndex:Int;
-		for (var joint:SkeletonJoint in joints)
+		var joint:SkeletonJoint;
+		for (joint in joints)
 		{
 			if (joint.name == jointName)
 			{

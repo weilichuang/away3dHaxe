@@ -23,7 +23,7 @@ class TextureProjector extends ObjectContainer3D
 {
 	private var _lens:PerspectiveLens;
 	private var _viewProjectionInvalid:Bool = true;
-	private var _viewProjection:Matrix3D = new Matrix3D();
+	private var _viewProjection:Matrix3D;
 	private var _texture:Texture2DBase;
 
 	/**
@@ -33,6 +33,10 @@ class TextureProjector extends ObjectContainer3D
 	 */
 	public function new(texture:Texture2DBase)
 	{
+		super();
+		
+		_viewProjection = new Matrix3D();
+		
 		_lens = new PerspectiveLens();
 		_lens.addEventListener(LensEvent.MATRIX_CHANGED, onInvalidateLensMatrix, false, 0, true);
 		_texture = texture;
@@ -43,27 +47,29 @@ class TextureProjector extends ObjectContainer3D
 	/**
 	 * The aspect ratio of the texture or projection. By default this is the same aspect ratio of the texture (width/height)
 	 */
+	public var aspectRatio(get,set):Float;
 	private function get_aspectRatio():Float
 	{
 		return _lens.aspectRatio;
 	}
 
-	private function set_aspectRatio(value:Float):Void
+	private function set_aspectRatio(value:Float):Float
 	{
-		_lens.aspectRatio = value;
+		return _lens.aspectRatio = value;
 	}
 
 	/**
 	 * The vertical field of view of the projection, or the angle of the cone.
 	 */
+	public var fieldOfView(get,set):Float;
 	private function get_fieldOfView():Float
 	{
 		return _lens.fieldOfView;
 	}
 
-	private function set_fieldOfView(value:Float):Void
+	private function set_fieldOfView(value:Float):Float
 	{
-		_lens.fieldOfView = value;
+		return _lens.fieldOfView = value;
 	}
 
 	override private function get_assetType():String
@@ -79,21 +85,23 @@ class TextureProjector extends ObjectContainer3D
 	 * Black for ADD,
 	 * Transparent for MIX
 	 */
+	public var texture(get,set):Texture2DBase;
 	private function get_texture():Texture2DBase
 	{
 		return _texture;
 	}
 
-	private function set_texture(value:Texture2DBase):Void
+	private function set_texture(value:Texture2DBase):Texture2DBase
 	{
 		if (value == _texture)
-			return;
-		_texture = value;
+			return _texture;
+		return _texture = value;
 	}
 
 	/**
 	 * The matrix that projects a point in scene space into the texture coordinates.
 	 */
+	public var viewProjection(get,null):Matrix3D;
 	private function get_viewProjection():Matrix3D
 	{
 		if (_viewProjectionInvalid)

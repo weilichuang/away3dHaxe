@@ -26,7 +26,7 @@ class SoftShadowMapMethod extends SimpleShadowMapMethodBase
 		this.range = range;
 	}
 	
-	public var numSamples(set,set):Int;
+	public var numSamples(get,set):Int;
 	private function get_numSamples():Int
 	{
 		return _numSamples;
@@ -46,7 +46,7 @@ class SoftShadowMapMethod extends SimpleShadowMapMethodBase
 		return _numSamples;
 	}
 
-	public var range(set,set):Float;
+	public var range(get,set):Float;
 	private function get_range():Float
 	{
 		return _range;
@@ -86,8 +86,6 @@ class SoftShadowMapMethod extends SimpleShadowMapMethodBase
 		var depthMapRegister:ShaderRegisterElement = regCache.getFreeTextureReg();
 		var decReg:ShaderRegisterElement = regCache.getFreeFragmentConstant();
 		var dataReg:ShaderRegisterElement = regCache.getFreeFragmentConstant();
-		// TODO: not used
-		dataReg = dataReg;
 		var customDataReg:ShaderRegisterElement = regCache.getFreeFragmentConstant();
 
 		vo.fragmentConstantsIndex = decReg.index * 4;
@@ -140,7 +138,7 @@ class SoftShadowMapMethod extends SimpleShadowMapMethodBase
 	{
 		var uvReg:ShaderRegisterElement;
 		var code:String;
-		var offsets:Vector<String> = new <String>[dataReg + ".zw"];
+		var offsets:Vector<String> = Vector.ofArray([dataReg + ".zw"]);
 		uvReg = regCache.getFreeFragmentVectorTemp();
 		regCache.addFragmentTempUsages(uvReg, 1);
 

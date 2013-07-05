@@ -39,7 +39,7 @@ class DitheredShadowMapMethod extends SimpleShadowMapMethodBase
 
 		++_grainUsages;
 
-		if (!_grainTexture)
+		if (_grainTexture == null)
 			initGrainTexture();
 	}
 
@@ -82,7 +82,7 @@ class DitheredShadowMapMethod extends SimpleShadowMapMethodBase
 		return _range * 2;
 	}
 
-	private function set_range(value:Float):Void
+	private function set_range(value:Float):Float
 	{
 		_range = value / 2;
 		return range;
@@ -116,7 +116,7 @@ class DitheredShadowMapMethod extends SimpleShadowMapMethodBase
 				g = 1;
 			else if (g < -1)
 				g = -1;
-			vec[i] = (int((r * .5 + .5) * 0xff) << 16) | (int((g * .5 + .5) * 0xff) << 8);
+			vec[i] = (Std.int((r * .5 + .5) * 0xff) << 16) | (Std.int((g * .5 + .5) * 0xff) << 8);
 		}
 
 		_grainBitmapData.setVector(_grainBitmapData.rect, vec);
@@ -152,8 +152,6 @@ class DitheredShadowMapMethod extends SimpleShadowMapMethodBase
 		var depthMapRegister:ShaderRegisterElement = regCache.getFreeTextureReg();
 		var decReg:ShaderRegisterElement = regCache.getFreeFragmentConstant();
 		var dataReg:ShaderRegisterElement = regCache.getFreeFragmentConstant();
-		// TODO: not used
-		dataReg = dataReg;
 		var customDataReg:ShaderRegisterElement = regCache.getFreeFragmentConstant();
 
 		vo.fragmentConstantsIndex = decReg.index * 4;

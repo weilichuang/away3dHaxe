@@ -39,7 +39,7 @@ class CelDiffuseMethod extends CompositeDiffuseMethod
 		data[index + 2] = 0;
 	}
 
-	public var levels(set,set):UInt;
+	public var levels(get,set):UInt;
 	private function get_levels():UInt
 	{
 		return _levels;
@@ -53,7 +53,7 @@ class CelDiffuseMethod extends CompositeDiffuseMethod
 	/**
 	 * The smoothness of the edge between 2 shading levels.
 	 */
-	public var smoothness(set,set):Float;
+	public var smoothness(get,set):Float;
 	private function get_smoothness():Float
 	{
 		return _smoothness;
@@ -103,10 +103,6 @@ class CelDiffuseMethod extends CompositeDiffuseMethod
 	 */
 	private function clampDiffuse(vo:MethodVO, t:ShaderRegisterElement, regCache:ShaderRegisterCache, sharedRegisters:ShaderRegisterData):String
 	{
-		vo = vo;
-		regCache = regCache;
-		sharedRegisters = sharedRegisters;
-
 		return "mul " + t + ".w, " + t + ".w, " + _dataReg + ".x\n" +
 			"frc " + t + ".z, " + t + ".w\n" +
 			"sub " + t + ".y, " + t + ".w, " + t + ".z\n" +

@@ -191,10 +191,8 @@ class ShadingMethodBase extends NamedAssetBase
 		{
 			case Context3DTextureFormat.COMPRESSED:
 				return "dxt1,";
-				
-			case "compressedAlpha":
+			case Context3DTextureFormat.COMPRESSED_ALPHA:
 				return "dxt5,";
-				
 			default:
 				return "";
 		}

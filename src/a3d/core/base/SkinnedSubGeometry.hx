@@ -6,6 +6,7 @@ import flash.display3D.Context3DVertexBufferFormat;
 import flash.display3D.VertexBuffer3D;
 import flash.utils.Dictionary;
 import flash.Vector;
+import haxe.ds.IntMap;
 import haxe.ds.IntMap.IntMap;
 
 
@@ -123,7 +124,8 @@ class SkinnedSubGeometry extends CompactSubGeometry
 		var contextIndex:Int = stage3DProxy.stage3DIndex;
 		var context:Context3D = stage3DProxy.context3D;
 
-		if (_jointIndexContext[contextIndex] != context || _jointIndexBuffer[contextIndex] == null)
+		if (_jointIndexContext[contextIndex] != context || 
+			_jointIndexBuffer[contextIndex] == null)
 		{
 			_jointIndexBuffer[contextIndex] = context.createVertexBuffer(_numVertices, _jointsPerVertex);
 			_jointIndexContext[contextIndex] = context;
@@ -212,6 +214,7 @@ class SkinnedSubGeometry extends CompactSubGeometry
 	/**
 	 * The raw joint weights data.
 	 */
+	public var jointWeightsData(get,null):Vector<Float>;
 	private function get_jointWeightsData():Vector<Float>
 	{
 		return _jointWeightsData;
@@ -231,6 +234,7 @@ class SkinnedSubGeometry extends CompactSubGeometry
 	/**
 	 * The raw joint index data.
 	 */
+	public var jointIndexData(get,null):Vector<Float>;
 	private function get_jointIndexData():Vector<Float>
 	{
 		return _jointIndexData;

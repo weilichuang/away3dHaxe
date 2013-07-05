@@ -41,416 +41,412 @@ THE SOFTWARE.
 
 */
 
-package a3dexample
+package a3dexample;
+
+import flash.display.Bitmap;
+import flash.display.BitmapData;
+import flash.display.Loader;
+import flash.display.MovieClip;
+import flash.events.Event;
+import flash.geom.Vector3D;
+import flash.net.URLRequest;
+import flash.utils.ByteArray;
+
+import a3d.animators.SpriteSheetAnimationSet;
+import a3d.animators.SpriteSheetAnimator;
+import a3d.animators.nodes.SpriteSheetClipNode;
+import a3d.entities.ObjectContainer3D;
+import a3d.entities.View3D;
+import a3d.entities.Mesh;
+import a3d.events.AssetEvent;
+import a3d.events.LoaderEvent;
+import a3d.io.library.assets.AssetType;
+import a3d.entities.lights.PointLight;
+import a3d.io.loaders.Loader3D;
+import a3d.io.loaders.parsers.AWD2Parser;
+import a3d.materials.SinglePassMaterialBase;
+import a3d.materials.SpriteSheetMaterial;
+import a3d.materials.lightpickers.StaticLightPicker;
+import a3d.materials.methods.EnvMapMethod;
+import a3d.materials.methods.FogMethod;
+import a3d.textures.BitmapCubeTexture;
+import a3d.textures.Texture2DBase;
+import a3d.tools.helpers.SpriteSheetHelper;
+
+
+// The tweener swc is provided in the 'libs' package
+class Intermediate_SpriteSheetAnimation extends BasicApplication
 {
-	import flash.display.Bitmap;
-	import flash.display.Loader;
-	import flash.display.MovieClip;
-	import flash.events.Event;
-	import flash.geom.Vector3D;
-	import flash.net.URLRequest;
+	//engine variables
+	private var _loader:Loader3D;
+	private var _origin:Vector3D;
+	private var _staticLightPicker:StaticLightPicker;
 
-	import a3d.animators.SpriteSheetAnimationSet;
-	import a3d.animators.SpriteSheetAnimator;
-	import a3d.animators.nodes.SpriteSheetClipNode;
-	import a3d.entities.ObjectContainer3D;
-	import a3d.entities.View3D;
-	import a3d.entities.Mesh;
-	import a3d.events.AssetEvent;
-	import a3d.events.LoaderEvent;
-	import a3d.io.library.assets.AssetType;
-	import a3d.entities.lights.PointLight;
-	import a3d.io.loaders.Loader3D;
-	import a3d.io.loaders.parsers.AWD2Parser;
-	import a3d.materials.SinglePassMaterialBase;
-	import a3d.materials.SpriteSheetMaterial;
-	import a3d.materials.lightpickers.StaticLightPicker;
-	import a3d.materials.methods.EnvMapMethod;
-	import a3d.materials.methods.FogMethod;
-	import a3d.textures.BitmapCubeTexture;
-	import a3d.textures.Texture2DBase;
-	import a3d.tools.helpers.SpriteSheetHelper;
+	//demo variables
+	private var _hoursDigits:SpriteSheetMaterial;
+	private var _minutesDigits:SpriteSheetMaterial;
+	private var _secondsDigits:SpriteSheetMaterial;
+	private var _delimiterMaterial:SpriteSheetMaterial;
+	private var _pulseMaterial:SpriteSheetMaterial;
 
-	import caurina.transitions.Tweener;
+	private var _hoursAnimator:SpriteSheetAnimator;
+	private var _minutesAnimator:SpriteSheetAnimator;
+	private var _secondsAnimator:SpriteSheetAnimator;
+	private var _pulseAnimator:SpriteSheetAnimator;
+	private var _delimiterAnimator:SpriteSheetAnimator;
 
-	// The tweener swc is provided in the 'libs' package
-	class Intermediate_SpriteSheetAnimation extends BasicApplication
+	//value set higher to force an update
+	private var _lastHour:Int = 24;
+	private var _lastSecond:Int = 60;
+	private var _lastMinute:Int = 60;
+
+	/**
+	 * Constructor
+	 */
+	public function new()
 	{
-		//the swf file holding timeline animations
-		[Embed(source = "../embeds/spritesheets/digits.swf", mimeType = "application/octet-stream")]
-		private var SourceSWF:Class;
+		super();
+	}
+	
+	/**
+	 * Global initialise function
+	 */
+	override private function init():Void
+	{
+		initEngine();
+		initLights();
+		initObjects();
+	}
+	
+	/**
+	 * Initialise the engine
+	 */
+	override private function initEngine():Void
+	{
+		super.initEngine();
 
-		[Embed(source = "../embeds/spritesheets/textures/back_CB0.jpg")]
-		private var Back_CB0_Bitmap:Class;
-		[Embed(source = "../embeds/spritesheets/textures/back_CB1.jpg")]
-		private var Back_CB1_Bitmap:Class;
-		[Embed(source = "../embeds/spritesheets/textures/back_CB2.jpg")]
-		private var Back_CB2_Bitmap:Class;
-		[Embed(source = "../embeds/spritesheets/textures/back_CB3.jpg")]
-		private var Back_CB3_Bitmap:Class;
-		[Embed(source = "../embeds/spritesheets/textures/back_CB4.jpg")]
-		private var Back_CB4_Bitmap:Class;
-		[Embed(source = "../embeds/spritesheets/textures/back_CB5.jpg")]
-		private var Back_CB5_Bitmap:Class;
+		view.antiAlias = 2;
+		view.backgroundColor = 0x10c14;
 
-		//engine variables
-		private var _loader:Loader3D;
-		private var _origin:Vector3D;
-		private var _staticLightPicker:StaticLightPicker;
+		//setup the camera
+		view.camera.lens.near = 1000;
+		view.camera.lens.far = 100000;
+		view.camera.x = -17850;
+		view.camera.y = 12390;
+		view.camera.z = -9322;
 
-		//demo variables
-		private var _hoursDigits:SpriteSheetMaterial;
-		private var _minutesDigits:SpriteSheetMaterial;
-		private var _secondsDigits:SpriteSheetMaterial;
-		private var _delimiterMaterial:SpriteSheetMaterial;
-		private var _pulseMaterial:SpriteSheetMaterial;
+		//saving the origin, as we look at it on enterframe
+		_origin = new Vector3D();
+	}
 
-		private var _hoursAnimator:SpriteSheetAnimator;
-		private var _minutesAnimator:SpriteSheetAnimator;
-		private var _secondsAnimator:SpriteSheetAnimator;
-		private var _pulseAnimator:SpriteSheetAnimator;
-		private var _delimiterAnimator:SpriteSheetAnimator;
+	/**
+	 * Lights setup
+	 */
+	private function initLights():Void
+	{
+		//Note that in 4.0, you could define the radius and falloff as Number.maxValue.
+		//this is no longer the case in 4.1. As the default values are high enough, we do not need to declare them for light 1
+		var plight1:PointLight = new PointLight();
+		plight1.x = 5691;
+		plight1.y = 10893;
+		plight1.diffuse = 0.3;
+		plight1.z = -11242;
+		plight1.ambient = 0.3;
+		plight1.ambientColor = 0x18235B;
+		plight1.color = 0x2E71FF;
+		plight1.specular = 0.4;
+		view.scene.addChild(plight1);
 
-		//value set higher to force an update
-		private var _lastHour:UInt = 24;
-		private var _lastSecond:UInt = 60;
-		private var _lastMinute:UInt = 60;
+		var plight2:PointLight = new PointLight();
+		plight2.x = -20250;
+		plight2.y = 4545;
+		plight2.diffuse = 0.1;
+		plight2.z = 500;
+		plight2.ambient = 0.09;
+		plight2.ambientColor = 0xC2CDFF;
+		plight2.radius = 1000;
+		plight2.color = 0xFFA825;
+		plight2.fallOff = 6759;
+		plight2.specular = 0.1;
+		view.scene.addChild(plight2);
 
-		/**
-		 * Constructor
+		var plight3:PointLight = new PointLight();
+		plight3.x = -7031;
+		plight3.y = 2583;
+		plight3.diffuse = 1.3;
+		plight3.z = -8319;
+		plight3.ambient = 0.01;
+		plight3.ambientColor = 0xFFFFFF;
+		plight3.radius = 1000;
+		plight3.color = 0xFF0500;
+		plight3.fallOff = 6759;
+		plight3.specular = 0;
+		view.scene.addChild(plight3);
+
+		_staticLightPicker = new StaticLightPicker([plight1, plight2, plight3]);
+	}
+
+	/**
+	 * In this example the sprite sheets are genererated runtime, the data is stored into different movieclips in an swf file.
+	 */
+	private function initObjects():Void
+	{
+		var loader:Loader = new Loader();
+		loader.contentLoaderInfo.addEventListener(Event.COMPLETE, setUpAnimators);
+		loader.loadBytes(new SourceSWF());
+	}
+
+	/**
+	 * Defining the spriteSheetAnimators and their data
+	 */
+	private function setUpAnimators(e:Event):Void
+	{
+		var loader:Loader = Std.instance(e.currentTarget.loader,Loader);
+		loader.contentLoaderInfo.removeEventListener(Event.COMPLETE, setUpAnimators);
+
+		var sourceSwf:MovieClip = MovieClip(e.currentTarget.content);
+
+		//in example swf, the source swf has a movieclip on stage named: "digits", it will be used for seconds, minutes and hours.
+		var animID:String = "digits";
+		var sourceMC:MovieClip = sourceSwf[animID];
+		//the animation holds 60 frames, as we spread over 2 maps, we'll have 2 maps of 30 frames
+		var cols:UInt = 6;
+		var rows:UInt = 5;
+
+		var spriteSheetHelper:SpriteSheetHelper = new SpriteSheetHelper();
+		//the spriteSheetHelper has a build method, that will return us one or more maps from our movieclips.
+		var diffuseSpriteSheets:Vector<Texture2DBase> = spriteSheetHelper.generateFromMovieClip(sourceMC, cols, rows, 512, 512, false);
+
+		//We do not have yet geometry to apply on, but we can declare the materials.
+		//As they need to be async from each other, we cannot share them in this clock case
+		_hoursDigits = new SpriteSheetMaterial(diffuseSpriteSheets);
+		_minutesDigits = new SpriteSheetMaterial(diffuseSpriteSheets);
+		_secondsDigits = new SpriteSheetMaterial(diffuseSpriteSheets);
+
+		//we declare 3 different animators, as we will need to drive the time animations independantly. Reusing the same set.
+		var digitsSet:SpriteSheetAnimationSet = new SpriteSheetAnimationSet();
+		var spriteSheetClipNode:SpriteSheetClipNode = spriteSheetHelper.generateSpriteSheetClipNode(animID, cols, rows, 2, 0, 60);
+		digitsSet.addAnimation(spriteSheetClipNode);
+
+		_hoursAnimator = new SpriteSheetAnimator(digitsSet);
+		_minutesAnimator = new SpriteSheetAnimator(digitsSet);
+		_secondsAnimator = new SpriteSheetAnimator(digitsSet);
+
+		// the button on top of model gets a nice glowing and pulsing animation
+		animID = "pulse";
+		//the animation movieclip has 12 frames, we define the row and cols
+		cols = 4;
+		rows = 3;
+		sourceMC = sourceSwf[animID];
+		diffuseSpriteSheets = spriteSheetHelper.generateFromMovieClip(sourceMC, cols, rows, 256, 256, false);
+		var pulseAnimationSet:SpriteSheetAnimationSet = new SpriteSheetAnimationSet();
+		spriteSheetClipNode = spriteSheetHelper.generateSpriteSheetClipNode(animID, cols, rows, 1, 0, 12);
+		pulseAnimationSet.addAnimation(spriteSheetClipNode);
+		_pulseAnimator = new SpriteSheetAnimator(pulseAnimationSet);
+		_pulseAnimator.fps = 12;
+		// to make it interresting, it will loop back and fourth. So a full iteration will take 2 seconds
+		_pulseAnimator.backAndForth = true;
+		_pulseMaterial = new SpriteSheetMaterial(diffuseSpriteSheets);
+
+		// the delimiter,
+		animID = "delimiter";
+		//the animation has 5 frames, it can fit on one row
+		cols = 5;
+		rows = 2;
+		sourceMC = sourceSwf[animID];
+		diffuseSpriteSheets = spriteSheetHelper.generateFromMovieClip(sourceMC, cols, rows, 256, 256, false);
+		var delimiterAnimationSet:SpriteSheetAnimationSet = new SpriteSheetAnimationSet();
+		spriteSheetClipNode = spriteSheetHelper.generateSpriteSheetClipNode(animID, cols, rows, 1, 0, sourceMC.totalFrames);
+		delimiterAnimationSet.addAnimation(spriteSheetClipNode);
+		_delimiterAnimator = new SpriteSheetAnimator(delimiterAnimationSet);
+		_delimiterAnimator.fps = 6;
+		_delimiterMaterial = new SpriteSheetMaterial(diffuseSpriteSheets);
+
+		//the required data is ready, time to load our model. We are now sure, all will be there when needed.
+		loadModel();
+	}
+
+	/**
+		 * we can start load the model
 		 */
-		public function new()
+	private function loadModel():Void
+	{
+		//adding the awd 2.0 source file to the scene
+		_loader = new Loader3D();
+		Loader3D.enableParser(AWD2Parser);
+
+		_loader.addEventListener(AssetEvent.MESH_COMPLETE, onMeshReady);
+		_loader.addEventListener(LoaderEvent.RESOURCE_COMPLETE, onLoadedComplete);
+		_loader.addEventListener(LoaderEvent.LOAD_ERROR, onLoadedError);
+		//the url must be relative to swf once published, change the url for your setup accordingly.
+		_loader.load(new URLRequest("assets/tictac/tictac.awd"), null, null, new AWD2Parser());
+	}
+
+	private function onLoadedError(event:LoaderEvent):Void
+	{
+		trace("0_o " + event.message);
+	}
+
+	/**
+	 * assigning the animators
+	 */
+	private function onMeshReady(event:AssetEvent):Void
+	{
+		if (event.asset.assetType == AssetType.MESH)
 		{
-			super();
-			
-			init();
-		}
-		
-		/**
-		 * Global initialise function
-		 */
-		private function init():Void
-		{
-			initEngine();
-			initLights();
-			initObjects();
-		}
-		
-		/**
-		 * Initialise the engine
-		 */
-		override private function initEngine():Void
-		{
-			super.initEngine();
+			var mesh:Mesh = Std.instance(event.asset,Mesh);
 
-			view.antiAlias = 2;
-			view.backgroundColor = 0x10c14;
-
-			//setup the camera
-			view.camera.lens.near = 1000;
-			view.camera.lens.far = 100000;
-			view.camera.x = -17850;
-			view.camera.y = 12390;
-			view.camera.z = -9322;
-
-			//saving the origin, as we look at it on enterframe
-			_origin = new Vector3D();
-		}
-
-		/**
-		 * Lights setup
-		 */
-		private function initLights():Void
-		{
-			//Note that in 4.0, you could define the radius and falloff as Number.maxValue.
-			//this is no longer the case in 4.1. As the default values are high enough, we do not need to declare them for light 1
-			var plight1:PointLight = new PointLight();
-			plight1.x = 5691;
-			plight1.y = 10893;
-			plight1.diffuse = 0.3;
-			plight1.z = -11242;
-			plight1.ambient = 0.3;
-			plight1.ambientColor = 0x18235B;
-			plight1.color = 0x2E71FF;
-			plight1.specular = 0.4;
-			view.scene.addChild(plight1);
-
-			var plight2:PointLight = new PointLight();
-			plight2.x = -20250;
-			plight2.y = 4545;
-			plight2.diffuse = 0.1;
-			plight2.z = 500;
-			plight2.ambient = 0.09;
-			plight2.ambientColor = 0xC2CDFF;
-			plight2.radius = 1000;
-			plight2.color = 0xFFA825;
-			plight2.fallOff = 6759;
-			plight2.specular = 0.1;
-			view.scene.addChild(plight2);
-
-			var plight3:PointLight = new PointLight();
-			plight3.x = -7031;
-			plight3.y = 2583;
-			plight3.diffuse = 1.3;
-			plight3.z = -8319;
-			plight3.ambient = 0.01;
-			plight3.ambientColor = 0xFFFFFF;
-			plight3.radius = 1000;
-			plight3.color = 0xFF0500;
-			plight3.fallOff = 6759;
-			plight3.specular = 0;
-			view.scene.addChild(plight3);
-
-			_staticLightPicker = new StaticLightPicker([plight1, plight2, plight3]);
-		}
-
-		/**
-		 * In this example the sprite sheets are genererated runtime, the data is stored into different movieclips in an swf file.
-		 */
-		private function initObjects():Void
-		{
-			var loader:Loader = new Loader();
-			loader.contentLoaderInfo.addEventListener(Event.COMPLETE, setUpAnimators);
-			loader.loadBytes(new SourceSWF());
-		}
-
-		/**
-		 * Defining the spriteSheetAnimators and their data
-		 */
-		private function setUpAnimators(e:Event):Void
-		{
-			var loader:Loader = Loader(e.currentTarget.loader);
-			loader.contentLoaderInfo.removeEventListener(Event.COMPLETE, setUpAnimators);
-
-			var sourceSwf:MovieClip = MovieClip(e.currentTarget.content);
-
-			//in example swf, the source swf has a movieclip on stage named: "digits", it will be used for seconds, minutes and hours.
-			var animID:String = "digits";
-			var sourceMC:MovieClip = sourceSwf[animID];
-			//the animation holds 60 frames, as we spread over 2 maps, we'll have 2 maps of 30 frames
-			var cols:UInt = 6;
-			var rows:UInt = 5;
-
-			var spriteSheetHelper:SpriteSheetHelper = new SpriteSheetHelper();
-			//the spriteSheetHelper has a build method, that will return us one or more maps from our movieclips.
-			var diffuseSpriteSheets:Vector<Texture2DBase> = spriteSheetHelper.generateFromMovieClip(sourceMC, cols, rows, 512, 512, false);
-
-			//We do not have yet geometry to apply on, but we can declare the materials.
-			//As they need to be async from each other, we cannot share them in this clock case
-			_hoursDigits = new SpriteSheetMaterial(diffuseSpriteSheets);
-			_minutesDigits = new SpriteSheetMaterial(diffuseSpriteSheets);
-			_secondsDigits = new SpriteSheetMaterial(diffuseSpriteSheets);
-
-			//we declare 3 different animators, as we will need to drive the time animations independantly. Reusing the same set.
-			var digitsSet:SpriteSheetAnimationSet = new SpriteSheetAnimationSet();
-			var spriteSheetClipNode:SpriteSheetClipNode = spriteSheetHelper.generateSpriteSheetClipNode(animID, cols, rows, 2, 0, 60);
-			digitsSet.addAnimation(spriteSheetClipNode);
-
-			_hoursAnimator = new SpriteSheetAnimator(digitsSet);
-			_minutesAnimator = new SpriteSheetAnimator(digitsSet);
-			_secondsAnimator = new SpriteSheetAnimator(digitsSet);
-
-			// the button on top of model gets a nice glowing and pulsing animation
-			animID = "pulse";
-			//the animation movieclip has 12 frames, we define the row and cols
-			cols = 4;
-			rows = 3;
-			sourceMC = sourceSwf[animID];
-			diffuseSpriteSheets = spriteSheetHelper.generateFromMovieClip(sourceMC, cols, rows, 256, 256, false);
-			var pulseAnimationSet:SpriteSheetAnimationSet = new SpriteSheetAnimationSet();
-			spriteSheetClipNode = spriteSheetHelper.generateSpriteSheetClipNode(animID, cols, rows, 1, 0, 12);
-			pulseAnimationSet.addAnimation(spriteSheetClipNode);
-			_pulseAnimator = new SpriteSheetAnimator(pulseAnimationSet);
-			_pulseAnimator.fps = 12;
-			// to make it interresting, it will loop back and fourth. So a full iteration will take 2 seconds
-			_pulseAnimator.backAndForth = true;
-			_pulseMaterial = new SpriteSheetMaterial(diffuseSpriteSheets);
-
-			// the delimiter,
-			animID = "delimiter";
-			//the animation has 5 frames, it can fit on one row
-			cols = 5;
-			rows = 2;
-			sourceMC = sourceSwf[animID];
-			diffuseSpriteSheets = spriteSheetHelper.generateFromMovieClip(sourceMC, cols, rows, 256, 256, false);
-			var delimiterAnimationSet:SpriteSheetAnimationSet = new SpriteSheetAnimationSet();
-			spriteSheetClipNode = spriteSheetHelper.generateSpriteSheetClipNode(animID, cols, rows, 1, 0, sourceMC.totalFrames);
-			delimiterAnimationSet.addAnimation(spriteSheetClipNode);
-			_delimiterAnimator = new SpriteSheetAnimator(delimiterAnimationSet);
-			_delimiterAnimator.fps = 6;
-			_delimiterMaterial = new SpriteSheetMaterial(diffuseSpriteSheets);
-
-			//the required data is ready, time to load our model. We are now sure, all will be there when needed.
-			loadModel();
-		}
-
-		/**
-			 * we can start load the model
-			 */
-		private function loadModel():Void
-		{
-			//adding the awd 2.0 source file to the scene
-			_loader = new Loader3D();
-			Loader3D.enableParser(AWD2Parser);
-
-			_loader.addEventListener(AssetEvent.MESH_COMPLETE, onMeshReady);
-			_loader.addEventListener(LoaderEvent.RESOURCE_COMPLETE, onLoadedComplete);
-			_loader.addEventListener(LoaderEvent.LOAD_ERROR, onLoadedError);
-			//the url must be relative to swf once published, change the url for your setup accordingly.
-			_loader.load(new URLRequest("assets/tictac/tictac.awd"), null, null, new AWD2Parser());
-		}
-
-		private function onLoadedError(event:LoaderEvent):Void
-		{
-			trace("0_o " + event.message);
-		}
-
-		/**
-		 * assigning the animators
-		 */
-		private function onMeshReady(event:AssetEvent):Void
-		{
-			if (event.asset.assetType == AssetType.MESH)
+			switch (mesh.name)
 			{
-				var mesh:Mesh = Mesh(event.asset);
 
-				switch (mesh.name)
-				{
+				case "hours":
+					mesh.material = _hoursDigits;
+					mesh.animator = _hoursAnimator;
+					_hoursAnimator.play("digits");
 
-					case "hours":
-						mesh.material = _hoursDigits;
-						mesh.animator = _hoursAnimator;
-						_hoursAnimator.play("digits");
-						break;
+				case "minutes":
+					mesh.material = _minutesDigits;
+					mesh.animator = _minutesAnimator;
+					_minutesAnimator.play("digits");
 
-					case "minutes":
-						mesh.material = _minutesDigits;
-						mesh.animator = _minutesAnimator;
-						_minutesAnimator.play("digits");
-						break;
+				case "seconds":
+					mesh.material = _secondsDigits;
+					mesh.animator = _secondsAnimator;
+					_secondsAnimator.play("digits");
 
-					case "seconds":
-						mesh.material = _secondsDigits;
-						mesh.animator = _secondsAnimator;
-						_secondsAnimator.play("digits");
-						break;
+				case "delimiter":
+					mesh.material = _delimiterMaterial;
+					mesh.animator = _delimiterAnimator;
+					_delimiterAnimator.play("delimiter");
+					
+				case "button":
+					mesh.material = _pulseMaterial;
+					mesh.animator = _pulseAnimator;
+					_pulseAnimator.play("pulse");
 
-					case "delimiter":
-						mesh.material = _delimiterMaterial;
-						mesh.animator = _delimiterAnimator;
-						_delimiterAnimator.play("delimiter");
-						break;
+				case "furniture":
+					mesh.material.lightPicker = _staticLightPicker;
 
-					case "button":
-						mesh.material = _pulseMaterial;
-						mesh.animator = _pulseAnimator;
-						_pulseAnimator.play("pulse");
-						break;
+				case "frontscreen":
+					//ignoring lightpicker on this mesh
 
+				case "chromebody":
+					var cubeTexture:BitmapCubeTexture = new BitmapCubeTexture(Bitmap(new Back_CB0_Bitmap()).bitmapData,
+						Bitmap(new Back_CB1_Bitmap()).bitmapData,
+						Bitmap(new Back_CB2_Bitmap()).bitmapData,
+						Bitmap(new Back_CB3_Bitmap()).bitmapData,
+						Bitmap(new Back_CB4_Bitmap()).bitmapData,
+						Bitmap(new Back_CB5_Bitmap()).bitmapData);
 
-					case "furniture":
+					var envMapMethod:EnvMapMethod = new EnvMapMethod(cubeTexture, 0.1);
+					SinglePassMaterialBase(mesh.material).addMethod(envMapMethod);
+
+				default:
+					if (!mesh.material.lightPicker)
 						mesh.material.lightPicker = _staticLightPicker;
-						break;
 
-					case "frontscreen":
-						//ignoring lightpicker on this mesh
-						break;
-
-					case "chromebody":
-						var cubeTexture:BitmapCubeTexture = new BitmapCubeTexture(Bitmap(new Back_CB0_Bitmap()).bitmapData,
-							Bitmap(new Back_CB1_Bitmap()).bitmapData,
-							Bitmap(new Back_CB2_Bitmap()).bitmapData,
-							Bitmap(new Back_CB3_Bitmap()).bitmapData,
-							Bitmap(new Back_CB4_Bitmap()).bitmapData,
-							Bitmap(new Back_CB5_Bitmap()).bitmapData);
-
-						var envMapMethod:EnvMapMethod = new EnvMapMethod(cubeTexture, 0.1);
-						SinglePassMaterialBase(mesh.material).addMethod(envMapMethod);
-
-					default:
-						if (!mesh.material.lightPicker)
-							mesh.material.lightPicker = _staticLightPicker;
-
-				}
-
-				var fogMethod:FogMethod = new FogMethod(20000, 50000, 0x10C14);
-				SinglePassMaterialBase(mesh.material).addMethod(fogMethod);
-			}
-		}
-
-		private function clearListeners():Void
-		{
-			_loader.removeEventListener(AssetEvent.MESH_COMPLETE, onMeshReady);
-			_loader.removeEventListener(LoaderEvent.RESOURCE_COMPLETE, onLoadedComplete);
-			_loader.removeEventListener(LoaderEvent.LOAD_ERROR, onLoadedError);
-		}
-
-		/**
-		 * the model is loaded. Time to display our work
-		 */
-
-		private function onLoadedComplete(event:LoaderEvent):Void
-		{
-			clearListeners();
-
-			view.scene.addChild(ObjectContainer3D(event.currentTarget));
-
-			initListeners();
-			
-			startTween();
-		}
-
-
-		/**
-		 * updating the digit according to current time
-		 */
-		private function updateClock():Void
-		{
-			var date:Date = new Date();
-
-			if (_lastHour != date.hours + 1)
-			{
-				_lastHour = date.hours + 1;
-				_hoursAnimator.gotoAndStop(_lastHour);
 			}
 
-			if (_lastMinute != date.minutes + 1)
-			{
-				_lastMinute = date.minutes + 1;
-				_minutesAnimator.gotoAndStop(_lastMinute);
-			}
-
-			if (_lastSecond != date.seconds + 1)
-			{
-				_lastSecond = date.seconds + 1;
-				_secondsAnimator.gotoAndStop(_lastSecond);
-				_delimiterAnimator.gotoAndPlay(1);
-			}
-		}
-
-		/**
-		 * endless tween to add some dramatic!
-		 */
-		private function startTween():Void
-		{
-			var destX:Float = -(Math.random() * 24000) + 4000;
-			var destY:Float = Math.random() * 16000;
-			var destZ:Float = 3000 + Math.random() * 18000;
-
-			Tweener.addTween(view.camera, {x: destX, y: destY, z: -destZ,
-					time: 4 + (Math.random() * 2),
-					transition: "easeInOutQuad",
-					onComplete: startTween});
-		}
-
-		/**
-		 * render loop
-		 */
-		override private function render():Void
-		{
-			updateClock();
-			view.camera.lookAt(_origin);
-			super.render();
+			var fogMethod:FogMethod = new FogMethod(20000, 50000, 0x10C14);
+			SinglePassMaterialBase(mesh.material).addMethod(fogMethod);
 		}
 	}
+
+	private function clearListeners():Void
+	{
+		_loader.removeEventListener(AssetEvent.MESH_COMPLETE, onMeshReady);
+		_loader.removeEventListener(LoaderEvent.RESOURCE_COMPLETE, onLoadedComplete);
+		_loader.removeEventListener(LoaderEvent.LOAD_ERROR, onLoadedError);
+	}
+
+	/**
+	 * the model is loaded. Time to display our work
+	 */
+
+	private function onLoadedComplete(event:LoaderEvent):Void
+	{
+		clearListeners();
+
+		view.scene.addChild(ObjectContainer3D(event.currentTarget));
+
+		initListeners();
+		
+		startTween();
+	}
+
+
+	/**
+	 * updating the digit according to current time
+	 */
+	private function updateClock():Void
+	{
+		var date:Date = new Date();
+
+		if (_lastHour != date.hours + 1)
+		{
+			_lastHour = date.hours + 1;
+			_hoursAnimator.gotoAndStop(_lastHour);
+		}
+
+		if (_lastMinute != date.minutes + 1)
+		{
+			_lastMinute = date.minutes + 1;
+			_minutesAnimator.gotoAndStop(_lastMinute);
+		}
+
+		if (_lastSecond != date.seconds + 1)
+		{
+			_lastSecond = date.seconds + 1;
+			_secondsAnimator.gotoAndStop(_lastSecond);
+			_delimiterAnimator.gotoAndPlay(1);
+		}
+	}
+
+	/**
+	 * endless tween to add some dramatic!
+	 */
+	private function startTween():Void
+	{
+		var destX:Float = -(Math.random() * 24000) + 4000;
+		var destY:Float = Math.random() * 16000;
+		var destZ:Float = 3000 + Math.random() * 18000;
+
+		Tweener.addTween(view.camera, {x: destX, y: destY, z: -destZ,
+				time: 4 + (Math.random() * 2),
+				transition: "easeInOutQuad",
+				onComplete: startTween});
+	}
+
+	/**
+	 * render loop
+	 */
+	override private function render():Void
+	{
+		updateClock();
+		view.camera.lookAt(_origin);
+		super.render();
+	}
 }
+
+
+//the swf file holding timeline animations
+@:file("embeds/spritesheets/digits.swf")
+class SourceSWF extends ByteArray { }
+
+@:bitmap("embeds/spritesheets/textures/back_CB0.jpg")
+class Back_CB0_Bitmap extends BitmapData { }
+
+@:bitmap("embeds/spritesheets/textures/back_CB1.jpg")
+class Back_CB1_Bitmap extends BitmapData { }
+
+@:bitmap("embeds/spritesheets/textures/back_CB2.jpg")
+class Back_CB2_Bitmap extends BitmapData { }
+
+@:bitmap("embeds/spritesheets/textures/back_CB3.jpg")
+class Back_CB3_Bitmap extends BitmapData { }
+
+@:bitmap("embeds/spritesheets/textures/back_CB4.jpg")
+class Back_CB4_Bitmap extends BitmapData { }
+
+@:bitmap("embeds/spritesheets/textures/back_CB5.jpg")
+class Back_CB5_Bitmap extends BitmapData { }

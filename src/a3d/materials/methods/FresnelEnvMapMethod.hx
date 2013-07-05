@@ -121,7 +121,7 @@ class FresnelEnvMapMethod extends EffectMethodBase
 		data[index + 1] = _normalReflectance;
 		data[index + 2] = _fresnelPower;
 		context.setTextureAt(vo.texturesIndex, _cubeTexture.getTextureForStage3D(stage3DProxy));
-		if (_mask)
+		if (_mask != null)
 			context.setTextureAt(vo.texturesIndex + 1, _mask.getTextureForStage3D(stage3DProxy));
 	}
 
@@ -163,7 +163,7 @@ class FresnelEnvMapMethod extends EffectMethodBase
 			// total alpha
 			"mul " + viewDirReg + ".w, " + dataRegister + ".x, " + viewDirReg + ".w\n";
 
-		if (_mask)
+		if (_mask != null)
 		{
 			var maskReg:ShaderRegisterElement = regCache.getFreeTextureReg();
 			code += getTex2DSampleCode(vo, temp2, maskReg, _mask, _sharedRegisters.uvVarying) +

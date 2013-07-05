@@ -58,7 +58,7 @@ class RimLightMethod extends EffectMethodBase
 		return _color;
 	}
 
-	public var strength(get,set):UInt;
+	public var strength(get,set):Float;
 	private function get_strength():Float
 	{
 		return _strength;

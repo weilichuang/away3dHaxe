@@ -7,6 +7,7 @@ import a3d.core.managers.Stage3DProxy;
 import a3d.entities.TextureProjector;
 import a3d.materials.compilation.ShaderRegisterCache;
 import a3d.materials.compilation.ShaderRegisterElement;
+import flash.errors.Error;
 import flash.Vector;
 
 import flash.geom.Matrix3D;
@@ -26,7 +27,7 @@ class ProjectiveTextureMethod extends EffectMethodBase
 
 	private var _projector:TextureProjector;
 	private var _uvVarying:ShaderRegisterElement;
-	private var _projMatrix:Matrix3D = new Matrix3D();
+	private var _projMatrix:Matrix3D;
 	private var _mode:String;
 
 	/**
@@ -40,6 +41,9 @@ class ProjectiveTextureMethod extends EffectMethodBase
 	public function new(projector:TextureProjector, mode:String = "multiply")
 	{
 		super();
+		
+		_projMatrix = new Matrix3D();
+		
 		_projector = projector;
 		_mode = mode;
 	}

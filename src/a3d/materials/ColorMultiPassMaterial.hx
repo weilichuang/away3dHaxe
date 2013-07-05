@@ -19,13 +19,14 @@ class ColorMultiPassMaterial extends MultiPassMaterialBase
 	/**
 	 * The diffuse color of the surface.
 	 */
+	public var color(get,set):UInt;
 	private function get_color():UInt
 	{
 		return diffuseMethod.diffuseColor;
 	}
 
-	private function set_color(value:UInt):Void
+	private function set_color(value:UInt):UInt
 	{
-		diffuseMethod.diffuseColor = value;
+		return diffuseMethod.diffuseColor = value;
 	}
 }

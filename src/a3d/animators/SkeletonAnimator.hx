@@ -1,6 +1,8 @@
 package a3d.animators;
 
+import a3d.core.base.CompactSubGeometry;
 import flash.display3D.Context3DProgramType;
+import flash.errors.Error;
 import flash.geom.Vector3D;
 import flash.utils.Dictionary;
 import flash.Vector;
@@ -31,10 +33,10 @@ import a3d.math.Quaternion;
 class SkeletonAnimator extends AnimatorBase implements IAnimator
 {
 	private var _globalMatrices:Vector<Float>;
-	private var _globalPose:SkeletonPose = new SkeletonPose();
+	private var _globalPose:SkeletonPose;
 	private var _globalPropertiesDirty:Bool;
 	private var _numJoints:UInt;
-	private var _animationStates:Dictionary = new Dictionary();
+	private var _animationStates:Dictionary;
 	private var _condensedMatrices:Vector<Float>;
 
 	private var _skeleton:Skeleton;
@@ -42,6 +44,45 @@ class SkeletonAnimator extends AnimatorBase implements IAnimator
 	private var _useCondensedIndices:Bool;
 	private var _jointsPerVertex:UInt;
 	private var _activeSkeletonState:ISkeletonAnimationState;
+	
+	/**
+	 * Creates a new <code>SkeletonAnimator</code> object.
+	 *
+	 * @param skeletonAnimationSet The animation data set containing the skeleton animations used by the animator.
+	 * @param skeleton The skeleton object used for calculating the resulting global matrices for transforming skinned mesh data.
+	 * @param forceCPU Optional value that only allows the animator to perform calculation on the CPU. Defaults to false.
+	 */
+	public function new(animationSet:SkeletonAnimationSet, skeleton:Skeleton, forceCPU:Bool = false)
+	{
+		super(animationSet);
+
+		_skeleton = skeleton;
+		_forceCPU = forceCPU;
+		_jointsPerVertex = animationSet.jointsPerVertex;
+
+		_numJoints = _skeleton.numJoints;
+		_globalMatrices = new Vector<Float>(_numJoints * 12, true);
+		
+		_globalPose = new SkeletonPose();
+		_animationStates = new Dictionary();
+
+		var j:Int;
+		for (i in 0..._numJoints)
+		{
+			_globalMatrices[j++] = 1;
+			_globalMatrices[j++] = 0;
+			_globalMatrices[j++] = 0;
+			_globalMatrices[j++] = 0;
+			_globalMatrices[j++] = 0;
+			_globalMatrices[j++] = 1;
+			_globalMatrices[j++] = 0;
+			_globalMatrices[j++] = 0;
+			_globalMatrices[j++] = 0;
+			_globalMatrices[j++] = 0;
+			_globalMatrices[j++] = 1;
+			_globalMatrices[j++] = 0;
+		}
+	}
 
 	/**
 	 * returns the calculated global matrices of the current skeleton pose.
@@ -103,42 +144,6 @@ class SkeletonAnimator extends AnimatorBase implements IAnimator
 	}
 
 	/**
-	 * Creates a new <code>SkeletonAnimator</code> object.
-	 *
-	 * @param skeletonAnimationSet The animation data set containing the skeleton animations used by the animator.
-	 * @param skeleton The skeleton object used for calculating the resulting global matrices for transforming skinned mesh data.
-	 * @param forceCPU Optional value that only allows the animator to perform calculation on the CPU. Defaults to false.
-	 */
-	public function new(animationSet:SkeletonAnimationSet, skeleton:Skeleton, forceCPU:Bool = false)
-	{
-		super(animationSet);
-
-		_skeleton = skeleton;
-		_forceCPU = forceCPU;
-		_jointsPerVertex = animationSet.jointsPerVertex;
-
-		_numJoints = _skeleton.numJoints;
-		_globalMatrices = new Vector<Float>(_numJoints * 12, true);
-
-		var j:Int;
-		for (i in 0..._numJoints)
-		{
-			_globalMatrices[j++] = 1;
-			_globalMatrices[j++] = 0;
-			_globalMatrices[j++] = 0;
-			_globalMatrices[j++] = 0;
-			_globalMatrices[j++] = 0;
-			_globalMatrices[j++] = 1;
-			_globalMatrices[j++] = 0;
-			_globalMatrices[j++] = 0;
-			_globalMatrices[j++] = 0;
-			_globalMatrices[j++] = 0;
-			_globalMatrices[j++] = 1;
-			_globalMatrices[j++] = 0;
-		}
-	}
-
-	/**
 	 * @inheritDoc
 	 */
 	public function clone():IAnimator
@@ -154,7 +159,7 @@ class SkeletonAnimator extends AnimatorBase implements IAnimator
 	 * @param stateName The data set name of the animation state to be played.
 	 * @param stateTransition An optional transition object that determines how the animator will transition from the currently active animation state.
 	 */
-	public function play(name:String, transition:IAnimationTransition = null, offset:Float = NaN):Void
+	public function play(name:String, transition:IAnimationTransition = null, offset:Float = null):Void
 	{
 		if (_activeAnimationName == name)
 			return;
@@ -164,10 +169,10 @@ class SkeletonAnimator extends AnimatorBase implements IAnimator
 		if (!_animationSet.hasAnimation(name))
 			throw new Error("Animation root node " + name + " not found!");
 
-		if (transition && _activeNode)
+		if (transition != null && _activeNode != null)
 		{
 			//setup the transition
-			_activeNode = transition.getAnimationNode(this, _activeNode, _animationSet.getAnimation(name), _absoluteTime);
+			_activeNode = transition.getAnimationNode(this, _activeNode, _animationSet.getAnimation(name), Std.int(_absoluteTime));
 			_activeNode.addEventListener(AnimationStateEvent.TRANSITION_COMPLETE, onTransitionComplete);
 		}
 		else
@@ -180,7 +185,7 @@ class SkeletonAnimator extends AnimatorBase implements IAnimator
 		if (updatePosition)
 		{
 			//update straight away to reset position deltas
-			_activeState.update(_absoluteTime);
+			_activeState.update(Std.int(_absoluteTime));
 			_activeState.positionDelta;
 		}
 
@@ -202,7 +207,7 @@ class SkeletonAnimator extends AnimatorBase implements IAnimator
 		if (_globalPropertiesDirty)
 			updateGlobalProperties();
 
-		var skinnedGeom:SkinnedSubGeometry = SkinnedSubGeometry(SubMesh(renderable).subGeometry);
+		var skinnedGeom:SkinnedSubGeometry = Std.instance(Std.instance(renderable,SubMesh).subGeometry,SkinnedSubGeometry);
 
 		// using condensed data
 		var numCondensedJoints:UInt = skinnedGeom.numCondensedJoints;
@@ -261,15 +266,15 @@ class SkeletonAnimator extends AnimatorBase implements IAnimator
 		//invalidate pose matrices
 		_globalPropertiesDirty = true;
 
-		for (var key:Object in _animationStates)
-			SubGeomAnimationState(_animationStates[key]).dirty = true;
+		for (key in _animationStates)
+			Std.instance(_animationStates[key],SubGeomAnimationState).dirty = true;
 	}
 
 	private function updateCondensedMatrices(condensedIndexLookUp:Vector<UInt>, numJoints:UInt):Void
 	{
-		var i:UInt = 0, j:UInt = 0;
-		var len:UInt;
-		var srcIndex:UInt;
+		var i:Int = 0, j:Int = 0;
+		var len:Int;
+		var srcIndex:Int;
 
 		_condensedMatrices = new Vector<Float>();
 
@@ -428,7 +433,7 @@ class SkeletonAnimator extends AnimatorBase implements IAnimator
 				if (weight > 0)
 				{
 					// implicit /3*12 (/3 because indices are multiplied by 3 for gpu matrix access, *12 because it's the matrix size)
-					var mtxOffset:UInt = uint(jointIndices[j++]) << 2;
+					var mtxOffset:UInt = Std.int(jointIndices[j++]) << 2;
 					m11 = _globalMatrices[mtxOffset];
 					m12 = _globalMatrices[mtxOffset + 1];
 					m13 = _globalMatrices[mtxOffset + 2];
@@ -454,7 +459,7 @@ class SkeletonAnimator extends AnimatorBase implements IAnimator
 				}
 				else
 				{
-					j += uint(_jointsPerVertex - k);
+					j += Std.int(_jointsPerVertex - k);
 					k = _jointsPerVertex;
 				}
 			}
@@ -588,8 +593,6 @@ class SkeletonAnimator extends AnimatorBase implements IAnimator
 		}
 	}
 }
-
-import a3d.core.base.CompactSubGeometry;
 
 class SubGeomAnimationState
 {

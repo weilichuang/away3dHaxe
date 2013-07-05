@@ -9,6 +9,7 @@ import a3d.entities.lights.shadowmaps.NearDirectionalShadowMapper;
 import a3d.materials.compilation.ShaderRegisterCache;
 import a3d.materials.compilation.ShaderRegisterData;
 import a3d.materials.compilation.ShaderRegisterElement;
+import flash.errors.Error;
 import flash.Vector;
 
 
@@ -48,7 +49,7 @@ class NearShadowMapMethod extends SimpleShadowMapMethodBase
 		_baseMethod = baseMethod;
 		_fadeRatio = fadeRatio;
 		_nearShadowMapper = Std.instance(_castingLight.shadowMapper,NearDirectionalShadowMapper);
-		if (!_nearShadowMapper)
+		if (_nearShadowMapper == null)
 			throw new Error("NearShadowMapMethod requires a light that has a NearDirectionalShadowMapper instance assigned to shadowMapper.");
 		_baseMethod.addEventListener(ShadingMethodEvent.SHADER_INVALIDATED, onShaderInvalidated);
 	}
@@ -80,9 +81,9 @@ class NearShadowMapMethod extends SimpleShadowMapMethodBase
 		return _baseMethod.alpha;
 	}
 
-	override private function set_alpha(value:Float):Void
+	override private function set_alpha(value:Float):Float
 	{
-		_baseMethod.alpha = value;
+		return _baseMethod.alpha = value;
 	}
 
 	override private function get_epsilon():Float
@@ -90,19 +91,20 @@ class NearShadowMapMethod extends SimpleShadowMapMethodBase
 		return _baseMethod.epsilon;
 	}
 
-	override private function set_epsilon(value:Float):Void
+	override private function set_epsilon(value:Float):Float
 	{
-		_baseMethod.epsilon = value;
+		return _baseMethod.epsilon = value;
 	}
 
+	public var fadeRatio(get,set):Float;
 	private function get_fadeRatio():Float
 	{
 		return _fadeRatio;
 	}
 
-	private function set_fadeRatio(value:Float):Void
+	private function set_fadeRatio(value:Float):Float
 	{
-		_fadeRatio = value;
+		return _fadeRatio = value;
 	}
 
 	override public function getFragmentCode(vo:MethodVO, regCache:ShaderRegisterCache, targetReg:ShaderRegisterElement):String
@@ -182,9 +184,9 @@ class NearShadowMapMethod extends SimpleShadowMapMethodBase
 	/**
 	 * @inheritDoc
 	 */
-	override private function set_sharedRegisters(value:ShaderRegisterData):Void
+	override private function set_sharedRegisters(value:ShaderRegisterData):ShaderRegisterData
 	{
-		super.sharedRegisters = _baseMethod.sharedRegisters = value;
+		return super.sharedRegisters = _baseMethod.sharedRegisters = value;
 	}
 
 	private function onShaderInvalidated(event:ShadingMethodEvent):Void
