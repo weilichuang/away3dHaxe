@@ -1,6 +1,5 @@
 ﻿package a3d.materials;
 
-import flash.display.BlendMode;
 import flash.display3D.Context3D;
 import flash.display3D.Context3DCompareMode;
 import flash.errors.Error;

@@ -117,7 +117,7 @@ class SkeletonClipState extends AnimationClipState implements ISkeletonAnimation
 
 		var currentPose:Vector<JointPose> = _currentPose.jointPoses;
 		var nextPose:Vector<JointPose> = _nextPose.jointPoses;
-		var numJoints:UInt = skeleton.numJoints;
+		var numJoints:Int = skeleton.numJoints;
 		var p1:Vector3D, p2:Vector3D;
 		var pose1:JointPose, pose2:JointPose;
 		var endPoses:Vector<JointPose> = _skeletonPose.jointPoses;

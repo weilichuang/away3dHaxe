@@ -45,12 +45,12 @@ class CascadeShadowMapper extends DirectionalShadowMapper implements IEventDispa
 		init();
 	}
 
-	public function getSplitRatio(index:UInt):Float
+	public function getSplitRatio(index:Int):Float
 	{
 		return _splitRatios[index];
 	}
 
-	public function setSplitRatio(index:UInt, value:Float):Void
+	public function setSplitRatio(index:Int, value:Float):Void
 	{
 		if (value < 0)
 			value = 0;
@@ -96,7 +96,7 @@ class CascadeShadowMapper extends DirectionalShadowMapper implements IEventDispa
 	}
 
 	// will not be allowed
-	override private function set_depthMapSize(value:Int):UInt
+	override private function set_depthMapSize(value:Int):Int
 	{
 		if (value == _depthMapSize)
 			return _depthMapSize;

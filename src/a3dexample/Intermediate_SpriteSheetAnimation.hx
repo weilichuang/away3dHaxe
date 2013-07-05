@@ -43,14 +43,17 @@ THE SOFTWARE.
 
 package a3dexample;
 
+import feffects.Tween;
 import flash.display.Bitmap;
 import flash.display.BitmapData;
 import flash.display.Loader;
 import flash.display.MovieClip;
 import flash.events.Event;
 import flash.geom.Vector3D;
+import flash.Lib;
 import flash.net.URLRequest;
 import flash.utils.ByteArray;
+import flash.Vector;
 
 import a3d.animators.SpriteSheetAnimationSet;
 import a3d.animators.SpriteSheetAnimator;
@@ -73,10 +76,17 @@ import a3d.textures.BitmapCubeTexture;
 import a3d.textures.Texture2DBase;
 import a3d.tools.helpers.SpriteSheetHelper;
 
+using Reflect;
+using feffects.Tween.TweenObject;
 
 // The tweener swc is provided in the 'libs' package
 class Intermediate_SpriteSheetAnimation extends BasicApplication
 {
+	public static function main()
+	{
+		Lib.current.addChild(new Intermediate_SpriteSheetAnimation());
+	}
+	
 	//engine variables
 	private var _loader:Loader3D;
 	private var _origin:Vector3D;
@@ -204,11 +214,11 @@ class Intermediate_SpriteSheetAnimation extends BasicApplication
 		var loader:Loader = Std.instance(e.currentTarget.loader,Loader);
 		loader.contentLoaderInfo.removeEventListener(Event.COMPLETE, setUpAnimators);
 
-		var sourceSwf:MovieClip = MovieClip(e.currentTarget.content);
+		var sourceSwf:MovieClip = Std.instance(e.currentTarget.content,MovieClip);
 
 		//in example swf, the source swf has a movieclip on stage named: "digits", it will be used for seconds, minutes and hours.
 		var animID:String = "digits";
-		var sourceMC:MovieClip = sourceSwf[animID];
+		var sourceMC:MovieClip = sourceSwf.field(animID);
 		//the animation holds 60 frames, as we spread over 2 maps, we'll have 2 maps of 30 frames
 		var cols:UInt = 6;
 		var rows:UInt = 5;
@@ -237,7 +247,7 @@ class Intermediate_SpriteSheetAnimation extends BasicApplication
 		//the animation movieclip has 12 frames, we define the row and cols
 		cols = 4;
 		rows = 3;
-		sourceMC = sourceSwf[animID];
+		sourceMC = sourceSwf.field(animID);
 		diffuseSpriteSheets = spriteSheetHelper.generateFromMovieClip(sourceMC, cols, rows, 256, 256, false);
 		var pulseAnimationSet:SpriteSheetAnimationSet = new SpriteSheetAnimationSet();
 		spriteSheetClipNode = spriteSheetHelper.generateSpriteSheetClipNode(animID, cols, rows, 1, 0, 12);
@@ -253,7 +263,7 @@ class Intermediate_SpriteSheetAnimation extends BasicApplication
 		//the animation has 5 frames, it can fit on one row
 		cols = 5;
 		rows = 2;
-		sourceMC = sourceSwf[animID];
+		sourceMC = sourceSwf.field(animID);
 		diffuseSpriteSheets = spriteSheetHelper.generateFromMovieClip(sourceMC, cols, rows, 256, 256, false);
 		var delimiterAnimationSet:SpriteSheetAnimationSet = new SpriteSheetAnimationSet();
 		spriteSheetClipNode = spriteSheetHelper.generateSpriteSheetClipNode(animID, cols, rows, 1, 0, sourceMC.totalFrames);
@@ -331,24 +341,24 @@ class Intermediate_SpriteSheetAnimation extends BasicApplication
 					//ignoring lightpicker on this mesh
 
 				case "chromebody":
-					var cubeTexture:BitmapCubeTexture = new BitmapCubeTexture(Bitmap(new Back_CB0_Bitmap()).bitmapData,
-						Bitmap(new Back_CB1_Bitmap()).bitmapData,
-						Bitmap(new Back_CB2_Bitmap()).bitmapData,
-						Bitmap(new Back_CB3_Bitmap()).bitmapData,
-						Bitmap(new Back_CB4_Bitmap()).bitmapData,
-						Bitmap(new Back_CB5_Bitmap()).bitmapData);
+					var cubeTexture:BitmapCubeTexture = new BitmapCubeTexture(new Back_CB0_Bitmap(0,0),
+						new Back_CB1_Bitmap(0,0),
+						new Back_CB2_Bitmap(0,0),
+						new Back_CB3_Bitmap(0,0),
+						new Back_CB4_Bitmap(0,0),
+						new Back_CB5_Bitmap(0,0));
 
 					var envMapMethod:EnvMapMethod = new EnvMapMethod(cubeTexture, 0.1);
-					SinglePassMaterialBase(mesh.material).addMethod(envMapMethod);
+					Std.instance(mesh.material,SinglePassMaterialBase).addMethod(envMapMethod);
 
 				default:
-					if (!mesh.material.lightPicker)
+					if (mesh.material.lightPicker == null)
 						mesh.material.lightPicker = _staticLightPicker;
 
 			}
 
 			var fogMethod:FogMethod = new FogMethod(20000, 50000, 0x10C14);
-			SinglePassMaterialBase(mesh.material).addMethod(fogMethod);
+			Std.instance(mesh.material,SinglePassMaterialBase).addMethod(fogMethod);
 		}
 	}
 
@@ -367,7 +377,7 @@ class Intermediate_SpriteSheetAnimation extends BasicApplication
 	{
 		clearListeners();
 
-		view.scene.addChild(ObjectContainer3D(event.currentTarget));
+		view.scene.addChild(Std.instance(event.currentTarget,ObjectContainer3D));
 
 		initListeners();
 		
@@ -380,23 +390,23 @@ class Intermediate_SpriteSheetAnimation extends BasicApplication
 	 */
 	private function updateClock():Void
 	{
-		var date:Date = new Date();
+		var date:Date = Date.now();
 
-		if (_lastHour != date.hours + 1)
+		if (_lastHour != date.getHours() + 1)
 		{
-			_lastHour = date.hours + 1;
+			_lastHour = date.getHours() + 1;
 			_hoursAnimator.gotoAndStop(_lastHour);
 		}
 
-		if (_lastMinute != date.minutes + 1)
+		if (_lastMinute != date.getMinutes() + 1)
 		{
-			_lastMinute = date.minutes + 1;
+			_lastMinute = date.getMinutes() + 1;
 			_minutesAnimator.gotoAndStop(_lastMinute);
 		}
 
-		if (_lastSecond != date.seconds + 1)
+		if (_lastSecond != date.getSeconds() + 1)
 		{
-			_lastSecond = date.seconds + 1;
+			_lastSecond = date.getSeconds() + 1;
 			_secondsAnimator.gotoAndStop(_lastSecond);
 			_delimiterAnimator.gotoAndPlay(1);
 		}
@@ -410,11 +420,13 @@ class Intermediate_SpriteSheetAnimation extends BasicApplication
 		var destX:Float = -(Math.random() * 24000) + 4000;
 		var destY:Float = Math.random() * 16000;
 		var destZ:Float = 3000 + Math.random() * 18000;
+		
+		view.camera.tween( { x:destX, y:destY, z: -destZ }, Std.int(4 + (Math.random() * 2)) * 1000, null, true, startTween).start();
 
-		Tweener.addTween(view.camera, {x: destX, y: destY, z: -destZ,
-				time: 4 + (Math.random() * 2),
-				transition: "easeInOutQuad",
-				onComplete: startTween});
+		//Tweener.addTween(view.camera, {x: destX, y: destY, z: -destZ,
+				//time: 4 + (Math.random() * 2),
+				//transition: "easeInOutQuad",
+				//onComplete: startTween});
 	}
 
 	/**

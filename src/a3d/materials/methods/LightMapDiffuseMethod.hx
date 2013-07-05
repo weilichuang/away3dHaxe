@@ -2,6 +2,7 @@ package a3d.materials.methods;
 
 
 import a3d.core.managers.Stage3DProxy;
+import a3d.materials.BlendMode;
 import a3d.materials.compilation.ShaderRegisterCache;
 import a3d.materials.compilation.ShaderRegisterElement;
 import a3d.textures.Texture2DBase;
@@ -11,13 +12,10 @@ import flash.errors.Error;
 
 class LightMapDiffuseMethod extends CompositeDiffuseMethod
 {
-	public static inline var MULTIPLY:String = "multiply";
-	public static inline var ADD:String = "add";
-
-	private var _blendMode:String;
+	private var _blendMode:BlendMode;
 	private var _useSecondaryUV:Bool;
 
-	public function new(lightMap:Texture2DBase, blendMode:String = "multiply", useSecondaryUV:Bool = false, baseMethod:BasicDiffuseMethod = null)
+	public function new(lightMap:Texture2DBase, blendMode:BlendMode = null, useSecondaryUV:Bool = false, baseMethod:BasicDiffuseMethod = null)
 	{
 		super(null, baseMethod);
 		_useSecondaryUV = useSecondaryUV;
@@ -31,15 +29,15 @@ class LightMapDiffuseMethod extends CompositeDiffuseMethod
 		vo.needsUV = !_useSecondaryUV;
 	}
 
-	public var blendMode(get,set):String;
-	private function get_blendMode():String
+	public var blendMode(get,set):BlendMode;
+	private function get_blendMode():BlendMode
 	{
 		return _blendMode;
 	}
 
-	private function set_blendMode(value:String):String
+	private function set_blendMode(value:BlendMode):BlendMode
 	{
-		if (value != ADD && value != MULTIPLY)
+		if (value != BlendMode.ADD && value != BlendMode.MULTIPLY)
 			throw new Error("Unknown blendmode!");
 		if (_blendMode == value)
 			return _blendMode;
@@ -75,16 +73,15 @@ class LightMapDiffuseMethod extends CompositeDiffuseMethod
 
 		code = getTex2DSampleCode(vo, temp, lightMapReg, _texture, _sharedRegisters.secondaryUVVarying);
 
-		switch (_blendMode)
+		if (_blendMode == BlendMode.MULTIPLY)
 		{
-			case MULTIPLY:
-				code += "mul " + _totalLightColorReg + ", " + _totalLightColorReg + ", " + temp + "\n";
-			
-			case ADD:
-				code += "add " + _totalLightColorReg + ", " + _totalLightColorReg + ", " + temp + "\n";
-			
+			code += "mul " + _totalLightColorReg + ", " + _totalLightColorReg + ", " + temp + "\n";
 		}
-
+		else if (_blendMode == BlendMode.ADD)
+		{
+			code += "add " + _totalLightColorReg + ", " + _totalLightColorReg + ", " + temp + "\n";
+		}
+		
 		code += super.getFragmentPostLightingCode(vo, regCache, targetReg);
 
 		return code;

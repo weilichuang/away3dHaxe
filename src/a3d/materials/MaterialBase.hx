@@ -1,6 +1,5 @@
 package a3d.materials;
 
-import flash.display.BlendMode;
 import flash.display3D.Context3D;
 import flash.display3D.Context3DCompareMode;
 import flash.errors.Error;
@@ -22,7 +21,7 @@ import a3d.materials.lightpickers.LightPickerBase;
 import a3d.materials.passes.DepthMapPass;
 import a3d.materials.passes.DistanceMapPass;
 import a3d.materials.passes.MaterialPassBase;
-
+import a3d.materials.BlendMode;
 
 
 /**
@@ -56,7 +55,7 @@ class MaterialBase extends NamedAssetBase implements IAsset
 
 	private var _blendMode:BlendMode;
 
-	private var _numPasses:UInt;
+	private var _numPasses:Int;
 	private var _passes:Vector<MaterialPassBase>;
 
 	private var _mipmap:Bool;

@@ -21,7 +21,7 @@ class ShadowMapperBase
 	private var _casterCollector:ShadowCasterCollector;
 
 	private var _depthMap:TextureProxyBase;
-	private var _depthMapSize:UInt = 2048;
+	private var _depthMapSize:Int = 2048;
 	private var _light:LightBase;
 	private var _explicitDepthMap:Bool;
 	private var _autoUpdateShadows:Bool = true;
@@ -103,13 +103,13 @@ class ShadowMapperBase
 		return _depthMap;
 	}
 
-	public var depthMapSize(get,set):UInt;
-	private function get_depthMapSize():UInt
+	public var depthMapSize(get,set):Int;
+	private function get_depthMapSize():Int
 	{
 		return _depthMapSize;
 	}
 
-	private function set_depthMapSize(value:UInt):UInt
+	private function set_depthMapSize(value:Int):Int
 	{
 		if (value == _depthMapSize)
 			return _depthMapSize;

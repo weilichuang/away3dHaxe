@@ -1,6 +1,5 @@
 ﻿package a3d.materials;
 
-import flash.display.BlendMode;
 import flash.geom.ColorTransform;
 
 

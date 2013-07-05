@@ -228,10 +228,10 @@ class OutlinePass extends MaterialPassBase
 		var index:Int;
 		var x:Float, y:Float, z:Float;
 		var key:String;
-		var indexCount:Int;
-		var vertexCount:Int;
+		var indexCount:Int = 0;
+		var vertexCount:Int = 0;
 		var len:Int = srcIndices.length;
-		var maxIndex:Int;
+		var maxIndex:Int = 0;
 		var stride:Int = source.vertexStride;
 		var offset:Int = source.vertexOffset;
 

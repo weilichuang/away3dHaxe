@@ -2,6 +2,7 @@ package a3d.materials.methods;
 
 
 import a3d.core.managers.Stage3DProxy;
+import a3d.materials.BlendMode;
 import a3d.materials.compilation.ShaderRegisterCache;
 import a3d.materials.compilation.ShaderRegisterElement;
 import a3d.textures.Texture2DBase;
@@ -16,15 +17,22 @@ class LightMapMethod extends EffectMethodBase
 
 	private var _texture:Texture2DBase;
 
-	private var _blendMode:String;
+	private var _blendMode:BlendMode;
 	private var _useSecondaryUV:Bool;
 
-	public function new(texture:Texture2DBase, blendMode:String = "multiply", useSecondaryUV:Bool = false)
+	public function new(texture:Texture2DBase, blendMode:BlendMode = null, useSecondaryUV:Bool = false)
 	{
 		super();
 		_useSecondaryUV = useSecondaryUV;
 		_texture = texture;
-		this.blendMode = blendMode;
+		if (blendMode == null)
+		{
+			this.blendMode = BlendMode.MULTIPLY;
+		}
+		else
+		{
+			this.blendMode = blendMode;
+		}
 	}
 
 	override public function initVO(vo:MethodVO):Void
@@ -33,15 +41,15 @@ class LightMapMethod extends EffectMethodBase
 		vo.needsSecondaryUV = _useSecondaryUV;
 	}
 
-	public var blendMode(get,set):String;
-	private function get_blendMode():String
+	public var blendMode(get,set):BlendMode;
+	private function get_blendMode():BlendMode
 	{
 		return _blendMode;
 	}
 
-	private function set_blendMode(value:String):String
+	private function set_blendMode(value:BlendMode):BlendMode
 	{
-		if (value != ADD && value != MULTIPLY)
+		if (value != BlendMode.ADD && value != BlendMode.MULTIPLY)
 			throw new Error("Unknown blendmode!");
 		if (_blendMode == value)
 			return _blendMode;
@@ -79,15 +87,11 @@ class LightMapMethod extends EffectMethodBase
 
 		code = getTex2DSampleCode(vo, temp, lightMapReg, _texture, _useSecondaryUV ? _sharedRegisters.secondaryUVVarying : _sharedRegisters.uvVarying);
 
-		switch (_blendMode)
-		{
-			case MULTIPLY:
-				code += "mul " + targetReg + ", " + targetReg + ", " + temp + "\n";
-				
-			case ADD:
-				code += "add " + targetReg + ", " + targetReg + ", " + temp + "\n";
-				
-		}
+		if(_blendMode == BlendMode.MULTIPLY)
+			code += "mul " + targetReg + ", " + targetReg + ", " + temp + "\n";
+		else if(_blendMode == BlendMode.ADD)
+			code += "add " + targetReg + ", " + targetReg + ", " + temp + "\n";
+
 
 		return code;
 	}

@@ -5,6 +5,7 @@ import a3d.entities.Camera3D;
 import a3d.core.base.IRenderable;
 import a3d.core.managers.Stage3DProxy;
 import a3d.entities.TextureProjector;
+import a3d.materials.BlendMode;
 import a3d.materials.compilation.ShaderRegisterCache;
 import a3d.materials.compilation.ShaderRegisterElement;
 import flash.errors.Error;
@@ -28,7 +29,7 @@ class ProjectiveTextureMethod extends EffectMethodBase
 	private var _projector:TextureProjector;
 	private var _uvVarying:ShaderRegisterElement;
 	private var _projMatrix:Matrix3D;
-	private var _mode:String;
+	private var _mode:BlendMode;
 
 	/**
 	 * Creates a new ProjectiveTextureMethod object.
@@ -38,7 +39,7 @@ class ProjectiveTextureMethod extends EffectMethodBase
 	 *
 	 * @see a3d.entities.TextureProjector
 	 */
-	public function new(projector:TextureProjector, mode:String = "multiply")
+	public function new(projector:TextureProjector, mode:BlendMode = null)
 	{
 		super();
 		
@@ -70,13 +71,13 @@ class ProjectiveTextureMethod extends EffectMethodBase
 	 * ProjectiveTextureMethod.ADD can be used to project light, such as a slide projector or light coming through stained glass. To prevent clamping, the texture's alpha should be black!
 	 * ProjectiveTextureMethod.MIX provides normal alpha blending. To prevent clamping, the texture's alpha should be transparent!
 	 */
-	public var mode(get,set):String;
-	private function get_mode():String
+	public var mode(get,set):BlendMode;
+	private function get_mode():BlendMode
 	{
 		return _mode;
 	}
 
-	private function set_mode(value:String):String
+	private function set_mode(value:BlendMode):BlendMode
 	{
 		if (_mode == value)
 			return _mode;
@@ -134,11 +135,11 @@ class ProjectiveTextureMethod extends EffectMethodBase
 			"add " + col + ".xy, " + col + ".xy, " + toTexReg + ".xx	\n";
 		code += getTex2DSampleCode(vo, col, mapRegister, _projector.texture, col, "clamp");
 
-		if (_mode == MULTIPLY)
+		if (_mode == BlendMode.MULTIPLY)
 			code += "mul " + targetReg + ".xyz, " + targetReg + ".xyz, " + col + ".xyz			\n";
-		else if (_mode == ADD)
+		else if (_mode == BlendMode.ADD)
 			code += "add " + targetReg + ".xyz, " + targetReg + ".xyz, " + col + ".xyz			\n";
-		else if (_mode == MIX)
+		else if (_mode == BlendMode.MIX)
 		{
 			code += "sub " + col + ".xyz, " + col + ".xyz, " + targetReg + ".xyz				\n" +
 				"mul " + col + ".xyz, " + col + ".xyz, " + col + ".w						\n" +

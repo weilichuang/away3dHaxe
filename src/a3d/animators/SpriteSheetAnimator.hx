@@ -214,7 +214,7 @@ class SpriteSheetAnimator extends AnimatorBase implements IAnimator
 		if (_activeState == null)
 			return;
 		Std.instance(_activeState,SpriteSheetAnimationState).currentFrameNumber = (frameNumber == 0) ? frameNumber : frameNumber - 1;
-		var currentMapID:UInt = _frame.mapID;
+		var currentMapID:Int = _frame.mapID;
 		_frame = Std.instance(_activeSpriteSheetState,SpriteSheetAnimationState).currentFrameData;
 
 		if (doPlay)

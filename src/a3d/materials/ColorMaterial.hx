@@ -1,9 +1,5 @@
 package a3d.materials;
 
-import flash.display.BlendMode;
-
-
-
 
 
 /**

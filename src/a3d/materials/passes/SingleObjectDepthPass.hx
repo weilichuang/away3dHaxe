@@ -6,6 +6,7 @@ import flash.display3D.Context3DTextureFormat;
 import flash.display3D.textures.Texture;
 import flash.geom.Matrix3D;
 import flash.utils.Dictionary;
+import flash.utils.Object;
 import flash.Vector;
 import haxe.ds.ObjectMap;
 
@@ -61,14 +62,11 @@ class SingleObjectDepthPass extends MaterialPassBase
 		{
 			for (i in 0..._textures.length)
 			{
-				var vec:Vector<Texture>;
-				//var values:Iterator<Texture> = _textures[i].iterator();
-				for (vec in _textures[i])
+				var map:ObjectMap<IRenderable,Texture> = _textures[i];
+				var iterator:Iterator<Texture> = map.iterator();
+				for (texture in iterator)
 				{
-					for (j in 0...vec.length)
-					{
-						vec[j].dispose();
-					}
+					texture.dispose();
 				}
 			}
 			_textures = null;
@@ -81,20 +79,18 @@ class SingleObjectDepthPass extends MaterialPassBase
 		{
 			for (i in 0..._textures.length)
 			{
-				var vec:Vector<Texture>;
-				for (vec in _textures[i])
+				var map:ObjectMap<IRenderable,Texture> = _textures[i];
+				var iterator:Iterator<Texture> = map.iterator();
+				for (texture in iterator)
 				{
-					for (j in 0...vec.length)
-					{
-						vec[j].dispose();
-					}
+					texture.dispose();
 				}
 			}
 			_textures = null;
 		}
 
 		_textures = new Vector<ObjectMap<IRenderable,Texture>>(8);
-		_projections = new Dictionary();
+		_projections = new ObjectMap<IRenderable,Matrix3D>();
 		_projectionTexturesInvalid = false;
 	}
 

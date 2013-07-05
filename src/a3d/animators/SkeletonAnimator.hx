@@ -6,6 +6,7 @@ import flash.errors.Error;
 import flash.geom.Vector3D;
 import flash.utils.Dictionary;
 import flash.Vector;
+import haxe.ds.ObjectMap;
 
 
 import a3d.animators.data.JointPose;
@@ -36,13 +37,13 @@ class SkeletonAnimator extends AnimatorBase implements IAnimator
 	private var _globalPose:SkeletonPose;
 	private var _globalPropertiesDirty:Bool;
 	private var _numJoints:UInt;
-	private var _animationStates:Dictionary;
+	private var _skeletonAnimationStates:ObjectMap<SkinnedSubGeometry,SubGeomAnimationState>;
 	private var _condensedMatrices:Vector<Float>;
 
 	private var _skeleton:Skeleton;
 	private var _forceCPU:Bool;
 	private var _useCondensedIndices:Bool;
-	private var _jointsPerVertex:UInt;
+	private var _jointsPerVertex:Int;
 	private var _activeSkeletonState:ISkeletonAnimationState;
 	
 	/**
@@ -64,9 +65,9 @@ class SkeletonAnimator extends AnimatorBase implements IAnimator
 		_globalMatrices = new Vector<Float>(_numJoints * 12, true);
 		
 		_globalPose = new SkeletonPose();
-		_animationStates = new Dictionary();
+		_skeletonAnimationStates = new ObjectMap<SkinnedSubGeometry,SubGeomAnimationState>();
 
-		var j:Int;
+		var j:Int = 0;
 		for (i in 0..._numJoints)
 		{
 			_globalMatrices[j++] = 1;
@@ -225,10 +226,10 @@ class SkeletonAnimator extends AnimatorBase implements IAnimator
 		{
 			if (_animationSet.usesCPU)
 			{
-				if (_animationStates[skinnedGeom] == null)
-					_animationStates[skinnedGeom] = new SubGeomAnimationState(skinnedGeom);
+				if (!_skeletonAnimationStates.exists(skinnedGeom))
+					_skeletonAnimationStates.set(skinnedGeom,new SubGeomAnimationState(skinnedGeom));
 				
-				var subGeomAnimState:SubGeomAnimationState = _animationStates[skinnedGeom];
+				var subGeomAnimState:SubGeomAnimationState = _skeletonAnimationStates.get(skinnedGeom);
 
 				if (subGeomAnimState.dirty)
 				{
@@ -266,11 +267,12 @@ class SkeletonAnimator extends AnimatorBase implements IAnimator
 		//invalidate pose matrices
 		_globalPropertiesDirty = true;
 
-		for (key in _animationStates)
-			Std.instance(_animationStates[key],SubGeomAnimationState).dirty = true;
+		var iterator = _skeletonAnimationStates.iterator();
+		for (state in iterator)
+			state.dirty = true;
 	}
 
-	private function updateCondensedMatrices(condensedIndexLookUp:Vector<UInt>, numJoints:UInt):Void
+	private function updateCondensedMatrices(condensedIndexLookUp:Vector<UInt>, numJoints:Int):Void
 	{
 		var i:Int = 0, j:Int = 0;
 		var len:Int;
@@ -296,7 +298,7 @@ class SkeletonAnimator extends AnimatorBase implements IAnimator
 		localToGlobalPose(_activeSkeletonState.getSkeletonPose(_skeleton), _globalPose, _skeleton);
 
 		// convert pose to matrix
-		var mtxOffset:UInt;
+		var mtxOffset:Int = 0;
 		var globalPoses:Vector<JointPose> = _globalPose.jointPoses;
 		var raw:Vector<Float>;
 		var ox:Float, oy:Float, oz:Float, ow:Float;
@@ -392,8 +394,8 @@ class SkeletonAnimator extends AnimatorBase implements IAnimator
 		var targetData:Vector<Float> = state.animatedVertexData;
 		var jointIndices:Vector<Float> = subGeom.jointIndexData;
 		var jointWeights:Vector<Float> = subGeom.jointWeightsData;
-		var index:UInt;
-		var j:UInt, k:UInt;
+		var index:Int = 0;
+		var j:Int = 0, k:Int = 0;
 		var vx:Float, vy:Float, vz:Float;
 		var nx:Float, ny:Float, nz:Float;
 		var tx:Float, ty:Float, tz:Float;
@@ -489,7 +491,7 @@ class SkeletonAnimator extends AnimatorBase implements IAnimator
 		var globalPoses:Vector<JointPose> = targetPose.jointPoses;
 		var globalJointPose:JointPose;
 		var joints:Vector<SkeletonJoint> = skeleton.joints;
-		var len:UInt = sourcePose.numJointPoses;
+		var len:Int = sourcePose.numJointPoses;
 		var jointPoses:Vector<JointPose> = sourcePose.jointPoses;
 		var parentIndex:Int;
 		var joint:SkeletonJoint;

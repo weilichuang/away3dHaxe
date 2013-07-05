@@ -1,25 +1,7 @@
 package a3d.io.loaders.parsers;
 
-import a3d.math.MathUtil;
-import flash.display.BitmapData;
-import flash.display.BlendMode;
-import flash.display.Sprite;
-import flash.geom.ColorTransform;
-import flash.geom.Matrix;
-import flash.geom.Matrix3D;
-import flash.geom.Vector3D;
-import flash.net.URLRequest;
-import flash.utils.ByteArray;
-import flash.utils.Endian;
-import flash.Vector;
-
-
 import a3d.animators.AnimationSetBase;
 import a3d.animators.AnimatorBase;
-import a3d.animators.SkeletonAnimationSet;
-import a3d.animators.SkeletonAnimator;
-import a3d.animators.VertexAnimationSet;
-import a3d.animators.VertexAnimator;
 import a3d.animators.data.JointPose;
 import a3d.animators.data.Skeleton;
 import a3d.animators.data.SkeletonJoint;
@@ -28,19 +10,18 @@ import a3d.animators.data.UVAnimationFrame;
 import a3d.animators.nodes.SkeletonClipNode;
 import a3d.animators.nodes.UVClipNode;
 import a3d.animators.nodes.VertexClipNode;
+import a3d.animators.SkeletonAnimationSet;
+import a3d.animators.SkeletonAnimator;
+import a3d.animators.VertexAnimationSet;
+import a3d.animators.VertexAnimator;
+import a3d.core.base.CompactSubGeometry;
+import a3d.core.base.Geometry;
+import a3d.core.base.ISubGeometry;
 import a3d.entities.Camera3D;
 import a3d.entities.lenses.LensBase;
 import a3d.entities.lenses.OrthographicLens;
 import a3d.entities.lenses.OrthographicOffCenterLens;
 import a3d.entities.lenses.PerspectiveLens;
-import a3d.core.base.CompactSubGeometry;
-import a3d.core.base.Geometry;
-import a3d.core.base.ISubGeometry;
-import a3d.entities.Mesh;
-import a3d.entities.ObjectContainer3D;
-import a3d.entities.TextureProjector;
-import a3d.io.library.assets.AssetType;
-import a3d.io.library.assets.IAsset;
 import a3d.entities.lights.DirectionalLight;
 import a3d.entities.lights.LightBase;
 import a3d.entities.lights.PointLight;
@@ -49,17 +30,27 @@ import a3d.entities.lights.shadowmaps.CubeMapShadowMapper;
 import a3d.entities.lights.shadowmaps.DirectionalShadowMapper;
 import a3d.entities.lights.shadowmaps.NearDirectionalShadowMapper;
 import a3d.entities.lights.shadowmaps.ShadowMapperBase;
+import a3d.entities.Mesh;
+import a3d.entities.ObjectContainer3D;
+import a3d.entities.primitives.CapsuleGeometry;
+import a3d.entities.primitives.ConeGeometry;
+import a3d.entities.primitives.CubeGeometry;
+import a3d.entities.primitives.CylinderGeometry;
+import a3d.entities.primitives.PlaneGeometry;
+import a3d.entities.primitives.SkyBox;
+import a3d.entities.primitives.SphereGeometry;
+import a3d.entities.primitives.TorusGeometry;
+import a3d.entities.TextureProjector;
+import a3d.io.library.assets.AssetType;
+import a3d.io.library.assets.IAsset;
 import a3d.io.loaders.misc.ResourceDependency;
 import a3d.io.loaders.parsers.utils.ParserUtil;
+import a3d.materials.BlendMode;
 import a3d.materials.ColorMaterial;
 import a3d.materials.ColorMultiPassMaterial;
-import a3d.materials.MaterialBase;
-import a3d.materials.MultiPassMaterialBase;
-import a3d.materials.SinglePassMaterialBase;
-import a3d.materials.TextureMaterial;
-import a3d.materials.TextureMultiPassMaterial;
 import a3d.materials.lightpickers.LightPickerBase;
 import a3d.materials.lightpickers.StaticLightPicker;
+import a3d.materials.MaterialBase;
 import a3d.materials.methods.AlphaMaskMethod;
 import a3d.materials.methods.AnisotropicSpecularMethod;
 import a3d.materials.methods.CascadeShadowMapMethod;
@@ -91,21 +82,32 @@ import a3d.materials.methods.SimpleWaterNormalMethod;
 import a3d.materials.methods.SoftShadowMapMethod;
 import a3d.materials.methods.SubsurfaceScatteringDiffuseMethod;
 import a3d.materials.methods.WrapDiffuseMethod;
+import a3d.materials.MultiPassMaterialBase;
+import a3d.materials.SinglePassMaterialBase;
+import a3d.materials.TextureMaterial;
+import a3d.materials.TextureMultiPassMaterial;
 import a3d.materials.utils.DefaultMaterialManager;
-import a3d.entities.primitives.CapsuleGeometry;
-import a3d.entities.primitives.ConeGeometry;
-import a3d.entities.primitives.CubeGeometry;
-import a3d.entities.primitives.CylinderGeometry;
-import a3d.entities.primitives.PlaneGeometry;
-import a3d.entities.primitives.SkyBox;
-import a3d.entities.primitives.SphereGeometry;
-import a3d.entities.primitives.TorusGeometry;
+import a3d.math.MathUtil;
 import a3d.textures.BitmapCubeTexture;
 import a3d.textures.BitmapTexture;
 import a3d.textures.CubeTextureBase;
 import a3d.textures.Texture2DBase;
 import a3d.textures.TextureProxyBase;
 import a3d.tools.utils.GeomUtil;
+import flash.display.BitmapData;
+import flash.display.Sprite;
+import flash.geom.ColorTransform;
+import flash.geom.Matrix;
+import flash.geom.Matrix3D;
+import flash.geom.Vector3D;
+import flash.net.URLRequest;
+import flash.utils.ByteArray;
+import flash.utils.CompressionAlgorithm;
+import flash.utils.Endian;
+import flash.Vector;
+import haxe.ds.StringMap;
+
+
 
 using Reflect;
 
@@ -137,7 +139,7 @@ class AWD2Parser extends ParserBase
 
 	private var _streaming:Bool;
 
-	private var _texture_users:Dynamic = {};
+	private var _texture_users:StringMap<Array<Int>>;
 
 	private var _parsed_header:Bool;
 	private var _body:ByteArray;
@@ -177,7 +179,7 @@ class AWD2Parser extends ParserBase
 	public static inline var MTX4x3:UInt = 46;
 	public static inline var MTX4x4:UInt = 47;
 
-	private var blendModeDic:Vector<String>;
+	private var blendModeDic:Vector<BlendMode>;
 	private var _depthSizeDic:Vector<UInt>;
 
 	/**
@@ -191,9 +193,11 @@ class AWD2Parser extends ParserBase
 
 		_blocks = new Vector<AWDBlock>();
 		_blocks[0] = new AWDBlock();
-		_blocks[0].data = null; // Zero address means null in AWD			
+		_blocks[0].data = null; // Zero address means null in AWD	
+		
+		_texture_users = new StringMap<Array<Int>>();
 
-		blendModeDic = new Vector<String>(); // used to translate ints to blendMode-strings
+		blendModeDic = new Vector<BlendMode>(); // used to translate ints to blendMode-strings
 		blendModeDic.push(BlendMode.NORMAL);
 		blendModeDic.push(BlendMode.ADD);
 		blendModeDic.push(BlendMode.ALPHA);
@@ -205,11 +209,9 @@ class AWD2Parser extends ParserBase
 		blendModeDic.push(BlendMode.LAYER);
 		blendModeDic.push(BlendMode.LIGHTEN);
 		blendModeDic.push(BlendMode.MULTIPLY);
-		blendModeDic.push(BlendMode.NORMAL);
 		blendModeDic.push(BlendMode.OVERLAY);
 		blendModeDic.push(BlendMode.SCREEN);
 		blendModeDic.push(BlendMode.SHADER);
-		blendModeDic.push(BlendMode.OVERLAY);
 
 		_depthSizeDic = new Vector<UInt>(); // used to translate ints to depthSize-values
 		_depthSizeDic.push(256);
@@ -241,7 +243,7 @@ class AWD2Parser extends ParserBase
 		// so we know if we have to finalize the Asset (CubeTexture) or not.
 		if (resourceDependency.assets.length == 1)
 		{
-			var isCubeTextureArray:Array = resourceDependency.id.split("#");
+			var isCubeTextureArray:Array<String> = resourceDependency.id.split("#");
 			var ressourceID:String = isCubeTextureArray[0];
 			var asset:TextureProxyBase;
 			var thisBitmapTexture:Texture2DBase;
@@ -249,11 +251,11 @@ class AWD2Parser extends ParserBase
 			if (isCubeTextureArray.length == 1)
 			{
 				asset = Std.instance(resourceDependency.assets[0],Texture2DBase);
-				if (asset)
+				if (asset != null)
 				{
 					var mat:TextureMaterial;
-					var users:Array;
-					block = _blocks[parseInt(resourceDependency.id)];
+					//var users:Array;
+					block = _blocks[Std.parseInt(resourceDependency.id)];
 					block.data = asset; // Store finished asset						
 					// Reset name of texture to the one defined in the AWD file,
 					// as opposed to whatever the image parser came up with.
@@ -272,17 +274,17 @@ class AWD2Parser extends ParserBase
 			if (isCubeTextureArray.length > 1)
 			{
 				thisBitmapTexture = Std.instance(resourceDependency.assets[0],BitmapTexture);
-				_cubeTextures[isCubeTextureArray[1]] = Std.instance(thisBitmapTexture,BitmapTexture).bitmapData;
-				_texture_users[ressourceID].push(1);
+				_cubeTextures[Std.parseInt(isCubeTextureArray[1])] = Std.instance(thisBitmapTexture,BitmapTexture).bitmapData;
+				_texture_users.get(ressourceID).push(1);
 
 				if (_debug)
 				{
-					trace("Successfully loadet Bitmap " + _texture_users[ressourceID].length + " / 6 for Cubetexture");
+					trace("Successfully loadet Bitmap " + _texture_users.get(ressourceID).length + " / 6 for Cubetexture");
 				}
-				if (_texture_users[ressourceID].length == _cubeTextures.length)
+				if (_texture_users.get(ressourceID).length == _cubeTextures.length)
 				{
 					asset = new BitmapCubeTexture(_cubeTextures[0], _cubeTextures[1], _cubeTextures[2], _cubeTextures[3], _cubeTextures[4], _cubeTextures[5]);
-					block = _blocks[ressourceID];
+					block = _blocks[Std.parseInt(ressourceID)];
 					block.data = asset; // Store finished asset				
 					// Reset name of texture to the one defined in the AWD file,
 					// as opposed to whatever the image parser came up with.
@@ -317,9 +319,9 @@ class AWD2Parser extends ParserBase
 	override public function resolveDependencyName(resourceDependency:ResourceDependency, asset:IAsset):String
 	{
 		var oldName:String = asset.name;
-		if (asset)
+		if (asset != null)
 		{
-			var block:AWDBlock = _blocks[parseInt(resourceDependency.id)];
+			var block:AWDBlock = _blocks[Std.parseInt(resourceDependency.id)];
 			// Reset name of texture to the one defined in the AWD file,
 			// as opposed to whatever the image parser came up with.
 			asset.resetAssetPath(block.name, null, true);
@@ -366,7 +368,7 @@ class AWD2Parser extends ParserBase
 				case LZMA:
 					_body = new ByteArray();
 					_byteData.readBytes(_body, 0, _byteData.bytesAvailable);
-					_body.uncompress(COMPRESSIONMODE_LZMA);
+					_body.uncompress(CompressionAlgorithm.LZMA);
 					
 				case UNCOMPRESSED:
 					_body = _byteData;
@@ -400,13 +402,13 @@ class AWD2Parser extends ParserBase
 		_version[1] = _byteData.readUnsignedByte();
 
 		flags = _byteData.readUnsignedShort(); // Parse bit flags 
-		_streaming = bitFlags.test(flags, bitFlags.FLAG1);
+		_streaming = BitFlags.test(flags, BitFlags.FLAG1);
 		if ((_version[0] == 2) && (_version[1] == 1))
 		{
-			_accuracyMatrix = bitFlags.test(flags, bitFlags.FLAG2);
-			_accuracyGeo = bitFlags.test(flags, bitFlags.FLAG3);
-			_accuracyProps = bitFlags.test(flags, bitFlags.FLAG4);
-			_accuracyOnBlocks = bitFlags.test(flags, bitFlags.FLAG5);
+			_accuracyMatrix = BitFlags.test(flags, BitFlags.FLAG2);
+			_accuracyGeo = BitFlags.test(flags, BitFlags.FLAG3);
+			_accuracyProps = BitFlags.test(flags, BitFlags.FLAG4);
+			_accuracyOnBlocks = BitFlags.test(flags, BitFlags.FLAG5);
 		}
 
 		// set storagePrecision types
@@ -439,22 +441,22 @@ class AWD2Parser extends ParserBase
 
 	private function parseNextBlock():Void
 	{
-		var block:AWDBlock;
-		var assetData:IAsset;
-		var isParsed:Bool;
+		var block:AWDBlock = null;
+		var assetData:IAsset = null;
+		var isParsed:Bool = false;
 		var ns:UInt, type:UInt, flags:UInt, len:UInt;
 		_cur_block_id = _body.readUnsignedInt();
 		ns = _body.readUnsignedByte();
 		type = _body.readUnsignedByte();
 		flags = _body.readUnsignedByte();
 		len = _body.readUnsignedInt();
-		var blockCompression:Bool = bitFlags.test(flags, bitFlags.FLAG4);
-		var blockCompressionLZMA:Bool = bitFlags.test(flags, bitFlags.FLAG5);
+		var blockCompression:Bool = BitFlags.test(flags, BitFlags.FLAG4);
+		var blockCompressionLZMA:Bool = BitFlags.test(flags, BitFlags.FLAG5);
 		if (_accuracyOnBlocks)
 		{
-			_accuracyMatrix = bitFlags.test(flags, bitFlags.FLAG1);
-			_accuracyGeo = bitFlags.test(flags, bitFlags.FLAG2);
-			_accuracyProps = bitFlags.test(flags, bitFlags.FLAG3);
+			_accuracyMatrix = BitFlags.test(flags, BitFlags.FLAG1);
+			_accuracyGeo = BitFlags.test(flags, BitFlags.FLAG2);
+			_accuracyProps = BitFlags.test(flags, BitFlags.FLAG3);
 			_geoNrType = FLOAT32;
 			if (_accuracyGeo)
 				_geoNrType = FLOAT64;
@@ -480,7 +482,7 @@ class AWD2Parser extends ParserBase
 		if (blockCompression)
 		{
 			if (blockCompressionLZMA)
-				_newBlockBytes.uncompress(COMPRESSIONMODE_LZMA);
+				_newBlockBytes.uncompress(CompressionAlgorithm.LZMA);
 			else
 				_newBlockBytes.uncompress();
 		}
@@ -585,7 +587,7 @@ class AWD2Parser extends ParserBase
 					_newBlockBytes.position += len;
 			}
 		}
-		var msgCnt:UInt = 0;
+		var msgCnt:Int = 0;
 		if (_newBlockBytes.position == blockEndBlock)
 		{
 			if (_debug)
@@ -594,7 +596,7 @@ class AWD2Parser extends ParserBase
 				{
 					while (msgCnt < block.errorMessages.length)
 					{
-						trace("        (!) Error: " + block.errorMessages[msgCnt] + " (!)");
+						trace("(!) Error: " + block.errorMessages[msgCnt] + " (!)");
 						msgCnt++;
 					}
 				}
@@ -639,13 +641,13 @@ class AWD2Parser extends ParserBase
 
 		// Loop through sub meshes
 		var subs_parsed:Int = 0;
-		var sub_geoms:Vector<ISubGeometry>;
+		var sub_geoms:Vector<ISubGeometry> = null;
 		while (subs_parsed < num_subs)
 		{
 			var i:Int;
-			var sm_len:Int, sm_end:Int;
-			var w_indices:Vector<Float>;
-			var weights:Vector<Float>;
+			var sm_len:Int, sm_end:UInt;
+			var w_indices:Vector<Float> = null;
+			var weights:Vector<Float> = null;
 
 			sm_len = _newBlockBytes.readUnsignedInt();
 			sm_end = _newBlockBytes.position + sm_len;
@@ -653,10 +655,10 @@ class AWD2Parser extends ParserBase
 			// Ignore for now
 			parseProperties(null);
 			
-			var verts:Vector<Float>;
-			var indices:Vector<UInt>;
-			var uvs:Vector<Float>;
-			var normals:Vector<Float>;
+			var verts:Vector<Float> = null;
+			var indices:Vector<UInt> = null;
+			var uvs:Vector<Float> = null;
+			var normals:Vector<Float> = null;
 
 			// Loop through data streams
 			while (_newBlockBytes.position < sm_end)
@@ -785,26 +787,26 @@ class AWD2Parser extends ParserBase
 		{
 			// to do, not all properties are set on all primitives
 			case 1:
-				geom = new PlaneGeometry(props.get(101, 100), props.get(102, 100), props.get(301, 1), props.get(302, 1), props.get(701, true), props.get(702, false));
+				geom = new PlaneGeometry(props.getValue(101, 100), props.getValue(102, 100), props.getValue(301, 1), props.getValue(302, 1), props.getValue(701, true), props.getValue(702, false));
 			case 2:
-				geom = new CubeGeometry(props.get(101, 100), props.get(102, 100), props.get(103, 100), props.get(301, 1), props.get(302, 1), props.get(303, 1), props.get(701, true));
+				geom = new CubeGeometry(props.getValue(101, 100), props.getValue(102, 100), props.getValue(103, 100), props.getValue(301, 1), props.getValue(302, 1), props.getValue(303, 1), props.getValue(701, true));
 			case 3:
-				geom = new SphereGeometry(props.get(101, 50), props.get(301, 16), props.get(302, 12), props.get(701, true));
+				geom = new SphereGeometry(props.getValue(101, 50), props.getValue(301, 16), props.getValue(302, 12), props.getValue(701, true));
 			case 4:
-				geom = new CylinderGeometry(props.get(101, 50), props.get(102, 50), props.get(103, 100), props.get(301, 16), props.get(302, 1), true, true, true); // bool701, bool702, bool703, bool704);
-				if (!props.get(701, true))
+				geom = new CylinderGeometry(props.getValue(101, 50), props.getValue(102, 50), props.getValue(103, 100), props.getValue(301, 16), props.getValue(302, 1), true, true, true); // bool701, bool702, bool703, bool704);
+				if (!props.getValue(701, true))
 					Std.instance(geom,CylinderGeometry).topClosed = false;
-				if (!props.get(702, true))
+				if (!props.getValue(702, true))
 					Std.instance(geom,CylinderGeometry).bottomClosed = false;
-				if (!props.get(703, true))
+				if (!props.getValue(703, true))
 					Std.instance(geom,CylinderGeometry).yUp = false;
 
 			case 5:
-				geom = new ConeGeometry(props.get(101, 50), props.get(102, 100), props.get(301, 16), props.get(302, 1), props.get(701, true), props.get(702, true));
+				geom = new ConeGeometry(props.getValue(101, 50), props.getValue(102, 100), props.getValue(301, 16), props.getValue(302, 1), props.getValue(701, true), props.getValue(702, true));
 			case 6:
-				geom = new CapsuleGeometry(props.get(101, 50), props.get(102, 100), props.get(301, 16), props.get(302, 15), props.get(701, true));
+				geom = new CapsuleGeometry(props.getValue(101, 50), props.getValue(102, 100), props.getValue(301, 16), props.getValue(302, 15), props.getValue(701, true));
 			case 7:
-				geom = new TorusGeometry(props.get(101, 50), props.get(102, 50), props.get(301, 16), props.get(302, 8), props.get(701, true));
+				geom = new TorusGeometry(props.getValue(101, 50), props.getValue(102, 50), props.getValue(301, 16), props.getValue(302, 8), props.getValue(701, true));
 
 			default:
 				geom = new Geometry();
@@ -852,7 +854,7 @@ class AWD2Parser extends ParserBase
 												 "2": _matrixNrType, 
 												 "3": _matrixNrType, 
 												 "4": UINT8});
-			ctr.pivotPoint = new Vector3D(props.get(1, 0), props.get(2, 0), props.get(3, 0));
+			ctr.pivotPoint = new Vector3D(props.getValue(1, 0), props.getValue(2, 0), props.getValue(3, 0));
 		}
 		// in other versions we do not read the Container properties
 		else
@@ -946,8 +948,8 @@ class AWD2Parser extends ParserBase
 												"3": _matrixNrType, 
 												"4": UINT8, 
 												"5": BOOL});
-			mesh.pivotPoint = new Vector3D(props.get(1, 0), props.get(2, 0), props.get(3, 0));
-			mesh.castsShadows = props.get(5, true);
+			mesh.pivotPoint = new Vector3D(props.getValue(1, 0), props.getValue(2, 0), props.getValue(3, 0));
+			mesh.castsShadows = props.getValue(5, true);
 		}
 		else
 		{
@@ -983,15 +985,15 @@ class AWD2Parser extends ParserBase
 		finalizeAsset(asset, name);
 		_blocks[blockID].data = asset;
 		if (_debug)
-			trace("Parsed a SkyBox: Name = '" + name + "' | CubeTexture-Name = " + BitmapCubeTexture(returnedArrayCubeTex[1]).name);
+			trace("Parsed a SkyBox: Name = '" + name + "' | CubeTexture-Name = " + Std.instance(returnedArrayCubeTex[1],BitmapCubeTexture).name);
 
 	}
 
 	//Block ID = 41
 	private function parseLight(blockID:UInt):Void
 	{
-		var light:LightBase;
-		var newShadowMapper:ShadowMapperBase;
+		var light:LightBase = null;
+		var newShadowMapper:ShadowMapperBase = null;
 		var par_id:UInt = _newBlockBytes.readUnsignedInt();
 		var mtx:Matrix3D = parseMatrix3D();
 		var name:String = parseVarStr();
@@ -1011,15 +1013,15 @@ class AWD2Parser extends ParserBase
 													"21": _matrixNrType, 
 													"22": _matrixNrType, 
 													"23": _matrixNrType});
-		var shadowMapperType:UInt = props.get(9, 0);
+		var shadowMapperType:UInt = props.getValue(9, 0);
 		var parentName:String = "Root (TopLevel)";
 		var lightTypes:Array<String> = ["Unsupported LightType", "PointLight", "DirectionalLight"];
 		var shadowMapperTypes:Array<String> = ["No ShadowMapper", "DirectionalShadowMapper", "NearDirectionalShadowMapper", "CascadeShadowMapper", "CubeMapShadowMapper"];
 		if (lightType == 1)
 		{
 			light = new PointLight();
-			Std.instance(light,PointLight).radius = props.get(1, 90000);
-			Std.instance(light,PointLight).fallOff = props.get(2, 100000);
+			Std.instance(light,PointLight).radius = props.getValue(1, 90000);
+			Std.instance(light,PointLight).fallOff = props.getValue(2, 100000);
 			if (shadowMapperType > 0)
 			{
 				if (shadowMapperType == 4)
@@ -1029,34 +1031,35 @@ class AWD2Parser extends ParserBase
 		}
 		if (lightType == 2)
 		{
-			light = new DirectionalLight(props.get(21, 0), props.get(22, -1), props.get(23, 1));
+			light = new DirectionalLight(props.getValue(21, 0), props.getValue(22, -1), props.getValue(23, 1));
 			if (shadowMapperType > 0)
 			{
 				if (shadowMapperType == 1)
 					newShadowMapper = new DirectionalShadowMapper();
 				if (shadowMapperType == 2)
-					newShadowMapper = new NearDirectionalShadowMapper(props.get(11, 0.5));
+					newShadowMapper = new NearDirectionalShadowMapper(props.getValue(11, 0.5));
 				if (shadowMapperType == 3)
-					newShadowMapper = new CascadeShadowMapper(props.get(12, 3));
+					newShadowMapper = new CascadeShadowMapper(props.getValue(12, 3));
 			}
 		}
-		light.color = props.get(3, 0xffffff);
-		light.specular = props.get(4, 1.0);
-		light.diffuse = props.get(5, 1.0);
-		light.ambientColor = props.get(7, 0xffffff);
-		light.ambient = props.get(8, 0.0);
+		
+		light.color = props.getValue(3, 0xffffff);
+		light.specular = props.getValue(4, 1.0);
+		light.diffuse = props.getValue(5, 1.0);
+		light.ambientColor = props.getValue(7, 0xffffff);
+		light.ambient = props.getValue(8, 0.0);
 		// if a shadowMapper has been created, adjust the depthMapSize if needed, assign to light and set castShadows to true
-		if (newShadowMapper)
+		if (newShadowMapper != null)
 		{
 			if (Std.is(newShadowMapper,CubeMapShadowMapper))
 			{
-				if (props.get(10, 1) != 1)
-					newShadowMapper.depthMapSize = _depthSizeDic[props.get(10, 1)];
+				if (props.getValue(10, 1) != 1)
+					newShadowMapper.depthMapSize = _depthSizeDic[props.getValue(10, 1)];
 			}
 			else
 			{
-				if (props.get(10, 2) != 2)
-					newShadowMapper.depthMapSize = _depthSizeDic[props.get(10, 2)];
+				if (props.getValue(10, 2) != 2)
+					newShadowMapper.depthMapSize = _depthSizeDic[props.getValue(10, 2)];
 			}
 
 			light.shadowMapper = newShadowMapper;
@@ -1103,13 +1106,13 @@ class AWD2Parser extends ParserBase
 		switch (lenstype)
 		{
 			case 5001:
-				lens = new PerspectiveLens(props.get(101, 60));
+				lens = new PerspectiveLens(props.getValue(101, 60));
 				
 			case 5002:
-				lens = new OrthographicLens(props.get(101, 500));
+				lens = new OrthographicLens(props.getValue(101, 500));
 				
 			case 5003:
-				lens = new OrthographicOffCenterLens(props.get(101, -400), props.get(102, 400), props.get(103, -300), props.get(104, 300));
+				lens = new OrthographicOffCenterLens(props.getValue(101, -400), props.getValue(102, 400), props.getValue(103, -300), props.getValue(104, 300));
 				
 			default:
 				trace("unsupportedLenstype");
@@ -1130,7 +1133,7 @@ class AWD2Parser extends ParserBase
 								"2": _matrixNrType, 
 								"3": _matrixNrType, 
 								"4": UINT8});
-		camera.pivotPoint = new Vector3D(props.get(1, 0), props.get(2, 0), props.get(3, 0));
+		camera.pivotPoint = new Vector3D(props.getValue(1, 0), props.getValue(2, 0), props.getValue(3, 0));
 		camera.extra = parseUserAttributes();
 		finalizeAsset(camera, name);
 
@@ -1163,13 +1166,13 @@ class AWD2Parser extends ParserBase
 													"2": _matrixNrType, 
 													"3": _matrixNrType, 
 													"4": UINT8});
-		textureProjector.pivotPoint = new Vector3D(props.get(1, 0), props.get(2, 0), props.get(3, 0));
+		textureProjector.pivotPoint = new Vector3D(props.getValue(1, 0), props.getValue(2, 0), props.getValue(3, 0));
 		textureProjector.extra = parseUserAttributes();
 		finalizeAsset(textureProjector, name);
 
 		_blocks[blockID].data = textureProjector;
 		if (_debug)
-			trace("Parsed a TextureProjector: Name = '" + name + "' | Texture-Name = " + Texture2DBase(returnedArrayGeometry[1]).name + " | Parent-Name = " + parentName);
+			trace("Parsed a TextureProjector: Name = '" + name + "' | Texture-Name = " + Std.instance(returnedArrayGeometry[1],Texture2DBase).name + " | Parent-Name = " + parentName);
 
 	}
 
@@ -1178,10 +1181,10 @@ class AWD2Parser extends ParserBase
 	{
 		var name:String = parseVarStr();
 		var numLights:UInt = _newBlockBytes.readUnsignedShort();
-		var lightsArray:Array = new Array();
+		var lightsArray:Array<LightBase> = [];
 		var k:Int = 0;
 		var lightID:Int = 0;
-		var returnedArrayLight:Array<LightBase>;
+		var returnedArrayLight:Array<Dynamic>;
 		var lightsArrayNames:Array<String> = [];
 		for (k in 0...numLights)
 		{
@@ -1218,8 +1221,8 @@ class AWD2Parser extends ParserBase
 		////blockLength = block.len; 
 		var name:String;
 		var type:UInt;
-		var props:AWDProperties;
-		var mat:MaterialBase;
+		var props:AWDProperties = null;
+		var mat:MaterialBase = null;
 		var attributes:Dynamic;
 		var finalize:Bool;
 		var num_methods:UInt;
@@ -1255,9 +1258,9 @@ class AWD2Parser extends ParserBase
 		{ // Color material
 			debugString += "Parsed a ColorMaterial(SinglePass): Name = '" + name + "' | ";
 			var color:UInt;
-			color = props.get(1, 0xcccccc);
+			color = props.getValue(1, 0xcccccc);
 			if (materialMode < 2)
-				mat = new ColorMaterial(color, props.get(10, 1.0));
+				mat = new ColorMaterial(color, props.getValue(10, 1.0));
 			else
 				mat = new ColorMultiPassMaterial(color);
 
@@ -1265,7 +1268,7 @@ class AWD2Parser extends ParserBase
 		}
 		else if (type == 2)
 		{
-			var tex_addr:UInt = props.get(2, 0);
+			var tex_addr:UInt = props.getValue(2, 0);
 			returnedArray = getAssetByID(tex_addr, [AssetType.TEXTURE]);
 			if ((returnedArray[0] == null) && (tex_addr > 0))
 				_blocks[blockID].addError("Could not find the DiffsueTexture (ID = " + tex_addr + " ) for this Material");
@@ -1273,8 +1276,8 @@ class AWD2Parser extends ParserBase
 			if (materialMode < 2)
 			{
 				mat = new TextureMaterial(returnedArray[1]);
-				Std.instance(mat,TextureMaterial).alphaBlending = props.get(11, false);
-				Std.instance(mat,TextureMaterial).alpha = props.get(10, 1.0);
+				Std.instance(mat,TextureMaterial).alphaBlending = props.getValue(11, false);
+				Std.instance(mat,TextureMaterial).alpha = props.getValue(10, 1.0);
 				debugString += "Parsed a TextureMaterial(SinglePass): Name = '" + name + "' | Texture-Name = " + mat.name;
 			}
 			else
@@ -1286,10 +1289,10 @@ class AWD2Parser extends ParserBase
 
 		mat.extra = attributes;
 		if (materialMode < 2)
-			Std.instance(mat,SinglePassMaterialBase).alphaThreshold = props.get(12, 0.0);
+			Std.instance(mat,SinglePassMaterialBase).alphaThreshold = props.getValue(12, 0.0);
 		else
-			Std.instance(mat,MultiPassMaterialBase).alphaThreshold = props.get(12, 0.0);
-		mat.repeat = props.get(13, true);
+			Std.instance(mat,MultiPassMaterialBase).alphaThreshold = props.getValue(12, 0.0);
+		mat.repeat = props.getValue(13, true);
 
 		finalizeAsset(mat, name);
 
@@ -1301,10 +1304,10 @@ class AWD2Parser extends ParserBase
 	// Block ID = 81 AWD2.1		
 	private function parseMaterial_v1(blockID:UInt):Void
 	{
-		var mat:MaterialBase;
-		var normalTexture:Texture2DBase;
-		var specTexture:Texture2DBase;
-		var returnedArray:Array;
+		var mat:MaterialBase = null;
+		var normalTexture:Texture2DBase = null;
+		var specTexture:Texture2DBase = null;
+		var returnedArray:Array<Dynamic>;
 		var name:String = parseVarStr();
 		var type:Int = _newBlockBytes.readUnsignedByte();
 		var num_methods:Int = _newBlockBytes.readUnsignedByte();
@@ -1330,7 +1333,7 @@ class AWD2Parser extends ParserBase
 													"21": BADDR, 
 													"22": BADDR});
 
-		var spezialType:Int = props.get(4, 0);
+		var spezialType:Int = props.getValue(4, 0);
 		var debugString:String = "";
 		if (spezialType >= 2)
 		{ //this is no supported material
@@ -1342,40 +1345,46 @@ class AWD2Parser extends ParserBase
 		else if (materialMode == 2)
 			spezialType = 1;
 		if (spezialType < 2)
-		{ //this is SinglePass or MultiPass					
+		{ 
+			//this is SinglePass or MultiPass					
 			if (type == 1)
-			{ // Color material
-				var color:UInt = color = props.get(1, 0xcccccc);
+			{ 
+				// Color material
+				var color:UInt = props.getValue(1, 0xcccccc);
 				if (spezialType == 1)
-				{ //	MultiPassMaterial
+				{ 
+					//	MultiPassMaterial
 					mat = new ColorMultiPassMaterial(color);
 					debugString += "Parsed a ColorMaterial(MultiPass): Name = '" + name + "' | ";
 				}
 				else
-				{ //	SinglePassMaterial
-					mat = new ColorMaterial(color, props.get(10, 1.0));
-					Std.instance(mat,ColorMaterial).alphaBlending = props.get(11, false);
+				{ 
+					//	SinglePassMaterial
+					mat = new ColorMaterial(color, props.getValue(10, 1.0));
+					Std.instance(mat,ColorMaterial).alphaBlending = props.getValue(11, false);
 					debugString += "Parsed a ColorMaterial(SinglePass): Name = '" + name + "' | ";
 				}
 			}
 			else if (type == 2)
-			{ // texture material
+			{ 
+				// texture material
 
-				var tex_addr:UInt = props.get(2, 0);
+				var tex_addr:UInt = props.getValue(2, 0);
 				returnedArray = getAssetByID(tex_addr, [AssetType.TEXTURE]);
 				if ((!returnedArray[0]) && (tex_addr > 0))
 					_blocks[blockID].addError("Could not find the DiffsueTexture (ID = " + tex_addr + " ) for this TextureMaterial");
 				var texture:Texture2DBase = returnedArray[1];
 
-				var ambientTexture:Texture2DBase;
-				var ambientTex_addr:UInt = props.get(17, 0);
+				var ambientTexture:Texture2DBase = null;
+				var ambientTex_addr:UInt = props.getValue(17, 0);
 				returnedArray = getAssetByID(ambientTex_addr, [AssetType.TEXTURE]);
 				if ((!returnedArray[0]) && (ambientTex_addr != 0))
 					_blocks[blockID].addError("Could not find the AmbientTexture (ID = " + ambientTex_addr + " ) for this TextureMaterial");
 				if (returnedArray[0])
 					ambientTexture = returnedArray[1];
 				if (spezialType == 1)
-				{ // MultiPassMaterial
+				{ 
+					// MultiPassMaterial
 					mat = new TextureMultiPassMaterial(texture);
 					debugString += "Parsed a TextureMaterial(MultiPass): Name = '" + name + "' | Texture-Name = " + texture.name;
 					if (ambientTexture != null)
@@ -1385,7 +1394,8 @@ class AWD2Parser extends ParserBase
 					}
 				}
 				else
-				{ //	SinglePassMaterial
+				{
+					//	SinglePassMaterial
 					mat = new TextureMaterial(texture);
 					debugString += "Parsed a TextureMaterial(SinglePass): Name = '" + name + "' | Texture-Name = " + texture.name;
 					if (ambientTexture != null)
@@ -1393,12 +1403,12 @@ class AWD2Parser extends ParserBase
 						Std.instance(mat,TextureMaterial).ambientTexture = ambientTexture;
 						debugString += " | AmbientTexture-Name = " + ambientTexture.name;
 					}
-					Std.instance(mat,TextureMaterial).alpha = props.get(10, 1.0);
-					Std.instance(mat,TextureMaterial).alphaBlending = props.get(11, false);
+					Std.instance(mat,TextureMaterial).alpha = props.getValue(10, 1.0);
+					Std.instance(mat,TextureMaterial).alphaBlending = props.getValue(11, false);
 				}
 
 			}
-			var normalTex_addr:UInt = props.get(3, 0);
+			var normalTex_addr:UInt = props.getValue(3, 0);
 			returnedArray = getAssetByID(normalTex_addr, [AssetType.TEXTURE]);
 			if ((!returnedArray[0]) && (normalTex_addr != 0))
 				_blocks[blockID].addError("Could not find the NormalTexture (ID = " + normalTex_addr + " ) for this TextureMaterial");
@@ -1408,7 +1418,7 @@ class AWD2Parser extends ParserBase
 				debugString += " | NormalTexture-Name = " + normalTexture.name;
 			}
 
-			var specTex_addr:UInt = props.get(21, 0);
+			var specTex_addr:UInt = props.getValue(21, 0);
 			returnedArray = getAssetByID(specTex_addr, [AssetType.TEXTURE]);
 			if ((!returnedArray[0]) && (specTex_addr != 0))
 				_blocks[blockID].addError("Could not find the SpecularTexture (ID = " + specTex_addr + " ) for this TextureMaterial");
@@ -1417,7 +1427,7 @@ class AWD2Parser extends ParserBase
 				specTexture = returnedArray[1];
 				debugString += " | SpecularTexture-Name = " + specTexture.name;
 			}
-			var lightPickerAddr:UInt = props.get(22, 0);
+			var lightPickerAddr:UInt = props.getValue(22, 0);
 			returnedArray = getAssetByID(lightPickerAddr, [AssetType.LIGHT_PICKER]);
 			if ((returnedArray[0] == null) && (lightPickerAddr != 0))
 				_blocks[blockID].addError("Could not find the LightPicker (ID = " + lightPickerAddr + " ) for this TextureMaterial");
@@ -1427,12 +1437,12 @@ class AWD2Parser extends ParserBase
 					//debugString+=" | Lightpicker-Name = "+LightPickerBase(returnedArray[1]).name; 
 			}
 
-			Std.instance(mat,MaterialBase).smooth = props.get(5, true);
-			Std.instance(mat,MaterialBase).mipmap = props.get(6, true);
-			Std.instance(mat,MaterialBase).bothSides = props.get(7, false);
-			Std.instance(mat,MaterialBase).alphaPremultiplied = props.get(8, false);
-			Std.instance(mat,MaterialBase).blendMode = blendModeDic[props.get(9, 0)];
-			Std.instance(mat,MaterialBase).repeat = props.get(13, true);
+			Std.instance(mat,MaterialBase).smooth = props.getValue(5, true);
+			Std.instance(mat,MaterialBase).mipmap = props.getValue(6, true);
+			Std.instance(mat,MaterialBase).bothSides = props.getValue(7, false);
+			Std.instance(mat,MaterialBase).alphaPremultiplied = props.getValue(8, false);
+			Std.instance(mat,MaterialBase).blendMode = blendModeDic[props.getValue(9, 0)];
+			Std.instance(mat,MaterialBase).repeat = props.getValue(13, true);
 
 			if (spezialType == 0)
 			{ // this is a SinglePassMaterial					
@@ -1440,12 +1450,12 @@ class AWD2Parser extends ParserBase
 					Std.instance(mat,SinglePassMaterialBase).normalMap = normalTexture;
 				if (specTexture != null)
 					Std.instance(mat,SinglePassMaterialBase).specularMap = specTexture;
-				Std.instance(mat,SinglePassMaterialBase).alphaThreshold = props.get(12, 0.0);
-				Std.instance(mat,SinglePassMaterialBase).ambient = props.get(15, 1.0);
-				Std.instance(mat,SinglePassMaterialBase).ambientColor = props.get(16, 0xffffff);
-				Std.instance(mat,SinglePassMaterialBase).specular = props.get(18, 1.0);
-				Std.instance(mat,SinglePassMaterialBase).gloss = props.get(19, 50);
-				Std.instance(mat,SinglePassMaterialBase).specularColor = props.get(20, 0xffffff);
+				Std.instance(mat,SinglePassMaterialBase).alphaThreshold = props.getValue(12, 0.0);
+				Std.instance(mat,SinglePassMaterialBase).ambient = props.getValue(15, 1.0);
+				Std.instance(mat,SinglePassMaterialBase).ambientColor = props.getValue(16, 0xffffff);
+				Std.instance(mat,SinglePassMaterialBase).specular = props.getValue(18, 1.0);
+				Std.instance(mat,SinglePassMaterialBase).gloss = props.getValue(19, 50);
+				Std.instance(mat,SinglePassMaterialBase).specularColor = props.getValue(20, 0xffffff);
 			}
 
 			else
@@ -1454,16 +1464,16 @@ class AWD2Parser extends ParserBase
 					Std.instance(mat,MultiPassMaterialBase).normalMap = normalTexture;
 				if (specTexture != null)
 					Std.instance(mat,MultiPassMaterialBase).specularMap = specTexture;
-				Std.instance(mat,MultiPassMaterialBase).alphaThreshold = props.get(12, 0.0);
-				Std.instance(mat,MultiPassMaterialBase).ambient = props.get(15, 1.0);
-				Std.instance(mat,MultiPassMaterialBase).ambientColor = props.get(16, 0xffffff);
-				Std.instance(mat,MultiPassMaterialBase).specular = props.get(18, 1.0);
-				Std.instance(mat,MultiPassMaterialBase).gloss = props.get(19, 50);
-				Std.instance(mat,MultiPassMaterialBase).specularColor = props.get(20, 0xffffff);
+				Std.instance(mat,MultiPassMaterialBase).alphaThreshold = props.getValue(12, 0.0);
+				Std.instance(mat,MultiPassMaterialBase).ambient = props.getValue(15, 1.0);
+				Std.instance(mat,MultiPassMaterialBase).ambientColor = props.getValue(16, 0xffffff);
+				Std.instance(mat,MultiPassMaterialBase).specular = props.getValue(18, 1.0);
+				Std.instance(mat,MultiPassMaterialBase).gloss = props.getValue(19, 50);
+				Std.instance(mat,MultiPassMaterialBase).specularColor = props.getValue(20, 0xffffff);
 			}
 
-			var methods_parsed:UInt = 0;
-			var targetID:UInt;
+			var methods_parsed:Int = 0;
+			var targetID:Int;
 			while (methods_parsed < num_methods)
 			{
 				var method_type:UInt;
@@ -1488,7 +1498,7 @@ class AWD2Parser extends ParserBase
 				switch (method_type)
 				{
 					case 999: //wrapper-Methods that will load a previous parsed EffektMethod returned
-						targetID = props.get(1, 0);
+						targetID = props.getValue(1, 0);
 						returnedArray = getAssetByID(targetID, [AssetType.EFFECTS_METHOD]);
 						if (!returnedArray[0])
 							_blocks[blockID].addError("Could not find the EffectMethod (ID = " + targetID + " ) for this Material");
@@ -1502,7 +1512,7 @@ class AWD2Parser extends ParserBase
 						}
 
 					case 998: //wrapper-Methods that will load a previous parsed ShadowMapMethod 
-						targetID = props.get(1, 0);
+						targetID = props.getValue(1, 0);
 						returnedArray = getAssetByID(targetID, [AssetType.SHADOW_MAP_METHOD]);
 						if (!returnedArray[0])
 							_blocks[blockID].addError("Could not find the ShadowMethod (ID = " + targetID + " ) for this Material");
@@ -1516,7 +1526,7 @@ class AWD2Parser extends ParserBase
 						}
 
 					case 1: //EnvMapAmbientMethod                             
-						targetID = props.get(1, 0);
+						targetID = props.getValue(1, 0);
 						returnedArray = getAssetByID(targetID, [AssetType.TEXTURE], "CubeTexture");
 						if (!returnedArray[0])
 							_blocks[blockID].addError("Could not find the EnvMap (ID = " + targetID + " ) for this EnvMapAmbientMethodMaterial");
@@ -1534,7 +1544,7 @@ class AWD2Parser extends ParserBase
 						debugString += " | DepthDiffuseMethod";
 
 					case 52: //GradientDiffuseMethod
-						targetID = props.get(1, 0);
+						targetID = props.getValue(1, 0);
 						returnedArray = getAssetByID(targetID, [AssetType.TEXTURE]);
 						if (!returnedArray[0])
 							_blocks[blockID].addError("Could not find the GradientDiffuseTexture (ID = " + targetID + " ) for this GradientDiffuseMethod");
@@ -1546,32 +1556,32 @@ class AWD2Parser extends ParserBase
 
 					case 53: //WrapDiffuseMethod
 						if (spezialType == 0)
-							Std.instance(mat,SinglePassMaterialBase).diffuseMethod = new WrapDiffuseMethod(props.get(101, 5));
+							Std.instance(mat,SinglePassMaterialBase).diffuseMethod = new WrapDiffuseMethod(props.getValue(101, 5));
 						if (spezialType == 1)
-							Std.instance(mat,MultiPassMaterialBase).diffuseMethod = new WrapDiffuseMethod(props.get(101, 5));
+							Std.instance(mat,MultiPassMaterialBase).diffuseMethod = new WrapDiffuseMethod(props.getValue(101, 5));
 						debugString += " | WrapDiffuseMethod";
 
 					case 54: //LightMapDiffuseMethod
-						targetID = props.get(1, 0);
+						targetID = props.getValue(1, 0);
 						returnedArray = getAssetByID(targetID, [AssetType.TEXTURE]);
 						if (!returnedArray[0])
 							_blocks[blockID].addError("Could not find the LightMap (ID = " + targetID + " ) for this LightMapDiffuseMethod");
 						if (spezialType == 0)
-							Std.instance(mat,SinglePassMaterialBase).diffuseMethod = new LightMapDiffuseMethod(returnedArray[1], blendModeDic[props.get(401, 10)], false, Std.instance(mat,SinglePassMaterialBase).diffuseMethod);
+							Std.instance(mat,SinglePassMaterialBase).diffuseMethod = new LightMapDiffuseMethod(returnedArray[1], blendModeDic[props.getValue(401, 10)], false, Std.instance(mat,SinglePassMaterialBase).diffuseMethod);
 						if (spezialType == 1)
-							Std.instance(mat,MultiPassMaterialBase).diffuseMethod = new LightMapDiffuseMethod(returnedArray[1], blendModeDic[props.get(401, 10)], false, Std.instance(mat,MultiPassMaterialBase).diffuseMethod);
+							Std.instance(mat,MultiPassMaterialBase).diffuseMethod = new LightMapDiffuseMethod(returnedArray[1], blendModeDic[props.getValue(401, 10)], false, Std.instance(mat,MultiPassMaterialBase).diffuseMethod);
 						debugString += " | LightMapDiffuseMethod | LightMapTexture-Name =" + Std.instance(returnedArray[1],Texture2DBase).name;
 
 					case 55: //CelDiffuseMethod
 						if (spezialType == 0)
 						{
-							Std.instance(mat,SinglePassMaterialBase).diffuseMethod = new CelDiffuseMethod(props.get(401, 3), Std.instance(mat,SinglePassMaterialBase).diffuseMethod);
-							Std.instance(Std.instance(mat,SinglePassMaterialBase).diffuseMethod,CelDiffuseMethod).smoothness = props.get(101, 0.1);
+							Std.instance(mat,SinglePassMaterialBase).diffuseMethod = new CelDiffuseMethod(props.getValue(401, 3), Std.instance(mat,SinglePassMaterialBase).diffuseMethod);
+							Std.instance(Std.instance(mat,SinglePassMaterialBase).diffuseMethod,CelDiffuseMethod).smoothness = props.getValue(101, 0.1);
 						}
 						if (spezialType == 1)
 						{
-							Std.instance(mat,MultiPassMaterialBase).diffuseMethod = new CelDiffuseMethod(props.get(401, 3), Std.instance(mat,MultiPassMaterialBase).diffuseMethod);
-							Std.instance(Std.instance(mat,MultiPassMaterialBase).diffuseMethod,CelDiffuseMethod).smoothness = props.get(101, 0.1);
+							Std.instance(mat,MultiPassMaterialBase).diffuseMethod = new CelDiffuseMethod(props.getValue(401, 3), Std.instance(mat,MultiPassMaterialBase).diffuseMethod);
+							Std.instance(Std.instance(mat,MultiPassMaterialBase).diffuseMethod,CelDiffuseMethod).smoothness = props.getValue(101, 0.1);
 						}
 						debugString += " | CelDiffuseMethod";
 
@@ -1579,16 +1589,16 @@ class AWD2Parser extends ParserBase
 						if (spezialType == 0)
 						{
 							Std.instance(mat,SinglePassMaterialBase).diffuseMethod = new SubsurfaceScatteringDiffuseMethod(); //depthMapSize and depthMapOffset ?
-							Std.instance(Std.instance(mat,SinglePassMaterialBase).diffuseMethod,SubsurfaceScatteringDiffuseMethod).scattering = props.get(101, 0.2);
-							Std.instance(Std.instance(mat,SinglePassMaterialBase).diffuseMethod,SubsurfaceScatteringDiffuseMethod).translucency = props.get(102, 1);
-							Std.instance(Std.instance(mat,SinglePassMaterialBase).diffuseMethod,SubsurfaceScatteringDiffuseMethod).scatterColor = props.get(601, 0xffffff);
+							Std.instance(Std.instance(mat,SinglePassMaterialBase).diffuseMethod,SubsurfaceScatteringDiffuseMethod).scattering = props.getValue(101, 0.2);
+							Std.instance(Std.instance(mat,SinglePassMaterialBase).diffuseMethod,SubsurfaceScatteringDiffuseMethod).translucency = props.getValue(102, 1);
+							Std.instance(Std.instance(mat,SinglePassMaterialBase).diffuseMethod,SubsurfaceScatteringDiffuseMethod).scatterColor = props.getValue(601, 0xffffff);
 						}
 						if (spezialType == 1)
 						{
 							Std.instance(mat,MultiPassMaterialBase).diffuseMethod = new SubsurfaceScatteringDiffuseMethod(); //depthMapSize and depthMapOffset ?
-							Std.instance(Std.instance(mat,MultiPassMaterialBase).diffuseMethod,SubsurfaceScatteringDiffuseMethod).scattering = props.get(101, 0.2);
-							Std.instance(Std.instance(mat,MultiPassMaterialBase).diffuseMethod,SubsurfaceScatteringDiffuseMethod).translucency = props.get(102, 1);
-							Std.instance(Std.instance(mat,MultiPassMaterialBase).diffuseMethod,SubsurfaceScatteringDiffuseMethod).scatterColor = props.get(601, 0xffffff);
+							Std.instance(Std.instance(mat,MultiPassMaterialBase).diffuseMethod,SubsurfaceScatteringDiffuseMethod).scattering = props.getValue(101, 0.2);
+							Std.instance(Std.instance(mat,MultiPassMaterialBase).diffuseMethod,SubsurfaceScatteringDiffuseMethod).translucency = props.getValue(102, 1);
+							Std.instance(Std.instance(mat,MultiPassMaterialBase).diffuseMethod,SubsurfaceScatteringDiffuseMethod).scatterColor = props.getValue(601, 0xffffff);
 						}
 						debugString += " | SubSurfaceScatteringMethod";
 
@@ -1609,35 +1619,35 @@ class AWD2Parser extends ParserBase
 					case 103: //CellSpecularMethod
 						if (spezialType == 0)
 						{
-							Std.instance(mat,SinglePassMaterialBase).specularMethod = new CelSpecularMethod(props.get(101, 0.5), Std.instance(mat,SinglePassMaterialBase).specularMethod);
-							Std.instance(Std.instance(mat,SinglePassMaterialBase).specularMethod,CelSpecularMethod).smoothness = props.get(102, 0.1);
+							Std.instance(mat,SinglePassMaterialBase).specularMethod = new CelSpecularMethod(props.getValue(101, 0.5), Std.instance(mat,SinglePassMaterialBase).specularMethod);
+							Std.instance(Std.instance(mat,SinglePassMaterialBase).specularMethod,CelSpecularMethod).smoothness = props.getValue(102, 0.1);
 						}
 						if (spezialType == 1)
 						{
-							Std.instance(mat,MultiPassMaterialBase).specularMethod = new CelSpecularMethod(props.get(101, 0.5), Std.instance(mat,MultiPassMaterialBase).specularMethod);
-							Std.instance(Std.instance(mat,MultiPassMaterialBase).specularMethod,CelSpecularMethod).smoothness = props.get(102, 0.1);
+							Std.instance(mat,MultiPassMaterialBase).specularMethod = new CelSpecularMethod(props.getValue(101, 0.5), Std.instance(mat,MultiPassMaterialBase).specularMethod);
+							Std.instance(Std.instance(mat,MultiPassMaterialBase).specularMethod,CelSpecularMethod).smoothness = props.getValue(102, 0.1);
 						}
 						debugString += " | CellSpecularMethod";
 
 					case 104: //FresnelSpecularMethod
 						if (spezialType == 0)
 						{
-							Std.instance(mat,SinglePassMaterialBase).specularMethod = new FresnelSpecularMethod(props.get(701, true), Std.instance(mat,SinglePassMaterialBase).specularMethod);
-							Std.instance(Std.instance(mat,SinglePassMaterialBase).specularMethod,FresnelSpecularMethod).fresnelPower = props.get(101, 5);
-							Std.instance(Std.instance(mat,SinglePassMaterialBase).specularMethod,FresnelSpecularMethod).normalReflectance = props.get(102, 0.1);
+							Std.instance(mat,SinglePassMaterialBase).specularMethod = new FresnelSpecularMethod(props.getValue(701, true), Std.instance(mat,SinglePassMaterialBase).specularMethod);
+							Std.instance(Std.instance(mat,SinglePassMaterialBase).specularMethod,FresnelSpecularMethod).fresnelPower = props.getValue(101, 5);
+							Std.instance(Std.instance(mat,SinglePassMaterialBase).specularMethod,FresnelSpecularMethod).normalReflectance = props.getValue(102, 0.1);
 						}
 						if (spezialType == 1)
 						{
-							Std.instance(mat,MultiPassMaterialBase).specularMethod = new FresnelSpecularMethod(props.get(701, true), Std.instance(mat,MultiPassMaterialBase).specularMethod);
-							Std.instance(Std.instance(mat,MultiPassMaterialBase).specularMethod,FresnelSpecularMethod).fresnelPower = props.get(101, 5);
-							Std.instance(Std.instance(mat,MultiPassMaterialBase).specularMethod,FresnelSpecularMethod).normalReflectance = props.get(102, 0.1);
+							Std.instance(mat,MultiPassMaterialBase).specularMethod = new FresnelSpecularMethod(props.getValue(701, true), Std.instance(mat,MultiPassMaterialBase).specularMethod);
+							Std.instance(Std.instance(mat,MultiPassMaterialBase).specularMethod,FresnelSpecularMethod).fresnelPower = props.getValue(101, 5);
+							Std.instance(Std.instance(mat,MultiPassMaterialBase).specularMethod,FresnelSpecularMethod).normalReflectance = props.getValue(102, 0.1);
 						}
 						debugString += " | FresnelSpecularMethod";
 
 					//case 151://HeightMapNormalMethod - thios is not implemented for now, but might appear later
 					//
 					case 152: //SimpleWaterNormalMethod
-						targetID = props.get(1, 0);
+						targetID = props.getValue(1, 0);
 						returnedArray = getAssetByID(targetID, [AssetType.TEXTURE]);
 						if (!returnedArray[0])
 							_blocks[blockID].addError("Could not find the SecoundNormalMap (ID = " + targetID + " ) for this SimpleWaterNormalMethod");
@@ -1671,12 +1681,12 @@ class AWD2Parser extends ParserBase
 	//Block ID = 82
 	private function parseTexture(blockID:UInt):Void
 	{
-		var asset:Texture2DBase;
+		var asset:Texture2DBase = null;
 
 		_blocks[blockID].name = parseVarStr();
 		var type:Int = _newBlockBytes.readUnsignedByte();
 		var data_len:Int;
-		_texture_users[_cur_block_id + ""] = [];
+		_texture_users.set(_cur_block_id + "", []);
 
 		// External
 		if (type == 0)
@@ -1711,16 +1721,16 @@ class AWD2Parser extends ParserBase
 	{
 		//blockLength = block.len;
 		var data_len:UInt;
-		var asset:CubeTextureBase;
-		var i:Int;
+		var asset:CubeTextureBase = null;
+
 		_cubeTextures = new Array();
-		_texture_users[_cur_block_id + ""] = [];
-		var type:UInt = _newBlockBytes.readUnsignedByte();
+		_texture_users.set(_cur_block_id + "", []);
+		var type:Int = _newBlockBytes.readUnsignedByte();
 		_blocks[blockID].name = parseVarStr();
 
 		for (i in 0...6)
 		{
-			_texture_users[_cur_block_id + ""] = [];
+			_texture_users.set(_cur_block_id + "", []);
 			_cubeTextures.push(null);
 			// External
 			if (type == 0)
@@ -1771,7 +1781,7 @@ class AWD2Parser extends ParserBase
 	{
 
 		var methodType:UInt = _newBlockBytes.readUnsignedShort();
-		var effectMethodReturn:EffectMethodBase;
+		var effectMethodReturn:EffectMethodBase = null;
 		var props:AWDProperties = parseProperties( {"1": BADDR, 
 													"2": BADDR, 
 													"3": BADDR, 
@@ -1798,20 +1808,20 @@ class AWD2Parser extends ParserBase
 		{
 			// Effect Methods
 			case 401: //ColorMatrix
-				effectMethodReturn = new ColorMatrixMethod(props.get(101, [0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]));
+				effectMethodReturn = new ColorMatrixMethod(props.getValue(101, [0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]));
 			case 402: //ColorTransform
 				effectMethodReturn = new ColorTransformMethod();
-				var offCol:UInt = props.get(601, 0x00000000);
-				var newColorTransform:ColorTransform = new ColorTransform(props.get(102, 1), props.get(103, 1), props.get(104, 1), props.get(101, 1), ((offCol >> 16) & 0xFF), ((offCol >> 8) & 0xFF),
+				var offCol:UInt = props.getValue(601, 0x00000000);
+				var newColorTransform:ColorTransform = new ColorTransform(props.getValue(102, 1), props.getValue(103, 1), props.getValue(104, 1), props.getValue(101, 1), ((offCol >> 16) & 0xFF), ((offCol >> 8) & 0xFF),
 					(offCol & 0xFF), ((offCol >> 24) & 0xFF));
 				Std.instance(effectMethodReturn,ColorTransformMethod).colorTransform = newColorTransform;
 			case 403: //EnvMap
-				targetID = props.get(1, 0);
+				targetID = props.getValue(1, 0);
 				returnedArray = getAssetByID(targetID, [AssetType.TEXTURE], "CubeTexture");
 				if (!returnedArray[0])
 					_blocks[blockID].addError("Could not find the EnvMap (ID = " + targetID + " ) for this EnvMapMethod");
-				effectMethodReturn = new EnvMapMethod(returnedArray[1], props.get(101, 1));
-				targetID = props.get(2, 0);
+				effectMethodReturn = new EnvMapMethod(returnedArray[1], props.getValue(101, 1));
+				targetID = props.getValue(2, 0);
 				if (targetID > 0)
 				{
 					returnedArray = getAssetByID(targetID, [AssetType.TEXTURE]);
@@ -1820,47 +1830,47 @@ class AWD2Parser extends ParserBase
 					Std.instance(effectMethodReturn,EnvMapMethod).mask = returnedArray[1];
 				}
 			case 404: //LightMapMethod
-				targetID = props.get(1, 0);
+				targetID = props.getValue(1, 0);
 				returnedArray = getAssetByID(targetID, [AssetType.TEXTURE]);
 				if (!returnedArray[0])
 					_blocks[blockID].addError("Could not find the LightMap (ID = " + targetID + " ) for this LightMapMethod");
-				effectMethodReturn = new LightMapMethod(returnedArray[1], blendModeDic[props.get(401, 10)]); //usesecondaryUV not set					
+				effectMethodReturn = new LightMapMethod(returnedArray[1], blendModeDic[props.getValue(401, 10)]); //usesecondaryUV not set					
 			case 405: //ProjectiveTextureMethod
-				targetID = props.get(1, 0);
+				targetID = props.getValue(1, 0);
 				returnedArray = getAssetByID(targetID, [AssetType.TEXTURE_PROJECTOR]);
 				if (!returnedArray[0])
 					_blocks[blockID].addError("Could not find the TextureProjector (ID = " + targetID + " ) for this ProjectiveTextureMethod");
-				effectMethodReturn = new ProjectiveTextureMethod(returnedArray[1], blendModeDic[props.get(401, 10)]);
+				effectMethodReturn = new ProjectiveTextureMethod(returnedArray[1], blendModeDic[props.getValue(401, 10)]);
 			case 406: //RimLightMethod
-				effectMethodReturn = new RimLightMethod(props.get(601, 0xffffff), props.get(101, 0.4), props.get(101, 2)); //blendMode
+				effectMethodReturn = new RimLightMethod(props.getValue(601, 0xffffff), props.getValue(101, 0.4), props.getValue(101, 2)); //blendMode
 
 			case 407: //AlphaMaskMethod
-				targetID = props.get(1, 0);
+				targetID = props.getValue(1, 0);
 				returnedArray = getAssetByID(targetID, [AssetType.TEXTURE]);
 				if (!returnedArray[0])
 					_blocks[blockID].addError("Could not find the Alpha-texture (ID = " + targetID + " ) for this AlphaMaskMethod");
-				effectMethodReturn = new AlphaMaskMethod(returnedArray[1], props.get(701, false));
+				effectMethodReturn = new AlphaMaskMethod(returnedArray[1], props.getValue(701, false));
 
 			case 408: //RefractionEnvMapMethod
-				targetID = props.get(1, 0);
+				targetID = props.getValue(1, 0);
 				returnedArray = getAssetByID(targetID, [AssetType.TEXTURE], "CubeTexture");
 				if (!returnedArray[0])
 					_blocks[blockID].addError("Could not find the EnvMap (ID = " + targetID + " ) for this RefractionEnvMapMethod");
-				effectMethodReturn = new RefractionEnvMapMethod(returnedArray[1], props.get(101, 0.1), props.get(102, 0.01), props.get(103, 0.01), props.get(104, 0.01));
-				Std.instance(effectMethodReturn,RefractionEnvMapMethod).alpha = props.get(104, 1);
+				effectMethodReturn = new RefractionEnvMapMethod(returnedArray[1], props.getValue(101, 0.1), props.getValue(102, 0.01), props.getValue(103, 0.01), props.getValue(104, 0.01));
+				Std.instance(effectMethodReturn,RefractionEnvMapMethod).alpha = props.getValue(104, 1);
 
 			case 409: //OutlineMethod
-				effectMethodReturn = new OutlineMethod(props.get(601, 0x00000000), props.get(101, 1), props.get(701, true), props.get(702, false));
+				effectMethodReturn = new OutlineMethod(props.getValue(601, 0x00000000), props.getValue(101, 1), props.getValue(701, true), props.getValue(702, false));
 
 			case 410: //FresnelEnvMapMethod
-				targetID = props.get(1, 0);
+				targetID = props.getValue(1, 0);
 				returnedArray = getAssetByID(targetID, [AssetType.TEXTURE], "CubeTexture");
 				if (!returnedArray[0])
 					_blocks[blockID].addError("Could not find the EnvMap (ID = " + targetID + " ) for this FresnelEnvMapMethod");
-				effectMethodReturn = new FresnelEnvMapMethod(returnedArray[1], props.get(101, 1));
+				effectMethodReturn = new FresnelEnvMapMethod(returnedArray[1], props.getValue(101, 1));
 
 			case 411: //FogMethod
-				effectMethodReturn = new FogMethod(props.get(101, 0), props.get(102, 1000), props.get(601, 0x808080));
+				effectMethodReturn = new FogMethod(props.getValue(101, 0), props.getValue(102, 1000), props.getValue(601, 0x808080));
 
 		}
 		parseUserAttributes();
@@ -1899,7 +1909,7 @@ class AWD2Parser extends ParserBase
 	{
 
 		var methodType:UInt = _newBlockBytes.readUnsignedShort();
-		var shadowMethod:ShadowMapMethodBase;
+		var shadowMethod:ShadowMapMethodBase = null;
 		var props:AWDProperties = parseProperties( {"1": BADDR, 
 													"2": BADDR, 
 													"3": BADDR, 
@@ -1923,7 +1933,7 @@ class AWD2Parser extends ParserBase
 		switch (methodType)
 		{
 			case 1001: //CascadeShadowMapMethod
-				targetID = props.get(1, 0);
+				targetID = props.getValue(1, 0);
 				returnedArray = getAssetByID(targetID, [AssetType.SHADOW_MAP_METHOD]);
 				if (!returnedArray[0])
 				{
@@ -1932,7 +1942,7 @@ class AWD2Parser extends ParserBase
 				}
 				shadowMethod = new CascadeShadowMapMethod(returnedArray[1]);
 			case 1002: //NearShadowMapMethod
-				targetID = props.get(1, 0);
+				targetID = props.getValue(1, 0);
 				returnedArray = getAssetByID(targetID, [AssetType.SHADOW_MAP_METHOD]);
 				if (returnedArray[0] == null)
 				{
@@ -1942,22 +1952,22 @@ class AWD2Parser extends ParserBase
 				shadowMethod = new NearShadowMapMethod(returnedArray[1]);
 			case 1101: //FilteredShadowMapMethod					
 				shadowMethod = new FilteredShadowMapMethod(Std.instance(light,DirectionalLight));
-				Std.instance(shadowMethod,FilteredShadowMapMethod).alpha = props.get(101, 1);
-				Std.instance(shadowMethod,FilteredShadowMapMethod).epsilon = props.get(102, 0.002);
+				Std.instance(shadowMethod,FilteredShadowMapMethod).alpha = props.getValue(101, 1);
+				Std.instance(shadowMethod,FilteredShadowMapMethod).epsilon = props.getValue(102, 0.002);
 			case 1102: //DitheredShadowMapMethod
-				shadowMethod = new DitheredShadowMapMethod(Std.instance(light,DirectionalLight), props.get(201, 5));
-				Std.instance(shadowMethod,DitheredShadowMapMethod).alpha = props.get(101, 1);
-				Std.instance(shadowMethod,DitheredShadowMapMethod).epsilon = props.get(102, 0.002);
-				Std.instance(shadowMethod,DitheredShadowMapMethod).range = props.get(103, 1);
+				shadowMethod = new DitheredShadowMapMethod(Std.instance(light,DirectionalLight), props.getValue(201, 5));
+				Std.instance(shadowMethod,DitheredShadowMapMethod).alpha = props.getValue(101, 1);
+				Std.instance(shadowMethod,DitheredShadowMapMethod).epsilon = props.getValue(102, 0.002);
+				Std.instance(shadowMethod,DitheredShadowMapMethod).range = props.getValue(103, 1);
 			case 1103: //SoftShadowMapMethod
-				shadowMethod = new SoftShadowMapMethod(Std.instance(light,DirectionalLight), props.get(201, 5));
-				Std.instance(shadowMethod,SoftShadowMapMethod).alpha = props.get(101, 1);
-				Std.instance(shadowMethod,SoftShadowMapMethod).epsilon = props.get(102, 0.002);
-				Std.instance(shadowMethod,SoftShadowMapMethod).range = props.get(103, 1);
+				shadowMethod = new SoftShadowMapMethod(Std.instance(light,DirectionalLight), props.getValue(201, 5));
+				Std.instance(shadowMethod,SoftShadowMapMethod).alpha = props.getValue(101, 1);
+				Std.instance(shadowMethod,SoftShadowMapMethod).epsilon = props.getValue(102, 0.002);
+				Std.instance(shadowMethod,SoftShadowMapMethod).range = props.getValue(103, 1);
 			case 1104: //HardShadowMapMethod
 				shadowMethod = new HardShadowMapMethod(light);
-				Std.instance(shadowMethod,HardShadowMapMethod).alpha = props.get(101, 1);
-				Std.instance(shadowMethod,HardShadowMapMethod).epsilon = props.get(102, 0.002);
+				Std.instance(shadowMethod,HardShadowMapMethod).alpha = props.getValue(101, 1);
+				Std.instance(shadowMethod,HardShadowMapMethod).epsilon = props.getValue(102, 0.002);
 
 		}
 		parseUserAttributes();
@@ -2084,7 +2094,7 @@ class AWD2Parser extends ParserBase
 		var y:Float;
 		var z:Float;
 		var str_len:Int;
-		var str_end:Int;
+		var str_end:UInt;
 		var geometry:Geometry;
 		var subGeom:CompactSubGeometry;
 		var idx:Int = 0;
@@ -2118,8 +2128,8 @@ class AWD2Parser extends ParserBase
 		}
 		props = parseProperties({"1": BOOL, "2": BOOL});
 
-		clip.looping = props.get(1, true);
-		clip.stitchFinalFrame = props.get(2, false);
+		clip.looping = props.getValue(1, true);
+		clip.stitchFinalFrame = props.getValue(2, false);
 
 		frames_parsed = 0;
 		while (frames_parsed < num_frames)
@@ -2182,7 +2192,7 @@ class AWD2Parser extends ParserBase
 	private function parseVertexAnimationSet(blockID:UInt):Void
 	{
 		var returnedArray:Array<Dynamic>;
-		var poseBlockAdress:Int;
+		var poseBlockAdress:Int = -1;
 		var outputString:String = "";
 		var name:String = parseVarStr();
 		var num_frames:UInt = _newBlockBytes.readUnsignedShort();
@@ -2227,7 +2237,7 @@ class AWD2Parser extends ParserBase
 		else if (skeletonFrames.length > 0)
 		{
 			returnedArray = getAssetByID(poseBlockAdress, [AssetType.ANIMATION_NODE]);
-			var newSkeletonAnimationSet:SkeletonAnimationSet = new SkeletonAnimationSet(props.get(1, 4)); //props.get(1,4));
+			var newSkeletonAnimationSet:SkeletonAnimationSet = new SkeletonAnimationSet(props.getValue(1, 4)); //props.getValue(1,4));
 			var skeletFrame:SkeletonClipNode;
 			for (skeletFrame in skeletonFrames)
 				newSkeletonAnimationSet.addAnimation(skeletFrame);
@@ -2310,14 +2320,14 @@ class AWD2Parser extends ParserBase
 			return;
 		}
 		targetAnimationSet = Std.instance(returnedArray[1],AnimationSetBase);
-		var thisAnimator:AnimatorBase;
+		var thisAnimator:AnimatorBase = null;
 		if (type == 1)
 		{
 
-			returnedArray = getAssetByID(props.get(1, 0), [AssetType.SKELETON]);
+			returnedArray = getAssetByID(props.getValue(1, 0), [AssetType.SKELETON]);
 			if (!returnedArray[0])
 			{
-				_blocks[blockID].addError("Could not find the Skeleton ( " + props.get(1, 0) + " ) for this Animator");
+				_blocks[blockID].addError("Could not find the Skeleton ( " + props.getValue(1, 0) + " ) for this Animator");
 				return;
 			}
 			thisAnimator = new SkeletonAnimator(Std.instance(targetAnimationSet,SkeletonAnimationSet), Std.instance(returnedArray[1],Skeleton));
@@ -2350,8 +2360,8 @@ class AWD2Parser extends ParserBase
 		var mtx:Matrix3D = parseMatrix3D();
 		var name:String = parseVarStr();
 
-		var parentObject:ObjectContainer3D;
-		var targetObject:ObjectContainer3D;
+		var parentObject:ObjectContainer3D = null;
+		var targetObject:ObjectContainer3D = null;
 		var returnedArray:Array<Dynamic> = getAssetByID(par_id, [AssetType.CONTAINER, AssetType.LIGHT, AssetType.MESH, AssetType.ENTITY, AssetType.SEGMENT_SET]);
 		if (returnedArray[0])
 			parentObject = Std.instance(returnedArray[1],ObjectContainer3D);
@@ -2362,7 +2372,7 @@ class AWD2Parser extends ParserBase
 		switch (typeCommand)
 		{
 			case 1:
-				var targetID:Int = props.get(1, 0);
+				var targetID:Int = props.getValue(1, 0);
 				var returnedArrayTarget:Array<Dynamic> = getAssetByID(targetID, [AssetType.LIGHT]); //for no only light is requested!!!!
 				if ((!returnedArrayTarget[0]) && (targetID != 0))
 				{
@@ -2377,7 +2387,7 @@ class AWD2Parser extends ParserBase
 		if (targetObject != null)
 		{
 			props = parseProperties({"1": _matrixNrType, "2": _matrixNrType, "3": _matrixNrType, "4": UINT8});
-			targetObject.pivotPoint = new Vector3D(props.get(1, 0), props.get(2, 0), props.get(3, 0));
+			targetObject.pivotPoint = new Vector3D(props.getValue(1, 0), props.getValue(2, 0), props.getValue(3, 0));
 			targetObject.extra = parseUserAttributes();
 		}
 		_blocks[blockID].data = targetObject;
@@ -2402,11 +2412,11 @@ class AWD2Parser extends ParserBase
 		var props:AWDProperties = parseProperties({"1": UINT32, "2": AWDSTRING, "3": AWDSTRING, "4": AWDSTRING, "5": AWDSTRING});
 		if (_debug)
 		{
-			trace("Parsed a MetaDataBlock: TimeStamp         = " + props.get(1, 0));
-			trace("                        EncoderName       = " + props.get(2, "unknown"));
-			trace("                        EncoderVersion    = " + props.get(3, "unknown"));
-			trace("                        GeneratorName     = " + props.get(4, "unknown"));
-			trace("                        GeneratorVersion  = " + props.get(5, "unknown"));
+			trace("Parsed a MetaDataBlock: TimeStamp         = " + props.getValue(1, 0));
+			trace("                        EncoderName       = " + props.getValue(2, "unknown"));
+			trace("                        EncoderVersion    = " + props.getValue(3, "unknown"));
+			trace("                        GeneratorName     = " + props.getValue(4, "unknown"));
+			trace("                        GeneratorVersion  = " + props.getValue(5, "unknown"));
 		}
 
 	}
@@ -2457,7 +2467,7 @@ class AWD2Parser extends ParserBase
 
 	private function parseProperties(expected:Dynamic):AWDProperties
 	{
-		var list_end:Int;
+		var list_end:UInt;
 		var list_len:Int;
 		var propertyCnt:Int = 0;
 		var props:AWDProperties = new AWDProperties();
@@ -2482,7 +2492,7 @@ class AWD2Parser extends ParserBase
 				if (expected.hasField(key+""))
 				{
 					type = expected.field(key+"");
-					props.set(key, parseAttrValue(type, len));
+					props.setValue(key, parseAttrValue(type, len));
 				}
 				else
 				{
@@ -2502,14 +2512,14 @@ class AWD2Parser extends ParserBase
 
 	private function parseUserAttributes():Dynamic
 	{
-		var attributes:Dynamic;
+		var attributes:Dynamic = null;
 		var list_len:Int;
-		var attibuteCnt:Int;
+		var attibuteCnt:Int = -1;
 
 		list_len = _newBlockBytes.readUnsignedInt();
 		if (list_len > 0)
 		{
-			var list_end:Int;
+			var list_end:UInt;
 
 			attributes = {};
 
@@ -2561,7 +2571,7 @@ class AWD2Parser extends ParserBase
 
 				if (_debug)
 					trace("attribute = name: " + attr_key + "  / value = " + attr_val);
-				attributes[attr_key] = attr_val;
+				attributes.setField(attr_key, attr_val);
 				attibuteCnt += 1;
 			}
 		}
@@ -2606,19 +2616,22 @@ class AWD2Parser extends ParserBase
 
 	private function getDefaultAsset(assetType:String, extraTypeInfo:String):IAsset
 	{
-		switch (true)
+		var isTexture:Bool = (assetType == AssetType.TEXTURE);
+		var isMaterial:Bool = (assetType == AssetType.MATERIAL);
+		
+		if (isTexture)
 		{
-			case (assetType == AssetType.TEXTURE):
-				if (extraTypeInfo == "CubeTexture")
+			if (extraTypeInfo == "CubeTexture")
 					return getDefaultCubeTexture();
 				if (extraTypeInfo == "SingleTexture")
 					return getDefaultTexture();
-			case (assetType == AssetType.MATERIAL):
-				return getDefaultMaterial();
-			default:
 		}
-		return null;
+		else if (isMaterial)
+		{
+			return getDefaultMaterial();
+		}
 
+		return null;
 	}
 
 	private function getAssetByID(assetID:UInt, assetTypesToGet:Array<String>, extraTypeInfo:String = "SingleTexture"):Array<Dynamic>
@@ -2665,7 +2678,7 @@ class AWD2Parser extends ParserBase
 						if ((assetTypesToGet[typeCnt] == AssetType.GEOMETRY) && (Std.instance(_blocks[assetID].data,IAsset).assetType == AssetType.MESH))
 						{
 							returnArray.push(true);
-							returnArray.push(Mesh(_blocks[assetID].data).geometry);
+							returnArray.push(Std.instance(_blocks[assetID].data,Mesh).geometry);
 							return returnArray;
 						}
 						typeCnt++;
@@ -2681,8 +2694,8 @@ class AWD2Parser extends ParserBase
 
 	private function parseAttrValue(type:UInt, len:UInt):Dynamic
 	{
-		var elem_len:UInt;
-		var read_func:Dynamic;
+		var elem_len:UInt = 0;
+		var read_func:Dynamic = null;
 
 		switch (type)
 		{
@@ -2726,7 +2739,7 @@ class AWD2Parser extends ParserBase
 
 			list = [];
 			num_read = 0;
-			num_elems = len / elem_len;
+			num_elems = Std.int(len / elem_len);
 			while (num_read < num_elems)
 			{
 				list.push(read_func());
@@ -2835,7 +2848,7 @@ class AWDBlock
 
 	public function addError(errorMsg:String):Void
 	{
-		if (!errorMessages)
+		if (errorMessages == null)
 			errorMessages = new Vector<String>();
 		errorMessages.push(errorMsg);
 	}
@@ -2843,24 +2856,24 @@ class AWDBlock
 
 class BitFlags
 {
-	public static inline var FLAG1:UInt = 1;
-	public static inline var FLAG2:UInt = 2;
-	public static inline var FLAG3:UInt = 4;
-	public static inline var FLAG4:UInt = 8;
-	public static inline var FLAG5:UInt = 16;
-	public static inline var FLAG6:UInt = 32;
-	public static inline var FLAG7:UInt = 64;
-	public static inline var FLAG8:UInt = 128;
-	public static inline var FLAG9:UInt = 256;
-	public static inline var FLAG10:UInt = 512;
-	public static inline var FLAG11:UInt = 1024;
-	public static inline var FLAG12:UInt = 2048;
-	public static inline var FLAG13:UInt = 4096;
-	public static inline var FLAG14:UInt = 8192;
-	public static inline var FLAG15:UInt = 16384;
-	public static inline var FLAG16:UInt = 32768;
+	public static inline var FLAG1:Int = 1;
+	public static inline var FLAG2:Int = 2;
+	public static inline var FLAG3:Int = 4;
+	public static inline var FLAG4:Int = 8;
+	public static inline var FLAG5:Int = 16;
+	public static inline var FLAG6:Int = 32;
+	public static inline var FLAG7:Int = 64;
+	public static inline var FLAG8:Int = 128;
+	public static inline var FLAG9:Int = 256;
+	public static inline var FLAG10:Int = 512;
+	public static inline var FLAG11:Int = 1024;
+	public static inline var FLAG12:Int = 2048;
+	public static inline var FLAG13:Int = 4096;
+	public static inline var FLAG14:Int = 8192;
+	public static inline var FLAG15:Int = 16384;
+	public static inline var FLAG16:Int = 32768;
 
-	public static function test(flags:UInt, testFlag:UInt):Bool
+	public static function test(flags:Int, testFlag:Int):Bool
 	{
 		return (flags & testFlag) == testFlag;
 	}
@@ -2868,12 +2881,17 @@ class BitFlags
 
 class AWDProperties implements Dynamic<Dynamic>
 {
+	public function new()
+	{
+		
+	}
+	
 	public function setValue(key:Int, value:Dynamic):Void
 	{
 		this.setField(key+"",value);
 	}
 
-	public function get(key:Int, fallback:Dynamic):Dynamic
+	public function getValue(key:Int, fallback:Dynamic):Dynamic
 	{
 		if (this.hasField(key+""))
 			return this.field(key+"");

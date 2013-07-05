@@ -7,15 +7,14 @@ import a3d.core.managers.AGALProgram3DCache;
 import a3d.core.managers.Stage3DProxy;
 import a3d.entities.Camera3D;
 import a3d.errors.AbstractMethodError;
+import a3d.materials.BlendMode;
 import a3d.materials.lightpickers.LightPickerBase;
 import a3d.materials.MaterialBase;
 import a3d.utils.Debug;
-import flash.display.BlendMode;
 import flash.display3D.Context3D;
 import flash.display3D.Context3DBlendFactor;
 import flash.display3D.Context3DCompareMode;
 import flash.display3D.Context3DTriangleFace;
-import flash.display3D.Context3DVertexBufferFormat;
 import flash.display3D.Program3D;
 import flash.display3D.textures.TextureBase;
 import flash.errors.ArgumentError;
@@ -385,27 +384,22 @@ class MaterialPassBase extends EventDispatcher
 				_blendFactorSource = Context3DBlendFactor.ONE;
 				_blendFactorDest = Context3DBlendFactor.ZERO;
 				_enableBlending = false;
-				
 			case BlendMode.LAYER:
 				_blendFactorSource = Context3DBlendFactor.SOURCE_ALPHA;
 				_blendFactorDest = Context3DBlendFactor.ONE_MINUS_SOURCE_ALPHA;
 				_enableBlending = true;
-				
 			case BlendMode.MULTIPLY:
 				_blendFactorSource = Context3DBlendFactor.ZERO;
 				_blendFactorDest = Context3DBlendFactor.SOURCE_COLOR;
-				_enableBlending = true;
-				
+				_enableBlending = true;	
 			case BlendMode.ADD:
 				_blendFactorSource = Context3DBlendFactor.SOURCE_ALPHA;
 				_blendFactorDest = Context3DBlendFactor.ONE;
 				_enableBlending = true;
-				
 			case BlendMode.ALPHA:
 				_blendFactorSource = Context3DBlendFactor.ZERO;
 				_blendFactorDest = Context3DBlendFactor.SOURCE_ALPHA;
-				_enableBlending = true;
-				
+				_enableBlending = true;	
 			default:
 				throw new ArgumentError("Unsupported blend mode!");
 		}

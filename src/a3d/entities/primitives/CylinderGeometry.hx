@@ -22,12 +22,12 @@ class CylinderGeometry extends PrimitiveBase
 	private var _yUp:Bool;
 	private var _rawData:Vector<Float>;
 	private var _rawIndices:Vector<UInt>;
-	private var _nextVertexIndex:UInt;
-	private var _currentIndex:UInt;
-	private var _currentTriangleIndex:UInt;
-	private var _numVertices:UInt;
-	private var _stride:UInt;
-	private var _vertexOffset:UInt;
+	private var _nextVertexIndex:Int;
+	private var _currentIndex:Int;
+	private var _currentTriangleIndex:Int;
+	private var _numVertices:Int;
+	private var _stride:Int;
+	private var _vertexOffset:Int;
 	
 	/**
 	 * Creates a new Cylinder object.
@@ -88,14 +88,14 @@ class CylinderGeometry extends PrimitiveBase
 	 */
 	override private function buildGeometry(target:CompactSubGeometry):Void
 	{
-		var i:Int, j:Int;
 		var x:Float, y:Float, z:Float, radius:Float, revolutionAngle:Float;
 		var dr:Float, latNormElev:Float, latNormBase:Float;
-		var numTriangles:UInt = 0;
+		
+		var numTriangles:Int = 0;
 
 		var comp1:Float, comp2:Float;
-		var startIndex:UInt;
-		//numvert:UInt = 0;
+		var startIndex:Int = 0;
+		//numvert:Int = 0;
 		var t1:Float, t2:Float;
 
 		_stride = target.vertexStride;
@@ -356,7 +356,7 @@ class CylinderGeometry extends PrimitiveBase
 		var UVData:Vector<Float>;
 
 		// evaluate num uvs
-		var numUvs:UInt = _numVertices * stride;
+		var numUvs:Int = _numVertices * stride;
 
 		// need to initialize raw array or can be reused?
 		if (target.UVData != null && numUvs == target.UVData.length)

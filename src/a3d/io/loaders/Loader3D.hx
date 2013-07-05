@@ -294,7 +294,7 @@ class Loader3D extends ObjectContainer3D
 		{
 			// TODO: not used
 			// var type : String = ev.asset.assetType;
-			var obj:ObjectContainer3D;
+			var obj:ObjectContainer3D = null;
 			switch (ev.asset.assetType)
 			{
 				case AssetType.LIGHT:

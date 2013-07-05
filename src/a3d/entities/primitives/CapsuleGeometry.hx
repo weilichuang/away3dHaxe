@@ -10,8 +10,8 @@ class CapsuleGeometry extends PrimitiveBase
 {
 	private var _radius:Float;
 	private var _height:Float;
-	private var _segmentsW:UInt;
-	private var _segmentsH:UInt;
+	private var _segmentsW:Int;
+	private var _segmentsH:Int;
 	private var _yUp:Bool;
 
 	/**
@@ -22,7 +22,8 @@ class CapsuleGeometry extends PrimitiveBase
 	 * @param segmentsH Defines the number of vertical segments that make up the capsule. Defaults to 15. Must be uneven value.
 	 * @param yUp Defines whether the capsule poles should lay on the Y-axis (true) or on the Z-axis (false).
 	 */
-	public function new(radius:Float = 50, height:Float = 100, segmentsW:UInt = 16, segmentsH:UInt = 15, yUp:Bool = true)
+	public function new(radius:Float = 50, height:Float = 100, 
+						segmentsW:Int = 16, segmentsH:Int = 15, yUp:Bool = true)
 	{
 		super();
 
@@ -40,12 +41,12 @@ class CapsuleGeometry extends PrimitiveBase
 	{
 		var data:Vector<Float>;
 		var indices:Vector<UInt>;
-		var i:UInt, j:UInt, triIndex:UInt;
-		var numVerts:UInt = (_segmentsH + 1) * (_segmentsW + 1);
-		var stride:UInt = target.vertexStride;
-		var skip:UInt = stride - 9;
-		var index:UInt = 0;
-		var startIndex:UInt;
+		var triIndex:Int = 0;
+		var numVerts:Int = (_segmentsH + 1) * (_segmentsW + 1);
+		var stride:Int = target.vertexStride;
+		var skip:Int = stride - 9;
+		var index:Int = 0;
+		var startIndex:Int;
 		var comp1:Float, comp2:Float, t1:Float, t2:Float;
 
 		if (numVerts == target.numVertices)
@@ -179,12 +180,11 @@ class CapsuleGeometry extends PrimitiveBase
 	 */
 	override private function buildUVs(target:CompactSubGeometry):Void
 	{
-		var i:Int, j:Int;
-		var index:UInt;
+		var index:Int;
 		var data:Vector<Float>;
-		var stride:UInt = target.UVStride;
-		var UVlen:UInt = (_segmentsH + 1) * (_segmentsW + 1) * stride;
-		var skip:UInt = stride - 2;
+		var stride:Int = target.UVStride;
+		var UVlen:Int = (_segmentsH + 1) * (_segmentsW + 1) * stride;
+		var skip:Int = stride - 2;
 
 		if (target.UVData != null && UVlen == target.UVData.length)
 		{
