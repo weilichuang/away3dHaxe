@@ -31,6 +31,33 @@ class HoverController extends LookAtController
 	private var _wrapPanAngle:Bool = false;
 
 	/**
+	 * Creates a new <code>HoverController</code> object.
+	 */
+	public function new(targetObject:Entity = null, lookAtObject:ObjectContainer3D = null, 
+						panAngle:Float = 0, tiltAngle:Float = 90, distance:Float = 1000, 
+						minTiltAngle:Float = -90, maxTiltAngle:Float = 90, 
+						minPanAngle:Float = null, maxPanAngle:Float = null, 
+						steps:Int = 8, yFactor:Float = 2, wrapPanAngle:Bool = false)
+	{
+		super(targetObject, lookAtObject);
+
+		this.distance = distance;
+		this.panAngle = panAngle;
+		this.tiltAngle = tiltAngle;
+		this.minPanAngle = Math.isNaN(minPanAngle) ? Math.NEGATIVE_INFINITY : minPanAngle;
+		this.maxPanAngle = Math.isNaN(maxPanAngle) ? Math.POSITIVE_INFINITY : maxPanAngle;
+		this.minTiltAngle = minTiltAngle;
+		this.maxTiltAngle = maxTiltAngle;
+		this.steps = steps;
+		this.yFactor = yFactor;
+		this.wrapPanAngle = wrapPanAngle;
+
+		//values passed in contrustor are applied immediately
+		currentPanAngle = _panAngle;
+		currentTiltAngle = _tiltAngle;
+	}
+	
+	/**
 	 * Fractional step taken each time the <code>hover()</code> method is called. Defaults to 8.
 	 *
 	 * Affects the speed at which the <code>tiltAngle</code> and <code>panAngle</code> resolve to their targets.
@@ -262,33 +289,6 @@ class HoverController extends LookAtController
 	}
 
 	/**
-	 * Creates a new <code>HoverController</code> object.
-	 */
-	public function new(targetObject:Entity = null, lookAtObject:ObjectContainer3D = null, 
-						panAngle:Float = 0, tiltAngle:Float = 90, distance:Float = 1000, 
-						minTiltAngle:Float = -90, maxTiltAngle:Float = 90, 
-						minPanAngle:Float = null, maxPanAngle:Float = null, 
-						steps:Int = 8, yFactor:Float = 2, wrapPanAngle:Bool = false)
-	{
-		super(targetObject, lookAtObject);
-
-		this.distance = distance;
-		this.panAngle = panAngle;
-		this.tiltAngle = tiltAngle;
-		this.minPanAngle = Math.isNaN(minPanAngle) ? Math.NEGATIVE_INFINITY : minPanAngle;
-		this.maxPanAngle = Math.isNaN(maxPanAngle) ? Math.POSITIVE_INFINITY : maxPanAngle;
-		this.minTiltAngle = minTiltAngle;
-		this.maxTiltAngle = maxTiltAngle;
-		this.steps = steps;
-		this.yFactor = yFactor;
-		this.wrapPanAngle = wrapPanAngle;
-
-		//values passed in contrustor are applied immediately
-		currentPanAngle = _panAngle;
-		currentTiltAngle = _tiltAngle;
-	}
-
-	/**
 	 * Updates the current tilt angle and pan angle values.
 	 *
 	 * Values are calculated using the defined <code>tiltAngle</code>, <code>panAngle</code> and <code>steps</code> variables.
@@ -303,7 +303,6 @@ class HoverController extends LookAtController
 	{
 		if (_tiltAngle != currentTiltAngle || _panAngle != currentPanAngle)
 		{
-
 			notifyUpdate();
 
 			if (_wrapPanAngle)

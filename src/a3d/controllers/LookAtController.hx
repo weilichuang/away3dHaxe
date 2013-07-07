@@ -92,7 +92,6 @@ class LookAtController extends ControllerBase
 	{
 		if (_targetObject != null)
 		{
-
 			if (_lookAtPosition != null)
 			{
 				_targetObject.lookAt(_lookAtPosition);

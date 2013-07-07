@@ -5,12 +5,22 @@ import a3d.entities.Entity;
 import a3d.errors.AbstractMethodError;
 
 
-
 class ControllerBase
 {
 	private var _autoUpdate:Bool = true;
 	private var _targetObject:Entity;
 
+	
+	/**
+	 * Base controller class for dynamically adjusting the propeties of a 3D object.
+	 *
+	 * @param	targetObject	The 3D object on which to act.
+	 */
+	public function new(targetObject:Entity = null)
+	{
+		this.targetObject = targetObject;
+	}
+	
 	private function notifyUpdate():Void
 	{
 		if (_targetObject != null && _targetObject.implicitPartition != null && _autoUpdate)
@@ -71,15 +81,6 @@ class ControllerBase
 		return _autoUpdate;
 	}
 
-	/**
-	 * Base controller class for dynamically adjusting the propeties of a 3D object.
-	 *
-	 * @param	targetObject	The 3D object on which to act.
-	 */
-	public function new(targetObject:Entity = null):Void
-	{
-		this.targetObject = targetObject;
-	}
 
 	/**
 	 * Manually applies updates to the target 3D object.
