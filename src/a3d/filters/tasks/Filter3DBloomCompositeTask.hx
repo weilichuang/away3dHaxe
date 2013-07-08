@@ -21,18 +21,19 @@ class Filter3DBloomCompositeTask extends Filter3DTaskBase
 	public function new(exposure:Float)
 	{
 		super();
-		_data = Vector<Float>([0.299, 0.587, 0.114, 1]); // luminance projection, 1
+		_data = Vector.ofArray([0.299, 0.587, 0.114, 1]); // luminance projection, 1
 		this.exposure = exposure;
 	}
 
+	public var overlayTexture(get, set):TextureBase;
 	private function get_overlayTexture():TextureBase
 	{
 		return _overlayTexture;
 	}
 
-	private function set_overlayTexture(value:TextureBase):Void
+	private function set_overlayTexture(value:TextureBase):TextureBase
 	{
-		_overlayTexture = value;
+		return _overlayTexture = value;
 	}
 
 	override private function getFragmentCode():String
@@ -49,24 +50,26 @@ class Filter3DBloomCompositeTask extends Filter3DTaskBase
 
 	override public function activate(stage3DProxy:Stage3DProxy, camera3D:Camera3D, depthTexture:Texture):Void
 	{
-		var context:Context3D = stage3DProxy._context3D;
+		var context:Context3D = stage3DProxy.context3D;
 		context.setProgramConstantsFromVector(Context3DProgramType.FRAGMENT, 0, _data, 1);
 		context.setTextureAt(1, _overlayTexture);
 	}
 
 	override public function deactivate(stage3DProxy:Stage3DProxy):Void
 	{
-		stage3DProxy._context3D.setTextureAt(1, null);
+		stage3DProxy.context3D.setTextureAt(1, null);
 	}
 
+	public var exposure(get, set):Float;
 	private function get_exposure():Float
 	{
 		return _exposure;
 	}
 
-	private function set_exposure(exposure:Float):Void
+	private function set_exposure(exposure:Float):Float
 	{
 		_exposure = exposure;
 		_data[4] = 1 + _exposure / 10;
+		return _exposure;
 	}
 }

@@ -19,6 +19,7 @@ class Filter3DDoubleBufferCopyTask extends Filter3DTaskBase
 		super();
 	}
 
+	public var secondaryInputTexture(get, null):Texture;
 	private function get_secondaryInputTexture():Texture
 	{
 		return _secondaryInputTexture;
@@ -33,7 +34,7 @@ class Filter3DDoubleBufferCopyTask extends Filter3DTaskBase
 	{
 		super.updateTextures(stage);
 
-		if (_secondaryInputTexture)
+		if (_secondaryInputTexture != null)
 			_secondaryInputTexture.dispose();
 
 		_secondaryInputTexture = stage.context3D.createTexture(_textureWidth >> _textureScale, _textureHeight >> _textureScale, Context3DTextureFormat.BGRA, true);

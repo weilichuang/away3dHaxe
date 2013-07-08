@@ -50,6 +50,7 @@ class BloomFilter3D extends Filter3DBase
 		super.setRenderTargets(mainTarget, stage3DProxy);
 	}
 
+	
 	private function get_exposure():Float
 	{
 		return _compositeTask.exposure;

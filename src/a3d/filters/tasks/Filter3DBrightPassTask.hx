@@ -16,19 +16,21 @@ class Filter3DBrightPassTask extends Filter3DTaskBase
 	{
 		super();
 		_threshold = threshold;
-		_brightPassData = Vector<Float>([threshold, 1 / (1 - threshold), 0, 0]);
+		_brightPassData = Vector.ofArray([threshold, 1 / (1 - threshold), 0, 0]);
 	}
 
+	public var threshold(get, set):Float;
 	private function get_threshold():Float
 	{
 		return _threshold;
 	}
 
-	private function set_threshold(value:Float):Void
+	private function set_threshold(value:Float):Float
 	{
 		_threshold = value;
 		_brightPassData[0] = value;
 		_brightPassData[1] = 1 / (1 - value);
+		return _threshold;
 	}
 
 	override private function getFragmentCode():String

@@ -20,21 +20,19 @@ class MotionBlurFilter3D extends Filter3DBase
 		addTask(_copyTask);
 	}
 
+	public var strength(get, set):Float;
 	private function get_strength():Float
 	{
 		return _compositeTask.amount;
 	}
 
-	private function set_strength(value:Float):Void
+	private function set_strength(value:Float):Float
 	{
-		_compositeTask.amount = value;
+		return _compositeTask.amount = value;
 	}
 
 	override public function update(stage:Stage3DProxy, camera:Camera3D):Void
 	{
-		// TODO: not used
-		camera = camera;
-
 		_compositeTask.overlayTexture = _copyTask.getMainInputTexture(stage);
 		_compositeTask.target = _copyTask.secondaryInputTexture;
 	}

@@ -10,7 +10,7 @@ import a3d.core.managers.Stage3DProxy;
 class Filter3DHBlurTask extends Filter3DTaskBase
 {
 	private static var MAX_AUTO_SAMPLES:Int = 15;
-	private var _amount:UInt;
+	private var _amount:Int;
 	private var _data:Vector<Float>;
 	private var _stepSize:Int = 1;
 	private var _realStepSize:Float;
@@ -20,43 +20,47 @@ class Filter3DHBlurTask extends Filter3DTaskBase
 	 * @param amount The maximum amount of blur to apply in pixels at the most out-of-focus areas
 	 * @param stepSize The distance between samples. Set to -1 to autodetect with acceptable quality.
 	 */
-	public function new(amount:UInt, stepSize:Int = -1)
+	public function new(amount:Int, stepSize:Int = -1)
 	{
 		super();
 		_amount = amount;
-		_data = Vector<Float>([0, 0, 0, 1]);
+		_data = Vector.ofArray([0., 0, 0, 1]);
 		this.stepSize = stepSize;
 	}
 
-	private function get_amount():UInt
+	public var amount(get, set):Int;
+	private function get_amount():Int
 	{
 		return _amount;
 	}
 
-	private function set_amount(value:UInt):Void
+	private function set_amount(value:Int):Int
 	{
 		if (value == _amount)
-			return;
+			return _amount;
 		_amount = value;
 
 		invalidateProgram3D();
 		updateBlurData();
 		calculateStepSize();
+		return _amount;
 	}
 
+	public var stepSize(get, set):Int;
 	private function get_stepSize():Int
 	{
 		return _stepSize;
 	}
 
-	private function set_stepSize(value:Int):Void
+	private function set_stepSize(value:Int):Int
 	{
 		if (value == _stepSize)
-			return;
+			return _stepSize;
 		_stepSize = value;
 		calculateStepSize();
 		invalidateProgram3D();
 		updateBlurData();
+		return _stepSize;
 	}
 
 	override private function getFragmentCode():String
@@ -69,12 +73,14 @@ class Filter3DHBlurTask extends Filter3DTaskBase
 
 		code += "tex ft1, ft0, fs0 <2d,linear,clamp>\n";
 
-		for (var x:Float = _realStepSize; x <= _amount; x += _realStepSize)
+		var x:Float = _realStepSize;
+		while ( x <= _amount)
 		{
 			code += "add ft0.x, ft0.x, fc0.y	\n" +
 				"tex ft2, ft0, fs0 <2d,linear,clamp>\n" +
 				"add ft1, ft1, ft2 \n";
 			++numSamples;
+			x += _realStepSize;
 		}
 
 		code += "mul oc, ft1, fc0.z";

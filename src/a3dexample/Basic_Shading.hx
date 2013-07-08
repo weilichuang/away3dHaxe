@@ -20,6 +20,13 @@ import a3d.entities.primitives.TorusGeometry;
 import a3d.textures.BitmapTexture;
 import a3d.utils.Cast;
 
+import a3d.animators.*;
+import a3d.filters.BloomFilter3D;
+import a3d.filters.BlurFilter3D;
+import a3d.filters.DepthOfFieldFilter3D;
+import a3d.filters.MotionBlurFilter3D;
+import a3d.filters.RadialBlurFilter3D;
+
 
 class Basic_Shading extends BasicApplication
 {

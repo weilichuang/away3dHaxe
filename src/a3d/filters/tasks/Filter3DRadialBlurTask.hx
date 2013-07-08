@@ -33,7 +33,7 @@ class Filter3DRadialBlurTask extends Filter3DTaskBase
 		_blurWidth = blurWidth;
 		_cx = cx;
 		_cy = cy;
-		_data = Vector<Float>([0, 0, 0, 0, 0, 0, 0, 0, 0, 1, LAYERS, LAYERS - 1]);
+		_data = Vector.ofArray([0., 0, 0, 0, 0, 0, 0, 0, 0, 1, LAYERS, LAYERS - 1]);
 		resetUniforms();
 	}
 
@@ -70,7 +70,7 @@ class Filter3DRadialBlurTask extends Filter3DTaskBase
 			"mov ft3.x, fc2.x \n";
 
 		// Y-Axis
-		for (var i:Int = 0; i <= LAYERS; i++)
+		for (i in 0...LAYERS + 1)
 		{
 			// float scale = BlurStart + BlurWidth*(i/(float) (nsamples-1)); -> ft4
 			// ft4.x = (i/(float) (nsamples-1))
@@ -110,75 +110,87 @@ class Filter3DRadialBlurTask extends Filter3DTaskBase
 		return code;
 	}
 
+	public var intensity(get, set):Float;
 	private function get_intensity():Float
 	{
 		return _intensity;
 	}
 
-	private function set_intensity(intensity:Float):Void
+	private function set_intensity(intensity:Float):Float
 	{
 		_intensity = intensity;
 		resetUniforms();
+		return _intensity;
 	}
 
+	public var glowGamma(get, set):Float;
 	private function get_glowGamma():Float
 	{
 		return _glowGamma;
 	}
 
-	private function set_glowGamma(glowGamma:Float):Void
+	private function set_glowGamma(glowGamma:Float):Float
 	{
 		_glowGamma = glowGamma;
 		resetUniforms();
+		return _glowGamma;
 	}
 
+	public var blurStart(get, set):Float;
 	private function get_blurStart():Float
 	{
 		return _blurStart;
 	}
 
-	private function set_blurStart(blurStart:Float):Void
+	private function set_blurStart(blurStart:Float):Float
 	{
 		_blurStart = blurStart;
 		resetUniforms();
+		return _blurStart;
 	}
 
+	public var blurWidth(get, set):Float;
 	private function get_blurWidth():Float
 	{
 		return _blurWidth;
 	}
 
-	private function set_blurWidth(blurWidth:Float):Void
+	private function set_blurWidth(blurWidth:Float):Float
 	{
 		_blurWidth = blurWidth;
 		resetUniforms();
+		return _blurWidth;
 	}
 
+	public var cx(get, set):Float;
 	private function get_cx():Float
 	{
 		return _cx;
 	}
 
-	private function set_cx(cx:Float):Void
+	private function set_cx(cx:Float):Float
 	{
 		_cx = cx;
 		resetUniforms();
+		return _cx;
 	}
 
+	public var cy(get, set):Float;
 	private function get_cy():Float
 	{
 		return _cy;
 	}
 
-	private function set_cy(cy:Float):Void
+	private function set_cy(cy:Float):Float
 	{
 		_cy = cy;
 		resetUniforms();
+		return _cy;
 	}
 
 	override public function activate(stage3DProxy:Stage3DProxy, camera3D:Camera3D, depthTexture:Texture):Void
 	{
-		var context:Context3D = stage3DProxy._context3D;
+		var context:Context3D = stage3DProxy.context3D;
 		context.setProgramConstantsFromVector(Context3DProgramType.VERTEX, 0, _data, 3);
 		context.setProgramConstantsFromVector(Context3DProgramType.FRAGMENT, 0, _data, 3);
 	}

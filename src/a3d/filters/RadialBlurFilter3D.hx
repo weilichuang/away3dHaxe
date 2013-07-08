@@ -13,63 +13,69 @@ class RadialBlurFilter3D extends Filter3DBase
 		addTask(_blurTask);
 	}
 
+	public var intensity(get, set):Float;
 	private function get_intensity():Float
 	{
 		return _blurTask.intensity;
 	}
 
-	private function set_intensity(intensity:Float):Void
+	private function set_intensity(intensity:Float):Float
 	{
-		_blurTask.intensity = intensity;
+		return _blurTask.intensity = intensity;
 	}
 
+	public var glowGamma(get, set):Float;
 	private function get_glowGamma():Float
 	{
 		return _blurTask.glowGamma;
 	}
 
-	private function set_glowGamma(glowGamma:Float):Void
+	private function set_glowGamma(glowGamma:Float):Float
 	{
-		_blurTask.glowGamma = glowGamma;
+		return _blurTask.glowGamma = glowGamma;
 	}
 
+	public var blurStart(get, set):Float;
 	private function get_blurStart():Float
 	{
 		return _blurTask.blurStart;
 	}
 
-	private function set_blurStart(blurStart:Float):Void
+	private function set_blurStart(blurStart:Float):Float
 	{
-		_blurTask.blurStart = blurStart;
+		return _blurTask.blurStart = blurStart;
 	}
 
+	public var blurWidth(get, set):Float;
 	private function get_blurWidth():Float
 	{
 		return _blurTask.blurWidth;
 	}
 
-	private function set_blurWidth(blurWidth:Float):Void
+	private function set_blurWidth(blurWidth:Float):Float
 	{
-		_blurTask.blurWidth = blurWidth;
+		return _blurTask.blurWidth = blurWidth;
 	}
 
+	public var cx(get, set):Float;
 	private function get_cx():Float
 	{
 		return _blurTask.cx;
 	}
 
-	private function set_cx(cx:Float):Void
+	private function set_cx(cx:Float):Float
 	{
-		_blurTask.cx = cx;
+		return _blurTask.cx = cx;
 	}
 
+	public var cy(get, set):Float;
 	private function get_cy():Float
 	{
 		return _blurTask.cy;
 	}
 
-	private function set_cy(cy:Float):Void
+	private function set_cy(cy:Float):Float
 	{
-		_blurTask.cy = cy;
+		return _blurTask.cy = cy;
 	}
 }
