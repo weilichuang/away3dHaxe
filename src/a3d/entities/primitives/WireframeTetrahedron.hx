@@ -1,5 +1,6 @@
 package a3d.entities.primitives;
 
+import flash.errors.Error;
 import flash.geom.Vector3D;
 import a3d.entities.primitives.WireframePrimitiveBase;
 
@@ -38,47 +39,53 @@ class WireframeTetrahedron extends WireframePrimitiveBase
 	/**
 	 * The orientation in which the plane lies
 	 */
+	public var orientation(get, set):String;
 	private function get_orientation():String
 	{
 		return _orientation;
 	}
 
-	private function set_orientation(value:String):Void
+	private function set_orientation(value:String):String
 	{
 		_orientation = value;
 		invalidateGeometry();
+		return _orientation;
 	}
 
 	/**
 	 * The size of the tetrahedron bottom.
 	 */
+	public var width(get, set):Float;
 	private function get_width():Float
 	{
 		return _width;
 	}
 
-	private function set_width(value:Float):Void
+	private function set_width(value:Float):Float
 	{
 		if (value <= 0)
 			throw new Error("Value needs to be greater than 0");
 		_width = value;
 		invalidateGeometry();
+		return _width;
 	}
 
 	/**
 	 * The size of the tetrahedron height.
 	 */
+	public var height(get, set):Float;
 	private function get_height():Float
 	{
 		return _height;
 	}
 
-	private function set_height(value:Float):Void
+	private function set_height(value:Float):Float
 	{
 		if (value <= 0)
 			throw new Error("Value needs to be greater than 0");
 		_height = value;
 		invalidateGeometry();
+		return _height;
 	}
 
 	/**

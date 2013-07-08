@@ -1,6 +1,7 @@
 package a3d.entities.extrusions;
 
 
+import flash.errors.Error;
 import flash.geom.Matrix3D;
 import flash.geom.Vector3D;
 import flash.Vector;
@@ -19,7 +20,7 @@ class PathDuplicator
 	private var _scene:Scene3D;
 	private var _meshes:Vector<Mesh>;
 	private var _clones:Vector<Mesh>;
-	private var _repeat:UInt;
+	private var _repeat:Int;
 	private var _alignToPath:Bool;
 	private var _randomRotationY:Bool;
 	private var _segmentSpread:Bool = false;
@@ -41,7 +42,7 @@ class PathDuplicator
 	* @param	randomRotationY	[optional]	Bool. If the clones must have a random rotationY added to them.
 	*
 	*/
-	function new(path:IPath = null, meshes:Vector<Mesh> = null, scene:Scene3D = null, repeat:UInt = 1, alignToPath:Bool = true, segmentSpread:Bool = true, container:ObjectContainer3D =
+	function new(path:IPath = null, meshes:Vector<Mesh> = null, scene:Scene3D = null, repeat:Int = 1, alignToPath:Bool = true, segmentSpread:Bool = true, container:ObjectContainer3D =
 		null, randomRotationY:Bool = false)
 	{
 		_path = path;
@@ -57,22 +58,24 @@ class PathDuplicator
 	/**
 	 * The up axis to which duplicated objects' Y axis will be oriented.
 	 */
+	public var upAxis(get,set):Vector3D;
 	private function get_upAxis():Vector3D
 	{
 		return _upAxis;
 	}
 
-	private function set_upAxis(value:Vector3D):Void
+	private function set_upAxis(value:Vector3D):Vector3D
 	{
-		_upAxis = value;
+		return _upAxis = value;
 	}
 
 	/**
 	 * If a container is provided, the meshes are addChilded to it instead of directly into the scene. The container is NOT addChilded to the scene.
 	 */
-	private function set_container(cont:ObjectContainer3D):Void
+	public var container(get,set):Vector3D;
+	private function set_container(cont:ObjectContainer3D):ObjectContainer3D
 	{
-		_container = cont;
+		return _container = cont;
 	}
 
 	private function get_container():ObjectContainer3D
@@ -83,12 +86,13 @@ class PathDuplicator
 	/**
 	 * Defines the resolution between each PathSegments. Default 1, is also minimum.
 	 */
-	private function set_repeat(val:UInt):Void
+	public var repeat(get,set):Int;
+	private function set_repeat(val:Int):Int
 	{
 		_repeat = (val < 1) ? 1 : val;
 	}
 
-	private function get_repeat():UInt
+	private function get_repeat():Int
 	{
 		return _repeat;
 	}
@@ -96,9 +100,10 @@ class PathDuplicator
 	/**
 	 * Defines if the profile point array should be orientated on path or not. Default true.
 	 */
-	private function set_alignToPath(b:Bool):Void
+	public var alignToPath(get,set):Bool;
+	private function set_alignToPath(b:Bool):Bool
 	{
-		_alignToPath = b;
+		return _alignToPath = b;
 	}
 
 	private function get_alignToPath():Bool
@@ -109,9 +114,10 @@ class PathDuplicator
 	/**
 	 * Defines if a clone gets a random rotationY to break visual repetitions, usefull in case of vegetation for instance.
 	 */
-	private function set_randomRotationY(b:Bool):Void
+	public var randomRotationY(get,set):Bool;
+	private function set_randomRotationY(b:Bool):Bool
 	{
-		_randomRotationY = b;
+		return _randomRotationY = b;
 	}
 
 	private function get_randomRotationY():Bool
@@ -123,6 +129,7 @@ class PathDuplicator
 	 * returns a vector with all meshes cloned since last time build method was called. Returns null if build hasn't be called yet.
 	 * Another option to retreive the generated meshes is to pass an ObjectContainer3D to the class
 	 */
+	public var clones(get,null):Vector<Mesh>;
 	private function get_clones():Vector<Mesh>
 	{
 		return _clones;
@@ -131,9 +138,10 @@ class PathDuplicator
 	/**
 	 * Sets and defines the Path object. See extrusions.utils package. Required for this class.
 	 */
-	private function set_path(p:IPath):Void
+	public var clones(get,set):IPath;
+	private function set_path(p:IPath):IPath
 	{
-		_path = p;
+		return _path = p;
 	}
 
 	private function get_path():IPath
@@ -147,9 +155,10 @@ class PathDuplicator
 	*
 	* @param	ms	A Vector<Mesh>. One or more meshes to repeat along the path. Required for this class.
 	*/
-	private function set_meshes(ms:Vector<Mesh>):Void
+	public var meshes(get,set):IPath;
+	private function set_meshes(ms:Vector<Mesh>):Vector<Mesh>
 	{
-		_meshes = ms;
+		return _meshes = ms;
 	}
 
 	private function get_meshes():Vector<Mesh>
@@ -182,9 +191,10 @@ class PathDuplicator
 	/**
 	 * defines if the meshes[index] is repeated per segments or duplicated after each others. default = false.
 	 */
-	private function set_segmentSpread(b:Bool):Void
+	public var segmentSpread(get,set):Bool;
+	private function set_segmentSpread(b:Bool):Bool
 	{
-		_segmentSpread = b;
+		return _segmentSpread = b;
 	}
 
 	private function get_segmentSpread():Bool
@@ -197,9 +207,9 @@ class PathDuplicator
 	*/
 	public function build():Void
 	{
-		if (!_path || !_meshes || meshes.length == 0)
+		if (_path == null || _meshes == null || meshes.length == 0)
 			throw new Error("PathDuplicator error: Missing Path or Meshes data.");
-		if (!_scene && !_container)
+		if (_scene == null && _container == null)
 			throw new Error("PathDuplicator error: Missing Scene3D or ObjectContainer3D.");
 
 		_mIndex = _meshes.length - 1;
@@ -209,21 +219,19 @@ class PathDuplicator
 		var segments:Vector<Vector<Vector3D>> = _path.getPointsOnCurvePerSegment(_repeat);
 		var tmppt:Vector3D = new Vector3D();
 
-		var i:UInt;
-		var j:UInt;
+		var i:Int;
+		var j:Int;
 		var nextpt:Vector3D;
 		var m:Mesh;
 		var tPosi:Vector3D;
 
-		for (i = 0; i < segments.length; ++i)
+		for (i in 0...segments.length)
 		{
-
 			if (!_segmentSpread)
 				_mIndex = (_mIndex + 1 != _meshes.length) ? _mIndex + 1 : 0;
 
-			for (j = 0; j < segments[i].length; ++j)
+			for (j in 0...segments[i].length)
 			{
-
 				if (_segmentSpread)
 					_mIndex = (_mIndex + 1 != _meshes.length) ? _mIndex + 1 : 0;
 

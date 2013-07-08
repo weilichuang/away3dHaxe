@@ -1,14 +1,14 @@
 package a3d.core.partition;
 
-import a3d.math.Plane3D;
-import flash.Vector;
-
-import flash.geom.Vector3D;
-
-
 import a3d.core.traverse.PartitionTraverser;
 import a3d.entities.Entity;
 import a3d.entities.primitives.WireframePrimitiveBase;
+import a3d.math.Plane3D;
+import flash.geom.Vector3D;
+import flash.Vector;
+
+
+
 
 
 
@@ -119,7 +119,7 @@ class NodeBase
 		// override item to be removed with the last in the list, then remove that last one
 		// Also, the "real partition nodes" of the tree will always remain unmoved, first in the list, so if there's
 		// an order dependency for them, it's still okay
-		var index:UInt = _childNodes.indexOf(node);
+		var index:Int = _childNodes.indexOf(node);
 		_childNodes[index] = _childNodes[--_numChildNodes];
 		_childNodes.pop();
 

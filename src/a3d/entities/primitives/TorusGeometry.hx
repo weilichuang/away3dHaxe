@@ -29,7 +29,7 @@ class TorusGeometry extends PrimitiveBase
 		nx:Float, ny:Float, nz:Float,
 		tx:Float, ty:Float, tz:Float):Void
 	{
-		var compVertInd:UInt = _vertexOffset + _nextVertexIndex * _vertexStride; // current component vertex index
+		var compVertInd:Int = _vertexOffset + _nextVertexIndex * _vertexStride; // current component vertex index
 		_rawVertexData[compVertInd++] = px;
 		_rawVertexData[compVertInd++] = py;
 		_rawVertexData[compVertInd++] = pz;
@@ -42,7 +42,7 @@ class TorusGeometry extends PrimitiveBase
 		_nextVertexIndex++;
 	}
 
-	private function addTriangleClockWise(cwVertexIndex0:UInt, cwVertexIndex1:UInt, cwVertexIndex2:UInt):Void
+	private function addTriangleClockWise(cwVertexIndex0:Int, cwVertexIndex1:Int, cwVertexIndex2:Int):Void
 	{
 		_rawIndices[_currentIndex++] = cwVertexIndex0;
 		_rawIndices[_currentIndex++] = cwVertexIndex1;

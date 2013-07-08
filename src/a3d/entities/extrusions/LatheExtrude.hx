@@ -1,5 +1,6 @@
 package a3d.entities.extrusions;
 
+import flash.errors.Error;
 import flash.geom.Point;
 import flash.geom.Vector3D;
 import flash.Vector;
@@ -121,12 +122,13 @@ class LatheExtrude extends Mesh
 	/*
 	* A Vector<Vector3D> representing the profile information to be repeated/rotated around a given axis.
 	*/
+	public var profile(get,set):Vector<Vector3D>;
 	private function get_profile():Vector<Vector3D>
 	{
 		return _profile;
 	}
 
-	private function set_profile(val:Vector<Vector3D>):Void
+	private function set_profile(val:Vector<Vector3D>):Vector<Vector3D>
 	{
 		if (val.length > 1)
 		{
@@ -137,53 +139,60 @@ class LatheExtrude extends Mesh
 		{
 			throw new Error("LatheExtrude error: the profile Vector<Vector3D> must hold a mimimun of 2 vector3D's");
 		}
+		return _profile;
 	}
 
 	/*
 	* A Number, to offset the original start angle of the rotation. Default is 0;
 	*/
+	public var startRotationOffset(get,set):Float;
 	private function get_startRotationOffset():Float
 	{
 		return _startRotationOffset;
 	}
 
-	private function set_startRotationOffset(val:Float):Void
+	private function set_startRotationOffset(val:Float):Float
 	{
-		_startRotationOffset = val;
+		return _startRotationOffset = val;
 	}
 
 	/**
 	* Defines the axis used for the lathe rotation. Defaults to "y".
 	*/
+	public var axis(get,set):String;
 	private function get_axis():String
 	{
 		return _axis;
 	}
 
-	private function set_axis(val:String):Void
+	private function set_axis(val:String):String
 	{
 		if (_axis == val)
-			return;
+			return _axis;
 
 		_axis = val;
 		invalidateGeometry();
+		
+		return _axis;
 	}
 
 	/**
 	* Defines the number of revolutions performed by the lathe extrusion. Defaults to 1.
 	*/
+	public var revolutions(get,set):Float;
 	private function get_revolutions():Float
 	{
 		return _revolutions;
 	}
 
-	private function set_revolutions(val:Float):Void
+	private function set_revolutions(val:Float):Float
 	{
 		if (_revolutions == val)
-			return;
+			return _revolutions;
 		_revolutions = (_revolutions > .001) ? _revolutions : .001;
 		_revolutions = val;
 		invalidateGeometry();
+		return _revolutions;
 	}
 
 	/**
@@ -191,45 +200,50 @@ class LatheExtrude extends Mesh
 	*
 	* @see #revolutions
 	*/
-	private function get_subdivision():UInt
+	public var subdivision(get,set):Int;
+	private function get_subdivision():Int
 	{
 		return _subdivision;
 	}
 
-	private function set_subdivision(val:UInt):Void
+	private function set_subdivision(val:Int):Int
 	{
 		val = (val < 3) ? 3 : val;
 		if (_subdivision == val)
-			return;
+			return _subdivision;
 		_subdivision = val;
 		invalidateGeometry();
+		return _subdivision;
 	}
 
 	/**
 	* Defines an offset radius applied to the profile. Defaults to 0.
 	*/
+	public var offsetRadius(get,set):Float;
 	private function get_offsetRadius():Float
 	{
 		return _offsetRadius;
 	}
 
-	private function set_offsetRadius(val:Float):Void
+	private function set_offsetRadius(val:Float):Float
 	{
 		if (_offsetRadius == val)
-			return;
+			return _offsetRadius;
 		_offsetRadius = val;
 		invalidateGeometry();
+		return _offsetRadius;
 	}
 
 	/**
 	* An optional object that defines left, right, front, back, top and bottom materials to be set on the resulting lathe extrusion.
 	*/
+	public var materials(get,set):MultipleMaterials;
 	private function get_materials():MultipleMaterials
 	{
 		return _materials;
 	}
 
-	private function set_materials(val:MultipleMaterials):Void
+	private function set_materials(val:MultipleMaterials):MultipleMaterials
 	{
 		_materials = val;
 
@@ -237,54 +251,63 @@ class LatheExtrude extends Mesh
 			this.material = _materials.front;
 
 		invalidateGeometry();
+		
+		return _materials;
 	}
 
 	/**
 	* Defines if the texture(s) should be stretched to cover the entire mesh or per step between segments. Defaults to true.
 	*/
+	public var coverAll(get,set):Bool;
 	private function get_coverAll():Bool
 	{
 		return _coverAll;
 	}
 
-	private function set_coverAll(val:Bool):Void
+	private function set_coverAll(val:Bool):Bool
 	{
 		if (_coverAll == val)
-			return;
+			return _coverAll;
 
 		_coverAll = val;
 		invalidateGeometry();
+		
+		return _coverAll;
 	}
 
 	/**
 	* Defines if the generated faces should be inversed. Default false.
 	*/
+	public var flip(get,set):Bool;
 	private function get_flip():Bool
 	{
 		return _flip;
 	}
 
-	private function set_flip(val:Bool):Void
+	private function set_flip(val:Bool):Bool
 	{
 		if (_flip == val)
-			return;
+			return _flip;
 
 		_flip = val;
 		invalidateGeometry();
+		
+		return _flip;
 	}
 
 	/**
 	* Defines if the surface of the mesh must be smoothed or not.
 	*/
+	public var smoothSurface(get,set):Bool;
 	private function get_smoothSurface():Bool
 	{
 		return _smoothSurface;
 	}
 
-	private function set_smoothSurface(val:Bool):Void
+	private function set_smoothSurface(val:Bool):Bool
 	{
 		if (_smoothSurface == val)
-			return;
+			return _smoothSurface;
 
 		_smoothSurface = val;
 		_geomDirty = true;
@@ -293,22 +316,26 @@ class LatheExtrude extends Mesh
 	/**
 	* Defines if the last transformed profile values are saved or not. Useful in combo with rotations less than 1, to ease combinations with other extrusions classes such as SkinExtrude.
 	*/
+	public var keepLastProfile(get,set):Bool;
 	private function get_keepLastProfile():Bool
 	{
 		return _keepLastProfile;
 	}
 
-	private function set_keepLastProfile(val:Bool):Void
+	private function set_keepLastProfile(val:Bool):Bool
 	{
 		if (_keepLastProfile == val)
-			return;
+			return _keepLastProfile;
 
 		_keepLastProfile = val;
+		
+		return _keepLastProfile;
 	}
 
 	/**
 	* returns the last rotated profile values, if keepLastProfile was true
 	*/
+	public var lastProfile(get,null):Vector<Vector3D>;
 	private function get_lastProfile():Vector<Vector3D>
 	{
 		if (keepLastProfile && !_lastProfile)
@@ -321,32 +348,36 @@ class LatheExtrude extends Mesh
 	/**
 	* Defines if thickness is greater than 0 if the thickness is equally distributed along the volume. Default is false.
 	*/
+	public var preciseThickness(get,set):Bool;
 	private function get_preciseThickness():Bool
 	{
 		return _preciseThickness;
 	}
 
-	private function set_preciseThickness(val:Bool):Void
+	private function set_preciseThickness(val:Bool):Bool
 	{
 		if (_preciseThickness == val)
-			return;
+			return _preciseThickness;
 
 		_preciseThickness = val;
 		invalidateGeometry();
+		
+		return _preciseThickness;
 	}
 
 	/**
 	 * Defines whether the mesh is recentered of not after generation
 	 */
+	public var centerMesh(get,set):Bool;
 	private function get_centerMesh():Bool
 	{
 		return _centerMesh;
 	}
 
-	private function set_centerMesh(val:Bool):Void
+	private function set_centerMesh(val:Bool):Bool
 	{
 		if (_centerMesh == val)
-			return;
+			return _centerMesh;
 
 		_centerMesh = val;
 
@@ -358,17 +389,20 @@ class LatheExtrude extends Mesh
 		{
 			invalidateGeometry();
 		}
+		
+		return _centerMesh;
 	}
 
 	/**
 	* Defines the thickness of the resulting lathed geometry. Defaults to 0 (single face).
 	*/
+	public var thickness(get,set):Float;
 	private function get_thickness():Float
 	{
 		return _thickness;
 	}
 
-	private function set_thickness(val:Float):Void
+	private function set_thickness(val:Float):Float
 	{
 		if (_thickness == val)
 			return;

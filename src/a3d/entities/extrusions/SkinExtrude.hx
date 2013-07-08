@@ -1,5 +1,6 @@
 package a3d.entities.extrusions;
 
+import flash.errors.Error;
 import flash.geom.Vector3D;
 import flash.Vector;
 
@@ -15,7 +16,7 @@ import a3d.tools.helpers.MeshHelper;
 
 class SkinExtrude extends Mesh
 {
-	private const LIMIT:UInt = 196605;
+	private var LIMIT:Int = 196605;
 	private var _tmpVectors:Vector<Float>;
 	private var _subGeometry:SubGeometry;
 	private var _indice:UInt;
@@ -68,12 +69,13 @@ class SkinExtrude extends Mesh
 	/**
 	 * Defines if the texture(s) should be stretched to cover the entire mesh or per step between segments. Defaults to false.
 	 */
+	public var profiles(get, set):Vector<Vector<Vector3D>>;
 	private function get_profiles():Vector<Vector<Vector3D>>
 	{
 		return _profiles;
 	}
 
-	private function set_profiles(val:Vector<Vector<Vector3D>>):Void
+	private function set_profiles(val:Vector<Vector<Vector3D>>):Vector<Vector<Vector3D>>
 	{
 		_profiles = val;
 		invalidateGeometry();
@@ -82,66 +84,73 @@ class SkinExtrude extends Mesh
 	/**
 	 * Defines if the texture(s) should be stretched to cover the entire mesh or per step between segments. Defaults to false.
 	 */
+	public var coverAll(get, set):Bool;
 	private function get_coverAll():Bool
 	{
 		return _coverAll;
 	}
 
-	private function set_coverAll(val:Bool):Void
+	private function set_coverAll(val:Bool):Bool
 	{
 		if (_coverAll == val)
-			return;
+			return _coverAll;
 
 		_coverAll = val;
 		invalidateGeometry();
+		return _coverAll;
 	}
 
 	/**
 	* Defines if the last vector of Vector3D are joined to the first one, closing the shape. works from 3 vector.&lt;Vector3D&gt; entered.
 	*/
+	public var closeShape(get, set):Bool;
 	private function get_closeShape():Bool
 	{
 		return _closeShape;
 	}
 
-	private function set_closeShape(val:Bool):Void
+	private function set_closeShape(val:Bool):Bool
 	{
 		if (_closeShape == val)
-			return;
+			return _closeShape;
 
 		_closeShape = val;
 		invalidateGeometry();
+		return _closeShape;
 	}
 
 	/**
 	 * Defines if the face orientatio needs to be inverted
 	 */
+	public var flip(get, set):Bool;
 	private function get_flip():Bool
 	{
 		return _flip;
 	}
 
-	private function set_flip(val:Bool):Void
+	private function set_flip(val:Bool):Bool
 	{
 		if (_flip == val)
-			return;
+			return _flip;
 
 		_flip = val;
 		invalidateGeometry();
+		return _flip;
 	}
 
 	/**
 	 * Defines whether the mesh is _centerMeshed of not after generation
 	 */
+	public var centerMesh(get, set):Bool;
 	private function get_centerMesh():Bool
 	{
 		return _centerMesh;
 	}
 
-	private function set_centerMesh(val:Bool):Void
+	private function set_centerMesh(val:Bool):Bool
 	{
 		if (_centerMesh == val)
-			return;
+			return _centerMesh;
 
 		_centerMesh = val;
 
@@ -153,17 +162,19 @@ class SkinExtrude extends Mesh
 		{
 			invalidateGeometry();
 		}
+		return _centerMesh;
 	}
 
+	public var subdivision(get, set):Float;
 	private function get_subdivision():Float
 	{
 		return _subdivision;
 	}
 
-	private function set_subdivision(val:Float):Void
+	private function set_subdivision(val:Float):Float
 	{
 		if (_subdivision == val)
-			return;
+			return _subdivision;
 
 		_subdivision = val;
 		invalidateGeometry();
@@ -194,7 +205,7 @@ class SkinExtrude extends Mesh
 	private function generate():Void
 	{
 		var uvlength:Int = (_closeShape) ? _profiles.length : _profiles.length - 1;
-		for (var i:Int = 0; i < _profiles.length - 1; ++i)
+		for (i in 0..._profiles.length - 1)
 		{
 			_tmpVectors = new Vector<Float>();
 			extrude(_profiles[i], _profiles[i + 1], (1 / uvlength) * i, uvlength);
@@ -234,27 +245,26 @@ class SkinExtrude extends Mesh
 		var v1:Float = 0;
 		var v2:Float = 0;
 
-		for (i = 0; i < vectsA.length; ++i)
+		for (i in 0...vectsA.length)
 		{
 			stepx = (vectsB[i].x - vectsA[i].x) / _subdivision;
 			stepy = (vectsB[i].y - vectsA[i].y) / _subdivision;
 			stepz = (vectsB[i].z - vectsA[i].z) / _subdivision;
 
-			for (j = 0; j < _subdivision + 1; ++j)
+			for (j in 0..._subdivision + 1)
 				_tmpVectors.push(vectsA[i].x + (stepx * j), vectsA[i].y + (stepy * j), vectsA[i].z + (stepz * j));
 
 		}
 
-		for (i = 0; i < vectsA.length - 1; ++i)
+		for (i in 0...vectsA.length - 1)
 		{
 
 			u1 = bu;
 			bu += bincu;
 			u2 = bu;
 
-			for (j = 0; j < _subdivision; ++j)
+			for (j in 0..._subdivision)
 			{
-
 				v1 = (_coverAll) ? vscale + ((j / _subdivision) / indexv) : j / _subdivision;
 				v2 = (_coverAll) ? vscale + (((j + 1) / _subdivision) / indexv) : (j + 1) / _subdivision;
 
@@ -320,7 +330,7 @@ class SkinExtrude extends Mesh
 					_uvs.push(_uvc.u, _uvc.v, _uva.u, _uva.v, _uvd.u, _uvd.v);
 				}
 
-				for (k = 0; k < 6; ++k)
+				for (k in 0...6)
 				{
 					_indices[_indice] = _indice;
 					_indice++;

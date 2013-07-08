@@ -25,8 +25,8 @@ class PathExtrude extends Mesh
 	private var _upAxis:Vector3D = new Vector3D(0, 1, 0);
 	private var _trans:Matrix3D = new Matrix3D();
 
-	private const LIMIT:UInt = 196605;
-	private const MAXRAD:Float = 1.2;
+	private var LIMIT:UInt = 196605;
+	private var MAXRAD:Float = 1.2;
 	private var _path:IPath;
 	private var _profile:Vector<Vector3D>;
 	private var _centerMesh:Bool;
@@ -92,7 +92,7 @@ class PathExtrude extends Mesh
 	 * @param    distributeU            [optional]    Bool. If the mesh uv' u value is procentually spreaded over the entire mesh surface. Prevents the source map to be stretched. Default is true.
 	 * @param    keepExtremes        [optional]    Bool. If the the first and last profile coordinates must be kept accessible, in order to feed classes such as DelaunayMesh. Default is false;
 	 */
-	function new(material:MaterialBase = null, path:IPath = null, profile:Vector<Vector3D> = null, subdivision:UInt = 2, coverAll:Bool = true, coverSegment:Bool = false, alignToPath:Bool =
+	public function new(material:MaterialBase = null, path:IPath = null, profile:Vector<Vector3D> = null, subdivision:UInt = 2, coverAll:Bool = true, coverSegment:Bool = false, alignToPath:Bool =
 		true, centerMesh:Bool = false, mapFit:Bool = false, flip:Bool = false, closePath:Bool = false, materials:Vector<MaterialBase> = null, scales:Vector<Vector3D> = null, smoothScale:Bool =
 		true, rotations:Vector<Vector3D> = null, smoothSurface:Bool = true, distribute:Bool = false, distributeU:Bool = true, keepExtremes:Bool = false)
 	{

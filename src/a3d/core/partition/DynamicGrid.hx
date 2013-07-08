@@ -67,14 +67,14 @@ class DynamicGrid
 		return _leaves[x + (y + z * _numCellsY) * _numCellsX];
 	}
 
-	private function createLevel(numCellsX:UInt, numCellsY:UInt, numCellsZ:UInt, cellWidth:Float, cellHeight:Float, cellDepth:Float):Vector<InvertedOctreeNode>
+	private function createLevel(numCellsX:Int, numCellsY:Int, numCellsZ:Int, cellWidth:Float, cellHeight:Float, cellDepth:Float):Vector<InvertedOctreeNode>
 	{
 		var nodes:Vector<InvertedOctreeNode> = new Vector<InvertedOctreeNode>(numCellsX * numCellsY * numCellsZ);
 		var parents:Vector<InvertedOctreeNode>;
 		var node:InvertedOctreeNode;
 		var i:Int;
 		var minX:Float, minY:Float, minZ:Float;
-		var numParentsX:UInt, numParentsY:UInt, numParentsZ:UInt;
+		var numParentsX:Int, numParentsY:Int, numParentsZ:Int;
 
 		if (numCellsX != 1 || numCellsY != 1 || numCellsZ != 1)
 		{

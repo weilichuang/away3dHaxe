@@ -17,11 +17,17 @@ class FractalTreeRound extends PrimitiveBase
 	private var _rawTangents:Vector<Float>;
 	private var _bufferData:Vector<Float>;
 	private var _size:Float;
-	private var _off:UInt;
-	private var _level:UInt;
-	private var _v0:Vector3D, _v1:Vector3D, _v2:Vector3D, _v3:Vector3D;
-	private var _d0:Vector3D, _d1:Vector3D;
-	private var _mid:Vector3D, _boxNorm:Vector3D, _triNorm:Vector3D;
+	private var _off:Int;
+	private var _level:Int;
+	private var _v0:Vector3D; 
+	private var _v1:Vector3D; 
+	private var _v2:Vector3D; 
+	private var _v3:Vector3D;
+	private var _d0:Vector3D; 
+	private var _d1:Vector3D;
+	private var _mid:Vector3D; 
+	private var _boxNorm:Vector3D,
+	private var _triNorm:Vector3D;
 	private var _sideLength:Float;
 	private var _firstBaseToHeightFactor:Float;
 	private var _baseToHeightFactor:Float;
@@ -31,9 +37,8 @@ class FractalTreeRound extends PrimitiveBase
 	private var _built:Bool;
 
 	public function new(width:Float, height:Float, stretching:Float,
-		minAperture:Float, maxAperture:Float,
-		minTwist:Float, maxTwist:Float,
-		level:UInt)
+						minAperture:Float, maxAperture:Float,
+						minTwist:Float, maxTwist:Float,level:Int)
 	{
 		super();
 
@@ -74,7 +79,7 @@ class FractalTreeRound extends PrimitiveBase
 		_bufferData = new Vector<Float>();
 
 		// Start recursive method.
-		buildOpenBox(Vector<Float>([-_size / 2, 0, -_size / 2,
+		buildOpenBox(Vector.ofArray([-_size / 2, 0, -_size / 2,
 			_size / 2, 0, -_size / 2,
 			_size / 2, 0, _size / 2,
 			-_size / 2, 0, _size / 2]), _firstBaseToHeightFactor);

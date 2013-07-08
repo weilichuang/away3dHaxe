@@ -44,17 +44,17 @@ class Foliage extends PrimitiveBase
 		_bufferData = new Vector<Float>();
 
 		// Create clusters.
-		var i:UInt, j:UInt, index:UInt;
-		var loop:UInt = _positions.length / 3;
-		var subloop:UInt = _leafCount;
+		var i:Int, j:Int, index:Int;
+		var loop:Int = Std.int(_positions.length / 3);
+		var subloop:Int = _leafCount;
 		var posx:Float, posy:Float, posz:Float;
-		for (i = 0; i < loop; ++i)
+		for (i in 0...loop)
 		{
 			index = 3 * i;
 			posx = _positions[index];
 			posy = _positions[index + 1];
 			posz = _positions[index + 2];
-			for (j = 0; j < subloop; ++j)
+			for (j in 0...subloop)
 			{
 				var leafPoint:Vector3D = sphericalToCartesian(new Vector3D(_pi * Math.random(), _pi * Math.random(), _radius));
 				leafPoint.x += posx;

@@ -15,6 +15,8 @@ import a3d.materials.MaterialBase;
 import a3d.materials.utils.MultipleMaterials;
 import a3d.tools.helpers.MeshHelper;
 
+using Reflect;
+
 class LinearExtrude extends Mesh
 {
 	public static inline var X_AXIS:String = "x";
@@ -159,29 +161,32 @@ class LinearExtrude extends Mesh
 	/**
 	 * Defines the axis used for the extrusion. Defaults to "y".
 	 */
+	public var axis(get,set):String;
 	private function get_axis():String
 	{
 		return _axis;
 	}
 
-	private function set_axis(val:String):Void
+	private function set_axis(val:String):String
 	{
 		if (_axis == val)
-			return;
+			return _axis;
 
 		_axis = val;
 		invalidateGeometry();
+		return _axis;
 	}
 
 	/**
 	 * An optional MultipleMaterials object that defines left, right, front, back, top and bottom materials to be set on the resulting lathe extrusion.
 	 */
+	public var materials(get,set):MultipleMaterials;
 	private function get_materials():MultipleMaterials
 	{
 		return _materials;
 	}
 
-	private function set_materials(val:MultipleMaterials):Void
+	private function set_materials(val:MultipleMaterials):MultipleMaterials
 	{
 		_materials = val;
 
@@ -189,72 +194,81 @@ class LinearExtrude extends Mesh
 			this.material = _materials.front;
 
 		invalidateGeometry();
+		
+		return _materials;
 	}
 
 
 	/**
 	 * Defines the subdivisions created in the mesh for the total number of revolutions. Defaults to 2, minimum 2.
 	 */
-	private function get_subdivision():UInt
+	public var subdivision(get,set):Int;
+	private function get_subdivision():Int
 	{
 		return _subdivision;
 	}
 
-	private function set_subdivision(val:UInt):Void
+	private function set_subdivision(val:Int):Int
 	{
 		val = (val < 3) ? 3 : val;
 		if (_subdivision == val)
-			return;
+			return _subdivision;
 		_subdivision = val;
 		invalidateGeometry();
+		return _subdivision;
 	}
 
 	/**
 	 * Defines if the texture(s) should be stretched to cover the entire mesh or per step between segments. Defaults to true.
 	 */
+	public var coverAll(get,set):Bool;
 	private function get_coverAll():Bool
 	{
 		return _coverAll;
 	}
 
-	private function set_coverAll(val:Bool):Void
+	private function set_coverAll(val:Bool):Bool
 	{
 		if (_coverAll == val)
-			return;
+			return _coverAll;
 
 		_coverAll = val;
 		invalidateGeometry();
+		return _coverAll;
 	}
 
 	/**
 	 * Defines if the generated faces should be inversed. Default false.
 	 */
+	public var flip(get,set):Bool;
 	private function get_flip():Bool
 	{
 		return _flip;
 	}
 
-	private function set_flip(val:Bool):Void
+	private function set_flip(val:Bool):Bool
 	{
 		if (_flip == val)
-			return;
+			return _flip;
 
 		_flip = val;
 		invalidateGeometry();
+		return _flip;
 	}
 
 	/**
 	 * Defines whether the mesh is recentered of not after generation
 	 */
+	public var centerMesh(get,set):Bool;
 	private function get_centerMesh():Bool
 	{
 		return _centerMesh;
 	}
 
-	private function set_centerMesh(val:Bool):Void
+	private function set_centerMesh(val:Bool):Bool
 	{
 		if (_centerMesh == val)
-			return;
+			return _centerMesh;
 
 		_centerMesh = val;
 
@@ -266,53 +280,59 @@ class LinearExtrude extends Mesh
 		{
 			invalidateGeometry();
 		}
+		return _centerMesh;
 	}
 
 	/**
 	 * Defines the _thickness of the resulting lathed geometry. Defaults to 0 (single face).
 	 */
+	public var thickness(get,set):Float;
 	private function get_thickness():Float
 	{
 		return _thickness;
 	}
 
-	private function set_thickness(val:Float):Void
+	private function set_thickness(val:Float):Float
 	{
 		val = Math.abs(val);
 		if (_thickness == val)
-			return;
+			return _thickness;
 
 		_thickness = val;
 		invalidateGeometry();
+		return _thickness;
 	}
 
 	/**
 	 * Defines the subdivision for the top, bottom, right and left if thickness is set higher to 0. Defaults to 1.
 	 */
-	private function get_thicknessSubdivision():UInt
+	public var thicknessSubdivision(get,set):Int;
+	private function get_thicknessSubdivision():Int
 	{
 		return _thicknessSubdivision;
 	}
 
-	private function set_thicknessSubdivision(val:UInt):Void
+	private function set_thicknessSubdivision(val:Int):Int
 	{
 		val = (val < 3) ? 3 : val;
 		if (_thicknessSubdivision == val)
-			return;
+			return _thicknessSubdivision;
 
 		_thicknessSubdivision = val;
 		invalidateGeometry();
+		return _thicknessSubdivision;
 	}
 
 	/**
 	 * Defines if the top, bottom, left, right, front or back of the the extrusion is left open.
 	 */
+	public var ignoreSides(get,set):String;
 	private function get_ignoreSides():String
 	{
 		return _ignoreSides;
 	}
 
-	private function set_ignoreSides(val:String):Void
+	private function set_ignoreSides(val:String):String
 	{
 		_ignoreSides = val;
 		if (_closePath)
@@ -323,6 +343,7 @@ class LinearExtrude extends Mesh
 				_ignoreSides += "right";
 		}
 		invalidateGeometry();
+		return _ignoreSides;
 	}
 
 	/**
@@ -416,7 +437,7 @@ class LinearExtrude extends Mesh
 			}
 		}
 
-		var ind:UInt = vertices.length / 3;
+		var ind:Int = Std.int(vertices.length / 3);
 
 		if (invertU)
 		{
@@ -433,8 +454,8 @@ class LinearExtrude extends Mesh
 
 	private function generate():Void
 	{
-		var i:UInt;
-		var j:UInt;
+		var i:Int;
+		var j:Int;
 		var increase:Float = _offset / _subdivision;
 
 		var baseMaxX:Float = _aVectors[0].x;
@@ -444,7 +465,7 @@ class LinearExtrude extends Mesh
 		var baseMaxZ:Float = _aVectors[0].z;
 		var baseMinZ:Float = _aVectors[0].z;
 
-		for (i = 1; i < _aVectors.length; i++)
+		for (i in 1..._aVectors.length)
 		{
 			baseMaxX = Math.max(_aVectors[i].x, baseMaxX);
 			baseMinX = Math.min(_aVectors[i].x, baseMinX);
@@ -523,7 +544,7 @@ class LinearExtrude extends Mesh
 			var aListsides:Array = ["top", "bottom", "right", "left", "front", "back"];
 			var renderSide:RenderSide = new RenderSide();
 
-			for (i = 0; i < aListsides.length; ++i)
+			for (i in 0...aListsides.length)
 				renderSide[aListsides[i]] = (_ignoreSides.indexOf(aListsides[i]) == -1);
 
 			switch (_axis)
@@ -896,33 +917,33 @@ class LinearExtrude extends Mesh
 
 	private function buildThicknessPoints(prop1:String, prop2:String):Array
 	{
-		var anchors:Array = [];
-		var lines:Array = [];
+		var anchors:Array<FourPoints> = [];
+		var lines:Array<FourPoints> = [];
 
-		for (var i:UInt = 0; i < _aVectors.length - 1; ++i)
+		for (i in 0..._aVectors.length - 1)
 		{
+			var vec:Vector3D = _aVectors[i];
+			var vec1:Vector3D = _aVectors[i + 1];
 
-			if (_aVectors[i][prop1] == 0 && _aVectors[i][prop2] == 0)
-				_aVectors[i][prop1] = EPS;
+			if (vec.field(prop1) == 0 && vec.field(prop2) == 0)
+				vec.setField(prop1,vec.field(prop1)+EPS);
 
-			if (_aVectors[i + 1][prop2] && _aVectors[i][prop2] == _aVectors[i + 1][prop2])
-				_aVectors[i + 1][prop2] += EPS;
+			if (vec1.field(prop2) && vec.field(prop2) == vec1.field(prop2))
+				vec1.setField(prop2, vec1.field(prop2) + EPS);
 
-			if (_aVectors[i][prop1] && _aVectors[i][prop1] == _aVectors[i + 1][prop1])
-				_aVectors[i + 1][prop1] += EPS;
+			if (vec.field(prop1) && vec.field(prop1) == vec1.field(prop1))
+				vec1.setField(prop1, vec.field(prop1) + EPS);
 
-			anchors.push(defineAnchors(_aVectors[i], _aVectors[i + 1], prop1, prop2));
+			anchors.push(defineAnchors(vec, vec1, prop1, prop2));
 		}
 
-		var totallength:UInt = anchors.length;
+		var totallength:Int = anchors.length;
 		var pointResult:FourPoints;
 
 		if (totallength > 1)
 		{
-
-			for (i = 0; i < totallength; ++i)
+			for (i in 0...totallength)
 			{
-
 				if (i < totallength)
 				{
 					pointResult = definelines(i, anchors[i], anchors[i + 1], lines);
@@ -1007,15 +1028,16 @@ class LinearExtrude extends Mesh
 
 	private function defineAnchors(base:Vector3D, baseEnd:Vector3D, prop1:String, prop2:String):FourPoints
 	{
-		var angle:Float = (Math.atan2(base[prop2] - baseEnd[prop2], base[prop1] - baseEnd[prop1]) * 180) / Math.PI;
+		var angle:Float = (Math.atan2(base.field(prop2) - baseEnd.field(prop2), 
+									  base.field(prop1) - baseEnd.field(prop1)) * 180) / Math.PI;
 		angle -= 270;
 		var angle2:Float = angle + 180;
 
 		var fourPoints:FourPoints = new FourPoints();
-		fourPoints.pt1 = new Point(base[prop1], base[prop2]);
-		fourPoints.pt2 = new Point(base[prop1], base[prop2]);
-		fourPoints.pt3 = new Point(baseEnd[prop1], baseEnd[prop2]);
-		fourPoints.pt4 = new Point(baseEnd[prop1], baseEnd[prop2]);
+		fourPoints.pt1 = new Point(base.field(prop1), base.field(prop2));
+		fourPoints.pt2 = new Point(base.field(prop1), base.field(prop2));
+		fourPoints.pt3 = new Point(baseEnd.field(prop1), baseEnd.field(prop2));
+		fourPoints.pt4 = new Point(baseEnd.field(prop1)], baseEnd.field(prop2));
 
 		var radius:Float = _thickness * .5;
 
@@ -1157,6 +1179,11 @@ class SubGeometryList
 	public var indices:Vector<UInt>;
 	public var subGeometry:SubGeometry;
 	public var material:MaterialBase;
+	
+	public function new()
+	{
+		
+	}
 }
 
 class RenderSide
@@ -1167,6 +1194,11 @@ class RenderSide
 	public var left:Bool;
 	public var front:Bool;
 	public var back:Bool;
+	
+	public function new()
+	{
+		
+	}
 }
 
 class Line
@@ -1175,6 +1207,11 @@ class Line
 	public var ay:Float;
 	public var bx:Float;
 	public var by:Float;
+	
+	public function new()
+	{
+		
+	}
 }
 
 class FourPoints
@@ -1183,4 +1220,9 @@ class FourPoints
 	public var pt2:Point;
 	public var pt3:Point;
 	public var pt4:Point;
+	
+	public function new()
+	{
+		
+	}
 }
