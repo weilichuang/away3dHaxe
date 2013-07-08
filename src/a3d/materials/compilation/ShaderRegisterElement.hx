@@ -6,12 +6,25 @@ package a3d.materials.compilation;
  */
 class ShaderRegisterElement
 {
+	private static var COMPONENTS:Array<String> = ["x", "y", "z", "w"];
+	
+	/**
+	 * The register's index.
+	 */
+	public var index(get, null):Int;
+	
+	/**
+	 * The register's name.
+	 */
+	public var regName(get, null):String;
+	
 	private var _regName:String;
 	private var _index:Int;
 	private var _toStr:String;
 
-	private static var COMPONENTS:Array<String> = ["x", "y", "z", "w"];
-
+	/**
+	 * The register's component, if not the entire register is represented.
+	 */
 	public var _component:Int;
 
 	/**
@@ -43,25 +56,15 @@ class ShaderRegisterElement
 		return _toStr;
 	}
 
-	/**
-	 * The register's name.
-	 */
-	public var regName(get, null):String;
+	
 	private function get_regName():String
 	{
 		return _regName;
 	}
 
-	/**
-	 * The register's index.
-	 */
-	public var index(get, null):Int;
+	
 	private function get_index():Int
 	{
 		return _index;
 	}
-
-	/**
-	 * The register's component, if not the entire register is represented.
-	 */
 }

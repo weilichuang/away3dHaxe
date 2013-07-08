@@ -270,7 +270,7 @@ class SegmentSet extends Entity implements IRenderable
 		var endX:Float = end.x, endY:Float = end.y, endZ:Float = end.z;
 		var startR:Float = segment.startR, startG:Float = segment.startG, startB:Float = segment.startB;
 		var endR:Float = segment.endR, endG:Float = segment.endG, endB:Float = segment.endB;
-		var index:UInt = segment.index;
+		var index:Int = segment.index;
 		var t:Float = segment.thickness;
 
 		var subSet:SubSet = _subSets[segment.subSetIndex];
@@ -460,9 +460,9 @@ class SegmentSet extends Entity implements IRenderable
 	override private function updateBounds():Void
 	{
 		var subSet:SubSet;
-		var len:UInt;
+		var len:Int;
 		var v:Float;
-		var index:UInt;
+		var index:Int;
 
 		var minX:Float = Math.POSITIVE_INFINITY;
 		var minY:Float = Math.POSITIVE_INFINITY;

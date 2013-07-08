@@ -9,70 +9,62 @@ interface IVideoPlayer
 	/**
 	 * The source, url, to the video file
 	 */
-	function get_source():String;
-	function set_source(src:String):Void;
+	var source(get,set):String;
 
 	/**
 	 * Indicates whether the player should loop when video finishes
 	 */
-	function get_loop():Bool;
-	function set_loop(val:Bool):Void;
+	var loop(get,set):Bool;
 
 	/**
 	 * Master volume/gain
 	 */
-	function get_volume():Float;
-	function set_volume(val:Float):Void;
+	var volume(get,set):Float;
 
 	/**
 	 * Panning
 	 */
-	function get_pan():Float;
-	function set_pan(val:Float):Void;
+	var pan(get,set):Float;
 
 	/**
 	 * Mutes/unmutes the video's audio.
 	 */
-	function get_mute():Bool;
-	function set_mute(val:Bool):Void;
+	var mute(get,set):Bool;
 
 	/**
 	 * Provides access to the SoundTransform of the video stream
 	 */
-	function get_soundTransform():SoundTransform;
-	function set_soundTransform(val:SoundTransform):Void;
+	var soundTransform(get,set):SoundTransform;
 
 	/**
 	 * Get/Set access to the with of the video object
 	 */
-	function get_width():Int;
-	function set_width(val:Int):Void;
+	var width(get,set):Int;
 
 	/**
 	 * Get/Set access to the height of the video object
 	 */
-	function get_height():Int;
-	function set_height(val:Int):Void;
+	var height(get,set):Int;
 
 	/**
 	 * Provides access to the Video Object
 	 */
-	function get_container():Sprite;
+	var container(get,null):Sprite;
 
 	/**
 	 * Indicates whether the video is playing
 	 */
-	function get_playing():Bool;
+	var playing(get,null):Bool;
 
 	/**
 	 * Indicates whether the video is paused
 	 */
-	function get_paused():Bool;
+	var paused(get,null):Bool;
 
 	/**
 	 * Returns the actual time of the netStream
 	 */
-	function get_time():Float;
+	var time(get,null):Float;
 
 	/**
 	 * Start playing (or resume if paused) the video.

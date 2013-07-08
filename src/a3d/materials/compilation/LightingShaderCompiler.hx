@@ -314,7 +314,6 @@ class LightingShaderCompiler extends ShaderCompiler
 
 		for (i in 0..._numDirectionalLights)
 		{
-
 			if (tangentSpace)
 			{
 				lightDirReg = dirLightVertexConstants[vertexRegIndex++];

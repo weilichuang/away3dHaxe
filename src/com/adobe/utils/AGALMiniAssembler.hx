@@ -537,6 +537,8 @@ class AGALMiniAssembler
 		OPMAP.set(SGE, new OpCode(SGE, 3, 0x29, 0));
 		OPMAP.set(SLT, new OpCode(SLT, 3, 0x2a, 0));
 		OPMAP.set(SGN, new OpCode(SGN, 2, 0x2b, 0));
+		OPMAP.set(SEQ, new OpCode(SEQ, 3, 0x2c, 0));
+		OPMAP.set(SNE, new OpCode(SNE, 3, 0x2d, 0));
 
 		REGMAP.set(VA, new Register(VA,  "vertex attribute",   0x0,   7, REG_VERT | REG_READ));
 		REGMAP.set(VC, new Register(VC,  "vertex constant",    0x1, 127, REG_VERT | REG_READ));
@@ -548,6 +550,10 @@ class AGALMiniAssembler
 		REGMAP.set(FS, new Register(FS,  "texture sampler",    0x5,   7, REG_FRAG | REG_READ));
 		REGMAP.set(OC, new Register(OC,  "fragment output",    0x3,   0, REG_FRAG | REG_WRITE));
 
+		SAMPLEMAP.set(RGBA,       new Sampler(RGBA,       SAMPLER_TYPE_SHIFT,    0));
+		SAMPLEMAP.set(DXT1,       new Sampler(DXT1,       SAMPLER_TYPE_SHIFT,    1));
+		SAMPLEMAP.set(DXT5,       new Sampler(DXT5,       SAMPLER_TYPE_SHIFT,    2));
+		SAMPLEMAP.set(VIDEO,      new Sampler(VIDEO,      SAMPLER_TYPE_SHIFT,    3));
 		SAMPLEMAP.set(D2,         new Sampler(D2,         SAMPLER_DIM_SHIFT,     0));
 		SAMPLEMAP.set(D3,         new Sampler(D3,         SAMPLER_DIM_SHIFT,     2));
 		SAMPLEMAP.set(CUBE,       new Sampler(CUBE,       SAMPLER_DIM_SHIFT,     1));
@@ -570,7 +576,7 @@ class AGALMiniAssembler
 	private static var SAMPLEMAP : StringMap<Sampler> = new StringMap<Sampler>();
 
 	private static var MAX_NESTING : Int         = 4;
-	private static var MAX_OPCODES : Int         = 256;
+	private static var MAX_OPCODES : Int         = 200;
 
 	private static var FRAGMENT : String         = "fragment";
 	private static var VERTEX : String           = "vertex";
@@ -598,52 +604,57 @@ class AGALMiniAssembler
 	private static var OP_FRAG_ONLY : UInt         = 0x20;
 	private static var OP_VERT_ONLY : UInt         = 0x40;
 	private static var OP_NO_DEST : UInt           = 0x80;
+	private static var OP_VERSION2:UInt            = 0x100;
+	private static var OP_INCNEST:UInt             = 0x200;
+	private static var OP_DECNEST:UInt             = 0x400;
 
 	// opcodes
-	private static var MOV : String              = "mov";
-	private static var ADD : String              = "add";
-	private static var SUB : String              = "sub";
-	private static var MUL : String              = "mul";
-	private static var DIV : String              = "div";
-	private static var RCP : String              = "rcp";
-	private static var MIN : String              = "min";
-	private static var MAX : String              = "max";
-	private static var FRC : String              = "frc";
-	private static var SQT : String              = "sqt";
-	private static var RSQ : String              = "rsq";
-	private static var POW : String              = "pow";
-	private static var LOG : String              = "log";
-	private static var EXP : String              = "exp";
-	private static var NRM : String              = "nrm";
-	private static var SIN : String              = "sin";
-	private static var COS : String              = "cos";
-	private static var CRS : String              = "crs";
-	private static var DP3 : String              = "dp3";
-	private static var DP4 : String              = "dp4";
-	private static var ABS : String              = "abs";
-	private static var NEG : String              = "neg";
-	private static var SAT : String              = "sat";
-	private static var M33 : String              = "m33";
-	private static var M44 : String              = "m44";
-	private static var M34 : String              = "m34";
-	private static var IFZ : String              = "ifz";
-	private static var INZ : String              = "inz";
-	private static var IFE : String              = "ife";
-	private static var INE : String              = "ine";
-	private static var IFG : String              = "ifg";
-	private static var IFL : String              = "ifl";
-	private static var IEG : String              = "ieg";
-	private static var IEL : String              = "iel";
-	private static var ELS : String              = "els";
-	private static var EIF : String              = "eif";
-	private static var REP : String              = "rep";
-	private static var ERP : String              = "erp";
-	private static var BRK : String              = "brk";
-	private static var KIL : String              = "kil";
-	private static var TEX : String              = "tex";
-	private static var SGE : String              = "sge";
-	private static var SLT : String              = "slt";
-	private static var SGN : String              = "sgn";
+	private static inline var MOV : String              = "mov";
+	private static inline var ADD : String              = "add";
+	private static inline var SUB : String              = "sub";
+	private static inline var MUL : String              = "mul";
+	private static inline var DIV : String              = "div";
+	private static inline var RCP : String              = "rcp";
+	private static inline var MIN : String              = "min";
+	private static inline var MAX : String              = "max";
+	private static inline var FRC : String              = "frc";
+	private static inline var SQT : String              = "sqt";
+	private static inline var RSQ : String              = "rsq";
+	private static inline var POW : String              = "pow";
+	private static inline var LOG : String              = "log";
+	private static inline var EXP : String              = "exp";
+	private static inline var NRM : String              = "nrm";
+	private static inline var SIN : String              = "sin";
+	private static inline var COS : String              = "cos";
+	private static inline var CRS : String              = "crs";
+	private static inline var DP3 : String              = "dp3";
+	private static inline var DP4 : String              = "dp4";
+	private static inline var ABS : String              = "abs";
+	private static inline var NEG : String              = "neg";
+	private static inline var SAT : String              = "sat";
+	private static inline var M33 : String              = "m33";
+	private static inline var M44 : String              = "m44";
+	private static inline var M34 : String              = "m34";
+	private static inline var IFZ : String              = "ifz";
+	private static inline var INZ : String              = "inz";
+	private static inline var IFE : String              = "ife";
+	private static inline var INE : String              = "ine";
+	private static inline var IFG : String              = "ifg";
+	private static inline var IFL : String              = "ifl";
+	private static inline var IEG : String              = "ieg";
+	private static inline var IEL : String              = "iel";
+	private static inline var ELS : String              = "els";
+	private static inline var EIF : String              = "eif";
+	private static inline var REP : String              = "rep";
+	private static inline var ERP : String              = "erp";
+	private static inline var BRK : String              = "brk";
+	private static inline var KIL : String              = "kil";
+	private static inline var TEX : String              = "tex";
+	private static inline var SGE : String              = "sge";
+	private static inline var SLT : String              = "slt";
+	private static inline var SGN : String              = "sgn";
+	private static inline var SEQ :String               = "seq";
+	private static inline var SNE :String               = "sne";
 
 	// registers
 	private static var VA : String              = "va";
@@ -672,6 +683,10 @@ class AGALMiniAssembler
 	private static var REPEAT : String          = "repeat";
 	private static var WRAP : String            = "wrap";
 	private static var CLAMP : String           = "clamp";
+	private static var RGBA:String 				= "rgba";
+	private static var DXT1:String 				= "dxt1";
+	private static var DXT5:String				= "dxt5";
+	private static var VIDEO:String 			= "video";
 }
 
 // ================================================================================

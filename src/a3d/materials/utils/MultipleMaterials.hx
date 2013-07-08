@@ -36,92 +36,98 @@ class MultipleMaterials
 	/**
 	* Defines the material applied to the left side of the cube.
 	*/
+	public var left(get,set):MaterialBase;
 	private function get_left():MaterialBase
 	{
 		return _left;
 	}
 
-	private function set_left(val:MaterialBase):Void
+	private function set_left(val:MaterialBase):MaterialBase
 	{
-		if (_left == val)
-			return;
-
-		_left = val;
+		if (_left != val)
+			_left = val;
+		
+		return _left;
 	}
 
 	/**
 	* Defines the material applied to the right side of the cube.
 	*/
+	public var right(get,set):MaterialBase;
 	private function get_right():MaterialBase
 	{
 		return _right;
 	}
 
-	private function set_right(val:MaterialBase):Void
+	private function set_right(val:MaterialBase):MaterialBase
 	{
-		if (_right == val)
-			return;
+		if (_right != val)
+			_right = val;
 
-		_right = val;
+		return _right;
 	}
 
 	/**
 	* Defines the material applied to the bottom side of the cube.
 	*/
+	public var bottom(get,set):MaterialBase;
 	private function get_bottom():MaterialBase
 	{
 		return _bottom;
 	}
 
-	private function set_bottom(val:MaterialBase):Void
+	private function set_bottom(val:MaterialBase):MaterialBase
 	{
-		if (_bottom == val)
-			return;
-
-		_bottom = val;
+		if (_bottom != val)
+			_bottom = val;
+		
+		return _bottom;
 	}
 
 	/**
 	* Defines the material applied to the top side of the cube.
 	*/
+	public var top(get,set):MaterialBase;
 	private function get_top():MaterialBase
 	{
 		return _top;
 	}
 
-	private function set_top(val:MaterialBase):Void
+	private function set_top(val:MaterialBase):MaterialBase
 	{
-		if (_top == val)
-			return;
-
-		_top = val;
+		if (_top != val)
+			_top = val;
+		
+		return _top;
 	}
 
 	/**
 	* Defines the material applied to the front side of the cube.
 	*/
+	public var front(get,set):MaterialBase;
 	private function get_front():MaterialBase
 	{
 		return _front;
 	}
 
-	private function set_front(val:MaterialBase):Void
+	private function set_front(val:MaterialBase):MaterialBase
 	{
-		if (_front == val)
-			return;
-
-		_front = val;
+		if (_front != val)
+			_front = val;
+		
+		return _front;
 	}
 
 	/**
 	* Defines the material applied to the back side of the cube.
 	*/
+	public var left(get,set):MaterialBase;
 	private function get_back():MaterialBase
 	{
 		return _back;
 	}
 
-	private function set_back(val:MaterialBase):Void
+	private function set_back(val:MaterialBase):MaterialBase
 	{
 		if (_back == val)
 			return;

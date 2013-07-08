@@ -27,24 +27,20 @@ class Segment
 
 	public function new(start:Vector3D, end:Vector3D, anchor:Vector3D, colorStart:UInt = 0x333333, colorEnd:UInt = 0x333333, thickness:Float = 1):Void
 	{
-		// TODO: not yet used: for CurveSegment support
-		anchor = null;
-
 		_thickness = thickness * .5;
 		// TODO: add support for curve using anchor v1
 		// Prefer removing v1 from this, and make Curve a separate class extending Segment? (- David)
-		_start = start;
-		_end = end;
+		_start = start.clone();
+		_end = end.clone();
 		startColor = colorStart;
 		endColor = colorEnd;
 	}
 
-	public function updateSegment(start:Vector3D, end:Vector3D, anchor:Vector3D, colorStart:UInt = 0x333333, colorEnd:UInt = 0x333333, thickness:Float = 1):Void
+	public function updateSegment(start:Vector3D, end:Vector3D, anchor:Vector3D,
+								colorStart:UInt = 0x333333, colorEnd:UInt = 0x333333, thickness:Float = 1):Void
 	{
-		// TODO: not yet used: for CurveSegment support
-		anchor = null;
-		_start = start;
-		_end = end;
+		_start.copyFrom(start);
+		_end.copyFrom(end);
 
 		if (_startColor != colorStart)
 			startColor = colorStart;

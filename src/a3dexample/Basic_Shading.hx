@@ -1,31 +1,24 @@
 package a3dexample;
 
-import flash.display.BitmapData;
+import a3d.animators.*;
+import a3d.controllers.HoverController;
+import a3d.entities.Camera3D;
+import a3d.entities.lights.DirectionalLight;
+import a3d.entities.Mesh;
+import a3d.entities.primitives.CubeGeometry;
+import a3d.entities.primitives.PlaneGeometry;
+import a3d.entities.primitives.SphereGeometry;
+import a3d.entities.primitives.TorusGeometry;
+import a3d.entities.Scene3D;
+import a3d.materials.lightpickers.StaticLightPicker;
+import a3d.materials.TextureMaterial;
+import a3d.textures.BitmapTexture;
 import flash.events.Event;
 import flash.events.MouseEvent;
 import flash.geom.Vector3D;
 import flash.Lib;
 
-import a3d.entities.Camera3D;
-import a3d.entities.Scene3D;
-import a3d.controllers.HoverController;
-import a3d.entities.Mesh;
-import a3d.entities.lights.DirectionalLight;
-import a3d.materials.TextureMaterial;
-import a3d.materials.lightpickers.StaticLightPicker;
-import a3d.entities.primitives.CubeGeometry;
-import a3d.entities.primitives.PlaneGeometry;
-import a3d.entities.primitives.SphereGeometry;
-import a3d.entities.primitives.TorusGeometry;
-import a3d.textures.BitmapTexture;
-import a3d.utils.Cast;
 
-import a3d.animators.*;
-import a3d.filters.BloomFilter3D;
-import a3d.filters.BlurFilter3D;
-import a3d.filters.DepthOfFieldFilter3D;
-import a3d.filters.MotionBlurFilter3D;
-import a3d.filters.RadialBlurFilter3D;
 
 
 class Basic_Shading extends BasicApplication

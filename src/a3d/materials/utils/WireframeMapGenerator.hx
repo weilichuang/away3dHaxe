@@ -28,7 +28,7 @@ class WireframeMapGenerator
 	{
 		bitmapData = bitmapData.clone();
 
-		for (var i:UInt = 0; i < mesh.subMeshes.length; ++i)
+		for (i in 0...mesh.subMeshes.length)
 			drawLines(lineColor, lineThickness, bitmapData, mesh.subMeshes[i].subGeometry);
 
 		return bitmapData;
@@ -56,7 +56,7 @@ class WireframeMapGenerator
 
 		bitmapData = new BitmapData(width, height, fillAlpha == 1 ? false : true, (fillAlpha << 24) | (fillColor & 0xffffff));
 
-		for (var i:UInt = 0; i < mesh.subMeshes.length; ++i)
+		for (i in 0...mesh.subMeshes.length)
 			drawLines(lineColor, lineThickness, bitmapData, mesh.subMeshes[i].subGeometry);
 
 		return bitmapData;
@@ -70,7 +70,8 @@ class WireframeMapGenerator
 		var sprite:Sprite = new Sprite();
 		var g:Graphics = sprite.graphics;
 		var uvs:Vector<Float> = subGeom.UVData;
-		var i:UInt, len:UInt = uvs.length;
+		var i:Int = 0;
+		var len:Int = uvs.length;
 		var w:Float = bitmapData.width, h:Float = bitmapData.height;
 		var texSpaceUV:Vector<Float> = new Vector<Float>(len, true);
 		var indices:Vector<UInt> = subGeom.indexData;

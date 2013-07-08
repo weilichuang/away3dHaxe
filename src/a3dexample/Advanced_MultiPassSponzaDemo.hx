@@ -65,37 +65,29 @@ class Advanced_MultiPassSponzaDemo extends BasicApplication
 	private var _assetsRoot:String = "assets/";
 
 	//default material data strings
-	private var _materialNameStrings:Vector<String> = Vector.ofArray(["arch", "Material__298", "bricks", "ceiling", "chain", "column_a", "column_b", "column_c", "fabric_g", "fabric_c", "fabric_f",
-		"details", "fabric_d", "fabric_a", "fabric_e", "flagpole", "floor", "16___Default", "Material__25", "roof", "leaf", "vase", "vase_hanging", "Material__57", "vase_round"]);
-
+	private var _materialNameStrings:Vector<String>;
 	//private const diffuseTextureStrings:Vector.<String> = Vector.<String>(["arch_diff.atf", "background.atf", "bricks_a_diff.atf", "ceiling_a_diff.atf", "chain_texture.png", "column_a_diff.atf", "column_b_diff.atf", "column_c_diff.atf", "curtain_blue_diff.atf", "curtain_diff.atf", "curtain_green_diff.atf", "details_diff.atf", "fabric_blue_diff.atf", "fabric_diff.atf", "fabric_green_diff.atf", "flagpole_diff.atf", "floor_a_diff.atf", "gi_flag.atf", "lion.atf", "roof_diff.atf", "thorn_diff.png", "vase_dif.atf", "vase_hanging.atf", "vase_plant.png", "vase_round.atf"]);
 	//private const normalTextureStrings:Vector.<String> = Vector.<String>(["arch_ddn.atf", "background_ddn.atf", "bricks_a_ddn.atf", null,                "chain_texture_ddn.atf", "column_a_ddn.atf", "column_b_ddn.atf", "column_c_ddn.atf", null,                   null,               null,                     null,               null,                   null,              null,                    null,                null,               null,          "lion2_ddn.atf", null,       "thorn_ddn.atf", "vase_ddn.atf",  null,               null,             "vase_round_ddn.atf"]);
 	//private const specularTextureStrings:Vector.<String> = Vector.<String>(["arch_spec.atf", null,            "bricks_a_spec.atf", "ceiling_a_spec.atf", null,                "column_a_spec.atf", "column_b_spec.atf", "column_c_spec.atf", "curtain_spec.atf",      "curtain_spec.atf", "curtain_spec.atf",       "details_spec.atf", "fabric_spec.atf",      "fabric_spec.atf", "fabric_spec.atf",       "flagpole_spec.atf", "floor_a_spec.atf", null,          null,       null,            "thorn_spec.atf", null,           null,               "vase_plant_spec.atf", "vase_round_spec.atf"]);
 
-	private var _diffuseTextureStrings:Vector<String> = Vector.ofArray(["arch_diff.jpg", "background.jpg", "bricks_a_diff.jpg", "ceiling_a_diff.jpg", "chain_texture.png", "column_a_diff.jpg", "column_b_diff.jpg",
-		"column_c_diff.jpg", "curtain_blue_diff.jpg", "curtain_diff.jpg", "curtain_green_diff.jpg", "details_diff.jpg", "fabric_blue_diff.jpg", "fabric_diff.jpg", "fabric_green_diff.jpg", "flagpole_diff.jpg",
-		"floor_a_diff.jpg", "gi_flag.jpg", "lion.jpg", "roof_diff.jpg", "thorn_diff.png", "vase_dif.jpg", "vase_hanging.jpg", "vase_plant.png", "vase_round.jpg"]);
-	private var _normalTextureStrings:Vector<String> = Vector.ofArray(["arch_ddn.jpg", "background_ddn.jpg", "bricks_a_ddn.jpg", null, "chain_texture_ddn.jpg", "column_a_ddn.jpg", "column_b_ddn.jpg",
-		"column_c_ddn.jpg", null, null, null, null, null, null, null, null, null, null, "lion2_ddn.jpg", null, "thorn_ddn.jpg", "vase_ddn.jpg", null, null, "vase_round_ddn.jpg"]);
-	private var _specularTextureStrings:Vector<String> = Vector.ofArray(["arch_spec.jpg", null, "bricks_a_spec.jpg", "ceiling_a_spec.jpg", null, "column_a_spec.jpg", "column_b_spec.jpg", "column_c_spec.jpg",
-		"curtain_spec.jpg", "curtain_spec.jpg", "curtain_spec.jpg", "details_spec.jpg", "fabric_spec.jpg", "fabric_spec.jpg", "fabric_spec.jpg", "flagpole_spec.jpg", "floor_a_spec.jpg", null, null,
-		null, "thorn_spec.jpg", null, null, "vase_plant_spec.jpg", "vase_round_spec.jpg"]);
-	private var _numTexStrings:Vector<UInt> = VectorUtil.toUIntVector([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
-	private var _meshReference:Vector<Mesh> = new Vector<Mesh>(25);
+	private var _diffuseTextureStrings:Vector<String>;
+	private var _normalTextureStrings:Vector<String>;
+	private var _specularTextureStrings:Vector<String>;
+	private var _numTexStrings:Vector<UInt>;
+	private var _meshReference:Vector<Mesh>;
 
 	//flame data objects
-	private var _flameData:Vector<FlameVO> = Vector.ofArray([new FlameVO(new Vector3D(-625, 165, 219), 0xffaa44), new FlameVO(new Vector3D(485, 165, 219), 0xffaa44), new FlameVO(new Vector3D(-625,
-		165, -148), 0xffaa44), new FlameVO(new Vector3D(485, 165, -148), 0xffaa44)]);
+	private var _flameData:Vector<FlameVO>;
 
 	//material dictionaries to hold instances
-	private var _textureDictionary:StringMap<TextureProxyBase> = new StringMap<TextureProxyBase>();
-	private var _multiMaterialDictionary:StringMap<MultiPassMaterialBase> = new StringMap<MultiPassMaterialBase>();
-	private var _singleMaterialDictionary:StringMap<SinglePassMaterialBase> = new StringMap<SinglePassMaterialBase>();
+	private var _textureDictionary:StringMap<TextureProxyBase>;
+	private var _multiMaterialDictionary:StringMap<MultiPassMaterialBase>;
+	private var _singleMaterialDictionary:StringMap<SinglePassMaterialBase>;
 
 	//private var meshDictionary:Dictionary = new Dictionary();
-	private var vaseMeshes:Vector<Mesh> = new Vector<Mesh>();
-	private var poleMeshes:Vector<Mesh> = new Vector<Mesh>();
-	private var colMeshes:Vector<Mesh> = new Vector<Mesh>();
+	private var vaseMeshes:Vector<Mesh>;
+	private var poleMeshes:Vector<Mesh>;
+	private var colMeshes:Vector<Mesh>;
 
 	//engien variables
 	private var _cameraController:FirstPersonController;
@@ -118,7 +110,7 @@ class Advanced_MultiPassSponzaDemo extends BasicApplication
 	private var _fogMethod:FogMethod;
 	private var _cascadeShadowMapper:CascadeShadowMapper;
 	private var _directionalLight:DirectionalLight;
-	private var _lights:Array = new Array();
+	private var _lights:Array;
 
 	//material variables
 	private var _skyMap:ATFCubeTexture;
@@ -130,7 +122,7 @@ class Advanced_MultiPassSponzaDemo extends BasicApplication
 	private var _loadingText:String;
 
 	//scene variables
-	private var _meshes:Vector<Mesh> = new Vector<Mesh>();
+	private var _meshes:Vector<Mesh>;
 	private var _flameGeometry:PlaneGeometry;
 
 	//rotation variables
@@ -148,6 +140,46 @@ class Advanced_MultiPassSponzaDemo extends BasicApplication
 	private var _strafeSpeed:Float = 0;
 	private var _walkAcceleration:Float = 0;
 	private var _strafeAcceleration:Float = 0;
+	
+	/**
+	 * Constructor
+	 */
+	public function new()
+	{
+		_materialNameStrings = Vector.ofArray(["arch", "Material__298", "bricks", "ceiling", "chain", "column_a", "column_b", "column_c", "fabric_g", "fabric_c", "fabric_f",
+		"details", "fabric_d", "fabric_a", "fabric_e", "flagpole", "floor", "16___Default", "Material__25", "roof", "leaf", "vase", "vase_hanging", "Material__57", "vase_round"]);
+
+		_diffuseTextureStrings = Vector.ofArray(["arch_diff.jpg", "background.jpg", "bricks_a_diff.jpg", "ceiling_a_diff.jpg", "chain_texture.png", "column_a_diff.jpg", "column_b_diff.jpg",
+			"column_c_diff.jpg", "curtain_blue_diff.jpg", "curtain_diff.jpg", "curtain_green_diff.jpg", "details_diff.jpg", "fabric_blue_diff.jpg", "fabric_diff.jpg", "fabric_green_diff.jpg", "flagpole_diff.jpg",
+			"floor_a_diff.jpg", "gi_flag.jpg", "lion.jpg", "roof_diff.jpg", "thorn_diff.png", "vase_dif.jpg", "vase_hanging.jpg", "vase_plant.png", "vase_round.jpg"]);
+		_normalTextureStrings = Vector.ofArray(["arch_ddn.jpg", "background_ddn.jpg", "bricks_a_ddn.jpg", null, "chain_texture_ddn.jpg", "column_a_ddn.jpg", "column_b_ddn.jpg",
+			"column_c_ddn.jpg", null, null, null, null, null, null, null, null, null, null, "lion2_ddn.jpg", null, "thorn_ddn.jpg", "vase_ddn.jpg", null, null, "vase_round_ddn.jpg"]);
+		_specularTextureStrings = Vector.ofArray(["arch_spec.jpg", null, "bricks_a_spec.jpg", "ceiling_a_spec.jpg", null, "column_a_spec.jpg", "column_b_spec.jpg", "column_c_spec.jpg",
+			"curtain_spec.jpg", "curtain_spec.jpg", "curtain_spec.jpg", "details_spec.jpg", "fabric_spec.jpg", "fabric_spec.jpg", "fabric_spec.jpg", "flagpole_spec.jpg", "floor_a_spec.jpg", null, null,
+			null, "thorn_spec.jpg", null, null, "vase_plant_spec.jpg", "vase_round_spec.jpg"]);
+		_numTexStrings = VectorUtil.toUIntVector([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+		_meshReference = new Vector<Mesh>(25);
+
+		//flame data objects
+		_flameData = Vector.ofArray([new FlameVO(new Vector3D(-625, 165, 219), 0xffaa44), new FlameVO(new Vector3D(485, 165, 219), 0xffaa44), new FlameVO(new Vector3D(-625,
+			165, -148), 0xffaa44), new FlameVO(new Vector3D(485, 165, -148), 0xffaa44)]);
+
+		//material dictionaries to hold instances
+		_textureDictionary = new StringMap<TextureProxyBase>();
+		_multiMaterialDictionary = new StringMap<MultiPassMaterialBase>();
+		_singleMaterialDictionary = new StringMap<SinglePassMaterialBase>();
+
+		//meshDictionary:Dictionary = new Dictionary();
+		vaseMeshes = new Vector<Mesh>();
+		poleMeshes = new Vector<Mesh>();
+		colMeshes = new Vector<Mesh>();
+		
+		_meshes = new Vector<Mesh>();
+		
+		_lights = [];
+		
+		super();
+	}
 
 	/**
 	 * GUI variable for setting material mode to single pass
@@ -284,13 +316,7 @@ class Advanced_MultiPassSponzaDemo extends BasicApplication
 		return lightElevation;
 	}
 
-	/**
-	 * Constructor
-	 */
-	public function new()
-	{
-		super();
-	}
+	
 
 	/**
 	 * Global initialise function
@@ -372,7 +398,7 @@ class Advanced_MultiPassSponzaDemo extends BasicApplication
 
 		//creat flame lights
 		var flameVO:FlameVO;
-		for each (flameVO in _flameData)
+		for (flameVO in _flameData)
 		{
 			var light:PointLight = flameVO.light = new PointLight();
 			light.radius = 200;
@@ -418,7 +444,7 @@ class Advanced_MultiPassSponzaDemo extends BasicApplication
 		//create flame meshes
 		_flameGeometry = new PlaneGeometry(40, 80, 1, 1, false, true);
 		var flameVO:FlameVO;
-		for each (flameVO in _flameData)
+		for (flameVO in _flameData)
 		{
 			var mesh:Mesh = flameVO.mesh = new Mesh(_flameGeometry, _flameMaterial);
 			mesh.position = flameVO.position;
@@ -433,14 +459,14 @@ class Advanced_MultiPassSponzaDemo extends BasicApplication
 	 */
 	private function initGUI():Void
 	{
-		var shadowOptions:Array = [
+		var shadowOptions:Array<Dynamic> = [
 			{label: "Unfiltered", data: "Unfiltered"},
 			{label: "PCF", data: "PCF"},
 			{label: "Multiple taps", data: "Multiple taps"},
 			{label: "Dithered", data: "Dithered"}
 			];
 
-		var depthMapSize:Array = [
+		var depthMapSize:Array<Dynamic> = [
 			{label: "512", data: 512},
 			{label: "1024", data: 1024},
 			{label: "2048", data: 2048}
@@ -478,7 +504,7 @@ class Advanced_MultiPassSponzaDemo extends BasicApplication
 	{
 		var mesh:Mesh;
 		var name:String;
-		for each (mesh in _meshes)
+		for (mesh in _meshes)
 		{
 			if (mesh.name == "sponza_04" || mesh.name == "sponza_379")
 				continue;
@@ -542,26 +568,22 @@ class Advanced_MultiPassSponzaDemo extends BasicApplication
 		var loader:URLLoader = new URLLoader();
 		loader.dataFormat = URLLoaderDataFormat.BINARY;
 
-		switch (url.substring(url.length - 3))
+		var format:String = url.substring(url.length - 3).toLowerCase()
+		switch (format)
 		{
-			case "AWD":
 			case "awd":
 				_loadingText = "Loading Model";
 				loader.addEventListener(Event.COMPLETE, parseAWD, false, 0, true);
-				break;
-			case "png":
-			case "jpg":
+			case "png","jpg":
 				_currentTexture++;
 				_loadingText = "Loading Textures";
 				loader.addEventListener(Event.COMPLETE, parseBitmap);
 				url = "sponza/" + url;
-				break;
 			case "atf":
 				_currentTexture++;
 				_loadingText = "Loading Textures";
 				loader.addEventListener(Event.COMPLETE, onATFComplete);
 				url = "sponza/atf/" + url;
-				break;
 		}
 
 		loader.addEventListener(ProgressEvent.PROGRESS, loadProgress, false, 0, true);
@@ -575,7 +597,7 @@ class Advanced_MultiPassSponzaDemo extends BasicApplication
 	 */
 	private function loadProgress(e:ProgressEvent):Void
 	{
-		var P:int = int(e.bytesLoaded / e.bytesTotal * 100);
+		var P:int = Std.int(e.bytesLoaded / e.bytesTotal * 100);
 		if (P != 100)
 		{
 			log(_loadingText + '\n' + ((_loadingText == "Loading Model") ? int((e.bytesLoaded / 1024) << 0) + 'kb | ' + int((e.bytesTotal / 1024) << 0) + 'kb' : _currentTexture + ' | ' + _numTextures));
@@ -741,7 +763,7 @@ class Advanced_MultiPassSponzaDemo extends BasicApplication
 		var mesh:Mesh;
 		var name:String;
 
-		for each (mesh in _meshes)
+		for (mesh in _meshes)
 		{
 			if (mesh.name == "sponza_04" || mesh.name == "sponza_379")
 				continue;
@@ -813,7 +835,7 @@ class Advanced_MultiPassSponzaDemo extends BasicApplication
 			if (name == "flagpole" && (num == 260 || num == 261 || num == 263 || num == 265 || num == 268 || num == 269 || num == 271 || num == 273))
 				continue;
 
-			var textureIndex:int = _materialNameStrings.indexOf(name);
+			var textureIndex:Int = _materialNameStrings.indexOf(name);
 			if (textureIndex == -1 || textureIndex >= _materialNameStrings.length)
 				continue;
 
@@ -826,7 +848,7 @@ class Advanced_MultiPassSponzaDemo extends BasicApplication
 			//store single pass materials for use later
 			var singleMaterial:TextureMaterial = _singleMaterialDictionary[name];
 
-			if (!singleMaterial)
+			if (singleMaterial == null)
 			{
 
 				//create singlepass material
@@ -859,8 +881,7 @@ class Advanced_MultiPassSponzaDemo extends BasicApplication
 
 			//store multi pass materials for use later
 			var multiMaterial:TextureMultiPassMaterial = _multiMaterialDictionary[name];
-
-			if (!multiMaterial)
+			if (multiMaterial == null)
 			{
 
 				//create multipass material
@@ -907,7 +928,7 @@ class Advanced_MultiPassSponzaDemo extends BasicApplication
 			_meshReference[textureIndex] = mesh;
 		}
 
-		var z:UInt = 0;
+		var z:Int = 0;
 
 		while (z < _numTexStrings.length)
 		{
@@ -924,7 +945,6 @@ class Advanced_MultiPassSponzaDemo extends BasicApplication
 	 */
 	override private function render():Void
 	{
-
 		if (_move)
 		{
 			_cameraController.panAngle = 0.3 * (stage.mouseX - _lastMouseX) + _lastPanAngle;
@@ -932,7 +952,7 @@ class Advanced_MultiPassSponzaDemo extends BasicApplication
 
 		}
 
-		if (_walkSpeed || _walkAcceleration)
+		if (_walkSpeed != 0 || _walkAcceleration != 0)
 		{
 			_walkSpeed = (_walkSpeed + _walkAcceleration) * _drag;
 			if (Math.abs(_walkSpeed) < 0.01)
@@ -940,7 +960,7 @@ class Advanced_MultiPassSponzaDemo extends BasicApplication
 			_cameraController.incrementWalk(_walkSpeed);
 		}
 
-		if (_strafeSpeed || _strafeAcceleration)
+		if (_strafeSpeed != 0 || _strafeAcceleration != 0)
 		{
 			_strafeSpeed = (_strafeSpeed + _strafeAcceleration) * _drag;
 			if (Math.abs(_strafeSpeed) < 0.01)
@@ -950,12 +970,12 @@ class Advanced_MultiPassSponzaDemo extends BasicApplication
 
 		//animate flames
 		var flameVO:FlameVO;
-		for each (flameVO in _flameData)
+		for (flameVO in _flameData)
 		{
 			//update flame light
 			var light:PointLight = flameVO.light;
 
-			if (!light)
+			if (light == null)
 				continue;
 
 			light.fallOff = 380 + Math.random() * 20;
@@ -965,7 +985,7 @@ class Advanced_MultiPassSponzaDemo extends BasicApplication
 			//update flame mesh
 			var mesh:Mesh = flameVO.mesh;
 
-			if (!mesh)
+			if (mesh == null)
 				continue;
 
 			var subMesh:SubMesh = mesh.subMeshes[0];
@@ -985,25 +1005,16 @@ class Advanced_MultiPassSponzaDemo extends BasicApplication
 	{
 		switch (event.keyCode)
 		{
-			case Keyboard.UP:
-			case Keyboard.W:
+			case Keyboard.UP,Keyboard.W:
 				_walkAcceleration = _walkIncrement;
-				break;
-			case Keyboard.DOWN:
-			case Keyboard.S:
+			case Keyboard.DOWN,Keyboard.S:
 				_walkAcceleration = -_walkIncrement;
-				break;
-			case Keyboard.LEFT:
-			case Keyboard.A:
+			case Keyboard.LEFT,Keyboard.A:
 				_strafeAcceleration = -_strafeIncrement;
-				break;
-			case Keyboard.RIGHT:
-			case Keyboard.D:
+			case Keyboard.RIGHT,Keyboard.D:
 				_strafeAcceleration = _strafeIncrement;
-				break;
 			case Keyboard.F:
 				stage.displayState = StageDisplayState.FULL_SCREEN;
-				break;
 			case Keyboard.C:
 				_cameraController.fly = !_cameraController.fly;
 		}

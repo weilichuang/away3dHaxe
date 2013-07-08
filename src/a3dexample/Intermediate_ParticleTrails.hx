@@ -39,7 +39,7 @@ THE SOFTWARE.
 
 package a3dexample;
 
-import flash.display.BlendMode;
+import a3d.materials.BlendMode;
 import flash.events.Event;
 import flash.events.MouseEvent;
 import flash.geom.ColorTransform;

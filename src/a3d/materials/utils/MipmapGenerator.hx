@@ -25,9 +25,9 @@ class MipmapGenerator
 	 */
 	public static function generateMipMaps(source:BitmapData, target:TextureBase, mipmap:BitmapData = null, alpha:Bool = false, side:Int = -1):Void
 	{
-		var w:UInt = source.width,
-			h:UInt = source.height;
-		var i:UInt=0;
+		var w:Int = source.width,
+			h:Int = source.height;
+		var i:Int = 0;
 		var regen:Bool = mipmap != null;
 		if (mipmap == null)
 			mipmap = new BitmapData(w, h, alpha);
