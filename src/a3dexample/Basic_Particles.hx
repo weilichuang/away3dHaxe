@@ -108,10 +108,7 @@ class Basic_Particles extends BasicApplication
 	{
 		super.initEngine();
 
-		//_cameraController = new HoverController(view.camera, null, 45, 20, 1000);
-		view.camera.z = -1000;
-		view.camera.y = 800;
-		view.camera.lookAt(new Vector3D());
+		_cameraController = new HoverController(view.camera, null, 45, 20, 1000);
 	}
 
 	/**

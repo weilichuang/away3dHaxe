@@ -150,11 +150,8 @@ class Intermediate_PerelithKnightMD2 extends BasicApplication
 		//setup the camera for optimal rendering
 		view.camera.lens.far = 5000;
 
-		view.camera.z = -1000;
-		view.camera.y = 500;
-		view.camera.lookAt(new Vector3D());
 		//setup controller to be used on the camera
-		//_cameraController = new HoverController(view.camera, null, 45, 20, 2000, 5);
+		_cameraController = new HoverController(view.camera, null, 45, 20, 2000, 5);
 	}
 
 	override private function initListeners():Void

@@ -117,7 +117,7 @@ class Basic_LoadMD2 extends BasicApplication
 		view.camera.lookAt(new Vector3D());
 
 		//setup controller to be used on the camera
-		//_cameraController = new HoverController(view.camera, null, 45, 20, 1000, -90);
+		_cameraController = new HoverController(view.camera, null, 45, 20, 1000, -90);
 	}
 
 	/**
@@ -196,12 +196,12 @@ class Basic_LoadMD2 extends BasicApplication
 	 */
 	override private function onMouseDown(event:MouseEvent):Void
 	{
-		//_lastPanAngle = _cameraController.panAngle;
-		//_lastTiltAngle = _cameraController.tiltAngle;
-		//_lastMouseX = stage.mouseX;
-		//_lastMouseY = stage.mouseY;
-		//_move = true;
-		//stage.addEventListener(Event.MOUSE_LEAVE, onStageMouseLeave);
+		_lastPanAngle = _cameraController.panAngle;
+		_lastTiltAngle = _cameraController.tiltAngle;
+		_lastMouseX = stage.mouseX;
+		_lastMouseY = stage.mouseY;
+		_move = true;
+		stage.addEventListener(Event.MOUSE_LEAVE, onStageMouseLeave);
 	}
 
 	/**

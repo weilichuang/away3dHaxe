@@ -244,7 +244,7 @@ class ObjectContainer3D extends Object3D implements IAsset
 	{
 		notifySceneTransformChange();
 
-		var len:UInt = _children.length;
+		var len:Int = _children.length;
 		//act recursively on child objects
 		for(i in 0...len)
 			_children[i].notifySceneChange();

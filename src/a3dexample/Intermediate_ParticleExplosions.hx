@@ -159,10 +159,7 @@ class Intermediate_ParticleExplosions extends BasicApplication
 		view.camera = camera;
 
 		//setup controller to be used on the camera
-		view.camera.z = -600;
-		view.camera.y = 500;
-		view.camera.lookAt(new Vector3D());
-		//cameraController = new HoverController(camera, null, 225, 10, 1000);
+		cameraController = new HoverController(camera, null, 225, 10, 1000);
 	}
 
 	/**

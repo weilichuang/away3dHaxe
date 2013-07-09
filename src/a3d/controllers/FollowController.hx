@@ -19,8 +19,6 @@ class FollowController extends HoverController
 
 	override public function update(interpolate:Bool = true):Void
 	{
-		interpolate = interpolate; // unused: prevents warning
-
 		if (lookAtObject == null)
 			return;
 

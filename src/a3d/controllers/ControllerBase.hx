@@ -7,6 +7,16 @@ import a3d.errors.AbstractMethodError;
 
 class ControllerBase
 {
+	/**
+	 * Target object on which the controller acts. Defaults to null.
+	 */
+	public var targetObject(get, set):Entity;
+	
+	/**
+	 * Determines whether the controller applies updates automatically. Defaults to true
+	 */
+	public var autoUpdate(get, set):Bool;
+	
 	private var _autoUpdate:Bool = true;
 	private var _targetObject:Entity;
 
@@ -27,10 +37,7 @@ class ControllerBase
 			_targetObject.implicitPartition.markForUpdate(_targetObject);
 	}
 
-	/**
-	 * Target object on which the controller acts. Defaults to null.
-	 */
-	public var targetObject(get, set):Entity;
+	
 	private function get_targetObject():Entity
 	{
 		return _targetObject;
@@ -54,10 +61,7 @@ class ControllerBase
 		return _targetObject;
 	}
 
-	/**
-	 * Determines whether the controller applies updates automatically. Defaults to true
-	 */
-	public var autoUpdate(get, set):Bool;
+	
 	private function get_autoUpdate():Bool
 	{
 		return _autoUpdate;

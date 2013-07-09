@@ -142,11 +142,8 @@ class Intermediate_ParticleTrails extends BasicApplication
 		view.scene = scene;
 		view.camera = camera;
 
-		view.camera.z = -1000;
-		view.camera.y = 500;
-		view.camera.lookAt(new Vector3D());
 		//setup controller to be used on the camera
-		//cameraController = new HoverController(camera, null, 45, 20, 1000, 5);
+		cameraController = new HoverController(camera, null, 45, 20, 1000, 5);
 	}
 
 	/**

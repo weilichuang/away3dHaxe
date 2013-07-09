@@ -117,19 +117,13 @@ class Basic_Fire extends BasicApplication
 		view.scene = scene;
 		view.camera = camera;
 
-		//setup the camera
-		view.camera.z = -600;
-		view.camera.y = 500;
-		view.camera.lookAt(new Vector3D());
-		
-		//HoverController有问题，检查
 		//setup controller to be used on the camera
-		//cameraController = new HoverController(camera);
-		//cameraController.distance = 1000;
-		//cameraController.minTiltAngle = 0;
-		//cameraController.maxTiltAngle = 90;
-		//cameraController.panAngle = 45;
-		//cameraController.tiltAngle = 20;
+		cameraController = new HoverController(camera);
+		cameraController.distance = 1000;
+		cameraController.minTiltAngle = 0;
+		cameraController.maxTiltAngle = 90;
+		cameraController.panAngle = 45;
+		cameraController.tiltAngle = 20;
 	}
 
 	/**

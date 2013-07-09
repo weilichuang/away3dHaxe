@@ -856,7 +856,7 @@ package away3d.core.base
 
 			_transform.copyRawDataFrom(raw);
 
-			transform = transform;
+			this.transform = transform;
 
 			if (zAxis.z < 0)
 			{

@@ -929,7 +929,7 @@ class Object3D extends NamedAssetBase
 
 		_transform.copyRawDataFrom(raw);
 
-		transform = transform;
+		this.transform = transform;
 
 		if (zAxis.z < 0)
 		{

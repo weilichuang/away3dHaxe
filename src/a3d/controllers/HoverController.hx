@@ -16,6 +16,71 @@ import a3d.math.MathUtil;
  */
 class HoverController extends LookAtController
 {
+	/**
+	 * Fractional step taken each time the <code>hover()</code> method is called. Defaults to 8.
+	 *
+	 * Affects the speed at which the <code>tiltAngle</code> and <code>panAngle</code> resolve to their targets.
+	 *
+	 * @see	#tiltAngle
+	 * @see	#panAngle
+	 */
+	public var steps(get, set):Int;
+	
+	/**
+	 * Rotation of the camera in degrees around the y axis. Defaults to 0.
+	 */
+	public var panAngle(get, set):Float;
+	
+	/**
+	 * Elevation angle of the camera in degrees. Defaults to 90.
+	 */
+	public var tiltAngle(get, set):Float;
+	
+	/**
+	 * Distance between the camera and the specified target. Defaults to 1000.
+	 */
+	public var distance(get, set):Float;
+	
+	/**
+	 * Minimum bounds for the <code>panAngle</code>. Defaults to -Infinity.
+	 *
+	 * @see	#panAngle
+	 */
+	public var minPanAngle(get, set):Float;
+	
+	/**
+	 * Maximum bounds for the <code>panAngle</code>. Defaults to Infinity.
+	 *
+	 * @see	#panAngle
+	 */
+	public var maxPanAngle(get, set):Float;
+	
+	/**
+	 * Minimum bounds for the <code>tiltAngle</code>. Defaults to -90.
+	 *
+	 * @see	#tiltAngle
+	 */
+	public var minTiltAngle(get, set):Float;
+	
+	/**
+	 * Maximum bounds for the <code>tiltAngle</code>. Defaults to 90.
+	 *
+	 * @see	#tiltAngle
+	 */
+	public var maxTiltAngle(get, set):Float;
+	
+	/**
+	 * Fractional difference in distance between the horizontal camera orientation and vertical camera orientation. Defaults to 2.
+	 *
+	 * @see	#distance
+	 */
+	public var yFactor(get, set):Float;
+	
+	/**
+	 * Defines whether the value of the pan angle wraps when over 360 degrees or under 0 degrees. Defaults to false.
+	 */
+	public var wrapPanAngle(get,set):Bool;
+	
 	public var currentPanAngle:Float = 0;
 	public var currentTiltAngle:Float = 90;
 
@@ -44,8 +109,19 @@ class HoverController extends LookAtController
 		this.distance = distance;
 		this.panAngle = panAngle;
 		this.tiltAngle = tiltAngle;
-		this.minPanAngle = Math.isNaN(minPanAngle) ? Math.NEGATIVE_INFINITY : minPanAngle;
-		this.maxPanAngle = Math.isNaN(maxPanAngle) ? Math.POSITIVE_INFINITY : maxPanAngle;
+		
+		if (minPanAngle == null)
+		{
+			minPanAngle = Math.NEGATIVE_INFINITY;
+		}
+		
+		if (maxPanAngle == null)
+		{
+			maxPanAngle = Math.POSITIVE_INFINITY;
+		}
+		
+		this.minPanAngle = minPanAngle;
+		this.maxPanAngle = maxPanAngle;
 		this.minTiltAngle = minTiltAngle;
 		this.maxTiltAngle = maxTiltAngle;
 		this.steps = steps;
@@ -57,15 +133,7 @@ class HoverController extends LookAtController
 		currentTiltAngle = _tiltAngle;
 	}
 	
-	/**
-	 * Fractional step taken each time the <code>hover()</code> method is called. Defaults to 8.
-	 *
-	 * Affects the speed at which the <code>tiltAngle</code> and <code>panAngle</code> resolve to their targets.
-	 *
-	 * @see	#tiltAngle
-	 * @see	#panAngle
-	 */
-	public var steps(get,set):Int;
+	
 	private function get_steps():Int
 	{
 		return _steps;
@@ -85,10 +153,7 @@ class HoverController extends LookAtController
 		return _steps;
 	}
 
-	/**
-	 * Rotation of the camera in degrees around the y axis. Defaults to 0.
-	 */
-	public var panAngle(get,set):Float;
+	
 	private function get_panAngle():Float
 	{
 		return _panAngle;
@@ -96,7 +161,7 @@ class HoverController extends LookAtController
 
 	private function set_panAngle(val:Float):Float
 	{
-		val = Math.max(_minPanAngle, Math.min(_maxPanAngle, val));
+		val = MathUtil.fclamp(val, _minPanAngle, _maxPanAngle);
 
 		if (_panAngle == val)
 			return _panAngle;
@@ -108,10 +173,7 @@ class HoverController extends LookAtController
 		return _panAngle;
 	}
 
-	/**
-	 * Elevation angle of the camera in degrees. Defaults to 90.
-	 */
-	public var tiltAngle(get,set):Float;
+	
 	private function get_tiltAngle():Float
 	{
 		return _tiltAngle;
@@ -119,7 +181,7 @@ class HoverController extends LookAtController
 
 	private function set_tiltAngle(val:Float):Float
 	{
-		val = Math.max(_minTiltAngle, Math.min(_maxTiltAngle, val));
+		val = MathUtil.fclamp(val, _minTiltAngle, _maxTiltAngle);
 
 		if (_tiltAngle == val)
 			return _tiltAngle;
@@ -131,10 +193,7 @@ class HoverController extends LookAtController
 		return _tiltAngle;
 	}
 
-	/**
-	 * Distance between the camera and the specified target. Defaults to 1000.
-	 */
-	public var distance(get,set):Float;
+	
 	private function get_distance():Float
 	{
 		return _distance;
@@ -152,12 +211,7 @@ class HoverController extends LookAtController
 		return _distance;
 	}
 
-	/**
-	 * Minimum bounds for the <code>panAngle</code>. Defaults to -Infinity.
-	 *
-	 * @see	#panAngle
-	 */
-	public var minPanAngle(get,set):Float;
+	
 	private function get_minPanAngle():Float
 	{
 		return _minPanAngle;
@@ -170,17 +224,12 @@ class HoverController extends LookAtController
 
 		_minPanAngle = val;
 
-		panAngle = Math.max(_minPanAngle, Math.min(_maxPanAngle, _panAngle));
-		
+		panAngle = MathUtil.fclamp(_panAngle, _minPanAngle, _maxPanAngle);
+
 		return _minPanAngle;
 	}
 
-	/**
-	 * Maximum bounds for the <code>panAngle</code>. Defaults to Infinity.
-	 *
-	 * @see	#panAngle
-	 */
-	public var maxPanAngle(get,set):Float;
+	
 	private function get_maxPanAngle():Float
 	{
 		return _maxPanAngle;
@@ -193,17 +242,12 @@ class HoverController extends LookAtController
 
 		_maxPanAngle = val;
 
-		panAngle = Math.max(_minPanAngle, Math.min(_maxPanAngle, _panAngle));
+		panAngle = MathUtil.fclamp(_panAngle, _minPanAngle, _maxPanAngle);
 		
 		return _maxPanAngle;
 	}
 
-	/**
-	 * Minimum bounds for the <code>tiltAngle</code>. Defaults to -90.
-	 *
-	 * @see	#tiltAngle
-	 */
-	public var minTiltAngle(get,set):Float;
+	
 	private function get_minTiltAngle():Float
 	{
 		return _minTiltAngle;
@@ -216,17 +260,12 @@ class HoverController extends LookAtController
 
 		_minTiltAngle = val;
 
-		tiltAngle = Math.max(_minTiltAngle, Math.min(_maxTiltAngle, _tiltAngle));
-		
+		tiltAngle = MathUtil.fclamp(_tiltAngle, _minTiltAngle, _maxTiltAngle);
+
 		return _minTiltAngle;
 	}
 
-	/**
-	 * Maximum bounds for the <code>tiltAngle</code>. Defaults to 90.
-	 *
-	 * @see	#tiltAngle
-	 */
-	public var maxTiltAngle(get,set):Float;
+	
 	private function get_maxTiltAngle():Float
 	{
 		return _maxTiltAngle;
@@ -239,17 +278,12 @@ class HoverController extends LookAtController
 
 		_maxTiltAngle = val;
 
-		tiltAngle = Math.max(_minTiltAngle, Math.min(_maxTiltAngle, _tiltAngle));
+		tiltAngle = MathUtil.fclamp(_tiltAngle, _minTiltAngle, _maxTiltAngle);
 		
 		return _maxTiltAngle;
 	}
 
-	/**
-	 * Fractional difference in distance between the horizontal camera orientation and vertical camera orientation. Defaults to 2.
-	 *
-	 * @see	#distance
-	 */
-	public var yFactor(get,set):Float;
+	
 	private function get_yFactor():Float
 	{
 		return _yFactor;
@@ -267,10 +301,7 @@ class HoverController extends LookAtController
 		return _yFactor;
 	}
 
-	/**
-	 * Defines whether the value of the pan angle wraps when over 360 degrees or under 0 degrees. Defaults to false.
-	 */
-	public var wrapPanAngle(get,set):Bool;
+	
 	private function get_wrapPanAngle():Bool
 	{
 		return _wrapPanAngle;
@@ -338,7 +369,7 @@ class HoverController extends LookAtController
 			}
 		}
 
-		var pos:Vector3D = (lookAtObject !=null) ? lookAtObject.position : (lookAtPosition != null) ? lookAtPosition : _origin;
+		var pos:Vector3D = (lookAtObject != null) ? lookAtObject.position : ((lookAtPosition != null) ? lookAtPosition : _origin);
 		targetObject.x = pos.x + distance * Math.sin(currentPanAngle * MathUtil.DEGREES_TO_RADIANS()) * Math.cos(currentTiltAngle * MathUtil.DEGREES_TO_RADIANS());
 		targetObject.z = pos.z + distance * Math.cos(currentPanAngle * MathUtil.DEGREES_TO_RADIANS()) * Math.cos(currentTiltAngle * MathUtil.DEGREES_TO_RADIANS());
 		targetObject.y = pos.y + distance * Math.sin(currentTiltAngle * MathUtil.DEGREES_TO_RADIANS()) * yFactor;

@@ -13,6 +13,16 @@ import a3d.events.Object3DEvent;
 */
 class LookAtController extends ControllerBase
 {
+	/**
+	* The Vector3D object that the target looks at.
+	*/
+	public var lookAtPosition(get, set):Vector3D;
+	
+	/**
+	* The 3d object that the target looks at.
+	*/
+	public var lookAtObject(get,set):ObjectContainer3D;
+	
 	private var _lookAtPosition:Vector3D;
 	private var _lookAtObject:ObjectContainer3D;
 	private var _origin:Vector3D;
@@ -23,6 +33,7 @@ class LookAtController extends ControllerBase
 	public function new(targetObject:Entity = null, lookAtObject:ObjectContainer3D = null)
 	{
 		super(targetObject);
+		
 		_origin = new Vector3D(0.0, 0.0, 0.0);
 		
 		if (lookAtObject != null)
@@ -31,10 +42,7 @@ class LookAtController extends ControllerBase
 			this.lookAtPosition = new Vector3D();
 	}
 
-	/**
-	* The Vector3D object that the target looks at.
-	*/
-	public var lookAtPosition(get,set):Vector3D;
+	
 	private function get_lookAtPosition():Vector3D
 	{
 		return _lookAtPosition;
@@ -55,10 +63,7 @@ class LookAtController extends ControllerBase
 		return _lookAtPosition;
 	}
 
-	/**
-	* The 3d object that the target looks at.
-	*/
-	public var lookAtObject(get,set):ObjectContainer3D;
+	
 	private function get_lookAtObject():ObjectContainer3D
 	{
 		return _lookAtObject;
@@ -99,8 +104,8 @@ class LookAtController extends ControllerBase
 			else if (_lookAtObject != null)
 			{
 				_targetObject.lookAt(_lookAtObject.scene != null ? 
-										_lookAtObject.scenePosition : 
-										_lookAtObject.position);
+									_lookAtObject.scenePosition : 
+									_lookAtObject.position);
 			}
 		}
 	}
