@@ -1,5 +1,6 @@
 package a3d.io.loaders.parsers;
 
+import a3d.math.MathUtil;
 import flash.geom.Matrix3D;
 import flash.geom.Vector3D;
 import flash.net.URLRequest;
@@ -131,7 +132,7 @@ class Max3DSParser extends ParserBase
 				// Can't finalize at this point, because we have to wait until the full
 				// animation section has been parsed for any potential pivot definitions
 				_unfinalized_objects[_cur_obj.name] = _cur_obj;
-				_cur_obj_end = uint.MAX_VALUE;
+				_cur_obj_end = MathUtil.UINT_MAX_VALUE();
 				_cur_obj = null;
 			}
 

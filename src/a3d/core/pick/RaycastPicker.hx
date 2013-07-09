@@ -1,5 +1,6 @@
 package a3d.core.pick;
 
+import a3d.math.MathUtil;
 import flash.geom.Vector3D;
 import flash.Vector;
 
@@ -193,7 +194,7 @@ class RaycastPicker implements IPicker
 		// Replaces collision data provided by bounds collider with more precise data.
 		// ---------------------------------------------------------------------
 
-		var shortestCollisionDistance:Float = Math.POSITIVE_INFINITY;
+		var shortestCollisionDistance:Float = MathUtil.INT_MAX_VALUE();
 		var bestCollisionVO:PickingCollisionVO = null;
 		var pickingCollisionVO:PickingCollisionVO = null;
 		var entity:Entity;

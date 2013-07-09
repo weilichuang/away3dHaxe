@@ -76,3 +76,43 @@
 -swf-header 1024:768:60:0xffffff
 -D advanced-telemetry
 -main a3dexample.Basic_View
+
+--next
+-cp src
+-swf bin/Haxe_Intermediate_ParticleExplosions.swf
+-swf-version 11.7
+--flash-strict
+-lib feffects
+-swf-header 1024:768:60:0xffffff
+-D advanced-telemetry
+-main a3dexample.Intermediate_ParticleExplosions
+
+--next
+-cp src
+-swf bin/Haxe_Intermediate_ParticleTrails.swf
+-swf-version 11.7
+--flash-strict
+-lib feffects
+-swf-header 1024:768:60:0xffffff
+-D advanced-telemetry
+-main a3dexample.Intermediate_ParticleTrails
+
+--next
+-cp src
+-swf bin/Haxe_Intermediate_PerelithKnightMD2.swf
+-swf-version 11.7
+--flash-strict
+-lib feffects
+-swf-header 1024:768:60:0xffffff
+-D advanced-telemetry
+-main a3dexample.Intermediate_PerelithKnightMD2
+
+--next
+-cp src
+-swf bin/Haxe_Intermediate_MouseInteraction.swf
+-swf-version 11.7
+--flash-strict
+-lib feffects
+-swf-header 1024:768:60:0xffffff
+-D advanced-telemetry
+-main a3dexample.Intermediate_MouseInteraction

@@ -1,6 +1,6 @@
 package a3dexample;
 
-import flash.display.BlendMode;
+import a3d.materials.BlendMode;
 import flash.display.StageAlign;
 import flash.display.StageScaleMode;
 import flash.events.Event;

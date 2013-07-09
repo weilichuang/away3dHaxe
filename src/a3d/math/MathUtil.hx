@@ -6,6 +6,36 @@ package a3d.math;
  */
 class MathUtil
 {
+	public static inline function INT_MAX_VALUE():Int
+	{
+		return 2147483647;
+	}
+	
+	public static inline function INT_MIN_VALUE():Int
+	{
+		return -2147483648;
+	}
+	
+	public static inline function FLOAT_MAX_VALUE():Float
+	{
+		return 1.79e+308;
+	}
+	
+	public static inline function FLOAT_MIN_VALUE():Float
+	{
+		return 5e-324;
+	}
+	
+	//public static inline function UINT_MAX_VALUE():Int
+	//{
+		//return 4294967295;
+	//}
+	//
+	//public static inline function UINT_MIN_VALUE():Int
+	//{
+		//return 0;
+	//}
+	
 	/**
 	 * The amount to multiply with when converting radians to degrees.
 	 */

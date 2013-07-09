@@ -1,7 +1,7 @@
 package a3dexample;
 
 import a3d.entities.lights.LightBase;
-import flash.display.BlendMode;
+import a3d.materials.BlendMode;
 import flash.events.Event;
 import flash.events.MouseEvent;
 import flash.events.TimerEvent;
