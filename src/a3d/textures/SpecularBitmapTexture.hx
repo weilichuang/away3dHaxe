@@ -68,12 +68,12 @@ class SpecularBitmapTexture extends BitmapTexture
 	{
 		var w:Float, h:Float;
 
-		if (_specularMap)
+		if (_specularMap != null)
 		{
 			w = _specularMap.width;
 			h = _specularMap.height;
 		}
-		else if (_glossMap)
+		else if (_glossMap != null)
 		{
 			w = _glossMap.width;
 			h = _glossMap.height;

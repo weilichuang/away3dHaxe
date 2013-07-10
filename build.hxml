@@ -116,3 +116,55 @@
 -swf-header 1024:768:60:0xffffff
 -D advanced-telemetry
 -main a3dexample.Intermediate_MouseInteraction
+
+--next
+-cp src
+-swf bin/Haxe_Intermediate_RealTimeEnvMap.swf
+-swf-version 11.7
+--flash-strict
+-lib feffects
+-swf-header 1024:768:60:0xffffff
+-D advanced-telemetry
+-main a3dexample.Intermediate_RealTimeEnvMap
+
+--next
+-cp src
+-swf bin/Haxe_Advanced_FractalTreeDemo.swf
+-swf-lib lib/lib_simplegui.swc 
+-swf-lib lib/MinimalComps.swc
+-swf-version 11.7
+--flash-strict
+-lib feffects
+-swf-header 1024:768:60:0xffffff
+-D advanced-telemetry
+-main a3dexample.Advanced_FractalTreeDemo
+
+--next
+-cp src
+-swf bin/Haxe_Intermediate_Head.swf
+-swf-version 11.7
+--flash-strict
+-lib feffects
+-swf-header 1024:768:60:0xffffff
+-D advanced-telemetry
+-main a3dexample.Intermediate_Head
+
+--next
+-cp src
+-swf bin/Haxe_Advanced_TerrainDemo.swf
+-swf-version 11.7
+--flash-strict
+-lib feffects
+-swf-header 1024:768:60:0xffffff
+-D advanced-telemetry
+-main a3dexample.Advanced_TerrainDemo
+
+--next
+-cp src
+-swf bin/Haxe_Intermediate_SpriteSheetAnimation.swf
+-swf-version 11.7
+--flash-strict
+-lib feffects
+-swf-header 1024:768:60:0xffffff
+-D advanced-telemetry
+-main a3dexample.Intermediate_SpriteSheetAnimation

@@ -1,5 +1,6 @@
 package a3d.io.loaders.parsers;
 
+import flash.errors.Error;
 import flash.geom.Matrix3D;
 import flash.net.URLRequest;
 import flash.utils.ByteArray;
@@ -24,7 +25,7 @@ import a3d.textures.Texture2DBase;
  */
 class AWD1Parser extends ParserBase
 {
-	private var LIMIT:UInt = 65535;
+	private var LIMIT:Int = 65535;
 
 	private var _textData:String;
 	private var _startedParsing:Bool;
@@ -37,14 +38,14 @@ class AWD1Parser extends ParserBase
 	private var _meshList:Vector<Mesh>;
 	private var _inited:Bool;
 	private var _uvs:Array<Dynamic>;
-	private var _charIndex:UInt;
-	private var _oldIndex:UInt;
-	private var _stringLength:UInt;
+	private var _charIndex:Int;
+	private var _oldIndex:Int;
+	private var _stringLength:Int;
 	private var _state:String = "";
-	private var _buffer:UInt = 0;
+	private var _buffer:Int = 0;
 	private var _isMesh:Bool;
 	private var _isMaterial:Bool;
-	private var _id:UInt;
+	private var _id:Int;
 
 	/**
 	 * Creates a new AWD1Parser object.
@@ -80,7 +81,7 @@ class AWD1Parser extends ParserBase
 		var str2:String;
 
 		ba = ParserUtil.toByteArray(data);
-		if (ba)
+		if (ba != null)
 		{
 			ba.position = 0;
 			str1 = ba.readUTFBytes(2);
@@ -88,8 +89,8 @@ class AWD1Parser extends ParserBase
 		}
 		else
 		{
-			str1 = Std.is(data,String) ? String(data).substr(0, 5) : null;
-			str2 = Std.is(data,String) ? String(data).substr(0, 100) : null;
+			str1 = Std.is(data,String) ? Std.instance(data,String).substr(0, 5) : null;
+			str2 = Std.is(data,String) ? Std.instance(data,String).substr(0, 100) : null;
 		}
 		if ((str1 == '//') && (str2.indexOf("#v:") != -1))
 			return true;
@@ -162,10 +163,10 @@ class AWD1Parser extends ParserBase
 			_container = new ObjectContainer3D();
 		}
 
-		var cont:ObjectContainer3D;
-		var i:UInt;
-		var oData:Object;
-		var m:Matrix3D;
+		var cont:ObjectContainer3D = null;
+		var i:Int;
+		var oData:Dynamic;
+		var m:Matrix3D = null;
 
 		while (_charIndex < _stringLength && hasTime())
 		{
@@ -190,7 +191,7 @@ class AWD1Parser extends ParserBase
 					line.substring(3, line.length - 1);
 
 				if (_state == "#f")
-					_isMaterial = Std.instance((Std.parseInt(line.substring(3, 4)) == 2),Bool);
+					_isMaterial = Std.parseInt(line.substring(3, 4)) == 2;
 
 				if (_state == "#t")
 					_isMesh = (line.substring(3, 7) == "mesh");
@@ -207,9 +208,21 @@ class AWD1Parser extends ParserBase
 			{
 				if (_buffer == 0)
 				{
-					_id = _dline[0];
-					m = new Matrix3D(Vector<Float>([parseFloat(_dline[1]), parseFloat(_dline[5]), parseFloat(_dline[9]), 0, parseFloat(_dline[2]), parseFloat(_dline[6]), parseFloat(_dline[10]), 0,
-						parseFloat(_dline[3]), parseFloat(_dline[7]), parseFloat(_dline[11]), 0, parseFloat(_dline[4]), parseFloat(_dline[8]), parseFloat(_dline[12]), 1]));
+					_id = Std.parseInt(_dline[0]);
+					m = new Matrix3D(Vector.ofArray([Std.parseFloat(_dline[1]), 
+					Std.parseFloat(_dline[5]), 
+					Std.parseFloat(_dline[9]), 
+					0, 
+					Std.parseFloat(_dline[2]), 
+					Std.parseFloat(_dline[6]), 
+					Std.parseFloat(_dline[10]), 0,
+					Std.parseFloat(_dline[3]),
+					Std.parseFloat(_dline[7]), 
+					Std.parseFloat(_dline[11]), 
+					0, 
+					Std.parseFloat(_dline[4]),
+					Std.parseFloat(_dline[8]), 
+					Std.parseFloat(_dline[12]), 1]));
 
 					++_buffer;
 				}
@@ -220,14 +233,14 @@ class AWD1Parser extends ParserBase
 					oData = {name: (_dline[0] == "") ? "m_" + _id : _dline[0],
 							transform: m,
 							//pivotPoint:new Vector3D(parseFloat(_dline[1]), parseFloat(_dline[2]), parseFloat(_dline[3])),
-							container: parseInt(_dline[4]),
+							container: Std.parseInt(_dline[4]),
 							bothSides: (_dline[5] == "true") ? true : false,
 							//ownCanvas:(_dline[6] == "true")? true : false,
 							//pushfront:(_dline[7] == "true")? true : false,
 							//pushback:(_dline[8] == "true")? true : false,
-							x: parseFloat(_dline[9]),
-							y: parseFloat(_dline[10]),
-							z: parseFloat(_dline[11]),
+							x: Std.parseFloat(_dline[9]),
+							y: Std.parseFloat(_dline[10]),
+							z: Std.parseFloat(_dline[11]),
 
 							material: (_isMaterial && _dline[12] != null && _dline[12] != "") ? _dline[12] : null};
 					_objs.push(oData);
@@ -265,13 +278,26 @@ class AWD1Parser extends ParserBase
 			if (_state == "#c" && !_isMesh)
 			{
 
-				_id = parseInt(_dline[0]);
+				_id = Std.parseInt(_dline[0]);
 				cont = (_aC.length == 0) ? _container : new ObjectContainer3D();
-				m = new Matrix3D(Vector<Float>([parseFloat(_dline[1]), parseFloat(_dline[5]), parseFloat(_dline[9]), 0, parseFloat(_dline[2]), parseFloat(_dline[6]), parseFloat(_dline[10]), 0, parseFloat(_dline[3]),
-					parseFloat(_dline[7]), parseFloat(_dline[11]), 0, parseFloat(_dline[4]), parseFloat(_dline[8]), parseFloat(_dline[12]), 1]));
+				m = new Matrix3D(Vector.ofArray([Std.parseFloat(_dline[1]), 
+				Std.parseFloat(_dline[5]), 
+				Std.parseFloat(_dline[9]), 
+				0, 
+				Std.parseFloat(_dline[2]), 
+				Std.parseFloat(_dline[6]), 
+				Std.parseFloat(_dline[10]), 
+				0, 
+				Std.parseFloat(_dline[3]),
+				Std.parseFloat(_dline[7]), 
+				Std.parseFloat(_dline[11]), 
+				0, 
+				Std.parseFloat(_dline[4]),
+				Std.parseFloat(_dline[8]), 
+				Std.parseFloat(_dline[12]), 1]));
 
 				cont.transform = m;
-				cont.name = (_dline[13] == "null" || _dline[13] == undefined) ? "cont_" + _id : _dline[13];
+				cont.name = (_dline[13] == "null" || _dline[13] == null) ? "cont_" + _id : _dline[13];
 
 				_aC.push(cont);
 
@@ -283,7 +309,7 @@ class AWD1Parser extends ParserBase
 
 		if (_charIndex >= _stringLength)
 		{
-			var ref:Object;
+			var ref:Dynamic;
 			var mesh:Mesh;
 
 			for (i in 0..._objs.length)
@@ -304,14 +330,14 @@ class AWD1Parser extends ParserBase
 					else
 						mesh.material = new TextureMultiPassMaterial(DefaultMaterialManager.getDefaultTexture());
 
-					mesh.material.bothSides = Boolean(ref.bothSides);
+					mesh.material.bothSides = ref.bothSides;
 
-					if (ref.material && ref.material != "")
+					if (ref.material != null && ref.material != "")
 						addDependency(ref.name, new URLRequest(ref.material));
 
 					mesh.material.name = ref.name;
 
-					if (ref.material && ref.material != "")
+					if (ref.material != null && ref.material != "")
 						addDependency(ref.name, new URLRequest(ref.material));
 
 					parseFacesToMesh(ref.geo, mesh);
@@ -324,27 +350,27 @@ class AWD1Parser extends ParserBase
 			// TODO: Don't just return the container. Return assets one by one
 			finalizeAsset(_container);
 
-			return PARSING_DONE;
+			return ParserBase.PARSING_DONE;
 		}
 
-		return MORE_TO_PARSE;
+		return ParserBase.MORE_TO_PARSE;
 	}
 
 	private function parseFacesToMesh(geo:Dynamic, mesh:Mesh):Void
 	{
 		var j:Int;
-		var av:Array;
-		var au:Array;
+		var av:Array<String>;
+		var au:Array<String>;
 
-		var aRef:Array;
-		var mRef:Array;
+		var aRef:Array<String>;
+		var mRef:Array<String>;
 
 		var vertices:Vector<Float> = new Vector<Float>();
 		var indices:Vector<UInt> = new Vector<UInt>();
 		var uvs:Vector<Float> = new Vector<Float>();
-		var index:UInt;
-		var vindex:UInt;
-		var uindex:UInt;
+		var index:Int = 0;
+		var vindex:Int = 0;
+		var uindex:Int = 0;
 
 		aRef = geo.f.split(",");
 		if (geo.m != null)
@@ -354,7 +380,7 @@ class AWD1Parser extends ParserBase
 		var geom:Geometry = mesh.geometry;
 
 		j = 0;
-		for (j < aRef.length)
+		while (j < aRef.length)
 		{
 			if (indices.length + 3 > LIMIT)
 			{
@@ -377,30 +403,30 @@ class AWD1Parser extends ParserBase
 			vindex++;
 
 			//face is inverted compared to f10 awd generator
-			av = geo.aV[Std.parseInt(aRef[j + 1], 16)].split("/");
+			av = geo.aV[Std.parseInt(aRef[j + 1])].split("/");
 			vertices[index++] = Std.parseFloat(av[0]);
 			vertices[index++] = Std.parseFloat(av[1]);
 			vertices[index++] = Std.parseFloat(av[2]);
 
-			av = geo.aV[Std.parseInt(aRef[j], 16)].split("/");
+			av = geo.aV[Std.parseInt(aRef[j])].split("/");
 			vertices[index++] = Std.parseFloat(av[0]);
 			vertices[index++] = Std.parseFloat(av[1]);
 			vertices[index++] = Std.parseFloat(av[2]);
 
-			av = geo.aV[Std.parseInt(aRef[j + 2], 16)].split("/");
+			av = geo.aV[Std.parseInt(aRef[j + 2])].split("/");
 			vertices[index++] = Std.parseFloat(av[0]);
 			vertices[index++] = Std.parseFloat(av[1]);
 			vertices[index++] = Std.parseFloat(av[2]);
 
-			au = geo.aU[Std.parseInt(aRef[j + 4], 16)].split("/");
+			au = geo.aU[Std.parseInt(aRef[j + 4])].split("/");
 			uvs[uindex++] = Std.parseFloat(au[0]);
 			uvs[uindex++] = 1 - Std.parseFloat(au[1]);
 
-			au = geo.aU[Std.parseInt(aRef[j + 3], 16)].split("/");
+			au = geo.aU[Std.parseInt(aRef[j + 3])].split("/");
 			uvs[uindex++] = Std.parseFloat(au[0]);
 			uvs[uindex++] = 1 - Std.parseFloat(au[1]);
 
-			au = geo.aU[Std.parseInt(aRef[j + 5], 16)].split("/");
+			au = geo.aU[Std.parseInt(aRef[j + 5])].split("/");
 			uvs[uindex++] = Std.parseFloat(au[0]);
 			uvs[uindex++] = 1 - Std.parseFloat(au[1]);
 			
@@ -417,7 +443,7 @@ class AWD1Parser extends ParserBase
 	{
 		for (i in 0..._meshList.length)
 			if (Std.instance(_meshList[i],Mesh).name == id)
-				return Mesh(_meshList[i]);
+				return Std.instance(_meshList[i],Mesh);
 
 		return null;
 	}
@@ -428,7 +454,8 @@ class AWD1Parser extends ParserBase
 		var chunk:String;
 		var dec:String = "";
 		var charcount:Int = str.length;
-		for (i in 0...charcount)
+		var i:Int = 0;
+		while (i < charcount)
 		{
 			if (str.charCodeAt(i) >= 44 && str.charCodeAt(i) <= 48)
 			{
@@ -442,10 +469,12 @@ class AWD1Parser extends ParserBase
 				{
 					i++;
 				}
-				chunk = "" + parseInt("0x" + str.substring(start, i), 16);
+				chunk = StringTools.hex(Std.parseInt(str.substring(start, i)));
+				//chunk = "" + Std.parseInt("0x" + str.substring(start, i), 16);
 				dec += chunk;
 				i--;
 			}
+			i++;
 		}
 		return dec;
 	}
