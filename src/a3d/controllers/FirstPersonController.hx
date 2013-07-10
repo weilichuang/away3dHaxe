@@ -20,7 +20,7 @@ class FirstPersonController extends ControllerBase
 	private var _tiltAngle:Float = 90;
 	private var _minTiltAngle:Float = -90;
 	private var _maxTiltAngle:Float = 90;
-	private var _steps:UInt = 8;
+	private var _steps:Int = 8;
 	private var _walkIncrement:Float = 0;
 	private var _strafeIncrement:Float = 0;
 
@@ -86,10 +86,10 @@ class FirstPersonController extends ControllerBase
 
 	private function set_tiltAngle(val:Float):Float
 	{
-		val = Math.max(_minTiltAngle, Math.min(_maxTiltAngle, val));
+		val = MathUtil.fclamp(val, _minTiltAngle, _maxTiltAngle);
 
 		if (_tiltAngle == val)
-			return;
+			return _tiltAngle;
 
 		_tiltAngle = val;
 
@@ -116,8 +116,8 @@ class FirstPersonController extends ControllerBase
 
 		_minTiltAngle = val;
 
-		tiltAngle = Math.max(_minTiltAngle, Math.min(_maxTiltAngle, _tiltAngle));
-		
+		tiltAngle = MathUtil.fclamp(_tiltAngle, _minTiltAngle, _maxTiltAngle);
+
 		return _minTiltAngle;
 	}
 
@@ -139,7 +139,7 @@ class FirstPersonController extends ControllerBase
 
 		_maxTiltAngle = val;
 
-		tiltAngle = Math.max(_minTiltAngle, Math.min(_maxTiltAngle, _tiltAngle));
+		tiltAngle = MathUtil.fclamp(_tiltAngle, _minTiltAngle, _maxTiltAngle);
 		return _maxTiltAngle;
 	}
 
@@ -211,7 +211,7 @@ class FirstPersonController extends ControllerBase
 		targetObject.rotationX = currentTiltAngle;
 		targetObject.rotationY = currentPanAngle;
 
-		if (_walkIncrement)
+		if (_walkIncrement != 0)
 		{
 			if (fly)
 			{
@@ -219,13 +219,13 @@ class FirstPersonController extends ControllerBase
 			}
 			else
 			{
-				targetObject.x += _walkIncrement * Math.sin(panAngle * MathUtil.DEGREES_TO_RADIANS);
-				targetObject.z += _walkIncrement * Math.cos(panAngle * MathUtil.DEGREES_TO_RADIANS);
+				targetObject.x += _walkIncrement * Math.sin(panAngle * MathUtil.DEGREES_TO_RADIANS());
+				targetObject.z += _walkIncrement * Math.cos(panAngle * MathUtil.DEGREES_TO_RADIANS());
 			}
 			_walkIncrement = 0;
 		}
 
-		if (_strafeIncrement)
+		if (_strafeIncrement != 0)
 		{
 			targetObject.moveRight(_strafeIncrement);
 			_strafeIncrement = 0;

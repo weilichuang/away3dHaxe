@@ -16,8 +16,8 @@ class TerrainDiffuseMethod extends BasicDiffuseMethod
 {
 	private var _blendingTexture:Texture2DBase;
 	private var _splats:Vector<Texture2DBase>;
-	private var _numSplattingLayers:UInt;
-	private var _tileData:Array;
+	private var _numSplattingLayers:Int;
+	private var _tileData:Array<Float>;
 
 	/**
 	 *
@@ -25,10 +25,10 @@ class TerrainDiffuseMethod extends BasicDiffuseMethod
 	 * @param blendData The texture containing the blending data. The red, green, and blue channels contain the blending values for each of the textures in splatTextures, respectively.
 	 * @param tileData The amount of times each splat texture needs to be tiled. The first entry in the array applies to the base texture, the others to the splats. If omitted, the default value of 50 is assumed for each.
 	 */
-	public function new(splatTextures:Array, blendingTexture:Texture2DBase, tileData:Array)
+	public function new(splatTextures:Array<Texture2DBase>, blendingTexture:Texture2DBase, tileData:Array<Float>)
 	{
 		super();
-		_splats = Vector<Texture2DBase>(splatTextures);
+		_splats = Vector.ofArray(splatTextures);
 		_tileData = tileData;
 		_blendingTexture = blendingTexture;
 		_numSplattingLayers = _splats.length;
@@ -40,27 +40,27 @@ class TerrainDiffuseMethod extends BasicDiffuseMethod
 	{
 		var data:Vector<Float> = vo.fragmentData;
 		var index:Int = vo.fragmentConstantsIndex;
-		data[index] = _tileData ? _tileData[0] : 1;
+		data[index] = _tileData != null ? _tileData[0] : 1;
 		for (i in 0..._numSplattingLayers)
 		{
 			if (i < 3)
-				data[index + i + 1] = _tileData ? _tileData[i + 1] : 50;
+				data[index + i + 1] = _tileData != null ? _tileData[i + 1] : 50;
 			else
-				data[index + i - 4] = _tileData ? _tileData[i + 1] : 50;
+				data[index + i - 4] = _tileData != null ? _tileData[i + 1] : 50;
 		}
 	}
 
 	override public function getFragmentPostLightingCode(vo:MethodVO, regCache:ShaderRegisterCache, targetReg:ShaderRegisterElement):String
 	{
 		var code:String = "";
-		var albedo:ShaderRegisterElement;
-		var scaleRegister:ShaderRegisterElement;
-		var scaleRegister2:ShaderRegisterElement;
+		var albedo:ShaderRegisterElement = null;
+		var scaleRegister:ShaderRegisterElement = null;
+		var scaleRegister2:ShaderRegisterElement = null;
 
 		// incorporate input from ambient
 		if (vo.numLights > 0)
 		{
-			if (_shadowRegister)
+			if (_shadowRegister != null)
 				code += "mul " + _totalLightColorReg + ".xyz, " + _totalLightColorReg + ".xyz, " + _shadowRegister + ".w\n";
 			code += "add " + targetReg + ".xyz, " + _totalLightColorReg + ".xyz, " + targetReg + ".xyz\n" +
 				"sat " + targetReg + ".xyz, " + targetReg + ".xyz\n";
@@ -96,7 +96,7 @@ class TerrainDiffuseMethod extends BasicDiffuseMethod
 		var splatTexReg:ShaderRegisterElement;
 
 		vo.fragmentConstantsIndex = scaleRegister.index * 4;
-		var comps:Vector<String> = Vector<String>([".x", ".y", ".z", ".w"]);
+		var comps:Vector<String> = Vector.ofArray([".x", ".y", ".z", ".w"]);
 
 		for (i in 0..._numSplattingLayers)
 		{
@@ -136,10 +136,12 @@ class TerrainDiffuseMethod extends BasicDiffuseMethod
 			context.setTextureAt(i + texIndex, _splats[i].getTextureForStage3D(stage3DProxy));
 	}
 
-	override private function set_alphaThreshold(value:Float):Void
+	override private function set_alphaThreshold(value:Float):Float
 	{
 		if (value > 0)
 			throw new Error("Alpha threshold not supported for TerrainDiffuseMethod");
+			
+		return alphaThreshold;
 	}
 
 	private function getSplatSampleCode(vo:MethodVO, targetReg:ShaderRegisterElement, inputReg:ShaderRegisterElement, texture:TextureProxyBase, uvReg:ShaderRegisterElement = null):String

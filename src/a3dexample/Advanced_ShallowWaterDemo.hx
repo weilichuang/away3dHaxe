@@ -161,142 +161,6 @@ class Advanced_ShallowWaterDemo extends BasicApplication
 	public var rainBrushStrength:Float = 10;
 
 	/**
-	 * GUI property for controlling the active displacement brush on the mouse
-	 */
-	public var activeMouseBrushClip(get,set):Sprite;
-	private function set_activeMouseBrushClip(value:Sprite):Sprite
-	{
-		aMouseBrushClip = value;
-		mouseBrush.fromSprite(aMouseBrushClip, 2);
-		return aMouseBrushClip;
-	}
-
-	private function get_activeMouseBrushClip():Sprite
-	{
-		return aMouseBrushClip;
-	}
-
-	/**
-	 * GUI property for controlling the rate of rain
-	 */
-	public var rainTime(get,set):Int;
-	private function set_rainTime(delay:Int):Int
-	{
-		return dropTmr.delay = delay;
-	}
-
-	private function get_rainTime():Int
-	{
-		return dropTmr.delay;
-	}
-
-	/**
-	 * GUI property for toggling shading on the water plane
-	 */
-	public var toggleShading(get,set):Bool;
-	private function set_toggleShading(value:Bool):Bool
-	{
-		liquidShading = value;
-		if (liquidShading)
-			plane.material = liquidMaterial;
-		else
-			plane.material = colorMaterial;
-		return liquidShading;
-	}
-
-	private function get_toggleShading():Bool
-	{
-		return liquidShading;
-	}
-
-	/**
-	 * GUI property for toggling Away3D text image
-	 */
-	public var toggleLiquidImage(get,set):Bool;
-	private function set_toggleLiquidImage(value:Bool):Bool
-	{
-		showingLiquidImage = value;
-		if (showingLiquidImage)
-		{
-			imageBrush.fromSprite(Std.instance(new ImageClip(),Sprite));
-			fluidDisturb.disturbBitmapMemory(0.5, 0.5, -10, imageBrush.bitmapData, -1, 0.01);
-		}
-		else
-			fluidDisturb.releaseMemoryDisturbances();
-		return showingLiquidImage;
-	}
-
-	private function get_toggleLiquidImage():Bool
-	{
-		return showingLiquidImage;
-	}
-
-	/**
-	 * GUI property for toggling Winston Churchill image
-	 */
-	public var toggleLiquidImage1(get,set):Bool;
-	private function set_toggleLiquidImage1(value:Bool):Bool
-	{
-		showingLiquidImage1 = value;
-		if (showingLiquidImage1)
-		{
-			imageBrush.fromSprite(Std.instance(new ImageClip1(),Sprite));
-			fluidDisturb.disturbBitmapMemory(0.5, 0.5, -15, imageBrush.bitmapData, -1, 0.01);
-		}
-		else
-			fluidDisturb.releaseMemoryDisturbances();
-		return showingLiquidImage1;
-	}
-
-	private function get_toggleLiquidImage1():Bool
-	{
-		return showingLiquidImage1;
-	}
-
-	/**
-	 * GUI property for toggling Mustang image
-	 */
-	public var toggleLiquidImage2(get,set):Bool;
-	private function set_toggleLiquidImage2(value:Bool):Bool
-	{
-		showingLiquidImage2 = value;
-		if (showingLiquidImage2)
-		{
-			imageBrush.fromSprite(Std.instance(new ImageClip2(),Sprite));
-			fluidDisturb.disturbBitmapMemory(0.5, 0.5, -15, imageBrush.bitmapData, -1, 0.01);
-		}
-		else
-		{
-			fluidDisturb.releaseMemoryDisturbances();
-		}
-		return showingLiquidImage2;
-	}
-
-	private function get_toggleLiquidImage2():Bool
-	{
-		return showingLiquidImage2;
-	}
-
-	/**
-	 * GUI property for toggling rain
-	 */
-	public var toggleRain(get,set):Bool;
-	private function set_toggleRain(value:Bool):Bool
-	{
-		rain = value;
-		if (rain)
-			dropTmr.start();
-		else
-			dropTmr.stop();
-		return rain;
-	}
-
-	private function get_toggleRain():Bool
-	{
-		return rain;
-	}
-
-	/**
 	 * Constructor
 	 */
 	public function new()
@@ -660,5 +524,141 @@ class Advanced_ShallowWaterDemo extends BasicApplication
 	private function onRainTimer(event:TimerEvent):Void
 	{
 		fluidDisturb.disturbBitmapInstant(0.8 * Math.random() + 0.1, 0.8 * Math.random() + 0.1, rainBrushStrength, rainBrush.bitmapData);
+	}
+	
+	/**
+	 * GUI property for controlling the active displacement brush on the mouse
+	 */
+	public var activeMouseBrushClip(get,set):Sprite;
+	private function set_activeMouseBrushClip(value:Sprite):Sprite
+	{
+		aMouseBrushClip = value;
+		mouseBrush.fromSprite(aMouseBrushClip, 2);
+		return aMouseBrushClip;
+	}
+
+	private function get_activeMouseBrushClip():Sprite
+	{
+		return aMouseBrushClip;
+	}
+
+	/**
+	 * GUI property for controlling the rate of rain
+	 */
+	public var rainTime(get,set):Int;
+	private function set_rainTime(delay:Int):Int
+	{
+		return dropTmr.delay = delay;
+	}
+
+	private function get_rainTime():Int
+	{
+		return dropTmr.delay;
+	}
+
+	/**
+	 * GUI property for toggling shading on the water plane
+	 */
+	public var toggleShading(get,set):Bool;
+	private function set_toggleShading(value:Bool):Bool
+	{
+		liquidShading = value;
+		if (liquidShading)
+			plane.material = liquidMaterial;
+		else
+			plane.material = colorMaterial;
+		return liquidShading;
+	}
+
+	private function get_toggleShading():Bool
+	{
+		return liquidShading;
+	}
+
+	/**
+	 * GUI property for toggling Away3D text image
+	 */
+	public var toggleLiquidImage(get,set):Bool;
+	private function set_toggleLiquidImage(value:Bool):Bool
+	{
+		showingLiquidImage = value;
+		if (showingLiquidImage)
+		{
+			imageBrush.fromSprite(Std.instance(new ImageClip(),Sprite));
+			fluidDisturb.disturbBitmapMemory(0.5, 0.5, -10, imageBrush.bitmapData, -1, 0.01);
+		}
+		else
+			fluidDisturb.releaseMemoryDisturbances();
+		return showingLiquidImage;
+	}
+
+	private function get_toggleLiquidImage():Bool
+	{
+		return showingLiquidImage;
+	}
+
+	/**
+	 * GUI property for toggling Winston Churchill image
+	 */
+	public var toggleLiquidImage1(get,set):Bool;
+	private function set_toggleLiquidImage1(value:Bool):Bool
+	{
+		showingLiquidImage1 = value;
+		if (showingLiquidImage1)
+		{
+			imageBrush.fromSprite(Std.instance(new ImageClip1(),Sprite));
+			fluidDisturb.disturbBitmapMemory(0.5, 0.5, -15, imageBrush.bitmapData, -1, 0.01);
+		}
+		else
+			fluidDisturb.releaseMemoryDisturbances();
+		return showingLiquidImage1;
+	}
+
+	private function get_toggleLiquidImage1():Bool
+	{
+		return showingLiquidImage1;
+	}
+
+	/**
+	 * GUI property for toggling Mustang image
+	 */
+	public var toggleLiquidImage2(get,set):Bool;
+	private function set_toggleLiquidImage2(value:Bool):Bool
+	{
+		showingLiquidImage2 = value;
+		if (showingLiquidImage2)
+		{
+			imageBrush.fromSprite(Std.instance(new ImageClip2(),Sprite));
+			fluidDisturb.disturbBitmapMemory(0.5, 0.5, -15, imageBrush.bitmapData, -1, 0.01);
+		}
+		else
+		{
+			fluidDisturb.releaseMemoryDisturbances();
+		}
+		return showingLiquidImage2;
+	}
+
+	private function get_toggleLiquidImage2():Bool
+	{
+		return showingLiquidImage2;
+	}
+
+	/**
+	 * GUI property for toggling rain
+	 */
+	public var toggleRain(get,set):Bool;
+	private function set_toggleRain(value:Bool):Bool
+	{
+		rain = value;
+		if (rain)
+			dropTmr.start();
+		else
+			dropTmr.stop();
+		return rain;
+	}
+
+	private function get_toggleRain():Bool
+	{
+		return rain;
 	}
 }

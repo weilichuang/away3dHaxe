@@ -28,7 +28,7 @@ class AWDParser extends ParserBase
 	}
 
 
-	public static function supportsData(data:*):Bool
+	public static function supportsData(data:Dynamic):Bool
 	{
 		return (AWD1Parser.supportsData(data) || AWD2Parser.supportsData(data));
 	}
@@ -38,27 +38,27 @@ class AWDParser extends ParserBase
 	/**
 	 * @inheritDoc
 	*/
-	override public function get dependencies():Vector<ResourceDependency>
+	override private function get_dependencies():Vector<ResourceDependency>
 	{
-		return _parser ? _parser.dependencies : super.dependencies;
+		return _parser != null ? _parser.dependencies : super.dependencies;
 	}
 
 
 	/**
 	 * @inheritDoc
 	*/
-	override public function get parsingComplete():Bool
+	override private function get_parsingComplete():Bool
 	{
-		return _parser ? _parser.parsingComplete : false;
+		return _parser != null ? _parser.parsingComplete : false;
 	}
 
 
 	/**
 	 * @inheritDoc
 	*/
-	override public function get parsingPaused():Bool
+	override private function get_parsingPaused():Bool
 	{
-		return _parser ? _parser.parsingPaused : false;
+		return _parser != null ? _parser.parsingPaused : false;
 	}
 
 
@@ -68,7 +68,7 @@ class AWDParser extends ParserBase
 	*/
 	override public function resolveDependency(resourceDependency:ResourceDependency):Void
 	{
-		if (_parser)
+		if (_parser != null)
 			_parser.resolveDependency(resourceDependency);
 	}
 
@@ -79,7 +79,7 @@ class AWDParser extends ParserBase
 	*/
 	override public function resolveDependencyFailure(resourceDependency:ResourceDependency):Void
 	{
-		if (_parser)
+		if (_parser != null)
 			_parser.resolveDependencyFailure(resourceDependency);
 	}
 
@@ -89,14 +89,14 @@ class AWDParser extends ParserBase
 	 */
 	override public function resolveDependencyName(resourceDependency:ResourceDependency, asset:IAsset):String
 	{
-		if (_parser)
+		if (_parser != null)
 			return _parser.resolveDependencyName(resourceDependency, asset);
 		return asset.name;
 	}
 
 	override public function resumeParsingAfterDependencies():Void
 	{
-		if (_parser)
+		if (_parser != null)
 			_parser.resumeParsingAfterDependencies();
 	}
 
@@ -107,7 +107,7 @@ class AWDParser extends ParserBase
 	*/
 	override private function proceedParsing():Bool
 	{
-		if (!_parser)
+		if (_parser == null)
 		{
 			// Inspect data to find correct parser. AWD2 parser
 			// file inspection is the most reliable
@@ -140,7 +140,7 @@ class AWDParser extends ParserBase
 		// Return MORE_TO_PARSE while delegate parser is working. Once the delegate
 		// finishes parsing, this dummy parser instance will be stopped as well as
 		// a result of the delegate's PARSE_COMPLETE event (onParseComplete).
-		return MORE_TO_PARSE;
+		return ParserBase.MORE_TO_PARSE;
 	}
 
 

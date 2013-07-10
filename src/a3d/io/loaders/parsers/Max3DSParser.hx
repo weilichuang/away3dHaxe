@@ -7,6 +7,7 @@ import flash.net.URLRequest;
 import flash.utils.ByteArray;
 import flash.utils.Endian;
 import flash.Vector;
+import haxe.ds.StringMap;
 
 
 import a3d.core.base.Geometry;
@@ -32,26 +33,6 @@ import a3d.tools.utils.GeomUtil;
 
 class Max3DSParser extends ParserBase
 {
-	private var _byteData:ByteArray;
-
-	private var _textures:Object;
-	private var _materials:Object;
-	private var _unfinalized_objects:Object;
-
-	private var _cur_obj_end:UInt;
-	private var _cur_obj:ObjectVO;
-
-	private var _cur_mat_end:UInt;
-	private var _cur_mat:MaterialVO;
-
-
-	public function new()
-	{
-		super(ParserDataFormat.BINARY);
-	}
-
-
-
 	public static function supportsType(extension:String):Bool
 	{
 		extension = extension.toLowerCase();
@@ -59,7 +40,7 @@ class Max3DSParser extends ParserBase
 	}
 
 
-	public static function supportsData(data:*):Bool
+	public static function supportsData(data:Dynamic):Bool
 	{
 		var ba:ByteArray;
 
@@ -73,7 +54,24 @@ class Max3DSParser extends ParserBase
 
 		return false;
 	}
+	
+	private var _byteData:ByteArray;
 
+	private var _textures:Dynamic;
+	private var _materials:Dynamic;
+	private var _unfinalized_objects:StringMap<ObjectVO>;
+
+	private var _cur_obj_end:Int;
+	private var _cur_obj:ObjectVO;
+
+	private var _cur_mat_end:Int;
+	private var _cur_mat:MaterialVO;
+
+
+	public function new()
+	{
+		super(ParserDataFormat.BINARY);
+	}
 
 	override public function resolveDependency(resourceDependency:ResourceDependency):Void
 	{
@@ -101,7 +99,7 @@ class Max3DSParser extends ParserBase
 
 	override private function proceedParsing():Bool
 	{
-		if (!_byteData)
+		if (_byteData == null)
 		{
 			_byteData = ParserUtil.toByteArray(_data);
 			_byteData.position = 0;
@@ -109,7 +107,7 @@ class Max3DSParser extends ParserBase
 
 			_textures = {};
 			_materials = {};
-			_unfinalized_objects = {};
+			_unfinalized_objects = new StringMap<ObjectVO>();
 		}
 
 
@@ -157,12 +155,12 @@ class Max3DSParser extends ParserBase
 						// instead we should progress to the next chunk, which
 						// will be the first sub-chunk of this one.
 						continue;
-						break;
+						
 
 					case 0xAFFF: // MATERIAL
 						_cur_mat_end = end;
 						_cur_mat = parseMaterial();
-						break;
+						
 
 					case 0x4000: // EDIT_OBJECT
 						_cur_obj_end = end;
@@ -170,44 +168,44 @@ class Max3DSParser extends ParserBase
 						_cur_obj.name = readNulTermString();
 						_cur_obj.materials = new Vector<String>();
 						_cur_obj.materialFaces = {};
-						break;
+						
 
 					case 0x4100: // OBJ_TRIMESH 
 						_cur_obj.type = AssetType.MESH;
-						break;
+						
 
 					case 0x4110: // TRI_VERTEXL
 						parseVertexList();
-						break;
+						
 
 					case 0x4120: // TRI_FACELIST
 						parseFaceList();
-						break;
+						
 
 					case 0x4140: // TRI_MAPPINGCOORDS
 						parseUVList();
-						break;
+						
 
 					case 0x4130: // Face materials
 						parseFaceMaterialList();
-						break;
+						
 
 					case 0x4160: // Transform
 						_cur_obj.transform = readTransform();
-						break;
+						
 
 					case 0xB002: // Object animation (including pivot)
 						parseObjectAnimation(end);
-						break;
+						
 
 					case 0x4150: // Smoothing groups
 						parseSmoothingGroups();
-						break;
+						
 
 					default:
 						// Skip this (unknown) chunk
 						_byteData.position += (len - 6);
-						break;
+						
 				}
 
 
@@ -228,7 +226,7 @@ class Max3DSParser extends ParserBase
 		// the pipeline.
 		if (_byteData.bytesAvailable || _cur_obj || _cur_mat)
 		{
-			return MORE_TO_PARSE;
+			return ParserBase.MORE_TO_PARSE;
 		}
 		else
 		{
@@ -245,7 +243,7 @@ class Max3DSParser extends ParserBase
 				}
 			}
 
-			return PARSING_DONE;
+			return ParserBase.PARSING_DONE;
 		}
 	}
 
@@ -270,35 +268,35 @@ class Max3DSParser extends ParserBase
 			{
 				case 0xA000: // Material name
 					mat.name = readNulTermString();
-					break;
+					
 
 				case 0xA010: // Ambient color
 					mat.ambientColor = readColor();
-					break;
+					
 
 				case 0xA020: // Diffuse color
 					mat.diffuseColor = readColor();
-					break;
+					
 
 				case 0xA030: // Specular color
 					mat.specularColor = readColor();
-					break;
+					
 
 				case 0xA081: // Two-sided, existence indicates "true"
 					mat.twoSided = true;
-					break;
+					
 
 				case 0xA200: // Main (color) texture 
 					mat.colorMap = parseTexture(end);
-					break;
+					
 
 				case 0xA204: // Specular map
 					mat.specularMap = parseTexture(end);
-					break;
+					
 
 				default:
 					_byteData.position = end;
-					break;
+					
 			}
 		}
 
@@ -324,12 +322,12 @@ class Max3DSParser extends ParserBase
 			{
 				case 0xA300:
 					tex.url = readNulTermString();
-					break;
+					
 
 				default:
 					// Skip this unknown texture sub-chunk
 					_byteData.position += (len - 6);
-					break;
+					
 			}
 		}
 
@@ -454,10 +452,10 @@ class Max3DSParser extends ParserBase
 		var obj:ObjectContainer3D;
 		var pivot:Vector3D;
 		var name:String;
-		var hier:int;
+		var hier:Int;
 
 		// Pivot defaults to origin
-		pivot = new Vector3D;
+		pivot = new Vector3D();
 
 		while (_byteData.position < end)
 		{
@@ -473,17 +471,17 @@ class Max3DSParser extends ParserBase
 					name = readNulTermString();
 					_byteData.position += 4;
 					hier = _byteData.readShort();
-					break;
+					
 
 				case 0xb013: // Pivot
 					pivot.x = _byteData.readFloat();
 					pivot.z = _byteData.readFloat();
 					pivot.y = _byteData.readFloat();
-					break;
+					
 
 				default:
 					_byteData.position += (len - 6);
-					break;
+					
 			}
 		}
 
@@ -500,7 +498,7 @@ class Max3DSParser extends ParserBase
 				finalizeAsset(obj, vo.name);
 			}
 
-			delete _unfinalized_objects[name];
+			_unfinalized_objects.remove(name);
 		}
 	}
 
@@ -532,14 +530,14 @@ class Max3DSParser extends ParserBase
 			applySmoothGroups(vertices, faces);
 
 			obj.verts = new Vector<Float>(vertices.length * 3, true);
-			for (i = 0; i < vertices.length; i++)
+			for (i in 0...vertices.length)
 			{
 				obj.verts[i * 3] = vertices[i].x;
 				obj.verts[i * 3 + 1] = vertices[i].y;
 				obj.verts[i * 3 + 2] = vertices[i].z;
 			}
 			obj.indices = new Vector<UInt>(faces.length * 3, true);
-			for (i = 0; i < faces.length; i++)
+			for (i in 0...faces.length)
 			{
 				obj.indices[i * 3] = faces[i].a;
 				obj.indices[i * 3 + 1] = faces[i].b;
@@ -552,7 +550,7 @@ class Max3DSParser extends ParserBase
 				// smoothing group splitting algorithm. Otherwise those UVs
 				// will be nonsense and should be skipped.
 				obj.uvs = new Vector<Float>(vertices.length * 2, true);
-				for (i = 0; i < vertices.length; i++)
+				for (i in 0...vertices.length)
 				{
 					obj.uvs[i * 2] = vertices[i].u;
 					obj.uvs[i * 2 + 1] = vertices[i].v;
@@ -564,7 +562,7 @@ class Max3DSParser extends ParserBase
 			// Construct sub-geometries (potentially splitting buffers)
 			// and add them to geometry.
 			subs = GeomUtil.fromVectors(obj.verts, obj.indices, obj.uvs, null, null, null, null);
-			for (i = 0; i < subs.length; i++)
+			for (i in 0...subs.length)
 			{
 				geom.subGeometries.push(subs[i]);
 			}
@@ -580,7 +578,7 @@ class Max3DSParser extends ParserBase
 			// found while parsing the keyframe chunk earlier.
 			if (pivot)
 			{
-				if (obj.transform)
+				if (obj.transform != null)
 				{
 					// If a transform was found while parsing the
 					// object chunk, use it to find the local pivot vector
@@ -601,7 +599,7 @@ class Max3DSParser extends ParserBase
 
 			// Apply transformation to geometry if a transformation
 			// was found while parsing the object chunk earlier.
-			if (obj.transform)
+			if (obj.transform != null)
 			{
 				mtx = new Matrix3D(obj.transform);
 				mtx.invert();
@@ -625,13 +623,16 @@ class Max3DSParser extends ParserBase
 	private function prepareData(vertices:Vector<VertexVO>, faces:Vector<FaceVO>, obj:ObjectVO):Void
 	{
 		// convert raw ObjectVO's data to structured VertexVO and FaceVO
-		var i:int;
-		var j:int;
-		var k:int;
-		var len:int = obj.verts.length;
-		for (i = 0, j = 0, k = 0; i < len; )
+		var i:Int;
+		var j:Int;
+		var k:Int;
+		var len:Int = obj.verts.length;
+		i = 0; 
+		j = 0; 
+		k = 0;
+		while (i < len)
 		{
-			var v:VertexVO = new VertexVO;
+			var v:VertexVO = new VertexVO();
 			v.x = obj.verts[i++];
 			v.y = obj.verts[i++];
 			v.z = obj.verts[i++];
@@ -642,8 +643,11 @@ class Max3DSParser extends ParserBase
 			}
 			vertices[k++] = v;
 		}
+		
 		len = obj.indices.length;
-		for (i = 0, k = 0; i < len; )
+		i = 0;
+		k = 0; 
+		while (i < len)
 		{
 			var f:FaceVO = new FaceVO();
 			f.a = obj.indices[i++];
@@ -660,28 +664,29 @@ class Max3DSParser extends ParserBase
 		// clone if vertex's in faces from groups 1+2 and 3
 		// don't clone if vertex's in faces from groups 1+2, 3 and 1+3
 
-		var i:int;
-		var j:int;
-		var k:int;
-		var l:int;
-		var len:int;
-		var numVerts:UInt = vertices.length;
-		var numFaces:UInt = faces.length;
+		var i:Int;
+		var j:Int;
+		var k:Int;
+		var l:Int;
+		var len:Int;
+		var numVerts:Int = vertices.length;
+		var numFaces:Int = faces.length;
 
 		// extract groups data for vertices
 		var vGroups:Vector<Vector<UInt>> = new Vector<Vector<UInt>>(numVerts, true);
-		for (i = 0; i < numVerts; i++)
+		for (i in 0...numVerts)
 		{
-			vGroups[i] = new Vector<UInt>;
+			vGroups[i] = new Vector<UInt>();
 		}
-		for (i = 0; i < numFaces; i++)
+		for (i in 0...numFaces)
 		{
 			var face:FaceVO = FaceVO(faces[i]);
-			for (j = 0; j < 3; j++)
+			for (j in 0...3)
 			{
 				var groups:Vector<UInt> = vGroups[(j == 0) ? face.a : ((j == 1) ? face.b : face.c)];
 				var group:UInt = face.smoothGroup;
-				for (k = groups.length - 1; k >= 0; k--)
+				k = groups.length - 1;
+				while ( k >= 0)
 				{
 					if ((group & groups[k]) > 0)
 					{
@@ -689,13 +694,14 @@ class Max3DSParser extends ParserBase
 						groups.splice(k, 1);
 						k = groups.length - 1;
 					}
+					k--;
 				}
 				groups.push(group);
 			}
 		}
 		// clone vertices
 		var vClones:Vector<Vector<UInt>> = new Vector<Vector<UInt>>(numVerts, true);
-		for (i = 0; i < numVerts; i++)
+		for (i in 0...numVerts)
 		{
 			if ((len = vGroups[i].length) < 1)
 				continue;
@@ -703,9 +709,9 @@ class Max3DSParser extends ParserBase
 			vClones[i] = clones;
 			clones[0] = i;
 			var v0:VertexVO = vertices[i];
-			for (j = 1; j < len; j++)
+			for (j in 1...len)
 			{
-				var v1:VertexVO = new VertexVO;
+				var v1:VertexVO = new VertexVO();
 				v1.x = v0.x;
 				v1.y = v0.y;
 				v1.z = v0.z;
@@ -717,17 +723,17 @@ class Max3DSParser extends ParserBase
 		}
 		numVerts = vertices.length;
 
-		for (i = 0; i < numFaces; i++)
+		for (i in 0...numFaces)
 		{
 			face = FaceVO(faces[i]);
 			group = face.smoothGroup;
-			for (j = 0; j < 3; j++)
+			for (j in 0...3)
 			{
 				k = (j == 0) ? face.a : ((j == 1) ? face.b : face.c);
 				groups = vGroups[k];
 				len = groups.length;
 				clones = vClones[k];
-				for (l = 0; l < len; l++)
+				for (l in 0...len)
 				{
 					if (((group == 0) && (groups[l] == 0)) ||
 						((group & groups[l]) > 0))
@@ -766,8 +772,8 @@ class Max3DSParser extends ParserBase
 			{
 				mat = new ColorMaterial(_cur_mat.diffuseColor);
 			}
-			SinglePassMaterialBase(mat).ambientColor = _cur_mat.ambientColor;
-			SinglePassMaterialBase(mat).specularColor = _cur_mat.specularColor;
+			Std.instance(mat,SinglePassMaterialBase).ambientColor = _cur_mat.ambientColor;
+			Std.instance(mat,SinglePassMaterialBase).specularColor = _cur_mat.specularColor;
 		}
 		else
 		{
@@ -779,8 +785,8 @@ class Max3DSParser extends ParserBase
 			{
 				mat = new ColorMultiPassMaterial(_cur_mat.diffuseColor);
 			}
-			MultiPassMaterialBase(mat).ambientColor = _cur_mat.ambientColor;
-			MultiPassMaterialBase(mat).specularColor = _cur_mat.specularColor;
+			Std.instance(mat,MultiPassMaterialBase).ambientColor = _cur_mat.ambientColor;
+			Std.instance(mat,MultiPassMaterialBase).specularColor = _cur_mat.specularColor;
 		}
 
 		mat.bothSides = _cur_mat.twoSided;
@@ -857,15 +863,15 @@ class Max3DSParser extends ParserBase
 				r = _byteData.readFloat() * 255;
 				g = _byteData.readFloat() * 255;
 				b = _byteData.readFloat() * 255;
-				break;
+				
 			case 0x0011: // 24-bit color
 				r = _byteData.readUnsignedByte();
 				g = _byteData.readUnsignedByte();
 				b = _byteData.readUnsignedByte();
-				break;
+				
 			default:
 				_byteData.position += (len - 6);
-				break;
+				
 		}
 
 		return (r << 16) | (g << 8) | b;
@@ -877,7 +883,7 @@ class TextureVO
 	public var url:String;
 	public var texture:Texture2DBase;
 
-	public function TextureVO()
+	public function new()
 	{
 	}
 }
@@ -893,7 +899,7 @@ class MaterialVO
 	public var specularMap:TextureVO;
 	public var material:MaterialBase;
 
-	public function MaterialVO()
+	public function new()
 	{
 	}
 }
@@ -909,11 +915,11 @@ class ObjectVO
 	public var verts:Vector<Float>;
 	public var indices:Vector<UInt>;
 	public var uvs:Vector<Float>;
-	public var materialFaces:Object;
+	public var materialFaces:Dynamic;
 	public var materials:Vector<String>;
 	public var smoothingGroups:Vector<UInt>;
 
-	public function ObjectVO()
+	public function new()
 	{
 	}
 }
@@ -928,7 +934,7 @@ class VertexVO
 	public var normal:Vector3D;
 	public var tangent:Vector3D;
 
-	public function VertexVO()
+	public function new()
 	{
 	}
 }
@@ -940,7 +946,7 @@ class FaceVO
 	public var c:UInt;
 	public var smoothGroup:UInt;
 
-	public function FaceVO()
+	public function new()
 	{
 	}
 }

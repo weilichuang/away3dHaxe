@@ -313,12 +313,12 @@ class OBJParser extends ParserBase
 				//bmMaterial = new TextureMaterial(DefaultMaterialManager.getDefaultTexture());
 				mesh = new Mesh(geometry, bmMaterial);
 
-				if (_objects[objIndex].name != "")
+				if (_objects[objIndex].name != null)
 				{
 					// this is a full independent object ('o' tag in OBJ file)
 					mesh.name = _objects[objIndex].name;
 				}
-				else if (groups[g].name != "")
+				else if (groups[g].name != null)
 				{
 					// this is a group so the sub groups contain the actual mesh object names ('g' tag in OBJ file)
 					mesh.name = groups[g].name;
@@ -599,9 +599,9 @@ class OBJParser extends ParserBase
 				continue;
 			indices = trunk[i].split("/");
 			face.vertexIndices.push(parseIndex(Std.parseInt(indices[0]), _vertices.length));
-			if (indices[1] != "" && indices[1].length > 0)
+			if (indices[1] != null && indices[1].length > 0)
 				face.uvIndices.push(parseIndex(Std.parseInt(indices[1]), _uvs.length));
-			if (indices[2] != "" && indices[2].length > 0)
+			if (indices[2] != null && indices[2].length > 0)
 				face.normalIndices.push(parseIndex(Std.parseInt(indices[2]), _vertexNormals.length));
 			face.indexIds.push(trunk[i]);
 		}

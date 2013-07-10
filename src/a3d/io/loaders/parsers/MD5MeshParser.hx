@@ -1,5 +1,6 @@
 package a3d.io.loaders.parsers;
 
+import flash.errors.Error;
 import flash.geom.Matrix3D;
 import flash.geom.Vector3D;
 import flash.Vector;
@@ -27,34 +28,34 @@ class MD5MeshParser extends ParserBase
 {
 	private var _textData:String;
 	private var _startedParsing:Bool;
-	private static const VERSION_TOKEN:String = "MD5Version";
-	private static const COMMAND_LINE_TOKEN:String = "commandline";
-	private static const NUM_JOINTS_TOKEN:String = "numJoints";
-	private static const NUM_MESHES_TOKEN:String = "numMeshes";
-	private static const COMMENT_TOKEN:String = "//";
-	private static const JOINTS_TOKEN:String = "joints";
-	private static const MESH_TOKEN:String = "mesh";
+	private static inline var VERSION_TOKEN:String = "MD5Version";
+	private static inline var COMMAND_LINE_TOKEN:String = "commandline";
+	private static inline var NUM_JOINTS_TOKEN:String = "numJoints";
+	private static inline var NUM_MESHES_TOKEN:String = "numMeshes";
+	private static inline var COMMENT_TOKEN:String = "//";
+	private static inline var JOINTS_TOKEN:String = "joints";
+	private static inline var MESH_TOKEN:String = "mesh";
 
-	private static const MESH_SHADER_TOKEN:String = "shader";
-	private static const MESH_NUM_VERTS_TOKEN:String = "numverts";
-	private static const MESH_VERT_TOKEN:String = "vert";
-	private static const MESH_NUM_TRIS_TOKEN:String = "numtris";
-	private static const MESH_TRI_TOKEN:String = "tri";
-	private static const MESH_NUM_WEIGHTS_TOKEN:String = "numweights";
-	private static const MESH_WEIGHT_TOKEN:String = "weight";
+	private static inline var MESH_SHADER_TOKEN:String = "shader";
+	private static inline var MESH_NUM_VERTS_TOKEN:String = "numverts";
+	private static inline var MESH_VERT_TOKEN:String = "vert";
+	private static inline var MESH_NUM_TRIS_TOKEN:String = "numtris";
+	private static inline var MESH_TRI_TOKEN:String = "tri";
+	private static inline var MESH_NUM_WEIGHTS_TOKEN:String = "numweights";
+	private static inline var MESH_WEIGHT_TOKEN:String = "weight";
 
-	private var _parseIndex:int;
+	private var _parseIndex:Int;
 	private var _reachedEOF:Bool;
-	private var _line:int;
-	private var _charLineIndex:int;
-	private var _version:int;
-	private var _numJoints:int;
-	private var _numMeshes:int;
+	private var _line:Int;
+	private var _charLineIndex:Int;
+	private var _version:Int;
+	private var _numJoints:Int;
+	private var _numMeshes:Int;
 
 	private var _mesh:Mesh;
 	private var _shaders:Vector<String>;
 
-	private var _maxJointCount:int;
+	private var _maxJointCount:Int;
 	private var _meshData:Vector<MeshData>;
 	private var _bindPoses:Vector<Matrix3D>;
 	private var _geometry:Geometry;
@@ -98,9 +99,8 @@ class MD5MeshParser extends ParserBase
 	 * @param data The data block to potentially be parsed.
 	 * @return Whether or not the given data is supported.
 	 */
-	public static function supportsData(data:*):Bool
+	public static function supportsData(data:Dynamic):Bool
 	{
-		data = data;
 		return false;
 	}
 
@@ -125,28 +125,28 @@ class MD5MeshParser extends ParserBase
 			{
 				case COMMENT_TOKEN:
 					ignoreLine();
-					break;
+					
 				case VERSION_TOKEN:
 					_version = getNextInt();
 					if (_version != 10)
 						throw new Error("Unknown version number encountered!");
-					break;
+					
 				case COMMAND_LINE_TOKEN:
 					parseCMD();
-					break;
+					
 				case NUM_JOINTS_TOKEN:
 					_numJoints = getNextInt();
 					_bindPoses = new Vector<Matrix3D>(_numJoints, true);
-					break;
+					
 				case NUM_MESHES_TOKEN:
 					_numMeshes = getNextInt();
-					break;
+					
 				case JOINTS_TOKEN:
 					parseJoints();
-					break;
+					
 				case MESH_TOKEN:
 					parseMesh();
-					break;
+					
 				default:
 					if (!_reachedEOF)
 						sendUnknownKeywordError();
@@ -160,7 +160,7 @@ class MD5MeshParser extends ParserBase
 				_mesh = new Mesh(new Geometry(), null);
 				_geometry = _mesh.geometry;
 
-				for (var i:int = 0; i < _meshData.length; ++i)
+				for (i in 0..._meshData.length)
 				{
 					_geometry.addSubGeometry(translateGeom(_meshData[i].vertexData, _meshData[i].weightData, _meshData[i].indices));
 				}
@@ -182,31 +182,31 @@ class MD5MeshParser extends ParserBase
 	{
 		_maxJointCount = 0;
 
-		var numMeshData:int = _meshData.length;
-		for (var i:int = 0; i < numMeshData; ++i)
+		var numMeshData:Int = _meshData.length;
+		for (i in 0...numMeshData)
 		{
 			var meshData:MeshData = _meshData[i];
 			var vertexData:Vector<VertexData> = meshData.vertexData;
-			var numVerts:int = vertexData.length;
+			var numVerts:Int = vertexData.length;
 
-			for (var j:int = 0; j < numVerts; ++j)
+			for (j in 0...numVerts)
 			{
-				var zeroWeights:int = countZeroWeightJoints(vertexData[j], meshData.weightData);
-				var totalJoints:int = vertexData[j].countWeight - zeroWeights;
+				var zeroWeights:Int = countZeroWeightJoints(vertexData[j], meshData.weightData);
+				var totalJoints:Int = vertexData[j].countWeight - zeroWeights;
 				if (totalJoints > _maxJointCount)
 					_maxJointCount = totalJoints;
 			}
 		}
 	}
 
-	private function countZeroWeightJoints(vertex:VertexData, weights:Vector<JointData>):int
+	private function countZeroWeightJoints(vertex:VertexData, weights:Vector<JointData>):Int
 	{
-		var start:int = vertex.startWeight;
-		var end:int = vertex.startWeight + vertex.countWeight;
-		var count:int = 0;
+		var start:Int = vertex.startWeight;
+		var end:Int = vertex.startWeight + vertex.countWeight;
+		var count:Int = 0;
 		var weight:Float;
 
-		for (var i:int = start; i < end; ++i)
+		for (i in start...end)
 		{
 			weight = weights[i].bias;
 			if (weight == 0)
@@ -225,7 +225,7 @@ class MD5MeshParser extends ParserBase
 		var joint:SkeletonJoint;
 		var pos:Vector3D;
 		var quat:Quaternion;
-		var i:int = 0;
+		var i:Int = 0;
 		var token:String = getNextToken();
 
 		if (token != "{")
@@ -294,7 +294,8 @@ class MD5MeshParser extends ParserBase
 		if (token != "{")
 			sendUnknownKeywordError();
 
-		_shaders ||= new Vector<String>();
+		if(_shaders == null)
+			_shaders = new Vector<String>();
 
 		while (ch != "}")
 		{
@@ -303,33 +304,34 @@ class MD5MeshParser extends ParserBase
 			{
 				case COMMENT_TOKEN:
 					ignoreLine();
-					break;
+					
 				case MESH_SHADER_TOKEN:
 					_shaders.push(parseLiteralString());
-					break;
+					
 				case MESH_NUM_VERTS_TOKEN:
 					vertexData = new Vector<VertexData>(getNextInt(), true);
-					break;
+					
 				case MESH_NUM_TRIS_TOKEN:
 					indices = new Vector<UInt>(getNextInt() * 3, true);
-					break;
+					
 				case MESH_NUM_WEIGHTS_TOKEN:
 					weights = new Vector<JointData>(getNextInt(), true);
-					break;
+					
 				case MESH_VERT_TOKEN:
 					parseVertex(vertexData);
-					break;
+					
 				case MESH_TRI_TOKEN:
 					parseTri(indices);
-					break;
+					
 				case MESH_WEIGHT_TOKEN:
 					parseJoint(weights);
-					break;
+					
 			}
 		}
-
-		_meshData ||= new Vector<MeshData>();
-		var i:UInt = _meshData.length;
+		
+		if(_meshData == null)
+			_meshData = new Vector<MeshData>();
+		var i:Int = _meshData.length;
 		_meshData[i] = new MeshData();
 		_meshData[i].vertexData = vertexData;
 		_meshData[i].weightData = weights;
@@ -345,8 +347,8 @@ class MD5MeshParser extends ParserBase
 	 */
 	private function translateGeom(vertexData:Vector<VertexData>, weights:Vector<JointData>, indices:Vector<UInt>):SkinnedSubGeometry
 	{
-		var len:int = vertexData.length;
-		var v1:int, v2:int, v3:int;
+		var len:Int = vertexData.length;
+		var v1:Int, v2:Int, v3:Int;
 		var vertex:VertexData;
 		var weight:JointData;
 		var bindPose:Matrix3D;
@@ -356,10 +358,10 @@ class MD5MeshParser extends ParserBase
 		var vertices:Vector<Float> = new Vector<Float>(len * 3, true);
 		var jointIndices:Vector<Float> = new Vector<Float>(len * _maxJointCount, true);
 		var jointWeights:Vector<Float> = new Vector<Float>(len * _maxJointCount, true);
-		var l:int;
-		var nonZeroWeights:int;
+		var l:Int;
+		var nonZeroWeights:Int;
 
-		for (var i:int = 0; i < len; ++i)
+		for (i in 0...len)
 		{
 			vertex = vertexData[i];
 			v1 = vertex.index * 3;
@@ -368,7 +370,7 @@ class MD5MeshParser extends ParserBase
 			vertices[v1] = vertices[v2] = vertices[v3] = 0;
 
 			nonZeroWeights = 0;
-			for (var j:int = 0; j < vertex.countWeight; ++j)
+			for (j in 0...vertex.countWeight)
 			{
 				weight = weights[vertex.startWeight + j];
 				if (weight.bias > 0)
@@ -386,7 +388,7 @@ class MD5MeshParser extends ParserBase
 				}
 			}
 
-			for (j = nonZeroWeights; j < _maxJointCount; ++j)
+			for (j in nonZeroWeights..._maxJointCount)
 			{
 				jointIndices[l] = 0;
 				jointWeights[l++] = 0;
@@ -417,7 +419,7 @@ class MD5MeshParser extends ParserBase
 	 */
 	private function parseTri(indices:Vector<UInt>):Void
 	{
-		var index:int = getNextInt() * 3;
+		var index:Int = getNextInt() * 3;
 		indices[index] = getNextInt();
 		indices[index + 1] = getNextInt();
 		indices[index + 2] = getNextInt();
@@ -546,10 +548,10 @@ class MD5MeshParser extends ParserBase
 	/**
 	 * Retrieves the next integer in the data stream.
 	 */
-	private function getNextInt():int
+	private function getNextInt():Int
 	{
-		var i:Float = parseInt(getNextToken());
-		if (isNaN(i))
+		var i:Int = Std.parseInt(getNextToken());
+		if (Math.isNaN(i))
 			sendParseError("int type");
 		return i;
 	}
@@ -559,8 +561,8 @@ class MD5MeshParser extends ParserBase
 	 */
 	private function getNextNumber():Float
 	{
-		var f:Float = parseFloat(getNextToken());
-		if (isNaN(f))
+		var f:Float = Std.parseFloat(getNextToken());
+		if (Math.isNaN(f))
 			sendParseError("float type");
 		return f;
 	}
@@ -674,25 +676,25 @@ class MD5MeshParser extends ParserBase
 
 class VertexData
 {
-	public var index:int;
+	public var index:Int;
 	public var s:Float;
 	public var t:Float;
-	public var startWeight:int;
-	public var countWeight:int;
+	public var startWeight:Int;
+	public var countWeight:Int;
 
-	public function VertexData()
+	public function new()
 	{
 	}
 }
 
 class JointData
 {
-	public var index:int;
-	public var joint:int;
+	public var index:Int;
+	public var joint:Int;
 	public var bias:Float;
 	public var pos:Vector3D;
 
-	public function JointData()
+	public function new()
 	{
 	}
 }
@@ -703,7 +705,7 @@ class MeshData
 	public var weightData:Vector<JointData>;
 	public var indices:Vector<UInt>;
 
-	public function MeshData()
+	public function new()
 	{
 	}
 }

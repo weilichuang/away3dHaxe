@@ -1,10 +1,12 @@
 package a3d.io.loaders.parsers;
 
 import flash.display.BitmapData;
+import flash.errors.Error;
 import flash.geom.Matrix3D;
 import flash.geom.Vector3D;
 import flash.net.URLRequest;
 import flash.Vector;
+import flash.xml.XML;
 
 
 import a3d.animators.SkeletonAnimationSet;
@@ -90,10 +92,11 @@ class DAEParser extends ParserBase
 
 	public function getGeometryByName(name:String, clone:Bool = false):Geometry
 	{
-		if (!_geometries)
+		if (_geometries == null)
 			return null;
 
-		for each (var geometry:Geometry in _geometries)
+		var geometry:Geometry;
+		for (geometry in _geometries)
 		{
 			if (geometry.name == name)
 				return (clone ? geometry.clone() : geometry);
@@ -118,9 +121,9 @@ class DAEParser extends ParserBase
 	 * @param data The data block to potentially be parsed.
 	 * @return Whether or not the given data is supported.
 	 */
-	public static function supportsData(data:*):Bool
+	public static function supportsData(data:Dynamic):Bool
 	{
-		if (String(data).indexOf("COLLADA") != -1 || String(data).indexOf("collada") != -1)
+		if (Std.instance(data,String).indexOf("COLLADA") != -1 || Std.instance(data,String).indexOf("collada") != -1)
 			return true;
 
 		return false;
@@ -173,9 +176,9 @@ class DAEParser extends ParserBase
 				}
 				catch (e:Error)
 				{
-					return PARSING_DONE;
+					return ParserBase.PARSING_DONE;
 				}
-				break;
+				
 
 			case DAEParserState.PARSE_IMAGES:
 				_libImages = parseLibrary(_doc._ns::library_images._ns::image, DAEImage);
@@ -185,25 +188,25 @@ class DAEParser extends ParserBase
 					addDependency(image.id, new URLRequest(image.init_from));
 				}
 				pauseAndRetrieveDependencies();
-				break;
+				
 
 			case DAEParserState.PARSE_MATERIALS:
 				_libMaterials = parseLibrary(_doc._ns::library_materials._ns::material, DAEMaterial);
 				_libEffects = parseLibrary(_doc._ns::library_effects._ns::effect, DAEEffect);
 				setupMaterials();
 				_parseState = DAEParserState.PARSE_GEOMETRIES;
-				break;
+				
 
 			case DAEParserState.PARSE_GEOMETRIES:
 				_libGeometries = parseLibrary(_doc._ns::library_geometries._ns::geometry, DAEGeometry);
 				_geometries = translateGeometries();
 				_parseState = DAEParserState.PARSE_CONTROLLERS;
-				break;
+				
 
 			case DAEParserState.PARSE_CONTROLLERS:
 				_libControllers = parseLibrary(_doc._ns::library_controllers._ns::controller, DAEController);
 				_parseState = DAEParserState.PARSE_VISUAL_SCENE;
-				break;
+				
 
 			case DAEParserState.PARSE_VISUAL_SCENE:
 				_scene = null;
@@ -228,25 +231,25 @@ class DAEParser extends ParserBase
 					}
 				}
 				_parseState = isAnimated ? DAEParserState.PARSE_ANIMATIONS : DAEParserState.PARSE_COMPLETE;
-				break;
+				
 
 			case DAEParserState.PARSE_ANIMATIONS:
 				_parseState = DAEParserState.PARSE_COMPLETE;
-				break;
+				
 
 			case DAEParserState.PARSE_COMPLETE:
 				//finalizeAsset(_rootContainer, "COLLADA_ROOT_" + (_numInstances++));
-				return PARSING_DONE;
+				return ParserBase.PARSING_DONE;
 		}
 
-		return MORE_TO_PARSE;
+		return ParserBase.MORE_TO_PARSE;
 	}
 
 
 	private function buildDefaultMaterial(map:BitmapData = null):MaterialBase
 	{
 		//TODO:fix this duplication mess
-		if (map)
+		if (map != null)
 		{
 			if (materialMode < 2)
 				_defaultBitmapMaterial = new TextureMaterial(new BitmapTexture(map));
@@ -702,7 +705,7 @@ class DAEParser extends ParserBase
 	private function getMeshEffects(bindMaterial:DAEBindMaterial, mesh:DAEMesh):Vector<DAEEffect>
 	{
 		var effects:Vector<DAEEffect> = new Vector<DAEEffect>();
-		if (!bindMaterial)
+		if (bindMaterial == null)
 			return effects;
 
 		var material:DAEMaterial;
@@ -710,11 +713,11 @@ class DAEParser extends ParserBase
 		var instance:DAEInstanceMaterial;
 		var i:UInt, j:UInt;
 
-		for (i = 0; i < mesh.primitives.length; i++)
+		for (i in 0...mesh.primitives.length)
 		{
 			if (!bindMaterial.instance_material)
 				continue;
-			for (j = 0; j < bindMaterial.instance_material.length; j++)
+			for (j in 0...bindMaterial.instance_material.length)
 			{
 				instance = bindMaterial.instance_material[j];
 				if (mesh.primitives[i].material == instance.symbol)
@@ -1395,12 +1398,12 @@ class DAEPrimitive extends DAEElement
 			var vcount:UInt = _vcount != null ? _vcount.shift() : 3;
 			var face:DAEFace = new DAEFace();
 
-			for (i = 0; i < vcount; i++)
+			for (i in 0...vcount)
 			{
 				var t:UInt = i * numInputs;
 				var vertex:DAEVertex = new DAEVertex(_texcoordSets.length);
 
-				for (j = 0; j < _inputs.length; j++)
+				for (j in 0..._inputs.length)
 				{
 					input = _inputs[j];
 					index = _p[idx + t + input.offset];
@@ -1421,7 +1424,6 @@ class DAEPrimitive extends DAEElement
 								vertex.z = source.floats[idx32 + 2];
 							}
 							vertex.daeIndex = index;
-							break;
 						case "NORMAL":
 							vertex.nx = source.floats[idx32 + 0];
 							vertex.ny = source.floats[idx32 + 1];
@@ -1433,7 +1435,6 @@ class DAEPrimitive extends DAEElement
 							{
 								vertex.nz = source.floats[idx32 + 2];
 							}
-							break;
 						case "TEXCOORD":
 							if (input.set == _texcoordSets[0])
 							{
@@ -1445,9 +1446,7 @@ class DAEPrimitive extends DAEElement
 								vertex.uvx2 = source.floats[idx32 + 0];
 								vertex.uvy2 = source.floats[idx32 + 1];
 							}
-							break;
 						default:
-							break;
 					}
 				}
 				var hash:String = vertex.hash;
@@ -1469,7 +1468,7 @@ class DAEPrimitive extends DAEElement
 			{
 				// triangulate
 				var v0:DAEVertex = face.vertices[0];
-				for (var k:UInt = 1; k < face.vertices.length - 1; k++)
+				for (k in 1...face.vertices.length - 1)
 				{
 					var f:DAEFace = new DAEFace();
 					f.vertices.push(v0);
@@ -1493,21 +1492,21 @@ class DAEPrimitive extends DAEElement
 		var input:DAEInput;
 		var i:UInt, j:UInt;
 		var result:Bool = true;
-		_texcoordSets = new Vector<int>();
+		_texcoordSets = new Vector<Int>();
 
-		for (i = 0; i < _inputs.length; i++)
+		for (i in 0..._inputs.length)
 		{
 			input = _inputs[i];
 
 			if (input.semantic == "TEXCOORD")
 				_texcoordSets.push(input.set);
 
-			if (!mesh.sources[input.source])
+			if (!mesh.sources.exists(input.source))
 			{
 				result = false;
 				if (input.source == mesh.vertices.id)
 				{
-					for (j = 0; j < mesh.vertices.inputs.length; j++)
+					for (j in 0...mesh.vertices.inputs.length)
 					{
 						if (mesh.vertices.inputs[j].semantic == "POSITION")
 						{
@@ -1529,7 +1528,7 @@ class DAEVertices extends DAEElement
 	public var mesh:DAEMesh;
 	public var inputs:Vector<DAEInput>;
 
-	public function DAEVertices(mesh:DAEMesh, element:XML = null)
+	public function new(mesh:DAEMesh, element:XML = null)
 	{
 		this.mesh = mesh;
 		super(element);
@@ -1554,7 +1553,7 @@ class DAEGeometry extends DAEElement
 	public var mesh:DAEMesh;
 	public var meshName:String = "";
 
-	public function DAEGeometry(element:XML = null)
+	public function new(element:XML = null)
 	{
 		super(element);
 	}
@@ -1576,11 +1575,11 @@ class DAEGeometry extends DAEElement
 class DAEMesh extends DAEElement
 {
 	public var geometry:DAEGeometry;
-	public var sources:Object;
+	public var sources:StringMap<DAESource>;
 	public var vertices:DAEVertices;
 	public var primitives:Vector<DAEPrimitive>;
 
-	public function DAEMesh(geometry:DAEGeometry, element:XML = null)
+	public function new(geometry:DAEGeometry, element:XML = null)
 	{
 		this.geometry = geometry;
 		super(element);
@@ -1589,7 +1588,7 @@ class DAEMesh extends DAEElement
 	override public function deserialize(element:XML):Void
 	{
 		super.deserialize(element);
-		this.sources = {};
+		this.sources = new StringMap<DAESource>();
 		this.vertices = null;
 		this.primitives = new Vector<DAEPrimitive>();
 		traverseChildren(element);
@@ -1601,14 +1600,10 @@ class DAEMesh extends DAEElement
 		{
 			case "source":
 				var source:DAESource = new DAESource(child);
-				this.sources[source.id] = source;
-				break;
+				this.sources.set(source.id, source);
 			case "vertices":
 				this.vertices = new DAEVertices(this, child);
-				break;
-			case "triangles":
-			case "polylist":
-			case "polygon":
+			case "triangles","polylist","polygon":
 				this.primitives.push(new DAEPrimitive(child));
 		}
 	}
@@ -1618,7 +1613,7 @@ class DAEBindMaterial extends DAEElement
 {
 	public var instance_material:Vector<DAEInstanceMaterial>;
 
-	public function DAEBindMaterial(element:XML = null)
+	public function new(element:XML = null)
 	{
 		super(element);
 	}
@@ -1634,7 +1629,7 @@ class DAEBindMaterial extends DAEElement
 	{
 		if (nodeName == "technique_common")
 		{
-			for (var i:UInt = 0; i < child.children().length(); i++)
+			for (i in 0...child.children().length())
 				this.instance_material.push(new DAEInstanceMaterial(child.children()[i]));
 		}
 	}
@@ -1644,9 +1639,9 @@ class DAEBindVertexInput extends DAEElement
 {
 	public var semantic:String;
 	public var input_semantic:String;
-	public var input_set:int;
+	public var input_set:Int;
 
-	public function DAEBindVertexInput(element:XML = null)
+	public function new(element:XML = null)
 	{
 		super(element);
 	}
@@ -1664,7 +1659,7 @@ class DAEInstance extends DAEElement
 {
 	public var url:String;
 
-	public function DAEInstance(element:XML = null)
+	public function new(element:XML = null)
 	{
 		super(element);
 	}
@@ -1681,7 +1676,7 @@ class DAEInstanceController extends DAEInstance
 	public var bind_material:DAEBindMaterial;
 	public var skeleton:Vector<String>;
 
-	public function DAEInstanceController(element:XML = null)
+	public function new(element:XML = null)
 	{
 		super(element);
 	}
@@ -1700,7 +1695,6 @@ class DAEInstanceController extends DAEInstance
 		{
 			case "skeleton":
 				this.skeleton.push(readText(child).replace(/^#/, ""));
-				break;
 			case "bind_material":
 				this.bind_material = new DAEBindMaterial(child);
 		}
@@ -1709,7 +1703,7 @@ class DAEInstanceController extends DAEInstance
 
 class DAEInstanceEffect extends DAEInstance
 {
-	public function DAEInstanceEffect(element:XML = null)
+	public function new(element:XML = null)
 	{
 		super(element);
 	}

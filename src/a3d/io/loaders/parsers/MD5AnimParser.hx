@@ -1,5 +1,6 @@
 package a3d.io.loaders.parsers;
 
+import flash.errors.Error;
 import flash.geom.Vector3D;
 import flash.Vector;
 
@@ -23,29 +24,29 @@ class MD5AnimParser extends ParserBase
 {
 	private var _textData:String;
 	private var _startedParsing:Bool;
-	private static const VERSION_TOKEN:String = "MD5Version";
-	private static const COMMAND_LINE_TOKEN:String = "commandline";
-	private static const NUM_FRAMES_TOKEN:String = "numFrames";
-	private static const NUM_JOINTS_TOKEN:String = "numJoints";
-	private static const FRAME_RATE_TOKEN:String = "frameRate";
-	private static const NUM_ANIMATED_COMPONENTS_TOKEN:String = "numAnimatedComponents";
+	private static inline var VERSION_TOKEN:String = "MD5Version";
+	private static inline var COMMAND_LINE_TOKEN:String = "commandline";
+	private static inline var NUM_FRAMES_TOKEN:String = "numFrames";
+	private static inline var NUM_JOINTS_TOKEN:String = "numJoints";
+	private static inline var FRAME_RATE_TOKEN:String = "frameRate";
+	private static inline var NUM_ANIMATED_COMPONENTS_TOKEN:String = "numAnimatedComponents";
 
-	private static const HIERARCHY_TOKEN:String = "hierarchy";
-	private static const BOUNDS_TOKEN:String = "bounds";
-	private static const BASE_FRAME_TOKEN:String = "baseframe";
-	private static const FRAME_TOKEN:String = "frame";
+	private static inline var HIERARCHY_TOKEN:String = "hierarchy";
+	private static inline var BOUNDS_TOKEN:String = "bounds";
+	private static inline var BASE_FRAME_TOKEN:String = "baseframe";
+	private static inline var FRAME_TOKEN:String = "frame";
 
-	private static const COMMENT_TOKEN:String = "//";
+	private static inline var COMMENT_TOKEN:String = "//";
 
-	private var _parseIndex:int;
+	private var _parseIndex:Int;
 	private var _reachedEOF:Bool;
-	private var _line:int;
-	private var _charLineIndex:int;
-	private var _version:int;
-	private var _frameRate:int;
-	private var _numFrames:int;
-	private var _numJoints:int;
-	private var _numAnimatedComponents:int;
+	private var _line:Int;
+	private var _charLineIndex:Int;
+	private var _version:Int;
+	private var _frameRate:Int;
+	private var _numFrames:Int;
+	private var _numJoints:Int;
+	private var _numAnimatedComponents:Int;
 
 	private var _hierarchy:Vector<HierarchyData>;
 	private var _bounds:Vector<BoundsData>;
@@ -96,7 +97,7 @@ class MD5AnimParser extends ParserBase
 	 * @param data The data block to potentially be parsed.
 	 * @return Whether or not the given data is supported.
 	 */
-	public static function supportsData(data:*):Bool
+	public static function supportsData(data:Dynamic):Bool
 	{
 		data = data;
 		return false;
@@ -122,46 +123,46 @@ class MD5AnimParser extends ParserBase
 			{
 				case COMMENT_TOKEN:
 					ignoreLine();
-					break;
+					
 				case "":
 					// can occur at the end of a file
-					break;
+					
 				case VERSION_TOKEN:
 					_version = getNextInt();
 					if (_version != 10)
 						throw new Error("Unknown version number encountered!");
-					break;
+					
 				case COMMAND_LINE_TOKEN:
 					parseCMD();
-					break;
+					
 				case NUM_FRAMES_TOKEN:
 					_numFrames = getNextInt();
 					_bounds = new Vector<BoundsData>();
 					_frameData = new Vector<FrameData>();
-					break;
+					
 				case NUM_JOINTS_TOKEN:
 					_numJoints = getNextInt();
 					_hierarchy = new Vector<HierarchyData>(_numJoints, true);
 					_baseFrameData = new Vector<BaseFrameData>(_numJoints, true);
-					break;
+					
 				case FRAME_RATE_TOKEN:
 					_frameRate = getNextInt();
-					break;
+					
 				case NUM_ANIMATED_COMPONENTS_TOKEN:
 					_numAnimatedComponents = getNextInt();
-					break;
+					
 				case HIERARCHY_TOKEN:
 					parseHierarchy();
-					break;
+					
 				case BOUNDS_TOKEN:
 					parseBounds();
-					break;
+					
 				case BASE_FRAME_TOKEN:
 					parseBaseFrame();
-					break;
+					
 				case FRAME_TOKEN:
 					parseFrame();
-					break;
+					
 				default:
 					if (!_reachedEOF)
 						sendUnknownKeywordError();
@@ -183,8 +184,8 @@ class MD5AnimParser extends ParserBase
 	 */
 	private function translateClip():Void
 	{
-		for (var i:int = 0; i < _numFrames; ++i)
-			_clip.addFrame(translatePose(_frameData[i]), 1000 / _frameRate);
+		for (i in 0..._numFrames)
+			_clip.addFrame(translatePose(_frameData[i]), Std.int(1000 / _frameRate));
 	}
 
 	/**
@@ -197,15 +198,15 @@ class MD5AnimParser extends ParserBase
 		var hierarchy:HierarchyData;
 		var pose:JointPose;
 		var base:BaseFrameData;
-		var flags:int;
-		var j:int;
+		var flags:Int;
+		var j:Int;
 		var translate:Vector3D = new Vector3D();
 		var orientation:Quaternion = new Quaternion();
 		var components:Vector<Float> = frameData.components;
 		var skelPose:SkeletonPose = new SkeletonPose();
 		var jointPoses:Vector<JointPose> = skelPose.jointPoses;
 
-		for (var i:int = 0; i < _numJoints; ++i)
+		for (i in 0..._numJoints)
 		{
 			j = 0;
 			pose = new JointPose();
@@ -219,17 +220,17 @@ class MD5AnimParser extends ParserBase
 			orientation.y = base.orientation.y;
 			orientation.z = base.orientation.z;
 
-			if (flags & 1)
+			if ((flags & 1) != 0)
 				translate.x = components[hierarchy.startIndex + (j++)];
-			if (flags & 2)
+			if ((flags & 2) != 0)
 				translate.y = components[hierarchy.startIndex + (j++)];
-			if (flags & 4)
+			if ((flags & 4) != 0)
 				translate.z = components[hierarchy.startIndex + (j++)];
-			if (flags & 8)
+			if ((flags & 8) != 0)
 				orientation.x = components[hierarchy.startIndex + (j++)];
-			if (flags & 16)
+			if ((flags & 16) != 0)
 				orientation.y = components[hierarchy.startIndex + (j++)];
-			if (flags & 32)
+			if ((flags & 32) != 0)
 				orientation.z = components[hierarchy.startIndex + (j++)];
 
 			var w:Float = 1 - orientation.x * orientation.x - orientation.y * orientation.y - orientation.z * orientation.z;
@@ -265,7 +266,7 @@ class MD5AnimParser extends ParserBase
 		var ch:String;
 		var data:HierarchyData;
 		var token:String = getNextToken();
-		var i:int = 0;
+		var i:Int = 0;
 
 		if (token != "{")
 			sendUnknownKeywordError();
@@ -306,7 +307,7 @@ class MD5AnimParser extends ParserBase
 		var ch:String;
 		var data:BoundsData;
 		var token:String = getNextToken();
-		var i:int = 0;
+		var i:Int = 0;
 
 		if (token != "{")
 			sendUnknownKeywordError();
@@ -345,7 +346,7 @@ class MD5AnimParser extends ParserBase
 		var ch:String;
 		var data:BaseFrameData;
 		var token:String = getNextToken();
-		var i:int = 0;
+		var i:Int = 0;
 
 		if (token != "{")
 			sendUnknownKeywordError();
@@ -384,7 +385,7 @@ class MD5AnimParser extends ParserBase
 		var ch:String;
 		var data:FrameData;
 		var token:String;
-		var frameIndex:int;
+		var frameIndex:Int;
 
 		frameIndex = getNextInt();
 
@@ -399,7 +400,7 @@ class MD5AnimParser extends ParserBase
 			data = new FrameData();
 			data.components = new Vector<Float>(_numAnimatedComponents, true);
 
-			for (var i:int = 0; i < _numAnimatedComponents; ++i)
+			for (i in 0..._numAnimatedComponents)
 			{
 				data.components[i] = getNextNumber();
 			}
@@ -516,10 +517,10 @@ class MD5AnimParser extends ParserBase
 	/**
 	 * Retrieves the next integer in the data stream.
 	 */
-	private function getNextInt():int
+	private function getNextInt():Int
 	{
-		var i:Float = parseInt(getNextToken());
-		if (isNaN(i))
+		var i:Int = Std.parseInt(getNextToken());
+		if (Math.isNaN(i))
 			sendParseError("int type");
 		return i;
 	}
@@ -529,8 +530,8 @@ class MD5AnimParser extends ParserBase
 	 */
 	private function getNextNumber():Float
 	{
-		var f:Float = parseFloat(getNextToken());
-		if (isNaN(f))
+		var f:Float = Std.parseFloat(getNextToken());
+		if (Math.isNaN(f))
 			sendParseError("float type");
 		return f;
 	}
@@ -645,11 +646,11 @@ class MD5AnimParser extends ParserBase
 class HierarchyData
 {
 	public var name:String;
-	public var parentIndex:int;
-	public var flags:int;
-	public var startIndex:int;
+	public var parentIndex:Int;
+	public var flags:Int;
+	public var startIndex:Int;
 
-	public function HierarchyData()
+	public function new()
 	{
 	}
 }
@@ -659,7 +660,7 @@ class BoundsData
 	public var min:Vector3D;
 	public var max:Vector3D;
 
-	public function BoundsData()
+	public function new()
 	{
 	}
 }
@@ -669,17 +670,17 @@ class BaseFrameData
 	public var position:Vector3D;
 	public var orientation:Quaternion;
 
-	public function BaseFrameData()
+	public function new()
 	{
 	}
 }
 
 class FrameData
 {
-	public var index:int;
+	public var index:Int;
 	public var components:Vector<Float>;
 
-	public function FrameData()
+	public function new()
 	{
 	}
 }

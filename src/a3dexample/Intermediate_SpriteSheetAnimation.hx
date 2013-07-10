@@ -43,6 +43,7 @@ THE SOFTWARE.
 
 package a3dexample;
 
+import feffects.easing.Quad;
 import feffects.Tween;
 import flash.display.Bitmap;
 import flash.display.BitmapData;
@@ -421,7 +422,7 @@ class Intermediate_SpriteSheetAnimation extends BasicApplication
 		var destY:Float = Math.random() * 16000;
 		var destZ:Float = 3000 + Math.random() * 18000;
 		
-		view.camera.tween( { x:destX, y:destY, z: -destZ }, Std.int(4 + (Math.random() * 2)) * 1000, null, true, startTween).start();
+		view.camera.tween( { x:destX, y:destY, z: -destZ }, Std.int(4 + (Math.random() * 2)) * 1000, Quad.easeInOut, true, startTween);
 
 		//Tweener.addTween(view.camera, {x: destX, y: destY, z: -destZ,
 				//time: 4 + (Math.random() * 2),

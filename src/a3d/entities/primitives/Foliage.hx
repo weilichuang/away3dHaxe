@@ -22,11 +22,12 @@ class Foliage extends PrimitiveBase
 	private var _leafCount:UInt;
 	private var _positions:Vector<Float>;
 
-	private var _pi:Float = Math.PI;
+	private var _pi:Float;
 
 	public function new(positions:Vector<Float>, leafCount:UInt, leafSize:Float, radius:Float)
 	{
 		super();
+		_pi = Math.PI;
 		_leafCount = leafCount;
 		_leafSize = leafSize;
 		_radius = radius;
@@ -81,38 +82,88 @@ class Foliage extends PrimitiveBase
 		// Set vertices.
 		p1 = p0.add(p1);
 		p2 = p0.add(p2);
-		_rawVertices.push(p0.x, p0.y, p0.z);
-		_rawVertices.push(p1.x, p1.y, p1.z);
-		_rawVertices.push(p2.x, p2.y, p2.z);
-		_rawVertices.push(p0.x, p0.y, p0.z);
-		_rawVertices.push(p1.x, p1.y, p1.z);
-		_rawVertices.push(p2.x, p2.y, p2.z);
+		_rawVertices.push(p0.x);
+		_rawVertices.push(p0.y);
+		_rawVertices.push(p0.z);
+		_rawVertices.push(p1.x);
+		_rawVertices.push(p1.y);
+		_rawVertices.push(p1.z);
+		_rawVertices.push(p2.x);
+		_rawVertices.push(p2.y);
+		_rawVertices.push(p2.z);
+		_rawVertices.push(p0.x);
+		_rawVertices.push(p0.y);
+		_rawVertices.push(p0.z);
+		_rawVertices.push(p1.x);
+		_rawVertices.push(p1.y);
+		_rawVertices.push(p1.z);
+		_rawVertices.push(p2.x);
+		_rawVertices.push(p2.y);
+		_rawVertices.push(p2.z);
 
 		// Set indices.
-		_rawIndices.push(_off, _off + 1, _off + 2);
-		_rawIndices.push(_off + 5, _off + 4, _off + 3);
+		_rawIndices.push(_off);
+		_rawIndices.push(_off + 1);
+		_rawIndices.push(_off + 2);
+		_rawIndices.push(_off + 5);
+		_rawIndices.push(_off + 4);
+		_rawIndices.push(_off + 3);
 		_off += 6;
 
 		// Set normals.
-		_rawNormals.push(norm.x, norm.y, norm.z);
-		_rawNormals.push(norm.x, norm.y, norm.z);
-		_rawNormals.push(norm.x, norm.y, norm.z);
+		_rawNormals.push(norm.x);
+		_rawNormals.push(norm.y);
+		_rawNormals.push(norm.z);
+		_rawNormals.push(norm.x);
+		_rawNormals.push(norm.y);
+		_rawNormals.push(norm.z);
+		_rawNormals.push(norm.x);
+		_rawNormals.push(norm.y);
+		_rawNormals.push(norm.z);
 		norm.negate();
-		_rawNormals.push(norm.x, norm.y, norm.z);
-		_rawNormals.push(norm.x, norm.y, norm.z);
-		_rawNormals.push(norm.x, norm.y, norm.z);
+		_rawNormals.push(norm.x);
+		_rawNormals.push(norm.y);
+		_rawNormals.push(norm.z);
+		_rawNormals.push(norm.x);
+		_rawNormals.push(norm.y);
+		_rawNormals.push(norm.z);
+		_rawNormals.push(norm.x);
+		_rawNormals.push(norm.y);
+		_rawNormals.push(norm.z);
 
 		// Set Tangents.
-		_rawTangents.push(0, 0, 0);
-		_rawTangents.push(0, 0, 0);
-		_rawTangents.push(0, 0, 0);
-		_rawTangents.push(0, 0, 0);
-		_rawTangents.push(0, 0, 0);
-		_rawTangents.push(0, 0, 0);
+		_rawTangents.push(0);
+		_rawTangents.push(0);
+		_rawTangents.push(0);
+		_rawTangents.push(0);
+		_rawTangents.push(0);
+		_rawTangents.push(0);
+		_rawTangents.push(0);
+		_rawTangents.push(0);
+		_rawTangents.push(0);
+		_rawTangents.push(0);
+		_rawTangents.push(0);
+		_rawTangents.push(0);
+		_rawTangents.push(0);
+		_rawTangents.push(0);
+		_rawTangents.push(0);
+		_rawTangents.push(0);
+		_rawTangents.push(0);
+		_rawTangents.push(0);
 
 		// Set UVs.
-		_rawUvs.push(0, 0, 1, 0, 1, 1);
-		_rawUvs.push(0, 0, 1, 0, 1, 1);
+		_rawUvs.push(0);
+		_rawUvs.push(0);
+		_rawUvs.push(1);
+		_rawUvs.push(0);
+		_rawUvs.push(1);
+		_rawUvs.push(1);
+		_rawUvs.push(0);
+		_rawUvs.push(0);
+		_rawUvs.push(1);
+		_rawUvs.push(0);
+		_rawUvs.push(1);
+		_rawUvs.push(1);
 	}
 
 	private function sphericalToCartesian(sphericalCoords:Vector3D):Vector3D
@@ -126,7 +177,7 @@ class Foliage extends PrimitiveBase
 
 	override private function buildUVs(target:CompactSubGeometry):Void
 	{
-		target.updateData(GeomUtil.interleaveBuffers(_rawVertices.length / 3, _rawVertices, _rawNormals, _rawTangents, _rawUvs));
+		target.updateData(GeomUtil.interleaveBuffers(Std.int(_rawVertices.length / 3), _rawVertices, _rawNormals, _rawTangents, _rawUvs));
 	}
 
 	private function rand(min:Float, max:Float):Float

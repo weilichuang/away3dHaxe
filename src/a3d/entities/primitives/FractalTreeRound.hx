@@ -26,7 +26,7 @@ class FractalTreeRound extends PrimitiveBase
 	private var _d0:Vector3D; 
 	private var _d1:Vector3D;
 	private var _mid:Vector3D; 
-	private var _boxNorm:Vector3D,
+	private var _boxNorm:Vector3D;
 	private var _triNorm:Vector3D;
 	private var _sideLength:Float;
 	private var _firstBaseToHeightFactor:Float;
@@ -89,15 +89,15 @@ class FractalTreeRound extends PrimitiveBase
 		target.updateIndexData(_rawIndices);
 	}
 
-	private function step(level:UInt):Void
+	private function step(level:Int):Void
 	{
 		// Obtain the last set of quads (make sure rotation occurs).
 		var last:Vector<Float> = _rawVertices.slice(_rawVertices.length - 18);
-		var front:Vector<Float> = Vector<Float>([last[3], last[4], last[5],
+		var front:Vector<Float> = Vector.ofArray([last[3], last[4], last[5],
 			last[12], last[13], last[14],
 			last[15], last[16], last[17],
 			last[0], last[1], last[2]]);
-		var back:Vector<Float> = Vector<Float>([last[12], last[13], last[14],
+		var back:Vector<Float> = Vector.ofArray([last[12], last[13], last[14],
 			last[6], last[7], last[8],
 			last[9], last[10], last[11],
 			last[15], last[16], last[17]]);
@@ -108,7 +108,12 @@ class FractalTreeRound extends PrimitiveBase
 			// Store the position of the leaves.
 			var leaf0:Vector3D = new Vector3D(front[0], front[1], front[2]);
 			var leaf1:Vector3D = new Vector3D(back[3], back[4], back[5]);
-			_leafPositions.push(leaf0.x, leaf0.y, leaf0.z, leaf1.x, leaf1.y, leaf1.z);
+			_leafPositions.push(leaf0.x);
+			_leafPositions.push(leaf0.y); 
+			_leafPositions.push(leaf0.z); 
+			_leafPositions.push(leaf1.x); 
+			_leafPositions.push(leaf1.y); 
+			_leafPositions.push(leaf1.z);
 
 			return;
 		}
@@ -149,29 +154,91 @@ class FractalTreeRound extends PrimitiveBase
 		_triNorm.scaleBy(rand(_baseToTriangleHeightFactorRange.x, _baseToTriangleHeightFactorRange.y) * _sideLength);
 
 		// Set vertices.
-		_rawVertices.push(_v0.x, _v0.y, _v0.z); // flb (front left bottom)
-		_rawVertices.push(_v1.x, _v1.y, _v1.z); // frb
-		_rawVertices.push(_v2.x, _v2.y, _v2.z); // brb
-		_rawVertices.push(_v3.x, _v3.y, _v3.z); // blb
-		_rawVertices.push(_v0.x + _boxNorm.x, _v0.y + _boxNorm.y, _v0.z + _boxNorm.z); // flt
-		_rawVertices.push(_v1.x + _boxNorm.x, _v1.y + _boxNorm.y, _v1.z + _boxNorm.z); // frt
-		_rawVertices.push(_v2.x + _boxNorm.x, _v2.y + _boxNorm.y, _v2.z + _boxNorm.z); // brt
-		_rawVertices.push(_v3.x + _boxNorm.x, _v3.y + _boxNorm.y, _v3.z + _boxNorm.z); // blt
-		_rawVertices.push(_v1.x + _boxNorm.x + _mid.x + _triNorm.x, _v1.y + _boxNorm.y + _mid.y + _triNorm.y, _v1.z + _boxNorm.z + _mid.z + _triNorm.z); // tri front
-		_rawVertices.push(_v0.x + _boxNorm.x + _mid.x + _triNorm.x, _v0.y + _boxNorm.y + _mid.y + _triNorm.y, _v0.z + _boxNorm.z + _mid.z + _triNorm.z); // tri back
+		_rawVertices.push(_v0.x);
+		_rawVertices.push(_v0.y); 
+		_rawVertices.push(_v0.z); // flb (front left bottom)
+		_rawVertices.push(_v1.x);
+		_rawVertices.push(_v1.y); 
+		_rawVertices.push(_v1.z); // frb
+		_rawVertices.push(_v2.x); 
+		_rawVertices.push(_v2.y); 
+		_rawVertices.push(_v2.z); // brb
+		_rawVertices.push(_v3.x); 
+		_rawVertices.push(_v3.y); 
+		_rawVertices.push(_v3.z); // blb
+		_rawVertices.push(_v0.x + _boxNorm.x); 
+		_rawVertices.push(_v0.y + _boxNorm.y); 
+		_rawVertices.push(_v0.z + _boxNorm.z); // flt
+		_rawVertices.push(_v1.x + _boxNorm.x); 
+		_rawVertices.push(_v1.y + _boxNorm.y); 
+		_rawVertices.push(_v1.z + _boxNorm.z); // frt
+		_rawVertices.push(_v2.x + _boxNorm.x); 
+		_rawVertices.push(_v2.y + _boxNorm.y); 
+		_rawVertices.push(_v2.z + _boxNorm.z); // brt
+		_rawVertices.push(_v3.x + _boxNorm.x); 
+		_rawVertices.push(_v3.y + _boxNorm.y); 
+		_rawVertices.push(_v3.z + _boxNorm.z); // blt
+		_rawVertices.push(_v1.x + _boxNorm.x + _mid.x + _triNorm.x);
+		_rawVertices.push(_v1.y + _boxNorm.y + _mid.y + _triNorm.y); 
+		_rawVertices.push(_v1.z + _boxNorm.z + _mid.z + _triNorm.z); // tri front
+		_rawVertices.push(_v0.x + _boxNorm.x + _mid.x + _triNorm.x); 
+		_rawVertices.push(_v0.y + _boxNorm.y + _mid.y + _triNorm.y); 
+		_rawVertices.push(_v0.z + _boxNorm.z + _mid.z + _triNorm.z); // tri back
 
 		// Set indices.
-		_rawIndices.push(_off + 0, _off + 4, _off + 1, _off + 4, _off + 5, _off + 1); // Front.
-		_rawIndices.push(_off + 2, _off + 6, _off + 3, _off + 6, _off + 7, _off + 3); // Back.
-		_rawIndices.push(_off + 1, _off + 5, _off + 2, _off + 5, _off + 6, _off + 2); // Right.
-		_rawIndices.push(_off + 3, _off + 7, _off + 0, _off + 7, _off + 4, _off + 0); // Left.
-		_rawIndices.push(_off + 5, _off + 8, _off + 6, _off + 7, _off + 9, _off + 4); // Tris.
+		_rawIndices.push(_off + 0); 
+		_rawIndices.push(_off + 4); 
+		_rawIndices.push(_off + 1); 
+		_rawIndices.push(_off + 4); 
+		_rawIndices.push(_off + 5); 
+		_rawIndices.push(_off + 1); // Front.
+		_rawIndices.push(_off + 2); 
+		_rawIndices.push(_off + 6); 
+		_rawIndices.push(_off + 3); 
+		_rawIndices.push(_off + 6); 
+		_rawIndices.push(_off + 7); 
+		_rawIndices.push(_off + 3); // Back.
+		_rawIndices.push(_off + 1); 
+		_rawIndices.push(_off + 5); 
+		_rawIndices.push(_off + 2); 
+		_rawIndices.push(_off + 5); 
+		_rawIndices.push(_off + 6); 
+		_rawIndices.push(_off + 2); // Right.
+		_rawIndices.push(_off + 3); 
+		_rawIndices.push(_off + 7); 
+		_rawIndices.push(_off + 0); 
+		_rawIndices.push(_off + 7); 
+		_rawIndices.push(_off + 4); 
+		_rawIndices.push(_off + 0); // Left.
+		_rawIndices.push(_off + 5); 
+		_rawIndices.push(_off + 8); 
+		_rawIndices.push(_off + 6); 
+		_rawIndices.push(_off + 7); 
+		_rawIndices.push(_off + 9); 
+		_rawIndices.push(_off + 4); // Tris.
 		_off += 10;
 
 		// Set uvs.
-		_rawUvs.push(0, 1, 1, 1, 0, 1, 1, 1); // b
-		_rawUvs.push(0, 0, 1, 0, 0, 0, 1, 0); // t
-		_rawUvs.push(0.5, 0.5, 0.5, 0.5); // tris
+		_rawUvs.push(0); 
+		_rawUvs.push(1); 
+		_rawUvs.push(1); 
+		_rawUvs.push(1); 
+		_rawUvs.push(0); 
+		_rawUvs.push(1); 
+		_rawUvs.push(1); 
+		_rawUvs.push(1); // b
+		_rawUvs.push(0); 
+		_rawUvs.push(0); 
+		_rawUvs.push(1); 
+		_rawUvs.push(0); 
+		_rawUvs.push(0); 
+		_rawUvs.push(0); 
+		_rawUvs.push(1); 
+		_rawUvs.push(0); // t
+		_rawUvs.push(0.5); 
+		_rawUvs.push(0.5); 
+		_rawUvs.push(0.5); 
+		_rawUvs.push(0.5); // tris
 
 		// Calculate radially outward pointing normals.
 		var norm0:Vector3D = _v0.subtract(_v2);
@@ -192,16 +259,36 @@ class FractalTreeRound extends PrimitiveBase
 		normRight.negate();
 
 		// Set normals.
-		_rawNormals.push(norm0.x, norm0.y, norm0.z,
-			norm1.x, norm1.y, norm1.z,
-			norm2.x, norm2.y, norm2.z,
-			norm3.x, norm3.y, norm3.z);
-		_rawNormals.push(norm0.x, norm0.y, norm0.z,
-			norm1.x, norm1.y, norm1.z,
-			norm2.x, norm2.y, norm2.z,
-			norm3.x, norm3.y, norm3.z);
-		_rawNormals.push(normRight.x, normRight.y, normRight.z,
-			normLeft.x, normLeft.y, normLeft.z);
+		_rawNormals.push(norm0.x);
+		_rawNormals.push(norm0.y);
+		_rawNormals.push(norm0.z);
+		_rawNormals.push(norm1.x);
+		_rawNormals.push(norm1.y);
+		_rawNormals.push(norm1.z);
+		_rawNormals.push(norm2.x);
+		_rawNormals.push(norm2.y);
+		_rawNormals.push(norm2.z);
+		_rawNormals.push(norm3.x);
+		_rawNormals.push(norm3.y);
+		_rawNormals.push(norm3.z);
+		_rawNormals.push(norm0.x);
+		_rawNormals.push(norm0.y);
+		_rawNormals.push(norm0.z);
+		_rawNormals.push(norm1.x);
+		_rawNormals.push(norm1.y);
+		_rawNormals.push(norm1.z);
+		_rawNormals.push(norm2.x);
+		_rawNormals.push(norm2.y);
+		_rawNormals.push(norm2.z);
+		_rawNormals.push(norm3.x);
+		_rawNormals.push(norm3.y);
+		_rawNormals.push(norm3.z);
+		_rawNormals.push(normRight.x);
+		_rawNormals.push(normRight.y);
+		_rawNormals.push(normRight.z);
+		_rawNormals.push(normLeft.x);
+		_rawNormals.push(normLeft.y);
+		_rawNormals.push(normLeft.z);
 
 		// Set tangents.
 		var rotate:Matrix3D = new Matrix3D();
@@ -214,21 +301,41 @@ class FractalTreeRound extends PrimitiveBase
 		norm3 = rotate.transformVector(norm3);
 		normRight = rotate.transformVector(normRight);
 		normLeft = rotate.transformVector(normLeft);
-		_rawTangents.push(norm0.x, norm0.y, norm0.z,
-			norm1.x, norm1.y, norm1.z,
-			norm2.x, norm2.y, norm2.z,
-			norm3.x, norm3.y, norm3.z);
-		_rawTangents.push(norm0.x, norm0.y, norm0.z,
-			norm1.x, norm1.y, norm1.z,
-			norm2.x, norm2.y, norm2.z,
-			norm3.x, norm3.y, norm3.z);
-		_rawTangents.push(normRight.x, normRight.y, normRight.z,
-			normLeft.x, normLeft.y, normLeft.z);
+		_rawTangents.push(norm0.x);
+		_rawTangents.push(norm0.y);
+		_rawTangents.push(norm0.z);
+		_rawTangents.push(norm1.x);
+		_rawTangents.push(norm1.y);
+		_rawTangents.push(norm1.z);
+		_rawTangents.push(norm2.x);
+		_rawTangents.push(norm2.y);
+		_rawTangents.push(norm2.z);
+		_rawTangents.push(norm3.x);
+		_rawTangents.push(norm3.y);
+		_rawTangents.push(norm3.z);
+		_rawTangents.push(norm0.x);
+		_rawTangents.push(norm0.y);
+		_rawTangents.push(norm0.z);
+		_rawTangents.push(norm1.x);
+		_rawTangents.push(norm1.y);
+		_rawTangents.push(norm1.z);
+		_rawTangents.push(norm2.x);
+		_rawTangents.push(norm2.y);
+		_rawTangents.push(norm2.z);
+		_rawTangents.push(norm3.x);
+		_rawTangents.push(norm3.y);
+		_rawTangents.push(norm3.z);
+		_rawTangents.push(normRight.x);
+		_rawTangents.push(normRight.y);
+		_rawTangents.push(normRight.z);
+		_rawTangents.push(normLeft.x);
+		_rawTangents.push(normLeft.y);
+		_rawTangents.push(normLeft.z);
 	}
 
 	override private function buildUVs(target:CompactSubGeometry):Void
 	{
-		target.updateData(GeomUtil.interleaveBuffers(_rawVertices.length / 3, _rawVertices, _rawNormals, _rawTangents, _rawUvs));
+		target.updateData(GeomUtil.interleaveBuffers(Std.int(_rawVertices.length / 3), _rawVertices, _rawNormals, _rawTangents, _rawUvs));
 	}
 
 	private function rand(min:Float, max:Float):Float
@@ -236,6 +343,7 @@ class FractalTreeRound extends PrimitiveBase
 		return (max - min) * Math.random() + min;
 	}
 
+	public var leafPositions(get,null):Vector<Float>;
 	private function get_leafPositions():Vector<Float>
 	{
 		return _leafPositions;
