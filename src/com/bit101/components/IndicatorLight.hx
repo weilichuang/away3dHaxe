@@ -86,7 +86,7 @@ class IndicatorLight extends Component
 	 */
 	private function drawLite():Void
 	{
-		var colors:Array<Int>;
+		var colors:Array<UInt>;
 		if(_lit)
 		{
 			colors = [0xffffff, _color];

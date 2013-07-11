@@ -56,7 +56,7 @@ class ColorChooser extends Component
 {
 	private var _colors:BitmapData;
 	private var _colorsContainer:Sprite;
-	private var _defaultModelColors:Array<Int>;
+	private var _defaultModelColors:Array<UInt>;
 	private var _input:InputText;
 	private var _model:DisplayObject;
 	private var _oldColorChoice:Int;
@@ -354,7 +354,7 @@ class ColorChooser extends Component
 		return(s);
 	}
 	
-	private function getGradientSprite(w:Float, h:Float, gc:Array<Int>):Sprite 
+	private function getGradientSprite(w:Float, h:Float, gc:Array<UInt>):Sprite 
 	{
 		var gs:Sprite = new Sprite();
 		var g:Graphics = gs.graphics;

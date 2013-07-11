@@ -36,7 +36,7 @@ import a3d.utils.Cast;
 import a3d.animators.ParticleAnimator;
 import a3d.entities.Mesh;
 import a3d.entities.lights.PointLight;
-
+import uk.co.soulwire.gui.SimpleGUI;
 
 //fire texture
 @:bitmap("embeds/blue.png") class FireTexture extends flash.display.BitmapData { }

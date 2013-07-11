@@ -190,11 +190,7 @@ class Advanced_ShallowWaterDemo extends BasicApplication
 		super.initEngine();
 
 		//setup controller to be used on the camera
-		//cameraController = new HoverController(camera, null, 180, 20, 320, 5);
-		
-		view.camera.z = 320;
-		view.camera.y = 180;
-		view.camera.lookAt(new Vector3D());
+		cameraController = new HoverController(camera, null, 180, 20, 320, 5);
 	}
 
 	/**
@@ -548,12 +544,13 @@ class Advanced_ShallowWaterDemo extends BasicApplication
 	public var rainTime(get,set):Int;
 	private function set_rainTime(delay:Int):Int
 	{
-		return dropTmr.delay = delay;
+		dropTmr.delay = delay;
+		return rainTime;
 	}
 
 	private function get_rainTime():Int
 	{
-		return dropTmr.delay;
+		return Std.int(dropTmr.delay);
 	}
 
 	/**

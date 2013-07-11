@@ -28,7 +28,11 @@ import com.bit101.components.NumericStepper;
 import com.bit101.components.PushButton;
 import com.bit101.components.RangeSlider;
 import com.bit101.components.Style;
+import flash.errors.Error;
+import flash.filters.BitmapFilter;
+import flash.net.FileFilter;
 import flash.Vector;
+import haxe.ds.ObjectMap;
 
 import flash.display.Bitmap;
 import flash.display.BitmapData;
@@ -46,7 +50,6 @@ import flash.system.System;
 import flash.ui.ContextMenu;
 import flash.ui.ContextMenuItem;
 import flash.utils.Dictionary;
-import flash.utils.getQualifiedClassName;
 import com.bit101.components.ComboBox;
 import com.bit101.components.Component;
 import com.bit101.components.HRangeSlider;
@@ -58,6 +61,7 @@ import flash.events.Event;
 import flash.events.MouseEvent;
 import flash.net.FileReference;
 
+using Reflect;
 /**
  * SimpleGUI
  */
@@ -68,32 +72,32 @@ class SimpleGUI extends EventDispatcher
 	//	CONSTANTS
 	//	----------------------------------------------------------------
 	
-	public static const VERSION : Float = 1.02;
+	public static inline var VERSION : Float = 1.02;
 	
-	private static const TOOLBAR_HEIGHT : Int = 13;
-	private static const COMPONENT_MARGIN : Int = 8;
-	private static const COLUMN_MARGIN : Int = 1;
-	private static const GROUP_MARGIN : Int = 1;
-	private static const PADDING : Int = 4;
-	private static const MARGIN : Int = 1;
+	private static inline var TOOLBAR_HEIGHT : Int = 13;
+	private static inline var COMPONENT_MARGIN : Int = 8;
+	private static inline var COLUMN_MARGIN : Int = 1;
+	private static inline var GROUP_MARGIN : Int = 1;
+	private static inline var PADDING : Int = 4;
+	private static inline var MARGIN : Int = 1;
 	
 	//	----------------------------------------------------------------
 	//	PRIVATE MEMBERS
 	//	----------------------------------------------------------------
 	
-	private var _components : Vector<Component> = new Vector<Component>();
-	private var _parameters : Dictionary = new Dictionary();
-	private var _container : Sprite = new Sprite();
+	private var _components : Vector<Component>;
+	private var _parameters : ObjectMap<Component,Dynamic>;
+	private var _container : Sprite;
 	private var _target : DisplayObjectContainer;
 	private var _active : Component;
 	private var _stage : Stage;
 	
-	private var _toolbar : Sprite = new Sprite();
-	private var _message : Label = new Label();
-	private var _version : Label = new Label();
-	private var _toggle : Sprite = new Sprite();
-	private var _lineH : Bitmap = new Bitmap();
-	private var _lineV : Bitmap = new Bitmap();
+	private var _toolbar : Sprite;
+	private var _message : Label;
+	private var _version : Label;
+	private var _toggle : Sprite;
+	private var _lineH : Bitmap;
+	private var _lineV : Bitmap;
 	private var _tween : Float = 0.0;
 	private var _width : Float = 0.0;
 	
@@ -109,8 +113,21 @@ class SimpleGUI extends EventDispatcher
 	//	CONSTRUCTOR
 	//	----------------------------------------------------------------
 	
-	public function new(target : DisplayObjectContainer, title : String = null, hotKey : * = null)
+	public function new(target : DisplayObjectContainer, title : String = null, hotKey : String = null)
 	{
+		super();
+		
+		_components = new Vector<Component>();
+		_parameters = new ObjectMap<Component,Dynamic>();
+		_container= new Sprite();
+		
+		_toolbar = new Sprite();
+		_message = new Label();
+		_version = new Label();
+		_toggle = new Sprite();
+		_lineH = new Bitmap();
+		_lineV = new Bitmap();
+		
 		_target = target;
 
 		_toggle.x = MARGIN;
@@ -126,12 +143,14 @@ class SimpleGUI extends EventDispatcher
 		initToolbar();
 		initContextMenu();
 		
-		if (_target.stage) onAddedToStage(null);
-		else _target.addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
+		if (_target.stage != null) 
+			onAddedToStage(null);
+		else 
+			_target.addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
 
 		_target.addEventListener(Event.ADDED, onTargetAdded);
 		
-		if(hotKey) this.hotKey = hotKey;
+		if(hotKey != null) this.hotKey = hotKey;
 		
 		addColumn(title);
 		addGroup();
@@ -180,29 +199,29 @@ class SimpleGUI extends EventDispatcher
 	public function save() : Void
 	{
 		var path : String;
-		var prop : Object;
-		var target : Object;
-		var targets : Array;
-		var options : Object;
+		var prop : Dynamic;
+		var target : Dynamic;
+		var targets : Array<Dynamic>;
+		var options : Dynamic;
 		var component : Component;
 		var output : String = '';
 		
-		for (var i : Int = 0; i < _components.length; i++)
+		for (i in 0..._components.length)
 		{
 			component = _components[i];
-			options = _parameters[component];
+			options = _parameters.get(component);
 			
 			if (options.hasOwnProperty("target"))
 			{
 				targets = [].concat(options.target);
 				
-				for (var j : Int = 0; j < targets.length; ++j)
+				for (j in 0...targets.length)
 				{
 					path = targets[j];
 					prop = getProp(path);
 					target = getTarget(path);
 
-					output += path + " = " + target[prop] + ';\n';
+					output += path + " = " + target.field(prop) + ';\n';
 				}
 			}
 		}
@@ -222,27 +241,29 @@ class SimpleGUI extends EventDispatcher
 	 * @param options The options to configure the component with
 	 */
 	
-	public function addControl(type : Class, options : Object) : Component
+	public function addControl(type : Class<Component>, options : Dynamic) : Component
 	{
-		var component : Component = new type();
-		
+		var component : Component = Type.createInstance(type,[]);
+
 		// apply settings
 		
-		for (var option : String in options)
+		var option : String;
+		var fields:Array<String> = options.fields();
+		for (option in fields)
 		{
-			if (component.hasOwnProperty(option))
+			if (component.hasField(option))
 			{
-				component[option] = options[option];
+				component.setField(option,options.field(option));
 			}
 		}
 		
 		// subscribe to component events
 
-		if (component is PushButton || component is CheckBox)
+		if (Std.is(component,PushButton) || Std.is(component,CheckBox))
 		{
 			component.addEventListener(MouseEvent.CLICK, onComponentClicked);
 		}
-		else if (component is ComboBox)
+		else if (Std.is(component,ComboBox))
 		{
 			component.addEventListener(Event.SELECT, onComponentChanged);
 		}
@@ -257,7 +278,7 @@ class SimpleGUI extends EventDispatcher
 		
 		// add a label if necessary
 
-		if (!component.hasOwnProperty("label") && options.hasOwnProperty("label") && type !== Label)
+		if (!component.hasField("label") && options.hasField("label") && !Std.is(type,Label))
 		{
 			var container : Sprite = new Sprite();
 			var label : Label = new Label();
@@ -277,7 +298,7 @@ class SimpleGUI extends EventDispatcher
 			_group.addChild(component);
 		}
 		
-		_parameters[component] = options;
+		_parameters.set(component, options);
 		_components.push(component);
 		
 		update();
@@ -308,7 +329,7 @@ class SimpleGUI extends EventDispatcher
 	
 	public function addGroup(title : String = null) : Void
 	{
-		if (_group && _group.numChildren == 0)
+		if (_group != null && _group.numChildren == 0)
 		{
 			_group.parent.removeChild(_group);
 		}
@@ -316,7 +337,7 @@ class SimpleGUI extends EventDispatcher
 		_group = new Sprite();
 		_column.addChild(_group);
 		
-		if (title)
+		if (title != null)
 		{
 			addLabel(title.toUpperCase());
 		}
@@ -330,7 +351,7 @@ class SimpleGUI extends EventDispatcher
 	
 	public function addLabel(text : String) : Label
 	{
-		return addControl(Label, {text : text.toUpperCase()}) as Label;
+		return Std.instance(addControl(Label, {text : text.toUpperCase()}),Label);
 	}
 	
 	/**
@@ -345,26 +366,26 @@ class SimpleGUI extends EventDispatcher
 	 * you instead pass the label as a property within the options object
 	 */
 	
-	public function addToggle(target : String, options : Object = null) : CheckBox
+	public function addToggle(target : String, options : Dynamic = null) : CheckBox
 	{
 		options = parseOptions(target, options);
 		
-		var params : Object = {};
+		var params : Dynamic = {};
 		
 		params.target = target;
 		
-		return addControl(CheckBox, merge(params, options)) as CheckBox;
+		return Std.instance(addControl(CheckBox, merge(params, options)),CheckBox);
 	}
 	
-	public function addButton(label : String, options : Object = null) : PushButton
+	public function addButton(label : String, options : Dynamic = null) : PushButton
 	{
 		options = parseOptions(label, options);
 		
-		var params : Object = {};
+		var params : Dynamic = {};
 
 		params.label = label;
 		
-		return addControl(PushButton, merge(params, options)) as PushButton;
+		return Std.instance(addControl(PushButton, merge(params, options)),PushButton);
 	}
 	
 	/**
@@ -381,17 +402,17 @@ class SimpleGUI extends EventDispatcher
 	 * you instead pass the label as a property within the options object
 	 */
 	
-	public function addSlider(target : String, minimum : Float, maximum : Float, options : Object = null) : HUISlider
+	public function addSlider(target : String, minimum : Float, maximum : Float, options : Dynamic = null) : HUISlider
 	{
 		options = parseOptions(target, options);
 		
-		var params : Object = {};
+		var params : Dynamic = {};
 		
 		params.target = target;
 		params.minimum = minimum;
 		params.maximum = maximum;
 		
-		return addControl(HUISlider, merge(params, options)) as HUISlider;
+		return Std.instance(addControl(HUISlider, merge(params, options)),HUISlider);
 	}
 	
 	/**
@@ -408,19 +429,19 @@ class SimpleGUI extends EventDispatcher
 	 * you instead pass the label as a property within the options object
 	 */
 	
-	public function addRange(target1 : String, target2 : String, minimum : Float, maximum : Float, options : Object = null) : HUIRangeSlider
+	public function addRange(target1 : String, target2 : String, minimum : Float, maximum : Float, options : Dynamic = null) : HUIRangeSlider
 	{
-		var target : Array = [target1, target2];
+		var target : Array<String> = [target1, target2];
 		
 		options = parseOptions(target.join(" / "), options);
 		
-		var params : Object = {};
+		var params : Dynamic = {};
 
 		params.target = target;
 		params.minimum = minimum;
 		params.maximum = maximum;
 		
-		return addControl(HUIRangeSlider, merge(params, options)) as HUIRangeSlider;
+		return Std.instance(addControl(HUIRangeSlider, merge(params, options)),HUIRangeSlider);
 	}
 	
 	/**
@@ -437,17 +458,17 @@ class SimpleGUI extends EventDispatcher
 	 * you instead pass the label as a property within the options object
 	 */
 	
-	public function addStepper(target : String, minimum : Float, maximum : Float, options : Object = null) : NumericStepper
+	public function addStepper(target : String, minimum : Float, maximum : Float, options : Dynamic = null) : NumericStepper
 	{
 		options = parseOptions(target, options);
 		
-		var params : Object = {};
+		var params : Dynamic = {};
 		
 		params.target = target;
 		params.minimum = minimum;
 		params.maximum = maximum;
 		
-		return addControl(NumericStepper, merge(params, options)) as NumericStepper;
+		return Std.instance(addControl(NumericStepper, merge(params, options)),NumericStepper);
 	}
 	
 	/**
@@ -462,16 +483,16 @@ class SimpleGUI extends EventDispatcher
 	 * you instead pass the label as a property within the options object
 	 */
 	
-	public function addColour(target : String, options : Object = null) : ColorChooser
+	public function addColour(target : String, options : Dynamic = null) : ColorChooser
 	{
 		options = parseOptions(target, options);
 		
-		var params : Object = {};
+		var params : Dynamic = {};
 		
 		params.target = target;
 		params.usePopup = true;
 		
-		return addControl(ColorChooser, merge(params, options)) as ColorChooser;
+		return Std.instance(addControl(ColorChooser, merge(params, options)),ColorChooser);
 	}
 	
 	/**
@@ -488,21 +509,21 @@ class SimpleGUI extends EventDispatcher
 	 * you instead pass the label as a property within the options object
 	 */
 	
-	public function addComboBox(target : String, items : Array, options : Object = null) : StyledCombo
+	public function addComboBox(target : String, items : Array<Dynamic>, options : Dynamic = null) : ComboBox
 	{
 		options = parseOptions(target, options);
 		
-		var params : Object = {};
+		var params : Dynamic = {};
 
 		var prop : String = getProp(target);
-		var targ : Object = getTarget(target);
+		var targ : Dynamic = getTarget(target);
 		
 		params.target = target;
 		params.items = items;
-		params.defaultLabel = targ[prop];
+		params.defaultLabel = targ.field(prop);
 		params.numVisibleItems = Math.min(items.length, 5);
 		
-		return addControl(ComboBox, merge(params, options)) as StyledCombo;
+		return Std.instance(addControl(ComboBox, merge(params, options)),ComboBox);
 	}
 	
 	/**
@@ -520,11 +541,11 @@ class SimpleGUI extends EventDispatcher
 	 * you instead pass the label as a property within the options object
 	 */
 	
-	public function addFileChooser(label : String, file : FileReference, onComplete : Function, filter : Array = null, options : Object = null) : FileChooser
+	public function addFileChooser(label : String, file : FileReference, onComplete : Dynamic, filter : Array<BitmapFilter> = null, options : Dynamic = null) : FileChooser
 	{
 		options = parseOptions(label, options);
 		
-		var params : Object = {};
+		var params : Dynamic = {};
 		
 		params.file = file;
 		params.label = label;
@@ -532,7 +553,7 @@ class SimpleGUI extends EventDispatcher
 		params.filter = filter;
 		params.onComplete = onComplete;
 		
-		return addControl(FileChooser, merge(params, options)) as FileChooser;
+		return Std.instance(addControl(FileChooser, merge(params, options)),FileChooser);
 	}
 	
 	/**
@@ -549,17 +570,17 @@ class SimpleGUI extends EventDispatcher
 	 * you instead pass the label as a property within the options object
 	 */
 	
-	public function addSaveButton(label : String = "Save", options : Object = null) : PushButton
+	public function addSaveButton(label : String = "Save", options : Dynamic = null) : PushButton
 	{
 		addGroup("Save Current Settings (S)");
 		
 		options = parseOptions(label, options);
 		
-		var params : Object = {};
+		var params : Dynamic = {};
 
 		params.label = label;
 		
-		var button : PushButton = addControl(PushButton, merge(params, options)) as PushButton;
+		var button : PushButton = Std.instance(addControl(PushButton, merge(params, options)),PushButton);
 		button.addEventListener(MouseEvent.CLICK, onSaveButtonClicked);
 		return button;
 	}
@@ -624,7 +645,15 @@ class SimpleGUI extends EventDispatcher
 	
 	private function initContextMenu() : Void
 	{
-		var menu : * = _target.contextMenu || new ContextMenu();
+		var menu : ContextMenu;
+		if (_target.contextMenu != null)
+		{
+			menu = _target.contextMenu;
+		}
+		else
+		{
+			menu = new ContextMenu();
+		}
 		var item : ContextMenuItem = new ContextMenuItem("Toggle Controls", true);
 		
 		item.addEventListener(ContextMenuEvent.MENU_ITEM_SELECT, onContextMenuItemSelected);
@@ -635,14 +664,14 @@ class SimpleGUI extends EventDispatcher
 	
 	private function commit(component : Component = null) : Void
 	{
-		if (component)
+		if (component != null)
 		{
 			_active = component;
 			apply(component, true);
 		}
 		else
 		{
-			for (var i : Int = 0; i < _components.length; i++)
+			for (i in 0..._components.length)
 			{
 				component = _components[i];
 				apply(component, false);
@@ -656,46 +685,59 @@ class SimpleGUI extends EventDispatcher
 	{
 		var i : Int;
 		var path : String;
-		var prop : Object;
-		var target : Object;
-		var targets : Array;
-		var options : Object = _parameters[component];
+		var prop : Dynamic;
+		var target : Dynamic;
+		var targets : Array<Dynamic>;
+		var options : Dynamic = _parameters.get(component);
 		
-		if (options.hasOwnProperty("target"))
+		if (options.hasField("target"))
+			//options.hasOwnProperty("target"))
 		{
 			targets = [].concat(options.target);
 			
-			for (i = 0; i < targets.length; i++)
+			for (i in 0...targets.length)
 			{
 				path = targets[i];
 				prop = getProp(path);
 				target = getTarget(path);
 				
-				if (component is CheckBox)
+				if (Std.is(component,CheckBox))
 				{
-					target[prop] = component["selected"];
+					setFieldOrProperty(target,prop,component.getProperty("selected"));
 				}
-				else if (component is RangeSlider)
+				else if (Std.is(component,RangeSlider))
 				{
-					target[prop] = component[i == 0 ? "lowValue" : "highValue"];
+					setFieldOrProperty(target,prop,component.getProperty(i == 0 ? "lowValue" : "highValue"));
 				}
-				else if (component is ComboBox)
+				else if (Std.is(component,ComboBox))
 				{
-					if(component["selectedItem"])
+					if(component.getProperty("selectedItem") != null)
 					{
-						target[prop] = component["selectedItem"].data;
+						setFieldOrProperty(target,prop,component.getProperty("selectedItem").data);
 					}
 				}
-				else if(component.hasOwnProperty("value"))
+				else if(component.getProperty("value"))
 				{
-					target[prop] = component["value"];
+					setFieldOrProperty(target,prop,component.getProperty("value"));
 				}
 			}
 		}
 		
-		if (extended && options.hasOwnProperty("callback"))
+		if (extended && options.hasField("callback"))
 		{
-			options.callback.apply(_target, options.callbackParams || []);
+			options.callback.apply(_target, options.callbackParams != null ? options.callbackParams : []);
+		}
+	}
+	
+	private function setFieldOrProperty(target:Dynamic,prop:String, value:Dynamic):Void
+	{
+		if (target.hasField(prop))
+		{
+			target.setField(prop, value);
+		}
+		else
+		{
+			target.setProperty(prop, value);
 		}
 	}
 	
@@ -704,57 +746,58 @@ class SimpleGUI extends EventDispatcher
 		var i : Int;
 		var j : Int;
 		var path : String;
-		var prop : Object;
-		var target : Object;
-		var targets : Array;
-		var options : Object;
+		var prop : Dynamic;
+		var target : Dynamic;
+		var targets : Array<Dynamic>;
+		var options : Dynamic;
 		var component : Component;
 		
-		for (i = 0; i < _components.length; i++)
+		for (i in 0..._components.length)
 		{
 			component = _components[i];
 
-			if (component == _active) continue;
+			if (component == _active) 
+				continue;
 			
-			options = _parameters[component];
+			options = _parameters.get(component);
 			
-			if (options.hasOwnProperty("target"))
+			if (options.hasField("target"))
 			{
 				targets = [].concat(options.target);
 			
-				for (j = 0; j < targets.length; j++)
+				for (j in 0...targets.length)
 				{
 					path = targets[j];
 					prop = getProp(path);
 					target = getTarget(path);
 					
-					if (component is CheckBox)
+					if (Std.is(component,CheckBox))
 					{
-						component["selected"] = target[prop];
+						component.setProperty("selected",target.field(prop));
 					}
-					else if (component is RangeSlider)
+					else if (Std.is(component,RangeSlider))
 					{
-						component[j == 0 ? "lowValue" : "highValue"] = target[prop];
+						component.setProperty(j == 0 ? "lowValue" : "highValue",target.field(prop));
 					}
-					else if ( component is ComboBox)
+					else if ( Std.is(component,ComboBox))
 					{
-						var items : Array = component["items"];
+						var items : Array<Dynamic> = component.getProperty("items");
 						
-						for (var k : Int = 0; k < items.length; k++)
+						for (k in 0...items.length)
 						{
-							if(items[k].data == target[prop])
+							if(items[k].data == target.field(prop))
 							{
-								if(component["selectedIndex"] != k)
+								if(component.getProperty("selectedIndex") != k)
 								{
-									component["selectedIndex"] = k;
+									component.setProperty("selectedIndex",k);
 									break;
 								}
 							}
 						}
 					}
-					else if(component.hasOwnProperty("value"))
+					else if(component.getProperty("value") != null)
 					{
-						component["value"] = target[prop];
+						component.setProperty("value",target.field(prop));
 					}
 				}
 			}
@@ -773,7 +816,7 @@ class SimpleGUI extends EventDispatcher
 		var j : Int;
 		var k : Int;
 		
-		var ghs : Array;
+		var ghs : Array<Int>;
 		
 		var gw : Int = 0;
 		var gh : Int = 0;
@@ -786,51 +829,51 @@ class SimpleGUI extends EventDispatcher
 		var component : Sprite;
 		var bounds : Rectangle;
 		
-		for (i = 0; i < _container.numChildren; i++)
+		for (i  in 0..._container.numChildren)
 		{
-			column = _container.getChildAt(i) as Sprite;
+			column = Std.instance(_container.getChildAt(i),Sprite);
 			column.x = cx;
 
 			gy = cw = 0;
 			ghs = [];
 			
-			for (j = 0; j < column.numChildren; j++)
+			for (j in 0...column.numChildren)
 			{
-				group = column.getChildAt(j) as Sprite;
+				group = Std.instance(column.getChildAt(j),Sprite);
 				group.y = gy;
 				
 				gw = 0;
 				gh = PADDING;
 				
-				for (k = 0; k < group.numChildren; k++)
+				for (k  in 0...group.numChildren)
 				{
-					component = group.getChildAt(k) as Sprite;
+					component = Std.instance(group.getChildAt(k),Sprite);
 					
 					bounds = component.getBounds(component);
 					
 					component.x = PADDING - bounds.x;
 					component.y = gh - bounds.y;
 					
-					gw = Math.max(gw, bounds.width);
-					gh += bounds.height + (k < group.numChildren - 1 ? COMPONENT_MARGIN : 0);
+					gw = Std.int(Math.max(gw, bounds.width));
+					gh += Std.int(bounds.height + (k < group.numChildren - 1 ? COMPONENT_MARGIN : 0));
 				}
 
 				gh += PADDING;
 				ghs[j] = gh;
 
 				gy += gh + GROUP_MARGIN;
-				cw = Math.max(cw, gw);
+				cw = Std.int(Math.max(cw, gw));
 			}
 			
 			cw += (PADDING * 2);
 			
-			for (j = 0; j < column.numChildren; j++)
+			for (j  in 0...column.numChildren)
 			{
-				group = column.getChildAt(j) as Sprite;
+				group = Std.instance(column.getChildAt(j),Sprite);
 				
-				for (k = 0; k < group.numChildren - 1; k++)
+				for (k  in 0...group.numChildren - 1)
 				{
-					component = group.getChildAt(k) as Sprite;
+					component = Std.instance(group.getChildAt(k),Sprite);
 					
 					bounds = component.getBounds(component);
 					bounds.bottom += COMPONENT_MARGIN / 2;
@@ -859,12 +902,12 @@ class SimpleGUI extends EventDispatcher
 		_toolbar.graphics.endFill();
 	}
 	
-	private function parseOptions(target : String, options : Object) : Object
+	private function parseOptions(target : String, options : Dynamic) : Dynamic
 	{
 		options = clone(options);
 		
-		var type : String = getQualifiedClassName(options);
-		
+		var type : String = untyped __global__["flash.utils.getQualifiedClassName"](options);
+
 		switch(type)
 		{
 			case "String" :
@@ -872,8 +915,10 @@ class SimpleGUI extends EventDispatcher
 				return {label: options};
 				
 			case "Object" :
-			
-				options.label = options.label || propToLabel(target);
+				if (options.label == null)
+				{
+					options.label = propToLabel(target);
+				}
 				return options;
 				
 			default :
@@ -882,16 +927,17 @@ class SimpleGUI extends EventDispatcher
 		}
 	}
 	
-	private function getTarget(path : String) : Object
+	private function getTarget(path : String) : Dynamic
 	{
-		var target : Object = _target;
-		var hierarchy : Array = path.split('.');
+		var target : Dynamic = _target;
+		var hierarchy : Array<String> = path.split('.');
 
-		if (hierarchy.length == 1) return _target;
+		if (hierarchy.length == 1) 
+			return _target;
 		
-		for (var i : Int = 0; i < hierarchy.length - 1; i++)
+		for (i in 0...hierarchy.length - 1)
 		{
-			target = target[hierarchy[i]];
+			target = target.field(hierarchy[i]);
 		}
 		
 		return target;
@@ -899,31 +945,37 @@ class SimpleGUI extends EventDispatcher
 	
 	private function getProp(path : String) : String
 	{
-		return /[_a-z0-9]+$/i.exec(path)[0];
+		var ereg:EReg = ~/[_a-z0-9]+$/i;
+		ereg.match(path);
+		return ereg.matched(0);
 	}
 	
-	private function merge(source : Object, destination : Object) : Object
+	private function merge(source : Dynamic, destination : Dynamic) : Dynamic
 	{
-		var combined : Object = clone(destination);
+		var combined : Dynamic = clone(destination);
 		
-		for (var prop : String in source)
+		var prop : String;
+		var fields:Array<String> = source.fields();
+		for (prop in fields)
 		{
-			if (!destination.hasOwnProperty(prop))
+			if (!destination.hasField(prop))
 			{
-				combined[prop] = source[prop];
+				combined.setField(prop,source.field(prop));
 			}
 		}
 
 		return combined;
 	}
 	
-	private function clone(source : Object) : Object
+	private function clone(source : Dynamic) : Dynamic
 	{
-		var copy : Object = {};
+		var copy : Dynamic = {};
 		
-		for (var prop : String in source)
+		var prop : String;
+		var fields:Array<String> = source.fields();
+		for (prop in fields)
 		{
-			copy[prop] = source[prop];
+			copy.setField(prop,source.field(prop));
 		}
 		
 		return copy;
@@ -931,15 +983,23 @@ class SimpleGUI extends EventDispatcher
 	
 	private function propToLabel(prop : String) : String
 	{
-		return prop.replace(/[_]+([a-zA-Z0-9]+)|([0-9]+)/g, " $1$2 ")
-					.replace(/(?<=[a-z0-9])([A-Z])|(?<=[a-z])([0-9])/g, " $1$2")
-					.replace(/^(\w)|\s+(\w)|\.+(\w)/g, capitalise)
-					.replace(/^\s|\s$|(?<=\s)\s+/g, '');
+		//var result:String = ~/[_]+([a-zA-Z0-9]+)|([0-9]+)/g.replace(prop, " $1$2 ");
+		//result = ~/(?<=[a-z0-9])([A-Z])|(?<=[a-z])([0-9])/g.replace(result, " $1$2");
+		//result = ~/^(\w)|\s+(\w)|\.+(\w)/g.replace(result, capitalise);
+		//result = ~/^\s|\s$|(?<=\s)\s+/g.replace(result, '');
+		
+		//return result;
+		//return prop.replace(/[_]+([a-zA-Z0-9]+)|([0-9]+)/g, " $1$2 ")
+					//.replace(/(?<=[a-z0-9])([A-Z])|(?<=[a-z])([0-9])/g, " $1$2")
+					//.replace(/^(\w)|\s+(\w)|\.+(\w)/g, capitalise)
+					//.replace(/^\s|\s$|(?<=\s)\s+/g, '');
+					
+		return prop;
 	}
 	
-	private function capitalise(...args) : String
+	private function capitalise(args:Array<Dynamic>) : String
 	{
-		return String(' ' + args[1] + args[2] + args[3]).toUpperCase();
+		return (' ' + args[1] + args[2] + args[3]).toUpperCase();
 	}
 	
 	//	----------------------------------------------------------------
@@ -975,17 +1035,17 @@ class SimpleGUI extends EventDispatcher
 	
 	private function onComponentClicked(event : MouseEvent) : Void
 	{
-		commit(event.target as Component);
+		commit(Std.instance(event.target,Component));
 	}
 
 	private function onComponentChanged(event : Event) : Void
 	{
-		commit(event.target as Component);
+		commit(Std.instance(event.target,Component));
 	}
 	
 	private function onComponentDraw(event : Event) : Void
 	{
-		var component : Component = event.target as Component;
+		var component : Component = Std.instance(event.target,Component);
 		component.removeEventListener(Component.DRAW, onComponentDraw);
 		invalidate();
 	}
@@ -1003,7 +1063,7 @@ class SimpleGUI extends EventDispatcher
 
 	private function onKeyPressed(event : KeyboardEvent) : Void
 	{
-		if(hotKey && event.keyCode == hotKey.toUpperCase().charCodeAt(0))
+		if(hotKey != null && event.keyCode == hotKey.toUpperCase().charCodeAt(0))
 		{
 			_hidden ? show() : hide();
 		}
@@ -1030,55 +1090,55 @@ class SimpleGUI extends EventDispatcher
 	//	PUBLIC ACCESSORS
 	//	----------------------------------------------------------------
 	
-	public function get showToggle() : Bool
+	public var showToggle(get,set) : Bool;
+	private function get_showToggle() : Bool
 	{
 		return _showToggle;
 	}
 	
-	public function set showToggle( value : Bool ) : Void
+	private function set_showToggle( value : Bool ) : Bool
 	{
 		_showToggle = value;
 		if (_hidden) hide();
+		return _showToggle;
 	}
 	
-	public function set message(value : String) : Void
+	public var message(null,set) : String;
+	private function set_message(value : String) : String
 	{
 		_tween = 0.0;
 		_message.alpha = 1.0;
 		_message.text = value.toUpperCase();
 		_message.addEventListener(Event.ENTER_FRAME, onMessageEnterFrame);
+		
+		return value;
 	}
 	
-	public function get hotKey() : *
+	public var hotKey(get, set):String;
+	private function get_hotKey() : String
 	{
 		return _hotKey;
 	}
 	
-	public function set hotKey( value : * ) : Void
+	private function set_hotKey( value : String ) : String
 	{
-		if (value is String)
-		{
-			_hotKey = value;
-		}
-		else if (value is int)
-		{
-			_hotKey = String.fromCharCode(value);
-		}
-		else
-		{
-			throw new Error("HotKey must be a String or an integer");
-		}
-
-		message = "Hotkey set to '" + _hotKey + "'";
+		return _hotKey = value;
 	}
 }
 
 class HUIRangeSlider extends HRangeSlider
 {
-	private var _label : Label = new Label();
+	private var _label : Label;
 	private var _offset : Float = 0.0;
 	
-	override protected function addChildren() : Void
+	public function new(parent:DisplayObjectContainer = null, xpos:Float = 0, ypos:Float = 0, defaultHandler:Event->Void = null)
+	{
+		super(parent,xpos,ypos,defaultHandler);
+		
+		_label = new Label();
+	}
+	
+	override private function addChildren() : Void
 	{
 		super.addChildren();
 		_label.y = -5;
@@ -1094,31 +1154,38 @@ class HUIRangeSlider extends HRangeSlider
 		super.draw();
 	}
 	
-	public function get label() : String
+	public var label(get, set):String;
+	private function get_label() : String
 	{
 		return _label.text;
 	}
 	
-	public function set label(value : String) : Void
+	private function set_label(value : String) : String
 	{
 		_label.text = value;
 		_label.draw();
+		return _label.text;
 	}
 }
 
 class FileChooser extends Component
 {
-	public var filter : Array = [];
-	public var onComplete : Function;
+	public var filter : Array<FileFilter>;
+	public var onComplete : Dynamic;
 	
-	private var _label : Label = new Label();
+	private var _label : Label;
 	private var _file : FileReference;
-	private var _filePath : InputText = new InputText();
-	private var _button : PushButton = new PushButton();
+	private var _filePath : InputText;
+	private var _button : PushButton;
 
 	override private function addChildren() : Void
 	{
 		super.addChildren();
+		
+		filter = [];
+		_label = new Label();
+		_filePath = new InputText();
+		_button = new PushButton();
 
 		_button.x = 125;
 		_button.width = 75;
@@ -1138,7 +1205,7 @@ class FileChooser extends Component
 	
 	private function onButtonClicked(event : MouseEvent) : Void
 	{
-		if (_file) _file.browse(filter);
+		if (_file != null) _file.browse(filter);
 	}
 
 	private function onFileSelected(event : Event) : Void
@@ -1153,31 +1220,33 @@ class FileChooser extends Component
 		if (onComplete != null) onComplete();
 	}
 		
-	override public function set width(w : Float) : Void
+	@:setter(width) override private function set_width(w : Float) : Void
 	{
 		super.width = w;
 		_button.x = w - _button.width;
 		_filePath.width = w - _button.width - 5;
 	}
 	
-	public function get label() : String
+	public var label(get, set):String;
+	private function get_label() : String
 	{
 		return _label.text;
 	}
 	
-	public function set label( value : String ) : Void
+	private function set_label( value : String ) : String
 	{
-		_label.text = value;
+		return _label.text = value;
 	}
 	
-	public function get file() : FileReference
+	public var file(get, set):FileReference;
+	private function get_file() : FileReference
 	{
 		return _file;
 	}
 	
-	public function set file( value : FileReference ) : Void
+	private function set_file( value : FileReference ) : FileReference
 	{
-		if (_file)
+		if (_file != null)
 		{
 			_file.removeEventListener(Event.SELECT, onFileSelected);
 		}
@@ -1185,10 +1254,12 @@ class FileChooser extends Component
 		_file = value;
 		_file.addEventListener(Event.SELECT, onFileSelected);
 
-		if(_file.data)
+		if(_file.data != null)
 		{
 			_filePath.text = _file.name;
 		}
+		
+		return _file;
 	}
 	
 }

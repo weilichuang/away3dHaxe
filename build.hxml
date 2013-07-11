@@ -130,8 +130,6 @@
 --next
 -cp src
 -swf bin/Haxe_Advanced_FractalTreeDemo.swf
--swf-lib lib/lib_simplegui.swc 
--swf-lib lib/MinimalComps.swc
 -swf-version 11.7
 --flash-strict
 -lib feffects
