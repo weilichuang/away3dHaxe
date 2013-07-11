@@ -13,11 +13,11 @@ class CornellDiffuseEnvMapFL extends BitmapCubeTexture
 	private var _posZ:BitmapData;
 	private var _negZ:BitmapData;
 
-	public function CornellDiffuseEnvMapFL()
+	public function new()
 	{
-		super(_posX = new PosX(0,0), _negX = new NegX(0,0),
-			_posY = new PosY(0,0), _negY = new NegY(0,0),
-			_posZ = new PosZ(0,0), _negZ = new NegZ(0,0)
+		super(_posX = new FLPosX(0,0), _negX = new FLNegX(0,0),
+			_posY = new FLPosY(0,0), _negY = new FLNegY(0,0),
+			_posZ = new FLPosZ(0,0), _negZ = new FLNegZ(0,0)
 			);
 	}
 
@@ -34,9 +34,9 @@ class CornellDiffuseEnvMapFL extends BitmapCubeTexture
 	}
 }
 	
-@:bitmap("embeds/cornellEnvMap/negXposZ/posX.png") class PosX extends flash.display.BitmapData { }
-@:bitmap("embeds/cornellEnvMap/negXposZ/negX.png") class NegX extends flash.display.BitmapData { }
-@:bitmap("embeds/cornellEnvMap/negXposZ/posY.png") class PosY extends flash.display.BitmapData { }
-@:bitmap("embeds/cornellEnvMap/negXposZ/negY.png") class NegY extends flash.display.BitmapData { }
-@:bitmap("embeds/cornellEnvMap/negXposZ/posZ.png") class PosZ extends flash.display.BitmapData { }
-@:bitmap("embeds/cornellEnvMap/negXposZ/negZ.png") class NegZ extends flash.display.BitmapData { }
+@:bitmap("embeds/cornellEnvMap/negXposZ/posX.jpg") class FLPosX extends flash.display.BitmapData { }
+@:bitmap("embeds/cornellEnvMap/negXposZ/negX.jpg") class FLNegX extends flash.display.BitmapData { }
+@:bitmap("embeds/cornellEnvMap/negXposZ/posY.jpg") class FLPosY extends flash.display.BitmapData { }
+@:bitmap("embeds/cornellEnvMap/negXposZ/negY.jpg") class FLNegY extends flash.display.BitmapData { }
+@:bitmap("embeds/cornellEnvMap/negXposZ/posZ.jpg") class FLPosZ extends flash.display.BitmapData { }
+@:bitmap("embeds/cornellEnvMap/negXposZ/negZ.jpg") class FLNegZ extends flash.display.BitmapData { }

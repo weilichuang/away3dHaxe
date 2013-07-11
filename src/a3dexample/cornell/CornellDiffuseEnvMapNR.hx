@@ -1,49 +1,41 @@
-package a3dexample.cornell
+package a3dexample.cornell;
+
+import a3d.textures.BitmapCubeTexture;
+
+import flash.display.BitmapData;
+
+class CornellDiffuseEnvMapNR extends BitmapCubeTexture
 {
-	import a3d.textures.BitmapCubeTexture;
+	private var _posX:BitmapData;
+	private var _negX:BitmapData;
+	private var _posY:BitmapData;
+	private var _negY:BitmapData;
+	private var _posZ:BitmapData;
+	private var _negZ:BitmapData;
 
-	import flash.display.BitmapData;
-
-	class CornellDiffuseEnvMapNR extends BitmapCubeTexture
+	public function new()
 	{
-		[Embed(source = "../../embeds/cornellEnvMap/posXnegZ/posX.jpg")]
-		private var PosX:Class;
-		[Embed(source = "../../embeds/cornellEnvMap/posXnegZ/negX.jpg")]
-		private var NegX:Class;
-		[Embed(source = "../../embeds/cornellEnvMap/posXnegZ/posY.jpg")]
-		private var PosY:Class;
-		[Embed(source = "../../embeds/cornellEnvMap/posXnegZ/negY.jpg")]
-		private var NegY:Class;
-		[Embed(source = "../../embeds/cornellEnvMap/posXnegZ/posZ.jpg")]
-		private var PosZ:Class;
-		[Embed(source = "../../embeds/cornellEnvMap/posXnegZ/negZ.jpg")]
-		private var NegZ:Class;
-
-		private var _posX:BitmapData;
-		private var _negX:BitmapData;
-		private var _posY:BitmapData;
-		private var _negY:BitmapData;
-		private var _posZ:BitmapData;
-		private var _negZ:BitmapData;
-
-		public function CornellDiffuseEnvMapNR()
-		{
-			super(_posX = new PosX().bitmapData, _negX = new NegX().bitmapData,
-				_posY = new PosY().bitmapData, _negY = new NegY().bitmapData,
-				_posZ = new PosZ().bitmapData, _negZ = new NegZ().bitmapData
-				);
-		}
+		super(_posX = new NRPosX(0,0), _negX = new NRNegX(0,0),
+			_posY = new NRPosY(0,0), _negY = new NRNegY(0,0),
+			_posZ = new NRPosZ(0,0), _negZ = new NRNegZ(0,0)
+			);
+	}
 
 
-		override public function dispose():Void
-		{
-			super.dispose();
-			_posX.dispose();
-			_negX.dispose();
-			_posY.dispose();
-			_negY.dispose();
-			_posZ.dispose();
-			_negZ.dispose();
-		}
+	override public function dispose():Void
+	{
+		super.dispose();
+		_posX.dispose();
+		_negX.dispose();
+		_posY.dispose();
+		_negY.dispose();
+		_posZ.dispose();
+		_negZ.dispose();
 	}
 }
+@:bitmap("embeds/cornellEnvMap/posXnegZ/posX.jpg") class NRPosX extends flash.display.BitmapData { }
+@:bitmap("embeds/cornellEnvMap/posXnegZ/negX.jpg") class NRNegX extends flash.display.BitmapData { }
+@:bitmap("embeds/cornellEnvMap/posXnegZ/posY.jpg") class NRPosY extends flash.display.BitmapData { }
+@:bitmap("embeds/cornellEnvMap/posXnegZ/negY.jpg") class NRNegY extends flash.display.BitmapData { }
+@:bitmap("embeds/cornellEnvMap/posXnegZ/posZ.jpg") class NRPosZ extends flash.display.BitmapData { }
+@:bitmap("embeds/cornellEnvMap/posXnegZ/negZ.jpg") class NRNegZ extends flash.display.BitmapData { }

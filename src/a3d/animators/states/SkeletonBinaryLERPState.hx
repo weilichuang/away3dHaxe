@@ -16,7 +16,7 @@ class SkeletonBinaryLERPState extends AnimationStateBase implements ISkeletonAni
 {
 	private var _blendWeight:Float = 0;
 	private var _skeletonAnimationNode:SkeletonBinaryLERPNode;
-	private var _skeletonPose:SkeletonPose = new SkeletonPose();
+	private var _skeletonPose:SkeletonPose;
 	private var _skeletonPoseDirty:Bool = true;
 	private var _inputA:ISkeletonAnimationState;
 	private var _inputB:ISkeletonAnimationState;
@@ -48,6 +48,7 @@ class SkeletonBinaryLERPState extends AnimationStateBase implements ISkeletonAni
 	{
 		super(animator, skeletonAnimationNode);
 
+		_skeletonPose = new SkeletonPose();
 		_skeletonAnimationNode = skeletonAnimationNode;
 
 		_inputA = Std.instance(animator.getAnimationState(_skeletonAnimationNode.inputA),ISkeletonAnimationState);
@@ -122,7 +123,7 @@ class SkeletonBinaryLERPState extends AnimationStateBase implements ISkeletonAni
 		var pose1:JointPose, pose2:JointPose;
 		var p1:Vector3D, p2:Vector3D;
 		var tr:Vector3D;
-		var numJoints:UInt = skeleton.numJoints;
+		var numJoints:Int = skeleton.numJoints;
 
 		// :s
 		if (endPoses.length != numJoints)

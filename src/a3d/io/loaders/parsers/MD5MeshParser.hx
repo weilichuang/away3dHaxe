@@ -75,7 +75,7 @@ class MD5MeshParser extends ParserBase
 
 		_rotationQuat.fromAxisAngle(Vector3D.X_AXIS, -Math.PI * .5);
 
-		if (additionalRotationAxis)
+		if (additionalRotationAxis != null)
 		{
 			var quat:Quaternion = new Quaternion();
 			quat.fromAxisAngle(additionalRotationAxis, additionalRotationRadians);
@@ -286,10 +286,10 @@ class MD5MeshParser extends ParserBase
 	private function parseMesh():Void
 	{
 		var token:String = getNextToken();
-		var ch:String;
-		var vertexData:Vector<VertexData>;
-		var weights:Vector<JointData>;
-		var indices:Vector<UInt>;
+		var ch:String = null;
+		var vertexData:Vector<VertexData> = null;
+		var weights:Vector<JointData> = null;
+		var indices:Vector<UInt> = null;
 
 		if (token != "{")
 			sendUnknownKeywordError();
@@ -358,8 +358,8 @@ class MD5MeshParser extends ParserBase
 		var vertices:Vector<Float> = new Vector<Float>(len * 3, true);
 		var jointIndices:Vector<Float> = new Vector<Float>(len * _maxJointCount, true);
 		var jointWeights:Vector<Float> = new Vector<Float>(len * _maxJointCount, true);
-		var l:Int;
-		var nonZeroWeights:Int;
+		var l:Int = 0;
+		var nonZeroWeights:Int = 0;
 
 		for (i in 0...len)
 		{
@@ -518,7 +518,7 @@ class MD5MeshParser extends ParserBase
 	 */
 	private function ignoreLine():Void
 	{
-		var ch:String;
+		var ch:String = null;
 		while (!_reachedEOF && ch != "\n")
 			ch = getNextChar();
 	}

@@ -73,7 +73,7 @@ class MD5AnimParser extends ParserBase
 
 		_rotationQuat.multiply(t2, t1);
 
-		if (additionalRotationAxis)
+		if (additionalRotationAxis != null)
 		{
 			_rotationQuat.multiply(t2, t1);
 			t1.fromAxisAngle(additionalRotationAxis, additionalRotationRadians);
@@ -99,7 +99,6 @@ class MD5AnimParser extends ParserBase
 	 */
 	public static function supportsData(data:Dynamic):Bool
 	{
-		data = data;
 		return false;
 	}
 
@@ -486,7 +485,7 @@ class MD5AnimParser extends ParserBase
 	 */
 	private function ignoreLine():Void
 	{
-		var ch:String;
+		var ch:String = null;
 		while (!_reachedEOF && ch != "\n")
 		{
 			ch = getNextChar();

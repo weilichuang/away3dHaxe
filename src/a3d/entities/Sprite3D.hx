@@ -1,5 +1,6 @@
 package a3d.entities;
 
+import a3d.utils.VectorUtil.VectorUtil;
 import flash.display3D.IndexBuffer3D;
 import flash.geom.Matrix;
 import flash.geom.Matrix3D;
@@ -56,49 +57,55 @@ class Sprite3D extends Entity implements IRenderable
 		if (_geometry == null)
 		{
 			_geometry = new SubGeometry();
-			_geometry.updateVertexData(Vector<Float>([-.5, .5, .0, .5, .5, .0, .5, -.5, .0, -.5, -.5, .0]));
-			_geometry.updateUVData(Vector<Float>([.0, .0, 1.0, .0, 1.0, 1.0, .0, 1.0]));
-			_geometry.updateIndexData(Vector<UInt>([0, 1, 2, 0, 2, 3]));
-			_geometry.updateVertexTangentData(Vector<Float>([1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0]));
-			_geometry.updateVertexNormalData(Vector<Float>([.0, .0, -1.0, .0, .0, -1.0, .0, .0, -1.0, .0, .0, -1.0]));
+			_geometry.updateVertexData(Vector.ofArray([-.5, .5, .0, .5, .5, .0, .5, -.5, .0, -.5, -.5, .0]));
+			_geometry.updateUVData(Vector.ofArray([.0, .0, 1.0, .0, 1.0, 1.0, .0, 1.0]));
+			_geometry.updateIndexData(VectorUtil.toUIntVector([0, 1, 2, 0, 2, 3]));
+			_geometry.updateVertexTangentData(Vector.ofArray([1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0]));
+			_geometry.updateVertexNormalData(Vector.ofArray([.0, .0, -1.0, .0, .0, -1.0, .0, .0, -1.0, .0, .0, -1.0]));
 		}
 	}
 
 
-	override private function set_pickingCollider(value:IPickingCollider):Void
+	override private function set_pickingCollider(value:IPickingCollider):IPickingCollider
 	{
 		super.pickingCollider = value;
-		if (value)
+		if (value != null)
 		{ // bounds collider is the only null value
 			_pickingSubMesh = new SubMesh(_geometry, null);
 			_pickingTransform = new Matrix3D();
 		}
+		return pickingCollider;
 	}
 
+	public var width(get, set):Float;
 	private function get_width():Float
 	{
 		return _width;
 	}
 
-	private function set_width(value:Float):Void
+	private function set_width(value:Float):Float
 	{
 		if (_width == value)
-			return;
+			return _width;
 		_width = value;
 		invalidateTransform();
+		return _width;
 	}
 
+	public var height(get, set):Float;
 	private function get_height():Float
 	{
 		return _height;
 	}
 
-	private function set_height(value:Float):Void
+	private function set_height(value:Float):Float
 	{
 		if (_height == value)
-			return;
+			return _height;
 		_height = value;
 		invalidateTransform();
+		
+		return _height;
 	}
 
 	public function activateVertexBuffer(index:Int, stage3DProxy:Stage3DProxy):Void
@@ -131,41 +138,47 @@ class Sprite3D extends Entity implements IRenderable
 		return _geometry.getIndexBuffer(stage3DProxy);
 	}
 
-	private function get_numTriangles():UInt
+	public var numTriangles(get, null):Int;
+	private function get_numTriangles():Int
 	{
 		return 2;
 	}
 
+	public var sourceEntity(get, null):Entity;
 	private function get_sourceEntity():Entity
 	{
 		return this;
 	}
 
+	public var material(get, set):MaterialBase;
 	private function get_material():MaterialBase
 	{
 		return _material;
 	}
 
 
-	private function set_material(value:MaterialBase):Void
+	private function set_material(value:MaterialBase):MaterialBase
 	{
 		if (value == _material)
-			return;
-		if (_material)
+			return _material;
+		if (_material != null)
 			_material.removeOwner(this);
 		_material = value;
-		if (_material)
+		if (_material != null)
 			_material.addOwner(this);
+		return _material;
 	}
 
 	/**
 	 * Defines the animator of the mesh. Act on the mesh's geometry. Defaults to null
 	 */
+	public var animator(get, null):IAnimator;
 	private function get_animator():IAnimator
 	{
 		return _animator;
 	}
 
+	public var castsShadows(get, null):Bool;
 	private function get_castsShadows():Bool
 	{
 		return _shadowCaster;
@@ -194,56 +207,67 @@ class Sprite3D extends Entity implements IRenderable
 		_transform.prependScale(_width, _height, Math.max(_width, _height));
 	}
 
+	public var uvTransform(get, null):Matrix;
 	private function get_uvTransform():Matrix
 	{
 		return null;
 	}
 
+	public var vertexData(get, null):Vector<Float>;
 	private function get_vertexData():Vector<Float>
 	{
 		return _geometry.vertexData;
 	}
 
+	public var indexData(get, null):Vector<UInt>;
 	private function get_indexData():Vector<UInt>
 	{
 		return _geometry.indexData;
 	}
 
+	public var UVData(get, null):Vector<Float>;
 	private function get_UVData():Vector<Float>
 	{
 		return _geometry.UVData;
 	}
 
-	private function get_numVertices():UInt
+	public var numVertices(get, null):Int;
+	private function get_numVertices():Int
 	{
 		return _geometry.numVertices;
 	}
 
-	private function get_vertexStride():UInt
+	public var vertexStride(get, null):Int;
+	private function get_vertexStride():Int
 	{
 		return _geometry.vertexStride;
 	}
 
+	public var vertexNormalData(get, null):Vector<Float>;
 	private function get_vertexNormalData():Vector<Float>
 	{
 		return _geometry.vertexNormalData;
 	}
 
+	public var vertexTangentData(get, null):Vector<Float>;
 	private function get_vertexTangentData():Vector<Float>
 	{
 		return _geometry.vertexTangentData;
 	}
 
+	public var vertexOffset(get, null):Int;
 	private function get_vertexOffset():Int
 	{
 		return _geometry.vertexOffset;
 	}
 
+	public var vertexNormalOffset(get, null):Int;
 	private function get_vertexNormalOffset():Int
 	{
 		return _geometry.vertexNormalOffset;
 	}
 
+	public var vertexTangentOffset(get, null):Int;
 	private function get_vertexTangentOffset():Int
 	{
 		return _geometry.vertexTangentOffset;
@@ -251,7 +275,6 @@ class Sprite3D extends Entity implements IRenderable
 
 	override public function collidesBefore(shortestCollisionDistance:Float, findClosest:Bool):Bool
 	{
-		findClosest = findClosest;
 		var viewTransform:Matrix3D = _camera.inverseSceneTransform.clone();
 		viewTransform.transpose();
 		var rawViewTransform:Vector<Float> = Matrix3DUtils.RAW_DATA_CONTAINER;

@@ -21,7 +21,7 @@
   <build>
     <option directives="" />
     <option flashStrict="True" />
-    <option mainClass="a3dexample.Advanced_ShallowWaterDemo" />
+    <option mainClass="a3dexample.Intermediate_PlanarReflections" />
     <option enabledebug="True" />
     <option additional="-D advanced-telemetry&#xA;-swf-lib embeds/assets.swf" />
   </build>
@@ -32,7 +32,7 @@
   <!-- Class files to compile (other referenced classes will automatically be included) -->
   <compileTargets>
     <compile path="src\Main.hx" />
-    <compile path="src\a3dexample\Advanced_ShallowWaterDemo.hx" />
+    <compile path="src\a3dexample\Intermediate_PlanarReflections.hx" />
   </compileTargets>
   <!-- Assets to embed into the output SWF -->
   <library>

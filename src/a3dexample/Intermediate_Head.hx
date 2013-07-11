@@ -46,6 +46,7 @@ import flash.display.BitmapData;
 import flash.events.Event;
 import flash.events.KeyboardEvent;
 import flash.events.MouseEvent;
+import flash.Lib;
 import flash.utils.ByteArray;
 
 import a3d.entities.Camera3D;
@@ -67,6 +68,11 @@ import a3d.utils.Cast;
 
 class Intermediate_Head extends BasicApplication
 {
+	static function main()
+	{
+		Lib.current.addChild(new Intermediate_Head());
+	}
+	
 	//engine variables
 	private var cameraController:HoverController;
 

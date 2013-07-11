@@ -1,11 +1,41 @@
 package a3dexample;
 
-import a3d.materials.MultiPassMaterialBase;
-import a3d.materials.SinglePassMaterialBase;
+import a3d.controllers.FirstPersonController;
+import a3d.core.base.Geometry;
+import a3d.core.base.SubMesh;
+import a3d.entities.lights.DirectionalLight;
+import a3d.entities.lights.LightBase;
+import a3d.entities.lights.PointLight;
+import a3d.entities.lights.shadowmaps.CascadeShadowMapper;
+import a3d.entities.Mesh;
+import a3d.entities.primitives.PlaneGeometry;
+import a3d.entities.primitives.SkyBox;
+import a3d.events.AssetEvent;
+import a3d.events.LoaderEvent;
+import a3d.io.library.assets.AssetType;
+import a3d.io.loaders.Loader3D;
+import a3d.io.loaders.misc.AssetLoaderContext;
+import a3d.io.loaders.parsers.AWDParser;
+import a3d.materials.BlendMode;
+import a3d.materials.lightpickers.StaticLightPicker;
+import a3d.materials.MaterialBase;
+import a3d.materials.methods.CascadeShadowMapMethod;
+import a3d.materials.methods.DitheredShadowMapMethod;
+import a3d.materials.methods.FilteredShadowMapMethod;
+import a3d.materials.methods.FogMethod;
+import a3d.materials.methods.HardShadowMapMethod;
+import a3d.materials.methods.SoftShadowMapMethod;
+import a3d.materials.TextureMaterial;
+import a3d.materials.TextureMultiPassMaterial;
+import a3d.textures.ATFCubeTexture;
+import a3d.textures.ATFTexture;
+import a3d.textures.SpecularBitmapTexture;
+import a3d.textures.Texture2DBase;
 import a3d.textures.TextureProxyBase;
+import a3d.tools.commands.Merge;
+import a3d.utils.Cast;
 import a3d.utils.VectorUtil.VectorUtil;
 import flash.display.Bitmap;
-import flash.display.BlendMode;
 import flash.display.Loader;
 import flash.display.LoaderInfo;
 import flash.display.StageDisplayState;
@@ -15,6 +45,7 @@ import flash.events.MouseEvent;
 import flash.events.ProgressEvent;
 import flash.filters.DropShadowFilter;
 import flash.geom.Vector3D;
+import flash.Lib;
 import flash.net.URLLoader;
 import flash.net.URLLoaderDataFormat;
 import flash.net.URLRequest;
@@ -22,45 +53,21 @@ import flash.text.AntiAliasType;
 import flash.text.GridFitType;
 import flash.text.TextField;
 import flash.text.TextFormat;
+import flash.text.TextFormatAlign;
 import flash.ui.Keyboard;
 import flash.utils.ByteArray;
-import flash.utils.Dictionary;
-import flash.Vector.Vector;
-
-import a3d.controllers.FirstPersonController;
-import a3d.core.base.Geometry;
-import a3d.core.base.SubMesh;
-import a3d.entities.Mesh;
-import a3d.events.AssetEvent;
-import a3d.events.LoaderEvent;
-import a3d.io.library.assets.AssetType;
-import a3d.entities.lights.DirectionalLight;
-import a3d.entities.lights.PointLight;
-import a3d.entities.lights.shadowmaps.CascadeShadowMapper;
-import a3d.io.loaders.Loader3D;
-import a3d.io.loaders.misc.AssetLoaderContext;
-import a3d.io.loaders.parsers.AWDParser;
-import a3d.materials.TextureMaterial;
-import a3d.materials.TextureMultiPassMaterial;
-import a3d.materials.lightpickers.StaticLightPicker;
-import a3d.materials.methods.CascadeShadowMapMethod;
-import a3d.materials.methods.DitheredShadowMapMethod;
-import a3d.materials.methods.FilteredShadowMapMethod;
-import a3d.materials.methods.FogMethod;
-import a3d.materials.methods.HardShadowMapMethod;
-import a3d.materials.methods.SoftShadowMapMethod;
-import a3d.entities.primitives.PlaneGeometry;
-import a3d.entities.primitives.SkyBox;
-import a3d.textures.ATFCubeTexture;
-import a3d.textures.ATFTexture;
-import a3d.textures.SpecularBitmapTexture;
-import a3d.tools.commands.Merge;
-import a3d.utils.Cast;
-
+import flash.Vector;
+import haxe.ds.StringMap;
 import uk.co.soulwire.gui.SimpleGUI;
+
+
 
 class Advanced_MultiPassSponzaDemo extends BasicApplication
 {
+	static function main()
+	{
+		Lib.current.addChild(new Advanced_MultiPassSponzaDemo());
+	}
 	//root filepath for asset loading
 	private var _assetsRoot:String = "assets/";
 
@@ -81,8 +88,8 @@ class Advanced_MultiPassSponzaDemo extends BasicApplication
 
 	//material dictionaries to hold instances
 	private var _textureDictionary:StringMap<TextureProxyBase>;
-	private var _multiMaterialDictionary:StringMap<MultiPassMaterialBase>;
-	private var _singleMaterialDictionary:StringMap<SinglePassMaterialBase>;
+	private var _multiMaterialDictionary:StringMap<MaterialBase>;
+	private var _singleMaterialDictionary:StringMap<MaterialBase>;
 
 	//private var meshDictionary:Dictionary = new Dictionary();
 	private var vaseMeshes:Vector<Mesh>;
@@ -99,8 +106,8 @@ class Advanced_MultiPassSponzaDemo extends BasicApplication
 	private var _cascadeLevels:UInt = 3;
 	private var _shadowOptions:String = "PCF";
 	private var _depthMapSize:UInt = 2048;
-	private var _lightDirection:Float = Math.PI / 2;
-	private var _lightElevation:Float = Math.PI / 18;
+	private var _lightDirection:Float;
+	private var _lightElevation:Float;
 	private var _gui:SimpleGUI;
 
 	//light variables
@@ -110,7 +117,7 @@ class Advanced_MultiPassSponzaDemo extends BasicApplication
 	private var _fogMethod:FogMethod;
 	private var _cascadeShadowMapper:CascadeShadowMapper;
 	private var _directionalLight:DirectionalLight;
-	private var _lights:Array;
+	private var _lights:Array<LightBase>;
 
 	//material variables
 	private var _skyMap:ATFCubeTexture;
@@ -166,8 +173,8 @@ class Advanced_MultiPassSponzaDemo extends BasicApplication
 
 		//material dictionaries to hold instances
 		_textureDictionary = new StringMap<TextureProxyBase>();
-		_multiMaterialDictionary = new StringMap<MultiPassMaterialBase>();
-		_singleMaterialDictionary = new StringMap<SinglePassMaterialBase>();
+		_multiMaterialDictionary = new StringMap<MaterialBase>();
+		_singleMaterialDictionary = new StringMap<MaterialBase>();
 
 		//meshDictionary:Dictionary = new Dictionary();
 		vaseMeshes = new Vector<Mesh>();
@@ -177,6 +184,9 @@ class Advanced_MultiPassSponzaDemo extends BasicApplication
 		_meshes = new Vector<Mesh>();
 		
 		_lights = [];
+		
+		lightDirection = Math.PI / 2;
+		_lightElevation = Math.PI / 18;
 		
 		super();
 	}
@@ -233,6 +243,8 @@ class Advanced_MultiPassSponzaDemo extends BasicApplication
 		_cascadeLevels = value;
 
 		_cascadeShadowMapper.numCascades = value;
+		
+		return _cascadeLevels;
 	}
 
 	/**
@@ -361,7 +373,7 @@ class Advanced_MultiPassSponzaDemo extends BasicApplication
 	private function initText():Void
 	{
 		_text = new TextField();
-		_text.defaultTextFormat = new TextFormat("Verdana", 11, 0xFFFFFF, null, null, null, null, null, "center");
+		_text.defaultTextFormat = new TextFormat("Verdana", 11, 0xFFFFFF, null, null, null, null, null, TextFormatAlign.CENTER);
 		_text.embedFonts = true;
 		_text.antiAliasType = AntiAliasType.ADVANCED;
 		_text.gridFitType = GridFitType.PIXEL;
@@ -380,7 +392,7 @@ class Advanced_MultiPassSponzaDemo extends BasicApplication
 	private function initLights():Void
 	{
 		//create lights array
-		_lights = new Array();
+		_lights = [];
 
 		//create global directional light
 		_cascadeShadowMapper = new CascadeShadowMapper(3);
@@ -500,7 +512,7 @@ class Advanced_MultiPassSponzaDemo extends BasicApplication
 	/**
 	 * Updates the mateiral mode between single pass and multi pass
 	 */
-	private function updateMaterialPass(materialDictionary:Dictionary):Void
+	private function updateMaterialPass(materialDictionary:StringMap<MaterialBase>):Void
 	{
 		var mesh:Mesh;
 		var name:String;
@@ -509,11 +521,11 @@ class Advanced_MultiPassSponzaDemo extends BasicApplication
 			if (mesh.name == "sponza_04" || mesh.name == "sponza_379")
 				continue;
 			name = mesh.material.name;
-			var textureIndex:int = _materialNameStrings.indexOf(name);
+			var textureIndex:Int = _materialNameStrings.indexOf(name);
 			if (textureIndex == -1 || textureIndex >= _materialNameStrings.length)
 				continue;
 
-			mesh.material = materialDictionary[name];
+			mesh.material = materialDictionary.get(name);
 		}
 	}
 
@@ -522,6 +534,8 @@ class Advanced_MultiPassSponzaDemo extends BasicApplication
 	 */
 	private function updateDirection():Void
 	{
+		if (_directionalLight == null)
+			return;
 		_directionalLight.direction = new Vector3D(
 			Math.sin(_lightElevation) * Math.cos(_lightDirection),
 			-Math.cos(_lightElevation),
@@ -538,7 +552,7 @@ class Advanced_MultiPassSponzaDemo extends BasicApplication
 
 		//skip null textures
 		while (_n++ < _loadingTextureStrings.length - 1)
-			if (_loadingTextureStrings[_n])
+			if (_loadingTextureStrings[_n] == null)
 				break;
 
 		//switch to next teture set
@@ -568,7 +582,7 @@ class Advanced_MultiPassSponzaDemo extends BasicApplication
 		var loader:URLLoader = new URLLoader();
 		loader.dataFormat = URLLoaderDataFormat.BINARY;
 
-		var format:String = url.substring(url.length - 3).toLowerCase()
+		var format:String = url.substring(url.length - 3).toLowerCase();
 		switch (format)
 		{
 			case "awd":
@@ -597,10 +611,10 @@ class Advanced_MultiPassSponzaDemo extends BasicApplication
 	 */
 	private function loadProgress(e:ProgressEvent):Void
 	{
-		var P:int = Std.int(e.bytesLoaded / e.bytesTotal * 100);
+		var P:Int = Std.int(e.bytesLoaded / e.bytesTotal * 100);
 		if (P != 100)
 		{
-			log(_loadingText + '\n' + ((_loadingText == "Loading Model") ? int((e.bytesLoaded / 1024) << 0) + 'kb | ' + int((e.bytesTotal / 1024) << 0) + 'kb' : _currentTexture + ' | ' + _numTextures));
+			log(_loadingText + '\n' + ((_loadingText == "Loading Model") ? (Std.int(e.bytesLoaded / 1024) << 0) + 'kb | ' + (Std.int(e.bytesTotal / 1024) << 0) + 'kb' : _currentTexture + ' | ' + _numTextures));
 		}
 		else if (_loadingText == "Loading Model")
 		{
@@ -613,12 +627,12 @@ class Advanced_MultiPassSponzaDemo extends BasicApplication
 	 */
 	private function onATFComplete(e:Event):Void
 	{
-		var loader:URLLoader = URLLoader(e.target);
+		var loader:URLLoader = Std.instance(e.target,URLLoader);
 		loader.removeEventListener(Event.COMPLETE, onATFComplete);
 
-		if (!_textureDictionary[_loadingTextureStrings[_n]])
+		if (!_textureDictionary.exists(_loadingTextureStrings[_n]))
 		{
-			_textureDictionary[_loadingTextureStrings[_n]] = new ATFTexture(loader.data);
+			_textureDictionary.set(_loadingTextureStrings[_n],new ATFTexture(loader.data));
 		}
 
 		loader.data = null;
@@ -628,7 +642,7 @@ class Advanced_MultiPassSponzaDemo extends BasicApplication
 
 		//skip null textures
 		while (_n++ < _loadingTextureStrings.length - 1)
-			if (_loadingTextureStrings[_n])
+			if (_loadingTextureStrings[_n] != null && _loadingTextureStrings[_n] != "")
 				break;
 
 		//switch to next teture set
@@ -660,7 +674,7 @@ class Advanced_MultiPassSponzaDemo extends BasicApplication
 	 */
 	private function parseBitmap(e:Event):Void
 	{
-		var urlLoader:URLLoader = e.target as URLLoader;
+		var urlLoader:URLLoader = Std.instance(e.target,URLLoader);
 		var loader:Loader = new Loader();
 		loader.loadBytes(urlLoader.data);
 		loader.contentLoaderInfo.addEventListener(Event.COMPLETE, onBitmapComplete, false, 0, true);
@@ -674,20 +688,22 @@ class Advanced_MultiPassSponzaDemo extends BasicApplication
 	 */
 	private function onBitmapComplete(e:Event):Void
 	{
-		var loader:Loader = LoaderInfo(e.target).loader;
+		var loader:Loader = Std.instance(e.target,LoaderInfo).loader;
 		loader.contentLoaderInfo.removeEventListener(Event.COMPLETE, onBitmapComplete);
 
 		//create bitmap texture in dictionary
-		if (!_textureDictionary[_loadingTextureStrings[_n]])
-			_textureDictionary[_loadingTextureStrings[_n]] = (_loadingTextureStrings == _specularTextureStrings) ? new SpecularBitmapTexture((e.target.content as Bitmap).bitmapData) : Cast.bitmapTexture(e.
-				target.content);
+		if (!_textureDictionary.exists(_loadingTextureStrings[_n]))
+			_textureDictionary.set(_loadingTextureStrings[_n], 
+								(_loadingTextureStrings == _specularTextureStrings) ? 
+								new SpecularBitmapTexture(Std.instance(e.target.content, Bitmap).bitmapData) : 
+								Cast.bitmapTexture(e.target.content));
 
 		loader.unload();
 		loader = null;
 
 		//skip null textures
 		while (_n++ < _loadingTextureStrings.length - 1)
-			if (_loadingTextureStrings[_n])
+			if (_loadingTextureStrings[_n] != null)
 				break;
 
 		//switch to next teture set
@@ -719,7 +735,7 @@ class Advanced_MultiPassSponzaDemo extends BasicApplication
 	private function parseAWD(e:Event):Void
 	{
 		log("Parsing Data");
-		var loader:URLLoader = e.target as URLLoader;
+		var loader:URLLoader = Std.instance(e.target,URLLoader);
 		var loader3d:Loader3D = new Loader3D(false);
 		var context:AssetLoaderContext = new AssetLoaderContext();
 		//context.includeDependencies = false;
@@ -741,7 +757,7 @@ class Advanced_MultiPassSponzaDemo extends BasicApplication
 		if (event.asset.assetType == AssetType.MESH)
 		{
 			//store meshes
-			_meshes.push(event.asset as Mesh);
+			_meshes.push(Std.instance(event.asset,Mesh));
 		}
 	}
 
@@ -751,11 +767,10 @@ class Advanced_MultiPassSponzaDemo extends BasicApplication
 	private function onResourceComplete(e:LoaderEvent):Void
 	{
 		var merge:Merge = new Merge(false, false, true);
-		merge = merge;
 
 		_text.visible = false;
 
-		var loader3d:Loader3D = e.target as Loader3D;
+		var loader3d:Loader3D = Std.instance(e.target,Loader3D);
 		loader3d.removeEventListener(AssetEvent.ASSET_COMPLETE, onAssetComplete);
 		loader3d.removeEventListener(LoaderEvent.RESOURCE_COMPLETE, onResourceComplete);
 
@@ -768,7 +783,7 @@ class Advanced_MultiPassSponzaDemo extends BasicApplication
 			if (mesh.name == "sponza_04" || mesh.name == "sponza_379")
 				continue;
 
-			var num:Float = Number(mesh.name.substring(7));
+			var num:Float = Std.parseFloat(mesh.name.substring(7));
 
 			name = mesh.material.name;
 
@@ -846,13 +861,13 @@ class Advanced_MultiPassSponzaDemo extends BasicApplication
 			var specularTextureName:String;
 
 			//store single pass materials for use later
-			var singleMaterial:TextureMaterial = _singleMaterialDictionary[name];
+			var singleMaterial:TextureMaterial = Std.instance(_singleMaterialDictionary.get(name),TextureMaterial);
 
 			if (singleMaterial == null)
 			{
 
 				//create singlepass material
-				singleMaterial = new TextureMaterial(_textureDictionary[textureName]);
+				singleMaterial = new TextureMaterial(Std.instance(_textureDictionary.get(textureName),Texture2DBase));
 
 				singleMaterial.name = name;
 				singleMaterial.lightPicker = _lightPicker;
@@ -867,25 +882,25 @@ class Advanced_MultiPassSponzaDemo extends BasicApplication
 
 				//add normal map if it exists
 				normalTextureName = _normalTextureStrings[textureIndex];
-				if (normalTextureName)
-					singleMaterial.normalMap = _textureDictionary[normalTextureName];
+				if (normalTextureName != null && normalTextureName != "")
+					singleMaterial.normalMap = Std.instance(_textureDictionary.get(normalTextureName),Texture2DBase);
 
 				//add specular map if it exists
 				specularTextureName = _specularTextureStrings[textureIndex];
-				if (specularTextureName)
-					singleMaterial.specularMap = _textureDictionary[specularTextureName];
+				if (specularTextureName != null && specularTextureName != "")
+					singleMaterial.specularMap = Std.instance(_textureDictionary.get(specularTextureName),Texture2DBase);
 
-				_singleMaterialDictionary[name] = singleMaterial;
+				_singleMaterialDictionary.set(name, singleMaterial);
 
 			}
 
 			//store multi pass materials for use later
-			var multiMaterial:TextureMultiPassMaterial = _multiMaterialDictionary[name];
+			var multiMaterial:TextureMultiPassMaterial = Std.instance(_multiMaterialDictionary.get(name),TextureMultiPassMaterial);
 			if (multiMaterial == null)
 			{
 
 				//create multipass material
-				multiMaterial = new TextureMultiPassMaterial(_textureDictionary[textureName]);
+				multiMaterial = new TextureMultiPassMaterial(Std.instance(_textureDictionary.get(textureName),Texture2DBase));
 				multiMaterial.name = name;
 				multiMaterial.lightPicker = _lightPicker;
 				multiMaterial.shadowMethod = _cascadeMethod;
@@ -901,16 +916,16 @@ class Advanced_MultiPassSponzaDemo extends BasicApplication
 
 				//add normal map if it exists
 				normalTextureName = _normalTextureStrings[textureIndex];
-				if (normalTextureName)
-					multiMaterial.normalMap = _textureDictionary[normalTextureName];
+				if (normalTextureName != null && normalTextureName != "")
+					multiMaterial.normalMap = Std.instance(_textureDictionary.get(normalTextureName),Texture2DBase);
 
 				//add specular map if it exists
 				specularTextureName = _specularTextureStrings[textureIndex];
-				if (specularTextureName)
-					multiMaterial.specularMap = _textureDictionary[specularTextureName];
+				if (specularTextureName != null && specularTextureName != "")
+					multiMaterial.specularMap = Std.instance(_textureDictionary.get(specularTextureName),Texture2DBase);
 
 				//add to material dictionary
-				_multiMaterialDictionary[name] = multiMaterial;
+				_multiMaterialDictionary.set(name, multiMaterial);
 			}
 			/*
 			if (_meshReference[textureIndex]) {
@@ -1027,18 +1042,10 @@ class Advanced_MultiPassSponzaDemo extends BasicApplication
 	{
 		switch (event.keyCode)
 		{
-			case Keyboard.UP:
-			case Keyboard.W:
-			case Keyboard.DOWN:
-			case Keyboard.S:
+			case Keyboard.UP,Keyboard.W,Keyboard.DOWN,Keyboard.S:
 				_walkAcceleration = 0;
-				break;
-			case Keyboard.LEFT:
-			case Keyboard.A:
-			case Keyboard.RIGHT:
-			case Keyboard.D:
+			case Keyboard.LEFT,Keyboard.A,Keyboard.RIGHT,Keyboard.D:
 				_strafeAcceleration = 0;
-				break;
 		}
 	}
 
@@ -1112,7 +1119,8 @@ class FlameVO
 
 
 //skybox texture
-@:file("embeds/hourglass_cubemap.atf") class SkyMapCubeTexture extends ByteArray {}
+@:file("embeds/skybox/hourglass_cubemap.atf") class SkyMapCubeTexture extends ByteArray {}
 
 //fire texture
+
 @:file("embeds/fire.atf") class FlameTexture extends ByteArray {}
