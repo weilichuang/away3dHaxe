@@ -70,7 +70,7 @@ class Minimalcompshx extends Sprite {
 		
 		initialize ();
 		
-		Style.setStyle(Style.LIGHT);
+		Style.setStyle(Style.BLACK);
 		
 		var container:Sprite = new Sprite();
 		addChild(container);

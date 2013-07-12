@@ -229,7 +229,7 @@ class PushButton extends Component
 	/**
 	 * Sets / gets the label text shown on this Pushbutton.
 	 */
-	public var label(get_label, set_label):String;
+	public var label(get, set):String;
 	
 	private function set_label(str:String):String
 	{
@@ -242,7 +242,7 @@ class PushButton extends Component
 		return _labelText;
 	}
 	
-	public var selected(get_selected, set_selected):Bool;
+	public var selected(get, set):Bool;
 	
 	private function set_selected(value:Bool):Bool
 	{
@@ -264,12 +264,11 @@ class PushButton extends Component
 		return _selected;
 	}
 	
-	public var toggle(get_toggle, set_toggle):Bool;
+	public var toggle(get, set):Bool;
 	
 	private function set_toggle(value:Bool):Bool
 	{
-		_toggle = value;
-		return value;
+		return _toggle = value;
 	}
 	private function get_toggle():Bool
 	{

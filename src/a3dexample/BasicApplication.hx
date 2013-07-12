@@ -39,9 +39,9 @@ class BasicApplication extends Sprite
 		
 	}
 	
-	private function createBitmapTexture<T>(cls:Class<T>):BitmapTexture
+	private function createBitmapTexture(cls:Class<BitmapData>):BitmapTexture
 	{
-		var bitmapData:BitmapData = cast(Type.createInstance(cls, [0, 0]), BitmapData);
+		var bitmapData:BitmapData = Std.instance(Type.createInstance(cls, [0, 0]), BitmapData);
 		return new BitmapTexture(bitmapData);
 	}
 

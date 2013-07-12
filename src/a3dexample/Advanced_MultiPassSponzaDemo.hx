@@ -73,9 +73,6 @@ class Advanced_MultiPassSponzaDemo extends BasicApplication
 
 	//default material data strings
 	private var _materialNameStrings:Vector<String>;
-	//private const diffuseTextureStrings:Vector.<String> = Vector.<String>(["arch_diff.atf", "background.atf", "bricks_a_diff.atf", "ceiling_a_diff.atf", "chain_texture.png", "column_a_diff.atf", "column_b_diff.atf", "column_c_diff.atf", "curtain_blue_diff.atf", "curtain_diff.atf", "curtain_green_diff.atf", "details_diff.atf", "fabric_blue_diff.atf", "fabric_diff.atf", "fabric_green_diff.atf", "flagpole_diff.atf", "floor_a_diff.atf", "gi_flag.atf", "lion.atf", "roof_diff.atf", "thorn_diff.png", "vase_dif.atf", "vase_hanging.atf", "vase_plant.png", "vase_round.atf"]);
-	//private const normalTextureStrings:Vector.<String> = Vector.<String>(["arch_ddn.atf", "background_ddn.atf", "bricks_a_ddn.atf", null,                "chain_texture_ddn.atf", "column_a_ddn.atf", "column_b_ddn.atf", "column_c_ddn.atf", null,                   null,               null,                     null,               null,                   null,              null,                    null,                null,               null,          "lion2_ddn.atf", null,       "thorn_ddn.atf", "vase_ddn.atf",  null,               null,             "vase_round_ddn.atf"]);
-	//private const specularTextureStrings:Vector.<String> = Vector.<String>(["arch_spec.atf", null,            "bricks_a_spec.atf", "ceiling_a_spec.atf", null,                "column_a_spec.atf", "column_b_spec.atf", "column_c_spec.atf", "curtain_spec.atf",      "curtain_spec.atf", "curtain_spec.atf",       "details_spec.atf", "fabric_spec.atf",      "fabric_spec.atf", "fabric_spec.atf",       "flagpole_spec.atf", "floor_a_spec.atf", null,          null,       null,            "thorn_spec.atf", null,           null,               "vase_plant_spec.atf", "vase_round_spec.atf"]);
 
 	private var _diffuseTextureStrings:Vector<String>;
 	private var _normalTextureStrings:Vector<String>;
@@ -87,11 +84,10 @@ class Advanced_MultiPassSponzaDemo extends BasicApplication
 	private var _flameData:Vector<FlameVO>;
 
 	//material dictionaries to hold instances
-	private var _textureDictionary:StringMap<TextureProxyBase>;
-	private var _multiMaterialDictionary:StringMap<MaterialBase>;
-	private var _singleMaterialDictionary:StringMap<MaterialBase>;
+	private var _textureMap:StringMap<TextureProxyBase>;
+	private var _multiMaterialMap:StringMap<MaterialBase>;
+	private var _singleMaterialMap:StringMap<MaterialBase>;
 
-	//private var meshDictionary:Dictionary = new Dictionary();
 	private var vaseMeshes:Vector<Mesh>;
 	private var poleMeshes:Vector<Mesh>;
 	private var colMeshes:Vector<Mesh>;
@@ -168,13 +164,15 @@ class Advanced_MultiPassSponzaDemo extends BasicApplication
 		_meshReference = new Vector<Mesh>(25);
 
 		//flame data objects
-		_flameData = Vector.ofArray([new FlameVO(new Vector3D(-625, 165, 219), 0xffaa44), new FlameVO(new Vector3D(485, 165, 219), 0xffaa44), new FlameVO(new Vector3D(-625,
-			165, -148), 0xffaa44), new FlameVO(new Vector3D(485, 165, -148), 0xffaa44)]);
+		_flameData = Vector.ofArray([new FlameVO(new Vector3D( -625, 165, 219), 0xffaa44), 
+									new FlameVO(new Vector3D(485, 165, 219), 0xffaa44), 
+									new FlameVO(new Vector3D(-625,165, -148), 0xffaa44), 
+									new FlameVO(new Vector3D(485, 165, -148), 0xffaa44)]);
 
 		//material dictionaries to hold instances
-		_textureDictionary = new StringMap<TextureProxyBase>();
-		_multiMaterialDictionary = new StringMap<MaterialBase>();
-		_singleMaterialDictionary = new StringMap<MaterialBase>();
+		_textureMap = new StringMap<TextureProxyBase>();
+		_multiMaterialMap = new StringMap<MaterialBase>();
+		_singleMaterialMap = new StringMap<MaterialBase>();
 
 		//meshDictionary:Dictionary = new Dictionary();
 		vaseMeshes = new Vector<Mesh>();
@@ -205,7 +203,7 @@ class Advanced_MultiPassSponzaDemo extends BasicApplication
 		_singlePassMaterial = value;
 		_multiPassMaterial = !value;
 
-		updateMaterialPass(value ? _singleMaterialDictionary : _multiMaterialDictionary);
+		updateMaterialPass(value ? _singleMaterialMap : _multiMaterialMap);
 		
 		return _singlePassMaterial;
 	}
@@ -224,7 +222,7 @@ class Advanced_MultiPassSponzaDemo extends BasicApplication
 		_multiPassMaterial = value;
 		_singlePassMaterial = !value;
 
-		updateMaterialPass(value ? _multiMaterialDictionary : _singleMaterialDictionary);
+		updateMaterialPass(value ? _multiMaterialMap : _singleMaterialMap);
 		
 		return _multiPassMaterial;
 	}
@@ -630,9 +628,9 @@ class Advanced_MultiPassSponzaDemo extends BasicApplication
 		var loader:URLLoader = Std.instance(e.target,URLLoader);
 		loader.removeEventListener(Event.COMPLETE, onATFComplete);
 
-		if (!_textureDictionary.exists(_loadingTextureStrings[_n]))
+		if (!_textureMap.exists(_loadingTextureStrings[_n]))
 		{
-			_textureDictionary.set(_loadingTextureStrings[_n],new ATFTexture(loader.data));
+			_textureMap.set(_loadingTextureStrings[_n],new ATFTexture(loader.data));
 		}
 
 		loader.data = null;
@@ -692,8 +690,8 @@ class Advanced_MultiPassSponzaDemo extends BasicApplication
 		loader.contentLoaderInfo.removeEventListener(Event.COMPLETE, onBitmapComplete);
 
 		//create bitmap texture in dictionary
-		if (!_textureDictionary.exists(_loadingTextureStrings[_n]))
-			_textureDictionary.set(_loadingTextureStrings[_n], 
+		if (!_textureMap.exists(_loadingTextureStrings[_n]))
+			_textureMap.set(_loadingTextureStrings[_n], 
 								(_loadingTextureStrings == _specularTextureStrings) ? 
 								new SpecularBitmapTexture(Std.instance(e.target.content, Bitmap).bitmapData) : 
 								Cast.bitmapTexture(e.target.content));
@@ -861,13 +859,13 @@ class Advanced_MultiPassSponzaDemo extends BasicApplication
 			var specularTextureName:String;
 
 			//store single pass materials for use later
-			var singleMaterial:TextureMaterial = Std.instance(_singleMaterialDictionary.get(name),TextureMaterial);
+			var singleMaterial:TextureMaterial = Std.instance(_singleMaterialMap.get(name),TextureMaterial);
 
 			if (singleMaterial == null)
 			{
 
 				//create singlepass material
-				singleMaterial = new TextureMaterial(Std.instance(_textureDictionary.get(textureName),Texture2DBase));
+				singleMaterial = new TextureMaterial(Std.instance(_textureMap.get(textureName),Texture2DBase));
 
 				singleMaterial.name = name;
 				singleMaterial.lightPicker = _lightPicker;
@@ -883,24 +881,24 @@ class Advanced_MultiPassSponzaDemo extends BasicApplication
 				//add normal map if it exists
 				normalTextureName = _normalTextureStrings[textureIndex];
 				if (normalTextureName != null && normalTextureName != "")
-					singleMaterial.normalMap = Std.instance(_textureDictionary.get(normalTextureName),Texture2DBase);
+					singleMaterial.normalMap = Std.instance(_textureMap.get(normalTextureName),Texture2DBase);
 
 				//add specular map if it exists
 				specularTextureName = _specularTextureStrings[textureIndex];
 				if (specularTextureName != null && specularTextureName != "")
-					singleMaterial.specularMap = Std.instance(_textureDictionary.get(specularTextureName),Texture2DBase);
+					singleMaterial.specularMap = Std.instance(_textureMap.get(specularTextureName),Texture2DBase);
 
-				_singleMaterialDictionary.set(name, singleMaterial);
+				_singleMaterialMap.set(name, singleMaterial);
 
 			}
 
 			//store multi pass materials for use later
-			var multiMaterial:TextureMultiPassMaterial = Std.instance(_multiMaterialDictionary.get(name),TextureMultiPassMaterial);
+			var multiMaterial:TextureMultiPassMaterial = Std.instance(_multiMaterialMap.get(name),TextureMultiPassMaterial);
 			if (multiMaterial == null)
 			{
 
 				//create multipass material
-				multiMaterial = new TextureMultiPassMaterial(Std.instance(_textureDictionary.get(textureName),Texture2DBase));
+				multiMaterial = new TextureMultiPassMaterial(Std.instance(_textureMap.get(textureName),Texture2DBase));
 				multiMaterial.name = name;
 				multiMaterial.lightPicker = _lightPicker;
 				multiMaterial.shadowMethod = _cascadeMethod;
@@ -917,15 +915,15 @@ class Advanced_MultiPassSponzaDemo extends BasicApplication
 				//add normal map if it exists
 				normalTextureName = _normalTextureStrings[textureIndex];
 				if (normalTextureName != null && normalTextureName != "")
-					multiMaterial.normalMap = Std.instance(_textureDictionary.get(normalTextureName),Texture2DBase);
+					multiMaterial.normalMap = Std.instance(_textureMap.get(normalTextureName),Texture2DBase);
 
 				//add specular map if it exists
 				specularTextureName = _specularTextureStrings[textureIndex];
 				if (specularTextureName != null && specularTextureName != "")
-					multiMaterial.specularMap = Std.instance(_textureDictionary.get(specularTextureName),Texture2DBase);
+					multiMaterial.specularMap = Std.instance(_textureMap.get(specularTextureName),Texture2DBase);
 
 				//add to material dictionary
-				_multiMaterialDictionary.set(name, multiMaterial);
+				_multiMaterialMap.set(name, multiMaterial);
 			}
 			/*
 			if (_meshReference[textureIndex]) {

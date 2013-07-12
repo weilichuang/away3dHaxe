@@ -246,7 +246,7 @@ class RotarySelector extends Component
 	
 	private function onLabelClick(event:Event):Void
 	{
-		var lab:Label = cast(event.target, Label);
+		var lab:Label = Std.instance(event.target, Label);
 		choice = _labels.getChildIndex(lab);
 	}
 	

@@ -106,7 +106,7 @@ class ListItem extends Component
 
 		if(Std.is(_data, String))
 		{
-			_label.text = cast(_data, String);
+			_label.text = Std.instance(_data, String);
 		}
 		else if(Reflect.hasField(_data, "label") && Std.is(Reflect.field(_data, "label"), String))
 		{

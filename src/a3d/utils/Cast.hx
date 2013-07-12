@@ -33,7 +33,7 @@ class Cast
 		if (Std.is(data,Class))
 			data = Type.createInstance(data,[]);
 
-		return cast(data,String);
+		return Std.instance(data,String);
 	}
 
 	public static function byteArray(data:Dynamic):ByteArray
@@ -44,7 +44,7 @@ class Cast
 		if (Std.is(data,Class))
 			data = Type.createInstance(data,[]);
 
-		return cast(data,ByteArray);
+		return Std.instance(data,ByteArray);
 	}
 
 	public static function xml(data:Dynamic):XML
@@ -55,7 +55,7 @@ class Cast
 		if (Std.is(data,Class))
 			data = Type.createInstance(data,[]);
 
-		return cast(data,XML);
+		return Std.instance(data,XML);
 	}
 
 	private static function isHex(string:String):Bool
@@ -230,7 +230,7 @@ class Cast
 			if (_colorNames.exists(data))
 				return _colorNames.get(data);
 
-			if ((cast(data,String).length == 6) && isHex(data))
+			if ((Std.instance(data,String).length == 6) && isHex(data))
 				return Std.parseInt("0x" + data);
 		}
 

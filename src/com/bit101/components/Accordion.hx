@@ -149,7 +149,7 @@ class Accordion extends Component
 	 */
 	private function onWindowSelect(event:Event):Void
 	{
-		var window:Window = cast(event.target, Window);
+		var window:Window = Std.instance(event.target, Window);
 		if(window.minimized)
 		{
 			for(i in 0...(_windows.length))

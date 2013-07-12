@@ -240,6 +240,9 @@ class SimpleGUI extends EventDispatcher
 	 * @param type The class definition of the component to add
 	 * @param options The options to configure the component with
 	 */
+	public static function hasProperty( o : Dynamic, field : String ) : Bool untyped {
+		return o.hasOwnProperty("get_" + field);
+	}
 	
 	public function addControl(type : Class<Component>, options : Dynamic) : Component
 	{
@@ -251,9 +254,9 @@ class SimpleGUI extends EventDispatcher
 		var fields:Array<String> = options.fields();
 		for (option in fields)
 		{
-			if (component.hasField(option))
+			if (hasProperty(component,option))
 			{
-				component.setField(option,options.field(option));
+				component.setProperty(option,options.field(option));
 			}
 		}
 		
@@ -520,7 +523,7 @@ class SimpleGUI extends EventDispatcher
 		
 		params.target = target;
 		params.items = items;
-		params.defaultLabel = targ.field(prop);
+		params.defaultLabel = getFieldOrProperty(targ,prop);
 		params.numVisibleItems = Math.min(items.length, 5);
 		
 		return Std.instance(addControl(ComboBox, merge(params, options)),ComboBox);
@@ -691,7 +694,6 @@ class SimpleGUI extends EventDispatcher
 		var options : Dynamic = _parameters.get(component);
 		
 		if (options.hasField("target"))
-			//options.hasOwnProperty("target"))
 		{
 			targets = [].concat(options.target);
 			
@@ -703,22 +705,22 @@ class SimpleGUI extends EventDispatcher
 				
 				if (Std.is(component,CheckBox))
 				{
-					setFieldOrProperty(target,prop,component.getProperty("selected"));
+					setFieldOrProperty(target, prop, component.getProperty("selected"));
 				}
 				else if (Std.is(component,RangeSlider))
 				{
-					setFieldOrProperty(target,prop,component.getProperty(i == 0 ? "lowValue" : "highValue"));
+					setFieldOrProperty(target, prop, component.getProperty(i == 0 ? "lowValue" : "highValue"));
 				}
 				else if (Std.is(component,ComboBox))
 				{
 					if(component.getProperty("selectedItem") != null)
 					{
-						setFieldOrProperty(target,prop,component.getProperty("selectedItem").data);
+						setFieldOrProperty(target, prop, component.getProperty("selectedItem").data);
 					}
 				}
 				else if(component.getProperty("value"))
 				{
-					setFieldOrProperty(target,prop,component.getProperty("value"));
+					setFieldOrProperty(target, prop, component.getProperty("value"));
 				}
 			}
 		}
@@ -738,6 +740,18 @@ class SimpleGUI extends EventDispatcher
 		else
 		{
 			target.setProperty(prop, value);
+		}
+	}
+	
+	private function getFieldOrProperty(target:Dynamic,prop:String):Dynamic
+	{
+		if (target.hasField(prop))
+		{
+			return target.field(prop);
+		}
+		else
+		{
+			return target.getProperty(prop);
 		}
 	}
 	

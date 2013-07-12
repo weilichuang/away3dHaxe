@@ -141,7 +141,7 @@ class Label extends Component
 	/**
 	 * Gets / sets the text of this Label.
 	 */
-	public var text(get_text, set_text):String;
+	public var text(get, set):String;
 	
 	private function set_text(t:String):String
 	{
@@ -158,7 +158,7 @@ class Label extends Component
 	/**
 	 * Gets / sets whether or not this Label will autosize.
 	 */
-	public var autoSize(get_autoSize, set_autoSize):Bool;
+	public var autoSize(get, set):Bool;
 	
 	private function set_autoSize(b:Bool):Bool
 	{
@@ -173,7 +173,7 @@ class Label extends Component
 	/**
 	 * Gets the internal TextField of the label if you need to do further customization of it.
 	 */
-	public var textField(get_textField, null):TextField;
+	public var textField(get, null):TextField;
 	
 	private function get_textField():TextField
 	{

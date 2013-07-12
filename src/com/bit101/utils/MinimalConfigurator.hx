@@ -69,11 +69,13 @@ import com.bit101.components.VUISlider;
 import com.bit101.components.WheelMenu;
 import com.bit101.components.Window;
 import flash.display.DisplayObjectContainer;
+import flash.errors.Error;
 import flash.events.Event;
 import flash.events.EventDispatcher;
 import flash.net.URLLoader;
 import flash.net.URLRequest;
 import flash.utils.getDefinitionByName;
+import flash.xml.XML;
 
 /**
  * Creates and lays out minimal components based on a simple xml format.
@@ -110,7 +112,7 @@ class MinimalConfigurator extends EventDispatcher
 	 */
 	private function onLoadComplete(event:Event):Void
 	{
-		parseXMLString(cast(loader.data, String));
+		parseXMLString(Std.instance(loader.data, String));
 	}
 	
 	/**
@@ -225,7 +227,7 @@ class MinimalConfigurator extends EventDispatcher
 			}
 			
 			// child nodes will be added as children to the instance just created.
-			for(var j:int = 0; j < xml.children().length(); j++)
+			for(j in 0...xml.children().length())
 			{
 				var child:Component = parseComp(xml.children()[j]);
 				if(child != null)
@@ -238,7 +240,7 @@ class MinimalConfigurator extends EventDispatcher
 		{
 			
 		}
-		return cast(compInst, Component);
+		return Std.instance(compInst, Component);
 	}
 	
 	/**

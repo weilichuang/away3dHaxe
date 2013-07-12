@@ -229,7 +229,7 @@ class Component extends Sprite
 	/**
 	 * Sets/gets in integer that can identify the component.
 	 */
-	public var tag(get_tag, set_tag):Int;
+	public var tag(get, set):Int;
 	
 	private function set_tag(value:Int):Int
 	{
@@ -276,7 +276,7 @@ class Component extends Sprite
 	/**
 	 * Sets/gets whether this component is enabled or not.
 	 */
-	public var enabled(get_enabled, set_enabled):Bool;
+	public var enabled(get, set):Bool;
 	
 	private function set_enabled(value:Bool):Bool
 	{

@@ -61,7 +61,7 @@ class List extends Component
 		_alternateColor = Style.LIST_ALTERNATE;
 		_selectedColor = Style.LIST_SELECTED;
 		_rolloverColor = Style.LIST_ROLLOVER;
-		_listItemClass = cast ListItem;
+		_listItemClass = ListItem;
 		
 		if(items != null)
 		{
@@ -109,7 +109,7 @@ class List extends Component
 		var item:ListItem;
 		while(_itemHolder.numChildren > 0)
 		{
-			item = cast(_itemHolder.getChildAt(0), ListItem);
+			item = Std.instance(_itemHolder.getChildAt(0), ListItem);
 			item.removeEventListener(MouseEvent.CLICK, onSelect);
 			_itemHolder.removeChildAt(0);
 		}
@@ -134,9 +134,15 @@ class List extends Component
 		var offset:Int = Std.int(_scrollbar.value);
 		var numItems:Int = Math.ceil(_height / _listItemHeight);
 		numItems = Std.int(Math.min(numItems, _items.length));
+		
+		if (_itemHolder.numChildren < numItems)
+		{
+			makeListItems();
+		}
+		
 		for(i in 0...numItems)
 		{
-			var item:ListItem = cast(_itemHolder.getChildAt(i), ListItem);
+			var item:ListItem = Std.instance(_itemHolder.getChildAt(i), ListItem);
 			if(offset + i < _items.length)
 			{
 				item.data = _items[offset + i];
@@ -307,9 +313,9 @@ class List extends Component
 		for(i in 0...(_itemHolder.numChildren))
 		{
 			if(_itemHolder.getChildAt(i) == event.target) _selectedIndex = i + offset;
-			cast(_itemHolder.getChildAt(i), ListItem).selected = false;
+			Std.instance(_itemHolder.getChildAt(i), ListItem).selected = false;
 		}
-		cast(event.target, ListItem).selected = true;
+		Std.instance(event.target, ListItem).selected = true;
 		dispatchEvent(new Event(Event.SELECT));
 	}
 	
