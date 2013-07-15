@@ -14,7 +14,7 @@ import flash.Vector;
 class RimLightMethod extends EffectMethodBase
 {
 	private var _color:UInt;
-	private var _blendMode:String;
+	private var _blendMode:BlendMode;
 	private var _colorR:Float;
 	private var _colorG:Float;
 	private var _colorB:Float;

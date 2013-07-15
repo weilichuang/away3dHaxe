@@ -312,7 +312,7 @@ class Merge
 			}
 
 			if (dispose) 
-				_toDispose.push(mesh);
+				toDispose.push(mesh);
 		}
 	}
 
