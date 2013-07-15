@@ -3,14 +3,20 @@ import flash.display3D.Context3DProfile;
 import flash.Vector;
 
 
-
+/**
+ * SuperShaderCompiler is a compiler that generates shaders that perform both lighting and "effects" through methods.
+ * This is used by the single-pass materials.
+ */
 class SuperShaderCompiler extends ShaderCompiler
 {
 	public var pointLightRegisters:Vector<ShaderRegisterElement>;
 	public var dirLightRegisters:Vector<ShaderRegisterElement>;
 
 
-
+	/**
+	 * Creates a new SuperShaderCompiler object.
+	 * @param profile The compatibility profile used by the renderer.
+	 */
 	public function new(profile: Context3DProfile)
 	{
 		super(profile);
@@ -107,6 +113,10 @@ class SuperShaderCompiler extends ShaderCompiler
 		}
 	}
 
+	/**
+	 * Compiles the vertex shader code for tangent-space normal maps.
+	 * @param matrix The register containing the scene transformation matrix for normals.
+	 */
 	private function compileTangentVertexCode(matrix:Vector<ShaderRegisterElement>):Void
 	{
 		_sharedRegisters.tangentVarying = _registerCache.getFreeVarying();
@@ -136,6 +146,9 @@ class SuperShaderCompiler extends ShaderCompiler
 		_registerCache.removeVertexTempUsage(_sharedRegisters.animatedTangent);
 	}
 
+	/**
+	 * Compiles the fragment shader code for tangent-space normal maps.
+	 */
 	private function compileTangentNormalMapFragmentCode():Void
 	{
 		var t:ShaderRegisterElement;
@@ -265,7 +278,9 @@ class SuperShaderCompiler extends ShaderCompiler
 		}
 	}
 
-
+	/**
+	 * Initializes the registers containing the lighting data.
+	 */
 	private function initLightRegisters():Void
 	{
 		// init these first so we're sure they're in sequence

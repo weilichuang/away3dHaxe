@@ -2,6 +2,10 @@ package a3d.materials.methods;
 import flash.Vector;
 
 
+/**
+ * MethodVO contains data for a given method for the use within a single material.
+ * This allows methods to be shared across materials while their non-public state differs.
+ */
 class MethodVO
 {
 	public var vertexData:Vector<Float>;
@@ -32,11 +36,17 @@ class MethodVO
 	public var numLights:Int;
 	public var useLightFallOff:Bool = true;
 
+	/**
+	 * Creates a new MethodVO object.
+	 */
 	public function new()
 	{
 
 	}
 
+	/**
+	 * Resets the values of the value object to their "unused" state.
+	 */
 	public function reset():Void
 	{
 		texturesIndex = -1;

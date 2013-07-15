@@ -3,7 +3,9 @@ import flash.display3D.Context3DProfile;
 import flash.Vector;
 
 
-
+/**
+ * LightingShaderCompiler is a ShaderCompiler that generates code for passes performing shading only (no effect passes)
+ */
 class LightingShaderCompiler extends ShaderCompiler
 {
 	public var pointLightFragmentConstants:Vector<ShaderRegisterElement>;
@@ -14,12 +16,18 @@ class LightingShaderCompiler extends ShaderCompiler
 	private var _shadowRegister:ShaderRegisterElement;
 
 
-
+	/**
+	 * Create a new LightingShaderCompiler object.
+	 * @param profile The compatibility profile of the renderer.
+	 */
 	public function new(profile:Context3DProfile)
 	{
 		super(profile);
 	}
 
+	/**
+	 * The starting index if the vertex constant to which light data needs to be uploaded.
+	 */
 	public var lightVertexConstantIndex(get,null):Int;
 	private function get_lightVertexConstantIndex():Int
 	{
@@ -59,6 +67,10 @@ class LightingShaderCompiler extends ShaderCompiler
 		_animationTargetRegisters.push(_sharedRegisters.animatedNormal.toString());
 	}
 
+	/**
+	 * Indicates whether or not lighting happens in tangent space. This is only the case if no world-space
+	 * dependencies exist.
+	 */
 	public var tangentSpace(get,null):Bool;
 	private function get_tangentSpace():Bool
 	{
@@ -136,8 +148,12 @@ class LightingShaderCompiler extends ShaderCompiler
 		}
 	}
 
+	/**
+	 * Generates code to retrieve the tangent space normal from the normal map
+	 */
 	private function compileTangentSpaceNormalMapCode():Void
 	{
+		// normalize normal + tangent vector and generate (approximated) bitangent
 		_vertexCode += "nrm " + _sharedRegisters.animatedNormal + ".xyz, " + _sharedRegisters.animatedNormal + "\n" +
 			"nrm " + _sharedRegisters.animatedTangent + ".xyz, " + _sharedRegisters.animatedTangent + "\n";
 		_vertexCode += "crs " + _sharedRegisters.bitangent + ".xyz, " + _sharedRegisters.animatedNormal + ", " + _sharedRegisters.animatedTangent + "\n";
@@ -243,6 +259,9 @@ class LightingShaderCompiler extends ShaderCompiler
 			_registerCache.removeFragmentTempUsage(_shadowRegister);
 	}
 
+	/**
+	 * Provides the code to provide shadow mapping.
+	 */
 	private function compileShadowCode():Void
 	{
 		if (_sharedRegisters.normalFragment != null)
@@ -258,6 +277,9 @@ class LightingShaderCompiler extends ShaderCompiler
 	}
 
 
+	/**
+	 * Initializes constant registers to contain light data.
+	 */
 	private function initLightRegisters():Void
 	{
 		// init these first so we're sure they're in sequence
@@ -299,6 +321,9 @@ class LightingShaderCompiler extends ShaderCompiler
 		}
 	}
 
+	/**
+	 * Compiles the shading code for directional lights.
+	 */
 	private function compileDirectionalLightCode():Void
 	{
 		var diffuseColorReg:ShaderRegisterElement;
@@ -342,6 +367,9 @@ class LightingShaderCompiler extends ShaderCompiler
 		}
 	}
 
+	/**
+	 * Compiles the shading code for point lights.
+	 */
 	private function compilePointLightCode():Void
 	{
 		var diffuseColorReg:ShaderRegisterElement;
@@ -413,7 +441,9 @@ class LightingShaderCompiler extends ShaderCompiler
 		}
 	}
 
-
+	/**
+	 * Compiles shading code for light probes.
+	 */
 	private function compileLightProbeCode():Void
 	{
 		var weightReg:String;

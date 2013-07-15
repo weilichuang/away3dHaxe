@@ -22,7 +22,7 @@ class PlanarReflectionMethod extends EffectMethodBase
 	/**
 	 * Creates a new PlanarReflectionMethod
 	 * @param texture The PlanarReflectionTexture used to render the reflected view.
-	 * @param alpha The reflectiveness of the surface.
+	 * @param alpha The reflectivity of the surface.
 	 */
 	public function new(texture:PlanarReflectionTexture, alpha:Float = 1)
 	{
@@ -41,7 +41,7 @@ class PlanarReflectionMethod extends EffectMethodBase
 	}
 
 	/**
-	 * The reflectiveness of the surface.
+	 * The reflectivity of the surface.
 	 */
 	public var alpha(get,set):Float;
 	private function get_alpha():Float

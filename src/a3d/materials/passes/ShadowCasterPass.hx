@@ -48,10 +48,18 @@ class ShadowCasterPass extends CompiledPass
 	{
 		super.updateLights();
 
-		var numPointLights:Int = _lightPicker.numCastingPointLights > 0 ? 1 : 0;
-		var numDirectionalLights:Int = _lightPicker.numCastingDirectionalLights > 0 ? 1 : 0;
+		var numPointLights:Int = 0;
+		var numDirectionalLights:Int = 0;
+		
+		if (_lightPicker != null)
+		{
+			numPointLights = _lightPicker.numCastingPointLights > 0 ? 1 : 0;
+			numDirectionalLights = _lightPicker.numCastingDirectionalLights > 0 ? 1 : 0;
+		}
+		
 		_numLightProbes = 0;
-		if (numPointLights == numDirectionalLights)
+		
+		if (numPointLights + numDirectionalLights > 1)
 			throw new Error("Must have exactly one light!");
 
 		if (numPointLights != _numPointLights || numDirectionalLights != _numDirectionalLights)

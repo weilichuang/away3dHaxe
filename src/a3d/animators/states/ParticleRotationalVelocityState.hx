@@ -57,7 +57,7 @@ class ParticleRotationalVelocityState extends ParticleStateBase
 	{
 		_dynamicProperties = value;
 
-		_dynamicPropertiesDirty = new Dictionary(true);
+		_dynamicPropertiesDirty = new haxe.ds.WeakMap<AnimationSubGeometry,Bool>();
 	}
 
 	public function new(animator:ParticleAnimator, particleRotationNode:ParticleRotationalVelocityNode)
@@ -75,7 +75,7 @@ class ParticleRotationalVelocityState extends ParticleStateBase
 	 */
 	override public function setRenderState(stage3DProxy:Stage3DProxy, renderable:IRenderable, animationSubGeometry:AnimationSubGeometry, animationRegisterCache:AnimationRegisterCache, camera:Camera3D):Void
 	{
-		if (_particleRotationalVelocityNode.mode == ParticlePropertiesMode.LOCAL_DYNAMIC && !_dynamicPropertiesDirty[animationSubGeometry])
+		if (_particleRotationalVelocityNode.mode == ParticlePropertiesMode.LOCAL_DYNAMIC && !_dynamicPropertiesDirty.exists(animationSubGeometry))
 			updateDynamicProperties(animationSubGeometry);
 
 		var index:Int = animationRegisterCache.getRegisterIndex(_animationNode, ParticleRotationalVelocityNode.ROTATIONALVELOCITY_INDEX);

@@ -1,6 +1,7 @@
 package a3d.core.render;
 
 import flash.display3D.Context3D;
+import flash.display3D.Context3DBlendFactor;
 import flash.display3D.Context3DVertexBufferFormat;
 import flash.display3D.IndexBuffer3D;
 import flash.display3D.VertexBuffer3D;
@@ -111,7 +112,6 @@ class Filter3DRenderer
 	public function render(stage3DProxy:Stage3DProxy, camera3D:Camera3D, depthTexture:Texture):Void
 	{
 		var len:Int;
-		var i:Int;
 		var task:Filter3DTaskBase;
 		var context:Context3D = stage3DProxy.context3D;
 		var indexBuffer:IndexBuffer3D = _rttManager.indexBuffer;
@@ -152,6 +152,7 @@ class Filter3DRenderer
 			context.setProgram(task.getProgram3D(stage3DProxy));
 			context.clear(0.0, 0.0, 0.0, 0.0);
 			task.activate(stage3DProxy, camera3D, depthTexture);
+			context.setBlendFactors(Context3DBlendFactor.ONE, Context3DBlendFactor.ZERO);
 			context.drawTriangles(indexBuffer, 0, 2);
 			task.deactivate(stage3DProxy);
 		}

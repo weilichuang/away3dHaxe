@@ -9,17 +9,24 @@ import a3d.textures.Texture2DBase;
 import flash.errors.Error;
 
 
-
+/**
+ * LightMapMethod provides a method that allows applying a light map texture to the calculated pixel colour.
+ * It is different from LightMapDiffuseMethod in that the latter only modulates the diffuse shading value rather
+ * than the whole pixel colour.
+ */
 class LightMapMethod extends EffectMethodBase
 {
-	public static inline var MULTIPLY:String = "multiply";
-	public static inline var ADD:String = "add";
-
 	private var _texture:Texture2DBase;
 
 	private var _blendMode:BlendMode;
 	private var _useSecondaryUV:Bool;
 
+	/**
+	 * Creates a new LightMapMethod object.
+	 * @param texture The texture containing the light map.
+	 * @param blendMode The blend mode with which the light map should be applied to the lighting result.
+	 * @param useSecondaryUV Indicates whether the secondary UV set should be used to map the light map.
+	 */
 	public function new(texture:Texture2DBase, blendMode:BlendMode = null, useSecondaryUV:Bool = false)
 	{
 		super();
@@ -41,6 +48,12 @@ class LightMapMethod extends EffectMethodBase
 		vo.needsSecondaryUV = _useSecondaryUV;
 	}
 
+	/**
+	 * The blend mode with which the light map should be applied to the lighting result.
+	 *
+	 * @see LightMapMethod.ADD
+	 * @see LightMapMethod.MULTIPLY
+	 */
 	public var blendMode(get,set):BlendMode;
 	private function get_blendMode():BlendMode
 	{
@@ -58,6 +71,9 @@ class LightMapMethod extends EffectMethodBase
 		return _blendMode;
 	}
 
+	/**
+	 * The texture containing the light map.
+	 */
 	public var texture(get,set):Texture2DBase;
 	private function get_texture():Texture2DBase
 	{

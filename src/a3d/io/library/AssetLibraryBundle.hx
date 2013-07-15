@@ -23,7 +23,13 @@ import haxe.ds.StringMap;
 
 
 
-
+/**
+ * Dispatched when any asset finishes parsing. Also see specific events for each
+ * individual asset type (meshes, materials et c.)
+ *
+ * @eventType away3d.events.AssetEvent
+ */
+@:meta(Event(name="assetComplete", type="a3d.events.AssetEvent"))
 
 /**
  * Dispatched when a full resource (including dependencies) finishes loading.
@@ -46,14 +52,6 @@ import haxe.ds.StringMap;
  * @eventType a3d.events.LoaderEvent
  */
 @:meta(Event(name = "loadError", type = "a3d.events.LoaderEvent"))
-
-/**
- * Dispatched when any asset finishes parsing. Also see specific events for each
- * individual asset type (meshes, materials et c.)
- *
- * @eventType a3d.events.AssetEvent
- */
-@:meta(Event(name = "assetComplete", type = "a3d.events.AssetEvent"))
 
 /**
  * Dispatched when a geometry asset has been constructed from a resource.

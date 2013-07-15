@@ -9,14 +9,20 @@ import a3d.textures.Texture2DBase;
 
 
 /**
- * Allows the use of an additional texture to specify the alpha value of the material. When used with the secondary uv
- * set, it allows for a tiled main texture with independently varying alpha (useful for water etc).
+ * AlphaMaskMethod allows the use of an additional texture to specify the alpha value of the material. When used
+ * with the secondary uv set, it allows for a tiled main texture with independently varying alpha (useful for water
+ * etc).
  */
 class AlphaMaskMethod extends EffectMethodBase
 {
 	private var _texture:Texture2DBase;
 	private var _useSecondaryUV:Bool;
 
+	/**
+	 * Creates a new AlphaMaskMethod object
+	 * @param texture The texture to use as the alpha mask.
+	 * @param useSecondaryUV Indicated whether or not the secondary uv set for the mask. This allows mapping alpha independently.
+	 */
 	public function new(texture:Texture2DBase, useSecondaryUV:Bool = false)
 	{
 		super();
@@ -30,6 +36,11 @@ class AlphaMaskMethod extends EffectMethodBase
 		vo.needsUV = !_useSecondaryUV;
 	}
 
+	/**
+	 * Indicated whether or not the secondary uv set for the mask. This allows mapping alpha independently, for
+	 * instance to tile the main texture and normal map while providing untiled alpha, for example to define the
+	 * transparency over a tiled water surface.
+	 */
 	public var useSecondaryUV(get, set):Bool;
 	private function get_useSecondaryUV():Bool
 	{
@@ -45,6 +56,9 @@ class AlphaMaskMethod extends EffectMethodBase
 		return _useSecondaryUV;
 	}
 
+	/**
+	 * The texture to use as the alpha mask.
+	 */
 	public var texture(get, set):Texture2DBase;
 	private function get_texture():Texture2DBase
 	{

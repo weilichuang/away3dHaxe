@@ -271,7 +271,8 @@ class PlaneGeometry extends PrimitiveBase
 		if (_doubleSided)
 			numUvs *= 2;
 
-		if (target.UVData != null && numUvs == target.UVData.length)
+		if (target.UVData != null && 
+			numUvs == target.UVData.length)
 			data = target.UVData;
 		else
 		{
@@ -285,14 +286,14 @@ class PlaneGeometry extends PrimitiveBase
 		{
 			for (xi in 0..._segmentsW+1)
 			{
-				data[index++] = xi / _segmentsW;
-				data[index++] = 1 - yi / _segmentsH;
+				data[index++] = (xi / _segmentsW) * target.scaleU;
+				data[index++] = (1 - yi / _segmentsH) * target.scaleV;
 				index += skip;
 
 				if (_doubleSided)
 				{
-					data[index++] = xi / _segmentsW;
-					data[index++] = 1 - yi / _segmentsH;
+					data[index++] = (xi / _segmentsW) * target.scaleU;
+					data[index++] = (1 - yi / _segmentsH) * target.scaleV;
 					index += skip;
 				}
 			}

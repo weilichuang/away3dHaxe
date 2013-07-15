@@ -4,6 +4,9 @@ import flash.events.Event;
 
 import a3d.io.library.assets.IAsset;
 
+/**
+ * Dispatched whenever a ressource (asset) is parsed and created completly.
+ */
 class AssetEvent extends Event
 {
 	public static inline var ASSET_COMPLETE:String = "assetComplete";

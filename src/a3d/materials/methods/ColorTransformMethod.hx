@@ -11,8 +11,8 @@ import flash.geom.ColorTransform;
 
 
 /**
- * ColorTransformMethod provides a shading method that changes the colour of a material according to a ColorTransform
- * object.
+ * ColorTransformMethod provides a shading method that changes the colour of a material analogous to a
+ * ColorTransform object.
  */
 class ColorTransformMethod extends EffectMethodBase
 {

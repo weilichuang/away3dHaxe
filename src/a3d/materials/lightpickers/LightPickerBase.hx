@@ -15,7 +15,13 @@ import a3d.entities.lights.LightProbe;
 import a3d.entities.lights.PointLight;
 
 
-
+/**
+ * LightPickerBase provides an abstract base clase for light picker classes. These classes are responsible for
+ * feeding materials with relevant lights. Usually, StaticLightPicker can be used, but LightPickerBase can be
+ * extended to provide more application-specific dynamic selection of lights.
+ *
+ * @see StaticLightPicker
+ */
 class LightPickerBase extends NamedAssetBase implements IAsset
 {
 	private var _numPointLights:Int;
@@ -31,11 +37,17 @@ class LightPickerBase extends NamedAssetBase implements IAsset
 	private var _lightProbes:Vector<LightProbe>;
 	private var _lightProbeWeights:Vector<Float>;
 
+	/**
+	 * Creates a new LightPickerBase object.
+	 */
 	public function new()
 	{
 		super();
 	}
 
+	/**
+	 * Disposes resources used by the light picker.
+	 */
 	public function dispose():Void
 	{
 	}
@@ -91,42 +103,63 @@ class LightPickerBase extends NamedAssetBase implements IAsset
 		return _numLightProbes;
 	}
 
+	/**
+	 * The collected point lights to be used for shading.
+	 */
 	public var pointLights(get,null):Vector<PointLight>;
 	private function get_pointLights():Vector<PointLight>
 	{
 		return _pointLights;
 	}
 
+	/**
+	 * The collected directional lights to be used for shading.
+	 */
 	public var directionalLights(get,null):Vector<DirectionalLight>;
 	private function get_directionalLights():Vector<DirectionalLight>
 	{
 		return _directionalLights;
 	}
 
+	/**
+	 * The collected point lights that cast shadows to be used for shading.
+	 */
 	public var castingPointLights(get,null):Vector<PointLight>;
 	private function get_castingPointLights():Vector<PointLight>
 	{
 		return _castingPointLights;
 	}
 
+	/**
+	 * The collected directional lights that cast shadows to be used for shading.
+	 */
 	public var castingDirectionalLights(get,null):Vector<DirectionalLight>;
 	private function get_castingDirectionalLights():Vector<DirectionalLight>
 	{
 		return _castingDirectionalLights;
 	}
 
+	/**
+	 * The collected light probes to be used for shading.
+	 */
 	public var lightProbes(get,null):Vector<LightProbe>;
 	private function get_lightProbes():Vector<LightProbe>
 	{
 		return _lightProbes;
 	}
 
+	/**
+	 * The weights for each light probe, defining their influence on the object.
+	 */
 	public var lightProbeWeights(get,null):Vector<Float>;
 	private function get_lightProbeWeights():Vector<Float>
 	{
 		return _lightProbeWeights;
 	}
 
+	/**
+	 * A collection of all the collected lights.
+	 */
 	public var allPickedLights(get,null):Vector<LightBase>;
 	private function get_allPickedLights():Vector<LightBase>
 	{
@@ -143,6 +176,10 @@ class LightPickerBase extends NamedAssetBase implements IAsset
 	}
 
 
+	/**
+	 * Updates the weights for the light probes, based on the renderable's position relative to them.
+	 * @param renderable The renderble for which to calculate the light probes' influence.
+	 */
 	private function updateProbeWeights(renderable:IRenderable):Void
 	{
 		// todo: this will cause the same calculations to occur per SubMesh. See if this can be improved.

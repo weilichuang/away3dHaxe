@@ -115,7 +115,7 @@ class SubsurfaceScatteringDiffuseMethod extends CompositeDiffuseMethod
 	}
 
 	/**
-	 * The colour the light becomes inside the object.
+	 * The colour of the "insides" of the object, ie: the colour the light becomes after leaving the object.
 	 */
 	public var scatterColor(get,set):UInt;
 	private function get_scatterColor():UInt

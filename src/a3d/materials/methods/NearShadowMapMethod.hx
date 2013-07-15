@@ -16,6 +16,12 @@ import flash.Vector;
 
 
 // TODO: shadow mappers references in materials should be an interface so that this class should NOT extend ShadowMapMethodBase just for some delegation work
+/**
+ * NearShadowMapMethod provides a shadow map method that restricts the shadowed area near the camera to optimize
+ * shadow map usage. This method needs to be used in conjunction with a NearDirectionalShadowMapper.
+ *
+ * @see away3d.lights.shadowmaps.NearDirectionalShadowMapper
+ */
 class NearShadowMapMethod extends SimpleShadowMapMethodBase
 {
 	private var _baseMethod:SimpleShadowMapMethodBase;
@@ -27,6 +33,24 @@ class NearShadowMapMethod extends SimpleShadowMapMethodBase
 	 * The base shadow map method on which this method's shading is based.
 	 */
 	public var baseMethod(get,set):SimpleShadowMapMethodBase;
+	
+
+	/**
+	 * Creates a new NearShadowMapMethod object.
+	 * @param baseMethod The shadow map sampling method used to sample individual cascades (fe: HardShadowMapMethod, SoftShadowMapMethod)
+	 * @param fadeRatio The amount of shadow fading to the outer shadow area. A value of 1 would mean the shadows start fading from the camera's near plane.
+	 */
+	public function new(baseMethod:SimpleShadowMapMethodBase, fadeRatio:Float = .1)
+	{
+		super(baseMethod.castingLight);
+		_baseMethod = baseMethod;
+		_fadeRatio = fadeRatio;
+		_nearShadowMapper = Std.instance(_castingLight.shadowMapper,NearDirectionalShadowMapper);
+		if (_nearShadowMapper == null)
+			throw new Error("NearShadowMapMethod requires a light that has a NearDirectionalShadowMapper instance assigned to shadowMapper.");
+		_baseMethod.addEventListener(ShadingMethodEvent.SHADER_INVALIDATED, onShaderInvalidated);
+	}
+	
 	private function get_baseMethod():SimpleShadowMapMethodBase
 	{
 		return _baseMethod;
@@ -41,17 +65,6 @@ class NearShadowMapMethod extends SimpleShadowMapMethodBase
 		_baseMethod.addEventListener(ShadingMethodEvent.SHADER_INVALIDATED, onShaderInvalidated, false, 0, true);
 		invalidateShaderProgram();
 		return _baseMethod;
-	}
-
-	public function new(baseMethod:SimpleShadowMapMethodBase, fadeRatio:Float = .1)
-	{
-		super(baseMethod.castingLight);
-		_baseMethod = baseMethod;
-		_fadeRatio = fadeRatio;
-		_nearShadowMapper = Std.instance(_castingLight.shadowMapper,NearDirectionalShadowMapper);
-		if (_nearShadowMapper == null)
-			throw new Error("NearShadowMapMethod requires a light that has a NearDirectionalShadowMapper instance assigned to shadowMapper.");
-		_baseMethod.addEventListener(ShadingMethodEvent.SHADER_INVALIDATED, onShaderInvalidated);
 	}
 
 	override public function initConstants(vo:MethodVO):Void
@@ -96,6 +109,9 @@ class NearShadowMapMethod extends SimpleShadowMapMethodBase
 		return _baseMethod.epsilon = value;
 	}
 
+	/**
+	 * The amount of shadow fading to the outer shadow area. A value of 1 would mean the shadows start fading from the camera's near plane.
+	 */
 	public var fadeRatio(get,set):Float;
 	private function get_fadeRatio():Float
 	{
@@ -189,6 +205,9 @@ class NearShadowMapMethod extends SimpleShadowMapMethodBase
 		return super.sharedRegisters = _baseMethod.sharedRegisters = value;
 	}
 
+	/**
+	 * Called when the base method's shader code is invalidated.
+	 */
 	private function onShaderInvalidated(event:ShadingMethodEvent):Void
 	{
 		invalidateShaderProgram();

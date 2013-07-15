@@ -16,12 +16,18 @@ import a3d.materials.compilation.ShaderRegisterCache;
 import a3d.materials.compilation.ShaderRegisterElement;
 
 
-
+/**
+ * SimpleShadowMapMethodBase provides an abstract method for simple (non-wrapping) shadow map methods.
+ */
 class SimpleShadowMapMethodBase extends ShadowMapMethodBase
 {
 	private var _depthMapCoordReg:ShaderRegisterElement;
 	private var _usePoint:Bool;
 
+	/**
+	 * Creates a new SimpleShadowMapMethodBase object.
+	 * @param castingLight The light used to cast shadows.
+	 */
 	public function new(castingLight:LightBase)
 	{
 		_usePoint = Std.is(castingLight,PointLight);
@@ -93,12 +99,24 @@ class SimpleShadowMapMethodBase extends ShadowMapMethodBase
 		return _usePoint ? getPointVertexCode(vo, regCache) : getPlanarVertexCode(vo, regCache);
 	}
 
+	/**
+	 * Gets the vertex code for shadow mapping with a point light.
+	 *
+	 * @param vo The MethodVO object linking this method with the pass currently being compiled.
+	 * @param regCache The register cache used during the compilation.
+	 */
 	private function getPointVertexCode(vo:MethodVO, regCache:ShaderRegisterCache):String
 	{
 		vo.vertexConstantsIndex = -1;
 		return "";
 	}
 
+	/**
+	 * Gets the vertex code for shadow mapping with a planar shadow map (fe: directional lights).
+	 *
+	 * @param vo The MethodVO object linking this method with the pass currently being compiled.
+	 * @param regCache The register cache used during the compilation.
+	 */
 	private function getPlanarVertexCode(vo:MethodVO, regCache:ShaderRegisterCache):String
 	{
 		var code:String = "";
@@ -129,12 +147,26 @@ class SimpleShadowMapMethodBase extends ShadowMapMethodBase
 		return code;
 	}
 
+	/**
+	 * Gets the fragment code for shadow mapping with a planar shadow map.
+	 * @param vo The MethodVO object linking this method with the pass currently being compiled.
+	 * @param regCache The register cache used during the compilation.
+	 * @param targetReg The register to contain the shadow coverage
+	 * @return
+	 */
 	private function getPlanarFragmentCode(vo:MethodVO, regCache:ShaderRegisterCache, targetReg:ShaderRegisterElement):String
 	{
 		throw new AbstractMethodError();
 		return "";
 	}
 
+	/**
+	 * Gets the fragment code for shadow mapping with a point light.
+	 * @param vo The MethodVO object linking this method with the pass currently being compiled.
+	 * @param regCache The register cache used during the compilation.
+	 * @param targetReg The register to contain the shadow coverage
+	 * @return
+	 */
 	private function getPointFragmentCode(vo:MethodVO, regCache:ShaderRegisterCache, targetReg:ShaderRegisterElement):String
 	{
 		throw new AbstractMethodError();
@@ -147,6 +179,16 @@ class SimpleShadowMapMethodBase extends ShadowMapMethodBase
 			Std.instance(_shadowMapper,DirectionalShadowMapper).depthProjection.copyRawDataTo(vo.vertexData, vo.vertexConstantsIndex + 4, true);
 	}
 
+	/**
+	 * Gets the fragment code for combining this method with a cascaded shadow map method.
+	 * @param vo The MethodVO object linking this method with the pass currently being compiled.
+	 * @param regCache The register cache used during the compilation.
+	 * @param decodeRegister The register containing the data to decode the shadow map depth value.
+	 * @param depthTexture The texture containing the shadow map.
+	 * @param depthProjection The projection of the fragment relative to the light.
+	 * @param targetRegister The register to contain the shadow coverage
+	 * @return
+	 */
 	public function getCascadeFragmentCode(vo:MethodVO, regCache:ShaderRegisterCache, decodeRegister:ShaderRegisterElement, depthTexture:ShaderRegisterElement, depthProjection:ShaderRegisterElement,
 		targetRegister:ShaderRegisterElement):String
 	{
@@ -181,6 +223,9 @@ class SimpleShadowMapMethodBase extends ShadowMapMethodBase
 		stage3DProxy.context3D.setTextureAt(vo.texturesIndex, _castingLight.shadowMapper.depthMap.getTextureForStage3D(stage3DProxy));
 	}
 
+	/**
+	 * Sets the method state for cascade shadow mapping.
+	 */
 	public function activateForCascade(vo:MethodVO, stage3DProxy:Stage3DProxy):Void
 	{
 		throw new Error("This shadow method is incompatible with cascade shadows");

@@ -10,8 +10,7 @@ import flash.Vector;
 
 
 /**
- * ColorMatrixMethod provides a shading method that changes the colour of a material according to a ColorMatrixFilter
- * object.
+ * ColorMatrixMethod provides a shading method that changes the colour of a material analogous to a ColorMatrixFilter.
  */
 class ColorMatrixMethod extends EffectMethodBase
 {
@@ -20,6 +19,8 @@ class ColorMatrixMethod extends EffectMethodBase
 
 	/**
 	 * Creates a new ColorTransformMethod.
+	 *
+	 * @param matrix An array of 20 items for 4 x 5 color transform.
 	 */
 	public function new(matrix:Array<Float>)
 	{
@@ -31,7 +32,7 @@ class ColorMatrixMethod extends EffectMethodBase
 	}
 
 	/**
-	 * The ColorMatrixFilter object to transform the color of the material.
+	 * The 4 x 5 matrix to transform the color of the material.
 	 */
 	public var colorMatrix(get,set):Array<Float>;
 	private function get_colorMatrix():Array<Float>

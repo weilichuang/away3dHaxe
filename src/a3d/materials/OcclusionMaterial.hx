@@ -7,7 +7,7 @@ import a3d.core.managers.Stage3DProxy;
 
 
 /**
- * OcclusionMaterial is a ColorMaterial for an object, that hides all other objects behind itself.
+ * OcclusionMaterial is a ColorMaterial for an object to prevents drawing anything that is placed behind it.
  */
 class OcclusionMaterial extends ColorMaterial
 {

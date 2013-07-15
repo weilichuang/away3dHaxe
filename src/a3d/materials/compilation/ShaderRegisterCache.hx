@@ -30,6 +30,8 @@ class ShaderRegisterCache
 
 	/**
 	 * Create a new ShaderRegisterCache object.
+	 *
+	 * @param profile The compatibility profile used by the renderer.
 	 */
 	public function new(profile:Context3DProfile)
 	{
@@ -67,6 +69,9 @@ class ShaderRegisterCache
 
 	}
 
+	/**
+	 * Disposes all resources used.
+	 */
 	public function dispose():Void
 	{
 		_fragmentTempCache.dispose();
@@ -85,7 +90,9 @@ class ShaderRegisterCache
 	}
 
 	/**
-	 * Marks a fragment temporary register as used, so it cannot be retrieved.
+	 * Marks a fragment temporary register as used, so it cannot be retrieved. 
+	 * The register won't be able to be used until removeUsage
+	 * has been called usageCount times again.
 	 * @param register The register to mark as used.
 	 * @param usageCount The amount of usages to add.
 	 */
@@ -104,7 +111,8 @@ class ShaderRegisterCache
 	}
 
 	/**
-	 * Marks a vertex temporary register as used, so it cannot be retrieved.
+	 * Marks a vertex temporary register as used, so it cannot be retrieved. The register won't be able to be used
+	 * until removeUsage has been called usageCount times again.
 	 * @param register The register to mark as used.
 	 * @param usageCount The amount of usages to add.
 	 */
@@ -123,7 +131,8 @@ class ShaderRegisterCache
 	}
 
 	/**
-	 * Retrieve an entire fragment temporary register that's still available.
+	 * Retrieve an entire fragment temporary register that's still available. The register won't be able to be used until removeUsage
+	 * has been called usageCount times again.
 	 */
 	public function getFreeFragmentVectorTemp():ShaderRegisterElement
 	{
@@ -227,6 +236,9 @@ class ShaderRegisterCache
 		return _vertexAttributesOffset = value;
 	}
 
+	/**
+	 * Indicates the start index from which to retrieve varying registers.
+	 */
 	public var varyingsOffset(get,set):UInt;
 	private function get_varyingsOffset():UInt
 	{
@@ -238,6 +250,9 @@ class ShaderRegisterCache
 		return _varyingsOffset = value;
 	}
 
+	/**
+	 * Indicates the start index from which to retrieve fragment constants.
+	 */
 	public var fragmentConstantOffset(get,set):UInt;
 	private function get_fragmentConstantOffset():UInt
 	{
@@ -285,12 +300,18 @@ class ShaderRegisterCache
 		return _numUsedStreams;
 	}
 
+	/**
+	 * The amount of used texture slots.
+	 */
 	public var numUsedTextures(get,null):UInt;
 	private function get_numUsedTextures():UInt
 	{
 		return _numUsedTextures;
 	}
 
+	/**
+	 * The amount of used varying registers.
+	 */
 	public var numUsedVaryings(get,null):UInt;
 	private function get_numUsedVaryings():UInt
 	{

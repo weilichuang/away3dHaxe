@@ -8,7 +8,9 @@ import a3d.textures.Texture2DBase;
 import flash.Vector;
 
 
-
+/**
+ * SimpleWaterNormalMethod provides a basic normal map method to create water ripples by translating two wave normal maps.
+ */
 class SimpleWaterNormalMethod extends BasicNormalMethod
 {
 	private var _texture2:Texture2DBase;
@@ -19,6 +21,11 @@ class SimpleWaterNormalMethod extends BasicNormalMethod
 	private var _water2OffsetX:Float = 0;
 	private var _water2OffsetY:Float = 0;
 
+	/**
+	 * Creates a new SimpleWaterNormalMethod object.
+	 * @param waveMap1 A normal map containing one layer of a wave structure.
+	 * @param waveMap2 A normal map containing a second layer of a wave structure.
+	 */
 	public function new(waveMap1:Texture2DBase, waveMap2:Texture2DBase)
 	{
 		super();
@@ -42,6 +49,9 @@ class SimpleWaterNormalMethod extends BasicNormalMethod
 		_useSecondNormalMap = normalMap != secondaryNormalMap;
 	}
 
+	/**
+	 * The translation of the first wave layer along the X-axis.
+	 */
 	public var water1OffsetX(get,set):Float;
 	private function get_water1OffsetX():Float
 	{
@@ -53,6 +63,9 @@ class SimpleWaterNormalMethod extends BasicNormalMethod
 		return _water1OffsetX = value;
 	}
 
+	/**
+	 * The translation of the first wave layer along the Y-axis.
+	 */
 	public var water1OffsetY(get,set):Float;
 	private function get_water1OffsetY():Float
 	{
@@ -64,6 +77,9 @@ class SimpleWaterNormalMethod extends BasicNormalMethod
 		return _water1OffsetY = value;
 	}
 
+	/**
+	 * The translation of the second wave layer along the X-axis.
+	 */
 	public var water2OffsetX(get,set):Float;
 	private function get_water2OffsetX():Float
 	{
@@ -75,6 +91,9 @@ class SimpleWaterNormalMethod extends BasicNormalMethod
 		return _water2OffsetX = value;
 	}
 
+	/**
+	 * The translation of the second wave layer along the Y-axis.
+	 */
 	public var water2OffsetY(get,set):Float;
 	private function get_water2OffsetY():Float
 	{
@@ -94,6 +113,9 @@ class SimpleWaterNormalMethod extends BasicNormalMethod
 		return super.normalMap = value;
 	}
 
+	/**
+	 * A second normal map that will be combined with the first to create a wave-like animation pattern.
+	 */
 	public var secondaryNormalMap(get,set):Texture2DBase;
 	private function get_secondaryNormalMap():Texture2DBase
 	{

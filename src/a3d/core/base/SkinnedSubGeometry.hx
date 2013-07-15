@@ -129,7 +129,7 @@ class SkinnedSubGeometry extends CompactSubGeometry
 		{
 			_jointIndexBuffer[contextIndex] = context.createVertexBuffer(_numVertices, _jointsPerVertex);
 			_jointIndexContext[contextIndex] = context;
-			_jointWeightsInvalid[contextIndex] = true;
+			_jointIndicesInvalid[contextIndex] = true;
 		}
 		if (_jointIndicesInvalid[contextIndex])
 		{

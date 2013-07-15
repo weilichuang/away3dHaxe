@@ -16,23 +16,11 @@ class BasicDiffuseMethod extends LightingMethodBase
 {
 	private var _useAmbientTexture:Bool;
 
+	/**
+	 * Set internally if the ambient method uses a texture.
+	 */
 	public var useAmbientTexture(get, set):Bool;
-	private function get_useAmbientTexture():Bool
-	{
-		return _useAmbientTexture;
-	}
-
-	private function set_useAmbientTexture(value:Bool):Bool
-	{
-		if (_useAmbientTexture == value)
-			return _useAmbientTexture;
-
-		_useAmbientTexture = value;
-
-		invalidateShaderProgram();
-		
-		return _useAmbientTexture;
-	}
+	
 
 	private var _useTexture:Bool;
 	private var _totalLightColorReg:ShaderRegisterElement;
@@ -65,10 +53,31 @@ class BasicDiffuseMethod extends LightingMethodBase
 		vo.needsNormals = vo.numLights > 0;
 	}
 
+	/**
+	 * Forces the creation of the texture.
+	 * @param stage3DProxy The Stage3DProxy used by the renderer
+	 */
 	public function generateMip(stage3DProxy:Stage3DProxy):Void
 	{
 		if (_useTexture)
 			_texture.getTextureForStage3D(stage3DProxy);
+	}
+	
+	private function get_useAmbientTexture():Bool
+	{
+		return _useAmbientTexture;
+	}
+
+	private function set_useAmbientTexture(value:Bool):Bool
+	{
+		if (_useAmbientTexture == value)
+			return _useAmbientTexture;
+
+		_useAmbientTexture = value;
+
+		invalidateShaderProgram();
+		
+		return _useAmbientTexture;
 	}
 
 	/**
@@ -160,7 +169,7 @@ class BasicDiffuseMethod extends LightingMethodBase
 	}
 
 	/**
-	 * Copies the state from a BasicDiffuseMethod object into the current object.
+	 * @inheritDoc
 	 */
 	override public function copyFrom(method:ShadingMethodBase):Void
 	{
@@ -172,6 +181,9 @@ class BasicDiffuseMethod extends LightingMethodBase
 		diffuseColor = diff.diffuseColor;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	override public function cleanCompilationData():Void
 	{
 		super.cleanCompilationData();
@@ -349,6 +361,11 @@ class BasicDiffuseMethod extends LightingMethodBase
 		return code;
 	}
 
+	/**
+	 * Generate the code that applies the calculated shadow to the diffuse light
+	 * @param vo The MethodVO object for which the compilation is currently happening.
+	 * @param regCache The register cache the compiler is currently using for the register management.
+	 */
 	private function applyShadow(vo:MethodVO, regCache:ShaderRegisterCache):String
 	{
 		return "mul " + _totalLightColorReg + ".xyz, " + _totalLightColorReg + ", " + _shadowRegister + ".w\n";
@@ -387,6 +404,9 @@ class BasicDiffuseMethod extends LightingMethodBase
 		_diffuseB = (_diffuseColor & 0xff) / 0xff;
 	}
 
+	/**
+	 * Set internally by the compiler, so the method knows the register containing the shadow calculation.
+	 */
 	public var shadowRegister(null, set):ShaderRegisterElement;
 	private function set_shadowRegister(value:ShaderRegisterElement):ShaderRegisterElement
 	{

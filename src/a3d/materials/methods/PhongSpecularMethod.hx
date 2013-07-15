@@ -5,7 +5,9 @@ import a3d.materials.compilation.ShaderRegisterCache;
 import a3d.materials.compilation.ShaderRegisterElement;
 
 
-
+/**
+ * PhongSpecularMethod provides a specular method that provides Phong highlights.
+ */
 class PhongSpecularMethod extends BasicSpecularMethod
 {
 	/**

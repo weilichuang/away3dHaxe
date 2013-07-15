@@ -8,7 +8,9 @@ import a3d.textures.CubeTextureBase;
 import flash.Vector;
 
 
-
+/**
+ * RefractionEnvMapMethod provides a method to add refracted transparency based on cube maps.
+ */
 class RefractionEnvMapMethod extends EffectMethodBase
 {
 	private var _envMap:CubeTextureBase;
@@ -20,7 +22,14 @@ class RefractionEnvMapMethod extends EffectMethodBase
 	private var _refractionIndex:Float;
 	private var _alpha:Float = 1;
 
-	// example values for dispersion: dispersionR : Number = -0.03, dispersionG : Number = -0.01, dispersionB : Number = .0015
+	/**
+	 * Creates a new RefractionEnvMapMethod object. Example values for dispersion are: dispersionR: -0.03, dispersionG: -0.01, dispersionB: = .0015
+	 * @param envMap The environment map containing the refracted scene.
+	 * @param refractionIndex The refractive index of the material.
+	 * @param dispersionR The amount of chromatic dispersion of the red channel. Defaults to 0 (none).
+	 * @param dispersionG The amount of chromatic dispersion of the green channel. Defaults to 0 (none).
+	 * @param dispersionB The amount of chromatic dispersion of the blue channel. Defaults to 0 (none).
+	 */
 	public function new(envMap:CubeTextureBase, refractionIndex:Float = .1, dispersionR:Float = 0, dispersionG:Float = 0, dispersionB:Float = 0)
 	{
 		super();
@@ -61,6 +70,9 @@ class RefractionEnvMapMethod extends EffectMethodBase
 		return _envMap = value;
 	}
 
+	/**
+	 * The refractive index of the material.
+	 */
 	public var refractionIndex(get,set):Float;
 	private function get_refractionIndex():Float
 	{
@@ -72,6 +84,9 @@ class RefractionEnvMapMethod extends EffectMethodBase
 		return _refractionIndex = value;
 	}
 
+	/**
+	 * The amount of chromatic dispersion of the red channel. Defaults to 0 (none).
+	 */
 	public var dispersionR(get,set):Float;
 	private function get_dispersionR():Float
 	{
@@ -91,6 +106,9 @@ class RefractionEnvMapMethod extends EffectMethodBase
 		return _dispersionR;
 	}
 
+	/**
+	 * The amount of chromatic dispersion of the green channel. Defaults to 0 (none).
+	 */
 	public var dispersionG(get,set):Float;
 	private function get_dispersionG():Float
 	{
@@ -111,6 +129,9 @@ class RefractionEnvMapMethod extends EffectMethodBase
 		return _dispersionG;
 	}
 
+	/**
+	 * The amount of chromatic dispersion of the blue channel. Defaults to 0 (none).
+	 */
 	public var dispersionB(get,set):Float;
 	private function get_dispersionB():Float
 	{
@@ -130,6 +151,10 @@ class RefractionEnvMapMethod extends EffectMethodBase
 		return _dispersionB;
 	}
 
+	/**
+	 * The amount of transparency of the object. Warning: the alpha applies to the refracted color, not the actual
+	 * material. A value of 1 will make it appear fully transparent.
+	 */
 	public var alpha(get,set):Float;
 	private function get_alpha():Float
 	{

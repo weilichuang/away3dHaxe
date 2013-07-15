@@ -336,16 +336,23 @@ class HoverController extends LookAtController
 		{
 			notifyUpdate();
 
-			if (_wrapPanAngle)
+			if (_wrapPanAngle) 
 			{
-				if (_panAngle < 0)
-					_panAngle = (_panAngle % 360) + 360;
-				else
-					_panAngle = _panAngle % 360;
-
-				if (_panAngle - currentPanAngle < -180)
+				if (_panAngle < 0) 
+				{
+					currentPanAngle += _panAngle % 360 + 360 - _panAngle;
+					_panAngle = _panAngle%360 + 360;
+				}
+				else 
+				{
+					currentPanAngle += _panAngle % 360 - _panAngle;
+					_panAngle = _panAngle%360;
+				}
+				
+				while (_panAngle - currentPanAngle < -180)
 					currentPanAngle -= 360;
-				else if (_panAngle - currentPanAngle > 180)
+				
+				while (_panAngle - currentPanAngle > 180)
 					currentPanAngle += 360;
 			}
 

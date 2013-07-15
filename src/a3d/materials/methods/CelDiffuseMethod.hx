@@ -10,11 +10,11 @@ import flash.Vector;
 
 
 /**
- * CelDiffuseMethod provides a shading method to add specular cel (cartoon) shading.
+ * CelDiffuseMethod provides a shading method to add diffuse cel (cartoon) shading.
  */
 class CelDiffuseMethod extends CompositeDiffuseMethod
 {
-	private var _levels:UInt;
+	private var _levels:Int;
 	private var _dataReg:ShaderRegisterElement;
 	private var _smoothness:Float = .1;
 
@@ -23,7 +23,7 @@ class CelDiffuseMethod extends CompositeDiffuseMethod
 	 * @param levels The amount of shadow gradations.
 	 * @param baseDiffuseMethod An optional diffuse method on which the cartoon shading is based. If ommitted, BasicDiffuseMethod is used.
 	 */
-	public function new(levels:UInt = 3, baseDiffuseMethod:BasicDiffuseMethod = null)
+	public function new(levels:Int = 3, baseDiffuseMethod:BasicDiffuseMethod = null)
 	{
 		super(clampDiffuse, baseDiffuseMethod);
 
@@ -39,13 +39,16 @@ class CelDiffuseMethod extends CompositeDiffuseMethod
 		data[index + 2] = 0;
 	}
 
-	public var levels(get,set):UInt;
-	private function get_levels():UInt
+	/**
+	 * The amount of shadow gradations.
+	 */
+	public var levels(get,set):Int;
+	private function get_levels():Int
 	{
 		return _levels;
 	}
 
-	private function set_levels(value:UInt):UInt
+	private function set_levels(value:Int):Int
 	{
 		return _levels = value;
 	}
@@ -97,8 +100,10 @@ class CelDiffuseMethod extends CompositeDiffuseMethod
 
 	/**
 	 * Snaps the diffuse shading of the wrapped method to one of the levels.
+	 * @param vo The MethodVO used to compile the current shader.
 	 * @param t The register containing the diffuse strength in the "w" component.
 	 * @param regCache The register cache used for the shader compilation.
+	 * @param sharedRegisters The shared register data for this shader.
 	 * @return The AGAL fragment code for the method.
 	 */
 	private function clampDiffuse(vo:MethodVO, t:ShaderRegisterElement, regCache:ShaderRegisterCache, sharedRegisters:ShaderRegisterData):String

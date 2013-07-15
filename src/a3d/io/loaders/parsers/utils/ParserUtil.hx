@@ -5,6 +5,14 @@ import flash.utils.ByteArray;
 
 class ParserUtil
 {
+	/**
+	 * Returns a object as ByteArray, if possible.
+	 * 
+	 * @param data The object to return as ByteArray
+	 * 
+	 * @return The ByteArray or null
+	 *
+	 */
 	public static function toByteArray(data:Dynamic):ByteArray
 	{
 		if (Std.is(data,Class))
@@ -16,6 +24,15 @@ class ParserUtil
 			return null;
 	}
 
+	/**
+	 * Returns a object as String, if possible.
+	 * 
+	 * @param data The object to return as String
+	 * @param length The length of the returned String
+	 * 
+	 * @return The String or null
+	 *
+	 */
 	public static function toString(data:Dynamic, length:Int = 0):String
 	{
 		var ba:ByteArray;

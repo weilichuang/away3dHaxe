@@ -23,6 +23,7 @@ class FirstPersonController extends ControllerBase
 	private var _steps:Int = 8;
 	private var _walkIncrement:Float = 0;
 	private var _strafeIncrement:Float = 0;
+	private var _wrapPanAngle:Bool = false;
 
 	public var fly:Bool = false;
 
@@ -142,11 +143,32 @@ class FirstPersonController extends ControllerBase
 		tiltAngle = MathUtil.fclamp(_tiltAngle, _minTiltAngle, _maxTiltAngle);
 		return _maxTiltAngle;
 	}
+	
+	/**
+	 * Defines whether the value of the pan angle wraps when over 360 degrees or under 0 degrees. Defaults to false.
+	 */
+	public var wrapPanAngle(get, set):Bool;
+	private function get_wrapPanAngle():Bool
+	{
+		return _wrapPanAngle;
+	}
+	
+	private function set_wrapPanAngle(val:Bool):Bool
+	{
+		if (_wrapPanAngle == val)
+			return _wrapPanAngle;
+		
+		_wrapPanAngle = val;
+		
+		notifyUpdate();
+		
+		return _wrapPanAngle;
+	}
 
 	/**
 	 * Creates a new <code>HoverController</code> object.
 	 */
-	public function new(targetObject:Entity = null, panAngle:Float = 0, tiltAngle:Float = 90, minTiltAngle:Float = -90, maxTiltAngle:Float = 90, steps:UInt = 8)
+	public function new(targetObject:Entity = null, panAngle:Float = 0, tiltAngle:Float = 90, minTiltAngle:Float = -90, maxTiltAngle:Float = 90, steps:UInt = 8, wrapPanAngle:Bool = false)
 	{
 		super(targetObject);
 
@@ -155,6 +177,7 @@ class FirstPersonController extends ControllerBase
 		this.minTiltAngle = minTiltAngle;
 		this.maxTiltAngle = maxTiltAngle;
 		this.steps = steps;
+		this.wrapPanAngle = wrapPanAngle;
 
 		//values passed in contrustor are applied immediately
 		currentPanAngle = _panAngle;
@@ -178,6 +201,26 @@ class FirstPersonController extends ControllerBase
 		{
 
 			notifyUpdate();
+			
+			if (_wrapPanAngle) 
+			{
+				if (_panAngle < 0) 
+				{
+					currentPanAngle += _panAngle % 360 + 360 - _panAngle;
+					_panAngle = _panAngle%360 + 360;
+				}
+				else 
+				{
+					currentPanAngle += _panAngle % 360 - _panAngle;
+					_panAngle = _panAngle%360;
+				}
+				
+				while (_panAngle - currentPanAngle < -180)
+					currentPanAngle -= 360;
+				
+				while (_panAngle - currentPanAngle > 180)
+					currentPanAngle += 360;
+			}
 
 			if (interpolate)
 			{
@@ -191,18 +234,9 @@ class FirstPersonController extends ControllerBase
 			}
 
 			//snap coords if angle differences are close
-			if ((Math.abs(tiltAngle - currentTiltAngle) < 0.01) && (Math.abs(_panAngle - currentPanAngle) < 0.01))
+			if ((Math.abs(tiltAngle - currentTiltAngle) < 0.01) &&
+				(Math.abs(_panAngle - currentPanAngle) < 0.01))
 			{
-
-				if (Math.abs(_panAngle) > 360)
-				{
-
-					if (_panAngle < 0)
-						panAngle = (_panAngle % 360) + 360;
-					else
-						panAngle = _panAngle % 360;
-				}
-
 				currentTiltAngle = _tiltAngle;
 				currentPanAngle = _panAngle;
 			}
@@ -219,8 +253,8 @@ class FirstPersonController extends ControllerBase
 			}
 			else
 			{
-				targetObject.x += _walkIncrement * Math.sin(panAngle * MathUtil.DEGREES_TO_RADIANS());
-				targetObject.z += _walkIncrement * Math.cos(panAngle * MathUtil.DEGREES_TO_RADIANS());
+				targetObject.x += _walkIncrement * Math.sin(_panAngle * MathUtil.DEGREES_TO_RADIANS());
+				targetObject.z += _walkIncrement * Math.cos(_panAngle * MathUtil.DEGREES_TO_RADIANS());
 			}
 			_walkIncrement = 0;
 		}

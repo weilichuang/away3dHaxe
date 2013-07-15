@@ -7,7 +7,9 @@ import a3d.materials.compilation.ShaderRegisterCache;
 import a3d.materials.compilation.ShaderRegisterElement;
 
 
-
+/**
+ * HardShadowMapMethod provides the cheapest shadow map method by using a single tap without any filtering.
+ */
 class HardShadowMapMethod extends SimpleShadowMapMethodBase
 {
 	/**

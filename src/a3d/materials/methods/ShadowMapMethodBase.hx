@@ -10,7 +10,9 @@ import a3d.materials.compilation.ShaderRegisterCache;
 import a3d.materials.compilation.ShaderRegisterElement;
 
 
-
+/**
+ * ShadowMapMethodBase provides an abstract base method for shadow map methods.
+ */
 class ShadowMapMethodBase extends ShadingMethodBase implements IAsset
 {
 	private var _castingLight:LightBase;
@@ -19,7 +21,10 @@ class ShadowMapMethodBase extends ShadingMethodBase implements IAsset
 	private var _epsilon:Float = .02;
 	private var _alpha:Float = 1;
 
-
+	/**
+	 * Creates a new ShadowMapMethodBase object.
+	 * @param castingLight The light used to cast shadows.
+	 */
 	public function new(castingLight:LightBase)
 	{
 		super();
@@ -34,6 +39,9 @@ class ShadowMapMethodBase extends ShadingMethodBase implements IAsset
 		return AssetType.SHADOW_MAP_METHOD;
 	}
 
+	/**
+	 * The "transparency" of the shadows. This allows making shadows less strong.
+	 */
 	public var alpha(get,set):Float;
 	private function get_alpha():Float
 	{
@@ -45,12 +53,19 @@ class ShadowMapMethodBase extends ShadingMethodBase implements IAsset
 		return _alpha = value;
 	}
 
+	/**
+	 * The light casting the shadows.
+	 */
 	public var castingLight(get,null):LightBase;
 	private function get_castingLight():LightBase
 	{
 		return _castingLight;
 	}
 
+	/**
+	 * A small value to counter floating point precision errors when comparing values in the shadow map with the
+	 * calculated depth value. Increase this if shadow banding occurs, decrease it if the shadow seems to be too detached.
+	 */
 	public var epsilon(get,set):Float;
 	private function get_epsilon():Float
 	{

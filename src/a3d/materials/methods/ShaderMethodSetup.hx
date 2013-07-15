@@ -7,6 +7,9 @@ import a3d.events.ShadingMethodEvent;
 
 using a3d.utils.VectorUtil;
 
+/**
+ * ShaderMethodSetup contains the method configuration for an entire material.
+ */
 class ShaderMethodSetup extends EventDispatcher
 {
 	private var _colorTransformMethod:ColorTransformMethod;
@@ -60,6 +63,9 @@ class ShaderMethodSetup extends EventDispatcher
 		return _specularMethodVO;
 	}
 
+	/**
+	 * Creates a new ShaderMethodSetup object.
+	 */
 	public function new()
 	{
 		super();
@@ -79,16 +85,25 @@ class ShaderMethodSetup extends EventDispatcher
 		_specularMethodVO = _specularMethod.createMethodVO();
 	}
 
+	/**
+	 * Called when any method's code is invalidated.
+	 */
 	private function onShaderInvalidated(event:ShadingMethodEvent):Void
 	{
 		invalidateShaderProgram();
 	}
 
+	/**
+	 * Invalidates the material's shader code.
+	 */
 	private function invalidateShaderProgram():Void
 	{
 		dispatchEvent(new ShadingMethodEvent(ShadingMethodEvent.SHADER_INVALIDATED));
 	}
 
+	/**
+	 *  The method used to generate the per-pixel normals.
+	 */
 	public var normalMethod(get,set):BasicNormalMethod;
 	private function get_normalMethod():BasicNormalMethod
 	{
@@ -116,6 +131,9 @@ class ShaderMethodSetup extends EventDispatcher
 		return _normalMethod;
 	}
 
+	/**
+	 * The method that provides the ambient lighting contribution.
+	 */
 	public var ambientMethod(get,set):BasicAmbientMethod;
 	private function get_ambientMethod():BasicAmbientMethod
 	{
@@ -141,6 +159,9 @@ class ShaderMethodSetup extends EventDispatcher
 		return _ambientMethod;
 	}
 
+	/**
+	 * The method used to render shadows cast on this surface, or null if no shadows are to be rendered.
+	 */
 	public var shadowMethod(get,set):ShadowMapMethodBase;
 	private function get_shadowMethod():ShadowMapMethodBase
 	{
@@ -164,7 +185,7 @@ class ShaderMethodSetup extends EventDispatcher
 	}
 
 	/**
-	 * The method to perform diffuse shading.
+	 * The method that provides the diffuse lighting contribution.
 	 */
 	public var diffuseMethod(get,set):BasicDiffuseMethod;
 	private function get_diffuseMethod():BasicDiffuseMethod
@@ -255,6 +276,9 @@ class ShaderMethodSetup extends EventDispatcher
 		return _colorTransformMethod;
 	}
 
+	/**
+	 * Disposes the object.
+	 */
 	public function dispose():Void
 	{
 		clearListeners(_normalMethod);
@@ -269,6 +293,9 @@ class ShaderMethodSetup extends EventDispatcher
 		_methods = null;
 	}
 
+	/**
+	 * Removes all listeners from a method.
+	 */
 	private function clearListeners(method:ShadingMethodBase):Void
 	{
 		if (method != null)
@@ -286,6 +313,12 @@ class ShaderMethodSetup extends EventDispatcher
 		invalidateShaderProgram();
 	}
 
+	/**
+	 * Queries whether a given effect method was added to the material.
+	 *
+	 * @param method The method to be queried.
+	 * @return true if the method was added to the material, false otherwise.
+	 */
 	public function hasMethod(method:EffectMethodBase):Bool
 	{
 		return getMethodSetForMethod(method) != null;
@@ -303,11 +336,22 @@ class ShaderMethodSetup extends EventDispatcher
 		invalidateShaderProgram();
 	}
 
+	/**
+	 * Returns the method added at the given index.
+	 * @param index The index of the method to retrieve.
+	 * @return The method at the given index.
+	 */
 	public function getMethodAt(index:Int):EffectMethodBase
 	{
-		return Std.instance(_methods[index].method,EffectMethodBase);
+		if (index < 0 || index >= _methods.length)
+			return null;
+			
+		return _methods[index].method;
 	}
 
+	/**
+	 * The number of "effect" methods added to the material.
+	 */
 	public var numMethods(get,null):Int;
 	private function get_numMethods():Int
 	{

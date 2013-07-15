@@ -6,7 +6,7 @@ import flash.Vector;
 class Parsers
 {
 	/**
-	 * A list of all parsers that come bundled with a3d. Use this to quickly
+	 * A list of all parsers that come bundled with Away3D. Use this to quickly
 	 * enable support for all bundled parsers to the file format auto-detection
 	 * feature, using any of the enableParsers() methods on loaders, e.g.:
 	 *
@@ -24,20 +24,20 @@ class Parsers
 	 * The bundled parsers are:
 	 *
 	 * <ul>
-	 * <li>Away Data version 1 ASCII and version 2 binary (.awd). AWD1 BSP unsupported</li>
 	 * <li>AC3D (.ac)</li>
-	 * <li>Collada (.dae)</li>
-	 * <li>Quake 2 MD2 models (.md2)</li>
-	 * <li>Doom 3 MD5 meshes (.md5mesh)</li>
-	 * <li>Doom 3 MD5 animation clips (.md5anim)</li>
-	 * <li>Wavefront OBJ (.obj)</li>
+	 * <li>Away Data version 1 ASCII and version 2 binary (.awd). AWD1 BSP unsupported</li>
 	 * <li>3DMax (.3ds)</li>
 	 * <li>DXF (.dxf)</li>
+	 * <li>Quake 2 MD2 models (.md2)</li>
+	 * <li>Doom 3 MD5 animation clips (.md5anim)</li>
+	 * <li>Doom 3 MD5 meshes (.md5mesh)</li>
+	 * <li>Wavefront OBJ (.obj)</li>
+	 * <li>Collada (.dae)</li>
 	 * <li>Images (.jpg, .png)</li>
 	 * </ul>
 	 *
-	 * @see a3d.loading.AssetLibrary.enableParser
-	*/
+	 * @see away3d.loading.AssetLibrary.enableParser
+	 */
 	public static inline var ALL_BUNDLED:Vector<Class<ParserBase>> = Vector.ofArray([
 		AC3DParser, AWD1Parser, AWD2Parser, AWDParser, Max3DSParser, DXFParser,
 		MD2Parser, MD5AnimParser, MD5MeshParser, OBJParser,

@@ -17,7 +17,7 @@ class ColorMultiPassMaterial extends MultiPassMaterialBase
 	}
 
 	/**
-	 * The diffuse color of the surface.
+	 * The diffuse reflectivity color of the surface.
 	 */
 	public var color(get,set):UInt;
 	private function get_color():UInt

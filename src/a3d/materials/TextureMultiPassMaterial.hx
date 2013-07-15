@@ -4,11 +4,20 @@ package a3d.materials;
 import a3d.textures.Texture2DBase;
 
 
-
+/**
+ * TextureMultiPassMaterial is a multi-pass material that uses a texture to define the surface's diffuse reflection colour (albedo).
+ */
 class TextureMultiPassMaterial extends MultiPassMaterialBase
 {
 	private var _animateUVs:Bool;
 
+	/**
+	 * Creates a new TextureMultiPassMaterial.
+	 * @param texture The texture used for the material's albedo color.
+	 * @param smooth Indicates whether the texture should be filtered when sampled. Defaults to true.
+	 * @param repeat Indicates whether the texture should be tiled when sampled. Defaults to true.
+	 * @param mipmap Indicates whether or not any used textures should use mipmapping. Defaults to true.
+	 */
 	public function new(texture:Texture2DBase = null, smooth:Bool = true, repeat:Bool = false, mipmap:Bool = true)
 	{
 		super();
@@ -18,6 +27,9 @@ class TextureMultiPassMaterial extends MultiPassMaterialBase
 		this.mipmap = mipmap;
 	}
 
+	/**
+	 * Specifies whether or not the UV coordinates should be animated using a transformation matrix.
+	 */
 	public var animateUVs(get, set):Bool;
 	private function get_animateUVs():Bool
 	{

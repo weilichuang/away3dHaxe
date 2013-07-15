@@ -100,6 +100,7 @@ import flash.geom.ColorTransform;
 import flash.geom.Matrix;
 import flash.geom.Matrix3D;
 import flash.geom.Vector3D;
+import flash.Lib;
 import flash.net.URLRequest;
 import flash.utils.ByteArray;
 import flash.utils.CompressionAlgorithm;
@@ -413,8 +414,9 @@ class AWD2Parser extends ParserBase
 			_accuracyMatrix = BitFlags.test(flags, BitFlags.FLAG2);
 			_accuracyGeo = BitFlags.test(flags, BitFlags.FLAG3);
 			_accuracyProps = BitFlags.test(flags, BitFlags.FLAG4);
-			_accuracyOnBlocks = BitFlags.test(flags, BitFlags.FLAG5);
 		}
+		
+		// if we set _accuracyOnBlocks, the precision-values are read from each block-header.
 
 		// set storagePrecision types
 		_geoNrType = FLOAT32;
@@ -642,7 +644,9 @@ class AWD2Parser extends ParserBase
 		var num_subs:Int = _newBlockBytes.readUnsignedShort();
 
 		// Read optional properties
-		var props:AWDProperties = parseProperties(null);
+		var props:AWDProperties = parseProperties( { "1":_geoNrType, "2":_geoNrType } );
+		var geoScaleU:Float = props.getValue(1, 1);
+		var geoScaleV:Float = props.getValue(2, 1);
 
 		// Loop through sub meshes
 		var subs_parsed:Int = 0;
@@ -658,7 +662,7 @@ class AWD2Parser extends ParserBase
 			sm_end = _newBlockBytes.position + sm_len;
 
 			// Ignore for now
-			parseProperties(null);
+			var subProps:AWDProperties = parseProperties( { "1":_geoNrType, "2":_geoNrType } );
 			
 			var verts:Vector<Float> = null;
 			var indices:Vector<UInt> = null;
@@ -744,14 +748,30 @@ class AWD2Parser extends ParserBase
 			parseUserAttributes(); // Ignore sub-mesh attributes for now
 
 			sub_geoms = GeomUtil.fromVectors(verts, indices, uvs, normals, null, weights, w_indices);
+			
+			var scaleU:Float = subProps.getValue(1, 1);
+			var scaleV:Float = subProps.getValue(2, 1);
+			var setSubUVs:Bool = false; //this should remain false atm, because in AwayBuilder the uv is only scaled by the geometry
+			if ((geoScaleU != scaleU) || (geoScaleV != scaleV))
+			{
+				trace("set sub uvs");
+				setSubUVs=true;
+				scaleU=geoScaleU/scaleU;
+				scaleV=geoScaleV/scaleV;
+			}
 			for (i in 0...sub_geoms.length)
 			{
+				if(setSubUVs)
+					sub_geoms[i].scaleUV(scaleU,scaleV);
 				geom.addSubGeometry(sub_geoms[i]);
 					// TODO: Somehow map in-sub to out-sub indices to enable look-up
 					// when creating meshes (and their material assignments.)
 			}
 			subs_parsed++;
 		}
+		if ((geoScaleU != 1) || (geoScaleV != 1))
+			geom.scaleUV(geoScaleU, geoScaleV);
+				
 		parseUserAttributes();
 		finalizeAsset(geom, name);
 		_blocks[blockID].data = geom;
@@ -779,6 +799,8 @@ class AWD2Parser extends ParserBase
 		props = parseProperties( { "101": _geoNrType, 
 									"102": _geoNrType, 
 									"103": _geoNrType, 
+									"110": _geoNrType, 
+									"111": _geoNrType,
 									"301": UINT16, 
 									"302": UINT16, 
 									"303": UINT16, 
@@ -815,7 +837,15 @@ class AWD2Parser extends ParserBase
 
 			default:
 				geom = new Geometry();
+				Lib.trace("ERROR: UNSUPPORTED PRIMITIVE_TYPE");
 		}
+		
+		if ((props.getValue(110, 1) != 1) || (props.getValue(111, 1) != 1))
+		{
+			geom.subGeometries;
+			geom.scaleUV(props.getValue(110,1),props.getValue(111,1));
+		}
+			
 		parseUserAttributes();
 		geom.name = name;
 		finalizeAsset(geom, name);
@@ -1048,6 +1078,12 @@ class AWD2Parser extends ParserBase
 			}
 		}
 		
+		if ((lightType != 2) && (lightType != 1)) 
+		{
+			_blocks[blockID].addError("Unsuported lighttype = " + lightType);
+			return;
+		}
+		
 		light.color = props.getValue(3, 0xffffff);
 		light.specular = props.getValue(4, 1.0);
 		light.diffuse = props.getValue(5, 1.0);
@@ -1132,13 +1168,19 @@ class AWD2Parser extends ParserBase
 			parentName = Std.instance(parentAssetVO.data,ObjectContainer3D).name;
 		}
 		else if (par_id > 0)
+		{
 			_blocks[blockID].addError("Could not find a parent for this Camera");
+		}
 		camera.name = name;
 		props = parseProperties( {"1": _matrixNrType, 
 								"2": _matrixNrType, 
 								"3": _matrixNrType, 
-								"4": UINT8});
+								"4": UINT8,
+								"101":_propsNrType, 
+								"102":_propsNrType});
 		camera.pivotPoint = new Vector3D(props.getValue(1, 0), props.getValue(2, 0), props.getValue(3, 0));
+		camera.lens.near = props.getValue(101, 20);
+		camera.lens.far = props.getValue(102, 3000);
 		camera.extra = parseUserAttributes();
 		finalizeAsset(camera, name);
 
@@ -1298,7 +1340,7 @@ class AWD2Parser extends ParserBase
 			Std.instance(mat,SinglePassMaterialBase).alphaThreshold = props.getValue(12, 0.0);
 		else
 			Std.instance(mat,MultiPassMaterialBase).alphaThreshold = props.getValue(12, 0.0);
-		mat.repeat = props.getValue(13, true);
+		mat.repeat = props.getValue(13, false);
 
 		finalizeAsset(mat, name);
 
@@ -1448,7 +1490,7 @@ class AWD2Parser extends ParserBase
 			Std.instance(mat,MaterialBase).bothSides = props.getValue(7, false);
 			Std.instance(mat,MaterialBase).alphaPremultiplied = props.getValue(8, false);
 			Std.instance(mat,MaterialBase).blendMode = blendModeDic[props.getValue(9, 0)];
-			Std.instance(mat,MaterialBase).repeat = props.getValue(13, true);
+			Std.instance(mat,MaterialBase).repeat = props.getValue(13, false);
 
 			if (spezialType == 0)
 			{ // this is a SinglePassMaterial					
@@ -1741,7 +1783,7 @@ class AWD2Parser extends ParserBase
 			// External
 			if (type == 0)
 			{
-				data_len = _newBlockBytes.readShort();
+				data_len = _newBlockBytes.readUnsignedInt();
 				var url:String;
 				url = _newBlockBytes.readUTFBytes(data_len);
 				addDependency(_cur_block_id + "#" + i, new URLRequest(url), false, null, true);
@@ -2157,9 +2199,9 @@ class AWD2Parser extends ParserBase
 						idx = 0;
 						while (_newBlockBytes.position < str_end)
 						{
-							x = _newBlockBytes.readFloat();
-							y = _newBlockBytes.readFloat();
-							z = _newBlockBytes.readFloat();
+							x = readNumber(_accuracyGeo);
+							y = readNumber(_accuracyGeo);
+							z = readNumber(_accuracyGeo);
 							verts[idx++] = x;
 							verts[idx++] = y;
 							verts[idx++] = z;
@@ -2379,7 +2421,7 @@ class AWD2Parser extends ParserBase
 		{
 			case 1:
 				var targetID:Int = props.getValue(1, 0);
-				var targetAssetVO:AssetVO = getAssetByID(targetID, [AssetType.LIGHT]); //for no only light is requested!!!!
+				var targetAssetVO:AssetVO = getAssetByID(targetID, [AssetType.LIGHT, AssetType.TEXTURE_PROJECTOR]); //for no only light is requested!!!!
 				if (!targetAssetVO.enable && (targetID != 0))
 				{
 					_blocks[blockID].addError("Could not find the light (ID = " + targetID + " ( for this CommandBock!");

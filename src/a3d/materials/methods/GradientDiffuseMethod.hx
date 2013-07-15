@@ -21,7 +21,8 @@ class GradientDiffuseMethod extends BasicDiffuseMethod
 
 	/**
 	 * Creates a new GradientDiffuseMethod object.
-	 * @param gradient A texture that contains the light colour based on the angle. This can be used to change the light colour due to subsurface scattering when dot &lt; 0
+	 * @param gradient A texture that contains the light colour based on the angle. This can be used to change
+	 * the light colour due to subsurface scattering when the surface faces away from the light.
 	 */
 	public function new(gradient:Texture2DBase)
 	{
@@ -29,6 +30,10 @@ class GradientDiffuseMethod extends BasicDiffuseMethod
 		_gradient = gradient;
 	}
 
+	/**
+	 * A texture that contains the light colour based on the angle. This can be used to change the light colour
+	 * due to subsurface scattering when the surface faces away from the light.
+	 */
 	public var gradient(get,set):Texture2DBase;
 	private function get_gradient():Texture2DBase
 	{
@@ -54,9 +59,12 @@ class GradientDiffuseMethod extends BasicDiffuseMethod
 		var code:String = super.getFragmentPreLightingCode(vo, regCache);
 		_isFirstLight = true;
 
-		_gradientTextureRegister = regCache.getFreeTextureReg();
-		vo.secondaryTexturesIndex = _gradientTextureRegister.index;
-
+		if (vo.numLights > 0)
+		{
+			_gradientTextureRegister = regCache.getFreeTextureReg();
+			vo.secondaryTexturesIndex = _gradientTextureRegister.index;
+		}
+		
 		return code;
 	}
 

@@ -8,7 +8,9 @@ import a3d.materials.compilation.ShaderRegisterElement;
 import flash.Vector;
 
 
-
+/**
+ * SoftShadowMapMethod provides a soft shadowing technique by randomly distributing sample points.
+ */
 class SoftShadowMapMethod extends SimpleShadowMapMethodBase
 {
 	private var _range:Float = 1;
@@ -17,6 +19,9 @@ class SoftShadowMapMethod extends SimpleShadowMapMethodBase
 
 	/**
 	 * Creates a new BasicDiffuseMethod object.
+	 *
+	 * @param castingLight The light casting the shadows
+	 * @param numSamples The amount of samples to take for dithering. Minimum 1, maximum 32.
 	 */
 	public function new(castingLight:DirectionalLight, numSamples:Int = 5, range:Float = 1)
 	{
@@ -26,6 +31,10 @@ class SoftShadowMapMethod extends SimpleShadowMapMethodBase
 		this.range = range;
 	}
 	
+	/**
+	 * The amount of samples to take for dithering. Minimum 1, maximum 32. The actual maximum may depend on the
+	 * complexity of the shader.
+	 */
 	public var numSamples(get,set):Int;
 	private function get_numSamples():Int
 	{
@@ -46,6 +55,9 @@ class SoftShadowMapMethod extends SimpleShadowMapMethodBase
 		return _numSamples;
 	}
 
+	/**
+	 * The range in the shadow map in which to distribute the samples.
+	 */
 	public var range(get,set):Float;
 	private function get_range():Float
 	{
@@ -94,6 +106,15 @@ class SoftShadowMapMethod extends SimpleShadowMapMethodBase
 		return getSampleCode(regCache, depthMapRegister, decReg, targetReg, customDataReg);
 	}
 
+	/**
+	 * Adds the code for another tap to the shader code.
+	 * @param uv The uv register for the tap.
+	 * @param texture The texture register containing the depth map.
+	 * @param decode The register containing the depth map decoding data.
+	 * @param target The target register to add the tap comparison result.
+	 * @param regCache The register cache managing the registers.
+	 * @return
+	 */
 	private function addSample(uv:ShaderRegisterElement, texture:ShaderRegisterElement, decode:ShaderRegisterElement, target:ShaderRegisterElement, regCache:ShaderRegisterCache):String
 	{
 		var temp:ShaderRegisterElement = regCache.getFreeFragmentVectorTemp();
@@ -134,6 +155,14 @@ class SoftShadowMapMethod extends SimpleShadowMapMethodBase
 		return getSampleCode(regCache, depthTexture, decodeRegister, targetRegister, dataReg);
 	}
 
+	/**
+	 * Get the actual shader code for shadow mapping
+	 * @param regCache The register cache managing the registers.
+	 * @param depthTexture The texture register containing the depth map.
+	 * @param decodeRegister The register containing the depth map decoding data.
+	 * @param targetReg The target register to add the shadow coverage.
+	 * @param dataReg The register containing additional data.
+	 */
 	private function getSampleCode(regCache:ShaderRegisterCache, depthTexture:ShaderRegisterElement, decodeRegister:ShaderRegisterElement, targetRegister:ShaderRegisterElement, dataReg:ShaderRegisterElement):String
 	{
 		var uvReg:ShaderRegisterElement = null;

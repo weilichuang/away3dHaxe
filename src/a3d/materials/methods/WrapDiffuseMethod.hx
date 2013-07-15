@@ -33,6 +33,9 @@ class WrapDiffuseMethod extends BasicDiffuseMethod
 		_wrapDataRegister = null;
 	}
 
+	/**
+	 * A factor to indicate the amount by which the light is allowed to wrap.
+	 */
 	public var wrapFactor(get,set):Float;
 	private function get_wrapFactor():Float
 	{

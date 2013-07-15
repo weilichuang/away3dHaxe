@@ -41,6 +41,7 @@ THE SOFTWARE.
 
 package a3dexample;
 
+import a3d.textures.BitmapTexture;
 import a3d.textures.Texture2DBase;
 import flash.display.Bitmap;
 import flash.display.Loader;
@@ -455,7 +456,7 @@ class Intermediate_MonsterHeadShading extends BasicApplication
 
 		//create bitmap texture in dictionary
 		if (!_textureDictionary.exists(_textureStrings[_n]))
-			_textureDictionary.set(_textureStrings[_n], (_n == 1) ? new SpecularBitmapTexture(Std.instance(e.target.content,Bitmap).bitmapData) : createBitmapTexture(e.target.content));
+			_textureDictionary.set(_textureStrings[_n], (_n == 1) ? new SpecularBitmapTexture(Std.instance(e.target.content,Bitmap).bitmapData) : new BitmapTexture(e.target.content.bitmapData));
 
 		loader.unload();
 		loader = null;

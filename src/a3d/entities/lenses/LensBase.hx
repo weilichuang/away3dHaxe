@@ -187,8 +187,9 @@ class LensBase extends EventDispatcher
 
 	private function set_aspectRatio(value:Float):Float
 	{
-		if (_aspectRatio == value)
+		if (_aspectRatio == value || (value * 0) != 0)
 			return _aspectRatio;
+			
 		_aspectRatio = value;
 		invalidateMatrix();
 		return _aspectRatio;

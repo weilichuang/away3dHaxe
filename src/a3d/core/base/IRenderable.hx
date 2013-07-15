@@ -46,6 +46,10 @@ interface IRenderable extends IMaterialOwner
 	 */
 	var castsShadows(get,null):Bool;
 
+	/**
+	 * Provides a Matrix object to transform the uv coordinates, if the material supports it.
+	 * For TextureMaterial and TextureMultiPassMaterial, the animateUVs property should be set to true.
+	 */
 	var uvTransform(get,null):Matrix;
 
 	var shaderPickingDetails(get,null):Bool;

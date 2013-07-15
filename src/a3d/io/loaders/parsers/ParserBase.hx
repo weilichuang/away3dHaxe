@@ -223,6 +223,10 @@ class ParserBase extends EventDispatcher
 		return _parsingFailure;
 	}
 
+	/**
+	 * parsingPaused will be true, if the parser is paused 
+	 * (e.g. it is waiting for dependencys to be loadet and parsed before it will continue)
+	 */
 	public var parsingPaused(get, null):Bool;
 	private function get_parsingPaused():Bool
 	{
@@ -235,6 +239,14 @@ class ParserBase extends EventDispatcher
 		return _parsingComplete;
 	}
 
+	/**
+	 * MaterialMode defines, if the Parser should create SinglePass or MultiPass Materials
+	 * Options:
+	 * 0 (Default / undefined) - All Parsers will create SinglePassMaterials, but the AWD2.1parser will create Materials as they are defined in the file
+	 * 1 (Force SinglePass) - All Parsers create SinglePassMaterials
+	 * 2 (Force MultiPass) - All Parsers will create MultiPassMaterials
+	 * 
+	 */
 	public var materialMode(get, set):Int;
 	private function set_materialMode(newMaterialMode:Int):Int
 	{
@@ -312,6 +324,9 @@ class ParserBase extends EventDispatcher
 		return asset.name;
 	}
 
+	/**
+	 * After Dependencys has been loaded and parsed, continue to parse
+	 */
 	public function resumeParsingAfterDependencies():Void
 	{
 		_parsingPaused = false;
@@ -322,7 +337,13 @@ class ParserBase extends EventDispatcher
 	}
 
 
-
+	/**
+	 * Finalize a constructed asset. This function is executed for every asset that has been successfully constructed.
+	 * It will dispatch a <code>AssetEvent.ASSET_COMPLETE</code> and another AssetEvent, that depents on the type of asset.
+	 * 
+	 * @param asset The asset to finalize
+	 * @param name The name of the asset. The name will be applied to the asset
+	 */
 	private function finalizeAsset(asset:IAsset, name:String = null):Void
 	{
 		var type_event:String;
@@ -420,6 +441,11 @@ class ParserBase extends EventDispatcher
 		return true;
 	}
 
+	/**
+	 * Stops the parsing and dispatches a <code>ParserEvent.PARSE_ERROR</code> 
+	 * 
+	 * @param message The message to apply to the <code>ParserEvent.PARSE_ERROR</code> 
+	 */
 	private function dieWithError(message:String = 'Unknown parsing error'):Void
 	{
 		if (_timer != null)
@@ -438,6 +464,9 @@ class ParserBase extends EventDispatcher
 	}
 
 
+	/**
+	 * Pauses the parser, and dispatches a <code>ParserEvent.READY_FOR_DEPENDENCIES</code> 
+	 */
 	private function pauseAndRetrieveDependencies():Void
 	{
 		if (_timer != null)

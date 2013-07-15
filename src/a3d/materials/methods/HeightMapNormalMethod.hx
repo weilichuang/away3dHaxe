@@ -7,12 +7,21 @@ import a3d.textures.Texture2DBase;
 import flash.Vector;
 
 
-
+/**
+ * HeightMapNormalMethod provides a normal map method that uses a height map to calculate the normals.
+ */
 class HeightMapNormalMethod extends BasicNormalMethod
 {
 	private var _worldXYRatio:Float;
 	private var _worldXZRatio:Float;
 
+	/**
+	 * Creates a new HeightMapNormalMethod method.
+	 * @param heightMap The texture containing the height data. 0 means low, 1 means high.
+	 * @param worldWidth The width of the 'world'. This is used to map uv coordinates' u component to scene dimensions.
+	 * @param worldHeight The height of the 'world'. This is used to map the height map values to scene dimensions.
+	 * @param worldDepth The depth of the 'world'. This is used to map uv coordinates' v component to scene dimensions.
+	 */
 	public function new(heightMap:Texture2DBase, worldWidth:Float, worldHeight:Float, worldDepth:Float)
 	{
 		super();
@@ -40,6 +49,9 @@ class HeightMapNormalMethod extends BasicNormalMethod
 
 	override public function copyFrom(method:ShadingMethodBase):Void
 	{
+		super.copyFrom(method);
+		_worldXYRatio = Std.instance(method,HeightMapNormalMethod)._worldXYRatio;
+		_worldXZRatio = Std.instance(method,HeightMapNormalMethod)._worldXZRatio;
 	}
 
 	override public function getFragmentCode(vo:MethodVO, regCache:ShaderRegisterCache, targetReg:ShaderRegisterElement):String

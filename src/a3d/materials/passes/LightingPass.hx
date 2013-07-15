@@ -106,15 +106,25 @@ class LightingPass extends CompiledPass
 	override private function updateLights():Void
 	{
 		super.updateLights();
-		var numDirectionalLights:Int = calculateNumDirectionalLights(_lightPicker.numDirectionalLights);
-		var numPointLights:Int = calculateNumPointLights(_lightPicker.numPointLights);
-		var numLightProbes:Int = calculateNumProbes(_lightPicker.numLightProbes);
+		
+		var numDirectionalLights:Int = 0;
+		var numPointLights:Int = 0;
+		var numLightProbes:Int = 0;
 
-		if (_includeCasters)
+		if (_lightPicker != null)
 		{
-			numPointLights += _lightPicker.numCastingPointLights;
-			numDirectionalLights += _lightPicker.numCastingDirectionalLights;
+			numDirectionalLights = calculateNumDirectionalLights(_lightPicker.numDirectionalLights);
+			numPointLights = calculateNumPointLights(_lightPicker.numPointLights);
+			numLightProbes = calculateNumProbes(_lightPicker.numLightProbes);
+			
+			if (_includeCasters)
+			{
+				numPointLights += _lightPicker.numCastingPointLights;
+				numDirectionalLights += _lightPicker.numCastingDirectionalLights;
+			}
 		}
+		
+		
 
 		if (numPointLights != _numPointLights ||
 			numDirectionalLights != _numDirectionalLights ||

@@ -50,8 +50,6 @@ class ParticleRotationalVelocityNode extends ParticleNodeBase
 	 */
 	override public function getAGALVertexCode(pass:MaterialPassBase, animationRegisterCache:AnimationRegisterCache):String
 	{
-		pass = pass;
-
 		var rotationRegister:ShaderRegisterElement = (_mode == ParticlePropertiesMode.GLOBAL) ? animationRegisterCache.getFreeVertexConstant() : animationRegisterCache.getFreeVertexAttribute();
 		animationRegisterCache.setRegisterIndex(this, ROTATIONALVELOCITY_INDEX, rotationRegister.index);
 

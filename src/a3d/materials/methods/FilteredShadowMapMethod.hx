@@ -8,7 +8,10 @@ import a3d.materials.compilation.ShaderRegisterElement;
 import flash.Vector;
 
 
-
+/**
+ * DitheredShadowMapMethod provides a softened shadowing technique by bilinearly interpolating shadow comparison
+ * results of neighbouring pixels.
+ */
 class FilteredShadowMapMethod extends SimpleShadowMapMethodBase
 {
 	/**

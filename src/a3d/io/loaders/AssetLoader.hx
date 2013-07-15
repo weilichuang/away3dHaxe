@@ -168,6 +168,15 @@ class AssetLoader extends EventDispatcher
 		_errorHandlers = new Vector<Dynamic>();
 		_parseErrorHandlers = new Vector<Dynamic>();
 	}
+	
+	/**
+	 * Returns the base dependency of the loader
+	 */
+	public var baseDependency(get, null):ResourceDependency;
+	private function get_baseDependency():ResourceDependency
+	{
+		return _baseDependency;
+	}
 
 
 	public static function enableParser(parserClass:Class<ParserBase>):Void

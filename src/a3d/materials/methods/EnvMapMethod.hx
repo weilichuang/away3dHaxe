@@ -10,13 +10,20 @@ import a3d.textures.Texture2DBase;
 import flash.display3D.Context3D;
 
 
-
+/**
+ * EnvMapMethod provides a material method to perform reflection mapping using cube maps.
+ */
 class EnvMapMethod extends EffectMethodBase
 {
 	private var _cubeTexture:CubeTextureBase;
 	private var _alpha:Float;
 	private var _mask:Texture2DBase;
 
+	/**
+	 * Creates an EnvMapMethod object.
+	 * @param envMap The environment map containing the reflected scene.
+	 * @param alpha The reflectivity of the surface.
+	 */
 	public function new(envMap:CubeTextureBase, alpha:Float = 1)
 	{
 		super();
@@ -24,6 +31,9 @@ class EnvMapMethod extends EffectMethodBase
 		_alpha = alpha;
 	}
 
+	/**
+	 * An optional texture to modulate the reflectivity of the surface.
+	 */
 	public var mask(get,set):Texture2DBase;
 	private function get_mask():Texture2DBase
 	{
@@ -49,7 +59,7 @@ class EnvMapMethod extends EffectMethodBase
 	}
 
 	/**
-	 * The cube environment map to use for the diffuse lighting.
+	 * The cubic environment map containing the reflected scene.
 	 */
 	public var envMap(get,set):CubeTextureBase;
 	private function get_envMap():CubeTextureBase
@@ -70,7 +80,7 @@ class EnvMapMethod extends EffectMethodBase
 	}
 
 	/**
-	 * The reflectiveness of the surface
+	 * The reflectivity of the surface.
 	 */
 	public var alpha(get,set):Float;
 	private function get_alpha():Float

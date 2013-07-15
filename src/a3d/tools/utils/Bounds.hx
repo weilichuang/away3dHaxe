@@ -1,5 +1,6 @@
 package a3d.tools.utils;
 
+import a3d.entities.lights.LightBase;
 import flash.geom.Matrix3D;
 import flash.geom.Vector3D;
 import flash.utils.Dictionary;
@@ -84,7 +85,8 @@ class Bounds
 		var y:Float;
 		var z:Float;
 
-		for (var i:UInt = 0; i < l; i += 3)
+		var i:Int = 0;
+		while ( i < l)
 		{
 			x = vertices[i];
 			y = vertices[i + 1];
@@ -104,9 +106,25 @@ class Bounds
 				_minZ = z;
 			if (z > _maxZ)
 				_maxZ = z;
+				
+			i += 3;
 		}
 	}
 
+	/**
+	* @param outCenter		Vector3D. Optional Vector3D, if provided the same Vector3D is returned with the bounds center.
+	* @return the center of the bound
+	*/
+	public static function getCenter(outCenter:Vector3D = null):Vector3D
+	{
+		var center:Vector3D = outCenter != null ? outCenter : new Vector3D();
+		center.x = _minX + (_maxX - _minX) * .5;
+		center.y = _minY + (_maxY - _minY) * .5;
+		center.z = _minZ + (_maxZ - _minZ) * .5;
+
+		return center;
+	}
+		
 	/**
 	* @return the smalest x value
 	*/
@@ -217,7 +235,7 @@ class Bounds
 			parseObjectBounds(obj, mat);
 		}
 
-		for (var i:UInt = 0; i < obj.numChildren; ++i)
+		for (i in 0...obj.numChildren)
 		{
 			child = obj.getChildAt(i);
 			parseObjectContainerBounds(child, containerTransform);
@@ -256,6 +274,9 @@ class Bounds
 
 	private static function parseObjectBounds(oC:ObjectContainer3D, parentTransform:Matrix3D = null, resetBounds:Bool = false):Void
 	{
+		if (Std.is(oC, LightBase)) 
+			return; 
+		
 		var e:Entity = Std.instance(oC,Entity);
 		var corners:Vector<Float>;
 		var mat:Matrix3D = oC.transform.clone();

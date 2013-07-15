@@ -11,7 +11,10 @@ import flash.Vector;
 import flash.display3D.Context3D;
 
 
-
+/**
+ * FresnelEnvMapMethod provides a method to add fresnel-based reflectivity to an object using cube maps, which gets
+ * stronger as the viewing angle becomes more grazing.
+ */
 class FresnelEnvMapMethod extends EffectMethodBase
 {
 	private var _cubeTexture:CubeTextureBase;
@@ -20,6 +23,11 @@ class FresnelEnvMapMethod extends EffectMethodBase
 	private var _alpha:Float;
 	private var _mask:Texture2DBase;
 
+	/**
+	 * Creates an FresnelEnvMapMethod object.
+	 * @param envMap The environment map containing the reflected scene.
+	 * @param alpha The reflectivity of the material.
+	 */
 	public function new(envMap:CubeTextureBase, alpha:Float = 1)
 	{
 		super();
@@ -39,6 +47,9 @@ class FresnelEnvMapMethod extends EffectMethodBase
 		vo.fragmentData[vo.fragmentConstantsIndex + 3] = 1;
 	}
 
+	/**
+	 * An optional texture to modulate the reflectivity of the surface.
+	 */
 	public var mask(get,set):Texture2DBase;
 	private function get_mask():Texture2DBase
 	{
@@ -55,6 +66,9 @@ class FresnelEnvMapMethod extends EffectMethodBase
 		return _mask;
 	}
 
+	/**
+	 * The power used in the Fresnel equation. Higher values make the fresnel effect more pronounced. Defaults to 5.
+	 */
 	public var fresnelPower(get,set):Float;
 	private function get_fresnelPower():Float
 	{
@@ -67,7 +81,7 @@ class FresnelEnvMapMethod extends EffectMethodBase
 	}
 
 	/**
-	 * The cube environment map to use for the diffuse lighting.
+	 * The cubic environment map containing the reflected scene.
 	 */
 	public var envMap(get,set):CubeTextureBase;
 	private function get_envMap():CubeTextureBase
@@ -87,6 +101,9 @@ class FresnelEnvMapMethod extends EffectMethodBase
 	{
 	}
 
+	/**
+	 * The reflectivity of the surface.
+	 */
 	public var alpha(get,set):Float;
 	private function get_alpha():Float
 	{

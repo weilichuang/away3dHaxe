@@ -10,7 +10,8 @@ import flash.Vector.Vector;
 
 
 /**
- * BasicSpecularMethod provides the default shading method for Blinn-Phong specular highlights.
+ * BasicSpecularMethod provides the default shading method for Blinn-Phong specular highlights (an optimized but approximated
+ * version of Phong specularity).
  */
 class BasicSpecularMethod extends LightingMethodBase
 {
@@ -346,6 +347,9 @@ class BasicSpecularMethod extends LightingMethodBase
 		specularB = (_specularColor & 0xff) / 0xff * _specular;
 	}
 
+	/**
+	 * Set internally by the compiler, so the method knows the register containing the shadow calculation.
+	 */
 	public var shadowRegister(null,set):ShaderRegisterElement;
 	private function set_shadowRegister(shadowReg:ShaderRegisterElement):ShaderRegisterElement
 	{

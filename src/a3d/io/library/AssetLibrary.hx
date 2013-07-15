@@ -127,7 +127,7 @@ class AssetLibrary
 
 	public static function stopLoad():Void
 	{
-		return getBundle().stopAllLoadingSessions();
+		getBundle().stopAllLoadingSessions();
 	}
 
 	/**

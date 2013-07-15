@@ -3,7 +3,7 @@ package a3d.materials;
 
 
 /**
- * ColorMaterial is a material that uses a flat colour as the surfaces diffuse.
+ * ColorMaterial is a single-pass material that uses a flat color as the surface's diffuse reflection value.
  */
 class ColorMaterial extends SinglePassMaterialBase
 {
@@ -44,7 +44,7 @@ class ColorMaterial extends SinglePassMaterialBase
 	}
 
 	/**
-	 * The diffuse color of the surface.
+	 * The diffuse reflectivity color of the surface.
 	 */
 	public var color(get, set):UInt;
 	private function get_color():UInt

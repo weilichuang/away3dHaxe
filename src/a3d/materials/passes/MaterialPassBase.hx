@@ -340,6 +340,9 @@ class MaterialPassBase extends EventDispatcher
 		return _needFragmentAnimation;
 	}
 
+	/**
+	 * Indicates whether the pass requires
+	 */
 	public var needUVAnimation(get, null):Bool;
 	private function get_needUVAnimation():Bool
 	{

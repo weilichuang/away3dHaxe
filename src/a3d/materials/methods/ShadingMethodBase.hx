@@ -18,7 +18,7 @@ import a3d.textures.TextureProxyBase;
 
 
 /**
- * ShadingMethodBase provides an abstract base method for shading methods, used by DefaultScreenPass to compile
+ * ShadingMethodBase provides an abstract base method for shading methods, used by compiled passes to compile
  * the final shading program.
  */
 class ShadingMethodBase extends NamedAssetBase
@@ -36,16 +36,27 @@ class ShadingMethodBase extends NamedAssetBase
 		super();
 	}
 
+	/**
+	 * Initializes the properties for a MethodVO, including register and texture indices.
+	 * @param vo The MethodVO object linking this method with the pass currently being compiled.
+	 */
 	public function initVO(vo:MethodVO):Void
 	{
 
 	}
 
+	/**
+	 * Initializes unchanging shader constants using the data from a MethodVO.
+	 * @param vo The MethodVO object linking this method with the pass currently being compiled.
+	 */
 	public function initConstants(vo:MethodVO):Void
 	{
 
 	}
 
+	/**
+	 * The shared registers created by the compiler and possibly used by methods.
+	 */
 	public var sharedRegisters(get,set):ShaderRegisterData;
 	private function get_sharedRegisters():ShaderRegisterData
 	{
@@ -68,7 +79,6 @@ class ShadingMethodBase extends NamedAssetBase
 
 	/**
 	 * Cleans up any resources used by the current object.
-	 * @param deep Indicates whether other resources should be cleaned up, that could potentially be shared across different instances.
 	 */
 	public function dispose():Void
 	{
@@ -83,6 +93,9 @@ class ShadingMethodBase extends NamedAssetBase
 		return new MethodVO();
 	}
 
+	/**
+	 * Resets the compilation state of the method.
+	 */
 	public function reset():Void
 	{
 		cleanCompilationData();
@@ -98,6 +111,7 @@ class ShadingMethodBase extends NamedAssetBase
 
 	/**
 	 * Get the vertex shader code for this method.
+	 * @param vo The MethodVO object linking this method with the pass currently being compiled.
 	 * @param regCache The register cache used during the compilation.
 	 * @private
 	 */
@@ -108,7 +122,9 @@ class ShadingMethodBase extends NamedAssetBase
 
 	/**
 	 * Sets the render state for this method.
-	 * @param context The Context3D currently used for rendering.
+	 *
+	 * @param vo The MethodVO object linking this method with the pass currently being compiled.
+	 * @param stage3DProxy The Stage3DProxy object currently used for rendering.
 	 * @private
 	 */
 	public function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):Void
@@ -118,6 +134,11 @@ class ShadingMethodBase extends NamedAssetBase
 
 	/**
 	 * Sets the render state for a single renderable.
+	 *
+	 * @param vo The MethodVO object linking this method with the pass currently being compiled.
+	 * @param renderable The renderable currently being rendered.
+	 * @param stage3DProxy The Stage3DProxy object currently used for rendering.
+	 * @param camera The camera from which the scene is currently rendered.
 	 */
 	public function setRenderState(vo:MethodVO, renderable:IRenderable, stage3DProxy:Stage3DProxy, camera:Camera3D):Void
 	{
@@ -126,8 +147,8 @@ class ShadingMethodBase extends NamedAssetBase
 
 	/**
 	 * Clears the render state for this method.
-	 * @param context The Context3D currently used for rendering.
-	 * @private
+	 * @param vo The MethodVO object linking this method with the pass currently being compiled.
+	 * @param stage3DProxy The Stage3DProxy object currently used for rendering.
 	 */
 	public function deactivate(vo:MethodVO, stage3DProxy:Stage3DProxy):Void
 	{
@@ -136,8 +157,12 @@ class ShadingMethodBase extends NamedAssetBase
 
 	/**
 	 * A helper method that generates standard code for sampling from a texture using the normal uv coordinates.
+	 * @param vo The MethodVO object linking this method with the pass currently being compiled.
 	 * @param targetReg The register in which to store the sampled colour.
 	 * @param inputReg The texture stream register.
+	 * @param texture The texture which will be assigned to the given slot.
+	 * @param uvReg An optional uv register if coordinates different from the primary uv coordinates are to be used.
+	 * @param forceWrap If true, texture wrapping is enabled regardless of the material setting.
 	 * @return The fragment code that performs the sampling.
 	 */
 	private function getTex2DSampleCode(vo:MethodVO, targetReg:ShaderRegisterElement, inputReg:ShaderRegisterElement, texture:TextureProxyBase, uvReg:ShaderRegisterElement = null, forceWrap:String =
@@ -167,6 +192,14 @@ class ShadingMethodBase extends NamedAssetBase
 		return "tex " + targetReg + ", " + uvReg + ", " + inputReg + " <2d," + filter + "," + format + wrap + ">\n";
 	}
 
+	/**
+	 * A helper method that generates standard code for sampling from a cube texture.
+	 * @param vo The MethodVO object linking this method with the pass currently being compiled.
+	 * @param targetReg The register in which to store the sampled colour.
+	 * @param inputReg The texture stream register.
+	 * @param texture The cube map which will be assigned to the given slot.
+	 * @param uvReg The direction vector with which to sample the cube map.
+	 */
 	private function getTexCubeSampleCode(vo:MethodVO, targetReg:ShaderRegisterElement, inputReg:ShaderRegisterElement, texture:TextureProxyBase, uvReg:ShaderRegisterElement):String
 	{
 		var filter:String;
@@ -185,6 +218,11 @@ class ShadingMethodBase extends NamedAssetBase
 		return "tex " + targetReg + ", " + uvReg + ", " + inputReg + " <cube," + format + filter + ">\n";
 	}
 
+	/**
+	 * Generates a texture format string for the sample instruction.
+	 * @param texture The texture for which to get the format string.
+	 * @return
+	 */
 	private function getFormatStringForTexture(texture:TextureProxyBase):String
 	{
 		switch (texture.format)

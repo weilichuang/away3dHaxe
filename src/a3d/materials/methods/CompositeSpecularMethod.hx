@@ -13,8 +13,8 @@ import flash.Vector;
 
 
 /**
- * CompositeSpecularMethod provides a base class for specular methods that wrap a specular method to alter the strength
- * of its calculated strength.
+ * CompositeSpecularMethod provides a base class for specular methods that wrap a specular method to alter the
+ * calculated specular reflection strength.
  */
 class CompositeSpecularMethod extends BasicSpecularMethod
 {

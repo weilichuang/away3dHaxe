@@ -335,7 +335,8 @@ class ViewVolume extends NodeBase
 
 		_entityWorldBounds = new Vector<Float>();
 
-		while ((object = iterator.next()) != null)
+		object = iterator.next();
+		while (object != null)
 		{
 			var entity:Entity = Std.instance(object,Entity);
 			if (entity != null && staticIntersects(entity, minBounds, maxBounds))
@@ -347,6 +348,7 @@ class ViewVolume extends NodeBase
 					++numAdded;
 				}
 			}
+			object = iterator.next();
 		}
 
 		updateNumEntities(_numEntities + numAdded);
@@ -406,11 +408,11 @@ class ViewVolume extends NodeBase
 		var epsMaxZ:Float = maxBounds.z - .001;
 
 		return !((minX < epsMinX && maxX < epsMinX) ||
-			(minX > epsMaxX && maxX > epsMaxX) ||
-			(minY < epsMinY && maxY < epsMinY) ||
-			(minY > epsMaxY && maxY > epsMaxY) ||
-			(minZ < epsMinZ && maxZ < epsMinZ) ||
-			(minZ > epsMaxZ && maxZ > epsMaxZ));
+				(minX > epsMaxX && maxX > epsMaxX) ||
+				(minY < epsMinY && maxY < epsMinY) ||
+				(minY > epsMaxY && maxY > epsMaxY) ||
+				(minZ < epsMinZ && maxZ < epsMinZ) ||
+				(minZ > epsMaxZ && maxZ > epsMaxZ));
 	}
 }
 

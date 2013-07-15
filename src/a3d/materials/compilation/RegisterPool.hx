@@ -7,8 +7,11 @@ import haxe.ds.StringMap;
 
 /**
  * RegisterPool is used by the shader compilation process to keep track of which registers of a certain type are
- * currently used. Either entire registers can be requested and locked, or single components (x, y, z, w) of a
- * single register.
+ * currently used and should not be allowed to be written to. Either entire registers can be requested and locked,
+ * or single components (x, y, z, w) of a single register.
+ * It is used by ShaderRegisterCache to track usages of individual register types.
+ *
+ * @see away3d.materials.compilation.ShaderRegisterCache
  */
 class RegisterPool
 {
@@ -30,9 +33,9 @@ class RegisterPool
 
 	/**
 	 * Creates a new RegisterPool object.
-	 * @param regName The base name of the register type.
+	 * @param regName The base name of the register type ("ft" for fragment temporaries, "vc" for vertex constants, etc)
 	 * @param regCount The amount of available registers of this type.
-	 * @param persistent Whether or not registers, once reserved, can be freed again.
+	 * @param persistent Whether or not registers, once reserved, can be freed again. For example, temporaries are not persistent, but constants are.
 	 */
 	public function new(regName:String, regCount:Int, persistent:Bool = true)
 	{
@@ -120,6 +123,9 @@ class RegisterPool
 		}
 	}
 
+	/**
+		 * Disposes any resources used by the current RegisterPool object.
+		 */
 	public function dispose():Void
 	{
 		_vectorRegisters = null;

@@ -9,12 +9,23 @@ import a3d.textures.Texture2DBase;
 import flash.errors.Error;
 
 
-
+/**
+ * LightMapDiffuseMethod provides a diffuse shading method that uses a light map to modulate the calculated diffuse
+ * lighting. It is different from LightMapMethod in that the latter modulates the entire calculated pixel color, rather
+ * than only the diffuse lighting value.
+ */
 class LightMapDiffuseMethod extends CompositeDiffuseMethod
 {
 	private var _blendMode:BlendMode;
 	private var _useSecondaryUV:Bool;
 
+	/**
+	 * Creates a new LightMapDiffuseMethod method.
+	 * @param lightMap The texture containing the light map.
+	 * @param blendMode The blend mode with which the light map should be applied to the lighting result.
+	 * @param useSecondaryUV Indicates whether the secondary UV set should be used to map the light map.
+	 * @param baseMethod The diffuse method used to calculate the regular light-based lighting.
+	 */
 	public function new(lightMap:Texture2DBase, blendMode:BlendMode = null, useSecondaryUV:Bool = false, baseMethod:BasicDiffuseMethod = null)
 	{
 		super(null, baseMethod);
@@ -29,6 +40,12 @@ class LightMapDiffuseMethod extends CompositeDiffuseMethod
 		vo.needsUV = !_useSecondaryUV;
 	}
 
+	/**
+	 * The blend mode with which the light map should be applied to the lighting result.
+	 *
+	 * @see BlendMode.ADD
+	 * @see BlendMode.MULTIPLY
+	 */
 	public var blendMode(get,set):BlendMode;
 	private function get_blendMode():BlendMode
 	{
@@ -47,6 +64,9 @@ class LightMapDiffuseMethod extends CompositeDiffuseMethod
 		return _blendMode;
 	}
 
+	/**
+	 * The texture containing the light map data.
+	 */
 	public var lightMapTexture(get,set):Texture2DBase;
 	private function get_lightMapTexture():Texture2DBase
 	{

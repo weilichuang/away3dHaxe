@@ -7,7 +7,9 @@ import a3d.materials.compilation.ShaderRegisterElement;
 import flash.Vector;
 
 
-
+/**
+ * FogMethod provides a method to add distance-based fog to a material.
+ */
 class FogMethod extends EffectMethodBase
 {
 	private var _minDistance:Float = 0;
@@ -17,6 +19,12 @@ class FogMethod extends EffectMethodBase
 	private var _fogG:Float;
 	private var _fogB:Float;
 
+	/**
+	 * Creates a new FogMethod object.
+	 * @param minDistance The distance from which the fog starts appearing.
+	 * @param maxDistance The distance at which the fog is densest.
+	 * @param fogColor The colour of the fog.
+	 */
 	public function new(minDistance:Float, maxDistance:Float, fogColor:UInt = 0x808080)
 	{
 		super();
@@ -39,6 +47,9 @@ class FogMethod extends EffectMethodBase
 		data[index + 7] = 0;
 	}
 
+	/**
+	 * The distance from which the fog starts appearing.
+	 */
 	public var minDistance(get,set):Float;
 	private function get_minDistance():Float
 	{
@@ -50,6 +61,9 @@ class FogMethod extends EffectMethodBase
 		return _minDistance = value;
 	}
 
+	/**
+	 * The distance at which the fog is densest.
+	 */
 	public var maxDistance(get,set):Float;
 	private function get_maxDistance():Float
 	{

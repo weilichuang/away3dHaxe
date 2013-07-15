@@ -11,8 +11,8 @@ import a3d.textures.Texture2DBase;
 
 
 /**
- * CompositeDiffuseMethod provides a base class for diffuse methods that wrap a diffuse method to alter the strength
- * of its calculated strength.
+ * CompositeDiffuseMethod provides a base class for diffuse methods that wrap a diffuse method to alter the
+ * calculated diffuse reflection strength.
  */
 class CompositeDiffuseMethod extends BasicDiffuseMethod
 {
@@ -21,20 +21,8 @@ class CompositeDiffuseMethod extends BasicDiffuseMethod
 	/**
 	 * The base diffuse method on which this method's shading is based.
 	 */
-	private function get_baseMethod():BasicDiffuseMethod
-	{
-		return _baseMethod;
-	}
-
-	private function set_baseMethod(value:BasicDiffuseMethod):Void
-	{
-		if (_baseMethod == value)
-			return;
-		_baseMethod.removeEventListener(ShadingMethodEvent.SHADER_INVALIDATED, onShaderInvalidated);
-		_baseMethod = value;
-		_baseMethod.addEventListener(ShadingMethodEvent.SHADER_INVALIDATED, onShaderInvalidated, false, 0, true);
-		invalidateShaderProgram();
-	}
+	public var baseMethod(get, set):BasicDiffuseMethod;
+	
 
 	/**
 	 * Creates a new WrapDiffuseMethod object.
@@ -48,6 +36,23 @@ class CompositeDiffuseMethod extends BasicDiffuseMethod
 		_baseMethod = baseDiffuseMethod != null ? baseDiffuseMethod : new BasicDiffuseMethod();
 		_baseMethod.modulateMethod = modulateMethod;
 		_baseMethod.addEventListener(ShadingMethodEvent.SHADER_INVALIDATED, onShaderInvalidated);
+	}
+	
+	private function get_baseMethod():BasicDiffuseMethod
+	{
+		return _baseMethod;
+	}
+
+	private function set_baseMethod(value:BasicDiffuseMethod):BasicDiffuseMethod
+	{
+		if (_baseMethod == value)
+			return _baseMethod;
+		_baseMethod.removeEventListener(ShadingMethodEvent.SHADER_INVALIDATED, onShaderInvalidated);
+		_baseMethod = value;
+		_baseMethod.addEventListener(ShadingMethodEvent.SHADER_INVALIDATED, onShaderInvalidated, false, 0, true);
+		invalidateShaderProgram();
+		
+		return _baseMethod;
 	}
 
 	override public function initVO(vo:MethodVO):Void
@@ -214,6 +219,9 @@ class CompositeDiffuseMethod extends BasicDiffuseMethod
 		return super.shadowRegister = value;
 	}
 
+	/**
+	 * Called when the base method's shader code is invalidated.
+	 */
 	private function onShaderInvalidated(event:ShadingMethodEvent):Void
 	{
 		invalidateShaderProgram();

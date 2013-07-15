@@ -7,11 +7,11 @@ package a3d.materials;
  * want to use light probes for diffuse global lighting, but want specular lights from
  * traditional light sources without those affecting the diffuse light.
  *
- * @see a3d.materials.ColorMaterial.diffuseLightSources
- * @see a3d.materials.ColorMaterial.specularLightSources
- * @see a3d.materials.TextureMaterial.diffuseLightSources
- * @see a3d.materials.TextureMaterial.specularLightSources
-*/
+ * @see away3d.materials.ColorMaterial.diffuseLightSources
+ * @see away3d.materials.ColorMaterial.specularLightSources
+ * @see away3d.materials.TextureMaterial.diffuseLightSources
+ * @see away3d.materials.TextureMaterial.specularLightSources
+ */
 class LightSources
 {
 	/**
@@ -28,7 +28,7 @@ class LightSources
 
 	/**
 	 * Defines that both normal and global lighting probes  are to be used as the
-	 * source for the lighting component.
-	*/
+	 * source for the lighting component. This is equivalent to LIGHTS | PROBES.
+	 */
 	public static inline var ALL:UInt = 0x03;
 }

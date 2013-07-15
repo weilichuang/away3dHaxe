@@ -9,7 +9,9 @@ import a3d.materials.compilation.ShaderRegisterElement;
 import flash.Vector;
 
 
-
+/**
+ * OutlineMethod provides a shading method to add outlines to an object.
+ */
 class OutlineMethod extends EffectMethodBase
 {
 	private var _outlinePass:OutlinePass;

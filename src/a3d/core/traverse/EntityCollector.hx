@@ -188,6 +188,16 @@ class EntityCollector extends PartitionTraverser
 	 */
 	public function clear():Void
 	{
+		if (_camera != null)
+		{
+			_entryPoint = _camera.scenePosition;
+			_cameraForward = _camera.forwardVector;
+		}
+		else
+		{
+			_entryPoint = null;
+			_cameraForward = null;
+		}
 		_cullPlanes = _customCullPlanes != null ? _customCullPlanes : (_camera != null ? _camera.frustumPlanes : null);
 		_numCullPlanes = _cullPlanes != null ? _cullPlanes.length : 0;
 		_numTriangles = _numMouseEnableds = 0;

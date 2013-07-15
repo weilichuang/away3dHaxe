@@ -19,13 +19,14 @@ class Merge
 	private var _keepMaterial:Bool;
 	private var _disposeSources:Bool;
 	private var _geomVOs:Vector<GeometryVO>;
+	private var toDispose:Vector<Mesh>;
 
 	/**
-	 * @param	 keepMaterial		[optional] Bool. Defines if the merged object uses the mesh1 material information or keeps its material(s). Default is false.
-	 * If set to false and receiver object has multiple materials, the last material found in mesh1 submeshes is applied to mesh2 submeshes.
-	 * @param	 disposeSources	[optional] Bool. Defines if mesh2 (or sources meshes in case applyToContainer is used) are kept untouched or disposed. Default is false.
-	 * If keepMaterial is true, only geometry and eventual ObjectContainers3D are cleared from memory.
-	 * @param	 objectSpace		[optional] Bool. Defines if mesh2 is merge using its objectSpace or worldspace. Default is false.
+	 * @param    keepMaterial    [optional]    Determines if the merged object uses the recevier mesh material information or keeps its source material(s). Defaults to false.
+	 * If false and receiver object has multiple materials, the last material found in receiver submeshes is applied to the merged submesh(es).
+	 * @param    disposeSources  [optional]    Determines if the mesh and geometry source(s) used for the merging are disposed. Defaults to false.
+	 * If true, only receiver geometry and resulting mesh are kept in  memory.
+	 * @param    objectSpace     [optional]    Determines if source mesh(es) is/are merged using objectSpace or worldspace. Defaults to false.
 	 */
 	public function new(keepMaterial:Bool = false, disposeSources:Bool = false, objectSpace:Bool = false):Void
 	{
@@ -35,11 +36,12 @@ class Merge
 	}
 
 	/**
-	 * Defines if the mesh(es) sources used for the merging are kept or disposed.
+	 * Determines if the mesh and geometry source(s) used for the merging are disposed. Defaults to false.
 	 */
-	private function set_disposeSources(b:Bool):Void
+	public var disposeSources(get,set):Bool;
+	private function set_disposeSources(b:Bool):Bool
 	{
-		_disposeSources = b;
+		return _disposeSources = b;
 	}
 
 	private function get_disposeSources():Bool
@@ -50,9 +52,10 @@ class Merge
 	/**
 	 * Defines if mesh2 will be merged using its own material information.
 	 */
-	private function set_keepMaterial(b:Bool):Void
+	public var keepMaterial(get,set):Bool;
+	private function set_keepMaterial(b:Bool):Bool
 	{
-		_keepMaterial = b;
+		return _keepMaterial = b;
 	}
 
 	private function get_keepMaterial():Bool
@@ -63,9 +66,10 @@ class Merge
 	/**
 	 * Defines if mesh2 is merged using its objectSpace.
 	 */
-	private function set_objectSpace(b:Bool):Void
+	public var objectSpace(get,set):Bool;
+	private function set_objectSpace(b:Bool):Bool
 	{
-		_objectSpace = b;
+		return _objectSpace = b;
 	}
 
 	private function get_objectSpace():Bool
@@ -86,16 +90,13 @@ class Merge
 		reset();
 
 		//collect container meshes
-		parseContainer(objectContainer);
-
-		if (_geomVOs.length == 0)
-			return;
+		parseContainer(receiver, objectContainer);
 
 		//collect receiver
-		collect(receiver, true);
-
+		collect(receiver, false);
+		
 		//merge to receiver
-		merge(receiver);
+		merge(receiver, _disposeSources);
 	}
 
 	/**
@@ -113,13 +114,16 @@ class Merge
 
 		//collect meshes in vector
 		for (i in 0...meshes.length)
-			collect(meshes[i], _disposeSources);
+		{
+			if (meshes[i] != receiver)
+					collect(meshes[i], _disposeSources);
+		}
 
 		//collect receiver
-		collect(receiver, true);
-
+		collect(receiver, false);
+		
 		//merge to receiver
-		merge(receiver);
+		merge(receiver, _disposeSources);
 	}
 
 	/**
@@ -136,26 +140,28 @@ class Merge
 		collect(mesh, _disposeSources);
 
 		//collect receiver
-		collect(receiver, true);
-
+		collect(receiver, false);
+		
 		//merge to receiver
-		merge(receiver);
+		merge(receiver, _disposeSources);
 	}
 
 	private function reset():Void
 	{
+		toDispose  = new Vector<Mesh>();
 		_geomVOs = new Vector<GeometryVO>();
 	}
 
 
-	private function merge(destMesh:Mesh):Void
+	private function merge(destMesh:Mesh, dispose:Bool):Void
 	{
-		var i:UInt;
 		var subIdx:UInt;
+		var oldGeom:Geometry;
 		var destGeom:Geometry;
 		var useSubMaterials:Bool;
 
-		destGeom = destMesh.geometry;
+		oldGeom = destMesh.geometry;
+		destGeom = destMesh.geometry = new Geometry();
 		subIdx = destMesh.subMeshes.length;
 
 		// Only apply materials directly to sub-meshes if necessary,
@@ -184,6 +190,21 @@ class Merge
 
 		if (_keepMaterial && !useSubMaterials && _geomVOs.length != 0)
 			destMesh.material = _geomVOs[0].material;
+			
+		if (dispose)
+		{
+			var m:Mesh;
+			for (m in toDispose)
+			{
+				m.geometry.dispose();
+				m.dispose();
+			}
+			
+			//dispose of the original receiver geometry
+			oldGeom.dispose();
+		}
+
+		toDispose = null;
 	}
 
 	private function collect(mesh:Mesh, dispose:Bool):Void
@@ -262,7 +283,7 @@ class Merge
 				}
 
 				// Copy over triangle indices
-				indexOffset = Std.int(vo.vertices.length / 3);
+				indexOffset = (!_objectSpace) ? Std.int(vo.vertices.length / 3) : 0;
 				iIdx = vo.indices.length;
 				len = subGeom.numTriangles;
 				for (i in 0...len)
@@ -290,10 +311,8 @@ class Merge
 				}
 			}
 
-			if (dispose)
-			{
-				mesh.geometry.dispose();
-			}
+			if (dispose) 
+				_toDispose.push(mesh);
 		}
 	}
 
@@ -340,17 +359,17 @@ class Merge
 		return data;
 	}
 
-	private function parseContainer(object:ObjectContainer3D):Void
+	private function parseContainer(receiver:Mesh, object:ObjectContainer3D):Void
 	{
 		var child:ObjectContainer3D;
 
-		if (Std.is(object,Mesh))
+		if (Std.is(object, Mesh) && object != receiver)
 			collect(Std.instance(object,Mesh), _disposeSources);
 
 		for (i in 0...object.numChildren)
 		{
 			child = object.getChildAt(i);
-			parseContainer(child);
+			parseContainer(receiver, child);
 		}
 	}
 }

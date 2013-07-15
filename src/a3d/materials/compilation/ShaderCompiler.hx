@@ -11,6 +11,12 @@ import flash.display3D.Context3DProfile;
 import flash.Vector;
 import flash.Vector;
 
+/**
+ * ShaderCompiler is an abstract base class for shader compilers that use modular shader methods to assemble a
+ * material. Concrete subclasses are used by the default materials.
+ *
+ * @see away3d.materials.methods.ShadingMethodBase
+ */
 class ShaderCompiler
 {
 	private var _sharedRegisters:ShaderRegisterData;
@@ -72,7 +78,10 @@ class ShaderCompiler
 	private var _forceSeperateMVP:Bool;
 
 
-
+	/**
+	 * Creates a new ShaderCompiler object.
+	 * @param profile The compatibility profile of the renderer.
+	 */
 	public function new(profile:Context3DProfile)
 	{
 		_sharedRegisters = new ShaderRegisterData();
@@ -81,6 +90,10 @@ class ShaderCompiler
 		initRegisterCache(profile);
 	}
 
+	/**
+	 * Whether or not to use fallOff and radius properties for lights. This can be used to improve performance and
+	 * compatibility for constrained mode.
+	 */
 	public var enableLightFallOff(get,set):Bool;
 	private function get_enableLightFallOff():Bool
 	{
@@ -92,24 +105,38 @@ class ShaderCompiler
 		return _enableLightFallOff = value;
 	}
 
+	/**
+	 * Indicates whether the compiled code needs UV animation.
+	 */
 	public var needUVAnimation(get,null):Bool;
 	private function get_needUVAnimation():Bool
 	{
 		return _needUVAnimation;
 	}
 
+	/**
+	 * The target register to place the animated UV coordinate.
+	 */
 	public var UVTarget(get,null):String;
 	private function get_UVTarget():String
 	{
 		return _UVTarget;
 	}
 
+	/**
+	 * The souce register providing the UV coordinate to animate.
+	 */
 	public var UVSource(get,null):String;
 	private function get_UVSource():String
 	{
 		return _UVSource;
 	}
 
+	/**
+	 * Indicates whether the screen projection should be calculated by forcing a separate scene matrix and
+	 * view-projection matrix. This is used to prevent rounding errors when using multiple passes with different
+	 * projection code.
+	 */
 	public var forceSeperateMVP(get,set):Bool;
 	private function get_forceSeperateMVP():Bool
 	{
@@ -121,6 +148,10 @@ class ShaderCompiler
 		return _forceSeperateMVP = value;
 	}
 
+	/**
+	 * Initialized the register cache.
+	 * @param profile The compatibility profile of the renderer.
+	 */
 	private function initRegisterCache(profile:Context3DProfile):Void
 	{
 		_registerCache = new ShaderRegisterCache(profile);
@@ -139,6 +170,10 @@ class ShaderCompiler
 		return _animateUVs = value;
 	}
 
+	/**
+	 * Indicates whether visible textures (or other pixels) used by this material have
+	 * already been premultiplied.
+	 */
 	public var alphaPremultiplied(get,set):Bool;
 	private function get_alphaPremultiplied():Bool
 	{
@@ -150,6 +185,9 @@ class ShaderCompiler
 		return _alphaPremultiplied = value;
 	}
 
+	/**
+	 * Indicates whether the output alpha value should remain unchanged compared to the material's original alpha.
+	 */
 	public var preserveAlpha(get,set):Bool;
 	private function get_preserveAlpha():Bool
 	{
@@ -161,6 +199,12 @@ class ShaderCompiler
 		return _preserveAlpha = value;
 	}
 
+	/**
+	 * Sets the default texture sampling properties.
+	 * @param smooth Indicates whether the texture should be filtered when sampled. Defaults to true.
+	 * @param repeat Indicates whether the texture should be tiled when sampled. Defaults to true.
+	 * @param mipmap Indicates whether or not any used textures should use mipmapping. Defaults to true.
+	 */
 	public function setTextureSampling(smooth:Bool, repeat:Bool, mipmap:Bool):Void
 	{
 		_smooth = smooth;
@@ -168,12 +212,20 @@ class ShaderCompiler
 		_mipmap = mipmap;
 	}
 
+	/**
+	 * Sets the constant buffers allocated by the material. This allows setting constant data during compilation.
+	 * @param vertexConstantData The vertex constant data buffer.
+	 * @param fragmentConstantData The fragment constant data buffer.
+	 */
 	public function setConstantDataBuffers(vertexConstantData:Vector<Float>, fragmentConstantData:Vector<Float>):Void
 	{
 		_vertexConstantData = vertexConstantData;
 		_fragmentConstantData = fragmentConstantData;
 	}
 
+	/**
+	 * The shader method setup object containing the method configuration and their value objects for the material being compiled.
+	 */
 	public var methodSetup(get,set):ShaderMethodSetup;
 	private function get_methodSetup():ShaderMethodSetup
 	{
@@ -185,6 +237,9 @@ class ShaderCompiler
 		return _methodSetup = value;
 	}
 
+	/**
+	 * Compiles the code after all setup on the compiler has finished.
+	 */
 	public function compile():Void
 	{
 		initRegisterIndices();
@@ -214,11 +269,17 @@ class ShaderCompiler
 		_fragmentPostLightCode = fragmentCode;
 	}
 
+	/**
+	 * Creates the registers to contain the normal data.
+	 */
 	private function createNormalRegisters():Void
 	{
 
 	}
 
+	/**
+	 * Compile the code for the methods.
+	 */
 	private function compileMethodsCode():Void
 	{
 		if (_dependencyCounter.uvDependencies > 0)
@@ -235,21 +296,33 @@ class ShaderCompiler
 		compileMethods();
 	}
 
+	/**
+	 * Compile the lighting code.
+	 */
 	private function compileLightingCode():Void
 	{
 
 	}
 
+	/**
+	 * Calculate the view direction.
+	 */
 	private function compileViewDirCode():Void
 	{
 
 	}
 
+	/**
+	 * Calculate the normal.
+	 */
 	private function compileNormalCode():Void
 	{
 
 	}
 
+	/**
+	 * Calculate the (possibly animated) UV coordinates.
+	 */
 	private function compileUVCode():Void
 	{
 		var uvAttributeReg:ShaderRegisterElement = _registerCache.getFreeVertexAttribute();
@@ -280,6 +353,9 @@ class ShaderCompiler
 		}
 	}
 
+	/**
+	 * Provide the secondary UV coordinates.
+	 */
 	private function compileSecondaryUVCode():Void
 	{
 		var uvAttributeReg:ShaderRegisterElement = _registerCache.getFreeVertexAttribute();
@@ -288,6 +364,9 @@ class ShaderCompiler
 		_vertexCode += "mov " + _sharedRegisters.secondaryUVVarying + ", " + uvAttributeReg + "\n";
 	}
 
+	/**
+	 * Compile the world-space position.
+	 */
 	private function compileGlobalPositionCode():Void
 	{
 		_sharedRegisters.globalPositionVertex = _registerCache.getFreeVertexVectorTemp();
@@ -307,6 +386,9 @@ class ShaderCompiler
 		}
 	}
 
+	/**
+	 * Get the projection coordinates.
+	 */
 	private function compileProjectionCode():Void
 	{
 		var pos:String = _dependencyCounter.globalPosDependencies > 0 || _forceSeperateMVP ? _sharedRegisters.globalPositionVertex.toString() : _animationTargetRegisters[0];
@@ -327,12 +409,18 @@ class ShaderCompiler
 		_vertexCode += code;
 	}
 
+	/**
+	 * Assign the final output colour the the output register.
+	 */
 	private function compileFragmentOutput():Void
 	{
 		_fragmentCode += "mov " + _registerCache.fragmentOutputRegister + ", " + _sharedRegisters.shadedTarget + "\n";
 		_registerCache.removeFragmentTempUsage(_sharedRegisters.shadedTarget);
 	}
 
+	/**
+	 * Reset all the indices to "unused".
+	 */
 	private function initRegisterIndices():Void
 	{
 		_commonsDataIndex = -1;
@@ -348,6 +436,9 @@ class ShaderCompiler
 		_probeWeightsIndex = -1;
 	}
 
+	/**
+	 * Prepares the setup for the light code.
+	 */
 	private function initLightData():Void
 	{
 		_numLights = _numPointLights + _numDirectionalLights;
@@ -363,12 +454,18 @@ class ShaderCompiler
 			usesProbesForSpecular()));
 	}
 
+	/**
+	 * Create the commonly shared constant register.
+	 */
 	private function createCommons():Void
 	{
 		_sharedRegisters.commons = _registerCache.getFreeFragmentConstant();
 		_commonsDataIndex = _sharedRegisters.commons.index * 4;
 	}
 
+	/**
+	 * Figure out which named registers are required, and how often.
+	 */
 	private function calculateDependencies():Void
 	{
 		_dependencyCounter.reset();
@@ -396,12 +493,20 @@ class ShaderCompiler
 		_dependencyCounter.setPositionedLights(_numPointLights, _combinedLightSources);
 	}
 
+	/**
+	 * Counts the dependencies for a given method.
+	 * @param method The method to count the dependencies for.
+	 * @param methodVO The method's data for this material.
+	 */
 	private function setupAndCountMethodDependencies(method:ShadingMethodBase, methodVO:MethodVO):Void
 	{
 		setupMethod(method, methodVO);
 		_dependencyCounter.includeMethodVO(methodVO);
 	}
 
+	/**
+	 * Assigns all prerequisite data for the methods, so we can calculate dependencies for them.
+	 */
 	private function setupMethod(method:ShadingMethodBase, methodVO:MethodVO):Void
 	{
 		method.reset();
@@ -416,12 +521,18 @@ class ShaderCompiler
 		method.initVO(methodVO);
 	}
 
+	/**
+	 * The index for the common data register.
+	 */
 	public var commonsDataIndex(get,null):Int;
 	private function get_commonsDataIndex():Int
 	{
 		return _commonsDataIndex;
 	}
 
+	/**
+	 * Assigns the shared register data to all methods.
+	 */
 	private function updateMethodRegisters():Void
 	{
 		_methodSetup.normalMethod.sharedRegisters = _sharedRegisters;
@@ -440,46 +551,73 @@ class ShaderCompiler
 			methods[i].method.sharedRegisters = _sharedRegisters;
 	}
 
+	/**
+	 * The amount of vertex constants used by the material. Any animation code to be added can append its vertex
+	 * constant data after this.
+	 */
 	public var numUsedVertexConstants(get,null):UInt;
 	private function get_numUsedVertexConstants():UInt
 	{
 		return _registerCache.numUsedVertexConstants;
 	}
 
+	/**
+	 * The amount of fragment constants used by the material. Any animation code to be added can append its vertex
+	 * constant data after this.
+	 */
 	public var numUsedFragmentConstants(get,null):UInt;
 	private function get_numUsedFragmentConstants():UInt
 	{
 		return _registerCache.numUsedFragmentConstants;
 	}
 
+	/**
+	 * The amount of vertex attribute streams used by the material. Any animation code to be added can add its
+	 * streams after this. Also used to automatically disable attribute slots on pass deactivation.
+	 */
 	public var numUsedStreams(get,null):UInt;
 	private function get_numUsedStreams():UInt
 	{
 		return _registerCache.numUsedStreams;
 	}
 
+	/**
+	 * The amount of textures used by the material. Used to automatically disable texture slots on pass deactivation.
+	 */
 	public var numUsedTextures(get,null):UInt;
 	private function get_numUsedTextures():UInt
 	{
 		return _registerCache.numUsedTextures;
 	}
 
+	/**
+	 * Number of used varyings. Any animation code to be added can add its used varyings after this.
+	 */
 	public var numUsedVaryings(get,null):UInt;
 	private function get_numUsedVaryings():UInt
 	{
 		return _registerCache.numUsedVaryings;
 	}
 
+	/**
+	 * Indicates whether lights are used for specular reflections.
+	 */
 	private function usesLightsForSpecular():Bool
 	{
 		return _numLights > 0 && (_specularLightSources & LightSources.LIGHTS) != 0;
 	}
 
+	/**
+	 * Indicates whether lights are used for diffuse reflections.
+	 */
 	private function usesLightsForDiffuse():Bool
 	{
 		return _numLights > 0 && (_diffuseLightSources & LightSources.LIGHTS) != 0;
 	}
 
+	/**
+	 * Disposes all resources used by the compiler.
+	 */
 	public function dispose():Void
 	{
 		cleanUpMethods();
@@ -488,6 +626,9 @@ class ShaderCompiler
 		_sharedRegisters = null;
 	}
 
+	/**
+	 * Clean up method's compilation data after compilation finished.
+	 */
 	private function cleanUpMethods():Void
 	{
 		if (_methodSetup.normalMethod != null)
@@ -510,7 +651,12 @@ class ShaderCompiler
 	}
 
 
-
+	/**
+	 * Define which light source types to use for specular reflections. This allows choosing between regular lights
+	 * and/or light probes for specular reflections.
+	 *
+	 * @see away3d.materials.LightSources
+	 */
 	public var specularLightSources(get,set):UInt;
 	private function get_specularLightSources():UInt
 	{
@@ -522,6 +668,12 @@ class ShaderCompiler
 		return _specularLightSources = value;
 	}
 
+	/**
+	 * Define which light source types to use for diffuse reflections. This allows choosing between regular lights
+	 * and/or light probes for diffuse reflections.
+	 *
+	 * @see away3d.materials.LightSources
+	 */
 	public var diffuseLightSources(get,set):UInt;
 	private function get_diffuseLightSources():UInt
 	{
@@ -533,112 +685,168 @@ class ShaderCompiler
 		return _diffuseLightSources = value;
 	}
 
+	/**
+	 * Indicates whether light probes are being used for specular reflections.
+	 */
 	private function usesProbesForSpecular():Bool
 	{
 		return _numLightProbes > 0 && (_specularLightSources & LightSources.PROBES) != 0;
 	}
 
+	/**
+	 * Indicates whether light probes are being used for diffuse reflections.
+	 */
 	private function usesProbesForDiffuse():Bool
 	{
 		return _numLightProbes > 0 && (_diffuseLightSources & LightSources.PROBES) != 0;
 	}
 
+	/**
+	 * Indicates whether any light probes are used.
+	 */
 	private function usesProbes():Bool
 	{
 		return _numLightProbes > 0 && ((_diffuseLightSources | _specularLightSources) & LightSources.PROBES) != 0;
 	}
 
+	/**
+	 * The index for the UV vertex attribute stream.
+	 */
 	public var uvBufferIndex(get,null):Int;
 	private function get_uvBufferIndex():Int
 	{
 		return _uvBufferIndex;
 	}
 
+	/**
+	 * The index for the UV transformation matrix vertex constant.
+	 */
 	public var uvTransformIndex(get,null):Int;
 	private function get_uvTransformIndex():Int
 	{
 		return _uvTransformIndex;
 	}
 
+	/**
+	 * The index for the secondary UV vertex attribute stream.
+	 */
 	public var secondaryUVBufferIndex(get,null):Int;
 	private function get_secondaryUVBufferIndex():Int
 	{
 		return _secondaryUVBufferIndex;
 	}
 	
+	/**
+	 * The index for the vertex normal attribute stream.
+	 */
 	public var normalBufferIndex(get,null):Int;
 	private function get_normalBufferIndex():Int
 	{
 		return _normalBufferIndex;
 	}
 	
+	/**
+	 * The index for the vertex tangent attribute stream.
+	 */
 	public var tangentBufferIndex(get,null):Int;
 	private function get_tangentBufferIndex():Int
 	{
 		return _tangentBufferIndex;
 	}
 
+	/**
+	 * The first index for the fragment constants containing the light data.
+	 */
 	public var lightFragmentConstantIndex(get,null):Int;
 	private function get_lightFragmentConstantIndex():Int
 	{
 		return _lightFragmentConstantIndex;
 	}
 
+	/**
+	 * The index of the vertex constant containing the camera position.
+	 */
 	public var cameraPositionIndex(get,null):Int;
 	private function get_cameraPositionIndex():Int
 	{
 		return _cameraPositionIndex;
 	}
 
+	/**
+	 * The index of the vertex constant containing the scene matrix.
+	 */
 	public var sceneMatrixIndex(get,null):Int;
 	private function get_sceneMatrixIndex():Int
 	{
 		return _sceneMatrixIndex;
 	}
 
+	/**
+	 * The index of the vertex constant containing the uniform scene matrix (the inverse transpose).
+	 */
 	public var sceneNormalMatrixIndex(get,null):Int;
 	private function get_sceneNormalMatrixIndex():Int
 	{
 		return _sceneNormalMatrixIndex;
 	}
 
+	/**
+	 * The index of the fragment constant containing the weights for the light probes.
+	 */
 	public var probeWeightsIndex(get,null):Int;
 	private function get_probeWeightsIndex():Int
 	{
 		return _probeWeightsIndex;
 	}
 
+	/**
+	 * The generated vertex code.
+	 */
 	public var vertexCode(get,null):String;
 	private function get_vertexCode():String
 	{
 		return _vertexCode;
 	}
 
+	/**
+	 * The generated fragment code.
+	 */
 	public var fragmentCode(get,null):String;
 	private function get_fragmentCode():String
 	{
 		return _fragmentCode;
 	}
 
+	/**
+	 * The code containing the lighting calculations.
+	 */
 	public var fragmentLightCode(get,null):String;
 	private function get_fragmentLightCode():String
 	{
 		return _fragmentLightCode;
 	}
 
+	/**
+	 * The code containing the post-lighting calculations.
+	 */
 	public var fragmentPostLightCode(get,null):String;
 	private function get_fragmentPostLightCode():String
 	{
 		return _fragmentPostLightCode;
 	}
 
+	/**
+	 * The register name containing the final shaded colour.
+	 */
 	public var shadedTarget(get,null):String;
 	private function get_shadedTarget():String
 	{
 		return _sharedRegisters.shadedTarget.toString();
 	}
 
-
+	/**
+	 * The amount of point lights that need to be supported.
+	 */
 	public var numPointLights(get,set):UInt;
 	private function get_numPointLights():UInt
 	{
@@ -651,6 +859,9 @@ class ShaderCompiler
 	}
 
 
+	/**
+	 * The amount of directional lights that need to be supported.
+	 */
 	public var numDirectionalLights(get,set):UInt;
 	private function get_numDirectionalLights():UInt
 	{
@@ -663,6 +874,9 @@ class ShaderCompiler
 	}
 
 
+	/**
+	 * The amount of light probes that need to be supported.
+	 */
 	public var numLightProbes(get,set):UInt;
 	private function get_numLightProbes():UInt
 	{
@@ -674,35 +888,53 @@ class ShaderCompiler
 		return _numLightProbes = value;
 	}
 
+	/**
+	 * Indicates whether the specular method is used.
+	 */
 	public var usingSpecularMethod(get,null):Bool;
 	private function get_usingSpecularMethod():Bool
 	{
 		return _usingSpecularMethod;
 	}
 
+	/**
+	 * The attributes that need to be animated by animators.
+	 */
 	public var animatableAttributes(get,null):Vector<String>;
 	private function get_animatableAttributes():Vector<String>
 	{
 		return _animatableAttributes;
 	}
 
+	/**
+	 * The target registers for animated properties, written to by the animators.
+	 */
 	public var animationTargetRegisters(get,null):Vector<String>;
 	private function get_animationTargetRegisters():Vector<String>
 	{
 		return _animationTargetRegisters;
 	}
 
+	/**
+	 * Indicates whether the compiled shader uses normals.
+	 */
 	public var usesNormals(get,null):Bool;
 	private function get_usesNormals():Bool
 	{
 		return _dependencyCounter.normalDependencies > 0 && _methodSetup.normalMethod.hasOutput;
 	}
 
+	/**
+	 * Indicates whether the compiled shader uses lights.
+	 */
 	private function usesLights():Bool
 	{
 		return _numLights > 0 && (_combinedLightSources & LightSources.LIGHTS) != 0;
 	}
 
+	/**
+	 * Compiles the code for the methods.
+	 */
 	private function compileMethods():Void
 	{
 		var methods:Vector<MethodVOSet> = _methodSetup.methods;
@@ -746,12 +978,18 @@ class ShaderCompiler
 		}
 	}
 
+	/**
+	 * Indices for the light probe diffuse textures.
+	 */
 	public var lightProbeDiffuseIndices(get,null):Vector<UInt>;
 	private function get_lightProbeDiffuseIndices():Vector<UInt>
 	{
 		return _lightProbeDiffuseIndices;
 	}
 
+	/**
+	 * Indices for the light probe specular textures.
+	 */
 	public var lightProbeSpecularIndices(get,null):Vector<UInt>;
 	private function get_lightProbeSpecularIndices():Vector<UInt>
 	{

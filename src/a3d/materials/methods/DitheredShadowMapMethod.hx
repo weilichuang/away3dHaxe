@@ -13,7 +13,7 @@ import flash.display.BitmapData;
 
 
 /**
- * DitheredShadowMapMethod provides a soft shadowing technique by randomly distributing sample points.
+ * DitheredShadowMapMethod provides a soft shadowing technique by randomly distributing sample points differently for each fragment.
  */
 class DitheredShadowMapMethod extends SimpleShadowMapMethodBase
 {
@@ -76,6 +76,9 @@ class DitheredShadowMapMethod extends SimpleShadowMapMethodBase
 		fragmentData[index + 8] = 1 / _numSamples;
 	}
 
+	/**
+	 * The range in the shadow map in which to distribute the samples.
+	 */
 	public var range(get,set):Float;
 	private function get_range():Float
 	{
@@ -88,6 +91,9 @@ class DitheredShadowMapMethod extends SimpleShadowMapMethodBase
 		return range;
 	}
 
+	/**
+	 * Creates a texture containing the dithering noise texture.
+	 */
 	private function initGrainTexture():Void
 	{
 		_grainBitmapData = new BitmapData(64, 64, false);
@@ -160,6 +166,13 @@ class DitheredShadowMapMethod extends SimpleShadowMapMethodBase
 		return getSampleCode(regCache, customDataReg, depthMapRegister, decReg, targetReg);
 	}
 
+	/**
+	 * Get the actual shader code for shadow mapping
+	 * @param regCache The register cache managing the registers.
+	 * @param depthMapRegister The texture register containing the depth map.
+	 * @param decReg The register containing the depth map decoding data.
+	 * @param targetReg The target register to add the shadow coverage.
+	 */
 	private function getSampleCode(regCache:ShaderRegisterCache, customDataReg:ShaderRegisterElement, depthMapRegister:ShaderRegisterElement, decReg:ShaderRegisterElement, targetReg:ShaderRegisterElement):String
 	{
 		var code:String = "";
@@ -239,6 +252,15 @@ class DitheredShadowMapMethod extends SimpleShadowMapMethodBase
 		return code;
 	}
 
+	/**
+	 * Adds the code for another tap to the shader code.
+	 * @param uvReg The uv register for the tap.
+	 * @param depthMapRegister The texture register containing the depth map.
+	 * @param decReg The register containing the depth map decoding data.
+	 * @param targetReg The target register to add the tap comparison result.
+	 * @param regCache The register cache managing the registers.
+	 * @return
+	 */
 	private function addSample(uvReg:ShaderRegisterElement, depthMapRegister:ShaderRegisterElement, decReg:ShaderRegisterElement, targetReg:ShaderRegisterElement, regCache:ShaderRegisterCache):String
 	{
 		var temp:ShaderRegisterElement = regCache.getFreeFragmentVectorTemp();

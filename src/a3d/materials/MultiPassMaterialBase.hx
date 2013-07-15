@@ -27,8 +27,8 @@ import a3d.textures.Texture2DBase;
 
 
 /**
- * MultiPassMaterialBase forms an abstract base class for the default multi-pass materials provided by Away3D, using material methods
- * to define their appearance.
+ * MultiPassMaterialBase forms an abstract base class for the default multi-pass materials provided by Away3D,
+ * using material methods to define their appearance.
  */
 class MultiPassMaterialBase extends MaterialBase
 {
@@ -62,7 +62,9 @@ class MultiPassMaterialBase extends MaterialBase
 	}
 
 	/**
-	 * Whether or not to use fallOff and radius properties for lights.
+	 * Whether or not to use fallOff and radius properties for lights. 
+	 * This can be used to improve performance and
+	 * compatibility for constrained mode.
 	 */
 	public var enableLightFallOff(get,set):Bool;
 	private function get_enableLightFallOff():Bool
@@ -122,6 +124,12 @@ class MultiPassMaterialBase extends MaterialBase
 		super.activateForDepth(stage3DProxy, camera, distanceBased);
 	}
 
+	/**
+	 * Define which light source types to use for specular reflections. This allows choosing between regular lights
+	 * and/or light probes for specular reflections.
+	 *
+	 * @see away3d.materials.LightSources
+	 */
 	public var specularLightSources(get,set):Int;
 	private function get_specularLightSources():Int
 	{
@@ -133,6 +141,12 @@ class MultiPassMaterialBase extends MaterialBase
 		return _specularLightSources = value;
 	}
 
+	/**
+	 * Define which light source types to use for diffuse reflections. This allows choosing between regular lights
+	 * and/or light probes for diffuse reflections.
+	 *
+	 * @see away3d.materials.LightSources
+	 */
 	public var diffuseLightSources(get,set):Int;
 	private function get_diffuseLightSources():Int
 	{
@@ -164,8 +178,7 @@ class MultiPassMaterialBase extends MaterialBase
 	}
 
 	/**
-	 * The method to perform ambient shading. Note that shading methods cannot
-	 * be reused across materials.
+	 * The method that provides the ambient lighting contribution. Defaults to BasicAmbientMethod.
 	 */
 	public var ambientMethod(get,set):BasicAmbientMethod;
 	private function get_ambientMethod():BasicAmbientMethod
@@ -182,8 +195,8 @@ class MultiPassMaterialBase extends MaterialBase
 	}
 
 	/**
-	 * The method to render shadows cast on this surface. Note that shading methods can not
-	 * be reused across materials.
+	 * The method used to render shadows cast on this surface, 
+	 * or null if no shadows are to be rendered. Defaults to null.
 	 */
 	public var shadowMethod(get,set):ShadowMapMethodBase;
 	private function get_shadowMethod():ShadowMapMethodBase
@@ -201,8 +214,7 @@ class MultiPassMaterialBase extends MaterialBase
 	}
 
 	/**
-	 * The method to perform diffuse shading. Note that shading methods can not
-	 * be reused across materials.
+	 * The method that provides the diffuse lighting contribution. Defaults to BasicDiffuseMethod.
 	 */
 	public var diffuseMethod(get,set):BasicDiffuseMethod;
 	private function get_diffuseMethod():BasicDiffuseMethod
@@ -219,8 +231,7 @@ class MultiPassMaterialBase extends MaterialBase
 	}
 
 	/**
-	 * The method to generate the (tangent-space) normal. Note that shading methods can not
-	 * be reused across materials.
+	 * The method used to generate the per-pixel normals. Defaults to BasicNormalMethod.
 	 */
 	public var normalMethod(get,set):BasicNormalMethod;
 	private function get_normalMethod():BasicNormalMethod
@@ -232,13 +243,11 @@ class MultiPassMaterialBase extends MaterialBase
 	{
 		value.copyFrom(_normalMethod);
 		_normalMethod = value;
-		invalidateScreenPasses();
 		return _normalMethod;
 	}
 
 	/**
-	 * The method to perform specular shading. Note that shading methods can not
-	 * be reused across materials.
+	 * The method that provides the specular lighting contribution. Defaults to BasicSpecularMethod.
 	 */
 	public var specularMethod(get,set):BasicSpecularMethod;
 	private function get_specularMethod():BasicSpecularMethod
@@ -248,17 +257,17 @@ class MultiPassMaterialBase extends MaterialBase
 
 	private function set_specularMethod(value:BasicSpecularMethod):BasicSpecularMethod
 	{
-		if (value != null && _specularMethod != null )
-			value.copyFrom(_specularMethod);
-		_specularMethod = value;
-		invalidateScreenPasses();
+		if (value != null && _specularMethod != null)
+				value.copyFrom(_specularMethod);
+			_specularMethod = value;
 		return _specularMethod;
 	}
 
 	/**
-		 * Adds a shading method to the end of the shader. Note that shading methods can
-		 * not be reused across materials.
-		*/
+	 * Appends an "effect" shading method to the shader. Effect methods are those that do not influence the lighting
+	 * but modulate the shaded colour, used for fog, outlines, etc. The method will be applied to the result of the
+	 * methods added prior.
+	 */
 	public function addMethod(method:EffectMethodBase):Void
 	{
 		if (_effectsPass == null)
@@ -267,27 +276,41 @@ class MultiPassMaterialBase extends MaterialBase
 		invalidateScreenPasses();
 	}
 
+	/**
+	 * The number of "effect" methods added to the material.
+	 */
 	public var numMethods(get,null):Int;
 	private function get_numMethods():Int
 	{
 		return _effectsPass != null ? _effectsPass.numMethods : 0;
 	}
 
+	/**
+	 * Queries whether a given effect method was added to the material.
+	 *
+	 * @param method The method to be queried.
+	 * @return true if the method was added to the material, false otherwise.
+	 */
 	public function hasMethod(method:EffectMethodBase):Bool
 	{
 		return _effectsPass != null ? _effectsPass.hasMethod(method) : false;
 	}
 
+	/**
+	 * Returns the method added at the given index.
+	 * @param index The index of the method to retrieve.
+	 * @return The method at the given index.
+	 */
 	public function getMethodAt(index:Int):EffectMethodBase
 	{
 		return _effectsPass.getMethodAt(index);
 	}
 
 	/**
-	 * Adds a shading method to the end of a shader, at the specified index amongst
-	 * the methods in that section of the shader. Note that shading methods can not
-	 * be reused across materials.
-	*/
+	 * Adds an effect method at the specified index amongst the methods already added to the material. Effect
+	 * methods are those that do not influence the lighting but modulate the shaded colour, used for fog, outlines,
+	 * etc. The method will be applied to the result of the methods with a lower index.
+	 */
 	public function addMethodAt(method:EffectMethodBase, index:Int):Void
 	{
 		if (_effectsPass == null)
@@ -296,6 +319,10 @@ class MultiPassMaterialBase extends MaterialBase
 		invalidateScreenPasses();
 	}
 
+	/**
+	 * Removes an effect method from the material.
+	 * @param method The method to be removed.
+	 */
 	public function removeMethod(method:EffectMethodBase):Void
 	{
 		if (_effectsPass == null)
@@ -319,7 +346,8 @@ class MultiPassMaterialBase extends MaterialBase
 	}
 
 	/**
-	 * The tangent space normal map to influence the direction of the surface for each texel.
+	 * The normal map to modulate the direction of the surface for each texel. The default normal method expects
+	 * tangent-space normal maps, but others could expect object-space maps.
 	 */
 	public var normalMap(get,set):Texture2DBase;
 	private function get_normalMap():Texture2DBase
@@ -333,8 +361,9 @@ class MultiPassMaterialBase extends MaterialBase
 	}
 
 	/**
-	 * A specular map that defines the strength of specular reflections for each texel in the red channel, and the gloss factor in the green channel.
-	 * You can use SpecularBitmapTexture if you want to easily set specular and gloss maps from greyscale images, but prepared images are preffered.
+	 * A specular map that defines the strength of specular reflections for each texel in the red channel,
+	 * and the gloss factor in the green channel. You can use SpecularBitmapTexture if you want to easily set
+	 * specular and gloss maps from grayscale images, but correctly authored images are preferred.
 	 */
 	public var specularMap(get,set):Texture2DBase;
 	private function get_specularMap():Texture2DBase
@@ -352,7 +381,7 @@ class MultiPassMaterialBase extends MaterialBase
 	}
 
 	/**
-	 * The sharpness of the specular highlight.
+	 * The glossiness of the material (sharpness of the specular highlight).
 	 */
 	public var gloss(get,set):Float;
 	private function get_gloss():Float
@@ -456,6 +485,10 @@ class MultiPassMaterialBase extends MaterialBase
 		}
 	}
 
+	/**
+	 * Adds a compiled pass that renders to the screen.
+	 * @param pass The pass to be added.
+	 */
 	private function addScreenPass(pass:CompiledPass):Void
 	{
 		if (pass != null)
@@ -465,6 +498,11 @@ class MultiPassMaterialBase extends MaterialBase
 		}
 	}
 
+	/**
+	 * Tests if any pass that renders to the screen is invalid. 
+	 * This would trigger a new setup of the multiple passes.
+	 * @return
+	 */
 	private function isAnyScreenPassInvalid():Bool
 	{
 		if ((_casterLightPass != null && _casterLightPass.passesDirty) ||
@@ -479,6 +517,10 @@ class MultiPassMaterialBase extends MaterialBase
 		return false;
 	}
 
+	/**
+	 * Adds any additional passes on which the given pass is dependent.
+	 * @param pass The pass that my need additional passes.
+	 */
 	private function addChildPassesFor(pass:CompiledPass):Void
 	{
 		if (pass == null)
@@ -505,6 +547,9 @@ class MultiPassMaterialBase extends MaterialBase
 		stage3DProxy.context3D.setBlendFactors(Context3DBlendFactor.ONE, Context3DBlendFactor.ZERO);
 	}
 
+	/**
+	 * Updates screen passes when they were found to be invalid.
+	 */
 	private function updateScreenPasses():Void
 	{
 		initPasses();
@@ -513,29 +558,39 @@ class MultiPassMaterialBase extends MaterialBase
 		_screenPassesInvalid = false;
 	}
 
+	/**
+	 * Initializes all the passes and their dependent passes.
+	 */
 	private function initPasses():Void
 	{
-		// effects pass will be used to render unshaded diffuse
+		// let the effects pass handle everything if there are no lights,
+		// or when there are effect methods applied after shading.
 		if (numLights == 0 || numMethods > 0)
 			initEffectsPass();
 		else if (_effectsPass != null && numMethods == 0)
 			removeEffectsPass();
 
+		// only use a caster light pass if shadows need to be rendered	
 		if (_shadowMethod != null)
 			initCasterLightPass();
 		else
 			removeCasterLightPass();
 
+		// only use non caster light passes if there are lights that don't cast
 		if (numNonCasters > 0)
 			initNonCasterLightPasses();
 		else
 			removeNonCasterLightPasses();
 	}
 
+	/**
+	 * Sets up the various blending modes for all screen passes, based on whether or not there are previous passes.
+	 */
 	private function setBlendAndCompareModes():Void
 	{
 		var forceSeparateMVP:Bool = (_casterLightPass != null || _effectsPass != null);
 
+		// caster light pass is always first if it exists, hence it uses normal blending
 		if (_casterLightPass != null)
 		{
 			_casterLightPass.setBlendMode(BlendMode.NORMAL);
@@ -546,6 +601,9 @@ class MultiPassMaterialBase extends MaterialBase
 		if (_nonCasterLightPasses != null)
 		{
 			var firstAdditiveIndex:Int = 0;
+			
+			// if there's no caster light pass, the first non caster light pass will be the first
+			// and should use normal blending
 			if (_casterLightPass == null)
 			{
 				_nonCasterLightPasses[0].forceSeparateMVP = forceSeparateMVP;
@@ -553,6 +611,8 @@ class MultiPassMaterialBase extends MaterialBase
 				_nonCasterLightPasses[0].depthCompareMode = depthCompareMode;
 				firstAdditiveIndex = 1;
 			}
+			
+			// all lighting passes following the first light pass should use additive blending
 			for (i in firstAdditiveIndex..._nonCasterLightPasses.length)
 			{
 				_nonCasterLightPasses[i].forceSeparateMVP = forceSeparateMVP;
@@ -563,6 +623,7 @@ class MultiPassMaterialBase extends MaterialBase
 
 		if (_casterLightPass != null || _nonCasterLightPasses != null)
 		{
+			// there are light passes, so this should be blended in
 			if (_effectsPass != null)
 			{
 				_effectsPass.ignoreLights = true;
@@ -573,6 +634,7 @@ class MultiPassMaterialBase extends MaterialBase
 		}
 		else if (_effectsPass != null)
 		{
+			// effects pass is the only pass, so it should just blend normally
 			_effectsPass.ignoreLights = false;
 			_effectsPass.depthCompareMode = depthCompareMode;
 			_effectsPass.setBlendMode(BlendMode.NORMAL);
@@ -702,6 +764,9 @@ class MultiPassMaterialBase extends MaterialBase
 		return _effectsPass;
 	}
 
+	/**
+	 * The maximum total number of lights provided by the light picker.
+	 */
 	public var numLights(get, null):Int;
 	private function get_numLights():Int
 	{
@@ -709,17 +774,26 @@ class MultiPassMaterialBase extends MaterialBase
 			_lightPicker.numCastingDirectionalLights + _lightPicker.numCastingPointLights : 0;
 	}
 
+	/**
+	 * The amount of lights that don't cast shadows.
+	 */
 	public var numNonCasters(get, null):Int;
 	private function get_numNonCasters():Int
 	{
 		return _lightPicker != null ? _lightPicker.numLightProbes + _lightPicker.numDirectionalLights + _lightPicker.numPointLights : 0;
 	}
 
+	/**
+	 * Flags that the screen passes have become invalid.
+	 */
 	private function invalidateScreenPasses():Void
 	{
 		_screenPassesInvalid = true;
 	}
 
+	/**
+	 * Called when the light picker's configuration changed.
+	 */
 	private function onLightsChange(event:Event):Void
 	{
 		invalidateScreenPasses();

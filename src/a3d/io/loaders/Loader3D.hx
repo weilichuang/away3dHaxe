@@ -1,5 +1,9 @@
 package a3d.io.loaders;
 
+import a3d.entities.Camera3D;
+import a3d.entities.primitives.SkyBox;
+import a3d.entities.SegmentSet;
+import a3d.entities.TextureProjector;
 import flash.events.Event;
 import flash.events.EventDispatcher;
 import flash.net.URLRequest;
@@ -302,7 +306,15 @@ class Loader3D extends ObjectContainer3D
 				case AssetType.CONTAINER:
 					obj = Std.instance(ev.asset,ObjectContainer3D);
 				case AssetType.MESH:
-					obj = Std.instance(ev.asset,Mesh);
+					obj = Std.instance(ev.asset, Mesh);
+				case AssetType.SKYBOX:
+					obj = Std.instance(ev.asset,SkyBox);
+				case AssetType.TEXTURE_PROJECTOR:
+					obj = Std.instance(ev.asset,TextureProjector);
+				case AssetType.CAMERA:
+					obj = Std.instance(ev.asset,Camera3D);
+				case AssetType.SEGMENT_SET:
+					obj = Std.instance(ev.asset,SegmentSet);
 			}
 
 			// If asset was of fitting type, and doesn't

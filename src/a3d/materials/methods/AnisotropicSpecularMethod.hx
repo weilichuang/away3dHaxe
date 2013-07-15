@@ -5,9 +5,16 @@ import a3d.materials.compilation.ShaderRegisterCache;
 import a3d.materials.compilation.ShaderRegisterElement;
 
 
-
+/**
+ * AnisotropicSpecularMethod provides a specular method resulting in anisotropic highlights. These are typical for
+ * surfaces with microfacet details such as tiny grooves. In particular, this uses the Heidrich-Seidel distrubution.
+ * The tangent vectors are used as the surface groove directions.
+ */
 class AnisotropicSpecularMethod extends BasicSpecularMethod
 {
+	/**
+	 * Creates a new AnisotropicSpecularMethod object.
+	 */
 	public function new()
 	{
 		super();

@@ -11,7 +11,10 @@ import flash.Vector;
 import flash.display3D.Context3D;
 
 
-
+/**
+ * TerrainDiffuseMethod provides a diffuse method that uses different tiled textures with alpha masks to create a
+ * large surface with high detail and less apparent tiling.
+ */
 class TerrainDiffuseMethod extends BasicDiffuseMethod
 {
 	private var _blendingTexture:Texture2DBase;
@@ -20,9 +23,9 @@ class TerrainDiffuseMethod extends BasicDiffuseMethod
 	private var _tileData:Array<Float>;
 
 	/**
-	 *
+	 * Creates a new TerrainDiffuseMethod.
 	 * @param splatTextures An array of Texture2DProxyBase containing the detailed textures to be tiled.
-	 * @param blendData The texture containing the blending data. The red, green, and blue channels contain the blending values for each of the textures in splatTextures, respectively.
+	 * @param blendingTexture The texture containing the blending data. The red, green, and blue channels contain the blending values for each of the textures in splatTextures, respectively.
 	 * @param tileData The amount of times each splat texture needs to be tiled. The first entry in the array applies to the base texture, the others to the splats. If omitted, the default value of 50 is assumed for each.
 	 */
 	public function new(splatTextures:Array<Texture2DBase>, blendingTexture:Texture2DBase, tileData:Array<Float>)
@@ -144,6 +147,9 @@ class TerrainDiffuseMethod extends BasicDiffuseMethod
 		return alphaThreshold;
 	}
 
+	/**
+	 * Gets the sample code for a single splat.
+	 */
 	private function getSplatSampleCode(vo:MethodVO, targetReg:ShaderRegisterElement, inputReg:ShaderRegisterElement, texture:TextureProxyBase, uvReg:ShaderRegisterElement = null):String
 	{
 		if (uvReg == null)

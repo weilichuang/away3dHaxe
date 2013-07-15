@@ -2,30 +2,36 @@ package a3d.materials.methods;
 
 
 import a3d.core.managers.Stage3DProxy;
+import a3d.materials.BlendMode;
 import a3d.materials.compilation.ShaderRegisterCache;
 import a3d.materials.compilation.ShaderRegisterElement;
 import flash.Vector;
 
 
-
+/**
+ * RimLightMethod provides a method to add rim lighting to a material. This adds a glow-like effect to edges of objects.
+ */
 class RimLightMethod extends EffectMethodBase
 {
-	public static inline var ADD:String = "add";
-	public static inline var MULTIPLY:String = "multiply";
-	public static inline var MIX:String = "mix";
-
 	private var _color:UInt;
-	private var _blend:String;
+	private var _blendMode:String;
 	private var _colorR:Float;
 	private var _colorG:Float;
 	private var _colorB:Float;
 	private var _strength:Float;
 	private var _power:Float;
 
-	public function new(color:UInt = 0xffffff, strength:Float = .4, power:Float = 2, blend:String = "mix")
+	/**
+	 * Creates a new RimLightMethod.
+	 * @param color The colour of the rim light.
+	 * @param strength The strength of the rim light.
+	 * @param power The power of the rim light. Higher values will result in a higher edge fall-off.
+	 * @param blend The blend mode with which to add the light to the object.
+	 */
+	public function new(color:UInt = 0xffffff, strength:Float = .4, power:Float = 2, blendMode:BlendMode=null)
 	{
 		super();
-		_blend = blend;
+		_blendMode = blendMode != null ? blendMode : BlendMode.MIX;
 		_strength = strength;
 		_power = power;
 		this.color = color;
@@ -41,6 +47,30 @@ class RimLightMethod extends EffectMethodBase
 	{
 		vo.needsNormals = true;
 		vo.needsView = true;
+	}
+	
+	/**
+	 * The blend mode with which to add the light to the object.
+	 *
+	 * RimLightMethod.MULTIPLY multiplies the rim light with the material's colour.
+	 * RimLightMethod.ADD adds the rim light with the material's colour.
+	 * RimLightMethod.MIX provides normal alpha blending.
+	 */
+	public var blendMode(get,set) : BlendMode;
+	private function get_blendMode() : BlendMode
+	{
+		return _blendMode;
+	}
+
+	private function set_blendMode(value : BlendMode) : BlendMode
+	{
+		if (_blendMode == value) 
+			return _blendMode;
+			
+		_blendMode = value;
+		invalidateShaderProgram();
+		
+		return _blendMode;
 	}
 
 	public var color(get,set):UInt;
@@ -58,6 +88,9 @@ class RimLightMethod extends EffectMethodBase
 		return _color;
 	}
 
+	/**
+	 * The strength of the rim light.
+	 */
 	public var strength(get,set):Float;
 	private function get_strength():Float
 	{
@@ -110,12 +143,12 @@ class RimLightMethod extends EffectMethodBase
 			"sub " + temp + ".w, " + dataRegister + ".w, " + temp + ".x								\n";
 
 
-		if (_blend == ADD)
+		if (_blendMode == BlendMode.ADD)
 		{
 			code += "mul " + temp + ".xyz, " + temp + ".w, " + dataRegister + ".xyz							\n" +
 				"add " + targetReg + ".xyz, " + targetReg + ".xyz, " + temp + ".xyz						\n";
 		}
-		else if (_blend == MULTIPLY)
+		else if (_blendMode == BlendMode.MULTIPLY)
 		{
 			code += "mul " + temp + ".xyz, " + temp + ".w, " + dataRegister + ".xyz							\n" +
 				"mul " + targetReg + ".xyz, " + targetReg + ".xyz, " + temp + ".xyz						\n";

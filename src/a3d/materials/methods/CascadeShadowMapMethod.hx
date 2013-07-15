@@ -16,7 +16,12 @@ import a3d.materials.compilation.ShaderRegisterData;
 import a3d.materials.compilation.ShaderRegisterElement;
 
 
-
+/**
+ * CascadeShadowMapMethod is a shadow map method to apply cascade shadow mapping on materials.
+ * Must be used with a DirectionalLight with a CascadeShadowMapper assigned to its shadowMapper property.
+ *
+ * @see away3d.lights.shadowmaps.CascadeShadowMapper
+ */
 class CascadeShadowMapMethod extends ShadowMapMethodBase
 {
 	private var _baseMethod:SimpleShadowMapMethodBase;
@@ -26,6 +31,8 @@ class CascadeShadowMapMethod extends ShadowMapMethodBase
 
 	/**
 	 * Creates a new CascadeShadowMapMethod object.
+	 *
+	 * @param shadowMethodBase The shadow map sampling method used to sample individual cascades (fe: HardShadowMapMethod, SoftShadowMapMethod)
 	 */
 	public function new(shadowMethodBase:SimpleShadowMapMethodBase)
 	{
@@ -36,12 +43,19 @@ class CascadeShadowMapMethod extends ShadowMapMethodBase
 		_cascadeShadowMapper = Std.instance(_castingLight.shadowMapper,CascadeShadowMapper);
 
 		if (_cascadeShadowMapper == null)
-			throw new Error("NearShadowMapMethod requires a light that has a CascadeShadowMapper instance assigned to shadowMapper.");
+			throw new Error("CascadeShadowMapMethod requires a light that has a CascadeShadowMapper instance assigned to shadowMapper.");
 
 		_cascadeShadowMapper.addEventListener(Event.CHANGE, onCascadeChange, false, 0, true);
 		_baseMethod.addEventListener(ShadingMethodEvent.SHADER_INVALIDATED, onShaderInvalidated, false, 0, true);
 	}
 
+	/**
+	 * The shadow map sampling method used to sample individual cascades. These are typically those used in conjunction
+	 * with a DirectionalShadowMapper.
+	 *
+	 * @see HardShadowMapMethod
+	 * @see SoftShadowMapMethod
+	 */
 	public var baseMethod(get,set):SimpleShadowMapMethodBase;
 	private function get_baseMethod():SimpleShadowMapMethodBase
 	{
@@ -119,6 +133,9 @@ class CascadeShadowMapMethod extends ShadowMapMethodBase
 		return code;
 	}
 
+	/**
+	 * Creates the registers for the cascades' projection coordinates.
+	 */
 	private function initProjectionsRegs(regCache:ShaderRegisterCache):Void
 	{
 		_cascadeProjections = new Vector<ShaderRegisterElement>(_cascadeShadowMapper.numCascades);
@@ -226,11 +243,17 @@ class CascadeShadowMapMethod extends ShadowMapMethodBase
 	{
 	}
 
+	/**
+	 * Called when the shadow mappers cascade configuration changes.
+	 */
 	private function onCascadeChange(event:Event):Void
 	{
 		invalidateShaderProgram();
 	}
 
+	/**
+	 * Called when the base method's shader code is invalidated.
+	 */
 	private function onShaderInvalidated(event:ShadingMethodEvent):Void
 	{
 		invalidateShaderProgram();

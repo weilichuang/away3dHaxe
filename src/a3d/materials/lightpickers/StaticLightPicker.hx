@@ -9,16 +9,28 @@ import a3d.entities.lights.LightBase;
 import a3d.entities.lights.LightProbe;
 import a3d.entities.lights.PointLight;
 
+/**
+ * StaticLightPicker is a light picker that provides a static set of lights. The lights can be reassigned, but
+ * if the configuration changes (number of directional lights, point lights, etc), a material recompilation may
+ * occur.
+ */
 class StaticLightPicker extends LightPickerBase
 {
 	private var _lights:Array<LightBase>;
 
+	/**
+	 * Creates a new StaticLightPicker object.
+	 * @param lights The lights to be used for shading.
+	 */
 	public function new(lights:Array<LightBase>)
 	{
 		super();
 		this.lights = lights;
 	}
 
+	/**
+	 * The lights used for shading.
+	 */
 	public var lights(get, set):Array<LightBase>;
 	private function get_lights():Array<LightBase>
 	{
@@ -90,6 +102,9 @@ class StaticLightPicker extends LightPickerBase
 		return _lights;
 	}
 
+	/**
+	 * Remove configuration change listeners on the lights.
+	 */
 	private function clearListeners():Void
 	{
 		var len:Int = _lights.length;
@@ -97,6 +112,9 @@ class StaticLightPicker extends LightPickerBase
 			_lights[i].removeEventListener(LightEvent.CASTS_SHADOW_CHANGE, onCastShadowChange);
 	}
 
+	/**
+	 * Notifies the material of a configuration change.
+	 */
 	private function onCastShadowChange(event:LightEvent):Void
 	{
 		// TODO: Assign to special caster collections, just append it to the lights in SinglePass
@@ -112,6 +130,9 @@ class StaticLightPicker extends LightPickerBase
 		dispatchEvent(new Event(Event.CHANGE));
 	}
 
+	/**
+	 * Called when a directional light's shadow casting configuration changes.
+	 */
 	private function updateDirectionalCasting(light:DirectionalLight):Void
 	{
 		if (light.castsShadows)
@@ -130,6 +151,9 @@ class StaticLightPicker extends LightPickerBase
 		}
 	}
 
+	/**
+	 * Called when a point light's shadow casting configuration changes.
+	 */
 	private function updatePointCasting(light:PointLight):Void
 	{
 		if (light.castsShadows)

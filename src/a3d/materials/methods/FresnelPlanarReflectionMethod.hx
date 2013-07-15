@@ -9,8 +9,11 @@ import a3d.textures.PlanarReflectionTexture;
 
 
 /**
- * Allows the use of an additional texture to specify the alpha value of the material. When used with the secondary uv
- * set, it allows for a tiled main texture with independently varying alpha (useful for water etc).
+ * FresnelPlanarReflectionMethod provides a method to add fresnel-based planar reflections from a
+ * PlanarReflectionTexture object.to a surface, which get stronger as the viewing angle becomes more grazing. This
+ * method can be used for (near-)planar objects such as mirrors or water.
+ *
+ * @see away3d.textures.PlanarReflectionTexture
  */
 class FresnelPlanarReflectionMethod extends EffectMethodBase
 {
@@ -20,6 +23,13 @@ class FresnelPlanarReflectionMethod extends EffectMethodBase
 	private var _normalReflectance:Float = 0;
 	private var _fresnelPower:Float = 5;
 
+	/**
+	 * Creates a new FresnelPlanarReflectionMethod object.
+	 * @param texture The PlanarReflectionTexture containing a render of the mirrored scene.
+	 * @param alpha The maximum reflectivity of the surface.
+	 *
+	 * @see away3d.textures.PlanarReflectionTexture
+	 */
 	public function new(texture:PlanarReflectionTexture, alpha:Float = 1)
 	{
 		super();
@@ -27,6 +37,9 @@ class FresnelPlanarReflectionMethod extends EffectMethodBase
 		_alpha = alpha;
 	}
 
+	/**
+	 * The reflectivity of the surface.
+	 */
 	public var alpha(get,set):Float;
 	private function get_alpha():Float
 	{
@@ -38,6 +51,9 @@ class FresnelPlanarReflectionMethod extends EffectMethodBase
 		return _alpha = value;
 	}
 
+	/**
+	 * The power used in the Fresnel equation. Higher values make the fresnel effect more pronounced. Defaults to 5.
+	 */
 	public var fresnelPower(get,set):Float;
 	private function get_fresnelPower():Float
 	{
@@ -70,6 +86,11 @@ class FresnelPlanarReflectionMethod extends EffectMethodBase
 		vo.needsView = true;
 	}
 
+	/**
+	 * The PlanarReflectionTexture containing a render of the mirrored scene.
+	 *
+	 * @see away3d.textures.PlanarReflectionTexture
+	 */
 	public var texture(get,set):PlanarReflectionTexture;
 	private function get_texture():PlanarReflectionTexture
 	{
@@ -81,6 +102,9 @@ class FresnelPlanarReflectionMethod extends EffectMethodBase
 		return _texture = value;
 	}
 
+	/**
+	 * The amount of displacement caused by per-pixel normals.
+	 */
 	public var normalDisplacement(get,set):Float;
 	private function get_normalDisplacement():Float
 	{
