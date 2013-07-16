@@ -1,6 +1,33 @@
 package a3d.io.loaders.parsers;
 
+import a3d.animators.data.JointPose;
+import a3d.animators.data.Skeleton;
+import a3d.animators.data.SkeletonJoint;
+import a3d.animators.data.SkeletonPose;
+import a3d.animators.nodes.AnimationNodeBase;
+import a3d.animators.nodes.SkeletonClipNode;
+import a3d.animators.SkeletonAnimationSet;
+import a3d.core.base.CompactSubGeometry;
+import a3d.core.base.Geometry;
+import a3d.core.base.SkinnedSubGeometry;
+import a3d.entities.Mesh;
+import a3d.entities.ObjectContainer3D;
+import a3d.io.loaders.misc.ResourceDependency;
+import a3d.materials.ColorMaterial;
+import a3d.materials.ColorMultiPassMaterial;
+import a3d.materials.MaterialBase;
+import a3d.materials.methods.BasicAmbientMethod;
+import a3d.materials.methods.BasicDiffuseMethod;
+import a3d.materials.methods.BasicSpecularMethod;
+import a3d.materials.MultiPassMaterialBase;
+import a3d.materials.SinglePassMaterialBase;
+import a3d.materials.TextureMaterial;
+import a3d.materials.TextureMultiPassMaterial;
+import a3d.materials.utils.DefaultMaterialManager;
 import a3d.math.MathUtil;
+import a3d.textures.BitmapTexture;
+import a3d.textures.Texture2DBase;
+import a3d.utils.Debug;
 import flash.display.BitmapData;
 import flash.errors.Error;
 import flash.geom.Matrix3D;
@@ -10,35 +37,9 @@ import flash.Vector;
 import haxe.ds.StringMap;
 import haxe.xml.Fast;
 
-import a3d.animators.SkeletonAnimationSet;
-import a3d.animators.data.JointPose;
-import a3d.animators.data.Skeleton;
-import a3d.animators.data.SkeletonJoint;
-import a3d.animators.data.SkeletonPose;
-import a3d.animators.nodes.AnimationNodeBase;
-import a3d.animators.nodes.SkeletonClipNode;
-import a3d.core.base.CompactSubGeometry;
-import a3d.core.base.Geometry;
-import a3d.core.base.SkinnedSubGeometry;
-import a3d.utils.Debug;
-import a3d.entities.Mesh;
-import a3d.entities.ObjectContainer3D;
-import a3d.io.loaders.misc.ResourceDependency;
-import a3d.materials.ColorMaterial;
-import a3d.materials.ColorMultiPassMaterial;
-import a3d.materials.MaterialBase;
-import a3d.materials.MultiPassMaterialBase;
-import a3d.materials.SinglePassMaterialBase;
-import a3d.materials.TextureMaterial;
-import a3d.materials.TextureMultiPassMaterial;
-import a3d.materials.methods.BasicAmbientMethod;
-import a3d.materials.methods.BasicDiffuseMethod;
-import a3d.materials.methods.BasicSpecularMethod;
-import a3d.materials.utils.DefaultMaterialManager;
-import a3d.textures.BitmapTexture;
-import a3d.textures.Texture2DBase;
 
 using Reflect;
+using StringTools;
 
 /**
  * DAEParser provides a parser for the DAE data type.
@@ -130,8 +131,9 @@ class DAEParser extends ParserBase
 	 */
 	public static function supportsData(data:Dynamic):Bool
 	{
-		if (Std.instance(data, String).indexOf("COLLADA") != -1 || 
-			Std.instance(data,String).indexOf("collada") != -1)
+		var text:String = Std.is(data, String) ? data : untyped data.toString();
+		if (text.indexOf("COLLADA") != -1 || 
+			text.indexOf("collada") != -1)
 			return true;
 
 		return false;
@@ -145,11 +147,11 @@ class DAEParser extends ParserBase
 		var resource:Texture2DBase = Std.instance(resourceDependency.assets[0],Texture2DBase);
 		_dependencyCount--;
 
-		if (resource && Std.instance(resource,BitmapTexture).bitmapData)
+		if (resource != null && Std.instance(resource,BitmapTexture).bitmapData != null)
 		{
-			var image:DAEImage = Std.instance(_libImages[resourceDependency.id],DAEImage);
+			var image:DAEImage = _libImages.get(resourceDependency.id);
 
-			if (image)
+			if (image != null)
 				image.resource = Std.instance(resource,BitmapTexture);
 		}
 
@@ -192,7 +194,7 @@ class DAEParser extends ParserBase
 				_libImages = parseLibrary(_fastDoc.node.resolve(":library_images").node.resolve(":image"), DAEImage);
 				
 				var keys:Iterator<String> = _libImages.keys();
-				for (imageId in _libImages)
+				for (imageId in keys)
 				{
 					var image:DAEImage = _libImages.get(imageId);
 					addDependency(image.id, new URLRequest(image.init_from));
@@ -230,10 +232,10 @@ class DAEParser extends ParserBase
 					var nodes:List<Fast> = _fastDoc.nodes.resolve(":scene");
 					if (nodes.length > 0)
 					{
-						_scene = new DAEScene(nodes[0]);
+						_scene = new DAEScene(nodes.first());
 						
 						var list:List<Fast> = new List();
-						var visualScenes:List<Fast> = _fastDoc.node.resolve(":visual_scene");
+						var visualScenes:List<Fast> = _fastDoc.nodes.resolve(":visual_scene");
 						for (visualScene in visualScenes)
 						{
 							if (visualScene.att.id == _scene.instance_visual_scene.url)
@@ -245,7 +247,7 @@ class DAEParser extends ParserBase
 						if (list.length > 0)
 						{
 							//_rootContainer = new ObjectContainer3D();
-							_root = new DAEVisualScene(this, list[0]);
+							_root = new DAEVisualScene(this, list.first());
 							_root.updateTransforms(_root);
 							_animationInfo = parseAnimationInfo();
 							parseSceneGraph(_root);
@@ -310,7 +312,7 @@ class DAEParser extends ParserBase
 				
 				 i += sub.vertexStride;
 			}
-			sub.updateData(vertexData);
+			Std.instance(sub,CompactSubGeometry).updateData(vertexData);
 		}
 	}
 
@@ -325,7 +327,7 @@ class DAEParser extends ParserBase
 
 		for (i in 0...geometry.subGeometries.length)
 		{
-			sub = CompactSubGeometry(geometry.subGeometries[i]);
+			sub = Std.instance(geometry.subGeometries[i],CompactSubGeometry);
 			primitive = mesh.primitives[i];
 			jointIndices = new Vector<Float>(skin.maxBones * primitive.vertices.length, true);
 			jointWeights = new Vector<Float>(skin.maxBones * primitive.vertices.length, true);
@@ -363,7 +365,7 @@ class DAEParser extends ParserBase
 	private function parseAnimationInfo():DAEAnimationInfo
 	{
 		var info:DAEAnimationInfo = new DAEAnimationInfo();
-		info.minTime = Number.MAX_VALUE;
+		info.minTime = MathUtil.FLOAT_MAX_VALUE();
 		info.maxTime = -info.minTime;
 		info.numFrames = 0;
 
@@ -379,7 +381,7 @@ class DAEParser extends ParserBase
 					node.channels.push(channel);
 					info.minTime = Math.min(info.minTime, channel.sampler.minTime);
 					info.maxTime = Math.max(info.maxTime, channel.sampler.maxTime);
-					info.numFrames = Math.max(info.numFrames, channel.sampler.input.length);
+					info.numFrames = MathUtil.max(info.numFrames, channel.sampler.input.length);
 				}
 			}
 		}
@@ -390,10 +392,11 @@ class DAEParser extends ParserBase
 	private function parseLibrary<T>(list:Fast, clas:Class<T>):StringMap<T>
 	{
 		var library:StringMap<T> = new StringMap<T>();
-		for (i in 0...list.length)
+		var elements = list.elements;
+		for (element in elements)
 		{
-			var obj:T = Type.createInstance(clas, [list[i]]);
-			library.set(obj.id, obj);
+			var obj:T = Type.createInstance(clas, [element]);
+			library.set(untyped obj.id, obj);
 		}
 
 		return library;
@@ -423,7 +426,7 @@ class DAEParser extends ParserBase
 				container.transform.rawData = node.matrix.rawData;
 				finalizeAsset(container, node.id);
 
-				if (parent)
+				if (parent != null)
 					parent.addChild(container);
 			}
 
@@ -435,7 +438,7 @@ class DAEParser extends ParserBase
 
 	private function processController(controller:DAEController, instance:DAEInstanceController):Geometry
 	{
-		var geometry:Geometry;
+		var geometry:Geometry = null;
 		if (controller == null)
 			return null;
 
@@ -457,7 +460,7 @@ class DAEParser extends ParserBase
 
 		var morph:DAEMorph = controller.morph;
 
-		var base:Geometry = processController(_libControllers[morph.source], instance);
+		var base:Geometry = processController(_libControllers.get(morph.source), instance);
 		if (base == null)
 			return null;
 
@@ -505,7 +508,7 @@ class DAEParser extends ParserBase
 		var geometry:Geometry = getGeometryByName(controller.skin.source);
 
 		if (geometry == null)
-			geometry = processController(_libControllers[controller.skin.source], instance);
+			geometry = processController(_libControllers.get(controller.skin.source), instance);
 
 		if (geometry == null)
 			return null;
@@ -525,31 +528,30 @@ class DAEParser extends ParserBase
 	{
 		Debug.trace(" * processControllers : " + node.name);
 
-		var instance:DAEInstanceController;
-		var daeGeometry:DAEGeometry;
-		var controller:DAEController;
-		var effects:Vector<DAEEffect>;
-		var geometry:Geometry;
-		var mesh:Mesh;
-		var skeleton:Skeleton;
-		var clip:SkeletonClipNode;
+		var instance:DAEInstanceController = null;
+		var daeGeometry:DAEGeometry = null;
+		var controller:DAEController = null;
+		var effects:Vector<DAEEffect> = null;
+		var geometry:Geometry = null;
+		var mesh:Mesh = null;
+		var skeleton:Skeleton = null;
+		var clip:SkeletonClipNode = null;
 		//var anim:SkeletonAnimation;
-		var animationSet:SkeletonAnimationSet;
-		var i:Int, j:Int;
+		var animationSet:SkeletonAnimationSet = null;
 		var hasMaterial:Bool;
-		var weights:UInt;
-		var jpv:UInt;
+		var weights:Int;
+		var jpv:Int;
 
 		for (i in 0...node.instance_controllers.length)
 		{
 			instance = node.instance_controllers[i];
-			controller = Std.instance(_libControllers[instance.url],DAEController);
+			controller = _libControllers.get(instance.url);
 
 			geometry = processController(controller, instance);
 			if (geometry == null)
 				continue;
 
-			daeGeometry = Std.instance(_libGeometries[geometry.name],DAEGeometry);
+			daeGeometry = _libGeometries.get(geometry.name);
 			effects = getMeshEffects(instance.bind_material, daeGeometry.mesh);
 
 			mesh = new Mesh(geometry, null);
@@ -586,8 +588,8 @@ class DAEParser extends ParserBase
 				clip = processSkinAnimation(controller.skin, mesh, skeleton);
 				clip.looping = true;
 
-				weights = SkinnedSubGeometry(mesh.geometry.subGeometries[0]).jointIndexData.length;
-				jpv = weights / (mesh.geometry.subGeometries[0].vertexData.length / 3);
+				weights = Std.instance(mesh.geometry.subGeometries[0],SkinnedSubGeometry).jointIndexData.length;
+				jpv = Std.int(weights / (mesh.geometry.subGeometries[0].vertexData.length / 3));
 				//anim = new SkeletonAnimation(skeleton, jpv);
 
 				//var state:SkeletonAnimationState = SkeletonAnimationState(mesh.animationState);
@@ -617,18 +619,17 @@ class DAEParser extends ParserBase
 		//var animation : SkeletonAnimation = new SkeletonAnimation(skeleton, skin.maxBones, useGPU);
 		var animated:Bool = isAnimatedSkeleton(skeleton);
 		var duration:Float = _animationInfo.numFrames == 0 ? 1.0 : _animationInfo.maxTime - _animationInfo.minTime;
-		var numFrames:Int = Math.max(_animationInfo.numFrames, (animated ? 50 : 2));
+		var numFrames:Int = MathUtil.max(_animationInfo.numFrames, (animated ? 50 : 2));
 		var frameDuration:Float = duration / numFrames;
 
 		var t:Float = 0;
-		var i:Int, j:Int;
 		var clip:SkeletonClipNode = new SkeletonClipNode();
 		//mesh.geometry.animation = animation;
-		var skeletonPose:SkeletonPose;
-		var identity:Matrix3D;
-		var matrix:Matrix3D;
-		var node:DAENode;
-		var pose:JointPose;
+		var skeletonPose:SkeletonPose = null;
+		var identity:Matrix3D = null;
+		var matrix:Matrix3D = null;
+		var node:DAENode = null;
+		var pose:JointPose = null;
 
 		for (i in 0...numFrames)
 		{
@@ -636,16 +637,20 @@ class DAEParser extends ParserBase
 
 			for (j in 0...skin.joints.length)
 			{
-				node = _root.findNodeById(skin.joints[j]) || _root.findNodeBySid(skin.joints[j]);
+				node = _root.findNodeById(skin.joints[j]);
+				if (node == null)
+					node = _root.findNodeBySid(skin.joints[j]);
 				pose = new JointPose();
-				matrix = node.getAnimatedMatrix(t) || node.matrix;
+				matrix = node.getAnimatedMatrix(t);
+				if (matrix == null)
+					matrix = node.matrix;
 				pose.name = skin.joints[j];
 				pose.orientation.fromMatrix(matrix);
 				pose.translation.copyFrom(matrix.position);
 
 				if (Math.isNaN(pose.orientation.x))
 				{
-					if (!identity)
+					if (identity == null)
 						identity = new Matrix3D();
 					pose.orientation.fromMatrix(identity);
 				}
@@ -654,7 +659,7 @@ class DAEParser extends ParserBase
 			}
 
 			t += frameDuration;
-			clip.addFrame(skeletonPose, frameDuration * 1000);
+			clip.addFrame(skeletonPose, Std.int(frameDuration * 1000));
 		}
 
 		finalizeAsset(clip);
@@ -689,12 +694,11 @@ class DAEParser extends ParserBase
 	private function processGeometries(node:DAENode, container:ObjectContainer3D):Mesh
 	{
 		Debug.trace(" * processGeometries : " + node.name);
-		var instance:DAEInstanceGeometry;
-		var daeGeometry:DAEGeometry;
-		var effects:Vector<DAEEffect>;
-		var mesh:Mesh;
-		var geometry:Geometry;
-		var i:Int, j:Int;
+		var instance:DAEInstanceGeometry = null;
+		var daeGeometry:DAEGeometry = null;
+		var effects:Vector<DAEEffect> = null;
+		var mesh:Mesh = null;
+		var geometry:Geometry = null;
 
 		for (i in 0...node.instance_geometries.length)
 		{
@@ -754,7 +758,7 @@ class DAEParser extends ParserBase
 				instance = bindMaterial.instance_material[j];
 				if (mesh.primitives[i].material == instance.symbol)
 				{
-					material = _libMaterials[instance.target];
+					material = _libMaterials.get(instance.target);
 					effect = _libEffects.get(material.instance_effect.url);
 					if (effect != null)
 						effects.push(effect);
@@ -773,9 +777,11 @@ class DAEParser extends ParserBase
 
 		Debug.trace(" * parseSkeleton : " + instance_controller);
 
-		var controller:DAEController = Std.instance(_libControllers[instance_controller.url],DAEController);
+		var controller:DAEController = _libControllers.get(instance_controller.url);
 		var skeletonId:String = instance_controller.skeleton[0];
-		var skeletonRoot:DAENode = _root.findNodeById(skeletonId) || _root.findNodeBySid(skeletonId);
+		var skeletonRoot:DAENode = _root.findNodeById(skeletonId);
+		if (skeletonRoot != null)
+			skeletonRoot = _root.findNodeBySid(skeletonId);
 
 		if (skeletonRoot == null)
 			return null;
@@ -802,7 +808,7 @@ class DAEParser extends ParserBase
 
 			if (!Math.isNaN(jointIndex) && jointIndex < skin.joints.length)
 			{
-				if (skin.joints[jointIndex])
+				if (skin.joints[jointIndex] != null)
 					joint.name = skin.joints[jointIndex];
 			}
 			else
@@ -861,7 +867,7 @@ class DAEParser extends ParserBase
 			{
 				mat = buildDefaultMaterial(image.resource.bitmapData);
 				if (materialMode < 2)
-					TextureMaterial(mat).alpha = transparency;
+					Std.instance(mat,TextureMaterial).alpha = transparency;
 			}
 			else
 			{
@@ -978,21 +984,37 @@ class DAEParser extends ParserBase
 		for (i in 0...primitive.vertices.length)
 		{
 			v = primitive.vertices[i];
-			data.push(v.x, v.y, v.z);
-			data.push(v.nx, v.ny, v.nz);
-			data.push(0, 0, 0);
+			data.push(v.x);
+			data.push(v.y);
+			data.push(v.z);
+			data.push(v.nx);
+			data.push(v.ny);
+			data.push(v.nz);
+			data.push(0);
+			data.push(0);
+			data.push(0);
 
 			if (v.numTexcoordSets > 0)
 			{
-				data.push(v.uvx, 1.0 - v.uvy);
+				data.push(v.uvx);
+				data.push(1.0 - v.uvy);
 				if (v.numTexcoordSets > 1)
-					data.push(v.uvx2, 1.0 - v.uvy2);
+				{
+					data.push(v.uvx2); 
+					data.push(1.0 - v.uvy2);
+				}
 				else
-					data.push(v.uvx, 1.0 - v.uvy);
+				{
+					data.push(v.uvx);
+					data.push(1.0 - v.uvy);
+				}
 			}
 			else
 			{
-				data.push(0, 0, 0, 0);
+				data.push(0);
+				data.push(0);
+				data.push(0);
+				data.push(0);
 			}
 		}
 
@@ -1073,7 +1095,7 @@ class DAEElement
 
 	public function new(element:Fast = null)
 	{
-		if (element)
+		if (element != null)
 			deserialize(element);
 	}
 
@@ -1094,9 +1116,19 @@ class DAEElement
 
 	private function traverseChildren(element:Fast, name:String = null):Void
 	{
-		var children = name ? element.nodes.resolve(":" + name) : element.elements();
-		for (child in children)
-			traverseChildHandler(child, child.name);
+		if (name != null)
+		{
+			var children = element.nodes.resolve(":" + name);
+			for (child in children)
+				traverseChildHandler(child, child.name);
+		}
+		else
+		{
+			var children =  element.elements;
+			for (child in children)
+				traverseChildHandler(child, child.name);
+		}
+		
 	}
 
 	private function convertMatrix(matrix:Matrix3D):Void
@@ -1111,11 +1143,11 @@ class DAEElement
 
 	private function getRootElement(element:Fast):Fast
 	{
-		var tmp:XML = element;
-		while (tmp.name().localName != "COLLADA")
-			tmp = tmp.parent();
+		var xml:Xml = element.x;
+		while (xml.nodeName != "COLLADA")
+			xml = xml.parent;
 
-		return (tmp.name().localName == "COLLADA" ? tmp : null);
+		return (xml.nodeName == "COLLADA" ? new Fast(xml) : null);
 	}
 
 	private function readFloatArray(element:Fast):Vector<Float>
@@ -1133,11 +1165,11 @@ class DAEElement
 	private function readIntArray(element:Fast):Vector<Int>
 	{
 		var raw:String = readText(element);
-		var parts:Array = ~/\s+/.split(raw);
+		var parts:Array<String> = ~/\s+/.split(raw);
 		var ints:Vector<Int> = new Vector<Int>();
 
 		for (i in 0...parts.length)
-			ints.push(Std.parseInt(parts[i], 10));
+			ints.push(Std.parseInt(parts[i]));
 
 		return ints;
 	}
@@ -1145,7 +1177,7 @@ class DAEElement
 	private function readStringArray(element:Fast):Vector<String>
 	{
 		var raw:String = readText(element);
-		var parts:Array = ~/\s+/.split(raw);
+		var parts:Array<String> = ~/\s+/.split(raw);
 		var strings:Vector<String> = new Vector<String>();
 
 		for (i in 0...parts.length)
@@ -1156,14 +1188,14 @@ class DAEElement
 
 	private function readIntAttr(element:Fast, name:String, defaultValue:Int = 0):Int
 	{
-		var v:Int = Std.parseInt(element.att.resolve(name), 10);
+		var v:Int = Std.parseInt(element.att.resolve(name));
 		v = v == 0 ? defaultValue : v;
 		return v;
 	}
 
 	private function readText(element:Fast):String
 	{
-		return trimString(element.text().toString());
+		return trimString(element.innerData);
 	}
 
 	private function trimString(s:String):String
@@ -1394,10 +1426,10 @@ class DAEPrimitive extends DAEElement
 		}
 
 		if(element.hasNode.resolve(":p") && element.nodes.resolve(":p").length > 0)
-			_p = readIntArray(element.nodes.resolve(":p")[0]);
+			_p = readIntArray(element.nodes.resolve(":p").first());
 
 		if(element.hasNode.resolve(":vcount") && element.nodes.resolve(":vcount").length > 0)
-			_vcount = readIntArray(element.nodes.resolve(":vcount")[0]);
+			_vcount = readIntArray(element.nodes.resolve(":vcount").first());
 	}
 
 	public function create(mesh:DAEMesh):Vector<DAEFace>
@@ -1409,7 +1441,7 @@ class DAEPrimitive extends DAEElement
 		var input:DAEInput;
 		var source:DAESource;
 		//var numInputs : uint = _inputs.length;  //shared inputs offsets VERTEX and TEXCOORD
-		var numInputs:Int;
+		var numInputs:Int = 0;
 		if (_inputs.length > 1)
 		{
 			var offsets:Array<Bool> = [];
@@ -1447,7 +1479,7 @@ class DAEPrimitive extends DAEElement
 				{
 					input = _inputs[j];
 					index = _p[idx + t + input.offset];
-					source = Std.instance(mesh.sources[input.source],DAESource);
+					source = mesh.sources.get(input.source);
 					idx32 = index * source.accessor.params.length;
 
 					switch (input.semantic)
@@ -1583,7 +1615,6 @@ class DAEVertices extends DAEElement
 
 	override private function traverseChildHandler(child:Fast, nodeName:String):Void
 	{
-		nodeName = nodeName;
 		this.inputs.push(new DAEInput(child));
 	}
 }
@@ -1602,7 +1633,7 @@ class DAEGeometry extends DAEElement
 	{
 		super.deserialize(element);
 		traverseChildren(element);
-		meshName = element.attribute("name");
+		meshName = element.att.resolve(":name");
 	}
 
 	override private function traverseChildHandler(child:Fast, nodeName:String):Void
@@ -1669,7 +1700,7 @@ class DAEBindMaterial extends DAEElement
 	{
 		if (nodeName == "technique_common")
 		{
-			for (element in child.elements())
+			for (element in child.elements)
 				this.instance_material.push(new DAEInstanceMaterial(element));
 		}
 	}
@@ -1949,10 +1980,10 @@ class DAEShader extends DAEElement
 		switch (nodeName)
 		{
 			case "ambient","diffuse","specular","emission","transparent","reflective":
-				this.props[nodeName] = new DAEColorOrTexture(child);
+				this.props.setField(nodeName,new DAEColorOrTexture(child));
 				
 			case "shininess","reflectivity","transparency","index_of_refraction":
-				this.props[nodeName] = Std.parseFloat(readText(child.node.resolve(":float")));
+				this.props.setField(nodeName,Std.parseFloat(readText(child.node.resolve(":float"))));
 				
 			default:
 				trace("[WARNING] unhandled DAEShader property: " + nodeName);
@@ -1989,7 +2020,7 @@ class DAEEffect extends DAEElement
 
 	private function deserializeProfile(element:Fast):Void
 	{
-		var children = element.elements();
+		var children = element.elements;
 		for (child in children)
 		{
 			var name:String = child.name;
@@ -2007,7 +2038,7 @@ class DAEEffect extends DAEElement
 
 	private function deserializeNewParam(element:Fast):Void
 	{
-		var children = element.elements();
+		var children = element.elements;
 		for (child in children)
 		{
 			var name:String = child.name;
@@ -2030,7 +2061,7 @@ class DAEEffect extends DAEElement
 
 	private function deserializeShader(technique:Fast):Void
 	{
-		var children = technique.elements();
+		var children = technique.elements;
 		this.shader = null;
 
 		for (child in children)
@@ -2150,9 +2181,7 @@ class DAENode extends DAEElement
 
 	override private function traverseChildHandler(child:Fast, nodeName:String):Void
 	{
-		var instances:XMLList;
-		var instance:DAEInstance;
-
+		var instances:List<Fast>;
 		switch (nodeName)
 		{
 			case "node":
@@ -2160,7 +2189,7 @@ class DAENode extends DAEElement
 				
 
 			case "instance_controller":
-				instance = new DAEInstanceController(child);
+				var instance = new DAEInstanceController(child);
 				this.instance_controllers.push(instance);
 				
 
@@ -2169,11 +2198,11 @@ class DAENode extends DAEElement
 				
 
 			case "instance_node":
-				instance = new DAEInstanceNode(child);
+				var instance = new DAEInstanceNode(child);
 				
 				instances = new List<Fast>();
 				var libList:List<Fast> = _root.nodes.resolve(":library_nodes");
-				for (lib in libList)
+				for (lib in libList.iterator())
 				{
 					var nodes:List<Fast> = lib.nodes.resolve(":node");
 					for (node in nodes)
@@ -2185,7 +2214,7 @@ class DAENode extends DAEElement
 					}
 				}
 				if (instances.length > 0)
-					this.nodes.push(new DAENode(this.parser, instances[0], this));
+					this.nodes.push(new DAENode(this.parser, instances.first(), this));
 				
 
 			case "matrix","translate","scale","rotate":
@@ -2228,7 +2257,7 @@ class DAENode extends DAEElement
 			channel = this.channels[i];
 			minTime = Math.min(minTime, channel.sampler.minTime);
 			minTime = Math.max(maxTime, channel.sampler.maxTime);
-			channelsBySID[channel.targetSid] = channel;
+			channelsBySID.set(channel.targetSid, channel);
 		}
 
 		for (i in 0...this.transforms.length)
@@ -2243,7 +2272,7 @@ class DAENode extends DAEElement
 				channel = channelsBySID.get(transform.sid);
 				frameData = channel.sampler.getFrameData(time);
 
-				if (frameData)
+				if (frameData != null)
 				{
 					odata = frameData.data;
 
@@ -2445,7 +2474,7 @@ class DAEVisualScene extends DAENode
 		for (i in 0...node.nodes.length)
 		{
 			var result:DAENode = findNodeBySid(sid, node.nodes[i]);
-			if (result)
+			if (result != null)
 				return result;
 		}
 
@@ -2503,28 +2532,28 @@ class DAEMorph extends DAEEffect
 		super.deserialize(element);
 		this.source = ~/^#/.replace(element.att.source, "");
 		this.method = element.att.method;
-		this.method = this.method.length ? this.method : "NORMALIZED";
+		this.method = this.method.length != 0 ? this.method : "NORMALIZED";
 		this.targets = new Vector<String>();
 		this.weights = new Vector<Float>();
 
-		var sources:Dynamic = {};
+		var sources:StringMap<DAESource> = new StringMap<DAESource>();
 		var source:DAESource;
 		var input:DAEInput;
 		var list:List<Fast> = element.nodes.resolve(":" + this.source);
 
 		if (element.hasNode.resolve(":targets") && element.nodes.resolve(":targets").length > 0)
 		{
-			for (i in 0...list.length)
+			for (item in list.iterator())
 			{
-				source = new DAESource(list[i]);
-				sources[source.id] = source;
+				source = new DAESource(item);
+				sources.set(source.id, source);
 			}
 			
 			list = element.node.resolve(":targets").nodes.resolve(":input");
-			for (i in 0...list.length)
+			for (item in list.iterator())
 			{
-				input = new DAEInput(list[i]);
-				source = sources[input.source];
+				input = new DAEInput(item);
+				source = sources.get(input.source);
 				switch (input.semantic)
 				{
 					case "MORPH_TARGET":
@@ -2574,14 +2603,14 @@ class DAESkin extends DAEElement
 		this.joints = new Vector<String>();
 		this.weights = new Vector<Vector<DAEVertexWeight>>();
 
-		var children = element.elements();
+		var children:Iterator<Fast> = element.elements;
 		var sources:Dynamic = {};
 
 		var sourceList:List<Fast> = element.nodes.resolve(":source");
-		for (i in 0...sourceList.length)
+		for (item in sourceList.iterator())
 		{
-			var source:DAESource = new DAESource(sourceList[i]);
-			sources[source.id] = source;
+			var source:DAESource = new DAESource(item);
+			sources.setField(source.id,source);
 		}
 
 		for (child in children)
@@ -2633,10 +2662,10 @@ class DAESkin extends DAEElement
 		var input:DAEInput;
 		var source:DAESource;
 
-		for (i in 0...list.length)
+		for (item in list.iterator())
 		{
-			input = new DAEInput(list[i]);
-			source = sources[input.source];
+			input = new DAEInput(item);
+			source = sources.field(input.source);
 
 			switch (input.semantic)
 			{
@@ -2675,13 +2704,12 @@ class DAESkin extends DAEElement
 
 		var vcount:Vector<Int> = readIntArray(element.node.resolve(":vcount"));
 		var v:Vector<Int> = readIntArray(element.node.resolve(":v"));
-		var numWeights:Int = Std.parseInt(element.att.count, 10);
-		numWeights = numWeights;
+		var numWeights:Int = Std.parseInt(element.att.count);
 		var index:Int = 0;
 		this.maxBones = 0;
 
-		for (i in 0...list.length)
-			inputs.push(new DAEInput(list[i]));
+		for (item in list.iterator())
+			inputs.push(new DAEInput(item));
 
 		for (i in 0...vcount.length)
 		{
@@ -2697,7 +2725,7 @@ class DAESkin extends DAEElement
 				for (k in 0...inputs.length)
 				{
 					input = inputs[k];
-					source = sources[input.source];
+					source = sources.field(input.source);
 
 					switch (input.semantic)
 					{
@@ -2773,15 +2801,15 @@ class DAESampler extends DAEElement
 		var list:List<Fast> = element.nodes.resolve(":input");
 		_inputs = new Vector<DAEInput>();
 
-		for (i in 0...list.length)
-			_inputs.push(new DAEInput(list[i]));
+		for (item in list.iterator())
+			_inputs.push(new DAEInput(item));
 	}
 
 	public function create(sources:Dynamic):Void
 	{
 		var input:DAEInput;
 		var source:DAESource;
-		var i:Int, j:Int;
+		var j:Int;
 		this.input = new Vector<Float>();
 		this.output = new Vector<Vector<Float>>();
 		this.interpolation = new Vector<String>();
@@ -2791,7 +2819,7 @@ class DAESampler extends DAEElement
 		for (i in 0..._inputs.length)
 		{
 			input = _inputs[i];
-			source = sources[input.source];
+			source = sources.field(input.source);
 
 			switch (input.semantic)
 			{
@@ -2908,7 +2936,7 @@ class DAEChannel extends DAEElement
 		this.source = ~/^#/.replace(element.att.source, "");
 		this.target = element.att.target.toString();
 		this.sampler = null;
-		var parts:Array = this.target.split("/");
+		var parts:Array<String> = this.target.split("/");
 		this.targetId = parts.shift();
 		this.arrayAccess = this.dotAccess = false;
 		var tmp:String = parts.shift();
@@ -2922,7 +2950,7 @@ class DAEChannel extends DAEElement
 			for (i in 0...parts.length)
 			{
 				var text:String = StringTools.replace(parts[i], ")", "" );
-				this.arrayIndices.push(Std.parseInt(text, 10));
+				this.arrayIndices.push(Std.parseInt(text));
 			}
 
 		}
@@ -2945,7 +2973,7 @@ class DAEAnimation extends DAEElement
 {
 	public var samplers:Vector<DAESampler>;
 	public var channels:Vector<DAEChannel>;
-	public var sources:Dynamic;
+	public var sources:StringMap<DAESource>;
 
 	public function new(element:Fast = null)
 	{
@@ -2957,7 +2985,7 @@ class DAEAnimation extends DAEElement
 		super.deserialize(element);
 		this.samplers = new Vector<DAESampler>();
 		this.channels = new Vector<DAEChannel>();
-		this.sources = {};
+		this.sources = new StringMap();
 		traverseChildren(element);
 		setupChannels(this.sources);
 	}
@@ -2968,7 +2996,7 @@ class DAEAnimation extends DAEElement
 		{
 			case "source":
 				var source:DAESource = new DAESource(child);
-				this.sources[source.id] = source;
+				this.sources.set(source.id, source);
 				
 			case "sampler":
 				this.samplers.push(new DAESampler(child));

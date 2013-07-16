@@ -45,7 +45,7 @@ class Max3DSParser extends ParserBase
 		var ba:ByteArray;
 
 		ba = ParserUtil.toByteArray(data);
-		if (ba)
+		if (ba != null)
 		{
 			ba.position = 0;
 			if (ba.readShort() == 0x4d4d)
@@ -57,14 +57,14 @@ class Max3DSParser extends ParserBase
 	
 	private var _byteData:ByteArray;
 
-	private var _textures:Dynamic;
-	private var _materials:Dynamic;
+	private var _textures:StringMap<TextureVO>;
+	private var _materials:StringMap<MaterialVO>;
 	private var _unfinalized_objects:StringMap<ObjectVO>;
 
-	private var _cur_obj_end:Int;
+	private var _cur_obj_end:UInt;
 	private var _cur_obj:ObjectVO;
 
-	private var _cur_mat_end:Int;
+	private var _cur_mat_end:UInt;
 	private var _cur_mat:MaterialVO;
 
 
@@ -84,7 +84,7 @@ class Max3DSParser extends ParserBase
 			{
 				var tex:TextureVO;
 
-				tex = _textures[resourceDependency.id];
+				tex = _textures.get(resourceDependency.id);
 				tex.texture = Std.instance(asset,Texture2DBase);
 			}
 		}
@@ -105,8 +105,8 @@ class Max3DSParser extends ParserBase
 			_byteData.position = 0;
 			_byteData.endian = Endian.LITTLE_ENDIAN;
 
-			_textures = {};
-			_materials = {};
+			_textures = new StringMap<TextureVO>();
+			_materials = new StringMap<MaterialVO>();
 			_unfinalized_objects = new StringMap<ObjectVO>();
 		}
 
@@ -121,20 +121,20 @@ class Max3DSParser extends ParserBase
 
 			// If we are currently working on an object, and the most recent chunk was
 			// the last one in that object, finalize the current object.
-			if (_cur_mat && _byteData.position >= _cur_mat_end)
+			if (_cur_mat != null && _byteData.position >= _cur_mat_end)
 			{
 				finalizeCurrentMaterial();
 			}
-			else if (_cur_obj && _byteData.position >= _cur_obj_end)
+			else if (_cur_obj != null && _byteData.position >= _cur_obj_end)
 			{
 				// Can't finalize at this point, because we have to wait until the full
 				// animation section has been parsed for any potential pivot definitions
-				_unfinalized_objects[_cur_obj.name] = _cur_obj;
-				_cur_obj_end = MathUtil.UINT_MAX_VALUE();
+				_unfinalized_objects.set(_cur_obj.name, _cur_obj);
+				_cur_obj_end = MathUtil.INT_MAX_VALUE();
 				_cur_obj = null;
 			}
 
-			if (_byteData.bytesAvailable)
+			if (_byteData.bytesAvailable > 0)
 			{
 				var cid:UInt;
 				var len:UInt;
@@ -167,7 +167,7 @@ class Max3DSParser extends ParserBase
 						_cur_obj = new ObjectVO();
 						_cur_obj.name = readNulTermString();
 						_cur_obj.materials = new Vector<String>();
-						_cur_obj.materialFaces = {};
+						_cur_obj.materialFaces = new StringMap();
 						
 
 					case 0x4100: // OBJ_TRIMESH 
@@ -212,7 +212,7 @@ class Max3DSParser extends ParserBase
 				// Pause parsing if there were any dependencies found during this
 				// iteration (i.e. if there are any dependencies that need to be
 				// retrieved at this time.)
-				if (dependencies.length)
+				if (dependencies.length > 0)
 				{
 					pauseAndRetrieveDependencies();
 					break;
@@ -224,7 +224,7 @@ class Max3DSParser extends ParserBase
 		// More parsing is required if the entire byte array has not yet
 		// been read, or if there is a currently non-finalized object in
 		// the pipeline.
-		if (_byteData.bytesAvailable || _cur_obj || _cur_mat)
+		if (_byteData.bytesAvailable > 0 || _cur_obj != null || _cur_mat != null)
 		{
 			return ParserBase.MORE_TO_PARSE;
 		}
@@ -233,11 +233,11 @@ class Max3DSParser extends ParserBase
 			var name:String;
 
 			// Finalize any remaining objects before ending.
-			for (name in _unfinalized_objects)
+			var keys = _unfinalized_objects.keys();
+			for (name in keys)
 			{
-				var obj:ObjectContainer3D;
-				obj = constructObject(_unfinalized_objects[name]);
-				if (obj)
+				var obj:ObjectContainer3D = constructObject(_unfinalized_objects.get(name));
+				if (obj != null)
 				{
 					finalizeAsset(obj, name);
 				}
@@ -331,7 +331,7 @@ class Max3DSParser extends ParserBase
 			}
 		}
 
-		_textures[tex.url] = tex;
+		_textures.set(tex.url, tex);
 		addDependency(tex.url, new URLRequest(tex.url));
 
 		return tex;
@@ -396,8 +396,8 @@ class Max3DSParser extends ParserBase
 
 	private function parseSmoothingGroups():Void
 	{
-		var len:UInt = _cur_obj.indices.length / 3;
-		var i:UInt = 0;
+		var len:Int = Std.int(_cur_obj.indices.length / 3);
+		var i:Int = 0;
 		while (i < len)
 		{
 			_cur_obj.smoothingGroups[i] = _byteData.readUnsignedInt();
@@ -427,8 +427,8 @@ class Max3DSParser extends ParserBase
 	private function parseFaceMaterialList():Void
 	{
 		var mat:String;
-		var count:UInt;
-		var i:UInt;
+		var count:Int;
+		var i:Int;
 		var faces:Vector<UInt>;
 
 		mat = readNulTermString();
@@ -442,16 +442,16 @@ class Max3DSParser extends ParserBase
 		}
 
 		_cur_obj.materials.push(mat);
-		_cur_obj.materialFaces[mat] = faces;
+		_cur_obj.materialFaces.set(mat,faces);
 	}
 
 
 	private function parseObjectAnimation(end:Float):Void
 	{
-		var vo:ObjectVO;
-		var obj:ObjectContainer3D;
-		var pivot:Vector3D;
-		var name:String;
+		var vo:ObjectVO = null;
+		var obj:ObjectContainer3D = null;
+		var pivot:Vector3D = null;
+		var name:String = null;
 		var hier:Int;
 
 		// Pivot defaults to origin
@@ -488,12 +488,12 @@ class Max3DSParser extends ParserBase
 		// If name is "$$$DUMMY" this is an empty object (e.g. a container)
 		// and will be ignored in this version of the parser
 		// TODO: Implement containers in 3DS parser.
-		if (name != '$$$DUMMY' && _unfinalized_objects.hasOwnProperty(name))
+		if (name != "$$$DUMMY" && _unfinalized_objects.exists(name))
 		{
-			vo = _unfinalized_objects[name];
+			vo = _unfinalized_objects.get(name);
 			obj = constructObject(vo, pivot);
 
-			if (obj)
+			if (obj != null)
 			{
 				finalizeAsset(obj, vo.name);
 			}
@@ -507,24 +507,23 @@ class Max3DSParser extends ParserBase
 	{
 		if (obj.type == AssetType.MESH)
 		{
-			var i:UInt;
-			var subs:Vector<ISubGeometry>;
-			var geom:Geometry;
-			var mat:MaterialBase;
-			var mesh:Mesh;
-			var mtx:Matrix3D;
-			var vertices:Vector<VertexVO>;
-			var faces:Vector<FaceVO>;
+			var subs:Vector<ISubGeometry> = null;
+			var geom:Geometry = null;
+			var mat:MaterialBase = null;
+			var mesh:Mesh = null;
+			var mtx:Matrix3D = null;
+			var vertices:Vector<VertexVO> = null;
+			var faces:Vector<FaceVO> = null;
 
 			if (obj.materials.length > 1)
 				trace('The Away3D 3DS parser does not support multiple materials per mesh at this point.');
 
 			// Ignore empty objects
-			if (!obj.indices || obj.indices.length == 0)
+			if (obj.indices == null || obj.indices.length == 0)
 				return null;
 
-			vertices = new Vector<VertexVO>(obj.verts.length / 3, false);
-			faces = new Vector<FaceVO>(obj.indices.length / 3, true);
+			vertices = new Vector<VertexVO>(Std.int(obj.verts.length / 3), false);
+			faces = new Vector<FaceVO>(Std.int(obj.indices.length / 3), true);
 
 			prepareData(vertices, faces, obj);
 			applySmoothGroups(vertices, faces);
@@ -544,7 +543,7 @@ class Max3DSParser extends ParserBase
 				obj.indices[i * 3 + 2] = faces[i].c;
 			}
 
-			if (obj.uvs)
+			if (obj.uvs != null)
 			{
 				// If the object had UVs to start with, use UVs generated by
 				// smoothing group splitting algorithm. Otherwise those UVs
@@ -571,12 +570,12 @@ class Max3DSParser extends ParserBase
 			{
 				var mname:String;
 				mname = obj.materials[0];
-				mat = _materials[mname].material;
+				mat = _materials.get(mname).material;
 			}
 
 			// Apply pivot translation to geometry if a pivot was
 			// found while parsing the keyframe chunk earlier.
-			if (pivot)
+			if (pivot != null)
 			{
 				if (obj.transform != null)
 				{
@@ -608,7 +607,7 @@ class Max3DSParser extends ParserBase
 
 			// Final transform applied to geometry. Finalize the geometry,
 			// which will no longer be modified after this point.
-			finalizeAsset(geom, obj.name.concat('_geom'));
+			finalizeAsset(geom, obj.name + '_geom');
 
 			// Build mesh and return it
 			mesh = new Mesh(geom, mat);
@@ -636,7 +635,7 @@ class Max3DSParser extends ParserBase
 			v.x = obj.verts[i++];
 			v.y = obj.verts[i++];
 			v.z = obj.verts[i++];
-			if (obj.uvs)
+			if (obj.uvs != null)
 			{
 				v.u = obj.uvs[j++];
 				v.v = obj.uvs[j++];
@@ -678,13 +677,16 @@ class Max3DSParser extends ParserBase
 		{
 			vGroups[i] = new Vector<UInt>();
 		}
+		var groups:Vector<UInt>;
+		var group:UInt;
+		var face:FaceVO;
 		for (i in 0...numFaces)
 		{
-			var face:FaceVO = FaceVO(faces[i]);
+			face = faces[i];
 			for (j in 0...3)
 			{
-				var groups:Vector<UInt> = vGroups[(j == 0) ? face.a : ((j == 1) ? face.b : face.c)];
-				var group:UInt = face.smoothGroup;
+				groups = vGroups[(j == 0) ? face.a : ((j == 1) ? face.b : face.c)];
+				group = face.smoothGroup;
 				k = groups.length - 1;
 				while ( k >= 0)
 				{
@@ -701,11 +703,12 @@ class Max3DSParser extends ParserBase
 		}
 		// clone vertices
 		var vClones:Vector<Vector<UInt>> = new Vector<Vector<UInt>>(numVerts, true);
+		var clones:Vector<UInt>;
 		for (i in 0...numVerts)
 		{
 			if ((len = vGroups[i].length) < 1)
 				continue;
-			var clones:Vector<UInt> = new Vector<UInt>(len, true);
+			clones = new Vector<UInt>(len, true);
 			vClones[i] = clones;
 			clones[0] = i;
 			var v0:VertexVO = vertices[i];
@@ -725,7 +728,7 @@ class Max3DSParser extends ParserBase
 
 		for (i in 0...numFaces)
 		{
-			face = FaceVO(faces[i]);
+			face = faces[i];
 			group = face.smoothGroup;
 			for (j in 0...3)
 			{
@@ -733,7 +736,8 @@ class Max3DSParser extends ParserBase
 				groups = vGroups[k];
 				len = groups.length;
 				clones = vClones[k];
-				for (l in 0...len)
+				var l:Int = 0;
+				while (l < len)
 				{
 					if (((group == 0) && (groups[l] == 0)) ||
 						((group & groups[l]) > 0))
@@ -753,6 +757,7 @@ class Max3DSParser extends ParserBase
 							face.c = index;
 						l = len;
 					}
+					l++;
 				}
 			}
 		}
@@ -764,9 +769,16 @@ class Max3DSParser extends ParserBase
 		var mat:MaterialBase;
 		if (materialMode < 2)
 		{
-			if (_cur_mat.colorMap)
+			if (_cur_mat.colorMap != null)
 			{
-				mat = new TextureMaterial(_cur_mat.colorMap.texture || DefaultMaterialManager.getDefaultTexture());
+				if (_cur_mat.colorMap.texture != null)
+				{
+					mat = new TextureMaterial(_cur_mat.colorMap.texture);
+				}
+				else
+				{
+					mat = new TextureMaterial(DefaultMaterialManager.getDefaultTexture());
+				}
 			}
 			else
 			{
@@ -777,9 +789,9 @@ class Max3DSParser extends ParserBase
 		}
 		else
 		{
-			if (_cur_mat.colorMap)
+			if (_cur_mat.colorMap != null)
 			{
-				mat = new TextureMultiPassMaterial(_cur_mat.colorMap.texture || DefaultMaterialManager.getDefaultTexture());
+				mat = new TextureMultiPassMaterial(_cur_mat.colorMap.texture != null ? _cur_mat.colorMap.texture : DefaultMaterialManager.getDefaultTexture());
 			}
 			else
 			{
@@ -793,7 +805,7 @@ class Max3DSParser extends ParserBase
 
 		finalizeAsset(mat, _cur_mat.name);
 
-		_materials[_cur_mat.name] = _cur_mat;
+		_materials.set(_cur_mat.name, _cur_mat);
 		_cur_mat.material = mat;
 
 		_cur_mat = null;
@@ -803,7 +815,7 @@ class Max3DSParser extends ParserBase
 	private function readNulTermString():String
 	{
 		var chr:UInt;
-		var str:String = new String();
+		var str:String = "";
 
 		while ((chr = _byteData.readUnsignedByte()) > 0)
 		{
@@ -852,7 +864,9 @@ class Max3DSParser extends ParserBase
 	{
 		var cid:UInt;
 		var len:UInt;
-		var r:UInt, g:UInt, b:UInt;
+		var r:Int = 0;
+		var g:Int = 0;
+		var b:Int = 0;
 
 		cid = _byteData.readUnsignedShort();
 		len = _byteData.readUnsignedInt();
@@ -860,9 +874,9 @@ class Max3DSParser extends ParserBase
 		switch (cid)
 		{
 			case 0x0010: // Floats
-				r = _byteData.readFloat() * 255;
-				g = _byteData.readFloat() * 255;
-				b = _byteData.readFloat() * 255;
+				r = Std.int(_byteData.readFloat() * 255);
+				g = Std.int(_byteData.readFloat() * 255);
+				b = Std.int(_byteData.readFloat() * 255);
 				
 			case 0x0011: // 24-bit color
 				r = _byteData.readUnsignedByte();
@@ -915,7 +929,7 @@ class ObjectVO
 	public var verts:Vector<Float>;
 	public var indices:Vector<UInt>;
 	public var uvs:Vector<Float>;
-	public var materialFaces:Dynamic;
+	public var materialFaces:StringMap<Vector<UInt>>;
 	public var materials:Vector<String>;
 	public var smoothingGroups:Vector<UInt>;
 

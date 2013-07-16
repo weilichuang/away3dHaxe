@@ -71,7 +71,6 @@ class SphereGeometry extends PrimitiveBase
 
 		for (j in 0..._segmentsH + 1)
 		{
-
 			startIndex = index;
 
 			var horangle:Float = Math.PI * j / _segmentsH;
@@ -218,7 +217,7 @@ class SphereGeometry extends PrimitiveBase
 	{
 		_radius = value;
 		invalidateGeometry();
-		return _radius;
+		return value;
 	}
 
 	/**
@@ -235,7 +234,7 @@ class SphereGeometry extends PrimitiveBase
 		_segmentsW = value;
 		invalidateGeometry();
 		invalidateUVs();
-		return _segmentsW;
+		return value;
 	}
 
 	/**
@@ -252,7 +251,7 @@ class SphereGeometry extends PrimitiveBase
 		_segmentsH = value;
 		invalidateGeometry();
 		invalidateUVs();
-		return _segmentsH;
+		return value;
 	}
 
 	/**
@@ -268,6 +267,6 @@ class SphereGeometry extends PrimitiveBase
 	{
 		_yUp = value;
 		invalidateGeometry();
-		return _yUp;
+		return value;
 	}
 }

@@ -58,7 +58,7 @@ class AssetLibrary
 	/**
 	 *
 	 */
-	public static function enableParsers(parserClasses:Vector<Class<ParserBase>>):Void
+	public static function enableParsers(parserClasses:Array<Class<ParserBase>>):Void
 	{
 		SingleFileLoader.enableParsers(parserClasses);
 	}

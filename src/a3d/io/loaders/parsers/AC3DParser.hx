@@ -22,8 +22,9 @@ import a3d.materials.TextureMaterial;
 import a3d.materials.TextureMultiPassMaterial;
 import a3d.materials.utils.DefaultMaterialManager;
 import a3d.textures.Texture2DBase;
+import haxe.ds.StringMap;
 
-
+using StringTools;
 
 /**
  * AC3DParser provides a parser for the AC3D data type.
@@ -116,19 +117,19 @@ class AC3DParser extends ParserBase
 	 */
 	override public function resolveDependency(resourceDependency:ResourceDependency):Void
 	{
-		var mesh:Mesh;
-		var asset:Texture2DBase;
+		var mesh:Mesh = null;
+		var asset:Texture2DBase = null;
 
 		if (resourceDependency.assets.length == 1)
 		{
 			asset = Std.instance(resourceDependency.assets[0],Texture2DBase);
 			mesh = retrieveMeshFromID(resourceDependency.id);
 		}
-		if (mesh && asset)
+		if (mesh != null && asset != null)
 			if (materialMode < 2)
-				TextureMaterial(mesh.material).texture = asset;
+				Std.instance(mesh.material,TextureMaterial).texture = asset;
 			else
-				TextureMultiPassMaterial(mesh.material).texture = asset;
+				Std.instance(mesh.material,TextureMultiPassMaterial).texture = asset;
 	}
 
 	override public function resolveDependencyFailure(resourceDependency:ResourceDependency):Void
@@ -149,8 +150,8 @@ class AC3DParser extends ParserBase
 			_activeContainer = null;
 
 			_textData = getTextData();
-			var re:RegExp = new RegExp(String.fromCharCode(13), "g");
-			_textData = _textData.replace(re, "");
+			var re:EReg = new EReg(String.fromCharCode(13), "g");
+			_textData = re.replace(_textData, "");
 			_materialList = [];
 			_startedParsing = true;
 
@@ -171,8 +172,8 @@ class AC3DParser extends ParserBase
 		var tUrl:String = "";
 		//var m:Mesh;
 		var cont:ObjectContainer3D;
-		var nextObject:UInt;
-		var nextSurface:UInt;
+		var nextObject:Int;
+		var nextSurface:Int;
 
 		while (_charIndex < _stringLen && hasTime())
 		{
@@ -195,24 +196,13 @@ class AC3DParser extends ParserBase
 			{
 				case "MATERIAL":
 					generateMaterial(line);
-					break;
-				case "numsurf": //integer
-				case "crease": //45.000000. 
-				case "texrep": // %f %f tiling
-				case "refs lines of":
-				case "url":
-				case "data":
-				case "numvert lines of":
-				case "SURF": //0x30
-					break;
+				case "numsurf","crease","texrep","refs lines of","url","data","numvert lines of","SURF": //0x30
 
 				case "kids": //howmany children in the upcomming object. Probably need it later on, to couple with container/group generation
-					_kidsCount = parseInt(_trunk[1]);
+					_kidsCount = Std.parseInt(_trunk[1]);
 
 					if (_lastType == "group")
 						_groupCount = _kidsCount;
-
-					break;
 
 				case "OBJECT":
 
@@ -231,7 +221,7 @@ class AC3DParser extends ParserBase
 					else if (_trunk[1] == "group")
 					{
 						cont = new ObjectContainer3D();
-						if (_activeContainer)
+						if (_activeContainer != null)
 							_activeContainer.addChild(cont);
 						cont.name = "c_" + _containersList.length;
 						_containersList.push(cont);
@@ -267,7 +257,7 @@ class AC3DParser extends ParserBase
 					{
 						var geometry:Geometry = new Geometry();
 						_activeMesh = new Mesh(geometry, null);
-						if (_vertices)
+						if (_vertices != null)
 							cleanUpBuffers();
 						_vertices = new Vector<Vertex>();
 						_uvs = [];
@@ -277,7 +267,6 @@ class AC3DParser extends ParserBase
 						_parsesV = true;
 						_lastType = "poly";
 					}
-					break;
 
 				case "name":
 					nameid = line.substring(6, line.length - 1);
@@ -289,15 +278,13 @@ class AC3DParser extends ParserBase
 					{
 						_activeContainer.name = nameid;
 					}
-					break;
 
 				case "numvert":
-					if (parseInt(_trunk[1]) >= 3)
+					if (Std.parseInt(_trunk[1]) >= 3)
 						_parsesV = true;
-					break;
 
 				case "refs":
-					refscount = parseInt(_trunk[1]);
+					refscount = Std.parseInt(_trunk[1]);
 					if (refscount == 4)
 					{
 						_isQuad = true;
@@ -312,12 +299,10 @@ class AC3DParser extends ParserBase
 						_isQuad = false;
 					}
 					_parsesV = false;
-					break;
 
 				case "mat":
-					if (!_activeMesh.material)
-						_activeMesh.material = _materialList[parseInt(_trunk[1])];
-					break;
+					if (_activeMesh.material == null)
+						_activeMesh.material = _materialList[Std.parseInt(_trunk[1])];
 
 				case "texture":
 					if (materialMode < 2)
@@ -325,8 +310,7 @@ class AC3DParser extends ParserBase
 					else
 						_activeMesh.material = new TextureMultiPassMaterial(DefaultMaterialManager.getDefaultTexture());
 					_activeMesh.material.name = "m_" + _activeMesh.name;
-					addDependency(String(_meshList.length - 1), new URLRequest(tUrl));
-					break;
+					addDependency((_meshList.length - 1) + "", new URLRequest(tUrl));
 
 				case "loc": //%f %f %f
 					/*
@@ -337,16 +321,16 @@ class AC3DParser extends ParserBase
 
 					if (_lastType == "group")
 					{
-						_tmpcontainerpos.x = parseFloat(_trunk[1]);
-						_tmpcontainerpos.y = parseFloat(_trunk[2]);
-						_tmpcontainerpos.z = parseFloat(_trunk[3]);
+						_tmpcontainerpos.x = Std.parseFloat(_trunk[1]);
+						_tmpcontainerpos.y = Std.parseFloat(_trunk[2]);
+						_tmpcontainerpos.z = Std.parseFloat(_trunk[3]);
 
 					}
 					else
 					{
-						_tmpos.x = parseFloat(_trunk[1]);
-						_tmpos.y = parseFloat(_trunk[2]);
-						_tmpos.z = parseFloat(_trunk[3]);
+						_tmpos.x = Std.parseFloat(_trunk[1]);
+						_tmpos.y = Std.parseFloat(_trunk[2]);
+						_tmpos.z = Std.parseFloat(_trunk[3]);
 					}
 
 				case "rot": //%f %f %f  %f %f %f  %f %f %f
@@ -363,15 +347,13 @@ class AC3DParser extends ParserBase
 					0,0,0,1]);*/
 
 					//_activeMesh.transform = matrix;
-					break;
-
 				default:
 					if (_trunk[0] == "")
 						break;
 
 					if (_parsesV)
 					{
-						_vertices.push(new Vertex(-(parseFloat(_trunk[0])), parseFloat(_trunk[1]), parseFloat(_trunk[2])));
+						_vertices.push(new Vertex(-(Std.parseFloat(_trunk[0])), Std.parseFloat(_trunk[1]), Std.parseFloat(_trunk[2])));
 
 					}
 					else
@@ -382,20 +364,25 @@ class AC3DParser extends ParserBase
 							_quadCount++;
 							if (_quadCount == 4)
 							{
-								_uvs.push(_uvs[_uvs.length - 2], _uvs[_uvs.length - 1]);
-								_uvs.push(parseInt(_trunk[0]), new UV(parseFloat(_trunk[1]), 1 - parseFloat(_trunk[2])));
-								_uvs.push(_uvs[_uvs.length - 10], _uvs[_uvs.length - 9]);
+								_uvs.push(_uvs[_uvs.length - 2]);
+								_uvs.push(_uvs[_uvs.length - 1]);
+								_uvs.push(Std.parseInt(_trunk[0]));
+								_uvs.push(new UV(Std.parseFloat(_trunk[1]), 1 - Std.parseFloat(_trunk[2])));
+								_uvs.push(_uvs[_uvs.length - 10]);
+								_uvs.push(_uvs[_uvs.length - 9]);
 
 							}
 							else
 							{
-								_uvs.push(parseInt(_trunk[0]), new UV(parseFloat(_trunk[1]), 1 - parseFloat(_trunk[2])));
+								_uvs.push(Std.parseInt(_trunk[0]));
+								_uvs.push(new UV(Std.parseFloat(_trunk[1]), 1 - Std.parseFloat(_trunk[2])));
 							}
 
 						}
 						else
 						{
-							_uvs.push(parseInt(_trunk[0]), new UV(parseFloat(_trunk[1]), 1 - parseFloat(_trunk[2])));
+							_uvs.push(Std.parseInt(_trunk[0]));
+							_uvs.push(new UV(Std.parseFloat(_trunk[1]), 1 - Std.parseFloat(_trunk[2])));
 						}
 					}
 			}
@@ -411,22 +398,21 @@ class AC3DParser extends ParserBase
 			//finalizeAsset(_container);
 			cleanUP();
 
-			return PARSING_DONE;
+			return ParserBase.PARSING_DONE;
 		}
 
-		return MORE_TO_PARSE;
+		return ParserBase.MORE_TO_PARSE;
 	}
 
 	private function checkGroup(mesh:Mesh):Void
 	{
-		mesh = mesh;
 		if (_groupCount > 0)
 			_groupCount--;
 
-		if (_activeContainer)
+		if (_activeContainer != null)
 			_activeContainer.addChild(_activeMesh);
 
-		if (_activeContainer && _groupCount == 0)
+		if (_activeContainer != null && _groupCount == 0)
 		{
 			_activeContainer = null;
 			_tmpcontainerpos.x = _tmpcontainerpos.y = _tmpcontainerpos.z = 0;
@@ -447,20 +433,22 @@ class AC3DParser extends ParserBase
 		var indices:Vector<UInt> = new Vector<UInt>();
 		var uvs:Vector<Float> = new Vector<Float>();
 
-		var subGeomsData:Array = [vertices, indices, uvs];
+		var subGeomsData:Array<Dynamic> = [vertices, indices, uvs];
 		//var j:uint;
 		var dic:StringMap<Int> = new StringMap<Int>();
 		var ref:String;
 
 		var i:Int = 0;
-		for (i < _uvs.length)
+		while (i < _uvs.length)
 		{
 			if (indices.length + 3 > LIMIT)
 			{
 				vertices = new Vector<Float>();
 				indices = new Vector<UInt>();
 				uvs = new Vector<Float>();
-				subGeomsData.push(vertices, indices, uvs);
+				subGeomsData.push(vertices);
+				subGeomsData.push(indices);
+				subGeomsData.push(uvs);
 				dic = null;
 				dic = new StringMap<Int>();
 			}
@@ -529,7 +517,7 @@ class AC3DParser extends ParserBase
 		var geom:Geometry = mesh.geometry;
 
 		i = 0;
-		for (i < subGeomsData.length)
+		while (i < subGeomsData.length)
 		{
 			sub_geom = new CompactSubGeometry();
 			sub_geom.fromVectors(subGeomsData[i], subGeomsData[i + 2], null, null);
@@ -608,46 +596,44 @@ class AC3DParser extends ParserBase
 		var gloss:Float = 0;
 		var alpha:Float = 0;
 
-		for (i in 0...trunk.length)
+		var i:Int = 0;
+		while (i < trunk.length)
 		{
 			if (trunk[i] == "")
+			{
+				i++;
 				continue;
+			}
 
 			if (trunk[i].indexOf("\"") != -1 || trunk[i].indexOf("\'") != -1)
 			{
 				name = trunk[i].substring(1, trunk[i].length - 1);
+				i++;
 				continue;
 			}
 
 			switch (trunk[i])
 			{
 				case "rgb":
-					var r:UInt = (parseFloat(trunk[i + 1]) * 255);
-					var g:UInt = (parseFloat(trunk[i + 2]) * 255);
-					var b:UInt = (parseFloat(trunk[i + 3]) * 255);
+					var r:Int = Std.int(Std.parseFloat(trunk[i + 1]) * 255);
+					var g:Int = Std.int(Std.parseFloat(trunk[i + 2]) * 255);
+					var b:Int = Std.int(Std.parseFloat(trunk[i + 3]) * 255);
 					i += 3;
 					color = r << 16 | g << 8 | b;
-					break;
-
 				case "amb":
-					ambient = parseFloat(trunk[i + 1]);
+					ambient = Std.parseFloat(trunk[i + 1]);
 					i += 2;
-					break;
-
 				case "spec":
-					specular = parseFloat(trunk[i + 1]);
+					specular = Std.parseFloat(trunk[i + 1]);
 					i += 2;
-					break;
-
 				case "shi":
-					gloss = parseFloat(trunk[i + 1]) / 255;
+					gloss = Std.parseFloat(trunk[i + 1]) / 255;
 					i += 2;
-					break;
-
 				case "trans":
-					alpha = (1 - parseFloat(trunk[i + 1]));
-					break;
+					alpha = (1 - Std.parseFloat(trunk[i + 1]));
 			}
+			
+			i++;
 		}
 
 		var colorMaterial:MaterialBase;
@@ -655,22 +641,22 @@ class AC3DParser extends ParserBase
 		if (materialMode < 2)
 		{
 			colorMaterial = new ColorMaterial(0xFFFFFF);
-			ColorMaterial(colorMaterial).name = name;
-			ColorMaterial(colorMaterial).color = color;
-			ColorMaterial(colorMaterial).ambient = ambient;
-			ColorMaterial(colorMaterial).specular = specular;
-			ColorMaterial(colorMaterial).gloss = gloss;
-			ColorMaterial(colorMaterial).alpha = alpha;
+			Std.instance(colorMaterial,ColorMaterial).name = name;
+			Std.instance(colorMaterial,ColorMaterial).color = color;
+			Std.instance(colorMaterial,ColorMaterial).ambient = ambient;
+			Std.instance(colorMaterial,ColorMaterial).specular = specular;
+			Std.instance(colorMaterial,ColorMaterial).gloss = gloss;
+			Std.instance(colorMaterial,ColorMaterial).alpha = alpha;
 		}
 		else
 		{
 			colorMaterial = new ColorMultiPassMaterial(0xFFFFFF);
-			ColorMultiPassMaterial(colorMaterial).name = name;
-			ColorMultiPassMaterial(colorMaterial).color = color;
-			ColorMultiPassMaterial(colorMaterial).ambient = ambient;
-			ColorMultiPassMaterial(colorMaterial).specular = specular;
-			ColorMultiPassMaterial(colorMaterial).gloss = gloss;
-				//ColorMultiPassMaterial(colorMaterial).alpha=alpha;
+			Std.instance(colorMaterial,ColorMultiPassMaterial).name = name;
+			Std.instance(colorMaterial,ColorMultiPassMaterial).color = color;
+			Std.instance(colorMaterial,ColorMultiPassMaterial).ambient = ambient;
+			Std.instance(colorMaterial,ColorMultiPassMaterial).specular = specular;
+			Std.instance(colorMaterial,ColorMultiPassMaterial).gloss = gloss;
+			//Std.instance(colorMaterial,ColorMultiPassMaterial).alpha=alpha;
 		}
 		return colorMaterial;
 	}

@@ -42,6 +42,21 @@ THE SOFTWARE.
 
 package a3dexample;
 
+import a3d.controllers.HoverController;
+import a3d.entities.Camera3D;
+import a3d.entities.lights.PointLight;
+import a3d.entities.Mesh;
+import a3d.entities.Scene3D;
+import a3d.events.AssetEvent;
+import a3d.io.library.AssetLibrary;
+import a3d.io.library.assets.AssetType;
+import a3d.io.loaders.parsers.Parsers;
+import a3d.materials.lightpickers.StaticLightPicker;
+import a3d.materials.methods.BasicDiffuseMethod;
+import a3d.materials.methods.BasicSpecularMethod;
+import a3d.materials.methods.FresnelSpecularMethod;
+import a3d.materials.methods.SubsurfaceScatteringDiffuseMethod;
+import a3d.materials.TextureMaterial;
 import flash.display.BitmapData;
 import flash.events.Event;
 import flash.events.KeyboardEvent;
@@ -49,22 +64,6 @@ import flash.events.MouseEvent;
 import flash.Lib;
 import flash.utils.ByteArray;
 
-import a3d.entities.Camera3D;
-import a3d.entities.Scene3D;
-import a3d.controllers.HoverController;
-import a3d.entities.Mesh;
-import a3d.events.AssetEvent;
-import a3d.io.library.AssetLibrary;
-import a3d.io.library.assets.AssetType;
-import a3d.entities.lights.PointLight;
-import a3d.io.loaders.parsers.Parsers;
-import a3d.materials.TextureMaterial;
-import a3d.materials.lightpickers.StaticLightPicker;
-import a3d.materials.methods.BasicDiffuseMethod;
-import a3d.materials.methods.BasicSpecularMethod;
-import a3d.materials.methods.FresnelSpecularMethod;
-import a3d.materials.methods.SubsurfaceScatteringDiffuseMethod;
-import a3d.utils.Cast;
 
 class Intermediate_Head extends BasicApplication
 {
@@ -156,9 +155,9 @@ class Intermediate_Head extends BasicApplication
 	private function initMaterials():Void
 	{
 		//setup custom bitmap material
-		headMaterial = new TextureMaterial(Cast.bitmapTexture(Diffuse));
-		headMaterial.normalMap = Cast.bitmapTexture(Normal);
-		headMaterial.specularMap = Cast.bitmapTexture(Specular);
+		headMaterial = new TextureMaterial(createBitmapTexture(Diffuse));
+		headMaterial.normalMap = createBitmapTexture(Normal);
+		headMaterial.specularMap = createBitmapTexture(Specular);
 		headMaterial.lightPicker = lightPicker;
 		headMaterial.gloss = 10;
 		headMaterial.specular = 3;
@@ -206,9 +205,9 @@ class Intermediate_Head extends BasicApplication
 			cameraController.tiltAngle = 0.3 * (stage.mouseY - lastMouseY) + lastTiltAngle;
 		}
 
-		light.x = Math.sin(getTimer() / 10000) * 15000;
+		light.x = Math.sin(Lib.getTimer() / 10000) * 15000;
 		light.y = 1000;
-		light.z = Math.cos(getTimer() / 10000) * 15000;
+		light.z = Math.cos(Lib.getTimer() / 10000) * 15000;
 
 		super.render();
 	}

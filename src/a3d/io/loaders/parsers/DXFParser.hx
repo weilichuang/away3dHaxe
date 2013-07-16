@@ -37,7 +37,7 @@ class DXFParser extends ParserBase
 
 	private var _textData:String;
 	private var _startedParsing:Bool;
-	private var _trim:RegExp = new RegExp("^[ \t]", "g");
+	private var _trim:EReg;
 
 	private var _v0:Vector3D;
 	private var _v1:Vector3D;
@@ -64,7 +64,7 @@ class DXFParser extends ParserBase
 	private var _activeMesh:Mesh;
 	private var _blockType:String;
 	private var _segmentSet:SegmentSet;
-	private var _segCount:UInt;
+	private var _segCount:Int;
 
 	private static var _colorTable:Array<Int> = [0x000000, 0xFF0000, 0xFFFF00, 0x00FF00, 0x00FFFF, 0x0000FF, 0xFF00FF, 0xFFFFFF, 0x414141, 0x808080, 0xFF0000, 0xFFAAAA, 0xBD0000, 0xBD7E7E, 0x810000, 0x815656,
 		0x680000, 0x684545, 0x4F0000, 0x4F3535, 0xFF3F00, 0xFFBFAA, 0xBD2E00, 0xBD8D7E, 0x811F00, 0x816056, 0x681900, 0x684E45, 0x4F1300, 0x4F3B35, 0xFF7F00, 0xFFD4AA, 0xBD5E00, 0xBD9D7E, 0x814000,
@@ -73,7 +73,7 @@ class DXFParser extends ParserBase
 		0x9DBD7E, 0x408100, 0x6B8156, 0x346800, 0x566845, 0x274F00, 0x424F35, 0x3FFF00, 0xBFFFAA, 0x2EBD00, 0x8DBD7E, 0x1F8100, 0x608156, 0x196800, 0x4E6845, 0x134F00, 0x3B4F35, 0x00FF00, 0xAAFFAA,
 		0x00BD00, 0x7EBD7E, 0x008100, 0x568156, 0x006800, 0x456845, 0x004F00, 0x354F35, 0x00FF3F, 0xAAFFBF, 0x00BD2E, 0x7EBD8D, 0x00811F, 0x568160, 0x006819, 0x45684E, 0x004F13, 0x354F3B, 0x00FF7F,
 		0xAAFFD4, 0x00BD5E, 0x7EBD9D, 0x008140, 0x56816B, 0x006834, 0x456856, 0x004F27, 0x354F42, 0x00FFBF, 0xAAFFEA, 0x00BD8D, 0x7EBDAD, 0x008160, 0x568176, 0x00684E, 0x45685F, 0x004F3B, 0x354F49,
-		0x00FFFF, 0xAAFFFF, 0x00BDBD, 0x7EBDBD, 0x008181, 0x568181, 0x006868, 0x456868, 0x004F4F, 0x354F4F, 0x00BFFF, 0xAAEAFF, 0x008DBD, 0x7EADBD, 0x006081, 0x567681, 004E68, 0x455F68, 0x003B4F, 0x35494F,
+		0x00FFFF, 0xAAFFFF, 0x00BDBD, 0x7EBDBD, 0x008181, 0x568181, 0x006868, 0x456868, 0x004F4F, 0x354F4F, 0x00BFFF, 0xAAEAFF, 0x008DBD, 0x7EADBD, 0x006081, 0x567681, 0x04E68, 0x455F68, 0x003B4F, 0x35494F,
 		0x007FFF, 0xAAD4FF, 0x005EBD, 0x7E9DBD, 0x004081, 0x566B81, 0x003468, 0x455668, 0x00274F, 0x35424F, 0x003FFF, 0xAABFFF, 0x002EBD, 0x7E8DBD, 0x001F81, 0x566081, 0x001968, 0x454E68, 0x00134F,
 		0x353B4F, 0x0000FF, 0xAAAAFF, 0x0000BD, 0x7E7EBD, 0x000081, 0x565681, 0x000068, 0x454568, 0x00004F, 0x35354F, 0x3F00FF, 0xBFAAFF, 0x2E00BD, 0x8D7EBD, 0x1F0081, 0x605681, 0x190068, 0x4E4568,
 		0x13004F, 0x3B354F, 0x7F00FF, 0xD4AAFF, 0x5E00BD, 0x9D7EBD, 0x400081, 0x6B5681, 0x340068, 0x564568, 0x27004F, 0x42354F, 0xBF00FF, 0xEEAAFF, 0x8D00BD, 0xAD7EBD, 0x600081, 0x765681, 0x4E0068,
@@ -88,6 +88,7 @@ class DXFParser extends ParserBase
 	 */
 	public function new()
 	{
+		_trim = ~/^[ \t]/g;
 		super(ParserDataFormat.PLAIN_TEXT);
 	}
 
@@ -125,8 +126,8 @@ class DXFParser extends ParserBase
 	override private function proceedParsing():Bool
 	{
 		var line:String;
-		var _vSet:UInt;
-
+		var _vSet:Int = 0;
+		var _charIndex:UInt = 0;
 		if (!_startedParsing)
 		{
 			_textData = getTextData();
@@ -134,7 +135,7 @@ class DXFParser extends ParserBase
 			if (_textData.indexOf(FACE) == -1 && _textData.indexOf(LINE) == -1 && _textData.indexOf(POLYLINE) == -1 && _textData.indexOf(VERTEX) == -1)
 			{
 				//we're done, nothing we do support in there
-				return PARSING_DONE;
+				return ParserBase.PARSING_DONE;
 			}
 
 			_meshesDic = new StringMap<Mesh>();
@@ -150,19 +151,19 @@ class DXFParser extends ParserBase
 			_textData = re.replace(_textData, "");
 			_textData = ~/\\[\r\n]+\s*/gm.replace(_textData,'');
 
-			var _charIndex:UInt = 0;
+			_charIndex = 0;
 			_stringLen = _textData.length;
 			_oldIndex = 0;
 			_segCount = 0;
 			_vSet = 0;
 
 			if (_textData.indexOf(CR) == -1)
-				return PARSING_DONE;
+				return ParserBase.PARSING_DONE;
 		}
 
-		var tag:String;
-		var isBlock:Bool;
-		var isTag:Bool;
+		var tag:String = null;
+		var isBlock:Bool = false;
+		var isTag:Bool = false;
 
 		var lineVal:Float;
 
@@ -172,7 +173,7 @@ class DXFParser extends ParserBase
 			_charIndex = _textData.indexOf(CR, _oldIndex);
 
 			line = _textData.substring(_oldIndex, _charIndex);
-			line = line.replace(_trim, "");
+			line = _trim.replace(line, "");
 
 			if (line == "")
 			{
@@ -180,7 +181,7 @@ class DXFParser extends ParserBase
 				continue;
 			}
 
-			if (line == FACE || line == LINE || line == POLYLINE || (line == VERTEX && _polyLines))
+			if (line == FACE || line == LINE || line == POLYLINE || (line == VERTEX && _polyLines != null))
 			{
 				if (_blockType == FACE && _vSet == 11)
 					finalizeFace();
@@ -202,7 +203,7 @@ class DXFParser extends ParserBase
 				if (isTag)
 				{
 
-					lineVal = parseFloat(line);
+					lineVal = Std.parseFloat(line);
 
 					if (_blockType == FACE)
 					{
@@ -212,47 +213,47 @@ class DXFParser extends ParserBase
 							case "10":
 								_v0.x = lineVal;
 								_vSet++;
-								break;
+								
 							case "20":
 								_v0.y = lineVal;
 								_vSet++;
-								break;
+								
 							case "30":
 								_v0.z = lineVal;
 								_vSet++;
-								break;
+								
 							case "11":
 								_v1.x = lineVal;
 								_vSet++;
-								break;
+								
 							case "21":
 								_v1.y = lineVal;
 								_vSet++;
-								break;
+								
 							case "31":
 								_v1.z = lineVal;
 								_vSet++;
-								break;
+								
 							case "12":
 								_v2.x = lineVal;
 								_vSet++;
-								break;
+								
 							case "22":
 								_v2.y = lineVal;
 								_vSet++;
-								break;
+								
 							case "32":
 								_v2.z = lineVal;
 								_vSet++;
-								break;
+								
 							case "13":
 								_v3.x = lineVal;
 								_vSet++;
-								break;
+								
 							case "23":
 								_v3.y = lineVal;
 								_vSet++;
-								break;
+								
 							case "33":
 								_v3.z = lineVal;
 								if (_vSet == 11)
@@ -262,15 +263,15 @@ class DXFParser extends ParserBase
 									finalizeFace();
 									isBlock = false;
 								}
-								break;
+								
 
 							case "62":
-								_itemColor = getDXFColor(lineVal);
-								break;
+								_itemColor = getDXFColor(Std.int(lineVal));
+								
 
 							//ignoring visibility tag
 							default:
-								if (isNaN(lineVal) && tag == "8" && _vSet == 0)
+								if (Math.isNaN(lineVal) && tag == "8" && _vSet == 0)
 									_meshName = line;
 
 						}
@@ -285,24 +286,24 @@ class DXFParser extends ParserBase
 							case "10":
 								_v0.x = lineVal;
 								_vSet++;
-								break;
+								
 							case "20":
 								_v0.y = lineVal;
 								_vSet++;
-								break;
+								
 							case "30":
 								_v0.z = lineVal;
 								_vSet++;
-								break;
+								
 
 							case "11":
 								_v1.x = lineVal;
 								_vSet++;
-								break;
+								
 							case "21":
 								_v1.y = lineVal;
 								_vSet++;
-								break;
+								
 							case "31":
 								_v1.z = lineVal;
 								if (_vSet == 5)
@@ -310,10 +311,10 @@ class DXFParser extends ParserBase
 									finalizeLine();
 									isBlock = false;
 								}
-								break;
+								
 
 							case "62":
-								_itemColor = getDXFColor(lineVal);
+								_itemColor = getDXFColor(Std.int(lineVal));
 
 						}
 
@@ -326,21 +327,21 @@ class DXFParser extends ParserBase
 						{
 
 							case "8":
-								if (isNaN(lineVal))
+								if (Math.isNaN(lineVal))
 									_meshName = line;
-								break;
+								
 							case "10":
 								_v0.x = lineVal;
 								_vSet++;
-								break;
+								
 							case "20":
 								_v0.y = lineVal;
 								_vSet++;
-								break;
+								
 							case "30":
 								_v0.z = lineVal;
 								_vSet++;
-								break;
+								
 
 							case "70":
 								// 128, is the closing tag for a face.
@@ -348,20 +349,20 @@ class DXFParser extends ParserBase
 									_polyLines.push(_v0.clone());
 
 								_vSet = 0;
-								break;
+								
 
-							case "71":
-							case "72":
-								_polyLinesIndices.push(int(Math.abs(lineVal)) - 1);
-								break;
+							case "71","72":
+								_polyLinesIndices.push(Std.int(Math.abs(lineVal)) - 1);
+								
 							case "73":
 								//in case of negative, invisible edges (line draw for faces not supported anyway)
-								_polyLinesIndices.push(int(Math.abs(lineVal)) - 1, -1); //pushing already 4th component to make sure all is quad
-								break;
+								_polyLinesIndices.push(Std.int(Math.abs(lineVal)) - 1);
+								_polyLinesIndices.push(-1); //pushing already 4th component to make sure all is quad
+								
 
 							case "74":
-								_polyLinesIndices[_polyLinesIndices.length - 1] = int(Math.abs(lineVal)) - 1;
-								break;
+								_polyLinesIndices[_polyLinesIndices.length - 1] = Std.int(Math.abs(lineVal)) - 1;
+								
 
 						}
 
@@ -408,13 +409,13 @@ class DXFParser extends ParserBase
 		{
 			if (_blockType == VERTEX && _polyLines.length >= 3)
 				constructPolyfaceMesh();
-			if (_activeMesh)
+			if (_activeMesh != null)
 				finalizeMesh();
 			cleanUP();
-			return PARSING_DONE;
+			return ParserBase.PARSING_DONE;
 		}
 
-		return MORE_TO_PARSE;
+		return ParserBase.MORE_TO_PARSE;
 	}
 
 
@@ -446,7 +447,7 @@ class DXFParser extends ParserBase
 			if (_polyLinesIndices.length % 4 == 0)
 			{
 				var i:Int = 0; 
-				for (i < _polyLinesIndices.length)
+				while (i < _polyLinesIndices.length)
 				{
 					_v0 = _polyLines[_polyLinesIndices[i]];
 					_v1 = _polyLines[_polyLinesIndices[i + 1]];
@@ -479,7 +480,7 @@ class DXFParser extends ParserBase
 		if (_lastMeshName == "" || _meshName != _lastMeshName)
 		{
 
-			if (_activeMesh)
+			if (_activeMesh != null)
 				finalizeMesh();
 
 			if (!_meshesDic.exists(_meshName))
@@ -511,7 +512,7 @@ class DXFParser extends ParserBase
 			addSubGeometry(_activeMesh.geometry);
 		}
 
-		var ind:UInt = _vertices.length / 3;
+		var ind:Int = Std.int(_vertices.length / 3);
 		_vertices.push(_v0.x);
 		_vertices.push(_v0.y);
 		_vertices.push(_v0.z);
@@ -627,12 +628,12 @@ class DXFParser extends ParserBase
 			_segCount = 11;
 		}
 
-		var lineColor:UInt = (!_itemColor || isNaN(_itemColor)) ? 0xCCCCCC : _itemColor;
+		var lineColor:UInt = (_itemColor == 0 || Math.isNaN(_itemColor)) ? 0xCCCCCC : _itemColor;
 		var line:LineSegment = new LineSegment(_v0.clone(), _v1.clone());
 		line.startColor = lineColor;
 		line.endColor = lineColor;
 
-		_itemColor = Math.NaN;
+		_itemColor = 0;
 
 		_segmentSet.addSegment(line);
 	}
@@ -644,7 +645,7 @@ class DXFParser extends ParserBase
 
 		finalizeAsset(_activeMesh);
 
-		_itemColor = NaN;
+		_itemColor = 0;
 		_activeMesh = null;
 	}
 

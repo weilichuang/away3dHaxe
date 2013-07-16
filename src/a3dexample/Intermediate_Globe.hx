@@ -10,6 +10,7 @@ import a3d.entities.primitives.SphereGeometry;
 import a3d.entities.Scene3D;
 import a3d.entities.Sprite3D;
 import a3d.io.loaders.parsers.Parsers;
+import a3d.materials.BlendMode;
 import a3d.materials.ColorMaterial;
 import a3d.materials.compilation.ShaderRegisterCache;
 import a3d.materials.compilation.ShaderRegisterData;
@@ -25,11 +26,9 @@ import a3d.materials.methods.PhongSpecularMethod;
 import a3d.materials.TextureMaterial;
 import a3d.textures.BitmapCubeTexture;
 import a3d.textures.BitmapTexture;
-import a3d.utils.AwayStats;
 import a3d.utils.Cast;
 import flash.display.BitmapData;
 import flash.display.BitmapDataChannel;
-import flash.display.Bitmap;
 import flash.display.StageDisplayState;
 import flash.events.Event;
 import flash.events.KeyboardEvent;
@@ -45,7 +44,7 @@ import flash.text.TextField;
 import flash.text.TextFormat;
 import flash.ui.Keyboard;
 import flash.Vector.Vector;
-
+import flash.display.Bitmap;
 
 class Intermediate_Globe extends BasicApplication
 {
@@ -64,7 +63,6 @@ class Intermediate_Globe extends BasicApplication
 	private var atmosphereMaterial:ColorMaterial;
 	private var atmosphereDiffuseMethod:BasicDiffuseMethod;
 	private var atmosphereSpecularMethod:BasicSpecularMethod;
-	private var cubeTexture:BitmapCubeTexture;
 
 	//scene objects
 	private var sun:Sprite3D;
@@ -78,7 +76,7 @@ class Intermediate_Globe extends BasicApplication
 	//light objects
 	private var light:PointLight;
 	private var lightPicker:StaticLightPicker;
-	private var flares:Vector<FlareObject> = new Vector<FlareObject>();
+	private var flares:Vector<FlareObject>;
 
 	//navigation variables
 	private var move:Bool = false;
@@ -96,6 +94,7 @@ class Intermediate_Globe extends BasicApplication
 	 */
 	public function new()
 	{
+		flares = new Vector<FlareObject>();
 		super();
 	}
 
@@ -177,18 +176,18 @@ class Intermediate_Globe extends BasicApplication
 
 	private function initLensFlare():Void
 	{
-		flares.push(new FlareObject(new Flare10(), 3.2, -0.01, 147.9));
-		flares.push(new FlareObject(new Flare11(), 6, 0, 30.6));
-		flares.push(new FlareObject(new Flare7(), 2, 0, 25.5));
-		flares.push(new FlareObject(new Flare7(), 4, 0, 17.85));
-		flares.push(new FlareObject(new Flare12(), 0.4, 0.32, 22.95));
-		flares.push(new FlareObject(new Flare6(), 1, 0.68, 20.4));
-		flares.push(new FlareObject(new Flare2(), 1.25, 1.1, 48.45));
-		flares.push(new FlareObject(new Flare3(), 1.75, 1.37, 7.65));
-		flares.push(new FlareObject(new Flare4(), 2.75, 1.85, 12.75));
-		flares.push(new FlareObject(new Flare8(), 0.5, 2.21, 33.15));
-		flares.push(new FlareObject(new Flare6(), 4, 2.5, 10.4));
-		flares.push(new FlareObject(new Flare7(), 10, 2.66, 50));
+		flares.push(new FlareObject(new Flare10(0,0), 3.2, -0.01, 147.9));
+		flares.push(new FlareObject(new Flare11(0,0), 6, 0, 30.6));
+		flares.push(new FlareObject(new Flare7(0,0), 2, 0, 25.5));
+		flares.push(new FlareObject(new Flare7(0,0), 4, 0, 17.85));
+		flares.push(new FlareObject(new Flare12(0,0), 0.4, 0.32, 22.95));
+		flares.push(new FlareObject(new Flare6(0,0), 1, 0.68, 20.4));
+		flares.push(new FlareObject(new Flare2(0,0), 1.25, 1.1, 48.45));
+		flares.push(new FlareObject(new Flare3(0,0), 1.75, 1.37, 7.65));
+		flares.push(new FlareObject(new Flare4(0,0), 2.75, 1.85, 12.75));
+		flares.push(new FlareObject(new Flare8(0,0), 0.5, 2.21, 33.15));
+		flares.push(new FlareObject(new Flare6(0,0), 4, 2.5, 10.4));
+		flares.push(new FlareObject(new Flare7(0,0), 10, 2.66, 50));
 	}
 
 	/**
@@ -196,8 +195,6 @@ class Intermediate_Globe extends BasicApplication
 	 */
 	private function initMaterials():Void
 	{
-		cubeTexture = new BitmapCubeTexture(Cast.bitmapData(PosX), Cast.bitmapData(NegX), Cast.bitmapData(PosY), Cast.bitmapData(NegY), Cast.bitmapData(PosZ), Cast.bitmapData(NegZ));
-
 		//adjust specular map
 		var specBitmap:BitmapData = Cast.bitmapData(EarthSpecular);
 		specBitmap.colorTransform(specBitmap.rect, new ColorTransform(1, 1, 1, 1, 64, 64, 64));
@@ -246,9 +243,6 @@ class Intermediate_Globe extends BasicApplication
 
 	private function modulateDiffuseMethod(vo:MethodVO, t:ShaderRegisterElement, regCache:ShaderRegisterCache, sharedRegisters:ShaderRegisterData):String
 	{
-		vo = vo;
-		regCache = regCache;
-		sharedRegisters = sharedRegisters;
 		var viewDirFragmentReg:ShaderRegisterElement = atmosphereDiffuseMethod.sharedRegisters.viewDirFragment;
 		var normalFragmentReg:ShaderRegisterElement = atmosphereDiffuseMethod.sharedRegisters.normalFragment;
 
@@ -260,10 +254,6 @@ class Intermediate_Globe extends BasicApplication
 
 	private function modulateSpecularMethod(vo:MethodVO, t:ShaderRegisterElement, regCache:ShaderRegisterCache, sharedRegisters:ShaderRegisterData):String
 	{
-		vo = vo;
-		regCache = regCache;
-		sharedRegisters = sharedRegisters;
-
 		var viewDirFragmentReg:ShaderRegisterElement = atmosphereDiffuseMethod.sharedRegisters.viewDirFragment;
 		var normalFragmentReg:ShaderRegisterElement = atmosphereDiffuseMethod.sharedRegisters.normalFragment;
 		var temp:ShaderRegisterElement = regCache.getFreeFragmentSingleTemp();
@@ -309,8 +299,7 @@ class Intermediate_Globe extends BasicApplication
 		cameraController.lookAtObject = tiltContainer;
 
 		//create a skybox
-		skyBox = new SkyBox(cubeTexture);
-		scene.addChild(skyBox);
+		scene.addChild(new SpaceSkyBox());
 	}
 
 	/**
@@ -492,7 +481,6 @@ class Intermediate_Globe extends BasicApplication
 					mouseLockX = cameraController.panAngle / 0.3;
 					mouseLockY = cameraController.tiltAngle / 0.3;
 				}
-				break;
 		}
 	}
 }
@@ -513,10 +501,10 @@ class FlareObject
 	/**
 	* Constructor
 	*/
-	public function new(sprite:Bitmap, size:Float, position:Float, opacity:Float)
+	public function new(data:BitmapData, size:Float, position:Float, opacity:Float)
 	{
-		this.sprite = new Bitmap(new BitmapData(sprite.bitmapData.width, sprite.bitmapData.height, true, 0xFFFFFFFF));
-		this.sprite.bitmapData.copyChannel(sprite.bitmapData, sprite.bitmapData.rect, new Point(), BitmapDataChannel.RED, BitmapDataChannel.ALPHA);
+		this.sprite = new Bitmap(new BitmapData(data.width, data.height, true, 0xFFFFFFFF));
+		this.sprite.bitmapData.copyChannel(data, data.rect, new Point(), BitmapDataChannel.RED, BitmapDataChannel.ALPHA);
 		this.sprite.alpha = opacity / 100;
 		this.sprite.smoothing = true;
 		this.sprite.scaleX = this.sprite.scaleY = size * flareSize / sprite.width;
@@ -534,7 +522,7 @@ class FlareObject
 @:bitmap("embeds/globe/land_ocean_ice_2048_match.jpg") class EarthDiffuse extends flash.display.BitmapData { }
 
 //normal map for globe
-@:bitmap("embeds/globe/EarthNormal.jpg") class EarthNormals extends flash.display.BitmapData { }
+@:bitmap("embeds/globe/EarthNormal.png") class EarthNormals extends flash.display.BitmapData { }
 
 //specular map for globe
 @:bitmap("embeds/globe/earth_specular_2048.jpg") class EarthSpecular extends flash.display.BitmapData { }

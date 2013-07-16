@@ -264,7 +264,7 @@ class Loader3D extends ObjectContainer3D
 	}
 
 
-	public static function enableParsers(parserClasses:Vector<Class<ParserBase>>):Void
+	public static function enableParsers(parserClasses:Array<Class<ParserBase>>):Void
 	{
 		SingleFileLoader.enableParsers(parserClasses);
 	}

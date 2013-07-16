@@ -188,7 +188,7 @@ class SingleFileLoader extends EventDispatcher
 	}
 
 
-	public static function enableParsers(parsers:Vector<Class<ParserBase>>):Void
+	public static function enableParsers(parsers:Array<Class<ParserBase>>):Void
 	{
 		var pc:Class<ParserBase>;
 		for (pc in parsers)

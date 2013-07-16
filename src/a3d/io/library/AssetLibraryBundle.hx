@@ -202,7 +202,7 @@ class AssetLibraryBundle extends EventDispatcher
 	/**
 	 *
 	 */
-	public function enableParsers(parserClasses:Vector<Class<ParserBase>>):Void
+	public function enableParsers(parserClasses:Array<Class<ParserBase>>):Void
 	{
 		SingleFileLoader.enableParsers(parserClasses);
 	}

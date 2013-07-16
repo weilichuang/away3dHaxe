@@ -90,6 +90,7 @@ class SkeletonAnimator extends AnimatorBase implements IAnimator
 	 *
 	 * @see #globalPose
 	 */
+	public var globalMatrices(get, null):Vector<Float>;
 	private function get_globalMatrices():Vector<Float>
 	{
 		if (_globalPropertiesDirty)
@@ -103,6 +104,7 @@ class SkeletonAnimator extends AnimatorBase implements IAnimator
 	 *
 	 * @see a3d.animators.data.SkeletonPose
 	 */
+	public var globalPose(get, null):SkeletonPose;
 	private function get_globalPose():SkeletonPose
 	{
 		if (_globalPropertiesDirty)
@@ -115,6 +117,7 @@ class SkeletonAnimator extends AnimatorBase implements IAnimator
 	 * Returns the skeleton object in use by the animator - this defines the number and heirarchy of joints used by the
 	 * skinned geoemtry to which skeleon animator is applied.
 	 */
+	public var skeleton(get, null):Skeleton;
 	private function get_skeleton():Skeleton
 	{
 		return _skeleton;
@@ -124,6 +127,7 @@ class SkeletonAnimator extends AnimatorBase implements IAnimator
 	 * Indicates whether the skeleton animator is disabled by default for GPU rendering, something that allows the animator to perform calculation on the GPU.
 	 * Defaults to false.
 	 */
+	public var forceCPU(get, null):Bool;
 	private function get_forceCPU():Bool
 	{
 		return _forceCPU;
@@ -134,14 +138,15 @@ class SkeletonAnimator extends AnimatorBase implements IAnimator
 	 * by condensing the number of joint index values required per mesh. Only applicable to
 	 * skeleton animations that utilise more than one mesh object. Defaults to false.
 	 */
+	public var useCondensedIndices(get, set):Bool;
 	private function get_useCondensedIndices():Bool
 	{
 		return _useCondensedIndices;
 	}
 
-	private function set_useCondensedIndices(value:Bool):Void
+	private function set_useCondensedIndices(value:Bool):Bool
 	{
-		_useCondensedIndices = value;
+		return _useCondensedIndices = value;
 	}
 
 	/**
