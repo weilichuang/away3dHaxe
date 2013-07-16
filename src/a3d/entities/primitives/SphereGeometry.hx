@@ -190,13 +190,15 @@ class SphereGeometry extends PrimitiveBase
 			invalidateGeometry();
 		}
 
+		var su:Float = target.scaleU;
+		var sv:Float = target.scaleV;
 		var index:Int = target.UVOffset;
 		for (j in 0..._segmentsH + 1)
 		{
 			for (i in 0..._segmentsW + 1)
 			{
-				data[index++] = ( j / _segmentsH ) * target.scaleV;
-				data[index++] = ( i / _segmentsW ) * target.scaleU;
+				data[index++] = ( i / _segmentsW ) * su;
+				data[index++] = ( j / _segmentsH ) * sv;
 				index += skip;
 			}
 		}
