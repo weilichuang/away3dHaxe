@@ -20,7 +20,7 @@ import flash.Vector;
  * NearShadowMapMethod provides a shadow map method that restricts the shadowed area near the camera to optimize
  * shadow map usage. This method needs to be used in conjunction with a NearDirectionalShadowMapper.
  *
- * @see away3d.lights.shadowmaps.NearDirectionalShadowMapper
+ * @see a3d.lights.shadowmaps.NearDirectionalShadowMapper
  */
 class NearShadowMapMethod extends SimpleShadowMapMethodBase
 {

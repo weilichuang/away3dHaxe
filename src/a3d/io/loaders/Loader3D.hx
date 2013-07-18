@@ -135,7 +135,7 @@ import a3d.io.loaders.parsers.ParserBase;
 
 
 /**
- * Loader3D can load any file format that Away3D supports (or for which a third-party parser
+ * Loader3D can load any file format that a3d supports (or for which a third-party parser
  * has been plugged in) and be added directly to the scene. As assets are encountered
  * they are added to the Loader3D container. Assets that can not be displayed in the scene
  * graph (e.g. unused bitmaps/materials, skeletons et c) will be ignored.

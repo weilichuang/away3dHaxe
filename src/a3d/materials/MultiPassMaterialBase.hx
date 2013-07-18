@@ -27,7 +27,7 @@ import a3d.textures.Texture2DBase;
 
 
 /**
- * MultiPassMaterialBase forms an abstract base class for the default multi-pass materials provided by Away3D,
+ * MultiPassMaterialBase forms an abstract base class for the default multi-pass materials provided by a3d,
  * using material methods to define their appearance.
  */
 class MultiPassMaterialBase extends MaterialBase
@@ -128,7 +128,7 @@ class MultiPassMaterialBase extends MaterialBase
 	 * Define which light source types to use for specular reflections. This allows choosing between regular lights
 	 * and/or light probes for specular reflections.
 	 *
-	 * @see away3d.materials.LightSources
+	 * @see a3d.materials.LightSources
 	 */
 	public var specularLightSources(get,set):Int;
 	private function get_specularLightSources():Int
@@ -145,7 +145,7 @@ class MultiPassMaterialBase extends MaterialBase
 	 * Define which light source types to use for diffuse reflections. This allows choosing between regular lights
 	 * and/or light probes for diffuse reflections.
 	 *
-	 * @see away3d.materials.LightSources
+	 * @see a3d.materials.LightSources
 	 */
 	public var diffuseLightSources(get,set):Int;
 	private function get_diffuseLightSources():Int
@@ -217,7 +217,7 @@ class MultiPassMaterialBase extends MaterialBase
 	 * The method that provides the diffuse lighting contribution. Defaults to BasicDiffuseMethod.
 	 */
 	public var diffuseMethod(get,set):BasicDiffuseMethod;
-	private function get_diffuseMethod():BasicDiffuseMethod
+	private inline function get_diffuseMethod():BasicDiffuseMethod
 	{
 		return _diffuseMethod;
 	}
@@ -234,7 +234,7 @@ class MultiPassMaterialBase extends MaterialBase
 	 * The method used to generate the per-pixel normals. Defaults to BasicNormalMethod.
 	 */
 	public var normalMethod(get,set):BasicNormalMethod;
-	private function get_normalMethod():BasicNormalMethod
+	private inline function get_normalMethod():BasicNormalMethod
 	{
 		return _normalMethod;
 	}
@@ -250,7 +250,7 @@ class MultiPassMaterialBase extends MaterialBase
 	 * The method that provides the specular lighting contribution. Defaults to BasicSpecularMethod.
 	 */
 	public var specularMethod(get,set):BasicSpecularMethod;
-	private function get_specularMethod():BasicSpecularMethod
+	private inline function get_specularMethod():BasicSpecularMethod
 	{
 		return _specularMethod;
 	}

@@ -1,13 +1,7 @@
 ﻿package a3d.materials;
 
-import flash.display3D.Context3D;
-import flash.display3D.Context3DCompareMode;
-import flash.errors.Error;
-import flash.geom.ColorTransform;
-
-
-import a3d.entities.Camera3D;
 import a3d.core.managers.Stage3DProxy;
+import a3d.entities.Camera3D;
 import a3d.materials.lightpickers.LightPickerBase;
 import a3d.materials.methods.BasicAmbientMethod;
 import a3d.materials.methods.BasicDiffuseMethod;
@@ -17,15 +11,125 @@ import a3d.materials.methods.EffectMethodBase;
 import a3d.materials.methods.ShadowMapMethodBase;
 import a3d.materials.passes.SuperShaderPass;
 import a3d.textures.Texture2DBase;
+import flash.display3D.Context3D;
+import flash.display3D.Context3DCompareMode;
+import flash.errors.Error;
+import flash.geom.ColorTransform;
+
+
 
 
 
 /**
- * SinglePassMaterialBase forms an abstract base class for the default single-pass materials provided by Away3D,
+ * SinglePassMaterialBase forms an abstract base class for the default single-pass materials provided by a3d,
  * using material methods to define their appearance.
  */
 class SinglePassMaterialBase extends MaterialBase
 {
+	/**
+	 * Whether or not to use fallOff and radius properties for lights. This can be used to improve performance and
+	 * compatibility for constrained mode.
+	 */
+	public var enableLightFallOff(get, set):Bool;
+	
+	/**
+	 * The minimum alpha value for which pixels should be drawn. This is used for transparency that is either
+	 * invisible or entirely opaque, often used with textures for foliage, etc.
+	 * Recommended values are 0 to disable alpha, or 0.5 to create smooth edges. Default value is 0 (disabled).
+	 */
+	public var alphaThreshold(get, set):Float;
+	
+	/**
+	 * Define which light source types to use for specular reflections. This allows choosing between regular lights
+	 * and/or light probes for specular reflections.
+	 *
+	 * @see a3d.materials.LightSources
+	 */
+	public var specularLightSources(get, set):UInt;
+	
+	/**
+	 * Define which light source types to use for diffuse reflections. This allows choosing between regular lights
+	 * and/or light probes for diffuse reflections.
+	 *
+	 * @see a3d.materials.LightSources
+	 */
+	public var diffuseLightSources(get, set):UInt;
+	
+	/**
+	 * The ColorTransform object to transform the colour of the material with. Defaults to null.
+	 */
+	public var colorTransform(get, set):ColorTransform;
+	
+	/**
+	 * The method that provides the ambient lighting contribution. Defaults to BasicAmbientMethod.
+	 */
+	public var ambientMethod(get, set):BasicAmbientMethod;
+	
+	/**
+	 * The method used to render shadows cast on this surface, or null if no shadows are to be rendered. Defaults to null.
+	 */
+	public var shadowMethod(get, set):ShadowMapMethodBase;
+	
+	/**
+	 * The method that provides the diffuse lighting contribution. Defaults to BasicDiffuseMethod.
+	 */
+	public var diffuseMethod(get, set):BasicDiffuseMethod;
+	
+	/**
+	 * The method used to generate the per-pixel normals. Defaults to BasicNormalMethod.
+	 */
+	public var normalMethod(get, set):BasicNormalMethod;
+	
+	/**
+	 * The method that provides the specular lighting contribution. Defaults to BasicSpecularMethod.
+	 */
+	public var specularMethod(get, set):BasicSpecularMethod;
+	
+	/**
+	 * The number of "effect" methods added to the material.
+	 */
+	public var numMethods(get, null):Int;
+	
+	/**
+	 * The normal map to modulate the direction of the surface for each texel. The default normal method expects
+	 * tangent-space normal maps, but others could expect object-space maps.
+	 */
+	public var normalMap(get, set):Texture2DBase;
+	
+	/**
+	 * A specular map that defines the strength of specular reflections for each texel in the red channel,
+	 * and the gloss factor in the green channel. You can use SpecularBitmapTexture if you want to easily set
+	 * specular and gloss maps from grayscale images, but correctly authored images are preferred.
+	 */
+	public var specularMap(get, set):Texture2DBase;
+	
+	/**
+	 * The glossiness of the material (sharpness of the specular highlight).
+	 */
+	public var gloss(get, set):Float;
+	
+	/**
+	 * The strength of the ambient reflection.
+	 */
+	public var ambient(get, set):Float;
+	
+	/**
+	 * The colour of the ambient reflection.
+	 */
+	public var ambientColor(get, set):UInt;
+	
+	/**
+	 * The colour of the specular reflection.
+	 */
+	public var specularColor(get, set):UInt;
+	
+	/**
+	 * Indicate whether or not the material has transparency. If binary transparency is sufficient, for
+	 * example when using textures of foliage, consider using alphaThreshold instead.
+	 */
+	public var alphaBlending(get, set):Bool;
+	
+	
 	private var _screenPass:SuperShaderPass;
 	private var _alphaBlending:Bool;
 
@@ -38,11 +142,7 @@ class SinglePassMaterialBase extends MaterialBase
 		addPass(_screenPass = new SuperShaderPass(this));
 	}
 
-	/**
-	 * Whether or not to use fallOff and radius properties for lights. This can be used to improve performance and
-	 * compatibility for constrained mode.
-	 */
-	public var enableLightFallOff(get, set):Bool;
+	
 	private function get_enableLightFallOff():Bool
 	{
 		return _screenPass.enableLightFallOff;
@@ -53,12 +153,6 @@ class SinglePassMaterialBase extends MaterialBase
 		return _screenPass.enableLightFallOff = value;
 	}
 
-	/**
-	 * The minimum alpha value for which pixels should be drawn. This is used for transparency that is either
-	 * invisible or entirely opaque, often used with textures for foliage, etc.
-	 * Recommended values are 0 to disable alpha, or 0.5 to create smooth edges. Default value is 0 (disabled).
-	 */
-	public var alphaThreshold(get, set):Float;
 	private function get_alphaThreshold():Float
 	{
 		return _screenPass.diffuseMethod.alphaThreshold;
@@ -78,14 +172,14 @@ class SinglePassMaterialBase extends MaterialBase
 	{
 		super.blendMode = value;
 		_screenPass.setBlendMode(blendMode == BlendMode.NORMAL && requiresBlending ? BlendMode.LAYER : blendMode);
-		return blendMode;
+		return value;
 	}
 
 	override private function set_depthCompareMode(value:Context3DCompareMode):Context3DCompareMode
 	{
 		super.depthCompareMode = value;
 		_screenPass.depthCompareMode = value;
-		return super.depthCompareMode;
+		return value;
 	}
 
 	override public function activateForDepth(stage3DProxy:Stage3DProxy, camera:Camera3D, distanceBased:Bool = false):Void
@@ -97,13 +191,7 @@ class SinglePassMaterialBase extends MaterialBase
 		super.activateForDepth(stage3DProxy, camera, distanceBased);
 	}
 
-	/**
-	 * Define which light source types to use for specular reflections. This allows choosing between regular lights
-	 * and/or light probes for specular reflections.
-	 *
-	 * @see away3d.materials.LightSources
-	 */
-	public var specularLightSources(get, set):UInt;
+	
 	private function get_specularLightSources():UInt
 	{
 		return _screenPass.specularLightSources;
@@ -114,13 +202,7 @@ class SinglePassMaterialBase extends MaterialBase
 		return _screenPass.specularLightSources = value;
 	}
 
-	/**
-	 * Define which light source types to use for diffuse reflections. This allows choosing between regular lights
-	 * and/or light probes for diffuse reflections.
-	 *
-	 * @see away3d.materials.LightSources
-	 */
-	public var diffuseLightSources(get, set):UInt;
+	
 	private function get_diffuseLightSources():UInt
 	{
 		return _screenPass.diffuseLightSources;
@@ -140,10 +222,7 @@ class SinglePassMaterialBase extends MaterialBase
 				(_screenPass.colorTransform != null && _screenPass.colorTransform.alphaMultiplier < 1);
 	}
 
-	/**
-	 * The ColorTransform object to transform the colour of the material with. Defaults to null.
-	 */
-	public var colorTransform(get, set):ColorTransform;
+	
 	private function get_colorTransform():ColorTransform
 	{
 		return _screenPass.colorTransform;
@@ -154,10 +233,7 @@ class SinglePassMaterialBase extends MaterialBase
 		return _screenPass.colorTransform = value;
 	}
 
-	/**
-	 * The method that provides the ambient lighting contribution. Defaults to BasicAmbientMethod.
-	 */
-	public var ambientMethod(get, set):BasicAmbientMethod;
+	
 	private function get_ambientMethod():BasicAmbientMethod
 	{
 		return _screenPass.ambientMethod;
@@ -168,10 +244,7 @@ class SinglePassMaterialBase extends MaterialBase
 		return _screenPass.ambientMethod = value;
 	}
 
-	/**
-	 * The method used to render shadows cast on this surface, or null if no shadows are to be rendered. Defaults to null.
-	 */
-	public var shadowMethod(get, set):ShadowMapMethodBase;
+	
 	private function get_shadowMethod():ShadowMapMethodBase
 	{
 		return _screenPass.shadowMethod;
@@ -182,10 +255,7 @@ class SinglePassMaterialBase extends MaterialBase
 		return _screenPass.shadowMethod = value;
 	}
 
-	/**
-	 * The method that provides the diffuse lighting contribution. Defaults to BasicDiffuseMethod.
-	 */
-	public var diffuseMethod(get, set):BasicDiffuseMethod;
+	
 	private function get_diffuseMethod():BasicDiffuseMethod
 	{
 		return _screenPass.diffuseMethod;
@@ -196,10 +266,7 @@ class SinglePassMaterialBase extends MaterialBase
 		return _screenPass.diffuseMethod = value;
 	}
 
-	/**
-	 * The method used to generate the per-pixel normals. Defaults to BasicNormalMethod.
-	 */
-	public var normalMethod(get, set):BasicNormalMethod;
+	
 	private function get_normalMethod():BasicNormalMethod
 	{
 		return _screenPass.normalMethod;
@@ -210,10 +277,7 @@ class SinglePassMaterialBase extends MaterialBase
 		return _screenPass.normalMethod = value;
 	}
 
-	/**
-	 * The method that provides the specular lighting contribution. Defaults to BasicSpecularMethod.
-	 */
-	public var specularMethod(get, set):BasicSpecularMethod;
+	
 	private function get_specularMethod():BasicSpecularMethod
 	{
 		return _screenPass.specularMethod;
@@ -234,10 +298,7 @@ class SinglePassMaterialBase extends MaterialBase
 		_screenPass.addMethod(method);
 	}
 
-	/**
-	 * The number of "effect" methods added to the material.
-	 */
-	public var numMethods(get, null):Int;
+	
 	private function get_numMethods():Int
 	{
 		return _screenPass.numMethods;
@@ -294,11 +355,7 @@ class SinglePassMaterialBase extends MaterialBase
 		return super.mipmap = value;
 	}
 
-	/**
-	 * The normal map to modulate the direction of the surface for each texel. The default normal method expects
-	 * tangent-space normal maps, but others could expect object-space maps.
-	 */
-	public var normalMap(get, set):Texture2DBase;
+	
 	private function get_normalMap():Texture2DBase
 	{
 		return _screenPass.normalMap;
@@ -309,12 +366,7 @@ class SinglePassMaterialBase extends MaterialBase
 		return _screenPass.normalMap = value;
 	}
 
-	/**
-	 * A specular map that defines the strength of specular reflections for each texel in the red channel,
-	 * and the gloss factor in the green channel. You can use SpecularBitmapTexture if you want to easily set
-	 * specular and gloss maps from grayscale images, but correctly authored images are preferred.
-	 */
-	public var specularMap(get, set):Texture2DBase;
+	
 	private function get_specularMap():Texture2DBase
 	{
 		return _screenPass.specularMethod.texture;
@@ -330,10 +382,7 @@ class SinglePassMaterialBase extends MaterialBase
 		return _screenPass.specularMethod.texture;
 	}
 
-	/**
-	 * The glossiness of the material (sharpness of the specular highlight).
-	 */
-	public var gloss(get, set):Float;
+	
 	private function get_gloss():Float
 	{
 		return _screenPass.specularMethod != null ? _screenPass.specularMethod.gloss : 0;
@@ -347,10 +396,7 @@ class SinglePassMaterialBase extends MaterialBase
 		return gloss;
 	}
 
-	/**
-	 * The strength of the ambient reflection.
-	 */
-	public var ambient(get, set):Float;
+	
 	private function get_ambient():Float
 	{
 		return _screenPass.ambientMethod.ambient;
@@ -377,10 +423,7 @@ class SinglePassMaterialBase extends MaterialBase
 		return specular;
 	}
 
-	/**
-	 * The colour of the ambient reflection.
-	 */
-	public var ambientColor(get, set):UInt;
+	
 	private function get_ambientColor():UInt
 	{
 		return _screenPass.ambientMethod.ambientColor;
@@ -391,10 +434,7 @@ class SinglePassMaterialBase extends MaterialBase
 		return _screenPass.ambientMethod.ambientColor = value;
 	}
 
-	/**
-	 * The colour of the specular reflection.
-	 */
-	public var specularColor(get, set):UInt;
+	
 	private function get_specularColor():UInt
 	{
 		return _screenPass.specularMethod.specularColor;
@@ -405,11 +445,7 @@ class SinglePassMaterialBase extends MaterialBase
 		return _screenPass.specularMethod.specularColor = value;
 	}
 
-	/**
-	 * Indicate whether or not the material has transparency. If binary transparency is sufficient, for
-	 * example when using textures of foliage, consider using alphaThreshold instead.
-	 */
-	public var alphaBlending(get, set):Bool;
+	
 	private function get_alphaBlending():Bool
 	{
 		return _alphaBlending;

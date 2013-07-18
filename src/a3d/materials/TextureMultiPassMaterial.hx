@@ -9,6 +9,19 @@ import a3d.textures.Texture2DBase;
  */
 class TextureMultiPassMaterial extends MultiPassMaterialBase
 {
+	/**
+	 * Specifies whether or not the UV coordinates should be animated using a transformation matrix.
+	 */
+	public var animateUVs(get, set):Bool;
+	/**
+	 * The texture object to use for the albedo colour.
+	 */
+	public var texture(get, set):Texture2DBase;
+	/**
+	 * The texture object to use for the ambient colour.
+	 */
+	public var ambientTexture(get, set):Texture2DBase;
+	
 	private var _animateUVs:Bool;
 
 	/**
@@ -27,10 +40,7 @@ class TextureMultiPassMaterial extends MultiPassMaterialBase
 		this.mipmap = mipmap;
 	}
 
-	/**
-	 * Specifies whether or not the UV coordinates should be animated using a transformation matrix.
-	 */
-	public var animateUVs(get, set):Bool;
+	
 	private function get_animateUVs():Bool
 	{
 		return _animateUVs;
@@ -41,10 +51,7 @@ class TextureMultiPassMaterial extends MultiPassMaterialBase
 		return _animateUVs = value;
 	}
 
-	/**
-	 * The texture object to use for the albedo colour.
-	 */
-	public var texture(get, set):Texture2DBase;
+	
 	private function get_texture():Texture2DBase
 	{
 		return diffuseMethod.texture;
@@ -55,10 +62,7 @@ class TextureMultiPassMaterial extends MultiPassMaterialBase
 		return diffuseMethod.texture = value;
 	}
 
-	/**
-	 * The texture object to use for the ambient colour.
-	 */
-	public var ambientTexture(get, set):Texture2DBase;
+	
 	private function get_ambientTexture():Texture2DBase
 	{
 		return ambientMethod.texture;
@@ -69,7 +73,7 @@ class TextureMultiPassMaterial extends MultiPassMaterialBase
 		ambientMethod.texture = value;
 		diffuseMethod.useAmbientTexture = value != null;
 		
-		return ambientMethod.texture;
+		return value;
 	}
 
 

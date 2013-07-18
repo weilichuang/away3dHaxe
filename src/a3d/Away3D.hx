@@ -1,10 +1,10 @@
-package away3d;
+package a3d;
 
 
 /**
  * Helper class to track a few important library constants.
  */
-class Away3D
+class a3d
 {
 	public static inline var MAJOR_VERSION:Int = 4;
 

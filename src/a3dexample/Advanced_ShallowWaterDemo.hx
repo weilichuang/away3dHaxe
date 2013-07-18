@@ -573,7 +573,7 @@ class Advanced_ShallowWaterDemo extends BasicApplication
 	}
 
 	/**
-	 * GUI property for toggling Away3D text image
+	 * GUI property for toggling a3d text image
 	 */
 	public var toggleLiquidImage(get,set):Bool;
 	private function set_toggleLiquidImage(value:Bool):Bool

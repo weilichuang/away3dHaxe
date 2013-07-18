@@ -1,6 +1,6 @@
 ﻿/*
 
- Light probe usage in Away3D 4.0
+ Light probe usage in a3d 4.0
 
  Demonstrates:
 

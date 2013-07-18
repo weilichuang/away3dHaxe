@@ -5,6 +5,15 @@ package a3d.core.base.data;
 */
 class UV
 {
+	/**
+	 * Defines the vertical coordinate of the texture value.
+	 */
+	public var v(get, set):Float;
+	/**
+	 * Defines the horizontal coordinate of the texture value.
+	 */
+	public var u(get, set):Float;
+	
 	private var _u:Float;
 	private var _v:Float;
 
@@ -20,30 +29,24 @@ class UV
 		_v = v;
 	}
 
-	/**
-	 * Defines the vertical coordinate of the texture value.
-	 */
-	public var v(get, set):Float;
-	private function get_v():Float
+	
+	private inline function get_v():Float
 	{
 		return _v;
 	}
 
-	private function set_v(value:Float):Float
+	private inline function set_v(value:Float):Float
 	{
 		return _v = value;
 	}
 
-	/**
-	 * Defines the horizontal coordinate of the texture value.
-	 */
-	public var u(get, set):Float;
-	private function get_u():Float
+	
+	private inline function get_u():Float
 	{
 		return _u;
 	}
 
-	private function set_u(value:Float):Float
+	private inline function set_u(value:Float):Float
 	{
 		return _u = value;
 	}

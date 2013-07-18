@@ -8,7 +8,7 @@ import a3d.materials.passes.SegmentPass;
 /**
  * SegmentMaterial is a material exclusively used to render wireframe objects
  *
- * @see away3d.entities.Lines
+ * @see a3d.entities.Lines
  */
 class SegmentMaterial extends MaterialBase
 {

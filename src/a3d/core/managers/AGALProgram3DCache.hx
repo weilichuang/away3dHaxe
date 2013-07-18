@@ -11,9 +11,11 @@ import flash.utils.ByteArray;
 import flash.Vector;
 import haxe.ds.StringMap;
 
+//TODO 重命名
 class AGALProgram3DCache
 {
 	private static var _instances:Vector<AGALProgram3DCache>;
+	private static var _currentId:Int;
 
 	private var _stage3DProxy:Stage3DProxy;
 
@@ -21,9 +23,6 @@ class AGALProgram3DCache
 	private var _ids:StringMap<Int>;
 	private var _usages:Array<Int>;
 	private var _keys:Array<String>;
-
-	private static var _currentId:Int;
-
 
 	public function new(stage3DProxy:Stage3DProxy)
 	{
@@ -132,7 +131,7 @@ class AGALProgram3DCache
 		_ids.set(key, -1);
 	}
 
-	private function getKey(vertexCode:String, fragmentCode:String):String
+	private inline function getKey(vertexCode:String, fragmentCode:String):String
 	{
 		return vertexCode + "---" + fragmentCode;
 	}

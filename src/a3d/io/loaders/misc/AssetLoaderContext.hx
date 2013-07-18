@@ -123,7 +123,7 @@ class AssetLoaderContext
 	 * expected by the loaded file.
 	 *
 	 * @param originalUrl The original URL which is referenced in the loaded resource.
-	 * @param newUrl The URL from which Away3D should load the resource instead.
+	 * @param newUrl The URL from which a3d should load the resource instead.
 	 *
 	 * @see mapUrlToData()
 	*/

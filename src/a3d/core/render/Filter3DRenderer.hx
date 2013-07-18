@@ -17,6 +17,9 @@ import a3d.filters.tasks.Filter3DTaskBase;
 
 class Filter3DRenderer
 {
+	public var requireDepthRender(get, null):Bool;
+	public var filters(get, set):Array<Filter3DBase>;
+	
 	private var _filters:Array<Filter3DBase>;
 	private var _tasks:Vector<Filter3DTaskBase>;
 	private var _filterTasksInvalid:Bool;
@@ -40,7 +43,7 @@ class Filter3DRenderer
 		_filterSizesInvalid = true;
 	}
 
-	public var requireDepthRender(get, null):Bool;
+	
 	private function get_requireDepthRender():Bool
 	{
 		return _requireDepthRender;
@@ -53,7 +56,7 @@ class Filter3DRenderer
 		return _mainInputTexture;
 	}
 
-	public var filters(get, set):Array<Filter3DBase>;
+	
 	private function get_filters():Array<Filter3DBase>
 	{
 		return _filters;

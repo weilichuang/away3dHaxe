@@ -387,7 +387,7 @@ class Max3DSParser extends ParserBase
 			_cur_obj.indices[i++] = i2;
 			_cur_obj.indices[i++] = i1;
 
-			// Skip "face info", irrelevant in Away3D
+			// Skip "face info", irrelevant in a3d
 			_byteData.position += 2;
 		}
 
@@ -516,7 +516,7 @@ class Max3DSParser extends ParserBase
 			var faces:Vector<FaceVO> = null;
 
 			if (obj.materials.length > 1)
-				trace('The Away3D 3DS parser does not support multiple materials per mesh at this point.');
+				trace('The a3d 3DS parser does not support multiple materials per mesh at this point.');
 
 			// Ignore empty objects
 			if (obj.indices == null || obj.indices.length == 0)

@@ -19,7 +19,7 @@ import flash.Vector;
 
 
 /**
- * <p>Stats monitor for Away3D or general use in any project. The widget was designed to
+ * <p>Stats monitor for a3d or general use in any project. The widget was designed to
  * display all the necessary data in ways that are easily readable, while maintaining a
  * tiny size.</p>
  *
@@ -128,7 +128,7 @@ class AwayStats extends Sprite
 
 
 	/**
-	 * <p>Create an Away3D stats widget. The widget can be added to the stage
+	 * <p>Create an a3d stats widget. The widget can be added to the stage
 	 * and positioned like any other display object. Once on the stage, you
 	 * can drag the widget to re-position it at runtime.</p>
 	 *
@@ -138,7 +138,7 @@ class AwayStats extends Sprite
 	 * after construction using the registerView() method. Omit the view
 	 * constructor parameter to disable this feature altogether.</p>
 	 *
-	 * @param view A reference to your Away3D view. This is required if you
+	 * @param view A reference to your a3d view. This is required if you
 	 * want the stats widget to display polycounts.
 	 *
 	 * @param minimized Defines whether the widget should start up in minimized

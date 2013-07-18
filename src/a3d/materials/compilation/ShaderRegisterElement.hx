@@ -57,13 +57,13 @@ class ShaderRegisterElement
 	}
 
 	
-	private function get_regName():String
+	private inline function get_regName():String
 	{
 		return _regName;
 	}
 
 	
-	private function get_index():Int
+	private inline function get_index():Int
 	{
 		return _index;
 	}

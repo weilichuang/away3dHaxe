@@ -22,6 +22,8 @@ import a3d.math.Plane3D;
  */
 class DepthRenderer extends RendererBase
 {
+	public var disableColor(get, set):Bool;
+	
 	private var _activeMaterial:MaterialBase;
 	private var _renderBlended:Bool;
 	private var _distanceBased:Bool;
@@ -42,7 +44,7 @@ class DepthRenderer extends RendererBase
 		_backgroundB = 1;
 	}
 
-	public var disableColor(get, set):Bool;
+	
 	private function get_disableColor():Bool
 	{
 		return _disableColor;
@@ -55,17 +57,17 @@ class DepthRenderer extends RendererBase
 
 	override private function set_backgroundR(value:Float):Float
 	{
-		return backgroundR;
+		return value;
 	}
 
 	override private function set_backgroundG(value:Float):Float
 	{
-		return backgroundG;
+		return value;
 	}
 
 	override private function set_backgroundB(value:Float):Float
 	{
-		return backgroundB;
+		return value;
 	}
 
 	public function renderCascades(entityCollector:EntityCollector, target:TextureBase, numCascades:UInt, scissorRects:Vector<Rectangle>, cameras:Vector<Camera3D>):Void
@@ -94,7 +96,7 @@ class DepthRenderer extends RendererBase
 
 		_activeMaterial = null;
 
-		//line required for correct rendering when using away3d with starling. DO NOT REMOVE UNLESS STARLING INTEGRATION IS RETESTED!
+		//line required for correct rendering when using a3d with starling. DO NOT REMOVE UNLESS STARLING INTEGRATION IS RETESTED!
 		_context.setDepthTest(false, Context3DCompareMode.LESS_EQUAL);
 
 		_stage3DProxy.scissorRect = null;
@@ -183,7 +185,8 @@ class DepthRenderer extends RendererBase
 				do
 				{
 					item2 = item2.next;
-				} while (item2 != null && item2.renderable.material == _activeMaterial);
+				} 
+				while (item2 != null && item2.renderable.material == _activeMaterial);
 			}
 			else
 			{
@@ -193,7 +196,8 @@ class DepthRenderer extends RendererBase
 				{
 					_activeMaterial.renderDepth(item2.renderable, _stage3DProxy, camera, _rttViewProjectionMatrix);
 					item2 = item2.next;
-				} while (item2  != null && item2.renderable.material == _activeMaterial);
+				} 
+				while (item2  != null && item2.renderable.material == _activeMaterial);
 				_activeMaterial.deactivateForDepth(_stage3DProxy);
 			}
 			item = item2;

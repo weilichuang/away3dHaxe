@@ -20,13 +20,6 @@ interface IRenderable extends IMaterialOwner
 	var sceneTransform(get,null):Matrix3D;
 
 	/**
-	 * The transformation matrix that transforms from model to world space, adapted with any special operations needed to render.
-	 * For example, assuring certain alignedness which is not inherent in the scene transform. By default, this would
-	 * return the scene transform.
-	 */
-	function getRenderSceneTransform(camera:Camera3D):Matrix3D;
-
-	/**
 	 * The inverse scene transform object that transforms from world to model space.
 	 */
 	var inverseSceneTransform(get,null):Matrix3D;
@@ -68,7 +61,39 @@ interface IRenderable extends IMaterialOwner
 	 * The number of data elements in the buffers per vertex.
 	 * This always applies to vertices, normals and tangents.
 	 */
-	var vertexStride(get,null):Int;
+	var vertexStride(get, null):Int;
+	
+	/**
+	 * Retrieves the object's vertices as a Number array.
+	 */
+	var vertexData(get,null):Vector<Float>;
+
+	/**
+	 * Retrieves the object's normals as a Number array.
+	 */
+	var vertexNormalData(get,null):Vector<Float>;
+
+	/**
+	 * Retrieves the object's tangents as a Number array.
+	 */
+	var vertexTangentData(get,null):Vector<Float>;
+
+	/**
+	 * Retrieves the object's indices as a uint array.
+	 */
+	var indexData(get,null):Vector<UInt>;
+
+	/**
+	 * Retrieves the object's uvs as a Number array.
+	 */
+	var UVData(get,null):Vector<Float>;
+	
+	/**
+	 * The transformation matrix that transforms from model to world space, adapted with any special operations needed to render.
+	 * For example, assuring certain alignedness which is not inherent in the scene transform. By default, this would
+	 * return the scene transform.
+	 */
+	function getRenderSceneTransform(camera:Camera3D):Matrix3D;
 
 	/**
 	 * Assigns the attribute stream for vertex positions.
@@ -112,29 +137,4 @@ interface IRenderable extends IMaterialOwner
 	 * @return The VertexBuffer3D object that contains triangle indices.
 	 */
 	function getIndexBuffer(stage3DProxy:Stage3DProxy):IndexBuffer3D;
-
-	/**
-	 * Retrieves the object's vertices as a Number array.
-	 */
-	var vertexData(get,null):Vector<Float>;
-
-	/**
-	 * Retrieves the object's normals as a Number array.
-	 */
-	var vertexNormalData(get,null):Vector<Float>;
-
-	/**
-	 * Retrieves the object's tangents as a Number array.
-	 */
-	var vertexTangentData(get,null):Vector<Float>;
-
-	/**
-	 * Retrieves the object's indices as a uint array.
-	 */
-	var indexData(get,null):Vector<UInt>;
-
-	/**
-	 * Retrieves the object's uvs as a Number array.
-	 */
-	var UVData(get,null):Vector<Float>;
 }

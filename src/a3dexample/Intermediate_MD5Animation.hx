@@ -1,6 +1,6 @@
 ﻿/*
 
- MD5 animation loading and interaction example in Away3d
+ MD5 animation loading and interaction example in a3d
 
  Demonstrates:
 

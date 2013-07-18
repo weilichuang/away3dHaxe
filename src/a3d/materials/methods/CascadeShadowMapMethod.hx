@@ -20,7 +20,7 @@ import a3d.materials.compilation.ShaderRegisterElement;
  * CascadeShadowMapMethod is a shadow map method to apply cascade shadow mapping on materials.
  * Must be used with a DirectionalLight with a CascadeShadowMapper assigned to its shadowMapper property.
  *
- * @see away3d.lights.shadowmaps.CascadeShadowMapper
+ * @see a3d.lights.shadowmaps.CascadeShadowMapper
  */
 class CascadeShadowMapMethod extends ShadowMapMethodBase
 {

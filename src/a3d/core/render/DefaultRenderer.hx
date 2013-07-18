@@ -20,7 +20,7 @@ import a3d.entities.lights.PointLight;
 import a3d.entities.lights.shadowmaps.ShadowMapperBase;
 import a3d.materials.MaterialBase;
 
-
+using a3d.math.Vector3DUtils;
 
 /**
  * The DefaultRenderer class provides the default rendering method. It renders the scene graph objects using the
@@ -28,9 +28,10 @@ import a3d.materials.MaterialBase;
  */
 class DefaultRenderer extends RendererBase
 {
-	private static var RTT_PASSES:Int = 1;
-	private static var SCREEN_PASSES:Int = 2;
-	private static var ALL_PASSES:Int = 3;
+	private static inline var RTT_PASSES:Int = 1;
+	private static inline var SCREEN_PASSES:Int = 2;
+	private static inline var ALL_PASSES:Int = 3;
+	
 	private var _activeMaterial:MaterialBase;
 	private var _distanceRenderer:DepthRenderer;
 	private var _depthRenderer:DepthRenderer;
@@ -44,6 +45,7 @@ class DefaultRenderer extends RendererBase
 	public function new()
 	{
 		super();
+		
 		_depthRenderer = new DepthRenderer();
 		_distanceRenderer = new DepthRenderer(false, true);
 		_skyboxProjection = new Matrix3D();
@@ -54,7 +56,8 @@ class DefaultRenderer extends RendererBase
 		super.set_stage3DProxy(value);
 		
 		_distanceRenderer.stage3DProxy = _depthRenderer.stage3DProxy = value;
-		return super.stage3DProxy;
+		
+		return value;
 	}
 
 	override private function executeRender(entityCollector:EntityCollector, target:TextureBase = null, scissorRect:Rectangle = null, surfaceSelector:Int = 0):Void
@@ -75,6 +78,7 @@ class DefaultRenderer extends RendererBase
 	{
 		var dirLights:Vector<DirectionalLight> = entityCollector.directionalLights;
 		var pointLights:Vector<PointLight> = entityCollector.pointLights;
+		
 		var len:Int;
 		var light:LightBase;
 		var shadowMapper:ShadowMapperBase;
@@ -105,6 +109,7 @@ class DefaultRenderer extends RendererBase
 	{
 		_context.setBlendFactors(Context3DBlendFactor.ONE, Context3DBlendFactor.ZERO);
 
+		//TODO skybox是否提取到不透明物品绘制完了之后绘制
 		if (entityCollector.skyBox != null)
 		{
 			if (_activeMaterial != null)
@@ -156,7 +161,7 @@ class DefaultRenderer extends RendererBase
 		var cx:Float = near.x;
 		var cy:Float = near.y;
 		var cz:Float = near.z;
-		var cw:Float = -(near.x * camPos.x + near.y * camPos.y + near.z * camPos.z + Math.sqrt(cx * cx + cy * cy + cz * cz));
+		var cw:Float = -(near.fastDot(camPos) + Math.sqrt(cx * cx + cy * cy + cz * cz));
 		var signX:Float = cx >= 0 ? 1 : -1;
 		var signY:Float = cy >= 0 ? 1 : -1;
 		var p:Vector3D = new Vector3D(signX, signY, 1, 1);

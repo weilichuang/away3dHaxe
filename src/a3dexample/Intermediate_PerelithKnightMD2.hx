@@ -1,6 +1,6 @@
 ﻿/*
 
-Vertex animation example in Away3d using the MD2 format
+Vertex animation example in a3d using the MD2 format
 
 Demonstrates:
 

@@ -275,7 +275,7 @@ class OBJParser extends ParserBase
 	}
 
 	/**
-	* Converts the parsed data into an Away3D scenegraph structure
+	* Converts the parsed data into an a3d scenegraph structure
 	*/
 	private function translate():Void
 	{

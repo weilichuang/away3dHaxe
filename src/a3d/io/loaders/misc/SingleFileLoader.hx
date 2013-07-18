@@ -319,7 +319,7 @@ class SingleFileLoader extends EventDispatcher
 	{
 		var len:Int = _parsers.length;
 
-		// go in reverse order to allow application override of default parser added in Away3D proper
+		// go in reverse order to allow application override of default parser added in a3d proper
 		var i:Int = len - 1;
 		while (i >= 0)
 		{
@@ -343,7 +343,7 @@ class SingleFileLoader extends EventDispatcher
 	{
 		var len:Int = _parsers.length;
 
-		// go in reverse order to allow application override of default parser added in Away3D proper
+		// go in reverse order to allow application override of default parser added in a3d proper
 		var i:Int = len - 1;
 		while (i >= 0)
 		{

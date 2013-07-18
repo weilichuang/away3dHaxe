@@ -31,7 +31,7 @@ class SubMesh implements IRenderable
 	/**
 	 *internal use
 	 */
-	public var index:UInt;
+	public var index:Int;
 
 	private var _uvTransform:Matrix;
 	private var _uvTransformDirty:Bool;

@@ -16,8 +16,15 @@ import a3d.core.managers.Stage3DProxy;
 import a3d.utils.Debug;
 import a3d.textures.Texture2DBase;
 
+/**
+ * 背景图片绘制
+ */
 class BackgroundImageRenderer
 {
+	public var stage3DProxy(get, set):Stage3DProxy;
+	
+	public var texture(get, set):Texture2DBase;
+	
 	private var _program3d:Program3D;
 	private var _texture:Texture2DBase;
 	private var _indexBuffer:IndexBuffer3D;
@@ -30,7 +37,7 @@ class BackgroundImageRenderer
 		this.stage3DProxy = stage3DProxy;
 	}
 
-	public var stage3DProxy(get, set):Stage3DProxy;
+	
 	private function get_stage3DProxy():Stage3DProxy
 	{
 		return _stage3DProxy;
@@ -132,7 +139,7 @@ class BackgroundImageRenderer
 			]), 0, 4);
 	}
 
-	public var texture(get, set):Texture2DBase;
+	
 	private function get_texture():Texture2DBase
 	{
 		return _texture;

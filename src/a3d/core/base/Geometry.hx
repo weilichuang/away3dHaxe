@@ -24,6 +24,12 @@ import a3d.io.library.assets.NamedAssetBase;
  */
 class Geometry extends NamedAssetBase implements IAsset
 {
+	public var assetType(get, null):String;
+	/**
+	 * A collection of SubGeometry objects, each of which contain geometrical data such as vertices, normals, etc.
+	 */
+	public var subGeometries(get, null):Vector<ISubGeometry>;
+	
 	private var _subGeometries:Vector<ISubGeometry>;
 
 	/**
@@ -35,16 +41,13 @@ class Geometry extends NamedAssetBase implements IAsset
 		_subGeometries = new Vector<ISubGeometry>();
 	}
 	
-	public var assetType(get, null):String;
+	
 	private function get_assetType():String
 	{
 		return AssetType.GEOMETRY;
 	}
 
-	/**
-	 * A collection of SubGeometry objects, each of which contain geometrical data such as vertices, normals, etc.
-	 */
-	public var subGeometries(get, null):Vector<ISubGeometry>;
+	
 	private function get_subGeometries():Vector<ISubGeometry>
 	{
 		return _subGeometries;

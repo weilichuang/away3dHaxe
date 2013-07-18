@@ -1,6 +1,6 @@
 ﻿/*
 
-Monster Head example in Away3d
+Monster Head example in a3d
 
 Demonstrates:
 

@@ -1,6 +1,6 @@
 ﻿/*
 
-Bones animation loading and interaction example in Away3d
+Bones animation loading and interaction example in a3d
 
 Demonstrates:
 

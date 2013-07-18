@@ -611,7 +611,7 @@ class View3D extends Sprite
 				// trying to configure the backbuffer to be bigger than that
 				// will throw an error. Capping the value is a graceful way of
 				// avoiding runtime exceptions for developers who are unable
-				// to test their Away3D implementation on screens that are 
+				// to test their a3d implementation on screens that are 
 				// large enough for this error to ever occur.
 				if (_stage3DProxy.usesSoftwareRendering)
 				{

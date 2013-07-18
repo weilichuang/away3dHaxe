@@ -13,7 +13,7 @@ import a3d.textures.PlanarReflectionTexture;
  * PlanarReflectionTexture object.to a surface, which get stronger as the viewing angle becomes more grazing. This
  * method can be used for (near-)planar objects such as mirrors or water.
  *
- * @see away3d.textures.PlanarReflectionTexture
+ * @see a3d.textures.PlanarReflectionTexture
  */
 class FresnelPlanarReflectionMethod extends EffectMethodBase
 {
@@ -28,7 +28,7 @@ class FresnelPlanarReflectionMethod extends EffectMethodBase
 	 * @param texture The PlanarReflectionTexture containing a render of the mirrored scene.
 	 * @param alpha The maximum reflectivity of the surface.
 	 *
-	 * @see away3d.textures.PlanarReflectionTexture
+	 * @see a3d.textures.PlanarReflectionTexture
 	 */
 	public function new(texture:PlanarReflectionTexture, alpha:Float = 1)
 	{
@@ -89,7 +89,7 @@ class FresnelPlanarReflectionMethod extends EffectMethodBase
 	/**
 	 * The PlanarReflectionTexture containing a render of the mirrored scene.
 	 *
-	 * @see away3d.textures.PlanarReflectionTexture
+	 * @see a3d.textures.PlanarReflectionTexture
 	 */
 	public var texture(get,set):PlanarReflectionTexture;
 	private function get_texture():PlanarReflectionTexture

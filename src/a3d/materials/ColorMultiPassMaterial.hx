@@ -6,6 +6,11 @@ package a3d.materials;
 class ColorMultiPassMaterial extends MultiPassMaterialBase
 {
 	/**
+	 * The diffuse reflectivity color of the surface.
+	 */
+	public var color(get, set):UInt;
+	
+	/**
 	 * Creates a new ColorMultiPassMaterial object.
 	 *
 	 * @param color The material's diffuse surface color.
@@ -15,11 +20,7 @@ class ColorMultiPassMaterial extends MultiPassMaterialBase
 		super();
 		this.color = color;
 	}
-
-	/**
-	 * The diffuse reflectivity color of the surface.
-	 */
-	public var color(get,set):UInt;
+	
 	private function get_color():UInt
 	{
 		return diffuseMethod.diffuseColor;

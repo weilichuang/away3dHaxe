@@ -25,6 +25,50 @@ import a3d.textures.Texture2DBase;
  */
 class RendererBase
 {
+	public var viewWidth(get, set):Float;
+	public var viewHeight(get, set):Float;
+	public var renderToTexture(get, null):Bool;
+	public var renderableSorter(get, set):IEntitySorter;
+	public var clearOnRender(get, set):Bool;
+	/**
+	 * The background color's red component, used when clearing.
+	 *
+	 * @private
+	 */
+	public var backgroundR(get, set):Float;
+	/**
+	 * The background color's green component, used when clearing.
+	 *
+	 * @private
+	 */
+	public var backgroundG(get, set):Float;
+	/**
+	 * The background color's blue component, used when clearing.
+	 *
+	 * @private
+	 */
+	public var backgroundB(get, set):Float;
+	/**
+	 * The Stage3DProxy that will provide the Context3D used for rendering.
+	 *
+	 * @private
+	 */
+	public var stage3DProxy(get, set):Stage3DProxy;
+	/**
+	 * Defers control of Context3D clear() and present() calls to Stage3DProxy, enabling multiple Stage3D frameworks
+	 * to share the same Context3D object.
+	 *
+	 * @private
+	 */
+	public var shareContext(get, set):Bool;
+	
+	public var backgroundAlpha(get, set):Float;
+	public var background(get, set):Texture2DBase;
+	public var backgroundImageRenderer(get, null):BackgroundImageRenderer;
+	public var antiAlias(get, set):UInt;
+	public var textureRatioX(get, set):Float;
+	public var textureRatioY(get, set):Float;
+	
 	private var _context:Context3D;
 	private var _stage3DProxy:Stage3DProxy;
 
@@ -71,7 +115,7 @@ class RendererBase
 		return new EntityCollector();
 	}
 
-	public var viewWidth(get, set):Float;
+	
 	private function get_viewWidth():Float
 	{
 		return _viewWidth;
@@ -82,7 +126,7 @@ class RendererBase
 		return _viewWidth = value;
 	}
 
-	public var viewHeight(get, set):Float;
+	
 	private function get_viewHeight():Float
 	{
 		return _viewHeight;
@@ -93,13 +137,13 @@ class RendererBase
 		return _viewHeight = value;
 	}
 
-	public var renderToTexture(get, null):Bool;
+	
 	private function get_renderToTexture():Bool
 	{
 		return _renderToTexture;
 	}
 
-	public var renderableSorter(get, set):IEntitySorter;
+	
 	private function get_renderableSorter():IEntitySorter
 	{
 		return _renderableSorter;
@@ -110,7 +154,7 @@ class RendererBase
 		return _renderableSorter = value;
 	}
 
-	public var clearOnRender(get, set):Bool;
+	
 	private function get_clearOnRender():Bool
 	{
 		return _clearOnRender;
@@ -121,12 +165,7 @@ class RendererBase
 		return _clearOnRender = value;
 	}
 
-	/**
-	 * The background color's red component, used when clearing.
-	 *
-	 * @private
-	 */
-	public var backgroundR(get, set):Float;
+	
 	private function get_backgroundR():Float
 	{
 		return _backgroundR;
@@ -137,12 +176,7 @@ class RendererBase
 		return _backgroundR = value;
 	}
 
-	/**
-	 * The background color's green component, used when clearing.
-	 *
-	 * @private
-	 */
-	public var backgroundG(get, set):Float;
+	
 	private function get_backgroundG():Float
 	{
 		return _backgroundG;
@@ -153,12 +187,7 @@ class RendererBase
 		return _backgroundG = value;
 	}
 
-	/**
-	 * The background color's blue component, used when clearing.
-	 *
-	 * @private
-	 */
-	public var backgroundB(get, set):Float;
+	
 	private function get_backgroundB():Float
 	{
 		return _backgroundB;
@@ -169,12 +198,7 @@ class RendererBase
 		return _backgroundB = value;
 	}
 
-	/**
-	 * The Stage3DProxy that will provide the Context3D used for rendering.
-	 *
-	 * @private
-	 */
-	public var stage3DProxy(get, set):Stage3DProxy;
+	
 	private function get_stage3DProxy():Stage3DProxy
 	{
 		return _stage3DProxy;
@@ -210,13 +234,7 @@ class RendererBase
 		return _stage3DProxy;
 	}
 
-	/**
-	 * Defers control of Context3D clear() and present() calls to Stage3DProxy, enabling multiple Stage3D frameworks
-	 * to share the same Context3D object.
-	 *
-	 * @private
-	 */
-	public var shareContext(get, set):Bool;
+	
 	private function get_shareContext():Bool
 	{
 		return _shareContext;
@@ -279,18 +297,22 @@ class RendererBase
 		_renderTarget = target;
 		_renderTargetSurface = surfaceSelector;
 
+		//排序
 		if (_renderableSorter != null)
 			_renderableSorter.sort(entityCollector);
 
+		//是否绘制到纹理上
 		if (_renderToTexture)
 			executeRenderToTexturePass(entityCollector);
 
+		//设置绘制目标
 		_stage3DProxy.setRenderTarget(target, true, surfaceSelector);
 
 		if ((target != null || !_shareContext) && _clearOnRender)
 		{
 			_context.clear(_backgroundR, _backgroundG, _backgroundB, _backgroundAlpha, 1, 0);
 		}
+		
 		_context.setDepthTest(false, Context3DCompareMode.ALWAYS);
 		_stage3DProxy.scissorRect = scissorRect;
 		if (_backgroundImageRenderer != null)
@@ -298,7 +320,7 @@ class RendererBase
 
 		draw(entityCollector, target);
 
-		//line required for correct rendering when using away3d with starling. DO NOT REMOVE UNLESS STARLING INTEGRATION IS RETESTED!
+		//line required for correct rendering when using a3d with starling. DO NOT REMOVE UNLESS STARLING INTEGRATION IS RETESTED!
 		_context.setDepthTest(false, Context3DCompareMode.LESS_EQUAL);
 
 		if (!_shareContext)
@@ -343,7 +365,7 @@ class RendererBase
 		_context = _stage3DProxy.context3D;
 	}
 
-	public var backgroundAlpha(get, set):Float;
+	
 	private function get_backgroundAlpha():Float
 	{
 		return _backgroundAlpha;
@@ -354,7 +376,7 @@ class RendererBase
 		return _backgroundAlpha = value;
 	}
 
-	public var background(get, set):Texture2DBase;
+	
 	private function get_background():Texture2DBase
 	{
 		return _background;
@@ -379,13 +401,13 @@ class RendererBase
 		return _background;
 	}
 
-	public var backgroundImageRenderer(get, null):BackgroundImageRenderer;
+	
 	private function get_backgroundImageRenderer():BackgroundImageRenderer
 	{
 		return _backgroundImageRenderer;
 	}
 
-	public var antiAlias(get, set):UInt;
+	
 	private function get_antiAlias():UInt
 	{
 		return _antiAlias;
@@ -396,7 +418,7 @@ class RendererBase
 		return _antiAlias = antiAlias;
 	}
 
-	public var textureRatioX(get, set):Float;
+	
 	private function get_textureRatioX():Float
 	{
 		return _textureRatioX;
@@ -407,7 +429,7 @@ class RendererBase
 		return _textureRatioX = value;
 	}
 
-	public var textureRatioY(get, set):Float;
+	
 	private function get_textureRatioY():Float
 	{
 		return _textureRatioY;

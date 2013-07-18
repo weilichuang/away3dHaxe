@@ -81,7 +81,7 @@ class Basic_SpriteSheetAnimation extends BasicApplication
 
 		// the name of the animation
 		var animID:String = "mySingleMapAnim";
-		// to simplify the generation of the required nodes for the animator, away3d has an helper class.
+		// to simplify the generation of the required nodes for the animator, a3d has an helper class.
 		var spriteSheetHelper:SpriteSheetHelper = new SpriteSheetHelper();
 		// first we make our SpriteSheetAnimationSet, which will hold one or more spriteSheetClipNode
 		var spriteSheetAnimationSet:SpriteSheetAnimationSet = new SpriteSheetAnimationSet();
@@ -126,7 +126,7 @@ class Basic_SpriteSheetAnimation extends BasicApplication
 
 		// the name of the animation
 		var animID:String = "myMultipleMapsAnim";
-		// to simplify the generation of the required nodes for the animator, away3d has an helper class.
+		// to simplify the generation of the required nodes for the animator, a3d has an helper class.
 		var spriteSheetHelper:SpriteSheetHelper = new SpriteSheetHelper();
 		// first we make our SpriteSheetAnimationSet, which will hold one or more spriteSheetClipNode
 		var spriteSheetAnimationSet:SpriteSheetAnimationSet = new SpriteSheetAnimationSet();

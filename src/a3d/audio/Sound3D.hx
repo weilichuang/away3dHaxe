@@ -92,7 +92,7 @@ class Sound3D extends ObjectContainer3D
 	 * Defines a scale value used by the driver when adjusting sound
 	 * intensity to simulate distance. The default number of 1000 means
 	 * that sound volume will near the hearing threshold as the distance
-	 * between listener and sound source approaches 1000 Away3D units.
+	 * between listener and sound source approaches 1000 a3d units.
 	 *
 	 * @see ISound3DDriver.scale
 	*/

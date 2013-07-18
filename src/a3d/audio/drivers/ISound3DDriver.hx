@@ -16,7 +16,7 @@ interface ISound3DDriver extends IEventDispatcher
 	/**
 	 * Arbitrary value by which all distances are divided. The default value of
 	 * 1000 is usually suitable for scenes with a scale that roughly matches the
-	 * standard Away3D scale, i.e. that look good from the default camera position.
+	 * standard a3d scale, i.e. that look good from the default camera position.
 	*/
 	var scale(get,set):Float;
 

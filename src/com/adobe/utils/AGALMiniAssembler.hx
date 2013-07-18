@@ -8,27 +8,18 @@ import haxe.ds.StringMap.StringMap;
 
 class AGALMiniAssembler 
 {
-	// AGAL bytes and error buffer
-	private var _agalcode : ByteArray;
-	private var _error : String;
-
-	private var debugEnabled : Bool;
-
 	private static var initialized : Bool = false;
 	
 	public var error(get, null):String;
 	public var agalcode(get, null):ByteArray;
 
-	private function get_error() : String      
-	{
-		return _error;
-	}
-	
-	private function get_agalcode() : ByteArray
-	{ 
-		return _agalcode; 
-	}
+	// AGAL bytes and error buffer
+	private var _agalcode : ByteArray;
+	private var _error : String;
 
+	private var debugEnabled : Bool;
+	
+	
 
 	public function new(debugging : Bool = false) : Void 
 	{
@@ -487,6 +478,16 @@ class AGALMiniAssembler
 
 		return _agalcode;
 	}
+	
+	private inline function get_error() : String      
+	{
+		return _error;
+	}
+	
+	private inline function get_agalcode() : ByteArray
+	{ 
+		return _agalcode; 
+	}
 
 	static private function init() : Void 
 	{
@@ -698,6 +699,7 @@ class OpCode
 	public var flags : UInt;
 	public var name : String;
 	public var numRegister : UInt;
+	
 	public function new(name : String, numRegister : UInt, emitCode : UInt, flags : UInt) 
 	{
 		this.name = name;
@@ -731,7 +733,8 @@ class Register
 		this.flags = flags;
 	}
 
-	public function toString() : String {
+	public function toString() : String 
+	{
 		return "[Register name=\"" + this.name + "\", longName=\"" + this.longName + "\", emitCode=" + this.emitCode + ", range=" + this.range + ", flags=" + this.flags + "]";
 	}
 }

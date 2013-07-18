@@ -13,6 +13,11 @@ import a3d.textures.CubeTextureBase;
  */
 class SkyBoxMaterial extends MaterialBase
 {
+	/**
+	 * The cube texture to use as the skybox.
+	 */
+	public var cubeMap(get, set):CubeTextureBase;
+	
 	private var _cubeMap:CubeTextureBase;
 	private var _skyboxPass:SkyBoxPass;
 
@@ -28,10 +33,7 @@ class SkyBoxMaterial extends MaterialBase
 		_skyboxPass.cubeTexture = _cubeMap;
 	}
 
-	/**
-	 * The cube texture to use as the skybox.
-	 */
-	public var cubeMap(get, set):CubeTextureBase;
+	
 	private function get_cubeMap():CubeTextureBase
 	{
 		return _cubeMap;

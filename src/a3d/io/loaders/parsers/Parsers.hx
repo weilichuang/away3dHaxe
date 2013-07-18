@@ -6,7 +6,7 @@ import flash.Vector;
 class Parsers
 {
 	/**
-	 * A list of all parsers that come bundled with Away3D. Use this to quickly
+	 * A list of all parsers that come bundled with a3d. Use this to quickly
 	 * enable support for all bundled parsers to the file format auto-detection
 	 * feature, using any of the enableParsers() methods on loaders, e.g.:
 	 *
@@ -36,7 +36,7 @@ class Parsers
 	 * <li>Images (.jpg, .png)</li>
 	 * </ul>
 	 *
-	 * @see away3d.loading.AssetLibrary.enableParser
+	 * @see a3d.loading.AssetLibrary.enableParser
 	 */
 	public static var ALL_BUNDLED:Array<Class<ParserBase>> = [
 		AC3DParser, AWD1Parser, AWD2Parser, AWDParser, Max3DSParser, DXFParser,

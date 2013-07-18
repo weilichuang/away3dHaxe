@@ -15,7 +15,7 @@ import flash.Vector;
  * ShaderCompiler is an abstract base class for shader compilers that use modular shader methods to assemble a
  * material. Concrete subclasses are used by the default materials.
  *
- * @see away3d.materials.methods.ShadingMethodBase
+ * @see a3d.materials.methods.ShadingMethodBase
  */
 class ShaderCompiler
 {
@@ -655,7 +655,7 @@ class ShaderCompiler
 	 * Define which light source types to use for specular reflections. This allows choosing between regular lights
 	 * and/or light probes for specular reflections.
 	 *
-	 * @see away3d.materials.LightSources
+	 * @see a3d.materials.LightSources
 	 */
 	public var specularLightSources(get,set):UInt;
 	private function get_specularLightSources():UInt
@@ -672,7 +672,7 @@ class ShaderCompiler
 	 * Define which light source types to use for diffuse reflections. This allows choosing between regular lights
 	 * and/or light probes for diffuse reflections.
 	 *
-	 * @see away3d.materials.LightSources
+	 * @see a3d.materials.LightSources
 	 */
 	public var diffuseLightSources(get,set):UInt;
 	private function get_diffuseLightSources():UInt

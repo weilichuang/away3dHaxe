@@ -133,7 +133,7 @@ import a3d.io.loaders.parsers.ParserBase;
 
 
 /**
- * AssetLoader can load any file format that Away3D supports (or for which a third-party parser
+ * AssetLoader can load any file format that a3d supports (or for which a third-party parser
  * has been plugged in) and it's dependencies. Events are dispatched when assets are encountered
  * and for when the resource (or it's dependencies) have been loaded.
  *

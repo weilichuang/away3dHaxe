@@ -1,6 +1,6 @@
 /*
 
-Sprite sheet animation example in Away3d
+Sprite sheet animation example in a3d
 
 Demonstrates:
 

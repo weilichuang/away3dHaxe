@@ -11,7 +11,7 @@ import haxe.ds.StringMap;
  * or single components (x, y, z, w) of a single register.
  * It is used by ShaderRegisterCache to track usages of individual register types.
  *
- * @see away3d.materials.compilation.ShaderRegisterCache
+ * @see a3d.materials.compilation.ShaderRegisterCache
  */
 class RegisterPool
 {
@@ -199,6 +199,7 @@ class RegisterPool
 	{
 		if (_usedVectorCount[index] > 0)
 			return true;
+			
 		for (i in 0...4)
 			if (_usedSingleCount[i][index] > 0)
 				return true;

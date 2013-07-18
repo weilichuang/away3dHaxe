@@ -9,8 +9,6 @@ import flash.Vector;
  */
 class Vector3DUtils
 {
-	private static inline var MathPI:Float = Math.PI;
-
 	/**
 	 * Returns the angle in radians made between the 3d number obejct and the given <code>Vector3D</code> object.
 	 *
@@ -21,6 +19,17 @@ class Vector3DUtils
 	public static function getAngle(w:Vector3D, q:Vector3D):Float
 	{
 		return Math.acos(w.dotProduct(q) / (w.length * q.length));
+	}
+	
+	/**
+	 * 效果等同于a.dotProduct(b)
+	 * @param	a
+	 * @param	b
+	 * @return
+	 */
+	public static inline function fastDot(a:Vector3D, b:Vector3D):Float
+	{
+		return a.x * b.x + a.y * b.y + a.z * b.z;
 	}
 
 	/**
@@ -41,7 +50,7 @@ class Vector3DUtils
 
 		// Remove the rotationX rotation from m2, so that the remaining
 		// rotation, m2 is only around two axes, and gimbal lock cannot occur.
-		m2.appendRotation(result.x * 180 / MathPI, new Vector3D(1, 0, 0));
+		m2.appendRotation(result.x * 180 / MathUtil.PI, new Vector3D(1, 0, 0));
 		m2.append(m1);
 
 		m2.copyRawDataTo(raw);
@@ -53,61 +62,61 @@ class Vector3DUtils
 		result.z = Math.atan2(-raw[4], raw[5]); //rot.z = Math<T>::atan2 (-N[1][0], N[1][1]);
 
 		// Fix angles
-		if (Math.round(result.z / MathPI) == 1)
+		if (Math.round(result.z / MathUtil.PI) == 1)
 		{
 			if (result.y > 0)
-				result.y = -(result.y - MathPI);
+				result.y = -(result.y - MathUtil.PI);
 			else
-				result.y = -(result.y + MathPI);
+				result.y = -(result.y + MathUtil.PI);
 
-			result.z -= MathPI;
+			result.z -= MathUtil.PI;
 
 			if (result.x > 0)
-				result.x -= MathPI;
+				result.x -= MathUtil.PI;
 			else
-				result.x += MathPI;
+				result.x += MathUtil.PI;
 		}
-		else if (Math.round(result.z / MathPI) == -1)
+		else if (Math.round(result.z / MathUtil.PI) == -1)
 		{
 			if (result.y > 0)
-				result.y = -(result.y - MathPI);
+				result.y = -(result.y - MathUtil.PI);
 			else
-				result.y = -(result.y + MathPI);
+				result.y = -(result.y + MathUtil.PI);
 
-			result.z += MathPI;
+			result.z += MathUtil.PI;
 
 			if (result.x > 0)
-				result.x -= MathPI;
+				result.x -= MathUtil.PI;
 			else
-				result.x += MathPI;
+				result.x += MathUtil.PI;
 		}
-		else if (Math.round(result.x / MathPI) == 1)
+		else if (Math.round(result.x / MathUtil.PI) == 1)
 		{
 			if (result.y > 0)
-				result.y = -(result.y - MathPI);
+				result.y = -(result.y - MathUtil.PI);
 			else
-				result.y = -(result.y + MathPI);
+				result.y = -(result.y + MathUtil.PI);
 
-			result.x -= MathPI;
+			result.x -= MathUtil.PI;
 
 			if (result.z > 0)
-				result.z -= MathPI;
+				result.z -= MathUtil.PI;
 			else
-				result.z += MathPI;
+				result.z += MathUtil.PI;
 		}
-		else if (Math.round(result.x / MathPI) == -1)
+		else if (Math.round(result.x / MathUtil.PI) == -1)
 		{
 			if (result.y > 0)
-				result.y = -(result.y - MathPI);
+				result.y = -(result.y - MathUtil.PI);
 			else
-				result.y = -(result.y + MathPI);
+				result.y = -(result.y + MathUtil.PI);
 
-			result.x += MathPI;
+			result.x += MathUtil.PI;
 
 			if (result.z > 0)
-				result.z -= MathPI;
+				result.z -= MathUtil.PI;
 			else
-				result.z += MathPI;
+				result.z += MathUtil.PI;
 		}
 
 		return result;
@@ -178,7 +187,7 @@ class Vector3DUtils
 			var x1:Float;
 			var y1:Float;
 
-			var rad:Float = MathUtil.DEGREES_TO_RADIANS;
+			var rad:Float = MathUtil.DEGREES_TO_RADIANS();
 			var rotx:Float = rotation.x * rad;
 			var roty:Float = rotation.y * rad;
 			var rotz:Float = rotation.z * rad;

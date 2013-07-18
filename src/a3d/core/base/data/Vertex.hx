@@ -8,11 +8,12 @@ class Vertex
 	public var x(get, set):Float;
 	public var y(get, set):Float;
 	public var z(get, set):Float;
-	public var index(get, set):UInt;
+	public var index(get, set):Int;
+	
 	private var _x:Float;
 	private var _y:Float;
 	private var _z:Float;
-	private var _index:UInt;
+	private var _index:Int;
 
 	/**
 	* Creates a new <code>Vertex</code> value object.
@@ -22,7 +23,7 @@ class Vertex
 	* @param	z			[optional]	The z value. Defaults to 0.
 	* @param	index		[optional]	The index value. Defaults is NaN.
 	*/
-	public function new(x:Float = 0, y:Float = 0, z:Float = 0, index:UInt = 0)
+	public function new(x:Float = 0, y:Float = 0, z:Float = 0, index:Int = 0)
 	{
 		_x = x;
 		_y = y;
@@ -34,12 +35,12 @@ class Vertex
 	* To define/store the index of value object
 	* @param	ind		The index
 	*/
-	private function set_index(ind:UInt):UInt
+	private inline function set_index(ind:Int):Int
 	{
 		return _index = ind;
 	}
 
-	private function get_index():UInt
+	private inline function get_index():Int
 	{
 		return _index;
 	}
@@ -48,12 +49,12 @@ class Vertex
 	* To define/store the x value of the value object
 	* @param	value		The x value
 	*/
-	private function get_x():Float
+	private inline function get_x():Float
 	{
 		return _x;
 	}
 
-	private function set_x(value:Float):Float
+	private inline function set_x(value:Float):Float
 	{
 		return _x = value;
 	}
@@ -62,12 +63,12 @@ class Vertex
 	* To define/store the y value of the value object
 	* @param	value		The y value
 	*/
-	private function get_y():Float
+	private inline function get_y():Float
 	{
 		return _y;
 	}
 
-	private function set_y(value:Float):Float
+	private inline function set_y(value:Float):Float
 	{
 		return _y = value;
 	}
@@ -76,12 +77,12 @@ class Vertex
 	* To define/store the z value of the value object
 	* @param	value		The z value
 	*/
-	private function get_z():Float
+	private inline function get_z():Float
 	{
 		return _z;
 	}
 
-	private function set_z(value:Float):Float
+	private inline function set_z(value:Float):Float
 	{
 		return _z = value;
 	}

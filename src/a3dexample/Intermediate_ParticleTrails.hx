@@ -1,6 +1,6 @@
 ﻿/*
 
-Particle trails in Away3D
+Particle trails in a3d
 
 Demonstrates:
 

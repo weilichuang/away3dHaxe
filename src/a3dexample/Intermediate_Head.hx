@@ -1,6 +1,6 @@
 ﻿/*
 
-3D Head scan example in Away3d
+3D Head scan example in a3d
 
 Demonstrates:
 

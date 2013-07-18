@@ -27,6 +27,9 @@ class ShadowMapperBase
 	private var _autoUpdateShadows:Bool = true;
 	private var _shadowsInvalid:Bool;
 
+	/**
+	 * 阴影失效
+	 */
 	public var shadowsInvalid(get,null):Bool;
 	private function get_shadowsInvalid():Bool
 	{
@@ -48,6 +51,9 @@ class ShadowMapperBase
 		return new ShadowCasterCollector();
 	}
 
+	/**
+	 * 是否自动更新阴影
+	 */
 	public var autoUpdateShadows(get,set):Bool;
 	private function get_autoUpdateShadows():Bool
 	{

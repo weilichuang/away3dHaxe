@@ -6,6 +6,8 @@ package a3d.math;
  */
 class MathUtil
 {
+	public static inline var PI:Float = 3.141592653589793;
+	
 	public static inline function INT_MAX_VALUE():Int
 	{
 		return 2147483647;

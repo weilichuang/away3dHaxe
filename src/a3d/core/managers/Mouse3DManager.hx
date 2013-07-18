@@ -46,6 +46,9 @@ class Mouse3DManager
 	private static var _previousCollidingView:Int;
 	private static var _collidingView:Int;
 	
+	public var forceMouseMove(get, set):Bool;
+	public var mousePicker(get, set):IPicker;
+	
 	private var _activeView:View3D;
 	private var _updateDirty:Bool;
 	private var _nullVector:Vector3D;
@@ -431,7 +434,7 @@ class Mouse3DManager
 	// Getters & setters.
 	// ---------------------------------------------------------------------
 
-	public var forceMouseMove(get, set):Bool;
+	
 	private function get_forceMouseMove():Bool
 	{
 		return _forceMouseMove;
@@ -442,7 +445,6 @@ class Mouse3DManager
 		return _forceMouseMove = value;
 	}
 
-	public var mousePicker(get, set):IPicker;
 	private function get_mousePicker():IPicker
 	{
 		return _mousePicker;

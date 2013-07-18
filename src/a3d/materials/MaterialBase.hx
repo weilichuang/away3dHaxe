@@ -31,7 +31,7 @@ import a3d.materials.BlendMode;
  * pass) or to provide additional render-to-texture passes (rendering diffuse light to texture for texture-space
  * subsurface scattering, or rendering a depth map for specialized self-shadowing).
  *
- * Away3D provides default materials trough SinglePassMaterialBase and MultiPassMaterialBase, which use modular
+ * a3d provides default materials trough SinglePassMaterialBase and MultiPassMaterialBase, which use modular
  * methods to build the shader code. MaterialBase can be extended to build specific and high-performant custom
  * shaders, or entire new material frameworks.
  */
@@ -41,7 +41,82 @@ class MaterialBase extends NamedAssetBase implements IAsset
 	 * A counter used to assign unique ids per material, which is used to sort per material while rendering.
 	 * This reduces state changes.
 	 */
-	private static var MATERIAL_ID_COUNT:UInt = 0;
+	private static var MATERIAL_ID_COUNT:Int = 0;
+	
+	/**
+	 * @inheritDoc
+	 */
+	public var assetType(get, null):String;
+	/**
+	 * The light picker used by the material to provide lights to the material if it supports lighting.
+	 *
+	 * @see a3d.materials.lightpickers.LightPickerBase
+	 * @see a3d.materials.lightpickers.StaticLightPicker
+	 */
+	public var lightPicker(get, set):LightPickerBase;
+	/**
+	 * Indicates whether or not any used textures should use mipmapping. Defaults to true.
+	 */
+	public var mipmap(get, set):Bool;
+	/**
+	 * Indicates whether or not any used textures should use smoothing.
+	 */
+	public var smooth(get, set):Bool;
+	/**
+	 * The depth compare mode used to render the renderables using this material.
+	 *
+	 * @see flash.display3D.Context3D
+	 */
+	public var depthCompareMode(get, set):Context3DCompareMode;
+	/**
+	 * Indicates whether or not any used textures should be tiled. If set to false, texture samples are clamped to
+	 * the texture's borders when the uv coordinates are outside the [0, 1] interval.
+	 */
+	public var repeat(get, set):Bool;
+	/**
+	 * Defines whether or not the material should cull triangles facing away from the camera.
+	 */
+	public var bothSides(get, set):Bool;
+	/**
+	 * The blend mode to use when drawing this renderable. The following blend modes are supported:
+	 * <ul>
+	 * <li>BlendMode.NORMAL: No blending, unless the material inherently needs it</li>
+	 * <li>BlendMode.LAYER: Force blending. This will draw the object the same as NORMAL, but without writing depth writes.</li>
+	 * <li>BlendMode.MULTIPLY</li>
+	 * <li>BlendMode.ADD</li>
+	 * <li>BlendMode.ALPHA</li>
+	 * </ul>
+	 */
+	public var blendMode(get, set):BlendMode;
+	/**
+	 * Indicates whether visible textures (or other pixels) used by this material have
+	 * already been premultiplied. Toggle this if you are seeing black halos around your
+	 * blended alpha edges.
+	*/
+	public var alphaPremultiplied(get, set):Bool;
+	/**
+	 * Indicates whether or not the material requires alpha blending during rendering.
+	 */
+	public var requiresBlending(get, null):Bool;
+	/**
+	 * An id for this material used to sort the renderables by material, 
+	 * which reduces render state changes across
+	 * materials using the same Program3D.
+	 */
+	public var uniqueId(get, null):UInt;
+	/**
+	 * The amount of passes used by the material.
+	 *
+	 * @private
+	 */
+	public var numPasses(get, null):UInt;
+	/**
+	 * A list of the IMaterialOwners that use this material
+	 * @private
+	 */
+	public var owners(get, null):Vector<IMaterialOwner>;
+	
+	
 	/**
 	 * An object to contain any extra data
 	 */
@@ -129,22 +204,13 @@ class MaterialBase extends NamedAssetBase implements IAsset
 		_uniqueId = MATERIAL_ID_COUNT++;
 	}
 
-	/**
-	 * @inheritDoc
-	 */
-	public var assetType(get, null):String;
+	
 	private function get_assetType():String
 	{
 		return AssetType.MATERIAL;
 	}
 
-	/**
-	 * The light picker used by the material to provide lights to the material if it supports lighting.
-	 *
-	 * @see away3d.materials.lightpickers.LightPickerBase
-	 * @see away3d.materials.lightpickers.StaticLightPicker
-	 */
-	public var lightPicker(get, set):LightPickerBase;
+	
 	private function get_lightPicker():LightPickerBase
 	{
 		return _lightPicker;
@@ -162,10 +228,7 @@ class MaterialBase extends NamedAssetBase implements IAsset
 		return _lightPicker;
 	}
 
-	/**
-	 * Indicates whether or not any used textures should use mipmapping. Defaults to true.
-	 */
-	public var mipmap(get, set):Bool;
+	
 	private function get_mipmap():Bool
 	{
 		return _mipmap;
@@ -179,10 +242,7 @@ class MaterialBase extends NamedAssetBase implements IAsset
 		return _mipmap;
 	}
 
-	/**
-	 * Indicates whether or not any used textures should use smoothing.
-	 */
-	public var smooth(get, set):Bool;
+	
 	private function get_smooth():Bool
 	{
 		return _smooth;
@@ -196,12 +256,7 @@ class MaterialBase extends NamedAssetBase implements IAsset
 		return _smooth;
 	}
 
-	/**
-	 * The depth compare mode used to render the renderables using this material.
-	 *
-	 * @see flash.display3D.Context3D
-	 */
-	public var depthCompareMode(get, set):Context3DCompareMode;
+	
 	private function get_depthCompareMode():Context3DCompareMode
 	{
 		return _depthCompareMode;
@@ -212,11 +267,7 @@ class MaterialBase extends NamedAssetBase implements IAsset
 		return _depthCompareMode = value;
 	}
 
-	/**
-	 * Indicates whether or not any used textures should be tiled. If set to false, texture samples are clamped to
-	 * the texture's borders when the uv coordinates are outside the [0, 1] interval.
-	 */
-	public var repeat(get, set):Bool;
+	
 	private function get_repeat():Bool
 	{
 		return _repeat;
@@ -246,10 +297,7 @@ class MaterialBase extends NamedAssetBase implements IAsset
 		_distancePass.removeEventListener(Event.CHANGE, onDistancePassChange);
 	}
 
-	/**
-	 * Defines whether or not the material should cull triangles facing away from the camera.
-	 */
-	public var bothSides(get, set):Bool;
+	
 	private function get_bothSides():Bool
 	{
 		return _bothSides;
@@ -267,17 +315,7 @@ class MaterialBase extends NamedAssetBase implements IAsset
 		return _bothSides;
 	}
 
-	/**
-	 * The blend mode to use when drawing this renderable. The following blend modes are supported:
-	 * <ul>
-	 * <li>BlendMode.NORMAL: No blending, unless the material inherently needs it</li>
-	 * <li>BlendMode.LAYER: Force blending. This will draw the object the same as NORMAL, but without writing depth writes.</li>
-	 * <li>BlendMode.MULTIPLY</li>
-	 * <li>BlendMode.ADD</li>
-	 * <li>BlendMode.ALPHA</li>
-	 * </ul>
-	 */
-	public var blendMode(get, set):BlendMode;
+	
 	private function get_blendMode():BlendMode
 	{
 		return _blendMode;
@@ -289,12 +327,6 @@ class MaterialBase extends NamedAssetBase implements IAsset
 	}
 
 
-	/**
-	 * Indicates whether visible textures (or other pixels) used by this material have
-	 * already been premultiplied. Toggle this if you are seeing black halos around your
-	 * blended alpha edges.
-	*/
-	public var alphaPremultiplied(get, set):Bool;
 	private function get_alphaPremultiplied():Bool
 	{
 		return _alphaPremultiplied;
@@ -310,33 +342,19 @@ class MaterialBase extends NamedAssetBase implements IAsset
 	}
 
 
-	/**
-	 * Indicates whether or not the material requires alpha blending during rendering.
-	 */
-	public var requiresBlending(get, null):Bool;
 	private function get_requiresBlending():Bool
 	{
 		return _blendMode != BlendMode.NORMAL;
 	}
 
-	/**
-	 * An id for this material used to sort the renderables by material, 
-	 * which reduces render state changes across
-	 * materials using the same Program3D.
-	 */
-	public var uniqueId(get, null):UInt;
-	private function get_uniqueId():UInt
+	
+	private inline function get_uniqueId():UInt
 	{
 		return _uniqueId;
 	}
 
-	/**
-	 * The amount of passes used by the material.
-	 *
-	 * @private
-	 */
-	public var numPasses(get, null):UInt;
-	private function get_numPasses():UInt
+	
+	private inline function get_numPasses():Int
 	{
 		return _numPasses;
 	}
@@ -530,11 +548,7 @@ class MaterialBase extends NamedAssetBase implements IAsset
 		}
 	}
 
-	/**
-	 * A list of the IMaterialOwners that use this material
-	 * @private
-	 */
-	public var owners(get, null):Vector<IMaterialOwner>;
+	
 	private function get_owners():Vector<IMaterialOwner>
 	{
 		return _owners;

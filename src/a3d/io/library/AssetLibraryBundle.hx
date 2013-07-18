@@ -27,7 +27,7 @@ import haxe.ds.StringMap;
  * Dispatched when any asset finishes parsing. Also see specific events for each
  * individual asset type (meshes, materials et c.)
  *
- * @eventType away3d.events.AssetEvent
+ * @eventType a3d.events.AssetEvent
  */
 @:meta(Event(name="assetComplete", type="a3d.events.AssetEvent"))
 
