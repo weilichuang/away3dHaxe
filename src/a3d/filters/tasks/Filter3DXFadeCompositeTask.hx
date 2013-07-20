@@ -14,6 +14,9 @@ import a3d.core.managers.Stage3DProxy;
 
 class Filter3DXFadeCompositeTask extends Filter3DTaskBase
 {
+	public var overlayTexture(get, set):TextureBase;
+	public var amount(get, set):Float;
+	
 	private var _data:Vector<Float>;
 	private var _overlayTexture:TextureBase;
 
@@ -27,7 +30,7 @@ class Filter3DXFadeCompositeTask extends Filter3DTaskBase
 		_data = Vector.ofArray([amount, 0., 0, 0]);
 	}
 
-	public var overlayTexture(get, set):TextureBase;
+	
 	private function get_overlayTexture():TextureBase
 	{
 		return _overlayTexture;
@@ -38,7 +41,7 @@ class Filter3DXFadeCompositeTask extends Filter3DTaskBase
 		return _overlayTexture = value;
 	}
 
-	public var amount(get, set):Float;
+	
 	private function get_amount():Float
 	{
 		return _data[0];

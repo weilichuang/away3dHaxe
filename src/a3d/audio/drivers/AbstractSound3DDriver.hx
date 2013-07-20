@@ -6,6 +6,14 @@ import flash.media.Sound;
 
 class AbstractSound3DDriver extends EventDispatcher
 {
+	public var sourceSound(get, set):Sound;
+
+	public var volume(get, set):Float;
+
+	public var scale(get, set):Float;
+	
+	public var mute(get, set):Bool;
+	
 	private var _ref_v:Vector3D;
 	private var _src:Sound;
 	private var _volume:Float;
@@ -23,7 +31,7 @@ class AbstractSound3DDriver extends EventDispatcher
 		_playing = false;
 	}
 
-	public var sourceSound(get, set):Sound;
+	
 	private function get_sourceSound():Sound
 	{
 		return _src;
@@ -38,8 +46,7 @@ class AbstractSound3DDriver extends EventDispatcher
 	}
 
 
-
-	public var volume(get, set):Float;
+	
 	private function get_volume():Float
 	{
 		return _volume;
@@ -49,8 +56,8 @@ class AbstractSound3DDriver extends EventDispatcher
 	{
 		return _volume = val;
 	}
-
-	public var scale(get, set):Float;
+	
+	
 	private function get_scale():Float
 	{
 		return _scale;
@@ -61,7 +68,7 @@ class AbstractSound3DDriver extends EventDispatcher
 		return _scale = val;
 	}
 
-	public var mute(get, set):Bool;
+	
 	private function get_mute():Bool
 	{
 		return _mute;

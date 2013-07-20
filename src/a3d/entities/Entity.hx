@@ -1,8 +1,5 @@
 package a3d.entities;
 
-import flash.geom.Vector3D;
-
-
 import a3d.bounds.AxisAlignedBoundingBox;
 import a3d.bounds.BoundingVolumeBase;
 import a3d.core.partition.EntityNode;
@@ -11,6 +8,9 @@ import a3d.core.pick.IPickingCollider;
 import a3d.core.pick.PickingCollisionVO;
 import a3d.errors.AbstractMethodError;
 import a3d.io.library.assets.AssetType;
+import flash.geom.Vector3D;
+
+
 
 
 
@@ -25,6 +25,42 @@ import a3d.io.library.assets.AssetType;
  */
 class Entity extends ObjectContainer3D
 {
+	/**
+	 * Used by the shader-based picking system to determine whether a separate render pass is made in order
+	 * to offer more details for the picking collision object, including local position, normal vector and uv value.
+	 * Defaults to false.
+	 *
+	 * @see a3d.core.pick.ShaderPicker
+	 */
+	public var shaderPickingDetails(get,set):Bool;
+	/**
+	 * Defines whether or not the object will be moved or animated at runtime. This property is used by some partitioning systems to improve performance.
+	 * Warning: if set to true, they may not be processed by certain partition systems using static visibility lists, unless they're specifically assigned to the visibility list.
+	 */
+	public var staticNode(get,set):Bool;
+	/**
+	 * Returns a unique picking collision value object for the entity.
+	 */
+	public var pickingCollisionVO(get,null):PickingCollisionVO;
+	/**
+	 *
+	 */
+	public var showBounds(get, set):Bool;
+	
+	/**
+	 * The bounding volume approximating the volume occupied by the Entity.
+	 */
+	public var bounds(get,set):BoundingVolumeBase;
+	public var worldBounds(get,null):BoundingVolumeBase;
+	/**
+	 * Used by the raycast-based picking system to determine how the geometric contents of an entity are processed
+	 * in order to offer more details for the picking collision object, including local position, normal vector and uv value.
+	 * Defaults to null.
+	 *
+	 * @see a3d.core.pick.RaycastPicker
+	 */
+	public var pickingCollider(get,set):IPickingCollider;
+	
 	private var _showBounds:Bool;
 	private var _partitionNode:EntityNode;
 	private var _boundsIsShown:Bool;
@@ -59,14 +95,7 @@ class Entity extends ObjectContainer3D
 		return super.ignoreTransform = value;
 	}
 
-	/**
-	 * Used by the shader-based picking system to determine whether a separate render pass is made in order
-	 * to offer more details for the picking collision object, including local position, normal vector and uv value.
-	 * Defaults to false.
-	 *
-	 * @see a3d.core.pick.ShaderPicker
-	 */
-	public var shaderPickingDetails(get,set):Bool;
+	
 	private function get_shaderPickingDetails():Bool
 	{
 		return _shaderPickingDetails;
@@ -77,11 +106,7 @@ class Entity extends ObjectContainer3D
 		return _shaderPickingDetails = value;
 	}
 
-	/**
-	 * Defines whether or not the object will be moved or animated at runtime. This property is used by some partitioning systems to improve performance.
-	 * Warning: if set to true, they may not be processed by certain partition systems using static visibility lists, unless they're specifically assigned to the visibility list.
-	 */
-	public var staticNode(get,set):Bool;
+	
 	private function get_staticNode():Bool
 	{
 		return _staticNode;
@@ -92,10 +117,7 @@ class Entity extends ObjectContainer3D
 		return _staticNode = value;
 	}
 
-	/**
-	 * Returns a unique picking collision value object for the entity.
-	 */
-	public var pickingCollisionVO(get,null):PickingCollisionVO;
+	
 	private function get_pickingCollisionVO():PickingCollisionVO
 	{
 		if (_pickingCollisionVO == null)
@@ -119,10 +141,7 @@ class Entity extends ObjectContainer3D
 		return true;
 	}
 
-	/**
-	 *
-	 */
-	public var showBounds(get,set):Bool;
+	
 	private function get_showBounds():Bool
 	{
 		return _showBounds;
@@ -209,10 +228,7 @@ class Entity extends ObjectContainer3D
 		return _bounds.max.z;
 	}
 
-	/**
-	 * The bounding volume approximating the volume occupied by the Entity.
-	 */
-	public var bounds(get,set):BoundingVolumeBase;
+	
 	private function get_bounds():BoundingVolumeBase
 	{
 		if (_boundsInvalid)
@@ -233,7 +249,7 @@ class Entity extends ObjectContainer3D
 		return _bounds;
 	}
 
-	public var worldBounds(get,null):BoundingVolumeBase;
+	
 	private function get_worldBounds():BoundingVolumeBase
 	{
 		if (_worldBoundsInvalid)
@@ -291,14 +307,7 @@ class Entity extends ObjectContainer3D
 		return AssetType.ENTITY;
 	}
 
-	/**
-	 * Used by the raycast-based picking system to determine how the geometric contents of an entity are processed
-	 * in order to offer more details for the picking collision object, including local position, normal vector and uv value.
-	 * Defaults to null.
-	 *
-	 * @see a3d.core.pick.RaycastPicker
-	 */
-	public var pickingCollider(get,set):IPickingCollider;
+	
 	private function get_pickingCollider():IPickingCollider
 	{
 		return _pickingCollider;

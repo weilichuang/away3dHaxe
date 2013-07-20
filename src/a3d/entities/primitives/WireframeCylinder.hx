@@ -9,6 +9,19 @@ import flash.Vector;
 class WireframeCylinder extends WireframePrimitiveBase
 {
 	private static inline var TWO_PI:Float = 2 * Math.PI;
+	
+	/**
+	 * Top radius of the cylinder
+	 */
+	public var topRadius(get, set):Float;
+	/**
+	 * Bottom radius of the cylinder
+	 */
+	public var bottomRadius(get, set):Float;
+	/**
+	 * The height of the cylinder
+	 */
+	public var height(get, set):Float;
 
 	private var _topRadius:Float;
 	private var _bottomRadius:Float;
@@ -41,8 +54,6 @@ class WireframeCylinder extends WireframePrimitiveBase
 
 	override private function buildGeometry():Void
 	{
-
-		var i:Int, j:Int;
 		var radius:Float = _topRadius;
 		var revolutionAngle:Float;
 		var revolutionAngleDelta:Float = TWO_PI / _segmentsW;
@@ -85,10 +96,7 @@ class WireframeCylinder extends WireframePrimitiveBase
 	}
 
 
-	/**
-	 * Top radius of the cylinder
-	 */
-	public var topRadius(get, set):Float;
+	
 	private function get_topRadius():Float
 	{
 		return _topRadius;
@@ -103,10 +111,7 @@ class WireframeCylinder extends WireframePrimitiveBase
 	}
 
 
-	/**
-	 * Bottom radius of the cylinder
-	 */
-	public var bottomRadius(get, set):Float;
+	
 	private function get_bottomRadius():Float
 	{
 		return _bottomRadius;
@@ -121,10 +126,7 @@ class WireframeCylinder extends WireframePrimitiveBase
 	}
 
 
-	/**
-	 * The height of the cylinder
-	 */
-	public var height(get, set):Float;
+	
 	private function get_height():Float
 	{
 		return _height;

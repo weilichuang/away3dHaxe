@@ -11,6 +11,27 @@ import flash.Vector;
  */
 class TorusGeometry extends PrimitiveBase
 {
+	/**
+	 * The radius of the torus.
+	 */
+	public var radius(get, set):Float;
+	/**
+	 * The radius of the inner tube of the torus.
+	 */
+	public var tubeRadius(get, set):Float;
+	/**
+	 * Defines the number of horizontal segments that make up the torus. Defaults to 16.
+	 */
+	public var segmentsR(get, set):Int;
+	/**
+	 * Defines the number of vertical segments that make up the torus. Defaults to 8.
+	 */
+	public var segmentsT(get, set):Int;
+	/**
+	 * Defines whether the torus poles should lay on the Y-axis (true) or on the Z-axis (false).
+	 */
+	public var yUp(get, set):Bool;
+	
 	private var _radius:Float;
 	private var _tubeRadius:Float;
 	private var _segmentsR:Int;
@@ -24,6 +45,26 @@ class TorusGeometry extends PrimitiveBase
 	private var _numVertices:Int;
 	private var _vertexStride:Int;
 	private var _vertexOffset:Int;
+	
+	/**
+	 * Creates a new <code>Torus</code> object.
+	 * @param radius The radius of the torus.
+	 * @param tuebRadius The radius of the inner tube of the torus.
+	 * @param segmentsR Defines the number of horizontal segments that make up the torus.
+	 * @param segmentsT Defines the number of vertical segments that make up the torus.
+	 * @param yUp Defines whether the torus poles should lay on the Y-axis (true) or on the Z-axis (false).
+	 */
+	public function new(radius:Float = 50, tubeRadius:Float = 50, 
+						segmentsR:Int = 16, segmentsT:Int = 8, yUp:Bool = true)
+	{
+		super();
+
+		_radius = radius;
+		_tubeRadius = tubeRadius;
+		_segmentsR = segmentsR;
+		_segmentsT = segmentsT;
+		_yUp = yUp;
+	}
 
 	private function addVertex(px:Float, py:Float, pz:Float,
 		nx:Float, ny:Float, nz:Float,
@@ -214,10 +255,7 @@ class TorusGeometry extends PrimitiveBase
 		target.updateData(data);
 	}
 
-	/**
-	 * The radius of the torus.
-	 */
-	public var radius(get, set):Float;
+	
 	private function get_radius():Float
 	{
 		return _radius;
@@ -230,10 +268,7 @@ class TorusGeometry extends PrimitiveBase
 		return _radius;
 	}
 
-	/**
-	 * The radius of the inner tube of the torus.
-	 */
-	public var tubeRadius(get, set):Float;
+	
 	private function get_tubeRadius():Float
 	{
 		return _tubeRadius;
@@ -246,10 +281,7 @@ class TorusGeometry extends PrimitiveBase
 		return _tubeRadius;
 	}
 
-	/**
-	 * Defines the number of horizontal segments that make up the torus. Defaults to 16.
-	 */
-	public var segmentsR(get, set):Int;
+	
 	private function get_segmentsR():Int
 	{
 		return _segmentsR;
@@ -263,10 +295,7 @@ class TorusGeometry extends PrimitiveBase
 		return _segmentsR;
 	}
 
-	/**
-	 * Defines the number of vertical segments that make up the torus. Defaults to 8.
-	 */
-	public var segmentsT(get, set):Int;
+	
 	private function get_segmentsT():Int
 	{
 		return _segmentsT;
@@ -280,10 +309,7 @@ class TorusGeometry extends PrimitiveBase
 		return _segmentsT;
 	}
 
-	/**
-	 * Defines whether the torus poles should lay on the Y-axis (true) or on the Z-axis (false).
-	 */
-	public var yUp(get, set):Bool;
+	
 	private function get_yUp():Bool
 	{
 		return _yUp;
@@ -296,23 +322,5 @@ class TorusGeometry extends PrimitiveBase
 		return _yUp;
 	}
 
-	/**
-	 * Creates a new <code>Torus</code> object.
-	 * @param radius The radius of the torus.
-	 * @param tuebRadius The radius of the inner tube of the torus.
-	 * @param segmentsR Defines the number of horizontal segments that make up the torus.
-	 * @param segmentsT Defines the number of vertical segments that make up the torus.
-	 * @param yUp Defines whether the torus poles should lay on the Y-axis (true) or on the Z-axis (false).
-	 */
-	public function new(radius:Float = 50, tubeRadius:Float = 50, 
-						segmentsR:Int = 16, segmentsT:Int = 8, yUp:Bool = true)
-	{
-		super();
-
-		_radius = radius;
-		_tubeRadius = tubeRadius;
-		_segmentsR = segmentsR;
-		_segmentsT = segmentsT;
-		_yUp = yUp;
-	}
+	
 }

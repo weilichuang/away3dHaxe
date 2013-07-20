@@ -3,11 +3,25 @@
 import flash.errors.Error;
 import flash.geom.Vector3D;
 
+using a3d.math.FVector3D;
 /**
  * A WirefameCube primitive mesh.
  */
 class WireframeCube extends WireframePrimitiveBase
 {
+	/**
+	 * The size of the cube along its X-axis.
+	 */
+	public var width(get, set):Float;
+	/**
+	 * The size of the cube along its Y-axis.
+	 */
+	public var height(get, set):Float;
+	/**
+	 * The size of the cube along its Z-axis.
+	 */
+	public var depth(get, set):Float;
+	
 	private var _width:Float;
 	private var _height:Float;
 	private var _depth:Float;
@@ -29,48 +43,44 @@ class WireframeCube extends WireframePrimitiveBase
 		_depth = depth;
 	}
 
-	/**
-	 * The size of the cube along its X-axis.
-	 */
 	private function get_width():Float
 	{
 		return _width;
 	}
 
-	private function set_width(value:Float):Void
+	private function set_width(value:Float):Float
 	{
 		_width = value;
 		invalidateGeometry();
+		return value;
 	}
 
-	/**
-	 * The size of the cube along its Y-axis.
-	 */
+	
 	private function get_height():Float
 	{
 		return _height;
 	}
 
-	private function set_height(value:Float):Void
+	private function set_height(value:Float):Float
 	{
 		if (value <= 0)
 			throw new Error("Value needs to be greater than 0");
 		_height = value;
 		invalidateGeometry();
+		return value;
 	}
 
-	/**
-	 * The size of the cube along its Z-axis.
-	 */
+	
 	private function get_depth():Float
 	{
 		return _depth;
 	}
 
-	private function set_depth(value:Float):Void
+	private function set_depth(value:Float):Float
 	{
 		_depth = value;
 		invalidateGeometry();
+		return value;
 	}
 
 	/**
@@ -84,12 +94,8 @@ class WireframeCube extends WireframePrimitiveBase
 		var hh:Float = _height * .5;
 		var hd:Float = _depth * .5;
 
-		v0.x = -hw;
-		v0.y = hh;
-		v0.z = -hd;
-		v1.x = -hw;
-		v1.y = -hh;
-		v1.z = -hd;
+		v0.fastSetTo( -hw, hh, -hd);
+		v1.fastSetTo( -hw, -hh, -hd);
 
 		updateOrAddSegment(0, v0, v1);
 		v0.z = hd;
@@ -102,12 +108,9 @@ class WireframeCube extends WireframePrimitiveBase
 		v1.z = -hd;
 		updateOrAddSegment(3, v0, v1);
 
-		v0.x = -hw;
-		v0.y = -hh;
-		v0.z = -hd;
-		v1.x = hw;
-		v1.y = -hh;
-		v1.z = -hd;
+		v0.fastSetTo( -hw, -hh, -hd);
+		v1.fastSetTo( hw, -hh, -hd);
+
 		updateOrAddSegment(4, v0, v1);
 		v0.y = hh;
 		v1.y = hh;
@@ -119,12 +122,9 @@ class WireframeCube extends WireframePrimitiveBase
 		v1.y = -hh;
 		updateOrAddSegment(7, v0, v1);
 
-		v0.x = -hw;
-		v0.y = -hh;
-		v0.z = -hd;
-		v1.x = -hw;
-		v1.y = -hh;
-		v1.z = hd;
+		v0.fastSetTo( -hw, -hh, -hd);
+		v1.fastSetTo( -hw, -hh, hd);
+
 		updateOrAddSegment(8, v0, v1);
 		v0.y = hh;
 		v1.y = hh;

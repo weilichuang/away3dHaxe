@@ -10,6 +10,10 @@ import a3d.core.managers.Stage3DProxy;
 class Filter3DVBlurTask extends Filter3DTaskBase
 {
 	private static var MAX_AUTO_SAMPLES:Int = 15;
+	
+	public var amount(get, set):Int;
+	public var stepSize(get, set):Int;
+	
 	private var _amount:Int;
 	private var _data:Vector<Float>;
 	private var _stepSize:Int = 1;
@@ -28,7 +32,7 @@ class Filter3DVBlurTask extends Filter3DTaskBase
 		this.stepSize = stepSize;
 	}
 
-	public var amount(get, set):Int;
+	
 	private function get_amount():Int
 	{
 		return _amount;
@@ -46,7 +50,7 @@ class Filter3DVBlurTask extends Filter3DTaskBase
 		return _amount;
 	}
 
-	public var stepSize(get, set):Int;
+	
 	private function get_stepSize():Int
 	{
 		return _stepSize;
@@ -114,7 +118,6 @@ class Filter3DVBlurTask extends Filter3DTaskBase
 	private function calculateStepSize():Void
 	{
 		_realStepSize = _stepSize > 0 ? _stepSize :
-			_amount > MAX_AUTO_SAMPLES ? _amount / MAX_AUTO_SAMPLES :
-			1;
+			(_amount > MAX_AUTO_SAMPLES ? _amount / MAX_AUTO_SAMPLES : 1);
 	}
 }

@@ -10,6 +10,11 @@ import a3d.animators.nodes.AnimationNodeBase;
  */
 class AnimationStateBase implements IAnimationState
 {
+	/**
+	 * Returns a 3d vector representing the translation delta of the animating entity for the current timestep of animation
+	 */
+	public var positionDelta(get, null):Vector3D;
+	
 	private var _animationNode:AnimationNodeBase;
 	private var _rootDelta:Vector3D;
 	private var _positionDeltaDirty:Bool;
@@ -18,18 +23,8 @@ class AnimationStateBase implements IAnimationState
 	private var _startTime:Int;
 	private var _animator:IAnimator;
 
-	/**
-	 * Returns a 3d vector representing the translation delta of the animating entity for the current timestep of animation
-	 */
-	public var positionDelta(get,null):Vector3D;
-	private function get_positionDelta():Vector3D
-	{
-		if (_positionDeltaDirty)
-			updatePositionDelta();
-
-		return _rootDelta;
-	}
-
+	
+	
 	public function new(animator:IAnimator, animationNode:AnimationNodeBase)
 	{
 		_animator = animator;
@@ -74,6 +69,15 @@ class AnimationStateBase implements IAnimationState
 	public function phase(value:Float):Void
 	{
 	}
+	
+	private function get_positionDelta():Vector3D
+	{
+		if (_positionDeltaDirty)
+			updatePositionDelta();
+
+		return _rootDelta;
+	}
+
 
 	/**
 	 * Updates the node's internal playhead position.

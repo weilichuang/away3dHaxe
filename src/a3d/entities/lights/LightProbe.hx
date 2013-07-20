@@ -1,20 +1,23 @@
 package a3d.entities.lights;
 
-import flash.errors.Error;
-import flash.geom.Matrix3D;
-
-
 import a3d.bounds.BoundingVolumeBase;
 import a3d.bounds.NullBounds;
 import a3d.core.base.IRenderable;
 import a3d.core.partition.EntityNode;
 import a3d.core.partition.LightProbeNode;
 import a3d.textures.CubeTextureBase;
+import flash.errors.Error;
+import flash.geom.Matrix3D;
+
+
 
 
 
 class LightProbe extends LightBase
 {
+	public var diffuseMap(get,set):CubeTextureBase;
+	public var specularMap(get, set):CubeTextureBase;
+	
 	private var _diffuseMap:CubeTextureBase;
 	private var _specularMap:CubeTextureBase;
 
@@ -33,7 +36,7 @@ class LightProbe extends LightBase
 		return new LightProbeNode(this);
 	}
 
-	public var diffuseMap(get,set):CubeTextureBase;
+	
 	private function get_diffuseMap():CubeTextureBase
 	{
 		return _diffuseMap;
@@ -44,7 +47,7 @@ class LightProbe extends LightBase
 		return _diffuseMap = value;
 	}
 
-	public var specularMap(get,set):CubeTextureBase;
+	
 	private function get_specularMap():CubeTextureBase
 	{
 		return _specularMap;

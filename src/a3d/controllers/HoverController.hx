@@ -5,7 +5,7 @@ import flash.geom.Vector3D;
 
 import a3d.entities.Entity;
 import a3d.entities.ObjectContainer3D;
-import a3d.math.MathUtil;
+import a3d.math.FMath;
 
 
 
@@ -161,7 +161,7 @@ class HoverController extends LookAtController
 
 	private function set_panAngle(val:Float):Float
 	{
-		val = MathUtil.fclamp(val, _minPanAngle, _maxPanAngle);
+		val = FMath.fclamp(val, _minPanAngle, _maxPanAngle);
 
 		if (_panAngle == val)
 			return _panAngle;
@@ -181,7 +181,7 @@ class HoverController extends LookAtController
 
 	private function set_tiltAngle(val:Float):Float
 	{
-		val = MathUtil.fclamp(val, _minTiltAngle, _maxTiltAngle);
+		val = FMath.fclamp(val, _minTiltAngle, _maxTiltAngle);
 
 		if (_tiltAngle == val)
 			return _tiltAngle;
@@ -224,7 +224,7 @@ class HoverController extends LookAtController
 
 		_minPanAngle = val;
 
-		panAngle = MathUtil.fclamp(_panAngle, _minPanAngle, _maxPanAngle);
+		panAngle = FMath.fclamp(_panAngle, _minPanAngle, _maxPanAngle);
 
 		return _minPanAngle;
 	}
@@ -242,7 +242,7 @@ class HoverController extends LookAtController
 
 		_maxPanAngle = val;
 
-		panAngle = MathUtil.fclamp(_panAngle, _minPanAngle, _maxPanAngle);
+		panAngle = FMath.fclamp(_panAngle, _minPanAngle, _maxPanAngle);
 		
 		return _maxPanAngle;
 	}
@@ -260,7 +260,7 @@ class HoverController extends LookAtController
 
 		_minTiltAngle = val;
 
-		tiltAngle = MathUtil.fclamp(_tiltAngle, _minTiltAngle, _maxTiltAngle);
+		tiltAngle = FMath.fclamp(_tiltAngle, _minTiltAngle, _maxTiltAngle);
 
 		return _minTiltAngle;
 	}
@@ -278,7 +278,7 @@ class HoverController extends LookAtController
 
 		_maxTiltAngle = val;
 
-		tiltAngle = MathUtil.fclamp(_tiltAngle, _minTiltAngle, _maxTiltAngle);
+		tiltAngle = FMath.fclamp(_tiltAngle, _minTiltAngle, _maxTiltAngle);
 		
 		return _maxTiltAngle;
 	}
@@ -377,9 +377,9 @@ class HoverController extends LookAtController
 		}
 
 		var pos:Vector3D = (lookAtObject != null) ? lookAtObject.position : ((lookAtPosition != null) ? lookAtPosition : _origin);
-		targetObject.x = pos.x + distance * Math.sin(currentPanAngle * MathUtil.DEGREES_TO_RADIANS()) * Math.cos(currentTiltAngle * MathUtil.DEGREES_TO_RADIANS());
-		targetObject.z = pos.z + distance * Math.cos(currentPanAngle * MathUtil.DEGREES_TO_RADIANS()) * Math.cos(currentTiltAngle * MathUtil.DEGREES_TO_RADIANS());
-		targetObject.y = pos.y + distance * Math.sin(currentTiltAngle * MathUtil.DEGREES_TO_RADIANS()) * yFactor;
+		targetObject.x = pos.x + distance * Math.sin(currentPanAngle * FMath.DEGREES_TO_RADIANS()) * Math.cos(currentTiltAngle * FMath.DEGREES_TO_RADIANS());
+		targetObject.z = pos.z + distance * Math.cos(currentPanAngle * FMath.DEGREES_TO_RADIANS()) * Math.cos(currentTiltAngle * FMath.DEGREES_TO_RADIANS());
+		targetObject.y = pos.y + distance * Math.sin(currentTiltAngle * FMath.DEGREES_TO_RADIANS()) * yFactor;
 
 		super.update();
 	}

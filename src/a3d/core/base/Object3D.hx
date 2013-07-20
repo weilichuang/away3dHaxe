@@ -8,10 +8,10 @@ import flash.Vector;
 import a3d.controllers.ControllerBase;
 import a3d.events.Object3DEvent;
 import a3d.io.library.assets.NamedAssetBase;
-import a3d.math.MathUtil;
+import a3d.math.FMath;
 import a3d.math.Matrix3DUtils;
 
-
+using a3d.math.FVector3D;
 
 
 /**
@@ -173,8 +173,8 @@ class Object3D extends NamedAssetBase
 	 */
 	public var extra:Dynamic;
 
-	private var _smallestNumber:Float;
-	private var _transformDirty:Bool;
+	private var _smallestNumber:Float = 0.0000000000000000000001;
+	private var _transformDirty:Bool = true;
 
 	private var _positionDirty:Bool;
 	private var _rotationDirty:Bool;
@@ -189,9 +189,9 @@ class Object3D extends NamedAssetBase
 	private var _rotationChanged:Object3DEvent;
 	private var _scaleChanged:Object3DEvent;
 
-	private var _rotationX:Float;
-	private var _rotationY:Float;
-	private var _rotationZ:Float;
+	private var _rotationX:Float = 0;
+	private var _rotationY:Float = 0;
+	private var _rotationZ:Float = 0;
 	private var _eulers:Vector3D;
 
 	private var _flipY:Matrix3D;
@@ -199,17 +199,17 @@ class Object3D extends NamedAssetBase
 	private var _listenToRotationChanged:Bool;
 	private var _listenToScaleChanged:Bool;
 
-	private var _zOffset:Int;
+	private var _zOffset:Int = 0;
 	
 	private var _transform:Matrix3D;
-	private var _scaleX:Float;
-	private var _scaleY:Float;
-	private var _scaleZ:Float;
-	private var _x:Float;
-	private var _y:Float;
-	private var _z:Float;
+	private var _scaleX:Float = 1;
+	private var _scaleY:Float = 1;
+	private var _scaleZ:Float = 1;
+	private var _x:Float = 0;
+	private var _y:Float = 0;
+	private var _z:Float = 0;
 	private var _pivotPoint:Vector3D;
-	private var _pivotZero:Bool;
+	private var _pivotZero:Bool = true;
 	private var _pos:Vector3D;
 	private var _rot:Vector3D;
 	private var _sca:Vector3D;
@@ -222,29 +222,14 @@ class Object3D extends NamedAssetBase
 	{
 		super();
 		
-		_smallestNumber = 0.0000000000000000000001;
-		_transformDirty = true;
-		
-		_rotationX = 0;
-		_rotationY = 0;
-		_rotationZ = 0;
 		_eulers = new Vector3D();
-		
 		_flipY = new Matrix3D();
-		_zOffset = 0;
-	
+
 		_transform = new Matrix3D();
-		 _scaleX = 1;
-		 _scaleY = 1;
-		 _scaleZ = 1;
-		 _x = 0;
-		 _y = 0;
-		 _z = 0;
-		 _pivotPoint = new Vector3D();
-		 _pivotZero = true;
-		 _pos = new Vector3D();
-		 _rot = new Vector3D();
-		 _sca = new Vector3D();
+		_pivotPoint = new Vector3D();
+		_pos = new Vector3D();
+		_rot = new Vector3D();
+		_sca = new Vector3D();
 	
 		// Cached vector of transformation components used when
 		// recomposing the transform matrix in updateTransform()
@@ -385,7 +370,7 @@ class Object3D extends NamedAssetBase
 	}
 
 	
-	private function get_y():Float
+	private inline function get_y():Float
 	{
 		return _y;
 	}
@@ -402,7 +387,7 @@ class Object3D extends NamedAssetBase
 		return _y;
 	}
 
-	private function get_z():Float
+	private inline function get_z():Float
 	{
 		return _z;
 	}
@@ -422,7 +407,7 @@ class Object3D extends NamedAssetBase
 	
 	private function get_rotationX():Float
 	{
-		return _rotationX * MathUtil.RADIANS_TO_DEGREES();
+		return _rotationX * FMath.RADIANS_TO_DEGREES();
 	}
 
 	private function set_rotationX(val:Float):Float
@@ -430,7 +415,7 @@ class Object3D extends NamedAssetBase
 		if (rotationX == val)
 			return rotationX;
 
-		_rotationX = val * MathUtil.DEGREES_TO_RADIANS();
+		_rotationX = val * FMath.DEGREES_TO_RADIANS();
 
 		invalidateRotation();
 		
@@ -440,7 +425,7 @@ class Object3D extends NamedAssetBase
 	
 	private function get_rotationY():Float
 	{
-		return _rotationY * MathUtil.RADIANS_TO_DEGREES();
+		return _rotationY * FMath.RADIANS_TO_DEGREES();
 	}
 
 	private function set_rotationY(val:Float):Float
@@ -448,7 +433,7 @@ class Object3D extends NamedAssetBase
 		if (rotationY == val)
 			return rotationY;
 
-		_rotationY = val * MathUtil.DEGREES_TO_RADIANS();
+		_rotationY = val * FMath.DEGREES_TO_RADIANS();
 
 		invalidateRotation();
 		
@@ -458,7 +443,7 @@ class Object3D extends NamedAssetBase
 	
 	private function get_rotationZ():Float
 	{
-		return _rotationZ * MathUtil.RADIANS_TO_DEGREES();
+		return _rotationZ * FMath.RADIANS_TO_DEGREES();
 	}
 
 	private function set_rotationZ(val:Float):Float
@@ -466,7 +451,7 @@ class Object3D extends NamedAssetBase
 		if (rotationZ == val)
 			return rotationZ;
 
-		_rotationZ = val * MathUtil.DEGREES_TO_RADIANS();
+		_rotationZ = val * FMath.DEGREES_TO_RADIANS();
 
 		invalidateRotation();
 		
@@ -474,7 +459,7 @@ class Object3D extends NamedAssetBase
 	}
 
 	
-	private function get_scaleX():Float
+	private inline function get_scaleX():Float
 	{
 		return _scaleX;
 	}
@@ -492,7 +477,7 @@ class Object3D extends NamedAssetBase
 	}
 
 	
-	private function get_scaleY():Float
+	private inline function get_scaleY():Float
 	{
 		return _scaleY;
 	}
@@ -510,7 +495,7 @@ class Object3D extends NamedAssetBase
 	}
 
 	
-	private function get_scaleZ():Float
+	private inline function get_scaleZ():Float
 	{
 		return _scaleZ;
 	}
@@ -530,18 +515,18 @@ class Object3D extends NamedAssetBase
 	
 	private function get_eulers():Vector3D
 	{
-		_eulers.x = _rotationX * MathUtil.RADIANS_TO_DEGREES();
-		_eulers.y = _rotationY * MathUtil.RADIANS_TO_DEGREES();
-		_eulers.z = _rotationZ * MathUtil.RADIANS_TO_DEGREES();
+		_eulers.x = _rotationX * FMath.RADIANS_TO_DEGREES();
+		_eulers.y = _rotationY * FMath.RADIANS_TO_DEGREES();
+		_eulers.z = _rotationZ * FMath.RADIANS_TO_DEGREES();
 
 		return _eulers;
 	}
 
 	private function set_eulers(value:Vector3D):Vector3D
 	{
-		_rotationX = value.x * MathUtil.DEGREES_TO_RADIANS();
-		_rotationY = value.y * MathUtil.DEGREES_TO_RADIANS();
-		_rotationZ = value.z * MathUtil.DEGREES_TO_RADIANS();
+		_rotationX = value.x * FMath.DEGREES_TO_RADIANS();
+		_rotationY = value.y * FMath.DEGREES_TO_RADIANS();
+		_rotationZ = value.z * FMath.DEGREES_TO_RADIANS();
 
 		invalidateRotation();
 		
@@ -608,7 +593,7 @@ class Object3D extends NamedAssetBase
 	}
 
 	
-	private function get_pivotPoint():Vector3D
+	private inline function get_pivotPoint():Vector3D
 	{
 		return _pivotPoint;
 	}
@@ -883,9 +868,9 @@ class Object3D extends NamedAssetBase
 	 */
 	public function rotateTo(ax:Float, ay:Float, az:Float):Void
 	{
-		_rotationX = ax * MathUtil.DEGREES_TO_RADIANS();
-		_rotationY = ay * MathUtil.DEGREES_TO_RADIANS();
-		_rotationZ = az * MathUtil.DEGREES_TO_RADIANS();
+		_rotationX = ax * FMath.DEGREES_TO_RADIANS();
+		_rotationY = ay * FMath.DEGREES_TO_RADIANS();
+		_rotationZ = az * FMath.DEGREES_TO_RADIANS();
 
 		invalidateRotation();
 	}
@@ -990,17 +975,11 @@ class Object3D extends NamedAssetBase
 
 	private function updateTransform():Void
 	{
-		_pos.x = _x;
-		_pos.y = _y;
-		_pos.z = _z;
+		_pos.fastSetTo(_x, _y, _z);
+		
+		_rot.fastSetTo(_rotationX, _rotationY, _rotationZ);
 
-		_rot.x = _rotationX;
-		_rot.y = _rotationY;
-		_rot.z = _rotationZ;
-
-		_sca.x = _scaleX;
-		_sca.y = _scaleY;
-		_sca.z = _scaleZ;
+		_sca.fastSetTo(_scaleX, _scaleY, _scaleZ);
 
 		_transform.recompose(_transformComponents);
 

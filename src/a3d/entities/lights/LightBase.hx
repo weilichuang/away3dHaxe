@@ -8,7 +8,7 @@ import a3d.errors.AbstractMethodError;
 import a3d.events.LightEvent;
 import a3d.io.library.assets.AssetType;
 import a3d.entities.lights.shadowmaps.ShadowMapperBase;
-import a3d.math.MathUtil;
+import a3d.math.FMath;
 
 import flash.geom.Matrix3D;
 
@@ -19,6 +19,27 @@ import flash.geom.Matrix3D;
  */
 class LightBase extends Entity
 {
+	public var castsShadows(get,set):Bool;
+	/**
+	 * The specular emission strength of the light. Default value is <code>1</code>.
+	 */
+	public var specular(get,set):Float;
+	/**
+	 * The diffuse emission strength of the light. Default value is <code>1</code>.
+	 */
+	public var diffuse(get,set):Float;
+	/**
+	 * The color of the light. Default value is <code>0xffffff</code>.
+	 */
+	public var color(get,set):UInt;
+	/**
+	 * The ambient emission strength of the light. Default value is <code>0</code>.
+	 */
+	public var ambient(get,set):Float;
+	public var ambientColor(get, set):UInt;
+	
+	public var shadowMapper(get, set):ShadowMapperBase;
+	
 	private var _color:UInt = 0xffffff;
 	private var _colorR:Float = 1;
 	private var _colorG:Float = 1;
@@ -54,7 +75,7 @@ class LightBase extends Entity
 		super();
 	}
 
-	public var castsShadows(get,set):Bool;
+	
 	private function get_castsShadows():Bool
 	{
 		return _castsShadows;
@@ -89,10 +110,7 @@ class LightBase extends Entity
 		throw new AbstractMethodError();
 	}
 
-	/**
-	 * The specular emission strength of the light. Default value is <code>1</code>.
-	 */
-	public var specular(get,set):Float;
+	
 	private function get_specular():Float
 	{
 		return _specular;
@@ -109,10 +127,7 @@ class LightBase extends Entity
 		return _specular;
 	}
 
-	/**
-	 * The diffuse emission strength of the light. Default value is <code>1</code>.
-	 */
-	public var diffuse(get,set):Float;
+	
 	private function get_diffuse():Float
 	{
 		return _diffuse;
@@ -129,10 +144,7 @@ class LightBase extends Entity
 		return _diffuse;
 	}
 
-	/**
-	 * The color of the light. Default value is <code>0xffffff</code>.
-	 */
-	public var color(get,set):UInt;
+	
 	private function get_color():UInt
 	{
 		return _color;
@@ -150,10 +162,7 @@ class LightBase extends Entity
 		return _color;
 	}
 
-	/**
-	 * The ambient emission strength of the light. Default value is <code>0</code>.
-	 */
-	public var ambient(get,set):Float;
+	
 	private function get_ambient():Float
 	{
 		return _ambient;
@@ -161,13 +170,13 @@ class LightBase extends Entity
 
 	private function set_ambient(value:Float):Float
 	{
-		_ambient = MathUtil.fclamp(value, 0, 1);
+		_ambient = FMath.fclamp(value, 0, 1);
 		updateAmbient();
 		
 		return _ambient;
 	}
 
-	public var ambientColor(get,set):UInt;
+	
 	private function get_ambientColor():UInt
 	{
 		return _ambientColor;
@@ -238,7 +247,7 @@ class LightBase extends Entity
 		diffuseB = _colorB * _diffuse;
 	}
 
-	public var shadowMapper(get,set):ShadowMapperBase;
+	
 	private function get_shadowMapper():ShadowMapperBase
 	{
 		return _shadowMapper;

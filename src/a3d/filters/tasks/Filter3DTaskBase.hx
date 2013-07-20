@@ -14,6 +14,15 @@ import a3d.errors.AbstractMethodError;
 
 class Filter3DTaskBase
 {
+	/**
+	 * The texture scale for the input of this texture. This will define the output of the previous entry in the chain
+	 */
+	public var textureScale(get, set):Int;
+	public var target(get,set):Texture;
+	public var textureWidth(get,set):Int;
+	public var textureHeight(get,set):Int;
+	public var requireDepthRender(get, null):Bool;
+	
 	private var _mainInputTexture:Texture;
 
 	private var _scaledTextureWidth:Int = -1;
@@ -32,10 +41,7 @@ class Filter3DTaskBase
 		_requireDepthRender = requireDepthRender;
 	}
 
-	/**
-	 * The texture scale for the input of this texture. This will define the output of the previous entry in the chain
-	 */
-	public var textureScale(get, set):Int;
+	
 	private function get_textureScale():Int
 	{
 		return _textureScale;
@@ -53,7 +59,7 @@ class Filter3DTaskBase
 		return _textureScale;
 	}
 
-	public var target(get,set):Texture;
+	
 	private function get_target():Texture
 	{
 		return _target;
@@ -64,7 +70,7 @@ class Filter3DTaskBase
 		return _target = value;
 	}
 
-	public var textureWidth(get,set):Int;
+	
 	private function get_textureWidth():Int
 	{
 		return _textureWidth;
@@ -81,7 +87,7 @@ class Filter3DTaskBase
 		return _textureWidth;
 	}
 
-	public var textureHeight(get,set):Int;
+	
 	private function get_textureHeight():Int
 	{
 		return _textureHeight;
@@ -166,7 +172,7 @@ class Filter3DTaskBase
 	{
 	}
 
-	public var requireDepthRender(get,null):Bool;
+	
 	private function get_requireDepthRender():Bool
 	{
 		return _requireDepthRender;

@@ -4,6 +4,11 @@ import a3d.filters.tasks.Filter3DHueSaturationTask;
 
 class HueSaturationFilter3D extends Filter3DBase
 {
+	public var saturation(get, set):Float;
+	public var r(get, set):Float;
+	public var g(get, set):Float;
+	public var b(get, set):Float;
+	
 	private var _hslTask:Filter3DHueSaturationTask;
 
 	public function new(saturation:Float = 1, r:Float = 1, g:Float = 1, b:Float = 1)
@@ -23,11 +28,11 @@ class HueSaturationFilter3D extends Filter3DBase
 		return _hslTask.saturation;
 	}
 
-	private function set_saturation(value:Float):Void
+	private function set_saturation(value:Float):Float
 	{
 		if (_hslTask.saturation == value)
-			return;
-		_hslTask.saturation = value;
+			return value;
+		return _hslTask.saturation = value;
 	}
 
 	private function get_r():Float
@@ -35,11 +40,11 @@ class HueSaturationFilter3D extends Filter3DBase
 		return _hslTask.r;
 	}
 
-	private function set_r(value:Float):Void
+	private function set_r(value:Float):Float
 	{
 		if (_hslTask.r == value)
-			return;
-		_hslTask.r = value;
+			return value;
+		return _hslTask.r = value;
 	}
 
 	private function get_b():Float
@@ -47,11 +52,11 @@ class HueSaturationFilter3D extends Filter3DBase
 		return _hslTask.b;
 	}
 
-	private function set_b(value:Float):Void
+	private function set_b(value:Float):Float
 	{
 		if (_hslTask.b == value)
-			return;
-		_hslTask.b = value;
+			return value;
+		return _hslTask.b = value;
 	}
 
 	private function get_g():Float
@@ -59,10 +64,10 @@ class HueSaturationFilter3D extends Filter3DBase
 		return _hslTask.g;
 	}
 
-	private function set_g(value:Float):Void
+	private function set_g(value:Float):Float
 	{
 		if (_hslTask.g == value)
 			return;
-		_hslTask.g = value;
+		return _hslTask.g = value;
 	}
 }

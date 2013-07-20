@@ -8,19 +8,19 @@ interface IPath
 	/**
 	 * The number of <code>CubicPathSegment</code> instances in the path.
 	 */
-	function get_numSegments():UInt;
+	var numSegments(get,null):Int;
 
 	/**
 	 * The <code>IPathSegment</code> instances which make up this path.
 	 */
-	function get_segments():Vector<IPathSegment>;
+	var segments(get,null):Vector<IPathSegment>;
 
 	/**
 	 * Returns the <code>CubicPathSegment</code> at the specified index
 	 * @param index The index of the segment
 	 * @return A <code>CubicPathSegment</code> instance
 	 */
-	function getSegmentAt(index:UInt):IPathSegment;
+	function getSegmentAt(index:Int):IPathSegment;
 
 	/**
 	 * Adds a <code>CubicPathSegment</code> to the end of the path
@@ -33,7 +33,7 @@ interface IPath
 	 * @param index The index of the <code>CubicPathSegment</code> to be removed
 	 * @param join Determines if the segments on either side of the removed segment should be adjusted so there is no gap.
 	 */
-	function removeSegment(index:UInt, join:Bool = false):Void;
+	function removeSegment(index:Int, join:Bool = false):Void;
 
 	/**
 	 * Disposes the path and all the segments
@@ -45,7 +45,7 @@ interface IPath
 	 *
 	 * @param numSegments The amount of segments to split the sampling in. The amount of points returned is numSegments + 1
 	 */
-	function getPointsOnCurvePerSegment(numSegments:UInt):Vector<Vector<Vector3D>>;
+	function getPointsOnCurvePerSegment(numSegments:Int):Vector<Vector<Vector3D>>;
 
 	/**
 	 * Gets a point on the curve

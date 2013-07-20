@@ -21,6 +21,8 @@ import haxe.ds.WeakMap;
  */
 class ParticleStateBase extends AnimationStateBase
 {
+	public var needUpdateTime(get, null):Bool;
+	
 	private var _particleNode:ParticleNodeBase;
 
 	private var _dynamicProperties:Vector<Vector3D>;
@@ -39,7 +41,7 @@ class ParticleStateBase extends AnimationStateBase
 		_dynamicPropertiesDirty = new WeakMap<AnimationSubGeometry,Bool>();
 	}
 
-	public var needUpdateTime(get,null):Bool;
+	
 	private function get_needUpdateTime():Bool
 	{
 		return _needUpdateTime;
@@ -66,7 +68,7 @@ class ParticleStateBase extends AnimationStateBase
 		var data:Vector3D;
 		var animationParticle:ParticleAnimationData;
 
-//			var numParticles:UInt = _positions.length/dataLength;
+//		var numParticles:UInt = _positions.length/dataLength;
 		var numParticles:Int = _dynamicProperties.length;
 		var i:Int = 0;
 		var j:Int = 0;

@@ -19,6 +19,15 @@ import a3d.entities.lights.LightBase;
  */
 class RaycastCollector extends EntityCollector
 {
+	/**
+	 * Provides the starting position of the ray.
+	 */
+	public var rayPosition(get, set):Vector3D;
+	/**
+	 * Provides the direction vector of the ray.
+	 */
+	public var rayDirection(get, set):Vector3D;
+	
 	private var _rayPosition:Vector3D;
 	private var _rayDirection:Vector3D;
 
@@ -32,10 +41,7 @@ class RaycastCollector extends EntityCollector
 		_rayDirection = new Vector3D();
 	}
 
-	/**
-	 * Provides the starting position of the ray.
-	 */
-	public var rayPosition(get, set):Vector3D;
+	
 	private function get_rayPosition():Vector3D
 	{
 		return _rayPosition;
@@ -46,11 +52,6 @@ class RaycastCollector extends EntityCollector
 		return _rayPosition = value;
 	}
 
-
-	/**
-	 * Provides the direction vector of the ray.
-	 */
-	public var rayDirection(get, set):Vector3D;
 	private function get_rayDirection():Vector3D
 	{
 		return _rayDirection;

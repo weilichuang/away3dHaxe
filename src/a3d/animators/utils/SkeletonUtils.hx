@@ -17,7 +17,6 @@ class SkeletonUtils
 	{
 		var diff:SkeletonClipNode = new SkeletonClipNode();
 		var numFrames:Int = source.frames.length;
-
 		for (i in 0...numFrames)
 			diff.addFrame(generateDifferencePose(source.frames[i], referencePose), source.durations[i]);
 
@@ -31,7 +30,7 @@ class SkeletonUtils
 			throw new Error("joint counts don't match!");
 		}
 
-		var numJoints:UInt = source.numJointPoses;
+		var numJoints:Int = source.numJointPoses;
 		var diff:SkeletonPose = new SkeletonPose();
 		var srcPose:JointPose;
 		var refPose:JointPose;

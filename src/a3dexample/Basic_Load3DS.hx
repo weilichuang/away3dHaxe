@@ -1,37 +1,23 @@
 ﻿package a3dexample;
 
-import flash.display.Sprite;
-import flash.display.StageAlign;
-import flash.display.StageScaleMode;
+import a3d.controllers.HoverController;
+import a3d.entities.lights.DirectionalLight;
+import a3d.entities.Mesh;
+import a3d.entities.primitives.PlaneGeometry;
+import a3d.events.AssetEvent;
+import a3d.io.library.assets.AssetType;
+import a3d.io.loaders.Loader3D;
+import a3d.io.loaders.misc.AssetLoaderContext;
+import a3d.io.loaders.parsers.Parsers;
+import a3d.materials.lightpickers.StaticLightPicker;
+import a3d.materials.methods.FilteredShadowMapMethod;
+import a3d.materials.TextureMaterial;
 import flash.events.Event;
 import flash.events.MouseEvent;
 import flash.geom.Vector3D;
 import flash.Lib;
-import flash.utils.ByteArray;
 
-import a3d.entities.View3D;
-import a3d.controllers.HoverController;
-import a3d.utils.AwayStats;
-import a3d.entities.Mesh;
-import a3d.events.AssetEvent;
-import a3d.io.library.assets.AssetType;
-import a3d.entities.lights.DirectionalLight;
-import a3d.io.loaders.Loader3D;
-import a3d.io.loaders.misc.AssetLoaderContext;
-import a3d.io.loaders.parsers.Parsers;
-import a3d.materials.TextureMaterial;
-import a3d.materials.lightpickers.StaticLightPicker;
-import a3d.materials.methods.FilteredShadowMapMethod;
-import a3d.entities.primitives.PlaneGeometry;
-import a3d.utils.Cast;
 
-//solider ant texture
-@:bitmap("embeds/soldier_ant.jpg") class AntTexture extends flash.display.BitmapData { }
-//solider ant model
-@:file("embeds/soldier_ant.3ds") class AntModel extends ByteArray { }
-
-//ground texture
-@:bitmap("embeds/CoarseRedSand.jpg") class SandTexture extends flash.display.BitmapData { }
 
 class Basic_Load3DS extends BasicApplication
 {
@@ -201,3 +187,12 @@ class Basic_Load3DS extends BasicApplication
 		stage.removeEventListener(Event.MOUSE_LEAVE, onStageMouseLeave);
 	}
 }
+
+
+//solider ant texture
+@:bitmap("embeds/soldier_ant.jpg") class AntTexture extends flash.display.BitmapData { }
+//solider ant model
+@:file("embeds/soldier_ant.3ds") class AntModel extends flash.utils.ByteArray { }
+
+//ground texture
+@:bitmap("embeds/CoarseRedSand.jpg") class SandTexture extends flash.display.BitmapData { }

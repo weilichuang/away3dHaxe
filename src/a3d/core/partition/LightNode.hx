@@ -8,6 +8,11 @@ import a3d.entities.lights.LightBase;
  */
 class LightNode extends EntityNode
 {
+	/**
+	 * The light object contained in this node.
+	 */
+	public var light(get, null):LightBase;
+	
 	private var _light:LightBase;
 
 	/**
@@ -20,11 +25,8 @@ class LightNode extends EntityNode
 		_light = light;
 	}
 
-	/**
-	 * The light object contained in this node.
-	 */
-	public var light(get, null):LightBase;
-	private function get_light():LightBase
+	
+	private inline function get_light():LightBase
 	{
 		return _light;
 	}

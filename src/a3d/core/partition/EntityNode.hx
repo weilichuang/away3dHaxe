@@ -20,6 +20,11 @@ import a3d.math.Plane3D;
  */
 class EntityNode extends NodeBase
 {
+	/**
+	 * The entity contained in this leaf node.
+	 */
+	public var entity(get, null):Entity;
+	
 	private var _entity:Entity;
 
 	/**
@@ -39,11 +44,8 @@ class EntityNode extends NodeBase
 		_numEntities = 1;
 	}
 
-	/**
-	 * The entity contained in this leaf node.
-	 */
-	public var entity(get, null):Entity;
-	private function get_entity():Entity
+	
+	private inline function get_entity():Entity
 	{
 		return _entity;
 	}

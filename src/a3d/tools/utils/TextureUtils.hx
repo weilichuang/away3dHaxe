@@ -4,7 +4,7 @@ import flash.display.BitmapData;
 
 class TextureUtils
 {
-	private static inline var MAX_SIZE:UInt = 2048;
+	private static inline var MAX_SIZE:Int = 2048;
 
 	public static function isBitmapDataValid(bitmapData:BitmapData):Bool
 	{
@@ -14,7 +14,7 @@ class TextureUtils
 		return isDimensionValid(bitmapData.width) && isDimensionValid(bitmapData.height);
 	}
 
-	public static function isDimensionValid(d:UInt):Bool
+	public static function isDimensionValid(d:Int):Bool
 	{
 		return d >= 1 && d <= MAX_SIZE && isPowerOfTwo(d);
 	}
@@ -24,9 +24,9 @@ class TextureUtils
 		return value != 0 ? ((value & -value) == value) : false;
 	}
 
-	public static function getBestPowerOf2(value:UInt):Int
+	public static function getBestPowerOf2(value:Int):Int
 	{
-		var p:UInt = 1;
+		var p:Int = 1;
 
 		while (p < value)
 			p <<= 1;

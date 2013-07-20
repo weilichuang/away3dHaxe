@@ -21,6 +21,30 @@ import a3d.textures.Texture2DBase;
  */
 class TextureProjector extends ObjectContainer3D
 {
+	
+	/**
+	 * The aspect ratio of the texture or projection. By default this is the same aspect ratio of the texture (width/height)
+	 */
+	public var aspectRatio(get,set):Float;
+	/**
+	 * The vertical field of view of the projection, or the angle of the cone.
+	 */
+	public var fieldOfView(get, set):Float;
+	
+	/**
+	 * The texture to be projected on the geometry.
+	 * IMPORTANT: Since any point that is projected out of the range of the projector's cone is clamped to the texture's edges,
+	 * the edges should be entirely neutral. Depending on the blend mode, the neutral color is:
+	 * White for MULTIPLY,
+	 * Black for ADD,
+	 * Transparent for MIX
+	 */
+	public var texture(get,set):Texture2DBase;
+	/**
+	 * The matrix that projects a point in scene space into the texture coordinates.
+	 */
+	public var viewProjection(get,null):Matrix3D;
+	
 	private var _lens:PerspectiveLens;
 	private var _viewProjectionInvalid:Bool = true;
 	private var _viewProjection:Matrix3D;
@@ -44,10 +68,7 @@ class TextureProjector extends ObjectContainer3D
 		rotationX = -90;
 	}
 
-	/**
-	 * The aspect ratio of the texture or projection. By default this is the same aspect ratio of the texture (width/height)
-	 */
-	public var aspectRatio(get,set):Float;
+	
 	private function get_aspectRatio():Float
 	{
 		return _lens.aspectRatio;
@@ -58,10 +79,6 @@ class TextureProjector extends ObjectContainer3D
 		return _lens.aspectRatio = value;
 	}
 
-	/**
-	 * The vertical field of view of the projection, or the angle of the cone.
-	 */
-	public var fieldOfView(get,set):Float;
 	private function get_fieldOfView():Float
 	{
 		return _lens.fieldOfView;
@@ -77,15 +94,7 @@ class TextureProjector extends ObjectContainer3D
 		return AssetType.TEXTURE_PROJECTOR;
 	}
 
-	/**
-	 * The texture to be projected on the geometry.
-	 * IMPORTANT: Since any point that is projected out of the range of the projector's cone is clamped to the texture's edges,
-	 * the edges should be entirely neutral. Depending on the blend mode, the neutral color is:
-	 * White for MULTIPLY,
-	 * Black for ADD,
-	 * Transparent for MIX
-	 */
-	public var texture(get,set):Texture2DBase;
+	
 	private function get_texture():Texture2DBase
 	{
 		return _texture;
@@ -98,10 +107,7 @@ class TextureProjector extends ObjectContainer3D
 		return _texture = value;
 	}
 
-	/**
-	 * The matrix that projects a point in scene space into the texture coordinates.
-	 */
-	public var viewProjection(get,null):Matrix3D;
+	
 	private function get_viewProjection():Matrix3D
 	{
 		if (_viewProjectionInvalid)

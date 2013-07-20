@@ -1,5 +1,17 @@
 package a3d.animators;
 
+import a3d.animators.data.SpriteSheetAnimationFrame;
+import a3d.animators.states.ISpriteSheetAnimationState;
+import a3d.animators.states.SpriteSheetAnimationState;
+import a3d.animators.transitions.IAnimationTransition;
+import a3d.core.base.IRenderable;
+import a3d.core.base.SubMesh;
+import a3d.core.managers.Stage3DProxy;
+import a3d.entities.Camera3D;
+import a3d.materials.MaterialBase;
+import a3d.materials.passes.MaterialPassBase;
+import a3d.materials.SpriteSheetMaterial;
+import a3d.materials.TextureMaterial;
 import a3d.utils.TimerUtil;
 import flash.display3D.Context3DProgramType;
 import flash.errors.Error;
@@ -7,18 +19,6 @@ import flash.Lib;
 import flash.Vector;
 
 
-import a3d.animators.data.SpriteSheetAnimationFrame;
-import a3d.animators.states.ISpriteSheetAnimationState;
-import a3d.animators.states.SpriteSheetAnimationState;
-import a3d.animators.transitions.IAnimationTransition;
-import a3d.entities.Camera3D;
-import a3d.core.base.IRenderable;
-import a3d.core.base.SubMesh;
-import a3d.core.managers.Stage3DProxy;
-import a3d.materials.MaterialBase;
-import a3d.materials.SpriteSheetMaterial;
-import a3d.materials.TextureMaterial;
-import a3d.materials.passes.MaterialPassBase;
 
 
 
@@ -29,6 +29,17 @@ import a3d.materials.passes.MaterialPassBase;
  */
 class SpriteSheetAnimator extends AnimatorBase implements IAnimator
 {
+	/* Set the playrate of the animation in frames per second (not depending on player fps)*/
+	public var fps(get, set):Int;
+	/* If true, reverse causes the animation to play backwards*/
+	public var reverse(get, set):Bool;
+	/* If true, backAndForth causes the animation to play backwards and forward alternatively. Starting forward.*/
+	public var backAndForth(get, set):Bool;
+	/* returns the current frame*/
+	public var currentFrameNumber(get, null):Int;
+	/* returns the total amount of frame for the current animation*/
+	public var totalFrames(get, null):Int;
+	
 	private var _activeSpriteSheetState:ISpriteSheetAnimationState;
 	private var _spriteSheetAnimationSet:SpriteSheetAnimationSet;
 	private var _frame:SpriteSheetAnimationFrame;
@@ -53,8 +64,7 @@ class SpriteSheetAnimator extends AnimatorBase implements IAnimator
 		_frame = new SpriteSheetAnimationFrame();
 	}
 
-	/* Set the playrate of the animation in frames per second (not depending on player fps)*/
-	public var fps(get, set):Int;
+	
 	private function set_fps(val:Int):Int
 	{
 		_ms = Std.int(1000 / val);
@@ -66,8 +76,7 @@ class SpriteSheetAnimator extends AnimatorBase implements IAnimator
 		return _fps;
 	}
 
-	/* If true, reverse causes the animation to play backwards*/
-	public var reverse(get, set):Bool;
+	
 	private function set_reverse(b:Bool):Bool
 	{
 		_specsDirty = true;
@@ -79,8 +88,7 @@ class SpriteSheetAnimator extends AnimatorBase implements IAnimator
 		return _reverse;
 	}
 
-	/* If true, backAndForth causes the animation to play backwards and forward alternatively. Starting forward.*/
-	public var backAndForth(get, set):Bool;
+	
 	private function set_backAndForth(b:Bool):Bool
 	{
 		_specsDirty = true;
@@ -104,15 +112,13 @@ class SpriteSheetAnimator extends AnimatorBase implements IAnimator
 		gotoFrame(frameNumber, false);
 	}
 
-	/* returns the current frame*/
-	public var currentFrameNumber(get, null):Int;
+	
 	private function get_currentFrameNumber():Int
 	{
 		return Std.instance(_activeState,SpriteSheetAnimationState).currentFrameNumber;
 	}
 
-	/* returns the total amount of frame for the current animation*/
-	public var totalFrames(get, null):Int;
+	
 	private function get_totalFrames():Int
 	{
 		return Std.instance(_activeState,SpriteSheetAnimationState).totalFrames;

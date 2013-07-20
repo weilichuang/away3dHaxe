@@ -20,7 +20,7 @@ import a3d.core.managers.Stage3DProxy;
 import a3d.entities.Mesh;
 import a3d.math.Matrix3DUtils;
 
-using a3d.math.MathUtil;
+using a3d.math.FMath;
 
 class OutlinePass extends MaterialPassBase
 {

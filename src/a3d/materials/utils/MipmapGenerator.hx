@@ -46,9 +46,9 @@ class MipmapGenerator
 			mipmap.draw(source, _matrix, null, null, null, true);
 
 			if (Std.is(target,Texture))
-				Lib.as(target,Texture).uploadFromBitmapData(mipmap, i++);
+				Std.instance(target,Texture).uploadFromBitmapData(mipmap, i++);
 			else
-				Lib.as(target,CubeTexture).uploadFromBitmapData(mipmap, side, i++);
+				Std.instance(target,CubeTexture).uploadFromBitmapData(mipmap, side, i++);
 
 			w >>= 1;
 			h >>= 1;

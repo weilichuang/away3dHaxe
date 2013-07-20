@@ -1,5 +1,6 @@
 package a3d.filters;
 
+import a3d.math.FMath;
 import flash.display3D.textures.Texture;
 
 import a3d.core.managers.Stage3DProxy;
@@ -10,6 +11,11 @@ import a3d.filters.tasks.Filter3DVBlurTask;
 
 class BloomFilter3D extends Filter3DBase
 {
+	public var exposure(get, set):Float;
+	public var blurX(get, set):Int;
+	public var blurY(get, set):Int;
+	public var threshold(get, set):Float;
+	
 	private var _brightPassTask:Filter3DBrightPassTask;
 	private var _vBlurTask:Filter3DVBlurTask;
 	private var _hBlurTask:Filter3DHBlurTask;
@@ -18,15 +24,13 @@ class BloomFilter3D extends Filter3DBase
 	public function new(blurX:UInt = 15, blurY:UInt = 15, threshold:Float = .75, exposure:Float = 2, quality:Int = 3)
 	{
 		super();
+		
 		_brightPassTask = new Filter3DBrightPassTask(threshold);
 		_hBlurTask = new Filter3DHBlurTask(blurX);
 		_vBlurTask = new Filter3DVBlurTask(blurY);
 		_compositeTask = new Filter3DBloomCompositeTask(exposure);
 
-		if (quality > 4)
-			quality = 4;
-		else if (quality < 0)
-			quality = 0;
+		quality = FMath.clamp(quality, 0, 4);
 
 		_hBlurTask.textureScale = (4 - quality);
 		_vBlurTask.textureScale = (4 - quality);
@@ -50,44 +54,46 @@ class BloomFilter3D extends Filter3DBase
 		super.setRenderTargets(mainTarget, stage3DProxy);
 	}
 
-	
 	private function get_exposure():Float
 	{
 		return _compositeTask.exposure;
 	}
 
-	private function set_exposure(value:Float):Void
+	private function set_exposure(value:Float):Float
 	{
-		_compositeTask.exposure = value;
+		return _compositeTask.exposure = value;
 	}
 
-	private function get_blurX():UInt
+	
+	private function get_blurX():Int
 	{
 		return _hBlurTask.amount;
 	}
 
-	private function set_blurX(value:UInt):Void
+	private function set_blurX(value:Int):Int
 	{
-		_hBlurTask.amount = value;
+		return _hBlurTask.amount = value;
 	}
 
-	private function get_blurY():UInt
+	
+	private function get_blurY():Int
 	{
 		return _vBlurTask.amount;
 	}
 
-	private function set_blurY(value:UInt):Void
+	private function set_blurY(value:Int):Int
 	{
-		_vBlurTask.amount = value;
+		return _vBlurTask.amount = value;
 	}
 
+	
 	private function get_threshold():Float
 	{
 		return _brightPassTask.threshold;
 	}
 
-	private function set_threshold(value:Float):Void
+	private function set_threshold(value:Float):Float
 	{
-		_brightPassTask.threshold = value;
+		return _brightPassTask.threshold = value;
 	}
 }

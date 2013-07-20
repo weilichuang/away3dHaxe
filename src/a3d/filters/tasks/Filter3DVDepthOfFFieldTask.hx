@@ -14,6 +14,12 @@ import a3d.core.managers.Stage3DProxy;
 class Filter3DVDepthOfFFieldTask extends Filter3DTaskBase
 {
 	private static var MAX_AUTO_SAMPLES:Int = 10;
+	
+	public var stepSize(get, set):Int;
+	public var range(get, set):Float;
+	public var focusDistance(get, set):Float;
+	public var maxBlur(get, set):Int;
+	
 	private var _maxBlur:Int;
 	private var _data:Vector<Float>;
 	private var _focusDistance:Float;
@@ -34,7 +40,7 @@ class Filter3DVDepthOfFFieldTask extends Filter3DTaskBase
 		this.stepSize = stepSize;
 	}
 
-	public var stepSize(get, set):Int;
+	
 	private function get_stepSize():Int
 	{
 		return _stepSize;
@@ -51,7 +57,7 @@ class Filter3DVDepthOfFFieldTask extends Filter3DTaskBase
 		return _stepSize;
 	}
 
-	public var range(get, set):Float;
+	
 	private function get_range():Float
 	{
 		return _range;
@@ -65,7 +71,7 @@ class Filter3DVDepthOfFFieldTask extends Filter3DTaskBase
 	}
 
 
-	public var focusDistance(get, set):Float;
+	
 	private function get_focusDistance():Float
 	{
 		return _focusDistance;
@@ -77,7 +83,7 @@ class Filter3DVDepthOfFFieldTask extends Filter3DTaskBase
 		return _focusDistance;
 	}
 
-	public var maxBlur(get, set):Int;
+	
 	private function get_maxBlur():Int
 	{
 		return _maxBlur;
@@ -173,7 +179,6 @@ class Filter3DVDepthOfFFieldTask extends Filter3DTaskBase
 	private function calculateStepSize():Void
 	{
 		_realStepSize = _stepSize > 0 ? _stepSize :
-			_maxBlur > MAX_AUTO_SAMPLES ? _maxBlur / MAX_AUTO_SAMPLES :
-			1;
+			(_maxBlur > MAX_AUTO_SAMPLES ? _maxBlur / MAX_AUTO_SAMPLES : 1);
 	}
 }

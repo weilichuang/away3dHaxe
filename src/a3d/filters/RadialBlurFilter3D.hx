@@ -4,6 +4,13 @@ import a3d.filters.tasks.Filter3DRadialBlurTask;
 
 class RadialBlurFilter3D extends Filter3DBase
 {
+	public var intensity(get, set):Float;
+	public var glowGamma(get, set):Float;
+	public var blurStart(get, set):Float;
+	public var blurWidth(get, set):Float;
+	public var cx(get, set):Float;
+	public var cy(get, set):Float;
+	
 	private var _blurTask:Filter3DRadialBlurTask;
 
 	public function new(intensity:Float = 8.0, glowGamma:Float = 1.6, blurStart:Float = 1.0, blurWidth:Float = -0.3, cx:Float = 0.5, cy:Float = 0.5)
@@ -13,7 +20,7 @@ class RadialBlurFilter3D extends Filter3DBase
 		addTask(_blurTask);
 	}
 
-	public var intensity(get, set):Float;
+	
 	private function get_intensity():Float
 	{
 		return _blurTask.intensity;
@@ -24,7 +31,7 @@ class RadialBlurFilter3D extends Filter3DBase
 		return _blurTask.intensity = intensity;
 	}
 
-	public var glowGamma(get, set):Float;
+	
 	private function get_glowGamma():Float
 	{
 		return _blurTask.glowGamma;
@@ -35,7 +42,7 @@ class RadialBlurFilter3D extends Filter3DBase
 		return _blurTask.glowGamma = glowGamma;
 	}
 
-	public var blurStart(get, set):Float;
+	
 	private function get_blurStart():Float
 	{
 		return _blurTask.blurStart;
@@ -46,7 +53,7 @@ class RadialBlurFilter3D extends Filter3DBase
 		return _blurTask.blurStart = blurStart;
 	}
 
-	public var blurWidth(get, set):Float;
+	
 	private function get_blurWidth():Float
 	{
 		return _blurTask.blurWidth;
@@ -57,7 +64,7 @@ class RadialBlurFilter3D extends Filter3DBase
 		return _blurTask.blurWidth = blurWidth;
 	}
 
-	public var cx(get, set):Float;
+	
 	private function get_cx():Float
 	{
 		return _blurTask.cx;
@@ -68,7 +75,7 @@ class RadialBlurFilter3D extends Filter3DBase
 		return _blurTask.cx = cx;
 	}
 
-	public var cy(get, set):Float;
+	
 	private function get_cy():Float
 	{
 		return _blurTask.cy;

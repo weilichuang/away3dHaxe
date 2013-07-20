@@ -1,16 +1,15 @@
 package a3d.core.base;
 
+import a3d.core.managers.Stage3DProxy;
 import a3d.materials.utils.VertexFormatUtil;
 import flash.display3D.Context3D;
 import flash.display3D.Context3DVertexBufferFormat;
 import flash.display3D.VertexBuffer3D;
-import flash.utils.Dictionary;
 import flash.Vector;
 import haxe.ds.IntMap;
 import haxe.ds.IntMap.IntMap;
 
 
-import a3d.core.managers.Stage3DProxy;
 
 
 
@@ -21,6 +20,27 @@ import a3d.core.managers.Stage3DProxy;
  */
 class SkinnedSubGeometry extends CompactSubGeometry
 {
+	/**
+	 * If indices have been condensed, this will contain the original index for each condensed index.
+	 */
+	public var condensedIndexLookUp(get, null):Vector<UInt>;
+	/**
+	 * The amount of joints used when joint indices have been condensed.
+	 */
+	public var numCondensedJoints(get, null):Int;
+	/**
+	 * The animated vertex positions when set explicitly if the skinning transformations couldn't be performed on GPU.
+	 */
+	public var animatedData(get, null):Vector<Float>;
+	/**
+	 * The raw joint weights data.
+	 */
+	public var jointWeightsData(get,null):Vector<Float>;
+	/**
+	 * The raw joint index data.
+	 */
+	public var jointIndexData(get, null):Vector<Float>;
+	
 	private var _bufferFormat:Context3DVertexBufferFormat;
 	private var _jointWeightsData:Vector<Float>;
 	private var _jointIndexData:Vector<Float>;
@@ -35,7 +55,7 @@ class SkinnedSubGeometry extends CompactSubGeometry
 
 	private var _condensedJointIndexData:Vector<Float>;
 	private var _condensedIndexLookUp:Vector<UInt>; // used for linking condensed indices to the real ones
-	private var _numCondensedJoints:UInt;
+	private var _numCondensedJoints:Int;
 
 
 	/**
@@ -48,41 +68,12 @@ class SkinnedSubGeometry extends CompactSubGeometry
 		_jointsPerVertex = jointsPerVertex;
 		_bufferFormat = VertexFormatUtil.getVertexBufferFormat(_jointsPerVertex);
 		
-		_jointWeightsBuffer = new Vector<VertexBuffer3D>(8);
-		_jointIndexBuffer = new Vector<VertexBuffer3D>(8);
-		_jointWeightsInvalid = new Vector<Bool>(8, true);
-		_jointIndicesInvalid = new Vector<Bool>(8, true);
-		_jointWeightContext = new Vector<Context3D>(8);
-		_jointIndexContext = new Vector<Context3D>(8);
-	}
-
-	/**
-	 * If indices have been condensed, this will contain the original index for each condensed index.
-	 */
-	public var condensedIndexLookUp(get, null):Vector<UInt>;
-	private function get_condensedIndexLookUp():Vector<UInt>
-	{
-		return _condensedIndexLookUp;
-	}
-
-	/**
-	 * The amount of joints used when joint indices have been condensed.
-	 */
-	public var numCondensedJoints(get, null):UInt;
-	private function get_numCondensedJoints():UInt
-	{
-		return _numCondensedJoints;
-	}
-
-	/**
-	 * The animated vertex positions when set explicitly if the skinning transformations couldn't be performed on GPU.
-	 */
-	public var animatedData(get, null):Vector<Float>;
-	private function get_animatedData():Vector<Float>
-	{
-		if (_animatedData != null)
-			return _animatedData;
-		return _vertexData.concat();
+		_jointWeightsBuffer = new Vector<VertexBuffer3D>(A3d.MAX_NUM_STAGE3D);
+		_jointIndexBuffer = new Vector<VertexBuffer3D>(A3d.MAX_NUM_STAGE3D);
+		_jointWeightsInvalid = new Vector<Bool>(A3d.MAX_NUM_STAGE3D, true);
+		_jointIndicesInvalid = new Vector<Bool>(A3d.MAX_NUM_STAGE3D, true);
+		_jointWeightContext = new Vector<Context3D>(A3d.MAX_NUM_STAGE3D);
+		_jointIndexContext = new Vector<Context3D>(A3d.MAX_NUM_STAGE3D);
 	}
 
 	public function updateAnimatedData(value:Vector<Float>):Void
@@ -209,12 +200,26 @@ class SkinnedSubGeometry extends CompactSubGeometry
 
 		invalidateBuffers(_jointIndicesInvalid);
 	}
+	
+	private function get_condensedIndexLookUp():Vector<UInt>
+	{
+		return _condensedIndexLookUp;
+	}
 
+	
+	private function get_numCondensedJoints():Int
+	{
+		return _numCondensedJoints;
+	}
 
-	/**
-	 * The raw joint weights data.
-	 */
-	public var jointWeightsData(get,null):Vector<Float>;
+	
+	private function get_animatedData():Vector<Float>
+	{
+		if (_animatedData != null)
+			return _animatedData;
+		return _vertexData.concat();
+	}
+
 	private function get_jointWeightsData():Vector<Float>
 	{
 		return _jointWeightsData;
@@ -231,10 +236,7 @@ class SkinnedSubGeometry extends CompactSubGeometry
 		invalidateBuffers(_jointWeightsInvalid);
 	}
 
-	/**
-	 * The raw joint index data.
-	 */
-	public var jointIndexData(get,null):Vector<Float>;
+	
 	private function get_jointIndexData():Vector<Float>
 	{
 		return _jointIndexData;

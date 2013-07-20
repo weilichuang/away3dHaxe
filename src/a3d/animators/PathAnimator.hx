@@ -7,7 +7,7 @@ import flash.Vector;
 
 import a3d.core.base.Object3D;
 import a3d.events.PathEvent;
-import a3d.math.Vector3DUtils;
+import a3d.math.FVector3D;
 import a3d.paths.IPath;
 import a3d.paths.IPathSegment;
 
@@ -169,7 +169,7 @@ class PathAnimator extends EventDispatcher
 				_upAxis.x = 0;
 				_upAxis.y = 1;
 				_upAxis.z = 0;
-				_upAxis = Vector3DUtils.rotatePoint(_upAxis, _rot);
+				_upAxis = FVector3D.rotatePoint(_upAxis, _rot);
 
 				_target.lookAt(_basePosition, _upAxis);
 
@@ -475,7 +475,7 @@ class PathAnimator extends EventDispatcher
 			_tmpOffset.x = _offset.x;
 			_tmpOffset.y = _offset.y;
 			_tmpOffset.z = _offset.z;
-			_tmpOffset = Vector3DUtils.rotatePoint(_tmpOffset, _rot);
+			_tmpOffset = FVector3D.rotatePoint(_tmpOffset, _rot);
 
 			_position.x += _tmpOffset.x;
 			_position.y += _tmpOffset.y;

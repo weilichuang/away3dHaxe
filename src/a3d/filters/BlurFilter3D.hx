@@ -8,6 +8,10 @@ import a3d.filters.tasks.Filter3DVBlurTask;
 
 class BlurFilter3D extends Filter3DBase
 {
+	public var blurX(get, set):Int;
+	public var blurY(get, set):Int;
+	public var stepSize(get, set):Int;
+	
 	private var _hBlurTask:Filter3DHBlurTask;
 	private var _vBlurTask:Filter3DVBlurTask;
 
@@ -17,31 +21,31 @@ class BlurFilter3D extends Filter3DBase
 	 * @param blurY The amount of vertical blur to apply
 	 * @param stepSize The distance between samples. Set to -1 to autodetect with acceptable quality.
 	 */
-	public function new(blurX:UInt = 3, blurY:UInt = 3, stepSize:Int = -1)
+	public function new(blurX:Int = 3, blurY:Int = 3, stepSize:Int = -1)
 	{
 		super();
 		addTask(_hBlurTask = new Filter3DHBlurTask(blurX, stepSize));
 		addTask(_vBlurTask = new Filter3DVBlurTask(blurY, stepSize));
 	}
 
-	private function get_blurX():UInt
+	private function get_blurX():Int
 	{
 		return _hBlurTask.amount;
 	}
 
-	private function set_blurX(value:UInt):Void
+	private function set_blurX(value:Int):Int
 	{
-		_hBlurTask.amount = value;
+		return _hBlurTask.amount = value;
 	}
 
-	private function get_blurY():UInt
+	private function get_blurY():Int
 	{
 		return _vBlurTask.amount;
 	}
 
-	private function set_blurY(value:UInt):Void
+	private function set_blurY(value:Int):Int
 	{
-		_vBlurTask.amount = value;
+		return _vBlurTask.amount = value;
 	}
 
 	/**
@@ -53,10 +57,11 @@ class BlurFilter3D extends Filter3DBase
 		return _hBlurTask.stepSize;
 	}
 
-	private function set_stepSize(value:Int):Void
+	private function set_stepSize(value:Int):Int
 	{
 		_hBlurTask.stepSize = value;
 		_vBlurTask.stepSize = value;
+		return value;
 	}
 
 

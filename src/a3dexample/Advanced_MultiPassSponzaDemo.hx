@@ -27,7 +27,7 @@ import a3d.materials.methods.HardShadowMapMethod;
 import a3d.materials.methods.SoftShadowMapMethod;
 import a3d.materials.TextureMaterial;
 import a3d.materials.TextureMultiPassMaterial;
-import a3d.math.Vector3DUtils;
+import a3d.math.FVector3D;
 import a3d.textures.ATFCubeTexture;
 import a3d.textures.ATFTexture;
 import a3d.textures.SpecularBitmapTexture;

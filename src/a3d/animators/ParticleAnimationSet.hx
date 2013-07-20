@@ -47,6 +47,13 @@ class ParticleAnimationSet extends AnimationSetBase implements IAnimationSet
 	 * Property used by particle nodes that require color compilation
 	 */
 	public static inline var COLOR_PRIORITY:Int = 18;
+	
+	/** @private */
+	public var animationRegisterCache(get, set):AnimationRegisterCache;
+	/**
+	 * Returns a vector of the particle animation nodes contained within the set.
+	 */
+	public var particleNodes(get,null):Vector<ParticleNodeBase>;
 
 	private var _animationSubGeometries:WeakMap<ISubGeometry,AnimationSubGeometry>;
 	private var _particleNodes:Vector<ParticleNodeBase>;
@@ -64,21 +71,6 @@ class ParticleAnimationSet extends AnimationSetBase implements IAnimationSet
 	public var hasColorMulNode:Bool;
 	//set if has an node which will apply color add operation
 	public var hasColorAddNode:Bool;
-
-	/** @private */
-	public var animationRegisterCache(get,set):AnimationRegisterCache;
-	private function get_animationRegisterCache():AnimationRegisterCache
-	{
-		return _animationRegisterCache;
-	}
-
-	/**
-	 * @private
-	 */
-	private function set_animationRegisterCache(value:AnimationRegisterCache):AnimationRegisterCache
-	{
-		return _animationRegisterCache = value;
-	}
 
 	/**
 	 * Initialiser function for static particle properties. Needs to reference a function with teh following format
@@ -118,10 +110,19 @@ class ParticleAnimationSet extends AnimationSetBase implements IAnimationSet
 		addAnimation(_timeNode = new ParticleTimeNode(usesDuration, usesLooping, usesDelay));
 	}
 
+	private function get_animationRegisterCache():AnimationRegisterCache
+	{
+		return _animationRegisterCache;
+	}
+
 	/**
-	 * Returns a vector of the particle animation nodes contained within the set.
+	 * @private
 	 */
-	public var particleNodes(get,null):Vector<ParticleNodeBase>;
+	private function set_animationRegisterCache(value:AnimationRegisterCache):AnimationRegisterCache
+	{
+		return _animationRegisterCache = value;
+	}
+	
 	private function get_particleNodes():Vector<ParticleNodeBase>
 	{
 		return _particleNodes;

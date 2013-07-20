@@ -4,6 +4,8 @@ import flash.geom.Vector3D;
 
 import a3d.entities.SegmentSet;
 
+using a3d.math.FVector3D;
+
 /**
 * Class WireframeAxesGrid generates a grid of lines on a given plane<code>WireframeAxesGrid</code>
 * @param	subDivision			[optional] uint . Default is 10;
@@ -38,8 +40,8 @@ class WireframeAxesGrid extends SegmentSet
 	{
 		var bound:Float = gridSize *.5;
 		var step:Float = gridSize/subDivision;
-		var v0 : Vector3D = new Vector3D(0, 0, 0) ;
-		var v1 : Vector3D = new Vector3D(0, 0, 0) ;
+		var v0 : Vector3D = new Vector3D(0, 0, 0);
+		var v1 : Vector3D = new Vector3D(0, 0, 0);
 		var inc:Float = -bound;
 
 		while (inc <= bound)
@@ -47,53 +49,31 @@ class WireframeAxesGrid extends SegmentSet
 			switch(plane)
 			{
 				case PLANE_ZY:
-					v0.x = 0;
-					v0.y = inc;
-					v0.z = bound;
-					v1.x = 0;
-					v1.y = inc;
-					v1.z = -bound;
+					v0.fastSetTo(0, inc, bound);
+					v1.fastSetTo(0, inc, -bound);
 					addSegment( new LineSegment(v0, v1, color, color, thickness));
 
-					v0.z = inc;
-					v0.x = 0;
-					v0.y = bound;
-					v1.x = 0;
-					v1.y = -bound;
-					v1.z = inc;
+					v0.fastSetTo(0, bound, inc);
+					v1.fastSetTo(0, -bound, inc);
 					addSegment(new LineSegment(v0, v1, color, color, thickness ));
 					
 				case PLANE_XY:
-					v0.x = bound;
-					v0.y = inc;
-					v0.z = 0;
-					v1.x = -bound;
-					v1.y = inc;
-					v1.z = 0;
+					v0.fastSetTo(bound, inc, 0);
+					v1.fastSetTo(-bound, inc, 0);
 					addSegment( new LineSegment(v0, v1, color, color, thickness));
-					v0.x = inc;
-					v0.y = bound;
-					v0.z = 0;
-					v1.x = inc;
-					v1.y = -bound;
-					v1.z = 0;
+
+					v0.fastSetTo(inc, bound, 0);
+					v1.fastSetTo(inc, -bound, 0);
 					addSegment(new LineSegment(v0, v1, color, color, thickness ));
 					
 				default:
-					v0.x = bound;
-					v0.y = 0;
-					v0.z = inc;
-					v1.x = -bound;
-					v1.y = 0;
-					v1.z = inc;
+
+					v0.fastSetTo(bound, 0, inc);
+					v1.fastSetTo(-bound, 0, inc);
 					addSegment( new LineSegment(v0, v1, color, color, thickness));
 
-					v0.x = inc;
-					v0.y = 0;
-					v0.z = bound;
-					v1.x = inc;
-					v1.y = 0;
-					v1.z = -bound;
+					v0.fastSetTo(inc, 0, bound);
+					v1.fastSetTo(inc, 0, -bound);
 					addSegment(new LineSegment(v0, v1, color, color, thickness ));
 			}
 

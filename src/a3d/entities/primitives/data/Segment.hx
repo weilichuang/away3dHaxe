@@ -9,16 +9,42 @@ import flash.geom.Vector3D;
 
 class Segment
 {
-	private var _segmentsBase:SegmentSet;
-	private var _thickness:Float;
-	private var _start:Vector3D;
-	private var _end:Vector3D;
+	/**
+	 * Defines the starting vertex.
+	 */
+	public var start(get, set):Vector3D;
+	/**
+	 * Defines the ending vertex.
+	 */
+	public var end(get, set):Vector3D;
+	/**
+	 * Defines the ending vertex.
+	 */
+	public var thickness(get, set):Float;
+	/**
+	 * Defines the startColor
+	 */
+	public var startColor(get, set):UInt;
+	/**
+	 * Defines the endColor
+	 */
+	public var endColor(get, set):UInt;
+	public var index(get, set):Int;
+	public var subSetIndex(get, set):Int;
+	public var segmentsBase(get, set):SegmentSet;
+	
 	public var startR:Float;
 	public var startG:Float;
 	public var startB:Float;
 	public var endR:Float;
 	public var endG:Float;
 	public var endB:Float;
+	
+	private var _segmentsBase:SegmentSet;
+	private var _thickness:Float;
+	private var _start:Vector3D;
+	private var _end:Vector3D;
+	
 
 	private var _index:Int = -1;
 	private var _subSetIndex:Int = -1;
@@ -52,11 +78,8 @@ class Segment
 		update();
 	}
 
-	/**
-	 * Defines the starting vertex.
-	 */
-	public var start(get, set):Vector3D;
-	private function get_start():Vector3D
+	
+	private inline function get_start():Vector3D
 	{
 		return _start;
 	}
@@ -69,11 +92,8 @@ class Segment
 		return _start;
 	}
 
-	/**
-	 * Defines the ending vertex.
-	 */
-	public var end(get, set):Vector3D;
-	private function get_end():Vector3D
+	
+	private inline function get_end():Vector3D
 	{
 		return _end;
 	}
@@ -86,11 +106,8 @@ class Segment
 		return _end;
 	}
 
-	/**
-	 * Defines the ending vertex.
-	 */
-	public var thickness(get, set):Float;
-	private function get_thickness():Float
+	
+	private inline function get_thickness():Float
 	{
 		return _thickness * 2;
 	}
@@ -103,11 +120,8 @@ class Segment
 		return value;
 	}
 
-	/**
-	 * Defines the startColor
-	 */
-	public var startColor(get, set):UInt;
-	private function get_startColor():UInt
+	
+	private inline function get_startColor():UInt
 	{
 		return _startColor;
 	}
@@ -125,10 +139,7 @@ class Segment
 		return _startColor;
 	}
 
-	/**
-	 * Defines the endColor
-	 */
-	public var endColor(get, set):UInt;
+	
 	private function get_endColor():UInt
 	{
 		return _endColor;
@@ -153,35 +164,35 @@ class Segment
 		_end = null;
 	}
 
-	public var index(get, set):Int;
-	private function get_index():Int
+	
+	private inline function get_index():Int
 	{
 		return _index;
 	}
 
-	private function set_index(ind:Int):Int
+	private inline function set_index(ind:Int):Int
 	{
 		return _index = ind;
 	}
 
-	public var subSetIndex(get, set):Int;
-	private function get_subSetIndex():Int
+	
+	private inline function get_subSetIndex():Int
 	{
 		return _subSetIndex;
 	}
 
-	private function set_subSetIndex(ind:Int):Int
+	private inline function set_subSetIndex(ind:Int):Int
 	{
 		return _subSetIndex = ind;
 	}
 
-	public var segmentsBase(get, set):SegmentSet;
-	private function set_segmentsBase(segBase:SegmentSet):SegmentSet
+	
+	private inline function set_segmentsBase(segBase:SegmentSet):SegmentSet
 	{
 		return _segmentsBase = segBase;
 	}
 
-	private function get_segmentsBase():SegmentSet
+	private inline function get_segmentsBase():SegmentSet
 	{
 		return _segmentsBase;
 	}

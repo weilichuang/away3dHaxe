@@ -1,11 +1,72 @@
 -cp src
--swf bin/Haxe_Basic_Fire.swf
+-swf bin/Haxe_Advanced_FractalTreeDemo.swf
 -swf-version 11.7
 --flash-strict
 -swf-header 1024:768:60:0xffffff
 -lib feffects
 -D advanced-telemetry
+-main a3dexample.Advanced_FractalTreeDemo
+
+--next
+-cp src
+-swf bin/Haxe_Advanced_MultiPassSponzaDemo.swf
+-swf-version 11.7
+--flash-strict
+-lib feffects
+-swf-header 1024:768:60:0xffffff
+-D advanced-telemetry
+-main a3dexample.Advanced_MultiPassSponzaDemo
+
+--next
+-cp src
+-swf bin/Haxe_Advanced_ShallowWaterDemo.swf
+-swf-lib embeds/assets.swf
+-swf-version 11.7
+--flash-strict
+-lib feffects
+-swf-header 1024:768:60:0xffffff
+-D advanced-telemetry
+-main a3dexample.Advanced_ShallowWaterDemo
+
+--next
+-cp src
+-swf bin/Haxe_Advanced_TerrainDemo.swf
+-swf-version 11.7
+--flash-strict
+-lib feffects
+-swf-header 1024:768:60:0xffffff
+-D advanced-telemetry
+-main a3dexample.Advanced_TerrainDemo
+
+--next
+-cp src
+-swf bin/Haxe_Basic_Fire.swf
+-swf-version 11.7
+--flash-strict
+-lib feffects
+-swf-header 1024:768:60:0xffffff
+-D advanced-telemetry
 -main a3dexample.Basic_Fire
+
+--next
+-cp src
+-swf bin/Haxe_Basic_Load3DS.swf
+-swf-version 11.7
+--flash-strict
+-lib feffects
+-swf-header 1024:768:60:0xffffff
+-D advanced-telemetry
+-main a3dexample.Basic_Load3DS
+
+--next
+-cp src
+-swf bin/Haxe_Basic_LoadMD2.swf
+-swf-version 11.7
+--flash-strict
+-lib feffects
+-swf-header 1024:768:60:0xffffff
+-D advanced-telemetry
+-main a3dexample.Basic_LoadMD2
 
 --next
 -cp src
@@ -49,6 +110,16 @@
 
 --next
 -cp src
+-swf bin/Haxe_Basic_Stereo.swf
+-swf-version 11.7
+--flash-strict
+-lib feffects
+-swf-header 1024:768:60:0xffffff
+-D advanced-telemetry
+-main a3dexample.Basic_Stereo
+
+--next
+-cp src
 -swf bin/Haxe_Basic_Tweening3D.swf
 -swf-version 11.7
 --flash-strict
@@ -76,6 +147,76 @@
 -swf-header 1024:768:60:0xffffff
 -D advanced-telemetry
 -main a3dexample.Basic_View
+
+--next
+-cp src
+-swf bin/Haxe_Intermediate_Globe.swf
+-swf-version 11.7
+--flash-strict
+-lib feffects
+-swf-header 1024:768:60:0xffffff
+-D advanced-telemetry
+-main a3dexample.Intermediate_Globe
+
+--next
+-cp src
+-swf bin/Haxe_Intermediate_Head.swf
+-swf-version 11.7
+--flash-strict
+-lib feffects
+-swf-header 1024:768:60:0xffffff
+-D advanced-telemetry
+-main a3dexample.Intermediate_Head
+
+--next
+-cp src
+-swf bin/Haxe_Intermediate_LightProbes.swf
+-swf-version 11.7
+--flash-strict
+-lib feffects
+-swf-header 1024:768:60:0xffffff
+-D advanced-telemetry
+-main a3dexample.Intermediate_LightProbes
+
+--next
+-cp src
+-swf bin/Haxe_Intermediate_MD5Animation.swf
+-swf-version 11.7
+--flash-strict
+-lib feffects
+-swf-header 1024:768:60:0xffffff
+-D advanced-telemetry
+-main a3dexample.Intermediate_MD5Animation
+
+--next
+-cp src
+-swf bin/Haxe_Intermediate_MonsterHeadShading.swf
+-swf-version 11.7
+--flash-strict
+-lib feffects
+-swf-header 1024:768:60:0xffffff
+-D advanced-telemetry
+-main a3dexample.Intermediate_MonsterHeadShading
+
+--next
+-cp src
+-swf bin/Haxe_Intermediate_MouseInteraction.swf
+-swf-version 11.7
+--flash-strict
+-lib feffects
+-swf-header 1024:768:60:0xffffff
+-D advanced-telemetry
+-main a3dexample.Intermediate_MouseInteraction
+
+--next
+-cp src
+-swf bin/Haxe_Intermediate_OnkbaAWDAnimation.swf
+-swf-version 11.7
+--flash-strict
+-lib feffects
+-swf-header 1024:768:60:0xffffff
+-D advanced-telemetry
+-main a3dexample.Intermediate_OnkbaAWDAnimation
 
 --next
 -cp src
@@ -109,13 +250,23 @@
 
 --next
 -cp src
--swf bin/Haxe_Intermediate_MouseInteraction.swf
+-swf bin/Haxe_Intermediate_PlanarReflections.swf
 -swf-version 11.7
 --flash-strict
 -lib feffects
 -swf-header 1024:768:60:0xffffff
 -D advanced-telemetry
--main a3dexample.Intermediate_MouseInteraction
+-main a3dexample.Intermediate_PlanarReflections
+
+--next
+-cp src
+-swf bin/Haxe_Intermediate_PolarBearAWDAnimation.swf
+-swf-version 11.7
+--flash-strict
+-lib feffects
+-swf-header 1024:768:60:0xffffff
+-D advanced-telemetry
+-main a3dexample.Intermediate_PolarBearAWDAnimation
 
 --next
 -cp src
@@ -126,36 +277,6 @@
 -swf-header 1024:768:60:0xffffff
 -D advanced-telemetry
 -main a3dexample.Intermediate_RealTimeEnvMap
-
---next
--cp src
--swf bin/Haxe_Advanced_FractalTreeDemo.swf
--swf-version 11.7
---flash-strict
--lib feffects
--swf-header 1024:768:60:0xffffff
--D advanced-telemetry
--main a3dexample.Advanced_FractalTreeDemo
-
---next
--cp src
--swf bin/Haxe_Intermediate_Head.swf
--swf-version 11.7
---flash-strict
--lib feffects
--swf-header 1024:768:60:0xffffff
--D advanced-telemetry
--main a3dexample.Intermediate_Head
-
---next
--cp src
--swf bin/Haxe_Advanced_TerrainDemo.swf
--swf-version 11.7
---flash-strict
--lib feffects
--swf-header 1024:768:60:0xffffff
--D advanced-telemetry
--main a3dexample.Advanced_TerrainDemo
 
 --next
 -cp src

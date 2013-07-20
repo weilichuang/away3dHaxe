@@ -11,6 +11,27 @@ class WireframePlane extends WireframePrimitiveBase
 	public static inline var ORIENTATION_YZ:String = "yz";
 	public static inline var ORIENTATION_XY:String = "xy";
 	public static inline var ORIENTATION_XZ:String = "xz";
+	
+	/**
+	 * The orientaion in which the plane lies.
+	 */
+	public var orientation(get, set):String;
+	/**
+	 * The size of the cube along its X-axis.
+	 */
+	public var width(get, set):Float;
+	/**
+	 * The size of the cube along its Y-axis.
+	 */
+	public var height(get, set):Float;
+	/**
+	 * The number of segments that make up the plane along the X-axis.
+	 */
+	public var segmentsW(get, set):Int;
+	/**
+	 * The number of segments that make up the plane along the Y-axis.
+	 */
+	public var segmentsH(get, set):Int;
 
 	private var _width:Float;
 	private var _height:Float;
@@ -41,10 +62,7 @@ class WireframePlane extends WireframePrimitiveBase
 		_orientation = orientation;
 	}
 
-	/**
-	 * The orientaion in which the plane lies.
-	 */
-	public var orientation(get, set):String;
+	
 	private function get_orientation():String
 	{
 		return _orientation;
@@ -56,10 +74,7 @@ class WireframePlane extends WireframePrimitiveBase
 		invalidateGeometry();
 	}
 
-	/**
-	 * The size of the cube along its X-axis.
-	 */
-	public var width(get, set):Float;
+	
 	private function get_width():Float
 	{
 		return _width;
@@ -71,10 +86,7 @@ class WireframePlane extends WireframePrimitiveBase
 		invalidateGeometry();
 	}
 
-	/**
-	 * The size of the cube along its Y-axis.
-	 */
-	public var height(get, set):Float;
+	
 	private function get_height():Float
 	{
 		return _height;
@@ -89,10 +101,7 @@ class WireframePlane extends WireframePrimitiveBase
 		return _height;
 	}
 
-	/**
-	 * The number of segments that make up the plane along the X-axis.
-	 */
-	public var segmentsW(get, set):Int;
+	
 	private function get_segmentsW():Int
 	{
 		return _segmentsW;
@@ -106,10 +115,7 @@ class WireframePlane extends WireframePrimitiveBase
 		return _segmentsW;
 	}
 
-	/**
-	 * The number of segments that make up the plane along the Y-axis.
-	 */
-	public var segmentsH(get, set):Int;
+	
 	private function get_segmentsH():Int
 	{
 		return _segmentsH;

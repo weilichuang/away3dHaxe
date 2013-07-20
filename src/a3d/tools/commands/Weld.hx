@@ -10,7 +10,7 @@ import a3d.core.base.Geometry;
 import a3d.core.base.ISubGeometry;
 import a3d.entities.Mesh;
 import a3d.entities.ObjectContainer3D;
-import a3d.math.MathUtil;
+import a3d.math.FMath;
 
 
 
@@ -47,7 +47,7 @@ class Weld
 		_keepUvs = keepUvs;
 		_useNormalMode = useNormalMode;
 		_smoothNormals = smoothNormals;
-		_normalThreshold = normalAngleDegree * MathUtil.DEGREES_TO_RADIANS;
+		_normalThreshold = normalAngleDegree * FMath.DEGREES_TO_RADIANS();
 		_vertCnt = applyToGeom(mesh.geometry);
 	}
 
@@ -65,7 +65,7 @@ class Weld
 		_keepUvs = keepUVs;
 		_useNormalMode = useNormalMode;
 		_smoothNormals = smoothNormals;
-		_normalThreshold = normalAngleDegree * MathUtil.DEGREES_TO_RADIANS;
+		_normalThreshold = normalAngleDegree * FMath.DEGREES_TO_RADIANS();
 		_vertCnt = parse(obj);
 	}
 
@@ -85,7 +85,7 @@ class Weld
 	 */
 	private function get_verticesAddedCount():UInt
 	{
-		if (isNaN(_vertCnt))
+		if (Math.isNaN(_vertCnt))
 			return 0;
 
 		return (_vertCnt < 0) ? Math.abs(_vertCnt) : 0;
@@ -112,7 +112,7 @@ class Weld
 		var removedVertsCnt:Int = 0;
 		var outSubGeom:CompactSubGeometry;
 
-		for (var i:UInt = 0; i < geom.subGeometries.length; i++)
+		for (i in 0...geom.subGeometries.length)
 		{
 			var subGeom:ISubGeometry = geom.subGeometries[i];
 
@@ -192,7 +192,7 @@ class Weld
 		var u:Float, v:Float;
 		var difUvs:Bool;
 
-		for (i = 0; i < inLen; i++)
+		for (i in 0...inLen)
 		{
 			origIndex = inIndices[i];
 			sharedNormalIndex = -1;
@@ -327,7 +327,7 @@ class Weld
 			var curIdx:Int;
 			inLen = outVertices.length / 3;
 
-			for (i = 0; i < inLen; i++)
+			for (i in 0...inLen)
 			{
 				outnormal = new Vector3D();
 				foundVector = -1;

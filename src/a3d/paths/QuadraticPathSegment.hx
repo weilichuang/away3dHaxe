@@ -46,10 +46,10 @@ class QuadraticPathSegment implements IPathSegment
 
 	public function getPointOnSegment(t:Float, target:Vector3D = null):Vector3D
 	{
-		const sx:Float = start.x;
-		const sy:Float = start.y;
-		const sz:Float = start.z;
-		const t2Inv:Float = 2 * (1 - t);
+		var sx:Float = start.x;
+		var sy:Float = start.y;
+		var sz:Float = start.z;
+		var t2Inv:Float = 2 * (1 - t);
 
 		if (target == null)
 			target = new Vector3D();

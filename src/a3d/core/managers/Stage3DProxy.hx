@@ -583,7 +583,7 @@ class Stage3DProxy extends EventDispatcher
 		var renderMode:Context3DRenderMode = forceSoftware ? Context3DRenderMode.SOFTWARE : Context3DRenderMode.AUTO;
 		if (profile == Context3DProfile.BASELINE)
 		{
-			_stage3D.requestContext3D(renderMode,profile);
+			_stage3D.requestContext3D(cast renderMode,profile);
 		}
 		else
 		{

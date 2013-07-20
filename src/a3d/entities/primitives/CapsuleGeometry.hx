@@ -8,6 +8,27 @@ import flash.Vector;
  */
 class CapsuleGeometry extends PrimitiveBase
 {
+	/**
+	 * The radius of the capsule.
+	 */
+	public var radius(get, set):Float;
+	/**
+	 * The height of the capsule.
+	 */
+	public var height(get, set):Float;
+	/**
+	 * Defines the number of horizontal segments that make up the capsule. Defaults to 16.
+	 */
+	public var segmentsW(get, set):Int;
+	/**
+	 * Defines the number of vertical segments that make up the capsule. Defaults to 15. Must be uneven.
+	 */
+	public var segmentsH(get, set):Int;
+	/**
+	 * Defines whether the capsule poles should lay on the Y-axis (true) or on the Z-axis (false).
+	 */
+	public var yUp(get, set):Bool;
+	
 	private var _radius:Float;
 	private var _height:Float;
 	private var _segmentsW:Int;
@@ -210,10 +231,7 @@ class CapsuleGeometry extends PrimitiveBase
 		target.updateData(data);
 	}
 
-	/**
-	 * The radius of the capsule.
-	 */
-	public var radius(get, set):Float;
+	
 	private function get_radius():Float
 	{
 		return _radius;
@@ -226,10 +244,7 @@ class CapsuleGeometry extends PrimitiveBase
 		return _radius;
 	}
 
-	/**
-	 * The height of the capsule.
-	 */
-	public var height(get, set):Float;
+	
 	private function get_height():Float
 	{
 		return _height;
@@ -242,10 +257,7 @@ class CapsuleGeometry extends PrimitiveBase
 		return _height;
 	}
 
-	/**
-	 * Defines the number of horizontal segments that make up the capsule. Defaults to 16.
-	 */
-	public var segmentsW(get, set):Int;
+	
 	private function get_segmentsW():Int
 	{
 		return _segmentsW;
@@ -259,10 +271,7 @@ class CapsuleGeometry extends PrimitiveBase
 		return _segmentsW;
 	}
 
-	/**
-	 * Defines the number of vertical segments that make up the capsule. Defaults to 15. Must be uneven.
-	 */
-	public var segmentsH(get, set):Int;
+	
 	private function get_segmentsH():Int
 	{
 		return _segmentsH;
@@ -276,10 +285,7 @@ class CapsuleGeometry extends PrimitiveBase
 		return _segmentsH;
 	}
 
-	/**
-	 * Defines whether the capsule poles should lay on the Y-axis (true) or on the Z-axis (false).
-	 */
-	public var yUp(get, set):Bool;
+	
 	private function get_yUp():Bool
 	{
 		return _yUp;

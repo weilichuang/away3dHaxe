@@ -2,24 +2,26 @@ package a3d.stereo;
 
 import a3d.core.managers.RTTBufferManager;
 import a3d.core.managers.Stage3DProxy;
-import a3d.utils.Debug;
 import a3d.stereo.methods.InterleavedStereoRenderMethod;
 import a3d.stereo.methods.StereoRenderMethodBase;
-
+import a3d.utils.Debug;
 import com.adobe.utils.AGALMiniAssembler;
-
 import flash.display3D.Context3D;
 import flash.display3D.Context3DProgramType;
 import flash.display3D.Context3DTextureFormat;
 import flash.display3D.Context3DVertexBufferFormat;
 import flash.display3D.IndexBuffer3D;
 import flash.display3D.Program3D;
-import flash.display3D.VertexBuffer3D;
 import flash.display3D.textures.Texture;
+import flash.display3D.VertexBuffer3D;
 import flash.events.Event;
+
+
 
 class StereoRenderer
 {
+	public var renderMethod(get, set):StereoRenderMethodBase;
+	
 	private var _leftTexture:Texture;
 	private var _rightTexture:Texture;
 
@@ -35,19 +37,21 @@ class StereoRenderer
 
 	public function new(renderMethod:StereoRenderMethodBase = null)
 	{
-		_method = renderMethod || new InterleavedStereoRenderMethod();
+		if (renderMethod == null)
+			renderMethod = new InterleavedStereoRenderMethod();
+		_method = renderMethod;
 	}
-
 
 	private function get_renderMethod():StereoRenderMethodBase
 	{
 		return _method;
 	}
 
-	private function set_renderMethod(value:StereoRenderMethodBase):Void
+	private function set_renderMethod(value:StereoRenderMethodBase):StereoRenderMethodBase
 	{
 		_method = value;
 		_program3DInvalid = true;
+		return _method;
 	}
 
 
@@ -55,7 +59,7 @@ class StereoRenderer
 	{
 		if (_leftTextureInvalid)
 		{
-			if (!_rttManager)
+			if (_rttManager == null)
 				setupRTTManager(stage3DProxy);
 
 			_leftTexture = stage3DProxy.context3D.createTexture(
@@ -71,7 +75,7 @@ class StereoRenderer
 	{
 		if (_rightTextureInvalid)
 		{
-			if (!_rttManager)
+			if (_rttManager == null)
 				setupRTTManager(stage3DProxy);
 
 			_rightTexture = stage3DProxy.context3D.createTexture(
@@ -90,7 +94,7 @@ class StereoRenderer
 		var indexBuffer:IndexBuffer3D;
 		var context:Context3D;
 
-		if (!_rttManager)
+		if (_rttManager == null)
 			setupRTTManager(stage3DProxy);
 
 		stage3DProxy.scissorRect = null;
@@ -139,7 +143,7 @@ class StereoRenderer
 
 			fragmentCode = _method.getFragmentCode();
 
-			if (_program3D)
+			if (_program3D != null)
 				_program3D.dispose();
 			assembler = new AGALMiniAssembler(Debug.active);
 

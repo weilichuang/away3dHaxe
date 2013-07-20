@@ -9,6 +9,11 @@ import a3d.filters.tasks.Filter3DTaskBase;
 
 class Filter3DBase
 {
+	public var requireDepthRender(get, null):Bool;
+	public var tasks(get, null):Vector<Filter3DTaskBase>;
+	public var textureWidth(get, set):Int;
+	public var textureHeight(get, set):Int;
+	
 	private var _tasks:Vector<Filter3DTaskBase>;
 	private var _requireDepthRender:Bool;
 	private var _textureWidth:Int;
@@ -19,7 +24,7 @@ class Filter3DBase
 		_tasks = new Vector<Filter3DTaskBase>();
 	}
 
-	public var requireDepthRender(get, null):Bool;
+	
 	private function get_requireDepthRender():Bool
 	{
 		return _requireDepthRender;
@@ -32,7 +37,7 @@ class Filter3DBase
 			_requireDepthRender = filter.requireDepthRender;
 	}
 
-	public var tasks(get, null):Vector<Filter3DTaskBase>;
+	
 	private function get_tasks():Vector<Filter3DTaskBase>
 	{
 		return _tasks;
@@ -43,7 +48,7 @@ class Filter3DBase
 		return _tasks[0].getMainInputTexture(stage3DProxy);
 	}
 	
-	public var textureWidth(get, set):Int;
+	
 	private function get_textureWidth():Int
 	{
 		return _textureWidth;
@@ -57,7 +62,7 @@ class Filter3DBase
 		return _textureWidth = value;
 	}
 
-	public var textureHeight(get, set):Int;
+	
 	private function get_textureHeight():Int
 	{
 		return _textureHeight;

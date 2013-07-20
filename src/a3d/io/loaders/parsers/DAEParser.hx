@@ -24,7 +24,7 @@ import a3d.materials.SinglePassMaterialBase;
 import a3d.materials.TextureMaterial;
 import a3d.materials.TextureMultiPassMaterial;
 import a3d.materials.utils.DefaultMaterialManager;
-import a3d.math.MathUtil;
+import a3d.math.FMath;
 import a3d.textures.BitmapTexture;
 import a3d.textures.Texture2DBase;
 import a3d.utils.Debug;
@@ -365,7 +365,7 @@ class DAEParser extends ParserBase
 	private function parseAnimationInfo():DAEAnimationInfo
 	{
 		var info:DAEAnimationInfo = new DAEAnimationInfo();
-		info.minTime = MathUtil.FLOAT_MAX_VALUE();
+		info.minTime = FMath.FLOAT_MAX_VALUE();
 		info.maxTime = -info.minTime;
 		info.numFrames = 0;
 
@@ -381,7 +381,7 @@ class DAEParser extends ParserBase
 					node.channels.push(channel);
 					info.minTime = Math.min(info.minTime, channel.sampler.minTime);
 					info.maxTime = Math.max(info.maxTime, channel.sampler.maxTime);
-					info.numFrames = MathUtil.max(info.numFrames, channel.sampler.input.length);
+					info.numFrames = FMath.max(info.numFrames, channel.sampler.input.length);
 				}
 			}
 		}
@@ -619,7 +619,7 @@ class DAEParser extends ParserBase
 		//var animation : SkeletonAnimation = new SkeletonAnimation(skeleton, skin.maxBones, useGPU);
 		var animated:Bool = isAnimatedSkeleton(skeleton);
 		var duration:Float = _animationInfo.numFrames == 0 ? 1.0 : _animationInfo.maxTime - _animationInfo.minTime;
-		var numFrames:Int = MathUtil.max(_animationInfo.numFrames, (animated ? 50 : 2));
+		var numFrames:Int = FMath.max(_animationInfo.numFrames, (animated ? 50 : 2));
 		var frameDuration:Float = duration / numFrames;
 
 		var t:Float = 0;
@@ -2249,7 +2249,7 @@ class DAENode extends DAEElement
 		var channelsBySID:StringMap<DAEChannel> = new StringMap();
 		var transform:DAETransform;
 		var channel:DAEChannel;
-		var minTime:Float = MathUtil.FLOAT_MAX_VALUE();
+		var minTime:Float = FMath.FLOAT_MAX_VALUE();
 		var maxTime:Float = -minTime;
 
 		for (i  in 0...this.channels.length)
@@ -2716,7 +2716,7 @@ class DAESkin extends DAEElement
 			var numBones:Int = vcount[i];
 			var vertex_weights:Vector<DAEVertexWeight> = new Vector<DAEVertexWeight>();
 
-			this.maxBones = MathUtil.max(this.maxBones, numBones);
+			this.maxBones = FMath.max(this.maxBones, numBones);
 
 			for (j in 0...numBones)
 			{

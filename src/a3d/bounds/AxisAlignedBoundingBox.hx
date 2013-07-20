@@ -1,15 +1,17 @@
 package a3d.bounds;
 
+import a3d.entities.primitives.WireframeCube;
+import a3d.entities.primitives.WireframePrimitiveBase;
+import a3d.math.FMath;
+import a3d.math.Matrix3DUtils;
+import a3d.math.Plane3D;
+import a3d.math.PlaneClassification;
 import flash.geom.Matrix3D;
 import flash.geom.Vector3D;
 import flash.Vector;
 
+using a3d.math.FVector3D;
 
-import a3d.math.Matrix3DUtils;
-import a3d.math.Plane3D;
-import a3d.math.PlaneClassification;
-import a3d.entities.primitives.WireframeCube;
-import a3d.entities.primitives.WireframePrimitiveBase;
 
 
 
@@ -19,6 +21,10 @@ import a3d.entities.primitives.WireframePrimitiveBase;
  */
 class AxisAlignedBoundingBox extends BoundingVolumeBase
 {
+	public var halfExtentsX(get, null):Float;
+	public var halfExtentsY(get, null):Float;
+	public var halfExtentsZ(get, null):Float;
+	
 	private var _centerX:Float = 0;
 	private var _centerY:Float = 0;
 	private var _centerZ:Float = 0;
@@ -88,9 +94,7 @@ class AxisAlignedBoundingBox extends BoundingVolumeBase
 				iz = pz + rayEntryDistance * vz;
 				if (iy > -_halfExtentsY && iy < _halfExtentsY && iz > -_halfExtentsZ && iz < _halfExtentsZ)
 				{
-					targetNormal.x = 1;
-					targetNormal.y = 0;
-					targetNormal.z = 0;
+					targetNormal.fastSetTo(1, 0, 0);
 
 					intersects = true;
 				}
@@ -105,9 +109,7 @@ class AxisAlignedBoundingBox extends BoundingVolumeBase
 				iz = pz + rayEntryDistance * vz;
 				if (iy > -_halfExtentsY && iy < _halfExtentsY && iz > -_halfExtentsZ && iz < _halfExtentsZ)
 				{
-					targetNormal.x = -1;
-					targetNormal.y = 0;
-					targetNormal.z = 0;
+					targetNormal.fastSetTo(-1, 0, 0);
 					intersects = true;
 				}
 			}
@@ -121,9 +123,7 @@ class AxisAlignedBoundingBox extends BoundingVolumeBase
 				iz = pz + rayEntryDistance * vz;
 				if (ix > -_halfExtentsX && ix < _halfExtentsX && iz > -_halfExtentsZ && iz < _halfExtentsZ)
 				{
-					targetNormal.x = 0;
-					targetNormal.y = 1;
-					targetNormal.z = 0;
+					targetNormal.fastSetTo(0, 1, 0);
 					intersects = true;
 				}
 			}
@@ -137,9 +137,7 @@ class AxisAlignedBoundingBox extends BoundingVolumeBase
 				iz = pz + rayEntryDistance * vz;
 				if (ix > -_halfExtentsX && ix < _halfExtentsX && iz > -_halfExtentsZ && iz < _halfExtentsZ)
 				{
-					targetNormal.x = 0;
-					targetNormal.y = -1;
-					targetNormal.z = 0;
+					targetNormal.fastSetTo(0, -1, 0);
 					intersects = true;
 				}
 			}
@@ -153,9 +151,7 @@ class AxisAlignedBoundingBox extends BoundingVolumeBase
 				iy = py + rayEntryDistance * vy;
 				if (iy > -_halfExtentsY && iy < _halfExtentsY && ix > -_halfExtentsX && ix < _halfExtentsX)
 				{
-					targetNormal.x = 0;
-					targetNormal.y = 0;
-					targetNormal.z = 1;
+					targetNormal.fastSetTo(0, 0, 1);
 					intersects = true;
 				}
 			}
@@ -169,9 +165,7 @@ class AxisAlignedBoundingBox extends BoundingVolumeBase
 				iy = py + rayEntryDistance * vy;
 				if (iy > -_halfExtentsY && iy < _halfExtentsY && ix > -_halfExtentsX && ix < _halfExtentsX)
 				{
-					targetNormal.x = 0;
-					targetNormal.y = 0;
-					targetNormal.z = -1;
+					targetNormal.fastSetTo(0, 0, -1);
 					intersects = true;
 				}
 			}
@@ -185,7 +179,9 @@ class AxisAlignedBoundingBox extends BoundingVolumeBase
 	 */
 	override public function containsPoint(position:Vector3D):Bool
 	{
-		var px:Float = position.x - _centerX, py:Float = position.y - _centerY, pz:Float = position.z - _centerZ;
+		var px:Float = position.x - _centerX, 
+		py:Float = position.y - _centerY, 
+		pz:Float = position.z - _centerZ;
 		return px <= _halfExtentsX && px >= -_halfExtentsX &&
 			py <= _halfExtentsY && py >= -_halfExtentsY &&
 			pz <= _halfExtentsZ && pz >= -_halfExtentsZ;
@@ -215,20 +211,20 @@ class AxisAlignedBoundingBox extends BoundingVolumeBase
 		return clone;
 	}
 
-	public var halfExtentsX(get, null):Float;
-	private function get_halfExtentsX():Float
+	
+	private inline function get_halfExtentsX():Float
 	{
 		return _halfExtentsX;
 	}
 
-	public var halfExtentsY(get, null):Float;
-	private function get_halfExtentsY():Float
+	
+	private inline function get_halfExtentsY():Float
 	{
 		return _halfExtentsY;
 	}
 
-	public var halfExtentsZ(get, null):Float;
-	private function get_halfExtentsZ():Float
+	
+	private inline function get_halfExtentsZ():Float
 	{
 		return _halfExtentsZ;
 	}
@@ -241,30 +237,12 @@ class AxisAlignedBoundingBox extends BoundingVolumeBase
 	 */
 	public function closestPointToPoint(point:Vector3D, target:Vector3D = null):Vector3D
 	{
-		var p:Float;
 		if (target == null)
 			target = new Vector3D();
 
-		p = point.x;
-		if (p < _min.x)
-			p = _min.x;
-		if (p > _max.x)
-			p = _max.x;
-		target.x = p;
-
-		p = point.y;
-		if (p < _min.y)
-			p = _min.y;
-		if (p > _max.y)
-			p = _max.y;
-		target.y = p;
-
-		p = point.z;
-		if (p < _min.z)
-			p = _min.z;
-		if (p > _max.z)
-			p = _max.z;
-		target.z = p;
+		target.x = FMath.fclamp(point.x, _min.x, _max.x);
+		target.y = FMath.fclamp(point.y, _min.y, _max.y);
+		target.z = FMath.fclamp(point.z, _min.z, _max.z);
 
 		return target;
 	}

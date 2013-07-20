@@ -5,6 +5,8 @@ import flash.geom.Vector3D;
 
 import a3d.math.Quaternion;
 
+using a3d.math.FVector3D;
+
 /**
  * Contains transformation data for a skeleton joint, used for skeleton animation.
  *
@@ -46,6 +48,7 @@ class JointPose
 	{
 		if (target == null)
 			target = new Matrix3D();
+			
 		orientation.toMatrix3D(target);
 		target.appendTranslation(translation.x, translation.y, translation.z);
 		return target;
@@ -58,14 +61,7 @@ class JointPose
 	 */
 	public function copyFrom(pose:JointPose):Void
 	{
-		var or:Quaternion = pose.orientation;
-		var tr:Vector3D = pose.translation;
-		orientation.x = or.x;
-		orientation.y = or.y;
-		orientation.z = or.z;
-		orientation.w = or.w;
-		translation.x = tr.x;
-		translation.y = tr.y;
-		translation.z = tr.z;
+		orientation.copyFrom(pose.orientation);
+		translation.fastCopyFrom(pose.translation);
 	}
 }

@@ -11,6 +11,39 @@ import flash.Vector;
  */
 class CylinderGeometry extends PrimitiveBase
 {
+	/**
+	 * The radius of the top end of the cylinder.
+	 */
+	public var topRadius(get, set):Float;
+	/**
+	 * The radius of the bottom end of the cylinder.
+	 */
+	public var bottomRadius(get, set):Float;
+	/**
+	 * The radius of the top end of the cylinder.
+	 */
+	public var height(get, set):Float;
+	/**
+	 * Defines the number of horizontal segments that make up the cylinder. Defaults to 16.
+	 */
+	public var segmentsW(get, set):Int;
+	/**
+	 * Defines the number of vertical segments that make up the cylinder. Defaults to 1.
+	 */
+	public var segmentsH(get, set):Int;
+	/**
+	 * Defines whether the top end of the cylinder is closed (true) or open.
+	 */
+	public var topClosed(get, set):Bool;
+	/**
+	 * Defines whether the bottom end of the cylinder is closed (true) or open.
+	 */
+	public var bottomClosed(get, set):Bool;
+	/**
+	 * Defines whether the cylinder poles should lay on the Y-axis (true) or on the Z-axis (false).
+	 */
+	public var yUp(get, set):Bool;
+	
 	private var _topRadius:Float;
 	private var _bottomRadius:Float;
 	private var _height:Float;
@@ -59,8 +92,8 @@ class CylinderGeometry extends PrimitiveBase
 	}
 
 	private function addVertex(px:Float, py:Float, pz:Float,
-		nx:Float, ny:Float, nz:Float,
-		tx:Float, ty:Float, tz:Float):Void
+								nx:Float, ny:Float, nz:Float,
+								tx:Float, ty:Float, tz:Float):Void
 	{
 		var compVertInd:UInt = _vertexOffset + _nextVertexIndex * _stride; // current component vertex index
 		_rawData[compVertInd++] = px;
@@ -273,7 +306,7 @@ class CylinderGeometry extends PrimitiveBase
 		// lateral surface
 		if (_surfaceClosed)
 		{
-			var a:UInt, b:UInt, c:UInt, d:UInt;
+			var a:Int, b:Int, c:Int, d:Int;
 			var na0:Float, na1:Float, naComp1:Float, naComp2:Float;
 
 			for (j in 0..._segmentsH+1)
@@ -349,7 +382,6 @@ class CylinderGeometry extends PrimitiveBase
 	 */
 	override private function buildUVs(target:CompactSubGeometry):Void
 	{
-		var i:Int, j:Int;
 		var x:Float, y:Float, revolutionAngle:Float;
 		var stride:UInt = target.UVStride;
 		var skip:UInt = stride - 2;
@@ -414,9 +446,9 @@ class CylinderGeometry extends PrimitiveBase
 		// lateral surface
 		if (_surfaceClosed)
 		{
-			for (j in 0..._segmentsH+1)
+			for (j in 0..._segmentsH + 1)
 			{
-				for (i in 0..._segmentsW+1)
+				for (i in 0..._segmentsW + 1)
 				{
 					// revolution vertex
 					UVData[currentUvCompIndex++] = ( i / _segmentsW ) * target.scaleU;
@@ -430,10 +462,7 @@ class CylinderGeometry extends PrimitiveBase
 		target.updateData(UVData);
 	}
 
-	/**
-	 * The radius of the top end of the cylinder.
-	 */
-	public var topRadius(get, set):Float;
+	
 	private function get_topRadius():Float
 	{
 		return _topRadius;
@@ -446,10 +475,7 @@ class CylinderGeometry extends PrimitiveBase
 		return _topRadius;
 	}
 
-	/**
-	 * The radius of the bottom end of the cylinder.
-	 */
-	public var bottomRadius(get, set):Float;
+	
 	private function get_bottomRadius():Float
 	{
 		return _bottomRadius;
@@ -462,10 +488,7 @@ class CylinderGeometry extends PrimitiveBase
 		return _bottomRadius;
 	}
 
-	/**
-	 * The radius of the top end of the cylinder.
-	 */
-	public var height(get, set):Float;
+	
 	private function get_height():Float
 	{
 		return _height;
@@ -478,10 +501,7 @@ class CylinderGeometry extends PrimitiveBase
 		return _height;
 	}
 
-	/**
-	 * Defines the number of horizontal segments that make up the cylinder. Defaults to 16.
-	 */
-	public var segmentsW(get, set):Int;
+	
 	private function get_segmentsW():Int
 	{
 		return _segmentsW;
@@ -495,10 +515,7 @@ class CylinderGeometry extends PrimitiveBase
 		return _segmentsW;
 	}
 
-	/**
-	 * Defines the number of vertical segments that make up the cylinder. Defaults to 1.
-	 */
-	public var segmentsH(get, set):Int;
+	
 	private function get_segmentsH():Int
 	{
 		return _segmentsH;
@@ -512,10 +529,7 @@ class CylinderGeometry extends PrimitiveBase
 		return _segmentsH;
 	}
 
-	/**
-	 * Defines whether the top end of the cylinder is closed (true) or open.
-	 */
-	public var topClosed(get, set):Bool;
+	
 	private function get_topClosed():Bool
 	{
 		return _topClosed;
@@ -528,10 +542,7 @@ class CylinderGeometry extends PrimitiveBase
 		return _topClosed;
 	}
 
-	/**
-	 * Defines whether the bottom end of the cylinder is closed (true) or open.
-	 */
-	public var bottomClosed(get, set):Bool;
+	
 	private function get_bottomClosed():Bool
 	{
 		return _bottomClosed;
@@ -544,10 +555,7 @@ class CylinderGeometry extends PrimitiveBase
 		return _bottomClosed;
 	}
 
-	/**
-	 * Defines whether the cylinder poles should lay on the Y-axis (true) or on the Z-axis (false).
-	 */
-	public var yUp(get, set):Bool;
+	
 	private function get_yUp():Bool
 	{
 		return _yUp;

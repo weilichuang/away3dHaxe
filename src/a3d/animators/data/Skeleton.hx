@@ -12,22 +12,26 @@ import flash.Vector;
  */
 class Skeleton extends NamedAssetBase implements IAsset
 {
+	
+
+	/**
+	 * The total number of joints in the skeleton.
+	 */
+	public var numJoints(get, null):Int;
+	
+	/**
+	 * @inheritDoc
+	*/
+	public var assetType(get, null):String;
+	
+	
 	/**
 	 * A flat list of joint objects that comprise the skeleton. Every joint except for the root has a parentIndex
 	 * property that is an index into this list.
 	 * A child joint should always have a higher index than its parent.
 	 */
 	public var joints:Vector<SkeletonJoint>;
-
-	/**
-	 * The total number of joints in the skeleton.
-	 */
-	public var numJoints(get, null):Int;
-	private function get_numJoints():Int
-	{
-		return joints.length;
-	}
-
+	
 	/**
 	 * Creates a new <code>Skeleton</code> object
 	 */
@@ -97,10 +101,12 @@ class Skeleton extends NamedAssetBase implements IAsset
 		joints.length = 0;
 	}
 
-	/**
-	 * @inheritDoc
-	*/
-	public var assetType(get, null):String;
+	
+	private inline function get_numJoints():Int
+	{
+		return joints.length;
+	}
+	
 	private function get_assetType():String
 	{
 		return AssetType.SKELETON;

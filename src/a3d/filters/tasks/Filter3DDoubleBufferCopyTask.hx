@@ -1,17 +1,19 @@
 package a3d.filters.tasks;
 
+import a3d.core.managers.Stage3DProxy;
+import a3d.entities.Camera3D;
 import flash.display.BitmapData;
 import flash.display3D.Context3DTextureFormat;
 import flash.display3D.textures.Texture;
 
 
-import a3d.entities.Camera3D;
-import a3d.core.managers.Stage3DProxy;
 
 
 
 class Filter3DDoubleBufferCopyTask extends Filter3DTaskBase
 {
+	public var secondaryInputTexture(get, null):Texture;
+	
 	private var _secondaryInputTexture:Texture;
 
 	public function new()
@@ -19,7 +21,7 @@ class Filter3DDoubleBufferCopyTask extends Filter3DTaskBase
 		super();
 	}
 
-	public var secondaryInputTexture(get, null):Texture;
+	
 	private function get_secondaryInputTexture():Texture
 	{
 		return _secondaryInputTexture;

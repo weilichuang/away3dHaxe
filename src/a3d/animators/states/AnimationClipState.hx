@@ -11,6 +11,23 @@ import flash.Vector;
  */
 class AnimationClipState extends AnimationStateBase
 {
+	/**
+	 * Returns a fractional value between 0 and 1 representing the blending ratio of the current playhead position
+	 * between the current frame (0) and next frame (1) of the animation.
+	 *
+	 * @see #currentFrame
+	 * @see #nextFrame
+	 */
+	public var blendWeight(get, null):Float;
+	/**
+	 * Returns the current frame of animation in the clip based on the internal playhead position.
+	 */
+	public var currentFrame(get, null):Int;
+	/**
+	 * Returns the next frame of animation in the clip based on the internal playhead position.
+	 */
+	public var nextFrame(get, null):Int;
+	
 	private var _animationClipNode:AnimationClipNodeBase;
 	private var _animationStatePlaybackComplete:AnimationStateEvent;
 	private var _blendWeight:Float;
@@ -28,14 +45,7 @@ class AnimationClipState extends AnimationStateBase
 		_animationClipNode = animationClipNode;
 	}
 
-	/**
-	 * Returns a fractional value between 0 and 1 representing the blending ratio of the current playhead position
-	 * between the current frame (0) and next frame (1) of the animation.
-	 *
-	 * @see #currentFrame
-	 * @see #nextFrame
-	 */
-	public var blendWeight(get, null):Float;
+	
 	private function get_blendWeight():Float
 	{
 		if (_framesDirty)
@@ -44,10 +54,7 @@ class AnimationClipState extends AnimationStateBase
 		return _blendWeight;
 	}
 
-	/**
-	 * Returns the current frame of animation in the clip based on the internal playhead position.
-	 */
-	public var currentFrame(get, null):Int;
+	
 	private function get_currentFrame():Int
 	{
 		if (_framesDirty)
@@ -56,10 +63,7 @@ class AnimationClipState extends AnimationStateBase
 		return _currentFrame;
 	}
 
-	/**
-	 * Returns the next frame of animation in the clip based on the internal playhead position.
-	 */
-	public var nextFrame(get, null):Int;
+	
 	private function get_nextFrame():Int
 	{
 		if (_framesDirty)

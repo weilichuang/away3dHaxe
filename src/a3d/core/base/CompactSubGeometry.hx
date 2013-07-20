@@ -1,5 +1,6 @@
 package a3d.core.base;
 
+import a3d.A3d;
 import flash.display3D.Context3D;
 import flash.display3D.Context3DVertexBufferFormat;
 import flash.display3D.VertexBuffer3D;
@@ -34,9 +35,9 @@ class CompactSubGeometry extends SubGeometryBase implements ISubGeometry
 		_autoDeriveVertexNormals = false;
 		_autoDeriveVertexTangents = false;
 		
-		_vertexDataInvalid = new Vector<Bool>(8, true);
-		_vertexBuffer = new Vector<VertexBuffer3D>(8);
-		_bufferContext = new Vector<Context3D>(8);
+		_vertexDataInvalid = new Vector<Bool>(A3d.MAX_NUM_STAGE3D, true);
+		_vertexBuffer = new Vector<VertexBuffer3D>(A3d.MAX_NUM_STAGE3D);
+		_bufferContext = new Vector<Context3D>(A3d.MAX_NUM_STAGE3D);
 	}
 
 	private function get_numVertices():Int

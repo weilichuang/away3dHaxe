@@ -1,14 +1,14 @@
 package a3d.bounds;
 
+import a3d.core.base.Geometry;
+import a3d.entities.primitives.WireframePrimitiveBase;
+import a3d.entities.primitives.WireframeSphere;
+import a3d.math.Plane3D;
+import a3d.math.PlaneClassification;
 import flash.geom.Matrix3D;
 import flash.geom.Vector3D;
 import flash.Vector;
 
-import a3d.core.base.Geometry;
-import a3d.math.Plane3D;
-import a3d.math.PlaneClassification;
-import a3d.entities.primitives.WireframePrimitiveBase;
-import a3d.entities.primitives.WireframeSphere;
 
 /**
  * NullBounds represents a debug bounding "volume" that is either considered always in, or always out of the frustum.

@@ -1,6 +1,7 @@
 ﻿package a3d.entities;
 
 import a3d.filters.Filter3DBase;
+import a3d.math.FMath;
 import flash.display.Sprite;
 import flash.display3D.Context3D;
 import flash.display3D.Context3DProfile;
@@ -37,6 +38,69 @@ import a3d.textures.Texture2DBase;
 
 class View3D extends Sprite
 {
+	public var depthPrepass(get, set):Bool;
+	public var stage3DProxy(get, set):Stage3DProxy;
+	/**
+	 * Forces mouse-move related events even when the mouse hasn't moved. This allows mouseOver and mouseOut events
+	 * etc to be triggered due to changes in the scene graph. Defaults to false.
+	 */
+	public var forceMouseMove(get, set):Bool;
+	public var background(get, set):Texture2DBase;
+	/**
+	 * Used in a sharedContext. When true, clears the depth buffer prior to rendering this particular
+	 * view to avoid depth sorting with lower layers. When false, the depth buffer is not cleared
+	 * from the previous (lower) view's render so objects in this view may be occluded by the lower
+	 * layer. Defaults to false.
+	 */
+	public var layeredView(get, set):Bool;
+	
+	public var filters3d(get, set):Array<Filter3DBase>;
+	/**
+	 * The renderer used to draw the scene.
+	 */
+	public var renderer(get, set):RendererBase;
+	/**
+	 * The background color of the screen. This value is only used when clearAll is set to true.
+	 */
+	public var backgroundColor(get, set):UInt;
+	public var backgroundAlpha(get, set):Float;
+	/**
+	 * The camera that's used to render the scene for this viewport
+	 */
+	public var camera(get, set):Camera3D;
+	/**
+	 * The scene that's used to render for this viewport
+	 */
+	public var scene(get, set):Scene3D;
+	// todo: probably temporary:
+	/**
+	 * The amount of milliseconds the last render call took
+	 */
+	public var deltaTime(get, null):Float;
+	/**
+	 * The amount of anti-aliasing to be used.
+	 */
+	public var antiAlias(get, set):Int;
+	/**
+	 * The amount of faces that were pushed through the render pipeline on the last frame render.
+	 */
+	public var renderedFacesCount(get, null):Int;
+	
+	/**
+	 * Defers control of Context3D clear() and present() calls to Stage3DProxy, enabling multiple Stage3D frameworks
+	 * to share the same Context3D object.
+	 */
+	public var shareContext(get, set):Bool;
+	public var mousePicker(get, set):IPicker;
+	public var touchPicker(get, set):IPicker;
+	/**
+	 * The EntityCollector object that will collect all potentially visible entities in the partition tree.
+	 *
+	 * @see a3d.core.traverse.EntityCollector
+	 * @private
+	 */
+	public var entityCollector(get, null):EntityCollector;
+	
 	private var _width:Float;
 	private var _height:Float;
 	private var _localPos:Point;
@@ -73,7 +137,7 @@ class View3D extends Sprite
 	private var _background:Texture2DBase;
 	private var _stage3DProxy:Stage3DProxy;
 	private var _backBufferInvalid:Bool;
-	private var _antiAlias:UInt;
+	private var _antiAlias:Int;
 
 	private var _rttBufferManager:RTTBufferManager;
 
@@ -161,8 +225,8 @@ class View3D extends Sprite
 		_camera.partition = _scene.partition;
 	}
 
-	public var depthPrepass(get, set):Bool;
-	private function get_depthPrepass():Bool
+	
+	private inline function get_depthPrepass():Bool
 	{
 		return _depthPrepass;
 	}
@@ -178,8 +242,8 @@ class View3D extends Sprite
 			_camera.partition = scene.partition;
 	}
 
-	public var stage3DProxy(get, set):Stage3DProxy;
-	private function get_stage3DProxy():Stage3DProxy
+	
+	private inline function get_stage3DProxy():Stage3DProxy
 	{
 		return _stage3DProxy;
 	}
@@ -201,12 +265,8 @@ class View3D extends Sprite
 		return _stage3DProxy;
 	}
 
-	/**
-	 * Forces mouse-move related events even when the mouse hasn't moved. This allows mouseOver and mouseOut events
-	 * etc to be triggered due to changes in the scene graph. Defaults to false.
-	 */
-	public var forceMouseMove(get, set):Bool;
-	private function get_forceMouseMove():Bool
+	
+	private inline function get_forceMouseMove():Bool
 	{
 		return _mouse3DManager.forceMouseMove;
 	}
@@ -218,8 +278,8 @@ class View3D extends Sprite
 		return value;
 	}
 
-	public var background(get, set):Texture2DBase;
-	private function get_background():Texture2DBase
+	
+	private inline function get_background():Texture2DBase
 	{
 		return _background;
 	}
@@ -231,14 +291,8 @@ class View3D extends Sprite
 		return _background;
 	}
 
-	/**
-	 * Used in a sharedContext. When true, clears the depth buffer prior to rendering this particular
-	 * view to avoid depth sorting with lower layers. When false, the depth buffer is not cleared
-	 * from the previous (lower) view's render so objects in this view may be occluded by the lower
-	 * layer. Defaults to false.
-	 */
-	public var layeredView(get, set):Bool;
-	private function get_layeredView():Bool
+	
+	private inline function get_layeredView():Bool
 	{
 		return _layeredView;
 	}
@@ -275,7 +329,7 @@ class View3D extends Sprite
 		throw new Error("filters is not supported in View3D. Use filters3d instead.");
 	}
 
-	public var filters3d(get, set):Array<Filter3DBase>;
+	
 	private function get_filters3d():Array<Filter3DBase>
 	{
 		return _filter3DRenderer != null ? _filter3DRenderer.filters : null;
@@ -315,11 +369,7 @@ class View3D extends Sprite
 		return value;
 	}
 
-	public var renderer(get, set):RendererBase;
-	/**
-	 * The renderer used to draw the scene.
-	 */
-	private function get_renderer():RendererBase
+	private inline function get_renderer():RendererBase
 	{
 		return _renderer;
 	}
@@ -344,10 +394,7 @@ class View3D extends Sprite
 		return _renderer;
 	}
 
-	/**
-	 * The background color of the screen. This value is only used when clearAll is set to true.
-	 */
-	public var backgroundColor(get, set):UInt;
+	
 	private function get_backgroundColor():UInt
 	{
 		return _backgroundColor;
@@ -362,7 +409,7 @@ class View3D extends Sprite
 		return _backgroundColor;
 	}
 
-	public var backgroundAlpha(get, set):Float;
+	
 	private function get_backgroundAlpha():Float
 	{
 		return _backgroundAlpha;
@@ -370,19 +417,13 @@ class View3D extends Sprite
 
 	private function set_backgroundAlpha(value:Float):Float
 	{
-		if (value > 1)
-			value = 1;
-		else if (value < 0)
-			value = 0;
+		value = FMath.fclamp(value, 0, 1);
 
 		_renderer.backgroundAlpha = value;
 		return _backgroundAlpha = value;
 	}
 
-	/**
-	 * The camera that's used to render the scene for this viewport
-	 */
-	public var camera(get, set):Camera3D;
+	
 	private function get_camera():Camera3D
 	{
 		return _camera;
@@ -409,11 +450,8 @@ class View3D extends Sprite
 		return _camera;
 	}
 
-	/**
-	 * The scene that's used to render for this viewport
-	 */
-	public var scene(get, set):Scene3D;
-	private function get_scene():Scene3D
+	
+	private inline function get_scene():Scene3D
 	{
 		return _scene;
 	}
@@ -433,11 +471,7 @@ class View3D extends Sprite
 		return _scene;
 	}
 
-	// todo: probably temporary:
-	/**
-	 * The amount of milliseconds the last render call took
-	 */
-	public var deltaTime(get, null):Float;
+	
 	private function get_deltaTime():Float
 	{
 		return _deltaTime;
@@ -546,16 +580,13 @@ class View3D extends Sprite
 			_stage3DProxy.visible = value;
 	}
 
-	/**
-	 * The amount of anti-aliasing to be used.
-	 */
-	public var antiAlias(get, set):UInt;
-	private function get_antiAlias():UInt
+	
+	private inline function get_antiAlias():Int
 	{
 		return _antiAlias;
 	}
 
-	private function set_antiAlias(value:UInt):UInt
+	private function set_antiAlias(value:Int):Int
 	{
 		_antiAlias = value;
 		_renderer.antiAlias = value;
@@ -565,21 +596,14 @@ class View3D extends Sprite
 		return _antiAlias;
 	}
 
-	/**
-	 * The amount of faces that were pushed through the render pipeline on the last frame render.
-	 */
-	public var renderedFacesCount(get, null):UInt;
-	private function get_renderedFacesCount():UInt
+	
+	private inline function get_renderedFacesCount():Int
 	{
 		return _entityCollector.numTriangles;
 	}
 
-	/**
-	 * Defers control of Context3D clear() and present() calls to Stage3DProxy, enabling multiple Stage3D frameworks
-	 * to share the same Context3D object.
-	 */
-	public var shareContext(get, set):Bool;
-	private function get_shareContext():Bool
+	
+	private inline function get_shareContext():Bool
 	{
 		return _shareContext;
 	}
@@ -902,8 +926,8 @@ class View3D extends Sprite
 		return _camera.getRay((sX * 2 - _width) / _width, (sY * 2 - _height) / _height, sZ);
 	}
 
-	public var mousePicker(get, set):IPicker;
-	private function get_mousePicker():IPicker
+	
+	private inline function get_mousePicker():IPicker
 	{
 		return _mouse3DManager.mousePicker;
 	}
@@ -913,8 +937,8 @@ class View3D extends Sprite
 		return _mouse3DManager.mousePicker = value;
 	}
 
-	public var touchPicker(get, set):IPicker;
-	private function get_touchPicker():IPicker
+	
+	private inline function get_touchPicker():IPicker
 	{
 		return _touch3DManager.touchPicker;
 	}
@@ -924,14 +948,8 @@ class View3D extends Sprite
 		return _touch3DManager.touchPicker = value;
 	}
 
-	/**
-	 * The EntityCollector object that will collect all potentially visible entities in the partition tree.
-	 *
-	 * @see a3d.core.traverse.EntityCollector
-	 * @private
-	 */
-	public var entityCollector(get, null):EntityCollector;
-	private function get_entityCollector():EntityCollector
+	
+	private inline function get_entityCollector():EntityCollector
 	{
 		return _entityCollector;
 	}
@@ -999,7 +1017,7 @@ class View3D extends Sprite
 		_viewportDirty = true;
 	}
 
-// dead ends:
+	// dead ends:
 	@:setter(z) function set_z(value:Float):Void
 	{
 	}

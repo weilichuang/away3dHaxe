@@ -73,12 +73,12 @@ class ObliqueNearPlaneLens extends LensBase
 	public var baseLens(null, set):LensBase;
 	private function set_baseLens(value:LensBase):LensBase
 	{
-		if (_baseLens)
+		if (_baseLens != null)
 			_baseLens.removeEventListener(LensEvent.MATRIX_CHANGED, onLensMatrixChanged);
 
 		_baseLens = value;
 
-		if (_baseLens)
+		if (_baseLens != null)
 			_baseLens.addEventListener(LensEvent.MATRIX_CHANGED, onLensMatrixChanged);
 
 		invalidateMatrix();

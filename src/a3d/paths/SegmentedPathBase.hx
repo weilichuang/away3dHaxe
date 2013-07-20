@@ -1,23 +1,27 @@
 package a3d.paths;
 
 import a3d.errors.AbstractMethodError;
+import flash.errors.Error;
 import flash.Vector;
 
 import flash.geom.Vector3D;
 
 class SegmentedPathBase implements IPath
 {
-	private var _pointsPerSegment:UInt;
+	public var pointData(set, null):Vector<Vector3D>;
+	
+	private var _pointsPerSegment:Int;
 	private var _segments:Vector<IPathSegment>;
 
-	public function new(pointsPerSegment:UInt, data:Vector<Vector3D> = null)
+	public function new(pointsPerSegment:Int, data:Vector<Vector3D> = null)
 	{
 		_pointsPerSegment = pointsPerSegment;
-		if (data)
+		if (data != null)
 			pointData = data;
 	}
 
-	private function set_pointData(data:Vector<Vector3D>):Void
+	
+	private function set_pointData(data:Vector<Vector3D>):Vector<Vector3D>
 	{
 		if (data.length < _pointsPerSegment)
 			throw new Error("Path Vector<Vector3D> must contain at least " + _pointsPerSegment + " Vector3D's");
@@ -26,8 +30,12 @@ class SegmentedPathBase implements IPath
 			throw new Error("Path Vector<Vector3D> must contain series of " + _pointsPerSegment + " Vector3D's per segment");
 
 		_segments = new Vector<IPathSegment>();
-		for (var i:UInt = 0, len:Int = data.length; i < len; i += _pointsPerSegment)
+		var i:Int = 0, len:Int = data.length;
+		for (i < len)
+		{
 			_segments.push(createSegmentFromArrayEntry(data, i));
+			i += _pointsPerSegment;
+		}
 	}
 
 	// factory method
@@ -39,7 +47,7 @@ class SegmentedPathBase implements IPath
 	/**
 	 * The number of segments in the Path
 	 */
-	private function get_numSegments():UInt
+	private function get_numSegments():Int
 	{
 		return _segments.length;
 	}
@@ -60,7 +68,7 @@ class SegmentedPathBase implements IPath
 	 * @param	 indice uint. the indice of a given PathSegment
 	 * @return	given PathSegment from the path
 	 */
-	public function getSegmentAt(index:UInt):IPathSegment
+	public function getSegmentAt(index:Int):IPathSegment
 	{
 		return _segments[index];
 	}
@@ -76,7 +84,7 @@ class SegmentedPathBase implements IPath
 	 * @param	 index	int. The index in path of the to be removed curvesegment
 	 * @param	 join 		Bool. If true previous and next segments coordinates are reconnected
 	 */
-	public function removeSegment(index:UInt, join:Bool = false):Void
+	public function removeSegment(index:Int, join:Bool = false):Void
 	{
 		if (_segments.length == 0 || index >= _segments.length - 1)
 			return;
@@ -100,7 +108,7 @@ class SegmentedPathBase implements IPath
 
 	public function dispose():Void
 	{
-		for (var i:UInt, len:UInt = _segments.length; i < len; ++i)
+		for (i in 0..._segments.length)
 			_segments[i].dispose();
 
 		_segments = null;
@@ -110,7 +118,7 @@ class SegmentedPathBase implements IPath
 	{
 		var numSegments:Int = _segments.length;
 		t *= numSegments;
-		var segment:Int = int(t);
+		var segment:Int = Std.int(t);
 
 		if (segment == numSegments)
 		{
@@ -123,21 +131,21 @@ class SegmentedPathBase implements IPath
 		return _segments[segment].getPointOnSegment(t, target);
 	}
 
-	public function getPointsOnCurvePerSegment(subdivision:UInt):Vector<Vector<Vector3D>>
+	public function getPointsOnCurvePerSegment(subdivision:Int):Vector<Vector<Vector3D>>
 	{
 		var points:Vector<Vector<Vector3D>> = new Vector<Vector<Vector3D>>();
 
-		for (var i:UInt = 0, len:UInt = _segments.length; i < len; ++i)
+		for (i in 0..._segments.length)
 			points[i] = getSegmentPoints(_segments[i], subdivision, (i == len - 1));
 
 		return points;
 	}
 
-	private function getSegmentPoints(segment:IPathSegment, n:UInt, last:Bool):Vector<Vector3D>
+	private function getSegmentPoints(segment:IPathSegment, n:Int, last:Bool):Vector<Vector3D>
 	{
 		var points:Vector<Vector3D> = new Vector<Vector3D>();
 
-		for (var i:UInt = 0; i < n + ((last) ? 1 : 0); ++i)
+		for (i in 0...(n + (last ? 1 : 0)))
 			points[i] = segment.getPointOnSegment(i / n);
 
 		return points;

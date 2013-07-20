@@ -17,7 +17,7 @@ class InterleavedStereoRenderMethod extends StereoRenderMethodBase
 	{
 		super();
 
-		_shaderData = new <Number>[1, 1, 1, 1];
+		_shaderData = Vector.ofArray([1., 1, 1, 1]);
 	}
 
 

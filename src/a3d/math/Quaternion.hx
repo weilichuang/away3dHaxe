@@ -11,6 +11,11 @@ import flash.Vector;
  class Quaternion
 {
 	/**
+	 * Returns the magnitude of the quaternion object.
+	 */
+	public var magnitude(get, null):Float;
+	
+	/**
 	 * The x value of the quaternion.
 	 */
 	public var x:Float = 0;
@@ -44,12 +49,16 @@ import flash.Vector;
 		this.z = z;
 		this.w = w;
 	}
-
-	/**
-	 * Returns the magnitude of the quaternion object.
-	 */
-	public var magnitude(get, null):Float;
-	private function get_magnitude():Float
+	
+	public inline function setTo(x:Float, y:Float, z:Float, w:Float):Void
+	{
+		this.x = x;
+		this.y = y;
+		this.z = z;
+		this.w = w;
+	}
+	
+	private inline function get_magnitude():Float
 	{
 		return Math.sqrt(w * w + x * x + y * y + z * z);
 	}

@@ -23,6 +23,14 @@ import flash.Vector;
  */
 class NodeBase
 {
+	public var showDebugBounds(get, set):Bool;
+	/**
+	 * The parent node. Null if this node is the root.
+	 */
+	public var parent(get, set):NodeBase;
+	
+	public var numEntities(get, null):Int;
+	
 	private var _parent:NodeBase;
 	private var _childNodes:Vector<NodeBase>;
 	private var _numChildNodes:Int;
@@ -42,7 +50,7 @@ class NodeBase
 		_childNodes = new Vector<NodeBase>();
 	}
 
-	public var showDebugBounds(get, set):Bool;
+	
 	private function get_showDebugBounds():Bool
 	{
 		return _debugPrimitive != null;
@@ -71,10 +79,7 @@ class NodeBase
 		return _debugPrimitive != null;
 	}
 
-	/**
-	 * The parent node. Null if this node is the root.
-	 */
-	public var parent(get, set):NodeBase;
+	
 	private function get_parent():NodeBase
 	{
 		return _parent;
@@ -195,7 +200,7 @@ class NodeBase
 		return null;
 	}
 
-	public var numEntities(get, null):Int;
+	
 	private function get_numEntities():Int
 	{
 		return _numEntities;

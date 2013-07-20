@@ -1,5 +1,6 @@
 package a3d.filters.tasks;
 
+import a3d.materials.BlendMode;
 import flash.display3D.Context3D;
 import flash.display3D.Context3DProgramType;
 import flash.display3D.textures.Texture;
@@ -14,14 +15,17 @@ import a3d.core.managers.Stage3DProxy;
 
 class Filter3DCompositeTask extends Filter3DTaskBase
 {
+	public var overlayTexture(get, set):Float;
+	public var exposure(get, set):Float;
+	
 	private var _data:Vector<Float>;
 	private var _overlayTexture:TextureBase;
-	private var _blendMode:String;
+	private var _blendMode:BlendMode;
 
-	public function new(blendMode:String, exposure:Float = 1)
+	public function new(blendMode:BlendMode, exposure:Float = 1)
 	{
 		super();
-		_data = Vector<Float>([exposure, 0, 0, 0]);
+		_data = Vector.ofArray([exposure, 0, 0, 0]);
 		_blendMode = blendMode;
 	}
 
@@ -30,9 +34,9 @@ class Filter3DCompositeTask extends Filter3DTaskBase
 		return _overlayTexture;
 	}
 
-	private function set_overlayTexture(value:TextureBase):Void
+	private function set_overlayTexture(value:TextureBase):TextureBase
 	{
-		_overlayTexture = value;
+		return _overlayTexture = value;
 	}
 
 	private function get_exposure():Float
@@ -40,9 +44,9 @@ class Filter3DCompositeTask extends Filter3DTaskBase
 		return _data[0];
 	}
 
-	private function set_exposure(value:Float):Void
+	private function set_exposure(value:Float):Float
 	{
-		_data[0] = value;
+		return _data[0] = value;
 	}
 
 

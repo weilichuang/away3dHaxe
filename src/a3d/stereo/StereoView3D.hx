@@ -1,18 +1,22 @@
 package a3d.stereo;
 
 
+import a3d.core.render.RendererBase;
 import a3d.entities.Camera3D;
 import a3d.entities.Scene3D;
 import a3d.entities.View3D;
-import a3d.core.render.RendererBase;
 import a3d.stereo.methods.StereoRenderMethodBase;
-
 import flash.display3D.textures.Texture;
+import flash.errors.Error;
+
 
 
 
 class StereoView3D extends View3D
 {
+	public var stereoRenderMethod(get, set):StereoRenderMethodBase;
+	public var stereoEnabled(get,set):Bool;
+
 	private var _stereoCam:StereoCamera3D;
 	private var _stereoRenderer:StereoRenderer;
 
@@ -28,15 +32,15 @@ class StereoView3D extends View3D
 		_stereoRenderer = new StereoRenderer(stereoRenderMethod);
 	}
 
-
+	
 	private function get_stereoRenderMethod():StereoRenderMethodBase
 	{
 		return _stereoRenderer.renderMethod;
 	}
 
-	private function set_stereoRenderMethod(value:StereoRenderMethodBase):Void
+	private function set_stereoRenderMethod(value:StereoRenderMethodBase):StereoRenderMethodBase
 	{
-		_stereoRenderer.renderMethod = value;
+		return _stereoRenderer.renderMethod = value;
 	}
 
 
@@ -45,19 +49,21 @@ class StereoView3D extends View3D
 		return _stereoCam;
 	}
 
-	override private function set_camera(value:Camera3D):Void
+	override private function set_camera(value:Camera3D):Camera3D
 	{
 		if (value == _stereoCam)
-			return;
+			return value;
 
 		if (Std.is(value,StereoCamera3D))
 		{
-			_stereoCam = StereoCamera3D(value);
+			_stereoCam = Std.instance(value,StereoCamera3D);
 		}
 		else
 		{
 			throw new Error('StereoView3D must be used with StereoCamera3D');
 		}
+		
+		return value;
 	}
 
 
@@ -66,9 +72,9 @@ class StereoView3D extends View3D
 		return _stereoEnabled;
 	}
 
-	private function set_stereoEnabled(val:Bool):Void
+	private function set_stereoEnabled(val:Bool):Bool
 	{
-		_stereoEnabled = val;
+		return _stereoEnabled = val;
 	}
 
 
@@ -132,7 +138,7 @@ class StereoView3D extends View3D
 		if (_requireDepthRender)
 			renderDepthPrepass(_entityCollector);
 
-		if (_filter3DRenderer && _stage3DProxy.context3D)
+		if (_filter3DRenderer != null && _stage3DProxy.context3D != null)
 		{
 			_renderer.render(_entityCollector, _filter3DRenderer.getMainInputTexture(_stage3DProxy), _rttBufferManager.renderToTextureRect);
 			_filter3DRenderer.render(_stage3DProxy, camera, _depthRender);

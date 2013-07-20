@@ -2,11 +2,11 @@ package a3d.tools.helpers;
 
 import a3d.core.base.IMaterialOwner;
 import a3d.core.base.SubMesh;
+import a3d.entities.lights.LightBase;
 import a3d.entities.Mesh;
 import a3d.entities.ObjectContainer3D;
-import a3d.entities.lights.LightBase;
 import a3d.materials.lightpickers.StaticLightPicker;
-import flash.Lib;
+import flash.Vector;
 
 /**
 * Helper Class for the LightBase objects <code>LightsHelper</code>
@@ -15,8 +15,7 @@ import flash.Lib;
 
 class LightsHelper
 {
-
-	private static var _lightsArray:Array;
+	private static var _lightsArray:Array<LightBase>;
 	private static var _light:LightBase;
 	private static var _state:UInt;
 
@@ -33,7 +32,7 @@ class LightsHelper
 
 		_lightsArray = [];
 
-		for (var i:UInt = 0; i < lights.length; ++i)
+		for (i in 0...lights.length)
 			_lightsArray[i] = lights[i];
 
 		_state = 0;
@@ -63,10 +62,10 @@ class LightsHelper
 	}
 
 
-	private static function parse(objectContainer3D:ObjectContainer3D, light:LightBase, id:UInt):Void
+	private static function parse(objectContainer3D:ObjectContainer3D, light:LightBase, id:Int):Void
 	{
 		_light = light;
-		if (!_light)
+		if (_light == null)
 			return;
 		_state = id;
 		parseContainer(objectContainer3D);
@@ -74,41 +73,38 @@ class LightsHelper
 
 	private static function parseContainer(objectContainer3D:ObjectContainer3D):Void
 	{
-		if (Std.is(objectContainer3D ,Mesh) && objectContainer3D.numChildren == 0)
-			parseMesh(Mesh(objectContainer3D));
+		if (Std.is(objectContainer3D , Mesh) && objectContainer3D.numChildren == 0)
+			parseMesh(Std.instance(objectContainer3D,Mesh));
 
-		for (var i:UInt = 0; i < objectContainer3D.numChildren; ++i)
-			parseContainer(ObjectContainer3D(objectContainer3D.getChildAt(i)));
+		for (i in 0...objectContainer3D.numChildren)
+			parseContainer(Std.instance(objectContainer3D.getChildAt(i),ObjectContainer3D));
 	}
 
 	private static function apply(materialOwner:IMaterialOwner):Void
 	{
 		var picker:StaticLightPicker;
-		var aLights:Array;
+		var aLights:Array<LightBase>;
 		var hasLight:Bool;
-		var i:UInt;
-		// TODO: not used
-		//	var j : uint;
-
-		if (materialOwner.material)
+		var i:Int;
+		if (materialOwner.material != null)
 		{
 			switch (_state)
 			{
 				case 0:
 					picker = Std.instance(materialOwner.material.lightPicker,StaticLightPicker);
-					if (!picker || picker.lights != _lightsArray)
+					if (picker == null || picker.lights != _lightsArray)
 						materialOwner.material.lightPicker = new StaticLightPicker(_lightsArray);
 					
 				case 1:
 					if (materialOwner.material.lightPicker == null)
 						materialOwner.material.lightPicker = new StaticLightPicker([]);
-					picker = Lib.as(materialOwner.material.lightPicker, StaticLightPicker);
-					if (picker)
+					picker = Std.instance(materialOwner.material.lightPicker, StaticLightPicker);
+					if (picker != null)
 					{
 						aLights = picker.lights;
 						if (aLights && aLights.length > 0)
 						{
-							for (i = 0; i < aLights.length; ++i)
+							for (i in 0...aLights.length)
 							{
 								if (aLights[i] == _light)
 								{
@@ -125,10 +121,7 @@ class LightsHelper
 							else
 							{
 								hasLight = false;
-								break;
 							}
-
-
 						}
 						else
 						{
@@ -140,12 +133,12 @@ class LightsHelper
 					if (materialOwner.material.lightPicker == null)
 						materialOwner.material.lightPicker = new StaticLightPicker([]);
 					picker = Std.instance(materialOwner.material.lightPicker,StaticLightPicker);
-					if (picker)
+					if (picker != null)
 					{
 						aLights = picker.lights;
 						if (aLights)
 						{
-							for (i = 0; i < aLights.length; ++i)
+							for (i in 0...aLights.length)
 							{
 								if (aLights[i] == _light)
 								{
@@ -162,12 +155,11 @@ class LightsHelper
 
 	private static function parseMesh(mesh:Mesh):Void
 	{
-		var i:UInt;
 		var subMeshes:Vector<SubMesh> = mesh.subMeshes;
 
 		apply(mesh);
 
-		for (i = 0; i < subMeshes.length; ++i)
+		for (i in 0...subMeshes.length)
 			apply(subMeshes[i]);
 	}
 }

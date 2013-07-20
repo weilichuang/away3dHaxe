@@ -48,6 +48,52 @@ import a3d.io.library.assets.NamedAssetBase;
  */
 class AnimatorBase extends NamedAssetBase implements IAsset
 {
+	/**
+	 * Returns the internal absolute time of the animator, calculated by the current time and the playback speed.
+	 *
+	 * @see #time
+	 * @see #playbackSpeed
+	 */
+	public var absoluteTime(get, null):Float;
+	/**
+	 * Returns the animation data set in use by the animator.
+	 */
+	public var animationSet(get, null):IAnimationSet;
+	/**
+	 * Returns the current active animation state.
+	 */
+	public var activeState(get, null):IAnimationState;
+	/**
+	 * Returns the current active animation node.
+	 */
+	public var activeAnimation(get, null):AnimationNodeBase;
+	/**
+	 * Returns the current active animation node.
+	 */
+	public var activeAnimationName(get, null):String;
+	/**
+	 * Determines whether the animators internal update mechanisms are active. Used in cases
+	 * where manual updates are required either via the <code>time</code> property or <code>update()</code> method.
+	 * Defaults to true.
+	 *
+	 * @see #time
+	 * @see #update()
+	 */
+	public var autoUpdate(get, set):Bool;
+	/**
+	 * Gets and sets the internal time clock of the animator.
+	 */
+	public var time(get, set):Int;
+	
+	/**
+	 * The amount by which passed time should be scaled. Used to slow down or speed up animations. Defaults to 1.
+	 */
+	public var playbackSpeed(get, set):Float;
+	/**
+	 * @inheritDoc
+	 */
+	public var assetType(get, null):String;
+	
 	private var _broadcaster:Sprite;
 	private var _isPlaying:Bool;
 	private var _autoUpdate:Bool = true;
@@ -86,63 +132,37 @@ class AnimatorBase extends NamedAssetBase implements IAsset
 		return getAnimationState(_animationSet.getAnimation(name));
 	}
 
-	/**
-	 * Returns the internal absolute time of the animator, calculated by the current time and the playback speed.
-	 *
-	 * @see #time
-	 * @see #playbackSpeed
-	 */
-	public var absoluteTime(get, null):Float;
+	
 	private function get_absoluteTime():Float
 	{
 		return _absoluteTime;
 	}
 
-	/**
-	 * Returns the animation data set in use by the animator.
-	 */
-	public var animationSet(get, null):IAnimationSet;
+	
 	private function get_animationSet():IAnimationSet
 	{
 		return _animationSet;
 	}
 
-	/**
-	 * Returns the current active animation state.
-	 */
-	public var activeState(get, null):IAnimationState;
+	
 	private function get_activeState():IAnimationState
 	{
 		return _activeState;
 	}
 
-	/**
-	 * Returns the current active animation node.
-	 */
-	public var activeAnimation(get, null):AnimationNodeBase;
+	
 	private function get_activeAnimation():AnimationNodeBase
 	{
 		return _animationSet.getAnimation(_activeAnimationName);
 	}
 
-	/**
-	 * Returns the current active animation node.
-	 */
-	public var activeAnimationName(get, null):String;
+	
 	private function get_activeAnimationName():String
 	{
 		return _activeAnimationName;
 	}
 
-	/**
-	 * Determines whether the animators internal update mechanisms are active. Used in cases
-	 * where manual updates are required either via the <code>time</code> property or <code>update()</code> method.
-	 * Defaults to true.
-	 *
-	 * @see #time
-	 * @see #update()
-	 */
-	public var autoUpdate(get, set):Bool;
+	
 	private function get_autoUpdate():Bool
 	{
 		return _autoUpdate;
@@ -163,10 +183,7 @@ class AnimatorBase extends NamedAssetBase implements IAsset
 		return _autoUpdate;
 	}
 
-	/**
-	 * Gets and sets the internal time clock of the animator.
-	 */
-	public var time(get, set):Int;
+	
 	private function get_time():Int
 	{
 		return _time;
@@ -207,10 +224,7 @@ class AnimatorBase extends NamedAssetBase implements IAsset
 		_broadcaster = new Sprite();
 	}
 
-	/**
-	 * The amount by which passed time should be scaled. Used to slow down or speed up animations. Defaults to 1.
-	 */
-	public var playbackSpeed(get, set):Float;
+	
 	private function get_playbackSpeed():Float
 	{
 		return _playbackSpeed;
@@ -338,7 +352,7 @@ class AnimatorBase extends NamedAssetBase implements IAsset
 	{
 		var delta:Vector3D = _activeState.positionDelta;
 		var dist:Float = delta.length;
-		var len:UInt;
+		var len:Int;
 		if (dist > 0)
 		{
 			len = _owners.length;
@@ -369,10 +383,7 @@ class AnimatorBase extends NamedAssetBase implements IAsset
 	{
 	}
 
-	/**
-	 * @inheritDoc
-	 */
-	public var assetType(get, null):String;
+	
 	private function get_assetType():String
 	{
 		return AssetType.ANIMATOR;

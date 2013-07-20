@@ -111,7 +111,7 @@ class DXFParser extends ParserBase
 	public static function supportsData(data:Dynamic):Bool
 	{
 		var str:String = ParserUtil.toString(data);
-		if (str == "")
+		if (str == null)
 			return false;
 
 		if (str.indexOf("ENDSEC") != -1 && str.indexOf("EOF") != -1)

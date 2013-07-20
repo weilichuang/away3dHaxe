@@ -14,6 +14,9 @@ import a3d.core.managers.Stage3DProxy;
 
 class Filter3DBloomCompositeTask extends Filter3DTaskBase
 {
+	public var overlayTexture(get, set):TextureBase;
+	public var exposure(get, set):Float;
+	
 	private var _data:Vector<Float>;
 	private var _overlayTexture:TextureBase;
 	private var _exposure:Float;
@@ -25,7 +28,7 @@ class Filter3DBloomCompositeTask extends Filter3DTaskBase
 		this.exposure = exposure;
 	}
 
-	public var overlayTexture(get, set):TextureBase;
+	
 	private function get_overlayTexture():TextureBase
 	{
 		return _overlayTexture;
@@ -60,7 +63,7 @@ class Filter3DBloomCompositeTask extends Filter3DTaskBase
 		stage3DProxy.context3D.setTextureAt(1, null);
 	}
 
-	public var exposure(get, set):Float;
+	
 	private function get_exposure():Float
 	{
 		return _exposure;

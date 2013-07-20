@@ -2,27 +2,27 @@ package a3d.entities.primitives;
 
 
 import a3d.animators.IAnimator;
-import a3d.utils.VectorUtil.VectorUtil;
-import flash.Vector;
-
 import a3d.bounds.BoundingVolumeBase;
 import a3d.bounds.NullBounds;
-import a3d.entities.Camera3D;
 import a3d.core.base.IRenderable;
 import a3d.core.base.SubGeometry;
 import a3d.core.managers.Stage3DProxy;
 import a3d.core.partition.EntityNode;
 import a3d.core.partition.SkyBoxNode;
+import a3d.entities.Camera3D;
 import a3d.entities.Entity;
 import a3d.errors.AbstractMethodError;
 import a3d.io.library.assets.AssetType;
 import a3d.materials.MaterialBase;
 import a3d.materials.SkyBoxMaterial;
 import a3d.textures.CubeTextureBase;
-
+import a3d.utils.VectorUtil.VectorUtil;
 import flash.display3D.IndexBuffer3D;
 import flash.geom.Matrix;
 import flash.geom.Matrix3D;
+import flash.Vector;
+
+
 
 
 
@@ -33,6 +33,33 @@ import flash.geom.Matrix3D;
  */
 class SkyBox extends Entity implements IRenderable
 {
+	public var animator(get, null):IAnimator;
+	/**
+	 * The amount of triangles that comprise the SkyBox geometry.
+	 */
+	public var numTriangles(get, null):Int;
+	/**
+	 * The entity that that initially provided the IRenderable to the render pipeline.
+	 */
+	public var sourceEntity(get, null):Entity;
+	/**
+	 * The material with which to render the object.
+	 */
+	public var material(get, set):MaterialBase;
+	
+	public var castsShadows(get,null):Bool;
+	public var uvTransform(get,null):Matrix;
+	public var vertexData(get,null):Vector<Float>;
+	public var indexData(get,null):Vector<UInt>;
+	public var UVData(get,null):Vector<Float>;
+	public var numVertices(get,null):Int;
+	public var vertexStride(get,null):Int;
+	public var vertexNormalData(get,null):Vector<Float>;
+	public var vertexTangentData(get,null):Vector<Float>;
+	public var vertexOffset(get,null):Int;
+	public var vertexNormalOffset(get,null):Int;
+	public var vertexTangentOffset(get,null):Int;
+	
 	// todo: remove SubGeometry, use a simple single buffer with offsets
 	private var _geometry:SubGeometry;
 	private var _material:SkyBoxMaterial;
@@ -56,18 +83,6 @@ class SkyBox extends Entity implements IRenderable
 		buildGeometry(_geometry);
 	}
 
-	public var animator(get, null):IAnimator;
-	private function get_animator():IAnimator
-	{
-		return _animator;
-	}
-
-	override private function getDefaultBoundingVolume():BoundingVolumeBase
-	{
-		return new NullBounds();
-	}
-
-	
 	/**
 	 * @inheritDoc
 	 */
@@ -108,29 +123,30 @@ class SkyBox extends Entity implements IRenderable
 	{
 		return _geometry.getIndexBuffer(stage3DProxy);
 	}
+	
+	private function get_animator():IAnimator
+	{
+		return _animator;
+	}
 
-	/**
-	 * The amount of triangles that comprise the SkyBox geometry.
-	 */
-	public var numTriangles(get, null):Int;
+	override private function getDefaultBoundingVolume():BoundingVolumeBase
+	{
+		return new NullBounds();
+	}
+
+	
 	private function get_numTriangles():Int
 	{
 		return _geometry.numTriangles;
 	}
 
-	/**
-	 * The entity that that initially provided the IRenderable to the render pipeline.
-	 */
-	public var sourceEntity(get, null):Entity;
+	
 	private function get_sourceEntity():Entity
 	{
 		return null;
 	}
 
-	/**
-	 * The material with which to render the object.
-	 */
-	public var material(get, set):MaterialBase;
+	
 	private function get_material():MaterialBase
 	{
 		return _material;
@@ -192,78 +208,79 @@ class SkyBox extends Entity implements IRenderable
 			4, 0, 3, 3, 7, 4,
 			2, 1, 5, 5, 6, 2
 			]);
+		indices.fixed = true;
 
 		target.updateVertexData(vertices);
 		target.updateIndexData(indices);
 	}
 
-	public var castsShadows(get,null):Bool;
+	
 	private function get_castsShadows():Bool
 	{
 		return false;
 	}
 
-	public var uvTransform(get,null):Matrix;
+	
 	private function get_uvTransform():Matrix
 	{
 		return _uvTransform;
 	}
 
-	public var vertexData(get,null):Vector<Float>;
+	
 	private function get_vertexData():Vector<Float>
 	{
 		return _geometry.vertexData;
 	}
 
-	public var indexData(get,null):Vector<UInt>;
+	
 	private function get_indexData():Vector<UInt>
 	{
 		return _geometry.indexData;
 	}
 
-	public var UVData(get,null):Vector<Float>;
+	
 	private function get_UVData():Vector<Float>
 	{
 		return _geometry.UVData;
 	}
 
-	public var numVertices(get,null):Int;
+	
 	private function get_numVertices():Int
 	{
 		return _geometry.numVertices;
 	}
 
-	public var vertexStride(get,null):Int;
+	
 	private function get_vertexStride():Int
 	{
 		return _geometry.vertexStride;
 	}
 
-	public var vertexNormalData(get,null):Vector<Float>;
+	
 	private function get_vertexNormalData():Vector<Float>
 	{
 		return _geometry.vertexNormalData;
 	}
 
-	public var vertexTangentData(get,null):Vector<Float>;
+	
 	private function get_vertexTangentData():Vector<Float>
 	{
 		return _geometry.vertexTangentData;
 	}
 
-	public var vertexOffset(get,null):Int;
+	
 	private function get_vertexOffset():Int
 	{
 		return _geometry.vertexOffset;
 	}
 
-	public var vertexNormalOffset(get,null):Int;
+	
 	private function get_vertexNormalOffset():Int
 	{
 		return _geometry.vertexNormalOffset;
 	}
 
-	public var vertexTangentOffset(get,null):Int;
+	
 	private function get_vertexTangentOffset():Int
 	{
 		return _geometry.vertexTangentOffset;

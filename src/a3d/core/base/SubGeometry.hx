@@ -1,5 +1,6 @@
 ﻿package a3d.core.base;
 
+import a3d.A3d;
 import flash.display3D.Context3D;
 import flash.display3D.Context3DVertexBufferFormat;
 import flash.display3D.VertexBuffer3D;
@@ -21,6 +22,12 @@ import a3d.core.managers.Stage3DProxy;
  */
 class SubGeometry extends SubGeometryBase implements ISubGeometry
 {
+	public var numVertices(get, null):Int;
+	
+	public var secondaryUVData(get, null):Vector<Float>;
+	public var secondaryUVStride(get, null):Int;
+	public var secondaryUVOffset(get, null):Int;
+	
 	// raw data:
 	private var _uvs:Vector<Float>;
 	private var _secondaryUvs:Vector<Float>;
@@ -57,28 +64,27 @@ class SubGeometry extends SubGeometryBase implements ISubGeometry
 	{
 		super();
 		
-		_verticesInvalid = new Vector<Bool>(8, true);
-		_uvsInvalid = new Vector<Bool>(8, true);
-		_secondaryUvsInvalid = new Vector<Bool>(8, true);
-		_normalsInvalid = new Vector<Bool>(8, true);
-		_tangentsInvalid = new Vector<Bool>(8, true);
+		_verticesInvalid = new Vector<Bool>(A3d.MAX_NUM_STAGE3D, true);
+		_uvsInvalid = new Vector<Bool>(A3d.MAX_NUM_STAGE3D, true);
+		_secondaryUvsInvalid = new Vector<Bool>(A3d.MAX_NUM_STAGE3D, true);
+		_normalsInvalid = new Vector<Bool>(A3d.MAX_NUM_STAGE3D, true);
+		_tangentsInvalid = new Vector<Bool>(A3d.MAX_NUM_STAGE3D, true);
 
 		// buffers:
-		_vertexBuffer = new Vector<VertexBuffer3D>(8);
-		_uvBuffer = new Vector<VertexBuffer3D>(8);
-		_secondaryUvBuffer = new Vector<VertexBuffer3D>(8);
-		_vertexNormalBuffer = new Vector<VertexBuffer3D>(8);
-		_vertexTangentBuffer = new Vector<VertexBuffer3D>(8);
+		_vertexBuffer = new Vector<VertexBuffer3D>(A3d.MAX_NUM_STAGE3D);
+		_uvBuffer = new Vector<VertexBuffer3D>(A3d.MAX_NUM_STAGE3D);
+		_secondaryUvBuffer = new Vector<VertexBuffer3D>(A3d.MAX_NUM_STAGE3D);
+		_vertexNormalBuffer = new Vector<VertexBuffer3D>(A3d.MAX_NUM_STAGE3D);
+		_vertexTangentBuffer = new Vector<VertexBuffer3D>(A3d.MAX_NUM_STAGE3D);
 
 		// buffer dirty flags, per context:
-		_vertexBufferContext = new Vector<Context3D>(8);
-		_uvBufferContext = new Vector<Context3D>(8);
-		_secondaryUvBufferContext = new Vector<Context3D>(8);
-		_vertexNormalBufferContext = new Vector<Context3D>(8);
-		_vertexTangentBufferContext = new Vector<Context3D>(8);
+		_vertexBufferContext = new Vector<Context3D>(A3d.MAX_NUM_STAGE3D);
+		_uvBufferContext = new Vector<Context3D>(A3d.MAX_NUM_STAGE3D);
+		_secondaryUvBufferContext = new Vector<Context3D>(A3d.MAX_NUM_STAGE3D);
+		_vertexNormalBufferContext = new Vector<Context3D>(A3d.MAX_NUM_STAGE3D);
+		_vertexTangentBufferContext = new Vector<Context3D>(A3d.MAX_NUM_STAGE3D);
 	}
 
-	public var numVertices(get, null):Int;
 	private function get_numVertices():Int
 	{
 		return _numVertices;
@@ -91,6 +97,7 @@ class SubGeometry extends SubGeometryBase implements ISubGeometry
 	{
 		var contextIndex:Int = stage3DProxy.stage3DIndex;
 		var context:Context3D = stage3DProxy.context3D;
+		
 		if (_vertexBuffer[contextIndex] == null || 
 			_vertexBufferContext[contextIndex] != context)
 		{
@@ -237,10 +244,13 @@ class SubGeometry extends SubGeometryBase implements ISubGeometry
 		clone.updateVertexData(_vertexData.concat());
 		clone.updateUVData(_uvs.concat());
 		clone.updateIndexData(_indices.concat());
+		
 		if (_secondaryUvs != null)
 			clone.updateSecondaryUVData(_secondaryUvs.concat());
+			
 		if (!_autoDeriveVertexNormals)
 			clone.updateVertexNormalData(_vertexNormals.concat());
+			
 		if (!_autoDeriveVertexTangents)
 			clone.updateVertexTangentData(_vertexTangents.concat());
 		return clone;
@@ -344,7 +354,7 @@ class SubGeometry extends SubGeometryBase implements ISubGeometry
 		return _uvs;
 	}
 
-	public var secondaryUVData(get, null):Vector<Float>;
+	
 	private function get_secondaryUVData():Vector<Float>
 	{
 		return _secondaryUvs;
@@ -502,7 +512,7 @@ class SubGeometry extends SubGeometryBase implements ISubGeometry
 		return 2;
 	}
 
-	public var secondaryUVStride(get, null):Int;
+	
 	private function get_secondaryUVStride():Int
 	{
 		return 2;
@@ -528,7 +538,6 @@ class SubGeometry extends SubGeometryBase implements ISubGeometry
 		return 0;
 	}
 
-	public var secondaryUVOffset(get, null):Int;
 	private function get_secondaryUVOffset():Int
 	{
 		return 0;

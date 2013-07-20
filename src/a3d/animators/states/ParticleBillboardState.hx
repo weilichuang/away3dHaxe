@@ -13,7 +13,7 @@ import a3d.animators.nodes.ParticleBillboardNode;
 import a3d.entities.Camera3D;
 import a3d.core.base.IRenderable;
 import a3d.core.managers.Stage3DProxy;
-import a3d.math.MathUtil;
+import a3d.math.FMath;
 
 
 
@@ -56,7 +56,7 @@ class ParticleBillboardState extends ParticleStateBase
 			_matrix.copyColumnFrom(1, _billboardAxis);
 			_matrix.copyColumnFrom(2, look);
 			_matrix.copyColumnFrom(3, pos);
-			_matrix.appendRotation(-comps[1].w * MathUtil.RADIANS_TO_DEGREES(), comps[1]);
+			_matrix.appendRotation(-comps[1].w * FMath.RADIANS_TO_DEGREES(), comps[1]);
 		}
 		else
 		{
@@ -69,7 +69,7 @@ class ParticleBillboardState extends ParticleStateBase
 
 			//recreate the matrix with just the rotation data
 			_matrix.identity();
-			_matrix.appendRotation(-comps[1].w * MathUtil.RADIANS_TO_DEGREES(), comps[1]);
+			_matrix.appendRotation(-comps[1].w * FMath.RADIANS_TO_DEGREES(), comps[1]);
 		}
 
 		//set a new matrix transform constant

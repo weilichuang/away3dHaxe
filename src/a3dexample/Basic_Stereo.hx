@@ -1,14 +1,14 @@
 package a3dexample;
 
-import flash.events.Event;
-import flash.Lib;
-
 import a3d.entities.Mesh;
 import a3d.entities.primitives.CubeGeometry;
 import a3d.materials.ColorMaterial;
+import a3d.stereo.methods.AnaglyphStereoRenderMethod;
 import a3d.stereo.StereoCamera3D;
 import a3d.stereo.StereoView3D;
-import a3d.stereo.methods.AnaglyphStereoRenderMethod;
+import flash.events.Event;
+import flash.Lib;
+
 
 class Basic_Stereo extends BasicApplication
 {
@@ -25,8 +25,6 @@ class Basic_Stereo extends BasicApplication
 	public function new()
 	{
 		super();
-
-		
 	}
 	
 	/**
@@ -44,6 +42,8 @@ class Basic_Stereo extends BasicApplication
 		_view.stereoRenderMethod = new AnaglyphStereoRenderMethod();
 		//_view.stereoRenderMethod = new InterleavedStereoRenderMethod();
 		addChild(_view);
+		
+		view = _view;
 
 		_cube = new Mesh(new CubeGeometry(), new ColorMaterial(0xffcc00));
 		_cube.scale(5);
@@ -52,7 +52,7 @@ class Basic_Stereo extends BasicApplication
 		addEventListener(Event.ENTER_FRAME, onEnterFrame);
 	}
 
-	private function onEnterFrame(e:Event):Void
+	override private function render():Void 
 	{
 		_cube.rotationY += 2;
 		super.render();

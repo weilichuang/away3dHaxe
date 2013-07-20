@@ -1,6 +1,6 @@
 package a3d.animators.nodes;
 
-import a3d.math.MathUtil;
+import a3d.math.FMath;
 import flash.errors.Error;
 import flash.geom.Vector3D;
 
@@ -106,7 +106,7 @@ class ParticleSpriteSheetNode extends ParticleNodeBase
 		this.numRows = numRows;
 		this.cyclePhase = cyclePhase;
 		this.cycleDuration = cycleDuration;
-		this._totalFrames = MathUtil.min(totalFrames, numColumns * numRows);
+		this._totalFrames = FMath.min(totalFrames, numColumns * numRows);
 	}
 
 	/**

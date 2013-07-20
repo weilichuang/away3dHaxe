@@ -177,7 +177,7 @@ class TouchEvent3D extends Event
 	{
 		if (Std.is(object,ObjectContainer3D))
 		{
-			return Lib.as(object,ObjectContainer3D).sceneTransform.transformVector(localPosition);
+			return Std.instance(object,ObjectContainer3D).sceneTransform.transformVector(localPosition);
 		}
 		else
 		{
@@ -193,7 +193,7 @@ class TouchEvent3D extends Event
 	{
 		if (Std.is(object,ObjectContainer3D))
 		{
-			var sceneNormal:Vector3D = Lib.as(object,ObjectContainer3D).sceneTransform.deltaTransformVector(localNormal);
+			var sceneNormal:Vector3D = Std.instance(object,ObjectContainer3D).sceneTransform.deltaTransformVector(localNormal);
 			sceneNormal.normalize();
 			return sceneNormal;
 		}

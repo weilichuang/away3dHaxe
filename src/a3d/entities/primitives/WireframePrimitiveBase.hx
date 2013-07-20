@@ -2,16 +2,20 @@ package a3d.entities.primitives;
 
 
 import a3d.bounds.BoundingVolumeBase;
+import a3d.entities.primitives.data.Segment;
 import a3d.entities.SegmentSet;
 import a3d.errors.AbstractMethodError;
-import a3d.entities.primitives.data.Segment;
-
 import flash.geom.Vector3D;
+
+using a3d.math.FVector3D;
 
 
 
 class WireframePrimitiveBase extends SegmentSet
 {
+	public var color(get, set):UInt;
+	public var thickness(get, set):Float;
+	
 	private var _geomDirty:Bool = true;
 	private var _color:UInt;
 	private var _thickness:Float;
@@ -26,7 +30,7 @@ class WireframePrimitiveBase extends SegmentSet
 		mouseEnabled = mouseChildren = false;
 	}
 
-	public var color(get, set):UInt;
+	
 	private function get_color():UInt
 	{
 		return _color;
@@ -46,7 +50,7 @@ class WireframePrimitiveBase extends SegmentSet
 		return _color;
 	}
 
-	public var thickness(get, set):Float;
+	
 	private function get_thickness():Float
 	{
 		return _thickness;
@@ -105,12 +109,8 @@ class WireframePrimitiveBase extends SegmentSet
 			segment = _segments.get(index).segment;
 			s = segment.start;
 			e = segment.end;
-			s.x = v0.x;
-			s.y = v0.y;
-			s.z = v0.z;
-			e.x = v1.x;
-			e.y = v1.y;
-			e.z = v1.z;
+			s.fastCopyFrom(v0);
+			e.fastCopyFrom(v1);
 			segment.updateSegment(s, e, null, _color, _color, _thickness);
 		}
 		else

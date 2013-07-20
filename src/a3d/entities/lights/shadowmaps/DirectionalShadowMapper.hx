@@ -18,6 +18,20 @@ import a3d.math.Plane3D;
 
 class DirectionalShadowMapper extends ShadowMapperBase
 {
+	public var snap(get, set):Float;
+	
+	public var lightOffset(get, set):Float;
+	
+	/**
+	 * Depth projection matrix that projects from scene space to depth map.
+	 */
+	public var depthProjection(get, null):Matrix3D;
+	
+	/**
+	 * Depth projection matrix that projects from scene space to depth map.
+	 */
+	public var depth(get, null):Float;
+	
 	private var _overallDepthCamera:Camera3D;
 	private var _localFrustum:Vector<Float>;
 
@@ -40,7 +54,7 @@ class DirectionalShadowMapper extends ShadowMapperBase
 		_matrix = new Matrix3D();
 	}
 
-	public var snap(get,set):Float;
+	
 	private function get_snap():Float
 	{
 		return _snap;
@@ -51,8 +65,6 @@ class DirectionalShadowMapper extends ShadowMapperBase
 		return _snap = value;
 	}
 
-
-	public var lightOffset(get,set):Float;
 	private function get_lightOffset():Float
 	{
 		return _lightOffset;
@@ -63,19 +75,13 @@ class DirectionalShadowMapper extends ShadowMapperBase
 		return _lightOffset = value;
 	}
 
-	/**
-	 * Depth projection matrix that projects from scene space to depth map.
-	 */
-	public var depthProjection(get,null):Matrix3D;
+	
 	private function get_depthProjection():Matrix3D
 	{
 		return _overallDepthCamera.viewProjection;
 	}
 
-	/**
-	 * Depth projection matrix that projects from scene space to depth map.
-	 */
-	public var depth(get,null):Float;
+	
 	private function get_depth():Float
 	{
 		return _maxZ - _minZ;
@@ -125,17 +131,16 @@ class DirectionalShadowMapper extends ShadowMapperBase
 	private function updateProjectionFromFrustumCorners(viewCamera:Camera3D, corners:Vector<Float>, matrix:Matrix3D):Void
 	{
 		var raw:Vector<Float> = Matrix3DUtils.RAW_DATA_CONTAINER;
-		var dir:Vector3D;
-		var x:Float, y:Float, z:Float;
+
 		var minX:Float, minY:Float;
 		var maxX:Float, maxY:Float;
-		var i:UInt;
+		
 
-		dir = Std.instance(_light,DirectionalLight).sceneDirection;
+		var dir:Vector3D = Std.instance(_light,DirectionalLight).sceneDirection;
 		_overallDepthCamera.transform = _light.sceneTransform;
-		x = Std.int((viewCamera.x - dir.x * _lightOffset) / _snap) * _snap;
-		y = Std.int((viewCamera.y - dir.y * _lightOffset) / _snap) * _snap;
-		z = Std.int((viewCamera.z - dir.z * _lightOffset) / _snap) * _snap;
+		var x:Float = Std.int((viewCamera.x - dir.x * _lightOffset) / _snap) * _snap;
+		var y:Float = Std.int((viewCamera.y - dir.y * _lightOffset) / _snap) * _snap;
+		var z:Float = Std.int((viewCamera.z - dir.z * _lightOffset) / _snap) * _snap;
 		_overallDepthCamera.x = x;
 		_overallDepthCamera.y = y;
 		_overallDepthCamera.z = z;
@@ -148,7 +153,7 @@ class DirectionalShadowMapper extends ShadowMapperBase
 		minY = maxY = _localFrustum[1];
 		_maxZ = _localFrustum[2];
 
-		i = 3;
+		var i:Int = 3;
 		while (i < 24)
 		{
 			x = _localFrustum[i];

@@ -7,6 +7,8 @@ import a3d.filters.tasks.Filter3DXFadeCompositeTask;
 
 class MotionBlurFilter3D extends Filter3DBase
 {
+	public var strength(get, set):Float;
+	
 	private var _compositeTask:Filter3DXFadeCompositeTask;
 	private var _copyTask:Filter3DDoubleBufferCopyTask;
 
@@ -20,7 +22,7 @@ class MotionBlurFilter3D extends Filter3DBase
 		addTask(_copyTask);
 	}
 
-	public var strength(get, set):Float;
+	
 	private function get_strength():Float
 	{
 		return _compositeTask.amount;

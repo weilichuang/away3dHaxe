@@ -14,6 +14,13 @@ import a3d.core.managers.Stage3DProxy;
 class Filter3DRadialBlurTask extends Filter3DTaskBase
 {
 	private static inline var LAYERS:Int = 15;
+	
+	public var intensity(get, set):Float;
+	public var glowGamma(get, set):Float;
+	public var blurStart(get, set):Float;
+	public var blurWidth(get, set):Float;
+	public var cx(get, set):Float;
+	public var cy(get, set):Float;
 
 	private var _data:Vector<Float>;
 
@@ -110,7 +117,7 @@ class Filter3DRadialBlurTask extends Filter3DTaskBase
 		return code;
 	}
 
-	public var intensity(get, set):Float;
+	
 	private function get_intensity():Float
 	{
 		return _intensity;
@@ -123,7 +130,7 @@ class Filter3DRadialBlurTask extends Filter3DTaskBase
 		return _intensity;
 	}
 
-	public var glowGamma(get, set):Float;
+	
 	private function get_glowGamma():Float
 	{
 		return _glowGamma;
@@ -136,7 +143,7 @@ class Filter3DRadialBlurTask extends Filter3DTaskBase
 		return _glowGamma;
 	}
 
-	public var blurStart(get, set):Float;
+	
 	private function get_blurStart():Float
 	{
 		return _blurStart;
@@ -149,7 +156,7 @@ class Filter3DRadialBlurTask extends Filter3DTaskBase
 		return _blurStart;
 	}
 
-	public var blurWidth(get, set):Float;
+	
 	private function get_blurWidth():Float
 	{
 		return _blurWidth;
@@ -162,7 +169,7 @@ class Filter3DRadialBlurTask extends Filter3DTaskBase
 		return _blurWidth;
 	}
 
-	public var cx(get, set):Float;
+	
 	private function get_cx():Float
 	{
 		return _cx;
@@ -175,7 +182,7 @@ class Filter3DRadialBlurTask extends Filter3DTaskBase
 		return _cx;
 	}
 
-	public var cy(get, set):Float;
+	
 	private function get_cy():Float
 	{
 		return _cy;

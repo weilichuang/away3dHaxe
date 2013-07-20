@@ -7,6 +7,11 @@ package a3d.entities.primitives;
 class ConeGeometry extends CylinderGeometry
 {
 	/**
+	 * The radius of the bottom end of the cone.
+	 */
+	public var radius(get, set):Float;
+	
+	/**
 	 * Creates a new Cone object.
 	 * @param radius The radius of the bottom end of the cone
 	 * @param height The height of the cone
@@ -19,10 +24,7 @@ class ConeGeometry extends CylinderGeometry
 		super(0, radius, height, segmentsW, segmentsH, false, closed, true, yUp);
 	}
 	
-	/**
-	 * The radius of the bottom end of the cone.
-	 */
-	public var radius(get, set):Float;
+	
 	private function get_radius():Float
 	{
 		return _bottomRadius;

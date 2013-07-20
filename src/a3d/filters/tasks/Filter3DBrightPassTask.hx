@@ -9,6 +9,8 @@ import a3d.core.managers.Stage3DProxy;
 
 class Filter3DBrightPassTask extends Filter3DTaskBase
 {
+	public var threshold(get, set):Float;
+	
 	private var _brightPassData:Vector<Float>;
 	private var _threshold:Float;
 
@@ -19,7 +21,7 @@ class Filter3DBrightPassTask extends Filter3DTaskBase
 		_brightPassData = Vector.ofArray([threshold, 1 / (1 - threshold), 0, 0]);
 	}
 
-	public var threshold(get, set):Float;
+	
 	private function get_threshold():Float
 	{
 		return _threshold;

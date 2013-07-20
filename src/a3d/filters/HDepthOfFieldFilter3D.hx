@@ -9,6 +9,11 @@ import a3d.filters.tasks.Filter3DHDepthOfFFieldTask;
 
 class HDepthOfFieldFilter3D extends Filter3DBase
 {
+	public var focusTarget(get, set):ObjectContainer3D;
+	public var focusDistance(get, set):Int;
+	public var range(get, set):Float;
+	public var maxBlur(get, set):Int;
+	
 	private var _dofTask:Filter3DHDepthOfFFieldTask;
 	private var _focusTarget:ObjectContainer3D;
 
@@ -17,7 +22,7 @@ class HDepthOfFieldFilter3D extends Filter3DBase
 	 * @param amount The amount of blur to apply in pixels
 	 * @param stepSize The distance between samples. Set to -1 to autodetect with acceptable quality.
 	 */
-	public function new(maxBlur:UInt = 3, stepSize:Int = -1)
+	public function new(maxBlur:Int = 3, stepSize:Int = -1)
 	{
 		super();
 		_dofTask = new Filter3DHDepthOfFFieldTask(maxBlur, stepSize);
@@ -29,9 +34,9 @@ class HDepthOfFieldFilter3D extends Filter3DBase
 		return _focusTarget;
 	}
 
-	private function set_focusTarget(value:ObjectContainer3D):Void
+	private function set_focusTarget(value:ObjectContainer3D):ObjectContainer3D
 	{
-		_focusTarget = value;
+		return _focusTarget = value;
 	}
 
 	private function get_focusDistance():Float
@@ -39,9 +44,9 @@ class HDepthOfFieldFilter3D extends Filter3DBase
 		return _dofTask.focusDistance;
 	}
 
-	private function set_focusDistance(value:Float):Void
+	private function set_focusDistance(value:Float):Float
 	{
-		_dofTask.focusDistance = value;
+		return _dofTask.focusDistance = value;
 	}
 
 	private function get_range():Float
@@ -49,24 +54,24 @@ class HDepthOfFieldFilter3D extends Filter3DBase
 		return _dofTask.range;
 	}
 
-	private function set_range(value:Float):Void
+	private function set_range(value:Float):Float
 	{
-		_dofTask.range = value;
+		return _dofTask.range = value;
 	}
 
-	private function get_maxBlur():UInt
+	private function get_maxBlur():Int
 	{
 		return _dofTask.maxBlur;
 	}
 
-	private function set_maxBlur(value:UInt):Void
+	private function set_maxBlur(value:Int):Int
 	{
 		_dofTask.maxBlur = value;
 	}
 
 	override public function update(stage:Stage3DProxy, camera:Camera3D):Void
 	{
-		if (_focusTarget)
+		if (_focusTarget != null)
 			updateFocus(camera);
 	}
 

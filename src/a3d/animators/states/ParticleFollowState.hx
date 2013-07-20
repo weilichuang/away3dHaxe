@@ -14,7 +14,7 @@ import a3d.entities.Camera3D;
 import a3d.core.base.IRenderable;
 import a3d.core.base.Object3D;
 import a3d.core.managers.Stage3DProxy;
-import a3d.math.MathUtil;
+import a3d.math.FMath;
 
 
 
@@ -88,7 +88,7 @@ class ParticleFollowState extends ParticleStateBase
 				_targetEuler.x = _followTarget.rotationX;
 				_targetEuler.y = _followTarget.rotationY;
 				_targetEuler.z = _followTarget.rotationZ;
-				_targetEuler.scaleBy(MathUtil.DEGREES_TO_RADIANS());
+				_targetEuler.scaleBy(FMath.DEGREES_TO_RADIANS());
 			}
 		}
 		//initialization

@@ -4,7 +4,7 @@ package a3d.math;
 /**
  * MathConsts provides some commonly used mathematical constants
  */
-class MathUtil
+class FMath
 {
 	public static inline var PI:Float = 3.141592653589793;
 	
@@ -54,7 +54,27 @@ class MathUtil
 		return Math.PI / 180;
 	}
 	
+	public static inline function sqrt(value:Float):Float
+	{
+		return Math.sqrt(value);
+	}
+	
+	public static inline function invSqrt(value:Float):Float
+	{
+		return 1 / sqrt(value);
+	}
+	
 	public static inline function fclamp(value:Float, min:Float, max:Float):Float
+	{
+		if (value <= min)
+			return min;
+		else if (value >= max)
+			return max;
+		else
+			return value;
+	}
+	
+	public static inline function clamp(value:Int, min:Int, max:Int):Int
 	{
 		if (value <= min)
 			return min;
@@ -72,6 +92,16 @@ class MathUtil
 	public static inline function min(a:Int, b:Int):Int
 	{
 		return a < b ? a : b;
+	}
+	
+	public static inline function fabs(a:Float):Float
+	{
+		return a > 0 ? a : -a;
+	}
+	
+	public static inline function abs(a:Int):Int
+	{
+		return a > 0 ? a : -a;
 	}
 	
 	public static inline function toPrecision(value:Float,precision:Int):String

@@ -9,6 +9,8 @@ import flash.utils.ByteArray;
 
 class ATFCubeTexture extends CubeTextureBase
 {
+	public var atfData(get, set):ATFData;
+	
 	private var _atfData:ATFData;
 
 	public function new(byteArray:ByteArray)
@@ -23,7 +25,7 @@ class ATFCubeTexture extends CubeTextureBase
 		_hasMipmaps = _atfData.numTextures > 1;
 	}
 
-	public var atfData(get, set):ATFData;
+	
 	private function get_atfData():ATFData
 	{
 		return _atfData;
@@ -42,7 +44,7 @@ class ATFCubeTexture extends CubeTextureBase
 
 	override private function uploadContent(texture:TextureBase):Void
 	{
-		Lib.as(texture,CubeTexture).uploadCompressedTextureFromByteArray(_atfData.data, 0, false);
+		Std.instance(texture,CubeTexture).uploadCompressedTextureFromByteArray(_atfData.data, 0, false);
 	}
 
 	override private function createTexture(context:Context3D):TextureBase

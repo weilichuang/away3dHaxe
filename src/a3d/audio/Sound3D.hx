@@ -29,6 +29,35 @@ import a3d.events.Object3DEvent;
 */
 class Sound3D extends ObjectContainer3D
 {
+	/**
+	 * Defines the overall (master) volume of the 3D sound, after any
+	 * positional adjustments to volume have been applied. This value can
+	 * equally well be cotrolled by modifying the volume property on the
+	 * driver used by this Sound3D instance.
+	 *
+	 * @see ISound3DDriver.volume
+	*/
+	public var volume(get, set):Float;
+	/**
+	 * Defines a scale value used by the driver when adjusting sound
+	 * intensity to simulate distance. The default number of 1000 means
+	 * that sound volume will near the hearing threshold as the distance
+	 * between listener and sound source approaches 1000 a3d units.
+	 *
+	 * @see ISound3DDriver.scale
+	*/
+	public var scaleDistance(get, set):Float;
+	/**
+	 * Returns a Bool indicating whether or not the sound is currently
+	 * playing.
+	*/
+	public var playing(get, null):Float;
+	/**
+	 * Returns a Bool indicating whether or not playback is currently
+	 * paused.
+	*/
+	public var paused(get, null):Float;
+	
 	private var _refv:Vector3D;
 	private var _driver:ISound3DDriver;
 	private var _reference:ObjectContainer3D;
@@ -67,15 +96,7 @@ class Sound3D extends ObjectContainer3D
 		_reference.addEventListener(Object3DEvent.SCENETRANSFORM_CHANGED, onSceneTransformChanged);
 	}
 
-	/**
-	 * Defines the overall (master) volume of the 3D sound, after any
-	 * positional adjustments to volume have been applied. This value can
-	 * equally well be cotrolled by modifying the volume property on the
-	 * driver used by this Sound3D instance.
-	 *
-	 * @see ISound3DDriver.volume
-	*/
-	public var volume(get, set):Float;
+	
 	private function get_volume():Float
 	{
 		return _driver.volume;
@@ -88,15 +109,7 @@ class Sound3D extends ObjectContainer3D
 
 
 
-	/**
-	 * Defines a scale value used by the driver when adjusting sound
-	 * intensity to simulate distance. The default number of 1000 means
-	 * that sound volume will near the hearing threshold as the distance
-	 * between listener and sound source approaches 1000 a3d units.
-	 *
-	 * @see ISound3DDriver.scale
-	*/
-	public var scaleDistance(get, set):Float;
+	
 	private function get_scaleDistance():Float
 	{
 		return _driver.scale;
@@ -108,22 +121,14 @@ class Sound3D extends ObjectContainer3D
 	}
 
 
-	/**
-	 * Returns a Bool indicating whether or not the sound is currently
-	 * playing.
-	*/
-	public var playing(get, null):Float;
+	
 	private function get_playing():Bool
 	{
 		return _playing;
 	}
 
 
-	/**
-	 * Returns a Bool indicating whether or not playback is currently
-	 * paused.
-	*/
-	public var paused(get, null):Float;
+	
 	private function get_paused():Bool
 	{
 		return _paused;

@@ -1,6 +1,6 @@
 package a3d.io.loaders.parsers.utils;
 
-import a3d.math.MathUtil;
+import a3d.math.FMath;
 import flash.utils.ByteArray;
 
 class ParserUtil
@@ -39,7 +39,7 @@ class ParserUtil
 
 		if (length == 0)
 		{
-			length = MathUtil.INT_MAX_VALUE();
+			length = FMath.INT_MAX_VALUE();
 		}	
 
 		if (Std.is(data,String))
@@ -49,7 +49,7 @@ class ParserUtil
 		if (ba != null)
 		{
 			ba.position = 0;
-			return ba.readUTFBytes(MathUtil.min(ba.bytesAvailable, length));
+			return ba.readUTFBytes(FMath.min(ba.bytesAvailable, length));
 		}
 
 		return null;

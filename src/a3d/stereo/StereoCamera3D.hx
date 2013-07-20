@@ -3,9 +3,10 @@ package a3d.stereo;
 
 import a3d.entities.Camera3D;
 import a3d.entities.lenses.LensBase;
-
+import a3d.math.FMath;
 import flash.geom.Matrix3D;
 import flash.geom.Vector3D;
+
 
 
 
@@ -35,15 +36,16 @@ class StereoCamera3D extends Camera3D
 		_focusPoint = new Vector3D();
 	}
 
-	override private function set_lens(value:LensBase):Void
+	override private function set_lens(value:LensBase):LensBase
 	{
 		_leftCam.lens = value;
 		_rightCam.lens = value;
 
-		super.lens = value;
+		return super.set_lens(value);
 	}
 
 
+	public var leftCamera(get, null):Camera3D;
 	private function get_leftCamera():Camera3D
 	{
 		if (_leftCamDirty)
@@ -68,6 +70,7 @@ class StereoCamera3D extends Camera3D
 	}
 
 
+	public var rightCamera(get, null):Camera3D;
 	private function get_rightCamera():Camera3D
 	{
 		if (_rightCamDirty)
@@ -92,33 +95,36 @@ class StereoCamera3D extends Camera3D
 	}
 
 
+	public var stereoFocus(get, set):Float;
 	private function get_stereoFocus():Float
 	{
 		return _focus;
 	}
 
-	private function set_stereoFocus(value:Float):Void
+	private function set_stereoFocus(value:Float):Float
 	{
 		_focus = value;
-//			trace('focus:', _focus);
 		invalidateStereoCams();
+		return value;
 	}
 
+	public var stereoOffset(get, set):Float;
 	private function get_stereoOffset():Float
 	{
 		return _offset;
 	}
 
-	private function set_stereoOffset(value:Float):Void
+	private function set_stereoOffset(value:Float):Float
 	{
 		_offset = value;
 		invalidateStereoCams();
+		return _offset;
 	}
 
 
 	private function updateFocusPoint():Void
 	{
-		if (_focus == Infinity)
+		if (_focus == FMath.FLOAT_MAX_VALUE())
 		{
 			_focusInfinity = true;
 		}

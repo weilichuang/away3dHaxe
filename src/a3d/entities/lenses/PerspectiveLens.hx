@@ -10,6 +10,15 @@ import flash.geom.Vector3D;
  */
 class PerspectiveLens extends LensBase
 {
+	/**
+	 * The vertical field of view of the projection in degrees.
+	 */
+	public var fieldOfView(get, set):Float;
+	/**
+	 * The focal length of the projection in units of viewport height.
+	 */
+	public var focalLength(get, set):Float;
+	
 	private var _fieldOfView:Float;
 	private var _focalLength:Float;
 	private var _focalLengthInv:Float;
@@ -28,10 +37,7 @@ class PerspectiveLens extends LensBase
 		this.fieldOfView = fieldOfView;
 	}
 
-	/**
-	 * The vertical field of view of the projection in degrees.
-	 */
-	public var fieldOfView(get, set):Float;
+	
 	private function get_fieldOfView():Float
 	{
 		return _fieldOfView;
@@ -52,10 +58,7 @@ class PerspectiveLens extends LensBase
 		return _fieldOfView;
 	}
 
-	/**
-	 * The focal length of the projection in units of viewport height.
-	 */
-	public var focalLength(get, set):Float;
+	
 	private function get_focalLength():Float
 	{
 		return _focalLength;
@@ -120,7 +123,9 @@ class PerspectiveLens extends LensBase
 
 		var left:Float, right:Float, top:Float, bottom:Float;
 
-		if (_scissorRect.x == 0 && _scissorRect.y == 0 && _scissorRect.width == _viewPort.width && _scissorRect.height == _viewPort.height)
+		if (_scissorRect.x == 0 && _scissorRect.y == 0 && 
+			_scissorRect.width == _viewPort.width && 
+			_scissorRect.height == _viewPort.height)
 		{
 			// assume unscissored frustum
 			left = -_xMax;

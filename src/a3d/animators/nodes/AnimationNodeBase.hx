@@ -1,5 +1,6 @@
 package a3d.animators.nodes;
 
+import a3d.animators.states.IAnimationState;
 import a3d.io.library.assets.AssetType;
 import a3d.io.library.assets.IAsset;
 import a3d.io.library.assets.NamedAssetBase;
@@ -9,13 +10,15 @@ import a3d.io.library.assets.NamedAssetBase;
  */
 class AnimationNodeBase extends NamedAssetBase implements IAsset
 {
-	public var stateClass(get, null):Class<Dynamic>;
+	/**
+	 * @inheritDoc
+	 */
+	public var assetType(get, null):String;
 	
-	private var _stateClass:Class<Dynamic>;
-	private function get_stateClass():Class<Dynamic>
-	{
-		return _stateClass;
-	}
+	public var stateClass(get, null):Class<IAnimationState>;
+	
+	private var _stateClass:Class<IAnimationState>;
+	
 
 	/**
 	 * Creates a new <code>AnimationNodeBase</code> object.
@@ -32,10 +35,11 @@ class AnimationNodeBase extends NamedAssetBase implements IAsset
 	{
 	}
 
-	/**
-	 * @inheritDoc
-	 */
-	public var assetType(get, null):String;
+	private inline function get_stateClass():Class<IAnimationState>
+	{
+		return _stateClass;
+	}
+	
 	private function get_assetType():String
 	{
 		return AssetType.ANIMATION_NODE;

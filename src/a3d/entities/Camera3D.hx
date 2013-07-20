@@ -1,5 +1,6 @@
 package a3d.entities;
 
+import a3d.math.FMath;
 import flash.errors.Error;
 import flash.geom.Matrix3D;
 import flash.geom.Vector3D;
@@ -25,6 +26,19 @@ import a3d.math.Plane3D;
  */
 class Camera3D extends Entity
 {
+	/**
+	 *
+	 */
+	public var frustumPlanes(get, null):Vector<Plane3D>;
+	/**
+	 * The lens used by the camera to perform the projection;
+	 */
+	public var lens(get, set):LensBase;
+	/**
+	 * The view projection matrix of the camera.
+	 */
+	public var viewProjection(get, null):Matrix3D;
+	
 	private var _viewProjection:Matrix3D;
 	private var _viewProjectionDirty:Bool;
 	private var _lens:LensBase;
@@ -75,10 +89,7 @@ class Camera3D extends Entity
 		dispatchEvent(event);
 	}
 
-	/**
-	 *
-	 */
-	public var frustumPlanes(get, null):Vector<Plane3D>;
+	
 	private function get_frustumPlanes():Vector<Plane3D>
 	{
 		if (_frustumPlanesDirty)
@@ -122,7 +133,7 @@ class Camera3D extends Entity
 		a = c41 + c11;
 		b = c42 + c12;
 		c = c43 + c13;
-		invLen = 1 / Math.sqrt(a * a + b * b + c * c);
+		invLen = FMath.invSqrt(a * a + b * b + c * c);
 		p.a = a * invLen;
 		p.b = b * invLen;
 		p.c = c * invLen;
@@ -133,7 +144,7 @@ class Camera3D extends Entity
 		a = c41 - c11;
 		b = c42 - c12;
 		c = c43 - c13;
-		invLen = 1 / Math.sqrt(a * a + b * b + c * c);
+		invLen = FMath.invSqrt(a * a + b * b + c * c);
 		p.a = a * invLen;
 		p.b = b * invLen;
 		p.c = c * invLen;
@@ -144,7 +155,7 @@ class Camera3D extends Entity
 		a = c41 + c21;
 		b = c42 + c22;
 		c = c43 + c23;
-		invLen = 1 / Math.sqrt(a * a + b * b + c * c);
+		invLen = FMath.invSqrt(a * a + b * b + c * c);
 		p.a = a * invLen;
 		p.b = b * invLen;
 		p.c = c * invLen;
@@ -155,7 +166,7 @@ class Camera3D extends Entity
 		a = c41 - c21;
 		b = c42 - c22;
 		c = c43 - c23;
-		invLen = 1 / Math.sqrt(a * a + b * b + c * c);
+		invLen = FMath.invSqrt(a * a + b * b + c * c);
 		p.a = a * invLen;
 		p.b = b * invLen;
 		p.c = c * invLen;
@@ -166,7 +177,7 @@ class Camera3D extends Entity
 		a = c31;
 		b = c32;
 		c = c33;
-		invLen = 1 / Math.sqrt(a * a + b * b + c * c);
+		invLen = FMath.invSqrt(a * a + b * b + c * c);
 		p.a = a * invLen;
 		p.b = b * invLen;
 		p.c = c * invLen;
@@ -177,7 +188,7 @@ class Camera3D extends Entity
 		a = c41 - c31;
 		b = c42 - c32;
 		c = c43 - c33;
-		invLen = 1 / Math.sqrt(a * a + b * b + c * c);
+		invLen = FMath.invSqrt(a * a + b * b + c * c);
 		p.a = a * invLen;
 		p.b = b * invLen;
 		p.c = c * invLen;
@@ -215,10 +226,7 @@ class Camera3D extends Entity
 		return new CameraNode(this);
 	}
 
-	/**
-	 * The lens used by the camera to perform the projection;
-	 */
-	public var lens(get, set):LensBase;
+	
 	private function get_lens():LensBase
 	{
 		return _lens;
@@ -243,10 +251,7 @@ class Camera3D extends Entity
 		return _lens;
 	}
 
-	/**
-	 * The view projection matrix of the camera.
-	 */
-	public var viewProjection(get, null):Matrix3D;
+	
 	private function get_viewProjection():Matrix3D
 	{
 		if (_viewProjectionDirty)

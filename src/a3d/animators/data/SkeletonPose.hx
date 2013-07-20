@@ -17,20 +17,22 @@ import flash.Vector;
 class SkeletonPose extends NamedAssetBase implements IAsset
 {
 	/**
+	 * The total number of joint poses in the skeleton pose.
+	 */
+	public var numJointPoses(get, null):Int;
+	
+	/**
+	 * @inheritDoc
+	 */
+	public var assetType(get, null):String;
+	
+	
+	/**
 	 * A flat list of pose objects that comprise the skeleton pose. The pose indices correspond to the target skeleton's joint indices.
 	 *
 	 * @see a3d.animators.data.Skeleton#joints
 	 */
 	public var jointPoses:Vector<JointPose>;
-
-	/**
-	 * The total number of joint poses in the skeleton pose.
-	 */
-	public var numJointPoses(get, null):Int;
-	private function get_numJointPoses():Int
-	{
-		return jointPoses.length;
-	}
 
 	/**
 	 * Creates a new <code>SkeletonPose</code> object.
@@ -41,10 +43,12 @@ class SkeletonPose extends NamedAssetBase implements IAsset
 		jointPoses = new Vector<JointPose>();
 	}
 
-	/**
-	 * @inheritDoc
-	 */
-	public var assetType(get, null):String;
+	
+	private inline function get_numJointPoses():Int
+	{
+		return jointPoses.length;
+	}
+	
 	private function get_assetType():String
 	{
 		return AssetType.SKELETON_POSE;
@@ -107,7 +111,7 @@ class SkeletonPose extends NamedAssetBase implements IAsset
 	public function clone():SkeletonPose
 	{
 		var clone:SkeletonPose = new SkeletonPose();
-		var numJointPoses:UInt = this.jointPoses.length;
+		var numJointPoses:Int = this.jointPoses.length;
 		for (i in 0...numJointPoses)
 		{
 			var cloneJointPose:JointPose = new JointPose();

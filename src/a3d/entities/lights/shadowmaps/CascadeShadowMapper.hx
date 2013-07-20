@@ -21,6 +21,9 @@ import a3d.math.Matrix3DUtils;
 
 class CascadeShadowMapper extends DirectionalShadowMapper implements IEventDispatcher
 {
+	public var numCascades(get, set):Int;
+	public var nearPlaneDistances(get,null):Vector<Float>;
+	
 	private var _scissorRects:Vector<Rectangle>;
 	private var _scissorRectsInvalid:Bool = true;
 	private var _splitRatios:Vector<Float>;
@@ -113,7 +116,7 @@ class CascadeShadowMapper extends DirectionalShadowMapper implements IEventDispa
 		_scissorRectsInvalid = true;
 	}
 
-	public var numCascades(get, set):Int;
+	
 	private function get_numCascades():Int
 	{
 		return _numCascades;
@@ -288,7 +291,7 @@ class CascadeShadowMapper extends DirectionalShadowMapper implements IEventDispa
 		return _changeDispatcher.willTrigger(type);
 	}
 
-	public var nearPlaneDistances(get,null):Vector<Float>;
+	
 	private function get_nearPlaneDistances():Vector<Float>
 	{
 		return _nearPlaneDistances;

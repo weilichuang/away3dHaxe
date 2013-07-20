@@ -34,6 +34,31 @@ class Sprite3D extends Entity implements IRenderable
 	// TODO: Replace with CompactSubGeometry
 	private static var _geometry:SubGeometry;
 	//private static var _pickingSubMesh:SubGeometry;
+	
+	public var width(get, set):Float;
+	public var height(get, set):Float;
+	public var numTriangles(get, null):Int;
+	public var sourceEntity(get, null):Entity;
+	public var material(get, set):MaterialBase;
+	/**
+	 * Defines the animator of the mesh. Act on the mesh's geometry. Defaults to null
+	 */
+	public var animator(get, null):IAnimator;
+	public var castsShadows(get, null):Bool;
+	public var uvTransform(get, null):Matrix;
+	public var vertexData(get, null):Vector<Float>;
+	public var indexData(get, null):Vector<UInt>;
+	public var UVData(get, null):Vector<Float>;
+	public var numVertices(get, null):Int;
+	public var vertexStride(get, null):Int;
+	public var vertexNormalData(get, null):Vector<Float>;
+	public var vertexTangentData(get, null):Vector<Float>;
+	
+	public var vertexOffset(get, null):Int;
+	public var vertexNormalOffset(get, null):Int;
+	public var vertexTangentOffset(get, null):Int;
+	
+	
 
 	private var _material:MaterialBase;
 	private var _spriteMatrix:Matrix3D;
@@ -77,7 +102,7 @@ class Sprite3D extends Entity implements IRenderable
 		return pickingCollider;
 	}
 
-	public var width(get, set):Float;
+	
 	private function get_width():Float
 	{
 		return _width;
@@ -92,7 +117,7 @@ class Sprite3D extends Entity implements IRenderable
 		return _width;
 	}
 
-	public var height(get, set):Float;
+	
 	private function get_height():Float
 	{
 		return _height;
@@ -138,19 +163,19 @@ class Sprite3D extends Entity implements IRenderable
 		return _geometry.getIndexBuffer(stage3DProxy);
 	}
 
-	public var numTriangles(get, null):Int;
+	
 	private function get_numTriangles():Int
 	{
 		return 2;
 	}
 
-	public var sourceEntity(get, null):Entity;
+	
 	private function get_sourceEntity():Entity
 	{
 		return this;
 	}
 
-	public var material(get, set):MaterialBase;
+	
 	private function get_material():MaterialBase
 	{
 		return _material;
@@ -169,16 +194,13 @@ class Sprite3D extends Entity implements IRenderable
 		return _material;
 	}
 
-	/**
-	 * Defines the animator of the mesh. Act on the mesh's geometry. Defaults to null
-	 */
-	public var animator(get, null):IAnimator;
+	
 	private function get_animator():IAnimator
 	{
 		return _animator;
 	}
 
-	public var castsShadows(get, null):Bool;
+	
 	private function get_castsShadows():Bool
 	{
 		return _shadowCaster;
@@ -207,67 +229,67 @@ class Sprite3D extends Entity implements IRenderable
 		_transform.prependScale(_width, _height, Math.max(_width, _height));
 	}
 
-	public var uvTransform(get, null):Matrix;
+	
 	private function get_uvTransform():Matrix
 	{
 		return null;
 	}
 
-	public var vertexData(get, null):Vector<Float>;
+	
 	private function get_vertexData():Vector<Float>
 	{
 		return _geometry.vertexData;
 	}
 
-	public var indexData(get, null):Vector<UInt>;
+	
 	private function get_indexData():Vector<UInt>
 	{
 		return _geometry.indexData;
 	}
 
-	public var UVData(get, null):Vector<Float>;
+	
 	private function get_UVData():Vector<Float>
 	{
 		return _geometry.UVData;
 	}
 
-	public var numVertices(get, null):Int;
+	
 	private function get_numVertices():Int
 	{
 		return _geometry.numVertices;
 	}
 
-	public var vertexStride(get, null):Int;
+	
 	private function get_vertexStride():Int
 	{
 		return _geometry.vertexStride;
 	}
 
-	public var vertexNormalData(get, null):Vector<Float>;
+	
 	private function get_vertexNormalData():Vector<Float>
 	{
 		return _geometry.vertexNormalData;
 	}
 
-	public var vertexTangentData(get, null):Vector<Float>;
+	
 	private function get_vertexTangentData():Vector<Float>
 	{
 		return _geometry.vertexTangentData;
 	}
 
-	public var vertexOffset(get, null):Int;
+	
 	private function get_vertexOffset():Int
 	{
 		return _geometry.vertexOffset;
 	}
 
-	public var vertexNormalOffset(get, null):Int;
+	
 	private function get_vertexNormalOffset():Int
 	{
 		return _geometry.vertexNormalOffset;
 	}
 
-	public var vertexTangentOffset(get, null):Int;
+	
 	private function get_vertexTangentOffset():Int
 	{
 		return _geometry.vertexTangentOffset;

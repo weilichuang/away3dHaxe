@@ -9,6 +9,11 @@ import a3d.math.Matrix3DUtils;
  */
 class PerspectiveOffCenterLens extends LensBase
 {
+	public var minAngleX(set, set):Float;
+	public var maxAngleX(set, set):Float;
+	public var minAngleY(set, set):Float;
+	public var maxAngleY(set, set):Float;
+	
 	private var _minAngleX:Float;
 	private var _minLengthX:Float;
 	private var _tanMinX:Float;
@@ -37,7 +42,7 @@ class PerspectiveOffCenterLens extends LensBase
 		this.maxAngleY = maxAngleY;
 	}
 
-	public var minAngleX(set, set):Float;
+	
 	private function get_minAngleX():Float
 	{
 		return _minAngleX;
@@ -54,7 +59,7 @@ class PerspectiveOffCenterLens extends LensBase
 		return _minAngleX;
 	}
 
-	public var maxAngleX(set, set):Float;
+	
 	private function get_maxAngleX():Float
 	{
 		return _maxAngleX;
@@ -71,7 +76,7 @@ class PerspectiveOffCenterLens extends LensBase
 		return _maxAngleX;
 	}
 
-	public var minAngleY(set, set):Float;
+	
 	private function get_minAngleY():Float
 	{
 		return _minAngleY;
@@ -88,7 +93,7 @@ class PerspectiveOffCenterLens extends LensBase
 		return _minAngleY;
 	}
 
-	public var maxAngleY(set, set):Float;
+	
 	private function get_maxAngleY():Float
 	{
 		return _maxAngleY;

@@ -9,6 +9,11 @@ import a3d.core.managers.Stage3DProxy;
 
 class Filter3DHueSaturationTask extends Filter3DTaskBase
 {
+	public var saturation(get, set):Float;
+	public var r(get, set):Float;
+	public var g(get, set):Float;
+	public var b(get, set):Float;
+	
 	private var _rgbData:Vector<Float>;
 	private var _saturation:Float = 0.6;
 	private var _r:Float = 1;
@@ -26,13 +31,15 @@ class Filter3DHueSaturationTask extends Filter3DTaskBase
 		return _saturation;
 	}
 
-	private function set_saturation(value:Float):Void
+	private function set_saturation(value:Float):Float
 	{
 		if (_saturation == value)
-			return;
+			return value;
 		_saturation = value;
 
 		updateConstants();
+		
+		return value;
 	}
 
 	private function get_r():Float
@@ -40,13 +47,15 @@ class Filter3DHueSaturationTask extends Filter3DTaskBase
 		return _r;
 	}
 
-	private function set_r(value:Float):Void
+	private function set_r(value:Float):Float
 	{
 		if (_r == value)
-			return;
+			return value;
 		_r = value;
 
 		updateConstants();
+		
+		return value;
 	}
 
 	private function get_b():Float
@@ -54,13 +63,15 @@ class Filter3DHueSaturationTask extends Filter3DTaskBase
 		return _b;
 	}
 
-	private function set_b(value:Float):Void
+	private function set_b(value:Float):Float
 	{
 		if (_b == value)
-			return;
+			return value;
 		_b = value;
 
 		updateConstants();
+		
+		return value;
 	}
 
 	private function get_g():Float
@@ -68,13 +79,15 @@ class Filter3DHueSaturationTask extends Filter3DTaskBase
 		return _g;
 	}
 
-	private function set_g(value:Float):Void
+	private function set_g(value:Float):Float
 	{
 		if (_g == value)
-			return;
+			return value;
 		_g = value;
 
 		updateConstants();
+		
+		return value;
 	}
 
 	override private function getFragmentCode():String
@@ -133,7 +146,7 @@ class Filter3DHueSaturationTask extends Filter3DTaskBase
 
 	private function updateConstants():Void
 	{
-		_rgbData = Vector<Float>([
+		_rgbData = Vector.ofArray([
 			0.3, 0.59, 0.11, 0,
 			1 - _saturation, _saturation, 0, 0,
 			r, g, b, 0

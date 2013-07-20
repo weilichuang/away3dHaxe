@@ -27,7 +27,18 @@ class ParticleAccelerationState extends ParticleStateBase
 	/**
 	 * Defines the acceleration vector of the state, used when in global mode.
 	 */
-	public var acceleration(get,set):Vector3D;
+	public var acceleration(get, set):Vector3D;
+	
+	public function new(animator:ParticleAnimator, particleAccelerationNode:ParticleAccelerationNode)
+	{
+		super(animator, particleAccelerationNode);
+
+		_particleAccelerationNode = particleAccelerationNode;
+		_acceleration = _particleAccelerationNode.acceleration;
+
+		updateAccelerationData();
+	}
+	
 	private function get_acceleration():Vector3D
 	{
 		return _acceleration;
@@ -42,16 +53,6 @@ class ParticleAccelerationState extends ParticleStateBase
 		updateAccelerationData();
 		
 		return _acceleration;
-	}
-
-	public function new(animator:ParticleAnimator, particleAccelerationNode:ParticleAccelerationNode)
-	{
-		super(animator, particleAccelerationNode);
-
-		_particleAccelerationNode = particleAccelerationNode;
-		_acceleration = _particleAccelerationNode.acceleration;
-
-		updateAccelerationData();
 	}
 
 	/**

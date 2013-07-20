@@ -19,6 +19,19 @@ import haxe.ds.WeakMap;
  */
 class VertexAnimationSet extends AnimationSetBase implements IAnimationSet
 {
+	/**
+	 * Returns the number of poses made available at once to the GPU animation code.
+	 */
+	public var numPoses(get, null):Int;
+	/**
+	 * Returns the active blend mode of the vertex animator object.
+	 */
+	public var blendMode(get, null):String;
+	/**
+	 * Returns whether or not normal data is used in last set GPU pass of the vertex shader.
+	 */
+	public var useNormals(get, null):Bool;
+	
 	private var _numPoses:Int = 0;
 	private var _blendMode:String;
 	private var _streamIndices:WeakMap<MaterialPassBase,Int>;
@@ -47,28 +60,19 @@ class VertexAnimationSet extends AnimationSetBase implements IAnimationSet
 
 	}
 	
-	/**
-	 * Returns the number of poses made available at once to the GPU animation code.
-	 */
-	public var numPoses(get, null):Int;
+	
 	private function get_numPoses():Int
 	{
 		return _numPoses;
 	}
 
-	/**
-	 * Returns the active blend mode of the vertex animator object.
-	 */
-	public var blendMode(get, null):String;
+	
 	private function get_blendMode():String
 	{
 		return _blendMode;
 	}
 
-	/**
-	 * Returns whether or not normal data is used in last set GPU pass of the vertex shader.
-	 */
-	public var useNormals(get, null):Bool;
+	
 	private function get_useNormals():Bool
 	{
 		return _uploadNormals;

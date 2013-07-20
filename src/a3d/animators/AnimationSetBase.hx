@@ -16,6 +16,25 @@ import haxe.ds.WeakMap;
  */
 class AnimationSetBase extends NamedAssetBase implements IAsset
 {
+	/**
+	 * Indicates whether the properties of the animation data contained within the set combined with
+	 * the vertex registers aslready in use on shading materials allows the animation data to utilise
+	 * GPU calls.
+	 */
+	public var usesCPU(get, null):Bool;
+	/**
+	 * @inheritDoc
+	 */
+	public var assetType(get, null):String;
+	/**
+	 * Returns a vector of animation state objects that make up the contents of the animation data set.
+	 */
+	public var animations(get, null):Vector<AnimationNodeBase>;
+	/**
+	 * Returns a vector of animation state objects that make up the contents of the animation data set.
+	 */
+	public var animationNames(get, null):Vector<String>;
+	
 	private var _usesCPU:Bool;
 	private var _animations:Vector<AnimationNodeBase>;
 	private var _animationNames:Vector<String>;
@@ -53,12 +72,7 @@ class AnimationSetBase extends NamedAssetBase implements IAsset
 		return null;
 	}
 
-	/**
-	 * Indicates whether the properties of the animation data contained within the set combined with
-	 * the vertex registers aslready in use on shading materials allows the animation data to utilise
-	 * GPU calls.
-	 */
-	public var usesCPU(get, null):Bool;
+	
 	private function get_usesCPU():Bool
 	{
 		return _usesCPU;
@@ -80,28 +94,19 @@ class AnimationSetBase extends NamedAssetBase implements IAsset
 		_usesCPU = true;
 	}
 
-	/**
-	 * @inheritDoc
-	 */
-	public var assetType(get, null):String;
+	
 	private function get_assetType():String
 	{
 		return AssetType.ANIMATION_SET;
 	}
 
-	/**
-	 * Returns a vector of animation state objects that make up the contents of the animation data set.
-	 */
-	public var animations(get, null):Vector<AnimationNodeBase>;
+	
 	private function get_animations():Vector<AnimationNodeBase>
 	{
 		return _animations;
 	}
 
-	/**
-	 * Returns a vector of animation state objects that make up the contents of the animation data set.
-	 */
-	public var animationNames(get, null):Vector<String>;
+	
 	private function get_animationNames():Vector<String>
 	{
 		return _animationNames;

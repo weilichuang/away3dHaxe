@@ -1,10 +1,5 @@
 package a3d.entities.lights;
 
-import flash.geom.Matrix3D;
-import flash.geom.Vector3D;
-import flash.Vector;
-
-
 import a3d.bounds.BoundingSphere;
 import a3d.bounds.BoundingVolumeBase;
 import a3d.core.base.IRenderable;
@@ -13,6 +8,11 @@ import a3d.core.partition.PointLightNode;
 import a3d.entities.lights.shadowmaps.CubeMapShadowMapper;
 import a3d.entities.lights.shadowmaps.ShadowMapperBase;
 import a3d.math.Matrix3DUtils;
+import flash.geom.Matrix3D;
+import flash.geom.Vector3D;
+import flash.Vector;
+
+
 
 
 
@@ -21,6 +21,18 @@ import a3d.math.Matrix3DUtils;
  */
 class PointLight extends LightBase
 {
+	/**
+	 * The minimum distance of the light's reach.
+	 */
+	public var radius(get, set):Float;
+	
+	public var fallOffFactor(get, null):Float;
+	
+	/**
+	 * The maximum distance of the light's reach
+	 */
+	public var fallOff(get, set):Float;
+	
 	//private static var _pos : Vector3D = new Vector3D();
 	private var _radius:Float = 90000;
 	private var _fallOff:Float = 100000;
@@ -46,10 +58,7 @@ class PointLight extends LightBase
 		return new PointLightNode(this);
 	}
 
-	/**
-	 * The minimum distance of the light's reach.
-	 */
-	public var radius(get,set):Float;
+	
 	private function get_radius():Float
 	{
 		return _radius;
@@ -71,16 +80,13 @@ class PointLight extends LightBase
 		return _radius;
 	}
 
-	public var fallOffFactor(get,null):Float;
+	
 	private function get_fallOffFactor():Float
 	{
 		return _fallOffFactor;
 	}
 
-	/**
-	 * The maximum distance of the light's reach
-	 */
-	public var fallOff(get,set):Float;
+	
 	private function get_fallOff():Float
 	{
 		return _fallOff;
@@ -149,9 +155,11 @@ class PointLight extends LightBase
 		raw[5] = raw[0] = zMin / d;
 		raw[10] = zMax / (zMax - zMin);
 		raw[11] = 1;
+		
 		raw[1] = raw[2] = raw[3] = raw[4] =
-			raw[6] = raw[7] = raw[8] = raw[9] =
-			raw[12] = raw[13] = raw[15] = 0;
+		raw[6] = raw[7] = raw[8] = raw[9] =
+		raw[12] = raw[13] = raw[15] = 0;
+		
 		raw[14] = -zMin * raw[10];
 
 		if (target == null)

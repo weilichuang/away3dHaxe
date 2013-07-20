@@ -1,5 +1,6 @@
 package a3d.core.base;
 
+import a3d.A3d;
 import flash.display3D.Context3D;
 import flash.display3D.IndexBuffer3D;
 import flash.display3D.VertexBuffer3D;
@@ -48,9 +49,9 @@ class SubGeometryBase
 		_faceNormalsDirty = true;
 		_faceTangentsDirty = true;
 		
-		_indexBuffer = new Vector<IndexBuffer3D>(8);
-		_indexBufferContext = new Vector<Context3D>(8);
-		_indicesInvalid = new Vector<Bool>(8, true);
+		_indexBuffer = new Vector<IndexBuffer3D>(A3d.MAX_NUM_STAGE3D);
+		_indexBufferContext = new Vector<Context3D>(A3d.MAX_NUM_STAGE3D);
+		_indicesInvalid = new Vector<Bool>(A3d.MAX_NUM_STAGE3D, true);
 		
 		_autoDeriveVertexNormals = true;
 		_autoDeriveVertexTangents = true;
@@ -367,8 +368,8 @@ class SubGeometryBase
 		if (_faceTangentsDirty)
 			updateFaceTangents();
 
-		var i:UInt;
-		var lenV:UInt = _vertexData.length;
+		var i:Int;
+		var lenV:Int = _vertexData.length;
 		var tangentStride:Int = vertexTangentStride;
 		var tangentOffset:Int = vertexTangentOffset;
 
@@ -384,14 +385,13 @@ class SubGeometryBase
 			i += tangentStride;
 		}
 
-		var k:UInt=0;
-		var lenI:UInt = _indices.length;
-		var index:UInt;
+		var k:Int = 0;
+		var lenI:Int = _indices.length;
+		var index:Int;
 		var weight:Float;
-		var f1:UInt = 0, f2:UInt = 1, f3:UInt = 2;
+		var f1:Int = 0, f2:Int = 1, f3:Int = 2;
 
 		i = 0;
-
 		while (i < lenI)
 		{
 			weight = _useFaceWeights ? _faceWeights[k++] : 1;
@@ -399,14 +399,17 @@ class SubGeometryBase
 			target[index++] += _faceTangents[f1] * weight;
 			target[index++] += _faceTangents[f2] * weight;
 			target[index] += _faceTangents[f3] * weight;
+			
 			index = tangentOffset + _indices[i++] * tangentStride;
 			target[index++] += _faceTangents[f1] * weight;
 			target[index++] += _faceTangents[f2] * weight;
 			target[index] += _faceTangents[f3] * weight;
+			
 			index = tangentOffset + _indices[i++] * tangentStride;
 			target[index++] += _faceTangents[f1] * weight;
 			target[index++] += _faceTangents[f2] * weight;
 			target[index] += _faceTangents[f3] * weight;
+			
 			f1 += 3;
 			f2 += 3;
 			f3 += 3;
@@ -480,7 +483,7 @@ class SubGeometryBase
 	 */
 	private function disposeIndexBuffers(buffers:Vector<IndexBuffer3D>):Void
 	{
-		for (i in 0...8)
+		for (i in 0...A3d.MAX_NUM_STAGE3D)
 		{
 			if (buffers[i] != null)
 			{
@@ -496,7 +499,7 @@ class SubGeometryBase
 	 */
 	private function disposeVertexBuffers(buffers:Vector<VertexBuffer3D>):Void
 	{
-		for (i in 0...8)
+		for (i in 0...A3d.MAX_NUM_STAGE3D)
 		{
 			if (buffers[i] != null)
 			{
@@ -544,7 +547,7 @@ class SubGeometryBase
 	 */
 	private function invalidateBuffers(invalid:Vector<Bool>):Void
 	{
-		for (i in 0...8)
+		for (i in 0...A3d.MAX_NUM_STAGE3D)
 			invalid[i] = true;
 	}
 

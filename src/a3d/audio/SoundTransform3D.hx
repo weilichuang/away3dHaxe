@@ -13,6 +13,11 @@ import a3d.entities.ObjectContainer3D;
  */
 class SoundTransform3D
 {
+	public var soundTransform(get, set):SoundTransform;
+	public var scale(get, set):Float;
+	public var volume(get, set):Float;
+	public var emitter(get, set):ObjectContainer3D;
+	public var listener(get, set):ObjectContainer3D;
 
 	private var _scale:Float;
 	private var _volume:Float;
@@ -113,7 +118,7 @@ class SoundTransform3D
 
 	}
 
-	public var soundTransform(get, set):SoundTransform;
+	
 	private function get_soundTransform():SoundTransform
 	{
 		return _soundTransform;
@@ -126,7 +131,7 @@ class SoundTransform3D
 		return _soundTransform;
 	}
 
-	public var scale(get, set):Float;
+	
 	private function get_scale():Float
 	{
 		return _scale;
@@ -139,7 +144,7 @@ class SoundTransform3D
 		return _scale;
 	}
 
-	public var volume(get, set):Float;
+	
 	private function get_volume():Float
 	{
 		return _volume;
@@ -152,7 +157,7 @@ class SoundTransform3D
 		return _volume;
 	}
 
-	public var emitter(get, set):ObjectContainer3D;
+	
 	private function get_emitter():ObjectContainer3D
 	{
 		return _emitter;
@@ -165,7 +170,7 @@ class SoundTransform3D
 		return _emitter;
 	}
 
-	public var listener(get, set):ObjectContainer3D;
+	
 	private function get_listener():ObjectContainer3D
 	{
 		return _listener;

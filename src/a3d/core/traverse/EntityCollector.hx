@@ -30,6 +30,39 @@ import a3d.math.Plane3D;
  */
 class EntityCollector extends PartitionTraverser
 {
+	/**
+	 * The amount of IRenderable objects that are mouse-enabled.
+	 */
+	public var numMouseEnableds(get, null):Int;
+	
+	/**
+	 * The camera that provides the visible frustum.
+	 */
+	public var camera(get, set):Camera3D;
+	public var cullPlanes(get, set):Vector<Plane3D>;
+	/**
+	 * The sky box object if encountered.
+	 */
+	public var skyBox(get, null):IRenderable;
+	/**
+	 * The list of opaque IRenderable objects that are considered potentially visible.
+	 * @param value
+	 */
+	public var opaqueRenderableHead(get, set):RenderableListItem;
+	/**
+	 * The list of IRenderable objects that require blending and are considered potentially visible.
+	 * @param value
+	 */
+	public var blendedRenderableHead(get, set):RenderableListItem;
+	public var entityHead(get, null):EntityListItem;
+	/**
+	 * The lights of which the affecting area intersects the camera's frustum.
+	 */
+	public var lights(get, null):Vector<LightBase>;
+	public var directionalLights(get, null):Vector<DirectionalLight>;
+	public var pointLights(get, null):Vector<PointLight>;
+	public var lightProbes(get, null):Vector<LightProbe>;
+	
 	private var _skyBox:IRenderable;
 	private var _opaqueRenderableHead:RenderableListItem;
 	private var _blendedRenderableHead:RenderableListItem;
@@ -40,18 +73,18 @@ class EntityCollector extends PartitionTraverser
 	private var _directionalLights:Vector<DirectionalLight>;
 	private var _pointLights:Vector<PointLight>;
 	private var _lightProbes:Vector<LightProbe>;
-	private var _numEntities:UInt;
-	private var _numLights:UInt;
-	private var _numTriangles:UInt;
-	private var _numMouseEnableds:UInt;
+	private var _numEntities:Int;
+	private var _numLights:Int;
+	private var _numTriangles:Int;
+	private var _numMouseEnableds:Int;
 	private var _camera:Camera3D;
-	private var _numDirectionalLights:UInt;
-	private var _numPointLights:UInt;
-	private var _numLightProbes:UInt;
+	private var _numDirectionalLights:Int;
+	private var _numPointLights:Int;
+	private var _numLightProbes:Int;
 	private var _cameraForward:Vector3D;
 	private var _customCullPlanes:Vector<Plane3D>;
 	private var _cullPlanes:Vector<Plane3D>;
-	private var _numCullPlanes:UInt;
+	private var _numCullPlanes:Int;
 
 	/**
 	 * Creates a new EntityCollector object.
@@ -72,11 +105,8 @@ class EntityCollector extends PartitionTraverser
 		_entityListItemPool = new EntityListItemPool();
 	}
 
-	/**
-	 * The camera that provides the visible frustum.
-	 */
-	public var camera(get,set):Camera3D;
-	private function get_camera():Camera3D
+	
+	private inline function get_camera():Camera3D
 	{
 		return _camera;
 	}
@@ -91,8 +121,8 @@ class EntityCollector extends PartitionTraverser
 		return _camera;
 	}
 
-	public var cullPlanes(get,set):Vector<Plane3D>;
-	private function get_cullPlanes():Vector<Plane3D>
+	
+	private inline function get_cullPlanes():Vector<Plane3D>
 	{
 		return _customCullPlanes;
 	}
@@ -102,83 +132,66 @@ class EntityCollector extends PartitionTraverser
 		return _customCullPlanes = value;
 	}
 
-	/**
-	 * The amount of IRenderable objects that are mouse-enabled.
-	 */
-	public var numMouseEnableds(get,null):UInt;
-	private function get_numMouseEnableds():UInt
+	
+	private inline function get_numMouseEnableds():Int
 	{
 		return _numMouseEnableds;
 	}
 
-	/**
-	 * The sky box object if encountered.
-	 */
-	public var skyBox(get,null):IRenderable;
-	private function get_skyBox():IRenderable
+	
+	private inline function get_skyBox():IRenderable
 	{
 		return _skyBox;
 	}
 
-	/**
-	 * The list of opaque IRenderable objects that are considered potentially visible.
-	 * @param value
-	 */
-	public var opaqueRenderableHead(get,set):RenderableListItem;
-	private function get_opaqueRenderableHead():RenderableListItem
+	
+	private inline function get_opaqueRenderableHead():RenderableListItem
 	{
 		return _opaqueRenderableHead;
 	}
 
-	private function set_opaqueRenderableHead(value:RenderableListItem):RenderableListItem
+	private inline function set_opaqueRenderableHead(value:RenderableListItem):RenderableListItem
 	{
 		return _opaqueRenderableHead = value;
 	}
 
-	/**
-	 * The list of IRenderable objects that require blending and are considered potentially visible.
-	 * @param value
-	 */
-	public var blendedRenderableHead(get,set):RenderableListItem;
-	private function get_blendedRenderableHead():RenderableListItem
+	
+	private inline function get_blendedRenderableHead():RenderableListItem
 	{
 		return _blendedRenderableHead;
 	}
 
-	private function set_blendedRenderableHead(value:RenderableListItem):RenderableListItem
+	private inline function set_blendedRenderableHead(value:RenderableListItem):RenderableListItem
 	{
 		return _blendedRenderableHead = value;
 	}
 
-	public var entityHead(get,null):EntityListItem;
-	private function get_entityHead():EntityListItem
+	
+	private inline function get_entityHead():EntityListItem
 	{
 		return _entityHead;
 	}
 
-	/**
-	 * The lights of which the affecting area intersects the camera's frustum.
-	 */
-	public var lights(get,null):Vector<LightBase>;
-	private function get_lights():Vector<LightBase>
+	
+	private inline function get_lights():Vector<LightBase>
 	{
 		return _lights;
 	}
 
-	public var directionalLights(get,null):Vector<DirectionalLight>;
-	private function get_directionalLights():Vector<DirectionalLight>
+	
+	private inline function get_directionalLights():Vector<DirectionalLight>
 	{
 		return _directionalLights;
 	}
 
-	public var pointLights(get,null):Vector<PointLight>;
-	private function get_pointLights():Vector<PointLight>
+	
+	private inline function get_pointLights():Vector<PointLight>
 	{
 		return _pointLights;
 	}
 
-	public var lightProbes(get,null):Vector<LightProbe>;
-	private function get_lightProbes():Vector<LightProbe>
+	
+	private inline function get_lightProbes():Vector<LightProbe>
 	{
 		return _lightProbes;
 	}
@@ -248,6 +261,7 @@ class EntityCollector extends PartitionTraverser
 		var entity:Entity = renderable.sourceEntity;
 		if (renderable.mouseEnabled)
 			++_numMouseEnableds;
+			
 		_numTriangles += renderable.numTriangles;
 
 		material = renderable.material;
@@ -323,8 +337,8 @@ class EntityCollector extends PartitionTraverser
 	/**
 	 * The total number of triangles collected, and which will be pushed to the render engine.
 	 */
-	public var numTriangles(get,null):UInt;
-	private function get_numTriangles():UInt
+	public var numTriangles(get,null):Int;
+	private function get_numTriangles():Int
 	{
 		return _numTriangles;
 	}

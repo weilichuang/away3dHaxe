@@ -33,6 +33,35 @@ import a3d.math.Quaternion;
  */
 class SkeletonAnimator extends AnimatorBase implements IAnimator
 {
+	/**
+	 * returns the calculated global matrices of the current skeleton pose.
+	 *
+	 * @see #globalPose
+	 */
+	public var globalMatrices(get, null):Vector<Float>;
+	/**
+	 * returns the current skeleton pose output from the animator.
+	 *
+	 * @see a3d.animators.data.SkeletonPose
+	 */
+	public var globalPose(get, null):SkeletonPose;
+	/**
+	 * Returns the skeleton object in use by the animator - this defines the number and heirarchy of joints used by the
+	 * skinned geoemtry to which skeleon animator is applied.
+	 */
+	public var skeleton(get, null):Skeleton;
+	/**
+	 * Indicates whether the skeleton animator is disabled by default for GPU rendering, something that allows the animator to perform calculation on the GPU.
+	 * Defaults to false.
+	 */
+	public var forceCPU(get, null):Bool;
+	/**
+	 * Offers the option of enabling GPU accelerated animation on skeletons larger than 32 joints
+	 * by condensing the number of joint index values required per mesh. Only applicable to
+	 * skeleton animations that utilise more than one mesh object. Defaults to false.
+	 */
+	public var useCondensedIndices(get, set):Bool;
+	
 	private var _globalMatrices:Vector<Float>;
 	private var _globalPose:SkeletonPose;
 	private var _globalPropertiesDirty:Bool;
@@ -85,12 +114,7 @@ class SkeletonAnimator extends AnimatorBase implements IAnimator
 		}
 	}
 
-	/**
-	 * returns the calculated global matrices of the current skeleton pose.
-	 *
-	 * @see #globalPose
-	 */
-	public var globalMatrices(get, null):Vector<Float>;
+	
 	private function get_globalMatrices():Vector<Float>
 	{
 		if (_globalPropertiesDirty)
@@ -99,12 +123,7 @@ class SkeletonAnimator extends AnimatorBase implements IAnimator
 		return _globalMatrices;
 	}
 
-	/**
-	 * returns the current skeleton pose output from the animator.
-	 *
-	 * @see a3d.animators.data.SkeletonPose
-	 */
-	public var globalPose(get, null):SkeletonPose;
+	
 	private function get_globalPose():SkeletonPose
 	{
 		if (_globalPropertiesDirty)
@@ -113,32 +132,19 @@ class SkeletonAnimator extends AnimatorBase implements IAnimator
 		return _globalPose;
 	}
 
-	/**
-	 * Returns the skeleton object in use by the animator - this defines the number and heirarchy of joints used by the
-	 * skinned geoemtry to which skeleon animator is applied.
-	 */
-	public var skeleton(get, null):Skeleton;
+	
 	private function get_skeleton():Skeleton
 	{
 		return _skeleton;
 	}
 
-	/**
-	 * Indicates whether the skeleton animator is disabled by default for GPU rendering, something that allows the animator to perform calculation on the GPU.
-	 * Defaults to false.
-	 */
-	public var forceCPU(get, null):Bool;
+	
 	private function get_forceCPU():Bool
 	{
 		return _forceCPU;
 	}
 
-	/**
-	 * Offers the option of enabling GPU accelerated animation on skeletons larger than 32 joints
-	 * by condensing the number of joint index values required per mesh. Only applicable to
-	 * skeleton animations that utilise more than one mesh object. Defaults to false.
-	 */
-	public var useCondensedIndices(get, set):Bool;
+	
 	private function get_useCondensedIndices():Bool
 	{
 		return _useCondensedIndices;

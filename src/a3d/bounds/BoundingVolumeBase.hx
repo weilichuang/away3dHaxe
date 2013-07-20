@@ -1,15 +1,15 @@
 package a3d.bounds;
 
+import a3d.core.base.Geometry;
+import a3d.core.base.ISubGeometry;
+import a3d.entities.primitives.WireframePrimitiveBase;
+import a3d.errors.AbstractMethodError;
+import a3d.math.Plane3D;
 import flash.geom.Matrix3D;
 import flash.geom.Vector3D;
 import flash.Vector;
 
 
-import a3d.core.base.Geometry;
-import a3d.core.base.ISubGeometry;
-import a3d.errors.AbstractMethodError;
-import a3d.math.Plane3D;
-import a3d.entities.primitives.WireframePrimitiveBase;
 
 
 
@@ -18,6 +18,26 @@ import a3d.entities.primitives.WireframePrimitiveBase;
  */
 class BoundingVolumeBase
 {
+	/**
+	 * The maximum extreme of the bounds
+	 */
+	public var max(get, null):Vector3D;
+	/**
+	 * The minimum extreme of the bounds
+	 */
+	public var min(get, null):Vector3D;
+	/**
+	 * Returns a vector of values representing the concatenated cartesian triplet of the 8 axial extremities of the bounding volume.
+	 */
+	public var aabbPoints(get, null):Vector<Float>;
+	/**
+	 * Returns the bounding renderable object for the bounding volume, in cases where the showBounds
+	 * property of the entity is set to true.
+	 *
+	 * @see a3d.entities.Entity#showBounds
+	 */
+	public var boundingRenderable(get, null):WireframePrimitiveBase;
+	
 	private var _min:Vector3D;
 	private var _max:Vector3D;
 	private var _aabbPoints:Vector<Float>;
@@ -36,28 +56,19 @@ class BoundingVolumeBase
 		_aabbPointsDirty = true;
 	}
 	
-	/**
-	 * The maximum extreme of the bounds
-	 */
-	public var max(get, null):Vector3D;
-	private function get_max():Vector3D
+	
+	private inline function get_max():Vector3D
 	{
 		return _max;
 	}
 
-	/**
-	 * The minimum extreme of the bounds
-	 */
-	public var min(get, null):Vector3D;
-	private function get_min():Vector3D
+	
+	private inline function get_min():Vector3D
 	{
 		return _min;
 	}
 
-	/**
-	 * Returns a vector of values representing the concatenated cartesian triplet of the 8 axial extremities of the bounding volume.
-	 */
-	public var aabbPoints(get, null):Vector<Float>;
+	
 	private function get_aabbPoints():Vector<Float>
 	{
 		if (_aabbPointsDirty)
@@ -66,13 +77,7 @@ class BoundingVolumeBase
 		return _aabbPoints;
 	}
 
-	/**
-	 * Returns the bounding renderable object for the bounding volume, in cases where the showBounds
-	 * property of the entity is set to true.
-	 *
-	 * @see a3d.entities.Entity#showBounds
-	 */
-	public var boundingRenderable(get, null):WireframePrimitiveBase;
+	
 	private function get_boundingRenderable():WireframePrimitiveBase
 	{
 		if (_boundingRenderable == null)
@@ -160,13 +165,13 @@ class BoundingVolumeBase
 	public function fromGeometry(geometry:Geometry):Void
 	{
 		var subGeoms:Vector<ISubGeometry> = geometry.subGeometries;
-		var numSubGeoms:UInt = subGeoms.length;
+		var numSubGeoms:Int = subGeoms.length;
 		var minX:Float, minY:Float, minZ:Float;
 		var maxX:Float, maxY:Float, maxZ:Float;
 
 		if (numSubGeoms > 0)
 		{
-			var j:UInt = 0;
+			var j:Int = 0;
 			minX = minY = minZ = Math.POSITIVE_INFINITY;
 			maxX = maxY = maxZ = Math.NEGATIVE_INFINITY;
 
@@ -174,9 +179,9 @@ class BoundingVolumeBase
 			{
 				var subGeom:ISubGeometry = subGeoms[j++];
 				var vertices:Vector<Float> = subGeom.vertexData;
-				var vertexDataLen:UInt = vertices.length;
-				var i:UInt = subGeom.vertexOffset;
-				var stride:UInt = subGeom.vertexStride;
+				var vertexDataLen:Int = vertices.length;
+				var i:Int = subGeom.vertexOffset;
+				var stride:Int = subGeom.vertexStride;
 
 				while (i < vertexDataLen)
 				{

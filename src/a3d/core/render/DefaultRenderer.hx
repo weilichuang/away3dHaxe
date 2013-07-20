@@ -20,7 +20,7 @@ import a3d.entities.lights.PointLight;
 import a3d.entities.lights.shadowmaps.ShadowMapperBase;
 import a3d.materials.MaterialBase;
 
-using a3d.math.Vector3DUtils;
+using a3d.math.FVector3D;
 
 /**
  * The DefaultRenderer class provides the default rendering method. It renders the scene graph objects using the

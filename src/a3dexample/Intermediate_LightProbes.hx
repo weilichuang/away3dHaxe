@@ -37,8 +37,32 @@
 
 package a3dexample;
 
+import a3d.controllers.LookAtController;
+import a3d.entities.Camera3D;
+import a3d.entities.lights.LightProbe;
+import a3d.entities.lights.PointLight;
+import a3d.entities.Mesh;
+import a3d.entities.Scene3D;
+import a3d.events.AssetEvent;
+import a3d.io.library.AssetLibrary;
+import a3d.io.library.assets.AssetType;
+import a3d.io.loaders.misc.AssetLoaderContext;
+import a3d.io.loaders.parsers.OBJParser;
+import a3d.materials.BlendMode;
+import a3d.materials.lightpickers.StaticLightPicker;
+import a3d.materials.LightSources;
+import a3d.materials.methods.FresnelSpecularMethod;
+import a3d.materials.methods.HardShadowMapMethod;
+import a3d.materials.methods.LightMapMethod;
+import a3d.materials.methods.RimLightMethod;
+import a3d.materials.TextureMaterial;
+import a3d.textures.BitmapTexture;
+import a3d.textures.SpecularBitmapTexture;
+import a3dexample.cornell.CornellDiffuseEnvMapFL;
+import a3dexample.cornell.CornellDiffuseEnvMapFR;
+import a3dexample.cornell.CornellDiffuseEnvMapNL;
+import a3dexample.cornell.CornellDiffuseEnvMapNR;
 import flash.display.BitmapData;
-import flash.events.Event;
 import flash.events.KeyboardEvent;
 import flash.events.MouseEvent;
 import flash.geom.Vector3D;
@@ -46,32 +70,7 @@ import flash.Lib;
 import flash.ui.Keyboard;
 import flash.utils.ByteArray;
 
-import a3d.entities.Camera3D;
-import a3d.entities.Scene3D;
-import a3d.entities.View3D;
-import a3d.controllers.LookAtController;
-import a3d.entities.Mesh;
-import a3d.events.AssetEvent;
-import a3d.io.library.AssetLibrary;
-import a3d.io.library.assets.AssetType;
-import a3d.entities.lights.LightProbe;
-import a3d.entities.lights.PointLight;
-import a3d.io.loaders.misc.AssetLoaderContext;
-import a3d.io.loaders.parsers.OBJParser;
-import a3d.materials.LightSources;
-import a3d.materials.TextureMaterial;
-import a3d.materials.lightpickers.StaticLightPicker;
-import a3d.materials.methods.FresnelSpecularMethod;
-import a3d.materials.methods.HardShadowMapMethod;
-import a3d.materials.methods.LightMapMethod;
-import a3d.materials.methods.RimLightMethod;
-import a3d.textures.BitmapTexture;
-import a3d.textures.SpecularBitmapTexture;
 
-import a3dexample.cornell.CornellDiffuseEnvMapFL;
-import a3dexample.cornell.CornellDiffuseEnvMapFR;
-import a3dexample.cornell.CornellDiffuseEnvMapNL;
-import a3dexample.cornell.CornellDiffuseEnvMapNR;
 
 class Intermediate_LightProbes extends BasicApplication
 {
@@ -287,7 +286,7 @@ class Intermediate_LightProbes extends BasicApplication
 			specularMethod.normalReflectance = .2;
 			headMaterial.specularMethod = specularMethod;
 			headMaterial.gloss = 10;
-			headMaterial.addMethod(new RimLightMethod(0xffffff, .4, 5, RimLightMethod.ADD));
+			headMaterial.addMethod(new RimLightMethod(0xffffff, .4, 5, BlendMode.ADD));
 			headMaterial.addMethod(new LightMapMethod(new BitmapTexture(new HeadOcclusion(0,0))));
 			headMaterial.lightPicker = new StaticLightPicker([mainLight, lightProbeFL, lightProbeFR, lightProbeNL, lightProbeNR]);
 			headMaterial.diffuseLightSources = LightSources.PROBES;

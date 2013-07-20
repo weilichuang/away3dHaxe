@@ -218,7 +218,7 @@ class Intermediate_PlanarReflections extends BasicApplication
 		r2d2Material = new TextureMaterial(createBitmapTexture(R2D2Albedo));
 		r2d2Material.lightPicker = lightPicker;
 		r2d2Material.addMethod(fogMethod);
-		r2d2Material.addMethod(new EnvMapMethod(skyboxTexture, .2));
+		r2d2Material.addMethod(new EnvMapMethod(skyBox.cubeTexture, .2));
 
 		// create a PlanarReflectionMethod
 		var reflectionMethod:PlanarReflectionMethod = new PlanarReflectionMethod(reflectionTexture);
@@ -229,9 +229,11 @@ class Intermediate_PlanarReflections extends BasicApplication
 	/**
 	 * Initialise the skybox
 	 */
+	private var skyBox:SpaceSkyBox;
 	private function initSkyBox():Void
 	{
-		scene.addChild(new SpaceSkyBox());
+		skyBox = new SpaceSkyBox();
+		scene.addChild(skyBox);
 	}
 
 	/**

@@ -196,8 +196,8 @@ class CubeReflectionTexture extends RenderCubeTexture
 		cam.rotationY = rotationY;
 		cam.rotationZ = rotationZ;
 		cam.lens.near = .01;
-		Lib.as(cam.lens,PerspectiveLens).fieldOfView = 90;
-		_lenses.push(Lib.as(cam.lens,PerspectiveLens));
+		Std.instance(cam.lens,PerspectiveLens).fieldOfView = 90;
+		_lenses.push(Std.instance(cam.lens,PerspectiveLens));
 		cam.lens.aspectRatio = 1;
 		_cameras.push(cam);
 	}

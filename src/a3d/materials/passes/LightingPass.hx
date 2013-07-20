@@ -1,6 +1,6 @@
 package a3d.materials.passes;
 
-import a3d.math.MathUtil;
+import a3d.math.FMath;
 import flash.display3D.Context3D;
 import flash.display3D.Context3DProfile;
 import flash.geom.Matrix3D;
@@ -140,13 +140,13 @@ class LightingPass extends CompiledPass
 
 	private function calculateNumDirectionalLights(numDirectionalLights:Int):Int
 	{
-		return MathUtil.min(numDirectionalLights - _directionalLightsOffset, _maxLights);
+		return FMath.min(numDirectionalLights - _directionalLightsOffset, _maxLights);
 	}
 
 	private function calculateNumPointLights(numPointLights:Int):Int
 	{
 		var numFree:Int = _maxLights - _numDirectionalLights;
-		return MathUtil.min(numPointLights - _pointLightsOffset, numFree);
+		return FMath.min(numPointLights - _pointLightsOffset, numFree);
 	}
 
 	private function calculateNumProbes(numLightProbes:Int):Int
@@ -158,7 +158,7 @@ class LightingPass extends CompiledPass
 			++numChannels;
 
 		// 4 channels available
-		return MathUtil.min(numLightProbes - _lightProbesOffset, Std.int(4 / numChannels));
+		return FMath.min(numLightProbes - _lightProbesOffset, Std.int(4 / numChannels));
 	}
 
 	override private function updateShaderProperties():Void

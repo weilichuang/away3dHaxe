@@ -10,6 +10,11 @@ import flash.Vector;
  */
 class MeshNode extends EntityNode
 {
+	/**
+	 * The mesh object contained in the partition node.
+	 */
+	public var mesh(get, null):Mesh;
+	
 	private var _mesh:Mesh;
 
 	/**
@@ -22,10 +27,7 @@ class MeshNode extends EntityNode
 		_mesh = mesh; // also keep a stronger typed reference
 	}
 
-	/**
-	 * The mesh object contained in the partition node.
-	 */
-	public var mesh(get, null):Mesh;
+	
 	private function get_mesh():Mesh
 	{
 		return _mesh;
@@ -39,6 +41,7 @@ class MeshNode extends EntityNode
 		if (traverser.enterNode(this))
 		{
 			super.acceptTraverser(traverser);
+			
 			var subs:Vector<SubMesh> = _mesh.subMeshes;
 			for(i in 0...subs.length)
 				traverser.applyRenderable(subs[i]);

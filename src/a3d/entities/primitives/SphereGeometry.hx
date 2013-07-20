@@ -11,6 +11,23 @@ import flash.Vector;
  */
 class SphereGeometry extends PrimitiveBase
 {
+	/**
+	 * The radius of the sphere.
+	 */
+	public var radius(get, set):Float;
+	/**
+	 * Defines the number of horizontal segments that make up the sphere. Defaults to 16.
+	 */
+	public var segmentsW(get, set):Int;
+	/**
+	 * Defines the number of vertical segments that make up the sphere. Defaults to 12.
+	 */
+	public var segmentsH(get, set):Int;
+	/**
+	 * Defines whether the sphere poles should lay on the Y-axis (true) or on the Z-axis (false).
+	 */
+	public var yUp(get, set):Bool;
+	
 	private var _radius:Float;
 	private var _segmentsW:Int;
 	private var _segmentsH:Int;
@@ -176,7 +193,6 @@ class SphereGeometry extends PrimitiveBase
 	 */
 	override private function buildUVs(target:CompactSubGeometry):Void
 	{
-		var i:Int, j:Int;
 		var stride:Int = target.UVStride;
 		var numUvs:Int = (_segmentsH + 1) * (_segmentsW + 1) * stride;
 		var data:Vector<Float>;
@@ -206,10 +222,7 @@ class SphereGeometry extends PrimitiveBase
 		target.updateData(data);
 	}
 
-	/**
-	 * The radius of the sphere.
-	 */
-	public var radius(get, set):Float;
+	
 	private function get_radius():Float
 	{
 		return _radius;
@@ -222,10 +235,7 @@ class SphereGeometry extends PrimitiveBase
 		return value;
 	}
 
-	/**
-	 * Defines the number of horizontal segments that make up the sphere. Defaults to 16.
-	 */
-	public var segmentsW(get, set):Int;
+	
 	private function get_segmentsW():Int
 	{
 		return _segmentsW;
@@ -239,10 +249,7 @@ class SphereGeometry extends PrimitiveBase
 		return value;
 	}
 
-	/**
-	 * Defines the number of vertical segments that make up the sphere. Defaults to 12.
-	 */
-	public var segmentsH(get, set):Int;
+	
 	private function get_segmentsH():Int
 	{
 		return _segmentsH;
@@ -256,10 +263,7 @@ class SphereGeometry extends PrimitiveBase
 		return value;
 	}
 
-	/**
-	 * Defines whether the sphere poles should lay on the Y-axis (true) or on the Z-axis (false).
-	 */
-	public var yUp(get, set):Bool;
+	
 	private function get_yUp():Bool
 	{
 		return _yUp;

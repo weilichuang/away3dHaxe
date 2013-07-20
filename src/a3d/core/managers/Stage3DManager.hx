@@ -14,6 +14,7 @@ import flash.Vector;
  */
 class Stage3DManager
 {
+	
 	private static var _instances:ObjectMap<Stage,Stage3DManager>;
 	private static var _stageProxies:Vector<Stage3DProxy>;
 	private static var _numStageProxies:Int = 0;
@@ -80,7 +81,7 @@ class Stage3DManager
 	 * @param profile The compatibility profile, an enumeration of Context3DProfile
 	 * @return The Stage3DProxy for the given index.
 	 */
-	public function getStage3DProxy(index:Int, forceSoftware:Bool = false, profile:Context3DProfile = null):Stage3DProxy
+	public function getStage3DProxy(index:Int = 0, forceSoftware:Bool = false, profile:Context3DProfile = null):Stage3DProxy
 	{
 		if (_stageProxies[index] == null)
 		{
@@ -110,9 +111,8 @@ class Stage3DManager
 	 */
 	public function getFreeStage3DProxy(forceSoftware:Bool = false, profile:Context3DProfile = null):Stage3DProxy
 	{
-		var i:Int = 0;
 		var len:Int = _stageProxies.length;
-		while (i < len)
+		for (i in 0...len)
 		{
 			if (_stageProxies[i] == null)
 			{
@@ -121,7 +121,6 @@ class Stage3DManager
 				_stageProxies[i].height = _stage.stageHeight;
 				return _stageProxies[i];
 			}
-			++i;
 		}
 
 		throw new Error("Too many Stage3D instances used!");

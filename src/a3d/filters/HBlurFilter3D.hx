@@ -4,6 +4,9 @@ import a3d.filters.tasks.Filter3DHBlurTask;
 
 class HBlurFilter3D extends Filter3DBase
 {
+	public var amount(get, set):Int;
+	public var stepSize(get, set):Int;
+	
 	private var _blurTask:Filter3DHBlurTask;
 
 	/**
@@ -11,21 +14,21 @@ class HBlurFilter3D extends Filter3DBase
 	 * @param amount The amount of blur in pixels
 	 * @param stepSize The distance between two blur samples. Set to -1 to autodetect with acceptable quality (default value).
 	 */
-	public function new(amount:UInt, stepSize:Int = -1)
+	public function new(amount:Int, stepSize:Int = -1)
 	{
 		super();
 		_blurTask = new Filter3DHBlurTask(amount, stepSize);
 		addTask(_blurTask);
 	}
 
-	private function get_amount():UInt
+	private function get_amount():Int
 	{
 		return _blurTask.amount;
 	}
 
-	private function set_amount(value:UInt):Void
+	private function set_amount(value:Int):Int
 	{
-		_blurTask.amount = value;
+		return _blurTask.amount = value;
 	}
 
 	/**
@@ -37,8 +40,8 @@ class HBlurFilter3D extends Filter3DBase
 		return _blurTask.stepSize;
 	}
 
-	private function set_stepSize(value:Int):Void
+	private function set_stepSize(value:Int):Int
 	{
-		_blurTask.stepSize = value;
+		return _blurTask.stepSize = value;
 	}
 }

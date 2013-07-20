@@ -11,6 +11,13 @@ import a3d.filters.tasks.Filter3DVDepthOfFFieldTask;
 
 class DepthOfFieldFilter3D extends Filter3DBase
 {
+	public var stepSize(get, set):Int;
+	public var focusTarget(get, set):ObjectContainer3D;
+	public var focusDistance(get, set):Float;
+	public var range(get, set):Float;
+	public var maxBlurX(get, set):Int;
+	public var maxBlurY(get, set):Int;
+	
 	private var _focusTarget:ObjectContainer3D;
 	private var _hDofTask:Filter3DHDepthOfFFieldTask;
 	private var _vDofTask:Filter3DVDepthOfFFieldTask;
@@ -21,7 +28,7 @@ class DepthOfFieldFilter3D extends Filter3DBase
 	 * @param blurY The maximum amount of vertical blur to apply
 	 * @param stepSize The distance between samples. Set to -1 to auto-detect with acceptable quality.
 	 */
-	public function new(maxBlurX:UInt = 3, maxBlurY:UInt = 3, stepSize:Int = -1)
+	public function new(maxBlurX:Int = 3, maxBlurY:Int = 3, stepSize:Int = -1)
 	{
 		super();
 		_hDofTask = new Filter3DHDepthOfFFieldTask(maxBlurX, stepSize);
@@ -39,9 +46,9 @@ class DepthOfFieldFilter3D extends Filter3DBase
 		return _hDofTask.stepSize;
 	}
 
-	private function set_stepSize(value:Int):Void
+	private function set_stepSize(value:Int):Int
 	{
-		_vDofTask.stepSize = _hDofTask.stepSize = value;
+		return _vDofTask.stepSize = _hDofTask.stepSize = value;
 	}
 
 	/**
@@ -52,9 +59,9 @@ class DepthOfFieldFilter3D extends Filter3DBase
 		return _focusTarget;
 	}
 
-	private function set_focusTarget(value:ObjectContainer3D):Void
+	private function set_focusTarget(value:ObjectContainer3D):ObjectContainer3D
 	{
-		_focusTarget = value;
+		return _focusTarget = value;
 	}
 
 	/**
@@ -65,9 +72,9 @@ class DepthOfFieldFilter3D extends Filter3DBase
 		return _hDofTask.focusDistance;
 	}
 
-	private function set_focusDistance(value:Float):Void
+	private function set_focusDistance(value:Float):Float
 	{
-		_hDofTask.focusDistance = _vDofTask.focusDistance = value;
+		return _hDofTask.focusDistance = _vDofTask.focusDistance = value;
 	}
 
 	/**
@@ -78,35 +85,35 @@ class DepthOfFieldFilter3D extends Filter3DBase
 		return _hDofTask.range;
 	}
 
-	private function set_range(value:Float):Void
+	private function set_range(value:Float):Float
 	{
-		_vDofTask.range = _hDofTask.range = value;
+		return _vDofTask.range = _hDofTask.range = value;
 	}
 
 	/**
 	 * The maximum amount of horizontal blur.
 	 */
-	private function get_maxBlurX():UInt
+	private function get_maxBlurX():Int
 	{
 		return _hDofTask.maxBlur;
 	}
 
-	private function set_maxBlurX(value:UInt):Void
+	private function set_maxBlurX(value:Int):Int
 	{
-		_hDofTask.maxBlur = value;
+		return _hDofTask.maxBlur = value;
 	}
 
 	/**
 	 * The maximum amount of vertical blur.
 	 */
-	private function get_maxBlurY():UInt
+	private function get_maxBlurY():Int
 	{
 		return _vDofTask.maxBlur;
 	}
 
-	private function set_maxBlurY(value:UInt):Void
+	private function set_maxBlurY(value:Int):Int
 	{
-		_vDofTask.maxBlur = value;
+		return _vDofTask.maxBlur = value;
 	}
 
 	override public function update(stage:Stage3DProxy, camera:Camera3D):Void

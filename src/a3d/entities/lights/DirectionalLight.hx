@@ -1,10 +1,5 @@
 ﻿package a3d.entities.lights;
 
-import flash.geom.Matrix3D;
-import flash.geom.Vector3D;
-import flash.Vector;
-
-
 import a3d.bounds.BoundingVolumeBase;
 import a3d.bounds.NullBounds;
 import a3d.core.base.IRenderable;
@@ -13,6 +8,11 @@ import a3d.core.partition.EntityNode;
 import a3d.entities.lights.shadowmaps.DirectionalShadowMapper;
 import a3d.entities.lights.shadowmaps.ShadowMapperBase;
 import a3d.math.Matrix3DUtils;
+import flash.geom.Matrix3D;
+import flash.geom.Vector3D;
+import flash.Vector;
+
+
 
 
 
@@ -24,6 +24,15 @@ import a3d.math.Matrix3DUtils;
  */
 class DirectionalLight extends LightBase
 {
+	/**
+	 * The direction of the light in scene coordinates.
+	 */
+	public var sceneDirection(get,null):Vector3D;
+	/**
+	 * The direction of the light.
+	 */
+	public var direction(get, set):Vector3D;
+	
 	private var _direction:Vector3D;
 	private var _tmpLookAt:Vector3D;
 	private var _sceneDirection:Vector3D;
@@ -47,10 +56,7 @@ class DirectionalLight extends LightBase
 		return new DirectionalLightNode(this);
 	}
 
-	/**
-	 * The direction of the light in scene coordinates.
-	 */
-	public var sceneDirection(get,null):Vector3D;
+	
 	private function get_sceneDirection():Vector3D
 	{
 		if (_sceneTransformDirty)
@@ -58,10 +64,7 @@ class DirectionalLight extends LightBase
 		return _sceneDirection;
 	}
 
-	/**
-	 * The direction of the light.
-	 */
-	public var direction(get,set):Vector3D;
+	
 	private function get_direction():Vector3D
 	{
 		return _direction;

@@ -56,12 +56,12 @@ class CubicPathSegment implements IPathSegment
 
 	public function getPointOnSegment(phase:Float, target:Vector3D = null):Vector3D
 	{
-		const td:Float = 1 - phase;
-		const t_2:Float = phase * phase;
-		const a:Float = td * td * td;
-		const b:Float = 3 * phase * td * td;
-		const c:Float = 3 * t_2 * td;
-		const t_3:Float = t_2 * phase;
+		var td:Float = 1 - phase;
+		var t_2:Float = phase * phase;
+		var a:Float = td * td * td;
+		var b:Float = 3 * phase * td * td;
+		var c:Float = 3 * t_2 * td;
+		var t_3:Float = t_2 * phase;
 
 		if (target == null)
 			target = new Vector3D();

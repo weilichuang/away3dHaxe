@@ -1,15 +1,15 @@
 package a3d.bounds;
 
+import a3d.entities.primitives.WireframePrimitiveBase;
+import a3d.entities.primitives.WireframeSphere;
+import a3d.math.Matrix3DUtils;
+import a3d.math.Plane3D;
+import a3d.math.PlaneClassification;
 import flash.geom.Matrix3D;
 import flash.geom.Vector3D;
 import flash.Vector;
 
 
-import a3d.math.Matrix3DUtils;
-import a3d.math.Plane3D;
-import a3d.math.PlaneClassification;
-import a3d.entities.primitives.WireframePrimitiveBase;
-import a3d.entities.primitives.WireframeSphere;
 
 
 
@@ -19,19 +19,15 @@ import a3d.entities.primitives.WireframeSphere;
  */
 class BoundingSphere extends BoundingVolumeBase
 {
-	private var _radius:Float = 0;
-	private var _centerX:Float = 0;
-	private var _centerY:Float = 0;
-	private var _centerZ:Float = 0;
-
 	/**
 	 * The radius of the bounding sphere, calculated from the contents of the entity.
 	 */
 	public var radius(get, null):Float;
-	private function get_radius():Float
-	{
-		return _radius;
-	}
+	
+	private var _radius:Float = 0;
+	private var _centerX:Float = 0;
+	private var _centerY:Float = 0;
+	private var _centerZ:Float = 0;
 
 	/**
 	 * Creates a new <code>BoundingSphere</code> object
@@ -255,5 +251,10 @@ class BoundingSphere extends BoundingVolumeBase
 		_max.x = _centerX + _radius;
 		_max.y = _centerY + _radius;
 		_max.z = _centerZ + _radius;
+	}
+	
+	private inline function get_radius():Float
+	{
+		return _radius;
 	}
 }

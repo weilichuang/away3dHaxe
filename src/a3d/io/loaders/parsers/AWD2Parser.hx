@@ -87,7 +87,7 @@ import a3d.materials.SinglePassMaterialBase;
 import a3d.materials.TextureMaterial;
 import a3d.materials.TextureMultiPassMaterial;
 import a3d.materials.utils.DefaultMaterialManager;
-import a3d.math.MathUtil;
+import a3d.math.FMath;
 import a3d.textures.BitmapCubeTexture;
 import a3d.textures.BitmapTexture;
 import a3d.textures.CubeTextureBase;
@@ -973,7 +973,7 @@ class AWD2Parser extends ParserBase
 			// than materials, repeat the last material for all remaining sub-meshes.
 			for (i in 0...mesh.subMeshes.length)
 			{
-				mesh.subMeshes[i].material = materials[MathUtil.min(materials.length - 1, i)];
+				mesh.subMeshes[i].material = materials[FMath.min(materials.length - 1, i)];
 			}
 		}
 		if ((_version[0] == 2) && (_version[1] == 1))

@@ -15,7 +15,7 @@ import a3d.core.base.SubMesh;
 import a3d.core.managers.Stage3DProxy;
 import a3d.materials.TextureMaterial;
 import a3d.materials.passes.MaterialPassBase;
-import a3d.math.MathUtil;
+import a3d.math.FMath;
 
 
 
@@ -26,6 +26,21 @@ import a3d.math.MathUtil;
 */
 class UVAnimator extends AnimatorBase implements IAnimator
 {
+	/**
+	* Defines if a rotation is performed automatically each update. The rotationIncrease value is added each iteration.
+	*/
+	public var autoRotation(get, set):Bool;
+	/**
+	* if autoRotation = true, the rotation is increased by the rotationIncrease value. Default is 1;
+	*/
+	public var rotationIncrease(get, set):Float;
+	/**
+	* Defines if the animation is translated automatically each update. Ideal to scroll maps. Use setTranslateIncrease to define the offsets.
+	*/
+	public var autoTranslate(get, set):Bool;
+	
+	public var translateIncrease(get, null):Vector<Float>;
+	
 	private var _uvAnimationSet:UVAnimationSet;
 	private var _deltaFrame:UVAnimationFrame;
 	private var _activeUVState:IUVAnimationState;
@@ -55,10 +70,7 @@ class UVAnimator extends AnimatorBase implements IAnimator
 		_uvAnimationSet = uvAnimationSet;
 	}
 
-	/**
-	* Defines if a rotation is performed automatically each update. The rotationIncrease value is added each iteration.
-	*/
-	public var autoRotation(get, set):Bool;
+	
 	private function set_autoRotation(b:Bool):Bool
 	{
 		return _autoRotation = b;
@@ -69,10 +81,7 @@ class UVAnimator extends AnimatorBase implements IAnimator
 		return _autoRotation;
 	}
 
-	/**
-	* if autoRotation = true, the rotation is increased by the rotationIncrease value. Default is 1;
-	*/
-	public var rotationIncrease(get, set):Float;
+	
 	private function set_rotationIncrease(value:Float):Float
 	{
 		return _rotationIncrease = value;
@@ -83,10 +92,7 @@ class UVAnimator extends AnimatorBase implements IAnimator
 		return _rotationIncrease;
 	}
 
-	/**
-	* Defines if the animation is translated automatically each update. Ideal to scroll maps. Use setTranslateIncrease to define the offsets.
-	*/
-	public var autoTranslate(get, set):Bool;
+	
 	private function set_autoTranslate(b:Bool):Bool
 	{
 		_autoTranslate = b;
@@ -112,7 +118,7 @@ class UVAnimator extends AnimatorBase implements IAnimator
 		_translateIncrease[1] = v;
 	}
 
-	public var translateIncrease(get, null):Vector<Float>;
+	
 	private function get_translateIncrease():Vector<Float>
 	{
 		return _translateIncrease;
@@ -146,7 +152,7 @@ class UVAnimator extends AnimatorBase implements IAnimator
 			_deltaFrame.rotation += _rotationIncrease;
 
 		if (_deltaFrame.rotation != 0)
-			_uvTransform.rotate(_deltaFrame.rotation * MathUtil.DEGREES_TO_RADIANS());
+			_uvTransform.rotate(_deltaFrame.rotation * FMath.DEGREES_TO_RADIANS());
 		if (_deltaFrame.scaleU != 1 || _deltaFrame.scaleV != 1)
 			_uvTransform.scale(_deltaFrame.scaleU, _deltaFrame.scaleV);
 

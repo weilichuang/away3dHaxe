@@ -2,7 +2,7 @@ package a3d.controllers;
 
 
 import a3d.entities.Entity;
-import a3d.math.MathUtil;
+import a3d.math.FMath;
 
 
 
@@ -87,7 +87,7 @@ class FirstPersonController extends ControllerBase
 
 	private function set_tiltAngle(val:Float):Float
 	{
-		val = MathUtil.fclamp(val, _minTiltAngle, _maxTiltAngle);
+		val = FMath.fclamp(val, _minTiltAngle, _maxTiltAngle);
 
 		if (_tiltAngle == val)
 			return _tiltAngle;
@@ -117,7 +117,7 @@ class FirstPersonController extends ControllerBase
 
 		_minTiltAngle = val;
 
-		tiltAngle = MathUtil.fclamp(_tiltAngle, _minTiltAngle, _maxTiltAngle);
+		tiltAngle = FMath.fclamp(_tiltAngle, _minTiltAngle, _maxTiltAngle);
 
 		return _minTiltAngle;
 	}
@@ -140,7 +140,7 @@ class FirstPersonController extends ControllerBase
 
 		_maxTiltAngle = val;
 
-		tiltAngle = MathUtil.fclamp(_tiltAngle, _minTiltAngle, _maxTiltAngle);
+		tiltAngle = FMath.fclamp(_tiltAngle, _minTiltAngle, _maxTiltAngle);
 		return _maxTiltAngle;
 	}
 	
@@ -253,8 +253,8 @@ class FirstPersonController extends ControllerBase
 			}
 			else
 			{
-				targetObject.x += _walkIncrement * Math.sin(_panAngle * MathUtil.DEGREES_TO_RADIANS());
-				targetObject.z += _walkIncrement * Math.cos(_panAngle * MathUtil.DEGREES_TO_RADIANS());
+				targetObject.x += _walkIncrement * Math.sin(_panAngle * FMath.DEGREES_TO_RADIANS());
+				targetObject.z += _walkIncrement * Math.cos(_panAngle * FMath.DEGREES_TO_RADIANS());
 			}
 			_walkIncrement = 0;
 		}

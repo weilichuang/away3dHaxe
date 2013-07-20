@@ -18,6 +18,20 @@ import a3d.textures.TextureProxyBase;
 
 class ShadowMapperBase
 {
+	/**
+	 * 阴影失效
+	 */
+	public var shadowsInvalid(get, null):Bool;
+	
+	/**
+	 * 是否自动更新阴影
+	 */
+	public var autoUpdateShadows(get, set):Bool;
+	
+	public var light(get,set):LightBase;
+	public var depthMap(get,null):TextureProxyBase;
+	public var depthMapSize(get,set):Int;
+	
 	private var _casterCollector:ShadowCasterCollector;
 
 	private var _depthMap:TextureProxyBase;
@@ -27,19 +41,6 @@ class ShadowMapperBase
 	private var _autoUpdateShadows:Bool = true;
 	private var _shadowsInvalid:Bool;
 
-	/**
-	 * 阴影失效
-	 */
-	public var shadowsInvalid(get,null):Bool;
-	private function get_shadowsInvalid():Bool
-	{
-		return _shadowsInvalid;
-	}
-
-//		private function set_shadowsInvalid(value:Bool):Bool
-//		{
-//			return _shadowsInvalid = value;
-//		}
 
 	public function new()
 	{
@@ -50,11 +51,18 @@ class ShadowMapperBase
 	{
 		return new ShadowCasterCollector();
 	}
+	
+	private function get_shadowsInvalid():Bool
+	{
+		return _shadowsInvalid;
+	}
 
-	/**
-	 * 是否自动更新阴影
-	 */
-	public var autoUpdateShadows(get,set):Bool;
+//		private function set_shadowsInvalid(value:Bool):Bool
+//		{
+//			return _shadowsInvalid = value;
+//		}
+
+	
 	private function get_autoUpdateShadows():Bool
 	{
 		return _autoUpdateShadows;
@@ -90,7 +98,7 @@ class ShadowMapperBase
 			_explicitDepthMap = false;
 	}
 
-	public var light(get,set):LightBase;
+	
 	private function get_light():LightBase
 	{
 		return _light;
@@ -101,7 +109,7 @@ class ShadowMapperBase
 		return _light = value;
 	}
 
-	public var depthMap(get,null):TextureProxyBase;
+	
 	private function get_depthMap():TextureProxyBase
 	{
 		if (_depthMap == null)
@@ -109,7 +117,7 @@ class ShadowMapperBase
 		return _depthMap;
 	}
 
-	public var depthMapSize(get,set):Int;
+	
 	private function get_depthMapSize():Int
 	{
 		return _depthMapSize;

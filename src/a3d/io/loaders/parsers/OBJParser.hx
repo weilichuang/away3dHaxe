@@ -99,7 +99,7 @@ class OBJParser extends ParserBase
 		var hasV:Bool = false;
 		var hasF:Bool = false;
 
-		if (content != "")
+		if (content != null)
 		{
 			hasV = content.indexOf("\nv ") != -1;
 			hasF = content.indexOf("\nf ") != -1;

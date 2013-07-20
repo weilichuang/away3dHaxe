@@ -8,6 +8,11 @@ import flash.Vector;
 
 class NearDirectionalShadowMapper extends DirectionalShadowMapper
 {
+	/**
+	 * A value between 0 and 1 to indicate the ratio of the view frustum that needs to be covered by the shadow map.
+	 */
+	public var coverageRatio(get, set):Float;
+	
 	private var _coverageRatio:Float;
 
 	public function new(coverageRatio:Float = .5)
@@ -16,10 +21,7 @@ class NearDirectionalShadowMapper extends DirectionalShadowMapper
 		this.coverageRatio = coverageRatio;
 	}
 
-	/**
-	 * A value between 0 and 1 to indicate the ratio of the view frustum that needs to be covered by the shadow map.
-	 */
-	public var coverageRatio(get,set):Float;
+	
 	private function get_coverageRatio():Float
 	{
 		return _coverageRatio;

@@ -12,7 +12,7 @@ import a3d.core.base.data.UV;
 import a3d.core.base.data.Vertex;
 import a3d.entities.Mesh;
 import a3d.materials.MaterialBase;
-import a3d.math.Vector3DUtils;
+import a3d.math.FVector3D;
 import a3d.paths.IPath;
 import a3d.paths.IPathSegment;
 import a3d.tools.helpers.MeshHelper;
@@ -1218,15 +1218,15 @@ class PathExtrude extends Mesh
 			}
 		}
 
-		var tmploop:UInt = _profile.length;
-		for (i = 0; i < vSegPts.length; ++i)
+		var tmploop:Int = _profile.length;
+		for (i in 0...vSegPts.length)
 		{
 			if (rotate)
 			{
 				lastrotate = (_rotations[i] == null) ? lastrotate : _rotations[i];
 				nextrotate = (_rotations[i + 1] == null) ? lastrotate : _rotations[i + 1];
 				rotation = Vector<Vector3D>([lastrotate]);
-				rotation = rotation.concat(Vector3DUtils.subdivide(lastrotate, nextrotate, _subdivision));
+				rotation = rotation.concat(FVector3D.subdivide(lastrotate, nextrotate, _subdivision));
 			}
 
 			if (rescale)
@@ -1235,10 +1235,10 @@ class PathExtrude extends Mesh
 			if (_smoothScale && rescale)
 			{
 				nextscale = (!_scales[i + 1]) ? (!_scales[i]) ? lastscale : _scales[i] : _scales[i + 1];
-				vScales = vScales.concat(Vector3DUtils.subdivide(lastscale, nextscale, _subdivision));
+				vScales = vScales.concat(FVector3D.subdivide(lastscale, nextscale, _subdivision));
 			}
 
-			for (j = 0; j < vSegPts[i].length; ++j)
+			for (j in 0...vSegPts[i].length)
 			{
 
 				atmp = new Vector<Vector3D>();
@@ -1273,7 +1273,7 @@ class PathExtrude extends Mesh
 					}
 				}
 
-				for (k = 0; k < tmploop; ++k)
+				for (k in 0...tmploop)
 				{
 
 					if (rescale && !_smoothScale)
@@ -1292,7 +1292,7 @@ class PathExtrude extends Mesh
 						tmppt.z = atmp[k].x * _trans.rawData[2] + atmp[k].y * _trans.rawData[6] + atmp[k].z * _trans.rawData[10] + _trans.rawData[14];
 
 						if (rotate)
-							tmppt = Vector3DUtils.rotatePoint(tmppt, tweenrot);
+							tmppt = FVector3D.rotatePoint(tmppt, tweenrot);
 
 						tmppt.x += vSegPts[i][j].x;
 						tmppt.y += vSegPts[i][j].y;
@@ -1321,9 +1321,9 @@ class PathExtrude extends Mesh
 
 		if (rescale && _smoothScale)
 		{
-			for (i = 0; i < vScales.length; ++i)
+			for (i in 0...vScales.length)
 			{
-				for (j = 0; j < vSegResults[i].length; ++j)
+				for (j in 0...vSegResults[i].length)
 				{
 					vSegResults[i][j].x *= vScales[i].x;
 					vSegResults[i][j].y *= vScales[i].y;
@@ -1344,10 +1344,10 @@ class PathExtrude extends Mesh
 			var c:Vector<Vector3D>;
 			var c2:Vector<Vector<Vector3D>> = new Vector<Vector<Vector3D>>();
 
-			for (i = 1; i < _subdivision + 1; ++i)
+			for (i in 1..._subdivision + 1)
 			{
 				c = new Vector<Vector3D>();
-				for (j = 0; j < lastP.length; ++j)
+				for (j in 0...lastP.length)
 				{
 					stepx = (vSegResults[0][j].x - lastP[j].x) / _subdivision;
 					stepy = (vSegResults[0][j].y - lastP[j].y) / _subdivision;
@@ -1367,9 +1367,8 @@ class PathExtrude extends Mesh
 		{
 			_startPoints = new Vector<Vector3D>();
 			_endPoints = new Vector<Vector3D>();
-			var offsetEnd:UInt = vSegResults.length - 1;
-
-			for (i = 0; i < tmploop; ++i)
+			var offsetEnd:Int = vSegResults.length - 1;
+			for (i in 0...tmploop)
 			{
 				_startPoints[i] = vSegResults[0][i];
 				_endPoints[i] = vSegResults[offsetEnd][i];
@@ -1378,8 +1377,7 @@ class PathExtrude extends Mesh
 		}
 		else if (_startPoints)
 		{
-
-			for (i = 0; i < tmploop; ++i)
+			for (i in 0...tmploop)
 			{
 				_startPoints[i] = _endPoints[i] = null;
 			}
@@ -1395,7 +1393,7 @@ class PathExtrude extends Mesh
 		{
 			var sglist:SubGeometryList;
 			var sg:SubGeometry;
-			for (i = 0; i < _MaterialsSubGeometries.length; ++i)
+			for (i in 0..._MaterialsSubGeometries.length)
 			{
 				sglist = _MaterialsSubGeometries[i];
 				sg = sglist.subGeometry;
@@ -1439,4 +1437,9 @@ class SubGeometryList
 	public var indices:Vector<UInt>;
 	public var subGeometry:SubGeometry;
 	public var material:MaterialBase;
+	
+	public function new()
+	{
+		
+	}
 }
