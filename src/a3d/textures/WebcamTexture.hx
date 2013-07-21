@@ -3,6 +3,7 @@ package a3d.textures;
 import flash.display.BitmapData;
 import flash.display3D.textures.TextureBase;
 import flash.geom.Matrix;
+import flash.Lib;
 import flash.media.Camera;
 import flash.media.Video;
 
@@ -10,7 +11,22 @@ import a3d.tools.utils.TextureUtils;
 
 class WebcamTexture extends BitmapTexture
 {
-	private var _materialSize:UInt;
+	/**
+	 * Defines whether the texture should automatically update while camera stream is
+	 * playing. If false, the update() method must be invoked for the texture to redraw.
+	*/
+	public var autoUpdate(get, set):Bool;
+	/**
+	 * The Camera instance (webcam) used by this texture.
+	*/
+	public var camera(get, null):Camera;
+	/**
+	 * Toggles smoothing on the texture as it's drawn (and potentially scaled)
+	 * from the video stream to a BitmapData object.
+	 */
+	public var smoothing(get, set):Bool;
+	
+	private var _materialSize:Int;
 	private var _video:Video;
 	private var _camera:Camera;
 	private var _matrix:Matrix;
@@ -18,14 +34,16 @@ class WebcamTexture extends BitmapTexture
 	private var _playing:Bool;
 	private var _autoUpdate:Bool;
 
-	public function new(cameraWidth:UInt = 320, cameraHeight:UInt = 240, materialSize:UInt = 256, autoStart:Bool = true, camera:Camera = null, smoothing:Bool = true)
+	public function new(cameraWidth:Int = 320, cameraHeight:Int = 240, materialSize:Int = 256, autoStart:Bool = true, camera:Camera = null, smoothing:Bool = true)
 	{
 		_materialSize = validateMaterialSize(materialSize);
 
 		super(new BitmapData(_materialSize, _materialSize, false, 0));
 
 		// Use default camera if none supplied
-		_camera = camera || Camera.getCamera();
+		if (camera == null)
+			camera = Camera.getCamera();
+		_camera = camera;
 		_video = new Video(cameraWidth, cameraHeight);
 
 		_matrix = new Matrix();
@@ -41,11 +59,7 @@ class WebcamTexture extends BitmapTexture
 	}
 
 
-	/**
-	 * Defines whether the texture should automatically update while camera stream is
-	 * playing. If false, the update() method must be invoked for the texture to redraw.
-	*/
-	public var autoUpdate(get, set):Bool;
+	
 	private function get_autoUpdate():Bool
 	{
 		return _autoUpdate;
@@ -62,21 +76,14 @@ class WebcamTexture extends BitmapTexture
 	}
 
 
-	/**
-	 * The Camera instance (webcam) used by this texture.
-	*/
-	public var camera(get, null):Camera;
+	
 	private function get_camera():Camera
 	{
 		return _camera;
 	}
 
 
-	/**
-	 * Toggles smoothing on the texture as it's drawn (and potentially scaled)
-	 * from the video stream to a BitmapData object.
-	 */
-	public var smoothing(get, set):Bool;
+	
 	private function get_smoothing():Bool
 	{
 		return _smoothing;
@@ -88,6 +95,7 @@ class WebcamTexture extends BitmapTexture
 	}
 
 
+	
 	/**
 	 * Start subscribing to camera stream. For the texture to update the update()
 	 * method must be repeatedly invoked, or autoUpdate set to true.
@@ -177,9 +185,9 @@ class WebcamTexture extends BitmapTexture
 	{
 		if (!TextureUtils.isDimensionValid(size))
 		{
-			var oldSize:UInt = size;
+			var oldSize:Int = size;
 			size = TextureUtils.getBestPowerOf2(size);
-			trace("Warning: " + oldSize + " is not a valid material size. Updating to the closest supported resolution: " + size);
+			Lib.trace("Warning: " + oldSize + " is not a valid material size. Updating to the closest supported resolution: " + size);
 		}
 
 		return size;

@@ -13,6 +13,31 @@ import a3d.tools.utils.TextureUtils;
 
 class BitmapCubeTexture extends CubeTextureBase
 {
+	/**
+	 * The texture on the cube's right face.
+	 */
+	public var positiveX(get, set):BitmapData;
+	/**
+	 * The texture on the cube's left face.
+	 */
+	public var negativeX(get, set):BitmapData;
+	/**
+	 * The texture on the cube's top face.
+	 */
+	public var positiveY(get, set):BitmapData;
+	/**
+	 * The texture on the cube's bottom face.
+	 */
+	public var negativeY(get, set):BitmapData;
+	/**
+	 * The texture on the cube's far face.
+	 */
+	public var positiveZ(get, set):BitmapData;
+	/**
+	 * The texture on the cube's near face.
+	 */
+	public var negativeZ(get, set):BitmapData;
+	
 	private var _bitmapDatas:Vector<BitmapData>;
 
 	//private var _useAlpha : Bool;
@@ -34,10 +59,7 @@ class BitmapCubeTexture extends CubeTextureBase
 		setSize(posX.width, posX.height);
 	}
 
-	/**
-	 * The texture on the cube's right face.
-	 */
-	public var positiveX(get, set):BitmapData;
+	
 	private function get_positiveX():BitmapData
 	{
 		return _bitmapDatas[0];
@@ -52,10 +74,7 @@ class BitmapCubeTexture extends CubeTextureBase
 		return _bitmapDatas[0];
 	}
 
-	/**
-	 * The texture on the cube's left face.
-	 */
-	public var negativeX(get, set):BitmapData;
+	
 	private function get_negativeX():BitmapData
 	{
 		return _bitmapDatas[1];
@@ -70,10 +89,7 @@ class BitmapCubeTexture extends CubeTextureBase
 		return value;
 	}
 
-	/**
-	 * The texture on the cube's top face.
-	 */
-	public var positiveY(get, set):BitmapData;
+	
 	private function get_positiveY():BitmapData
 	{
 		return _bitmapDatas[2];
@@ -88,10 +104,7 @@ class BitmapCubeTexture extends CubeTextureBase
 		return value;
 	}
 
-	/**
-	 * The texture on the cube's bottom face.
-	 */
-	public var negativeY(get, set):BitmapData;
+	
 	private function get_negativeY():BitmapData
 	{
 		return _bitmapDatas[3];
@@ -106,10 +119,7 @@ class BitmapCubeTexture extends CubeTextureBase
 		return value;
 	}
 
-	/**
-	 * The texture on the cube's far face.
-	 */
-	public var positiveZ(get, set):BitmapData;
+	
 	private function get_positiveZ():BitmapData
 	{
 		return _bitmapDatas[4];
@@ -124,10 +134,7 @@ class BitmapCubeTexture extends CubeTextureBase
 		return value;
 	}
 
-	/**
-	 * The texture on the cube's near face.
-	 */
-	public var negativeZ(get, set):BitmapData;
+	
 	private function get_negativeZ():BitmapData
 	{
 		return _bitmapDatas[5];

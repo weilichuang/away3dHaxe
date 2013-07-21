@@ -16,6 +16,8 @@ class BitmapTexture extends Texture2DBase
 	private static var _mipMaps:Array<Array<BitmapData>> = [];
 	private static var _mipMapUses:Array<Array<Int>> = [];
 
+	public var bitmapData(get, set):BitmapData;
+	
 	private var _bitmapData:BitmapData;
 	private var _mipMapHolder:BitmapData;
 	private var _generateMipmaps:Bool;
@@ -28,7 +30,7 @@ class BitmapTexture extends Texture2DBase
 		_generateMipmaps = generateMipmaps;
 	}
 
-	public var bitmapData(get, set):BitmapData;
+	
 	private function get_bitmapData():BitmapData
 	{
 		return _bitmapData;

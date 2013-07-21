@@ -7,6 +7,8 @@ import flash.utils.ByteArray;
 
 class ATFTexture extends Texture2DBase
 {
+	public var atfData(get, set):ATFData;
+	
 	private var _atfData:ATFData;
 
 	public function new(byteArray:ByteArray)
@@ -18,7 +20,7 @@ class ATFTexture extends Texture2DBase
 		_hasMipmaps = _atfData.numTextures > 1;
 	}
 
-	public var atfData(get, set):ATFData;
+	
 	private function get_atfData():ATFData
 	{
 		return _atfData;

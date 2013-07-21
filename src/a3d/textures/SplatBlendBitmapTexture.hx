@@ -4,21 +4,20 @@ import flash.display.BitmapData;
 import flash.display.BitmapDataChannel;
 import flash.display.Shader;
 import flash.display.ShaderJob;
+import flash.errors.Error;
 import flash.geom.Point;
 import flash.geom.Rectangle;
+import flash.utils.ByteArray;
 
 class SplatBlendBitmapTexture extends BitmapTexture
 {
-	[Embed(source = "/../pb/NormalizeSplats.pbj", mimeType = "application/octet-stream")]
-	private var NormalizeKernel:Class;
-
 	private var _numSplattingLayers:Int;
 
 	/**
 	 *
 	 * @param blendingData An array of BitmapData objects to be used for the blend data, as required by TerrainDiffuseMethod.
 	 */
-	public function new(blendingData:Array, normalize:Bool = false)
+	public function new(blendingData:Array<BitmapData>, normalize:Bool = false)
 	{
 		var bitmapData:BitmapData = blendingData[0].clone();
 		var channels:Array<BitmapDataChannel> = [BitmapDataChannel.RED, BitmapDataChannel.GREEN, BitmapDataChannel.BLUE];
@@ -57,3 +56,5 @@ class SplatBlendBitmapTexture extends BitmapTexture
 		bitmapData.dispose();
 	}
 }
+
+@:file("pb/NormalizeSplats.pbj") class NormalizeKernel extends ByteArray {}

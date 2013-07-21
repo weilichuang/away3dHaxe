@@ -1,5 +1,6 @@
 package a3d.textures;
 
+import a3d.A3d;
 import flash.display3D.Context3D;
 import flash.display3D.Context3DTextureFormat;
 import flash.display3D.textures.TextureBase;
@@ -16,6 +17,12 @@ import a3d.io.library.assets.NamedAssetBase;
 
 class TextureProxyBase extends NamedAssetBase implements IAsset
 {
+	public var hasMipMaps(get, null):Bool;
+	public var format(get, null):Context3DTextureFormat;
+	public var assetType(get, null):String;
+	public var width(get, set):Int;
+	public var height(get, set):Int;
+	
 	private var _format:Context3DTextureFormat;
 	private var _hasMipmaps:Bool;
 
@@ -29,32 +36,32 @@ class TextureProxyBase extends NamedAssetBase implements IAsset
 	{
 		super();
 		
-		_textures = new Vector<TextureBase>(8);
-		_dirty = new Vector<Context3D>(8);
+		_textures = new Vector<TextureBase>(A3d.MAX_NUM_STAGE3D);
+		_dirty = new Vector<Context3D>(A3d.MAX_NUM_STAGE3D);
 		
 		_format = Context3DTextureFormat.BGRA;
 		_hasMipmaps = true;
 	}
 
-	public var hasMipMaps(get, null):Bool;
+	
 	private function get_hasMipMaps():Bool
 	{
 		return _hasMipmaps;
 	}
 
-	public var format(get, null):Context3DTextureFormat;
+	
 	private function get_format():Context3DTextureFormat
 	{
 		return _format;
 	}
 
-	public var assetType(get, null):String;
+	
 	private function get_assetType():String
 	{
 		return AssetType.TEXTURE;
 	}
 
-	public var width(get, set):Int;
+	
 	private function get_width():Int
 	{
 		return _width;
@@ -65,7 +72,7 @@ class TextureProxyBase extends NamedAssetBase implements IAsset
 		return _width = value;
 	}
 
-	public var height(get, set):Int;
+	
 	private function get_height():Int
 	{
 		return _height;
@@ -108,7 +115,7 @@ class TextureProxyBase extends NamedAssetBase implements IAsset
 
 	public function invalidateContent():Void
 	{
-		for (i in 0...8)
+		for (i in 0...A3d.MAX_NUM_STAGE3D)
 		{
 			_dirty[i] = null;
 		}
@@ -117,7 +124,7 @@ class TextureProxyBase extends NamedAssetBase implements IAsset
 	private function invalidateSize():Void
 	{
 		var tex:TextureBase;
-		for (i in 0...8)
+		for (i in 0...A3d.MAX_NUM_STAGE3D)
 		{
 			tex = _textures[i];
 			if (tex != null)
@@ -129,8 +136,6 @@ class TextureProxyBase extends NamedAssetBase implements IAsset
 		}
 	}
 
-
-
 	private function createTexture(context:Context3D):TextureBase
 	{
 		throw new AbstractMethodError();
@@ -141,8 +146,10 @@ class TextureProxyBase extends NamedAssetBase implements IAsset
 	 */
 	public function dispose():Void
 	{
-		for (i in 0...8)
+		for (i in 0...A3d.MAX_NUM_STAGE3D)
+		{
 			if (_textures[i] != null)
 				_textures[i].dispose();
+		}
 	}
 }

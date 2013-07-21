@@ -13,6 +13,9 @@ import flash.geom.Rectangle;
  */
 class SpecularBitmapTexture extends BitmapTexture
 {
+	public var specularMap(get, set):BitmapData;
+	public var glossMap(get, set):BitmapData;
+	
 	private var _specularMap:BitmapData;
 	private var _glossMap:BitmapData;
 
@@ -32,7 +35,7 @@ class SpecularBitmapTexture extends BitmapTexture
 		this.glossMap = glossMap;
 	}
 
-	public var specularMap(get, set):BitmapData;
+	
 	private function get_specularMap():BitmapData
 	{
 		return _specularMap;
@@ -48,7 +51,7 @@ class SpecularBitmapTexture extends BitmapTexture
 		return _specularMap;
 	}
 
-	public var glossMap(get, set):BitmapData;
+	
 	private function get_glossMap():BitmapData
 	{
 		return _glossMap;

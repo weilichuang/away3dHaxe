@@ -6,12 +6,14 @@ import flash.display3D.textures.TextureBase;
 
 class CubeTextureBase extends TextureProxyBase
 {
+	public var size(get, set):Int;
+	
 	public function new()
 	{
 		super();
 	}
 
-	public var size(get, set):Int;
+	
 	private function get_size():Int
 	{
 		return _width;

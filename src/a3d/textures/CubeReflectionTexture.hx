@@ -1,20 +1,19 @@
 package a3d.textures;
 
-import flash.display.BitmapData;
-import flash.display3D.textures.TextureBase;
-import flash.geom.Vector3D;
-import flash.Lib;
-import flash.Vector;
-
-
-import a3d.entities.Camera3D;
-import a3d.entities.lenses.PerspectiveLens;
 import a3d.core.managers.Stage3DProxy;
 import a3d.core.render.DefaultRenderer;
 import a3d.core.render.RendererBase;
 import a3d.core.traverse.EntityCollector;
+import a3d.entities.Camera3D;
+import a3d.entities.lenses.PerspectiveLens;
 import a3d.entities.Scene3D;
 import a3d.entities.View3D;
+import flash.display.BitmapData;
+import flash.display3D.textures.TextureBase;
+import flash.geom.Vector3D;
+import flash.Vector;
+
+
 
 
 
@@ -26,6 +25,23 @@ import a3d.entities.View3D;
  */
 class CubeReflectionTexture extends RenderCubeTexture
 {
+	/**
+	 * The origin where the environment map will be rendered. This is usually in the centre of the reflective object.
+	 */
+	public var position(get, set):Vector3D;
+	/**
+	 * The near plane used by the camera lens.
+	 */
+	public var nearPlaneDistance(get, set):Float;
+	/**
+	 * The far plane of the camera lens. Can be used to cut off objects that are too far to be of interest in reflections
+	 */
+	public var farPlaneDistance(get, set):Float;
+	/**
+	 * The renderer to use.
+	 */
+	public var renderer(get, set):RendererBase;
+	
 	private var _mockTexture:BitmapCubeTexture;
 	private var _mockBitmapData:BitmapData;
 	private var _renderer:RendererBase;
@@ -59,10 +75,7 @@ class CubeReflectionTexture extends RenderCubeTexture
 		return _isRendering ? _mockTexture.getTextureForStage3D(stage3DProxy) : super.getTextureForStage3D(stage3DProxy);
 	}
 
-	/**
-	 * The origin where the environment map will be rendered. This is usually in the centre of the reflective object.
-	 */
-	public var position(get, set):Vector3D;
+	
 	private function get_position():Vector3D
 	{
 		return _position;
@@ -73,10 +86,7 @@ class CubeReflectionTexture extends RenderCubeTexture
 		return _position = value;
 	}
 
-	/**
-	 * The near plane used by the camera lens.
-	 */
-	public var nearPlaneDistance(get, set):Float;
+	
 	private function get_nearPlaneDistance():Float
 	{
 		return _nearPlaneDistance;
@@ -87,10 +97,7 @@ class CubeReflectionTexture extends RenderCubeTexture
 		return _nearPlaneDistance = value;
 	}
 
-	/**
-	 * The far plane of the camera lens. Can be used to cut off objects that are too far to be of interest in reflections
-	 */
-	public var farPlaneDistance(get, set):Float;
+	
 	private function get_farPlaneDistance():Float
 	{
 		return _farPlaneDistance;
@@ -120,10 +127,7 @@ class CubeReflectionTexture extends RenderCubeTexture
 		_isRendering = false;
 	}
 
-	/**
-	 * The renderer to use.
-	 */
-	public var renderer(get, set):RendererBase;
+	
 	private function get_renderer():RendererBase
 	{
 		return _renderer;
