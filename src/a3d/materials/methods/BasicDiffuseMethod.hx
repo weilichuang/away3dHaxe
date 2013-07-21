@@ -14,13 +14,36 @@ import flash.Vector;
  */
 class BasicDiffuseMethod extends LightingMethodBase
 {
-	private var _useAmbientTexture:Bool;
-
 	/**
 	 * Set internally if the ambient method uses a texture.
 	 */
 	public var useAmbientTexture(get, set):Bool;
 	
+	/**
+	 * The alpha component of the diffuse reflection.
+	 */
+	public var diffuseAlpha(get, set):Float;
+	/**
+	 * The color of the diffuse reflection when not using a texture.
+	 */
+	public var diffuseColor(get, set):UInt;
+	/**
+	 * The bitmapData to use to define the diffuse reflection color per texel.
+	 */
+	public var texture(get, set):Texture2DBase;
+	/**
+	 * The minimum alpha value for which pixels should be drawn. This is used for transparency that is either
+	 * invisible or entirely opaque, often used with textures for foliage, etc.
+	 * Recommended values are 0 to disable alpha, or 0.5 to create smooth edges. Default value is 0 (disabled).
+	 */
+	public var alphaThreshold(get, set):Float;
+	/**
+	 * Set internally by the compiler, so the method knows the register containing the shadow calculation.
+	 */
+	public var shadowRegister(null, set):ShaderRegisterElement;
+	
+	private var _useAmbientTexture:Bool;
+
 
 	private var _useTexture:Bool;
 	private var _totalLightColorReg:ShaderRegisterElement;
@@ -80,10 +103,7 @@ class BasicDiffuseMethod extends LightingMethodBase
 		return _useAmbientTexture;
 	}
 
-	/**
-	 * The alpha component of the diffuse reflection.
-	 */
-	public var diffuseAlpha(get, set):Float;
+	
 	private function get_diffuseAlpha():Float
 	{
 		return _diffuseA;
@@ -94,10 +114,7 @@ class BasicDiffuseMethod extends LightingMethodBase
 		return _diffuseA = value;
 	}
 
-	/**
-	 * The color of the diffuse reflection when not using a texture.
-	 */
-	public var diffuseColor(get, set):UInt;
+	
 	private function get_diffuseColor():UInt
 	{
 		return _diffuseColor;
@@ -110,10 +127,7 @@ class BasicDiffuseMethod extends LightingMethodBase
 		return _diffuseColor;
 	}
 
-	/**
-	 * The bitmapData to use to define the diffuse reflection color per texel.
-	 */
-	public var texture(get, set):Texture2DBase;
+	
 	private function get_texture():Texture2DBase
 	{
 		return _texture;
@@ -132,12 +146,7 @@ class BasicDiffuseMethod extends LightingMethodBase
 		return _texture;
 	}
 
-	/**
-	 * The minimum alpha value for which pixels should be drawn. This is used for transparency that is either
-	 * invisible or entirely opaque, often used with textures for foliage, etc.
-	 * Recommended values are 0 to disable alpha, or 0.5 to create smooth edges. Default value is 0 (disabled).
-	 */
-	public var alphaThreshold(get, set):Float;
+	
 	private function get_alphaThreshold():Float
 	{
 		return _alphaThreshold;
@@ -404,10 +413,7 @@ class BasicDiffuseMethod extends LightingMethodBase
 		_diffuseB = (_diffuseColor & 0xff) / 0xff;
 	}
 
-	/**
-	 * Set internally by the compiler, so the method knows the register containing the shadow calculation.
-	 */
-	public var shadowRegister(null, set):ShaderRegisterElement;
+	
 	private function set_shadowRegister(value:ShaderRegisterElement):ShaderRegisterElement
 	{
 		return _shadowRegister = value;

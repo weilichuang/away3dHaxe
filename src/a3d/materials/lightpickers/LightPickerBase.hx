@@ -1,5 +1,6 @@
 package a3d.materials.lightpickers;
 
+import a3d.math.FMath;
 import flash.geom.Vector3D;
 import flash.Vector;
 
@@ -24,6 +25,56 @@ import a3d.entities.lights.PointLight;
  */
 class LightPickerBase extends NamedAssetBase implements IAsset
 {
+	public var assetType(get,null):String;
+	/**
+	 * The maximum amount of directional lights that will be provided
+	 */
+	public var numDirectionalLights(get,null):Int;
+	/**
+	 * The maximum amount of point lights that will be provided
+	 */
+	public var numPointLights(get,null):Int;
+	/**
+	 * The maximum amount of directional lights that cast shadows
+	 */
+	public var numCastingDirectionalLights(get,null):Int;
+	/**
+	 * The amount of point lights that cast shadows
+	 */
+	public var numCastingPointLights(get,null):Int;
+	/**
+	 * The maximum amount of light probes that will be provided
+	 */
+	public var numLightProbes(get,null):Int;
+	/**
+	 * The collected point lights to be used for shading.
+	 */
+	public var pointLights(get,null):Vector<PointLight>;
+	/**
+	 * The collected directional lights to be used for shading.
+	 */
+	public var directionalLights(get,null):Vector<DirectionalLight>;
+	/**
+	 * The collected point lights that cast shadows to be used for shading.
+	 */
+	public var castingPointLights(get,null):Vector<PointLight>;
+	/**
+	 * The collected directional lights that cast shadows to be used for shading.
+	 */
+	public var castingDirectionalLights(get,null):Vector<DirectionalLight>;
+	/**
+	 * The collected light probes to be used for shading.
+	 */
+	public var lightProbes(get,null):Vector<LightProbe>;
+	/**
+	 * The weights for each light probe, defining their influence on the object.
+	 */
+	public var lightProbeWeights(get,null):Vector<Float>;
+	/**
+	 * A collection of all the collected lights.
+	 */
+	public var allPickedLights(get, null):Vector<LightBase>;
+	
 	private var _numPointLights:Int;
 	private var _numDirectionalLights:Int;
 	private var _numCastingPointLights:Int;
@@ -52,115 +103,79 @@ class LightPickerBase extends NamedAssetBase implements IAsset
 	{
 	}
 
-	public var assetType(get,null):String;
+	
 	private function get_assetType():String
 	{
 		return AssetType.LIGHT_PICKER;
 	}
 
-	/**
-	 * The maximum amount of directional lights that will be provided
-	 */
-	public var numDirectionalLights(get,null):Int;
+	
 	private function get_numDirectionalLights():Int
 	{
 		return _numDirectionalLights;
 	}
 
-	/**
-	 * The maximum amount of point lights that will be provided
-	 */
-	public var numPointLights(get,null):Int;
+	
 	private function get_numPointLights():Int
 	{
 		return _numPointLights;
 	}
 
-	/**
-	 * The maximum amount of directional lights that cast shadows
-	 */
-	public var numCastingDirectionalLights(get,null):Int;
+	
 	private function get_numCastingDirectionalLights():Int
 	{
 		return _numCastingDirectionalLights;
 	}
 
-	/**
-	 * The amount of point lights that cast shadows
-	 */
-	public var numCastingPointLights(get,null):Int;
+	
 	private function get_numCastingPointLights():Int
 	{
 		return _numCastingPointLights;
 	}
 
-	/**
-	 * The maximum amount of light probes that will be provided
-	 */
-	public var numLightProbes(get,null):Int;
+	
 	private function get_numLightProbes():Int
 	{
 		return _numLightProbes;
 	}
 
-	/**
-	 * The collected point lights to be used for shading.
-	 */
-	public var pointLights(get,null):Vector<PointLight>;
+	
 	private function get_pointLights():Vector<PointLight>
 	{
 		return _pointLights;
 	}
 
-	/**
-	 * The collected directional lights to be used for shading.
-	 */
-	public var directionalLights(get,null):Vector<DirectionalLight>;
+	
 	private function get_directionalLights():Vector<DirectionalLight>
 	{
 		return _directionalLights;
 	}
 
-	/**
-	 * The collected point lights that cast shadows to be used for shading.
-	 */
-	public var castingPointLights(get,null):Vector<PointLight>;
+	
 	private function get_castingPointLights():Vector<PointLight>
 	{
 		return _castingPointLights;
 	}
 
-	/**
-	 * The collected directional lights that cast shadows to be used for shading.
-	 */
-	public var castingDirectionalLights(get,null):Vector<DirectionalLight>;
+	
 	private function get_castingDirectionalLights():Vector<DirectionalLight>
 	{
 		return _castingDirectionalLights;
 	}
 
-	/**
-	 * The collected light probes to be used for shading.
-	 */
-	public var lightProbes(get,null):Vector<LightProbe>;
+	
 	private function get_lightProbes():Vector<LightProbe>
 	{
 		return _lightProbes;
 	}
 
-	/**
-	 * The weights for each light probe, defining their influence on the object.
-	 */
-	public var lightProbeWeights(get,null):Vector<Float>;
+	
 	private function get_lightProbeWeights():Vector<Float>
 	{
 		return _lightProbeWeights;
 	}
 
-	/**
-	 * A collection of all the collected lights.
-	 */
-	public var allPickedLights(get,null):Vector<LightBase>;
+	
 	private function get_allPickedLights():Vector<LightBase>
 	{
 		return _allPickedLights;
@@ -197,8 +212,8 @@ class LightPickerBase extends NamedAssetBase implements IAsset
 			dy = ry - lightPos.y;
 			dz = rz - lightPos.z;
 			// weight is inversely proportional to square of distance
-			w = dx * dx + dy * dy + dz * dz;
-
+			w = FMath.lengthSquared(dx, dy, dz);
+			
 			// just... huge if at the same spot
 			w = w > .00001 ? 1 / w : 50000000;
 			_lightProbeWeights[i] = w;

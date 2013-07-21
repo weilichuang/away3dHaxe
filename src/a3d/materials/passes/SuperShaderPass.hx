@@ -30,6 +30,15 @@ import a3d.materials.methods.MethodVOSet;
 
 class SuperShaderPass extends CompiledPass
 {
+	public var includeCasters(get,set):Bool;
+	/**
+	 * The ColorTransform object to transform the colour of the material with.
+	 */
+	public var colorTransform(get,set):ColorTransform;
+	public var colorTransformMethod(get,set):ColorTransformMethod;
+	public var numMethods(get,null):Int;
+	public var ignoreLights(get, set):Bool;
+	
 	private var _includeCasters:Bool = true;
 	private var _ignoreLights:Bool;
 
@@ -47,7 +56,7 @@ class SuperShaderPass extends CompiledPass
 		return new SuperShaderCompiler(profile);
 	}
 
-	public var includeCasters(get,set):Bool;
+	
 	private function get_includeCasters():Bool
 	{
 		return _includeCasters;
@@ -63,10 +72,7 @@ class SuperShaderPass extends CompiledPass
 		return _includeCasters;
 	}
 
-	/**
-	 * The ColorTransform object to transform the colour of the material with.
-	 */
-	public var colorTransform(get,set):ColorTransform;
+	
 	private function get_colorTransform():ColorTransform
 	{
 		return _methodSetup.colorTransformMethod != null ? _methodSetup.colorTransformMethod.colorTransform : null;
@@ -89,7 +95,7 @@ class SuperShaderPass extends CompiledPass
 		return colorTransform;
 	}
 
-	public var colorTransformMethod(get,set):ColorTransformMethod;
+	
 	private function get_colorTransformMethod():ColorTransformMethod
 	{
 		return _methodSetup.colorTransformMethod;
@@ -109,7 +115,7 @@ class SuperShaderPass extends CompiledPass
 		_methodSetup.addMethod(method);
 	}
 
-	public var numMethods(get,null):Int;
+	
 	private function get_numMethods():Int
 	{
 		return _methodSetup.numMethods;
@@ -176,7 +182,7 @@ class SuperShaderPass extends CompiledPass
 			_methodSetup.colorTransformMethod.activate(_methodSetup.colorTransformMethodVO, stage3DProxy);
 
 		var methods:Vector<MethodVOSet> = _methodSetup.methods;
-		var len:UInt = methods.length;
+		var len:Int = methods.length;
 		for (i in 0...len)
 		{
 			var mset:MethodVOSet = methods[i];
@@ -204,7 +210,7 @@ class SuperShaderPass extends CompiledPass
 
 		var mset:MethodVOSet;
 		var methods:Vector<MethodVOSet> = _methodSetup.methods;
-		var len:UInt = methods.length;
+		var len:Int = methods.length;
 		for (i in 0...len)
 		{
 			mset = methods[i];
@@ -241,7 +247,7 @@ class SuperShaderPass extends CompiledPass
 			_methodSetup.colorTransformMethod.initConstants(_methodSetup.colorTransformMethodVO);
 
 		var methods:Vector<MethodVOSet> = _methodSetup.methods;
-		var len:UInt = methods.length;
+		var len:Int = methods.length;
 		for (i in 0...len)
 		{
 			methods[i].method.initConstants(methods[i].data);
@@ -379,7 +385,7 @@ class SuperShaderPass extends CompiledPass
 		_fragmentConstantData[_probeWeightsIndex + 3] = weights[3];
 	}
 
-	public var ignoreLights(get,set):Bool;
+	
 	private function set_ignoreLights(ignoreLights:Bool):Bool
 	{
 		return _ignoreLights = ignoreLights;

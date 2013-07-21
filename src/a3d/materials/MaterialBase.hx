@@ -168,8 +168,8 @@ class MaterialBase extends NamedAssetBase implements IAsset
 	private var _numPasses:Int;
 	private var _passes:Vector<MaterialPassBase>;
 
-	private var _mipmap:Bool;
-	private var _smooth:Bool;
+	private var _mipmap:Bool = true;
+	private var _smooth:Bool = true;
 	private var _repeat:Bool;
 
 	private var _depthPass:DepthMapPass;
@@ -192,9 +192,7 @@ class MaterialBase extends NamedAssetBase implements IAsset
 		_distancePass = new DistanceMapPass();
 		_depthPass.addEventListener(Event.CHANGE, onDepthPassChange);
 		_distancePass.addEventListener(Event.CHANGE, onDistancePassChange);
-		
-		_mipmap = true;
-		_smooth = true;
+
 		_blendMode = BlendMode.NORMAL;
 		 _depthCompareMode = Context3DCompareMode.LESS_EQUAL;
 

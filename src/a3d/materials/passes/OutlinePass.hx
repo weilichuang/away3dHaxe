@@ -1,24 +1,23 @@
 package a3d.materials.passes;
 
-import flash.display3D.Context3D;
-import flash.display3D.Context3DCompareMode;
-import flash.display3D.Context3DProgramType;
-import flash.display3D.Context3DTriangleFace;
-import flash.geom.Matrix3D;
-import flash.utils.Dictionary;
-import flash.Vector;
-import haxe.ds.ObjectMap;
-import haxe.ds.StringMap;
-
-import a3d.entities.Camera3D;
 import a3d.core.base.Geometry;
 import a3d.core.base.IRenderable;
 import a3d.core.base.ISubGeometry;
 import a3d.core.base.SubGeometry;
 import a3d.core.base.SubMesh;
 import a3d.core.managers.Stage3DProxy;
+import a3d.entities.Camera3D;
 import a3d.entities.Mesh;
 import a3d.math.Matrix3DUtils;
+import flash.display3D.Context3D;
+import flash.display3D.Context3DCompareMode;
+import flash.display3D.Context3DProgramType;
+import flash.display3D.Context3DTriangleFace;
+import flash.geom.Matrix3D;
+import flash.Vector;
+import haxe.ds.ObjectMap;
+import haxe.ds.StringMap;
+
 
 using a3d.math.FMath;
 
@@ -45,6 +44,7 @@ class OutlinePass extends MaterialPassBase
 		_colorData = new Vector<Float>(4, true);
 		_colorData[3] = 1;
 		_offsetData = new Vector<Float>(4, true);
+		
 		this.outlineColor = outlineColor;
 		this.outlineSize = outlineSize;
 		_defaultCulling = Context3DTriangleFace.FRONT;
@@ -90,7 +90,6 @@ class OutlinePass extends MaterialPassBase
 
 		if (_dedicatedMeshes)
 		{
-			var key:Dynamic;
 			for (key in _outlineMeshes)
 			{
 				disposeDedicated(key);

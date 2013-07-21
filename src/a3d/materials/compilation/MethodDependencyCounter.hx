@@ -13,16 +13,50 @@ import a3d.materials.methods.MethodVO;
  */
 class MethodDependencyCounter
 {
-	private var _projectionDependencies:UInt;
-	private var _normalDependencies:UInt;
-	private var _viewDirDependencies:UInt;
-	private var _uvDependencies:UInt;
-	private var _secondaryUVDependencies:UInt;
-	private var _globalPosDependencies:UInt;
-	private var _tangentDependencies:UInt;
+	/**
+	 * The amount of tangent vector dependencies (fragment shader).
+	 */
+	public var tangentDependencies(get, null):Int;
+	/**
+	 * Indicates whether there are any dependencies on the world-space position vector.
+	 */
+	public var usesGlobalPosFragment(get, null):Bool;
+	/**
+	 * The amount of dependencies on the projected position.
+	 */
+	public var projectionDependencies(get, null):Int;
+	/**
+	 * The amount of dependencies on the normal vector.
+	 */
+	public var normalDependencies(get, null):Int;
+	/**
+	 * The amount of dependencies on the view direction.
+	 */
+	public var viewDirDependencies(get, null):Int;
+	/**
+	 * The amount of dependencies on the primary UV coordinates.
+	 */
+	public var uvDependencies(get, null):Int;
+	/**
+	 * The amount of dependencies on the secondary UV coordinates.
+	 */
+	public var secondaryUVDependencies(get, null):Int;
+	/**
+	 * The amount of dependencies on the global position. This can be 0 while hasGlobalPosDependencies is true when
+	 * the global position is used as a temporary value (fe to calculate the view direction)
+	 */
+	public var globalPosDependencies(get, null):Int;
+	
+	private var _projectionDependencies:Int;
+	private var _normalDependencies:Int;
+	private var _viewDirDependencies:Int;
+	private var _uvDependencies:Int;
+	private var _secondaryUVDependencies:Int;
+	private var _globalPosDependencies:Int;
+	private var _tangentDependencies:Int;
 	private var _usesGlobalPosFragment:Bool = false;
-	private var _numPointLights:UInt;
-	private var _lightSourceMask:UInt;
+	private var _numPointLights:Int;
+	private var _lightSourceMask:Int;
 
 	/**
 	 * Creates a new MethodDependencyCounter object.
@@ -51,7 +85,7 @@ class MethodDependencyCounter
 	 * @param numPointLights The amount of point lights.
 	 * @param lightSourceMask The light source types used by the material.
 	 */
-	public function setPositionedLights(numPointLights:UInt, lightSourceMask:UInt):Void
+	public function setPositionedLights(numPointLights:Int, lightSourceMask:Int):Void
 	{
 		_numPointLights = numPointLights;
 		_lightSourceMask = lightSourceMask;
@@ -88,75 +122,50 @@ class MethodDependencyCounter
 			++_secondaryUVDependencies;
 	}
 
-	/**
-	 * The amount of tangent vector dependencies (fragment shader).
-	 */
-	public var tangentDependencies(get, null):UInt;
-	private function get_tangentDependencies():UInt
+	
+	private function get_tangentDependencies():Int
 	{
 		return _tangentDependencies;
 	}
 
-	/**
-	 * Indicates whether there are any dependencies on the world-space position vector.
-	 */
-	public var usesGlobalPosFragment(get, null):Bool;
+	
 	private function get_usesGlobalPosFragment():Bool
 	{
 		return _usesGlobalPosFragment;
 	}
 
-	/**
-	 * The amount of dependencies on the projected position.
-	 */
-	public var projectionDependencies(get, null):UInt;
-	private function get_projectionDependencies():UInt
+	
+	private function get_projectionDependencies():Int
 	{
 		return _projectionDependencies;
 	}
 
-	/**
-	 * The amount of dependencies on the normal vector.
-	 */
-	public var normalDependencies(get, null):UInt;
-	private function get_normalDependencies():UInt
+	
+	private function get_normalDependencies():Int
 	{
 		return _normalDependencies;
 	}
 
-	/**
-	 * The amount of dependencies on the view direction.
-	 */
-	public var viewDirDependencies(get, null):UInt;
-	private function get_viewDirDependencies():UInt
+	
+	private function get_viewDirDependencies():Int
 	{
 		return _viewDirDependencies;
 	}
 
-	/**
-	 * The amount of dependencies on the primary UV coordinates.
-	 */
-	public var uvDependencies(get, null):UInt;
-	private function get_uvDependencies():UInt
+	
+	private function get_uvDependencies():Int
 	{
 		return _uvDependencies;
 	}
 
-	/**
-	 * The amount of dependencies on the secondary UV coordinates.
-	 */
-	public var secondaryUVDependencies(get, null):UInt;
-	private function get_secondaryUVDependencies():UInt
+	
+	private function get_secondaryUVDependencies():Int
 	{
 		return _secondaryUVDependencies;
 	}
 
-	/**
-	 * The amount of dependencies on the global position. This can be 0 while hasGlobalPosDependencies is true when
-	 * the global position is used as a temporary value (fe to calculate the view direction)
-	 */
-	public var globalPosDependencies(get, null):UInt;
-	private function get_globalPosDependencies():UInt
+	
+	private function get_globalPosDependencies():Int
 	{
 		return _globalPosDependencies;
 	}

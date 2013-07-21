@@ -4,6 +4,36 @@ import a3d.materials.MaterialBase;
 
 class MultipleMaterials
 {
+	/**
+	* Defines the material applied to the left side of the cube.
+	*/
+	public var left(get, set):MaterialBase;
+	
+	/**
+	* Defines the material applied to the right side of the cube.
+	*/
+	public var right(get, set):MaterialBase;
+	
+	/**
+	* Defines the material applied to the bottom side of the cube.
+	*/
+	public var bottom(get, set):MaterialBase;
+	
+	/**
+	* Defines the material applied to the top side of the cube.
+	*/
+	public var top(get, set):MaterialBase;
+	
+	/**
+	* Defines the material applied to the front side of the cube.
+	*/
+	public var front(get, set):MaterialBase;
+	
+	/**
+	* Defines the material applied to the back side of the cube.
+	*/
+	public var back(get,set):MaterialBase;
+	
 	private var _left:MaterialBase;
 	private var _right:MaterialBase;
 	private var _bottom:MaterialBase;
@@ -33,10 +63,7 @@ class MultipleMaterials
 		_back = back;
 	}
 
-	/**
-	* Defines the material applied to the left side of the cube.
-	*/
-	public var left(get,set):MaterialBase;
+	
 	private function get_left():MaterialBase
 	{
 		return _left;
@@ -50,10 +77,7 @@ class MultipleMaterials
 		return _left;
 	}
 
-	/**
-	* Defines the material applied to the right side of the cube.
-	*/
-	public var right(get,set):MaterialBase;
+	
 	private function get_right():MaterialBase
 	{
 		return _right;
@@ -67,10 +91,7 @@ class MultipleMaterials
 		return _right;
 	}
 
-	/**
-	* Defines the material applied to the bottom side of the cube.
-	*/
-	public var bottom(get,set):MaterialBase;
+	
 	private function get_bottom():MaterialBase
 	{
 		return _bottom;
@@ -84,10 +105,7 @@ class MultipleMaterials
 		return _bottom;
 	}
 
-	/**
-	* Defines the material applied to the top side of the cube.
-	*/
-	public var top(get,set):MaterialBase;
+	
 	private function get_top():MaterialBase
 	{
 		return _top;
@@ -101,10 +119,7 @@ class MultipleMaterials
 		return _top;
 	}
 
-	/**
-	* Defines the material applied to the front side of the cube.
-	*/
-	public var front(get,set):MaterialBase;
+	
 	private function get_front():MaterialBase
 	{
 		return _front;
@@ -118,10 +133,7 @@ class MultipleMaterials
 		return _front;
 	}
 
-	/**
-	* Defines the material applied to the back side of the cube.
-	*/
-	public var left(get,set):MaterialBase;
+	
 	private function get_back():MaterialBase
 	{
 		return _back;

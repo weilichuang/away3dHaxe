@@ -1,6 +1,7 @@
 package a3d.tools.commands;
 
 import flash.geom.Vector3D;
+import flash.Vector.Vector;
 
 
 import a3d.bounds.BoundingVolumeBase;
@@ -17,6 +18,7 @@ class SphereMaker
 
 	public static inline var RADIUS:Int = 1;
 	public static inline var USE_BOUNDS_MAX:Int = 2;
+	
 	private var _weight:Float;
 	private var _radius:Float;
 	private var _radiusMode:Int;
@@ -49,8 +51,6 @@ class SphereMaker
 	*/
 	public function apply(mesh:Mesh, weight:Float = 1, radiusMode:Int = RADIUS, radius:Float = 100):Void
 	{
-		var i:UInt;
-
 		_weight = weight;
 		_radiusMode = radiusMode;
 		_radius = radius;
@@ -74,7 +74,7 @@ class SphereMaker
 			if (_radius < vectorMinlength)
 				_radius = vectorMinlength;
 		}
-		for (i = 0; i < mesh.geometry.subGeometries.length; i++)
+		for (i in 0...mesh.geometry.subGeometries.length)
 		{
 			spherizeSubGeom(mesh.geometry.subGeometries[i]);
 		}
@@ -84,9 +84,9 @@ class SphereMaker
 	{
 		var child:ObjectContainer3D;
 		if (Std.is(object,Mesh))
-			apply(Mesh(object), _weight, _radiusMode, _radius);
+			apply(Std.instance(object,Mesh), _weight, _radiusMode, _radius);
 
-		for (var i:UInt = 0; i < object.numChildren; ++i)
+		for (i in 0...object.numChildren)
 		{
 			child = object.getChildAt(i);
 			parse(child);
@@ -102,18 +102,18 @@ class SphereMaker
 		var vectorNormal:Vector3D;
 		var vectordifference:Float;
 		var vd:Vector<Float> = subGeom.vertexData;
-		var vStride:UInt = subGeom.vertexStride;
-		var vOffs:UInt = subGeom.vertexOffset;
+		var vStride:Int = subGeom.vertexStride;
+		var vOffs:Int = subGeom.vertexOffset;
 		var nd:Vector<Float> = subGeom.vertexNormalData;
-		var nStride:UInt = subGeom.vertexNormalStride;
-		var nOffs:UInt = subGeom.vertexNormalOffset;
+		var nStride:Int = subGeom.vertexNormalStride;
+		var nOffs:Int = subGeom.vertexNormalOffset;
 		len = subGeom.numVertices;
-		for (i = 0; i < len; i++)
+		for (i in 0...len)
 		{
 			vectorVert = new Vector3D(vd[vOffs + i * vStride + 0], vd[vOffs + i * vStride + 1], vd[vOffs + i * vStride + 2]);
 			vectorVertLength = vectorVert.length;
 			vectorNormal = vectorVert.clone();
-			vectordifference = Number(_radius) - Number(vectorVertLength);
+			vectordifference = _radius - vectorVertLength;
 			vectorNormal.normalize();
 
 			vd[vOffs + i * vStride + 0] = vectorVert.x + ((vectorNormal.x * vectordifference) * _weight);

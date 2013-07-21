@@ -4,6 +4,12 @@ import flash.geom.Vector3D;
 
 class Plane3D
 {
+	// indicates the alignment of the plane
+	public static inline var ALIGN_ANY:Int = 0;
+	public static inline var ALIGN_XY_AXIS:Int = 1;
+	public static inline var ALIGN_YZ_AXIS:Int = 2;
+	public static inline var ALIGN_XZ_AXIS:Int = 3;
+	
 	/**
 	 * The A coefficient of this plane. (Also the x dimension of the plane normal)
 	 */
@@ -26,12 +32,6 @@ class Plane3D
 
 	public var alignment:Int;
 
-	// indicates the alignment of the plane
-	public static inline var ALIGN_ANY:Int = 0;
-	public static inline var ALIGN_XY_AXIS:Int = 1;
-	public static inline var ALIGN_YZ_AXIS:Int = 2;
-	public static inline var ALIGN_XZ_AXIS:Int = 3;
-
 	/**
 	 * Create a Plane3D with ABCD coefficients
 	 */
@@ -41,6 +41,7 @@ class Plane3D
 		this.b = b;
 		this.c = c;
 		this.d = d;
+		
 		if (a == 0 && b == 0)
 			alignment = ALIGN_XY_AXIS;
 		else if (b == 0 && c == 0)
@@ -110,7 +111,7 @@ class Plane3D
 	 */
 	public function normalize():Plane3D
 	{
-		var len:Float = 1 / Math.sqrt(a * a + b * b + c * c);
+		var len:Float = FMath.invSqrt(a * a + b * b + c * c);
 		a *= len;
 		b *= len;
 		c *= len;

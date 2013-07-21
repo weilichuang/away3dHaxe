@@ -84,8 +84,8 @@ class LightsHelper
 	{
 		var picker:StaticLightPicker;
 		var aLights:Array<LightBase>;
-		var hasLight:Bool;
-		var i:Int;
+		var hasLight:Bool = false;
+
 		if (materialOwner.material != null)
 		{
 			switch (_state)
@@ -102,7 +102,7 @@ class LightsHelper
 					if (picker != null)
 					{
 						aLights = picker.lights;
-						if (aLights && aLights.length > 0)
+						if (aLights != null && aLights.length > 0)
 						{
 							for (i in 0...aLights.length)
 							{
@@ -136,7 +136,7 @@ class LightsHelper
 					if (picker != null)
 					{
 						aLights = picker.lights;
-						if (aLights)
+						if (aLights != null)
 						{
 							for (i in 0...aLights.length)
 							{

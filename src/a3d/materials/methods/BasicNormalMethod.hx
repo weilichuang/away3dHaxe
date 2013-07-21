@@ -12,6 +12,20 @@ import a3d.textures.Texture2DBase;
  */
 class BasicNormalMethod extends ShadingMethodBase
 {
+	/**
+	 * Indicates whether or not this method outputs normals in tangent space. Override for object-space normals.
+	 */
+	public var tangentSpace(get, null):Bool;
+	/**
+	 * Indicates if the normal method output is not based on a texture (if not, it will usually always return true)
+	 * Override if subclasses are different.
+	 */
+	public var hasOutput(get, null):Bool;
+	/**
+	 * The texture containing the normals per pixel.
+	 */
+	public var normalMap(get, set):Texture2DBase;
+	
 	private var _texture:Texture2DBase;
 	private var _useTexture:Bool;
 	private var _normalTextureRegister:ShaderRegisterElement;
@@ -30,20 +44,13 @@ class BasicNormalMethod extends ShadingMethodBase
 		vo.needsUV = (_texture != null);
 	}
 
-	/**
-	 * Indicates whether or not this method outputs normals in tangent space. Override for object-space normals.
-	 */
-	public var tangentSpace(get, null):Bool;
+	
 	private function get_tangentSpace():Bool
 	{
 		return true;
 	}
 
-	/**
-	 * Indicates if the normal method output is not based on a texture (if not, it will usually always return true)
-	 * Override if subclasses are different.
-	 */
-	public var hasOutput(get, null):Bool;
+	
 	private function get_hasOutput():Bool
 	{
 		return _useTexture;
@@ -54,10 +61,7 @@ class BasicNormalMethod extends ShadingMethodBase
 		normalMap = Std.instance(method,BasicNormalMethod).normalMap;
 	}
 
-	/**
-	 * The texture containing the normals per pixel.
-	 */
-	public var normalMap(get, set):Texture2DBase;
+	
 	private function get_normalMap():Texture2DBase
 	{
 		return _texture;

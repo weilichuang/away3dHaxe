@@ -7,6 +7,16 @@ import flash.Vector;
 
 class ColorHitMap extends EventDispatcher
 {
+	/**
+	* The offsetX, offsetY
+	* by default offsetX and offsetY represent the center of the map.
+	*/
+	public var offsetX(get, set):Float;
+	public var offsetY(get, set):Float;
+	public var scaleX(get, set):Float;
+	public var scaleY(get, set):Float;
+	public var bitmapData(get, set):BitmapData;
+	
 
 	private var _colorMap:BitmapData;
 	private var _colorObjects:Vector<ColorObject>;
@@ -28,6 +38,8 @@ class ColorHitMap extends EventDispatcher
 	*/
 	public function new(bitmapData:BitmapData, scaleX:Float = 1, scaleY:Float = 1)
 	{
+		super();
+		
 		_colorMap = bitmapData;
 		_scaleX = scaleX;
 		_scaleY = scaleY;
@@ -44,15 +56,15 @@ class ColorHitMap extends EventDispatcher
 	*/
 	public function read(x:Float, y:Float):Void
 	{
-		if (!_colorObjects)
+		if (_colorObjects == null)
 			return;
 
-		var color:UInt = _colorMap.getPixel((x / _scaleX) + _offsetX, (y / _scaleY) + _offsetY);
+		var color:UInt = _colorMap.getPixel(Std.int((x / _scaleX) + _offsetX), Std.int((y / _scaleY) + _offsetY));
 
 		var co:ColorObject;
-		for (var i:UInt = 0; i < _colorObjects.length; ++i)
+		for (i in 0..._colorObjects.length)
 		{
-			co = ColorObject(_colorObjects[i]);
+			co = Std.instance(_colorObjects[i],ColorObject);
 			if (co.color == color)
 			{
 				fireColorEvent(co.eventID);
@@ -72,9 +84,9 @@ class ColorHitMap extends EventDispatcher
 	* @return		A uint, the color value at coordinates x, y
 	* @see 		plotAt
 	*/
-	public function getColorAt(x:Float, y:Float):UInt
+	public inline function getColorAt(x:Float, y:Float):UInt
 	{
-		return _colorMap.getPixel((x / _scaleX) + _offsetX, (y / _scaleY) + _offsetY);
+		return _colorMap.getPixel(Std.int((x / _scaleX) + _offsetX), Std.int((y / _scaleY) + _offsetY));
 	}
 
 	/**
@@ -85,7 +97,7 @@ class ColorHitMap extends EventDispatcher
 	*/
 	public function plotAt(x:Float, y:Float, color:UInt = 0xFF0000):Void
 	{
-		_colorMap.setPixel((x / _scaleX) + _offsetX, (y / _scaleY) + _offsetY, color);
+		_colorMap.setPixel(Std.int((x / _scaleX) + _offsetX), Std.int((y / _scaleY) + _offsetY), color);
 	}
 
 	/**
@@ -96,9 +108,9 @@ class ColorHitMap extends EventDispatcher
 	* @param 	eventID		A string to identify that event
 	* @param 	listener		The function  that must be triggered
 	*/
-	public function addColorEvent(color:Float, eventID:String, listener:Function):Void
+	public function addColorEvent(color:UInt, eventID:String, listener:Dynamic->Void):Void
 	{
-		if (!_colorObjects)
+		if (_colorObjects == null)
 			_colorObjects = new Vector<ColorObject>();
 
 		var colorObject:ColorObject = new ColorObject();
@@ -118,13 +130,13 @@ class ColorHitMap extends EventDispatcher
 	*/
 	public function removeColorEvent(eventID:String):Void
 	{
-		if (!_colorObjects)
+		if (_colorObjects == null)
 			return;
 
 		var co:ColorObject;
-		for (var i:UInt = 0; i < _colorObjects.length; ++i)
+		for (i in 0..._colorObjects.length)
 		{
-			co = ColorObject(_colorObjects[i]);
+			co = Std.instance(_colorObjects[i],ColorObject);
 			if (co.eventID == eventID)
 			{
 				if (hasEventListener(eventID))
@@ -136,18 +148,15 @@ class ColorHitMap extends EventDispatcher
 		}
 	}
 
-	/**
-	* The offsetX, offsetY
-	* by default offsetX and offsetY represent the center of the map.
-	*/
-	private function set_offsetX(value:Float):Void
+	
+	private function set_offsetX(value:Float):Float
 	{
-		_offsetX = value;
+		return _offsetX = value;
 	}
 
-	private function set_offsetY(value:Float):Void
+	private function set_offsetY(value:Float):Float
 	{
-		_offsetY = value;
+		return _offsetY = value;
 	}
 
 	private function get_offsetX():Float
@@ -163,14 +172,14 @@ class ColorHitMap extends EventDispatcher
 	/**
 	* defines the  scaleX and scaleY. Defines the ratio map to the 3d world
 	*/
-	private function set_scaleX(value:Float):Void
+	private function set_scaleX(value:Float):Float
 	{
-		_scaleX = value;
+		return _scaleX = value;
 	}
 
-	private function set_scaleY(value:Float):Void
+	private function set_scaleY(value:Float):Float
 	{
-		_scaleY = value;
+		return _scaleY = value;
 	}
 
 	private function get_scaleX():Float
@@ -186,12 +195,14 @@ class ColorHitMap extends EventDispatcher
 	/**
 	* The source bitmapdata uses for colour readings
 	*/
-	private function set_bitmapData(map:BitmapData):Void
+	private function set_bitmapData(map:BitmapData):BitmapData
 	{
 		_colorMap = map;
 
 		_offsetX = _colorMap.width * .5;
 		_offsetY = _colorMap.height * .5;
+		
+		return map;
 	}
 
 	private function get_bitmapData():BitmapData
@@ -210,5 +221,10 @@ class ColorObject
 {
 	public var color:UInt;
 	public var eventID:String;
-	public var listener:Function;
+	public var listener:Dynamic->Void;
+	
+	public function new()
+	{
+		
+	}
 }

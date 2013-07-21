@@ -7,6 +7,15 @@ package a3d.materials;
  */
 class ColorMaterial extends SinglePassMaterialBase
 {
+	/**
+	 * The alpha of the surface.
+	 */
+	public var alpha(get, set):Float;
+	/**
+	 * The diffuse reflectivity color of the surface.
+	 */
+	public var color(get, set):UInt;
+	
 	private var _diffuseAlpha:Float = 1;
 
 	/**
@@ -21,10 +30,7 @@ class ColorMaterial extends SinglePassMaterialBase
 		this.alpha = alpha;
 	}
 
-	/**
-	 * The alpha of the surface.
-	 */
-	public var alpha(get, set):Float;
+	
 	private function get_alpha():Float
 	{
 		return _screenPass.diffuseMethod.diffuseAlpha;
@@ -43,10 +49,7 @@ class ColorMaterial extends SinglePassMaterialBase
 		return alpha;
 	}
 
-	/**
-	 * The diffuse reflectivity color of the surface.
-	 */
-	public var color(get, set):UInt;
+	
 	private function get_color():UInt
 	{
 		return _screenPass.diffuseMethod.diffuseColor;

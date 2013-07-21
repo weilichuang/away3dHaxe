@@ -105,13 +105,14 @@ import flash.Vector;
 	 */
 	public function fromAxisAngle(axis:Vector3D, angle:Float):Void
 	{
-		var sin_a:Float = Math.sin(angle / 2);
-		var cos_a:Float = Math.cos(angle / 2);
+		var sin_a:Float = Math.sin(angle * 0.5);
+		var cos_a:Float = Math.cos(angle * 0.5);
 
 		x = axis.x * sin_a;
 		y = axis.y * sin_a;
 		z = axis.z * sin_a;
 		w = cos_a;
+		
 		normalize();
 	}
 
@@ -190,7 +191,7 @@ import flash.Vector;
 		y = y1 + t * (y2 - y1);
 		z = z1 + t * (z2 - z1);
 
-		len = 1.0 / Math.sqrt(w * w + x * x + y * y + z * z);
+		len = FMath.invSqrt(w * w + x * x + y * y + z * z);
 		w *= len;
 		x *= len;
 		y *= len;
@@ -237,7 +238,7 @@ import flash.Vector;
 	 */
 	public function normalize(val:Float = 1):Void
 	{
-		var mag:Float = val / Math.sqrt(x * x + y * y + z * z + w * w);
+		var mag:Float = val * FMath.invSqrt(x * x + y * y + z * z + w * w);
 
 		x *= mag;
 		y *= mag;

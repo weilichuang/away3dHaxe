@@ -23,6 +23,15 @@ import a3d.textures.TextureProxyBase;
  */
 class ShadingMethodBase extends NamedAssetBase
 {
+	/**
+	 * The shared registers created by the compiler and possibly used by methods.
+	 */
+	public var sharedRegisters(get,set):ShaderRegisterData;
+	/**
+	 * Any passes required that render to a texture used by this method.
+	 */
+	public var passes(get, null):Vector<MaterialPassBase>;
+	
 	private var _sharedRegisters:ShaderRegisterData;
 	private var _passes:Vector<MaterialPassBase>;
 
@@ -54,10 +63,7 @@ class ShadingMethodBase extends NamedAssetBase
 
 	}
 
-	/**
-	 * The shared registers created by the compiler and possibly used by methods.
-	 */
-	public var sharedRegisters(get,set):ShaderRegisterData;
+	
 	private function get_sharedRegisters():ShaderRegisterData
 	{
 		return _sharedRegisters;
@@ -68,10 +74,7 @@ class ShadingMethodBase extends NamedAssetBase
 		return _sharedRegisters = value;
 	}
 
-	/**
-	 * Any passes required that render to a texture used by this method.
-	 */
-	public var passes(get,null):Vector<MaterialPassBase>;
+	
 	private function get_passes():Vector<MaterialPassBase>
 	{
 		return _passes;
@@ -165,8 +168,12 @@ class ShadingMethodBase extends NamedAssetBase
 	 * @param forceWrap If true, texture wrapping is enabled regardless of the material setting.
 	 * @return The fragment code that performs the sampling.
 	 */
-	private function getTex2DSampleCode(vo:MethodVO, targetReg:ShaderRegisterElement, inputReg:ShaderRegisterElement, texture:TextureProxyBase, uvReg:ShaderRegisterElement = null, forceWrap:String =
-		null):String
+	private function getTex2DSampleCode(vo:MethodVO, 
+										targetReg:ShaderRegisterElement, 
+										inputReg:ShaderRegisterElement, 
+										texture:TextureProxyBase, 
+										uvReg:ShaderRegisterElement = null, 
+										forceWrap:String =null):String
 	{
 		if (forceWrap == null)
 		{

@@ -15,6 +15,25 @@ import flash.Vector.Vector;
  */
 class BasicSpecularMethod extends LightingMethodBase
 {
+	/**
+	 * The sharpness of the specular highlight.
+	 */
+	public var gloss(get, set):Float;
+	/**
+	 * The overall strength of the specular highlights.
+	 */
+	public var specular(get, set):Float;
+	/**
+	 * The colour of the specular reflection of the surface.
+	 */
+	public var specularColor(get, set):UInt;
+	/**
+	 * The bitmapData that encodes the specular highlight strength per texel in the red channel, and the sharpness
+	 * in the green channel. You can use SpecularBitmapTexture if you want to easily set specular and gloss maps
+	 * from greyscale images, but prepared images are preffered.
+	 */
+	public var texture(get, set):Texture2DBase;
+	
 	public var specularR:Float; 
 	public var specularG:Float; 
 	public var specularB:Float;
@@ -56,10 +75,7 @@ class BasicSpecularMethod extends LightingMethodBase
 		vo.needsView = vo.numLights > 0;
 	}
 
-	/**
-	 * The sharpness of the specular highlight.
-	 */
-	public var gloss(get, set):Float;
+	
 	private function get_gloss():Float
 	{
 		return _gloss;
@@ -70,10 +86,7 @@ class BasicSpecularMethod extends LightingMethodBase
 		return _gloss = value;
 	}
 
-	/**
-	 * The overall strength of the specular highlights.
-	 */
-	public var specular(get, set):Float;
+	
 	private function get_specular():Float
 	{
 		return _specular;
@@ -90,10 +103,7 @@ class BasicSpecularMethod extends LightingMethodBase
 		return _specular;
 	}
 
-	/**
-	 * The colour of the specular reflection of the surface.
-	 */
-	public var specularColor(get, set):UInt;
+	
 	private function get_specularColor():UInt
 	{
 		return _specularColor;
@@ -113,12 +123,7 @@ class BasicSpecularMethod extends LightingMethodBase
 		return _specularColor;
 	}
 
-	/**
-	 * The bitmapData that encodes the specular highlight strength per texel in the red channel, and the sharpness
-	 * in the green channel. You can use SpecularBitmapTexture if you want to easily set specular and gloss maps
-	 * from greyscale images, but prepared images are preffered.
-	 */
-	public var texture(get, set):Texture2DBase;
+	
 	private function get_texture():Texture2DBase
 	{
 		return _texture;

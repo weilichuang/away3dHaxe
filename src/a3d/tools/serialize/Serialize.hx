@@ -1,28 +1,22 @@
 package a3d.tools.serialize;
 
-import flash.utils.getQualifiedClassName;
-
-
-import a3d.animators.IAnimator;
 import a3d.animators.data.JointPose;
 import a3d.animators.data.Skeleton;
 import a3d.animators.data.SkeletonJoint;
 import a3d.animators.data.SkeletonPose;
+import a3d.animators.IAnimator;
 import a3d.core.base.ISubGeometry;
 import a3d.core.base.SkinnedSubGeometry;
 import a3d.core.base.SubMesh;
 import a3d.entities.Mesh;
 import a3d.entities.ObjectContainer3D;
 import a3d.entities.Scene3D;
-import a3d.materials.MaterialBase;
 import a3d.materials.lightpickers.StaticLightPicker;
-
-
-
+import a3d.materials.MaterialBase;
 
 class Serialize
 {
-	public static var tabSize:UInt = 2;
+	public static var tabSize:Int = 2;
 
 	public function new()
 	{
@@ -30,7 +24,7 @@ class Serialize
 
 	public static function serializeScene(scene:Scene3D, serializer:SerializerBase):Void
 	{
-		for (var i:UInt = 0; i < scene.numChildren; i++)
+		for (i in 0...scene.numChildren)
 		{
 			serializeObjectContainer(scene.getChildAt(i), serializer);
 		}
@@ -53,19 +47,19 @@ class Serialize
 		serializeObjectContainerInternal(Std.instance(mesh,ObjectContainer3D), serializer, false /* serializeChildrenAndEnd */);
 		serializer.writeBool("castsShadows", mesh.castsShadows);
 
-		if (mesh.animator)
+		if (mesh.animator != null)
 		{
 			serializeAnimationState(mesh.animator, serializer);
 		}
 
-		if (mesh.material)
+		if (mesh.material != null)
 		{
 			serializeMaterial(mesh.material, serializer);
 		}
 
-		if (mesh.subMeshes.length)
+		if (mesh.subMeshes.length > 0)
 		{
-			for each (var subMesh:SubMesh in mesh.subMeshes)
+			for (subMesh in mesh.subMeshes)
 			{
 				serializeSubMesh(subMesh, serializer);
 			}
@@ -90,11 +84,11 @@ class Serialize
 	public static function serializeSubMesh(subMesh:SubMesh, serializer:SerializerBase):Void
 	{
 		serializer.beginObject(classNameFromInstance(subMesh), null);
-		if (subMesh.material)
+		if (subMesh.material != null)
 		{
 			serializeMaterial(subMesh.material, serializer);
 		}
-		if (subMesh.subGeometry)
+		if (subMesh.subGeometry != null)
 		{
 			serializeSubGeometry(subMesh.subGeometry, serializer);
 		}
@@ -107,13 +101,13 @@ class Serialize
 
 		if (Std.is(material.lightPicker,StaticLightPicker))
 		{
-			serializer.writeString("lights", String(StaticLightPicker(material.lightPicker).lights));
+			serializer.writeString("lights", Std.instance(material.lightPicker,StaticLightPicker).lights.toString());
 		}
 		serializer.writeBool("mipmap", material.mipmap);
 		serializer.writeBool("smooth", material.smooth);
 		serializer.writeBool("repeat", material.repeat);
 		serializer.writeBool("bothSides", material.bothSides);
-		serializer.writeString("blendMode", material.blendMode);
+		serializer.writeString("blendMode", material.blendMode.getName());
 		serializer.writeBool("requiresBlending", material.requiresBlending);
 		serializer.writeUint("uniqueId", material.uniqueId);
 		serializer.writeUint("numPasses", material.numPasses);
@@ -124,23 +118,23 @@ class Serialize
 	{
 		serializer.beginObject(classNameFromInstance(subGeometry), null);
 		serializer.writeUint("numTriangles", subGeometry.numTriangles);
-		if (subGeometry.indexData)
+		if (subGeometry.indexData != null)
 		{
 			serializer.writeUint("numIndices", subGeometry.indexData.length);
 		}
 		serializer.writeUint("numVertices", subGeometry.numVertices);
-		if (subGeometry.UVData)
+		if (subGeometry.UVData != null)
 		{
 			serializer.writeUint("numUVs", subGeometry.UVData.length);
 		}
 		var skinnedSubGeometry:SkinnedSubGeometry = Std.instance(subGeometry,SkinnedSubGeometry);
-		if (skinnedSubGeometry)
+		if (skinnedSubGeometry != null)
 		{
-			if (skinnedSubGeometry.jointWeightsData)
+			if (skinnedSubGeometry.jointWeightsData != null)
 			{
 				serializer.writeUint("numJointWeights", skinnedSubGeometry.jointWeightsData.length);
 			}
-			if (skinnedSubGeometry.jointIndexData)
+			if (skinnedSubGeometry.jointIndexData != null)
 			{
 				serializer.writeUint("numJointIndexes", skinnedSubGeometry.jointIndexData.length);
 			}
@@ -159,7 +153,7 @@ class Serialize
 	public static function serializeSkeleton(skeleton:Skeleton, serializer:SerializerBase):Void
 	{
 		serializer.beginObject(classNameFromInstance(skeleton), skeleton.name);
-		for each (var skeletonJoint:SkeletonJoint in skeleton.joints)
+		for (skeletonJoint in skeleton.joints)
 		{
 			serializeSkeletonJoint(skeletonJoint, serializer);
 		}
@@ -178,7 +172,7 @@ class Serialize
 	{
 		serializer.beginObject(classNameFromInstance(skeletonPose), "" /*skeletonPose.name*/);
 		serializer.writeUint("numJointPoses", skeletonPose.numJointPoses);
-		for each (var jointPose:JointPose in skeletonPose.jointPoses)
+		for (jointPose in skeletonPose.jointPoses)
 		{
 			serializeJointPose(jointPose, serializer);
 		}
@@ -189,15 +183,15 @@ class Serialize
 
 	private static function serializeChildren(parent:ObjectContainer3D, serializer:SerializerBase):Void
 	{
-		for (var i:UInt = 0; i < parent.numChildren; i++)
+		for (i in 0...parent.numChildren)
 		{
 			serializeObjectContainer(parent.getChildAt(i), serializer);
 		}
 	}
 
-	private static function classNameFromInstance(instance:*):String
+	private static function classNameFromInstance(instance:Dynamic):String
 	{
-		return getQualifiedClassName(instance).split("::").pop();
+		return Type.getClassName(instance);
 	}
 
 	private static function serializeObjectContainerInternal(objectContainer:ObjectContainer3D, serializer:SerializerBase, serializeChildrenAndEnd:Bool):Void

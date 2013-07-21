@@ -8,6 +8,11 @@ class FMath
 {
 	public static inline var PI:Float = 3.141592653589793;
 	
+	public static inline function DOUBLEPI():Float
+	{
+		return PI * 2;
+	}
+	
 	public static inline function INT_MAX_VALUE():Int
 	{
 		return 2147483647;
@@ -52,6 +57,11 @@ class FMath
 	public static inline function DEGREES_TO_RADIANS():Float 
 	{
 		return Math.PI / 180;
+	}
+	
+	public static inline function lengthSquared(x:Float,y:Float,z:Float):Float
+	{
+		return x * x + y * y + z * z;
 	}
 	
 	public static inline function sqrt(value:Float):Float

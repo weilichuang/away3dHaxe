@@ -1,5 +1,11 @@
 ﻿package a3d.materials.passes;
 
+import a3d.core.base.IRenderable;
+import a3d.core.managers.Stage3DProxy;
+import a3d.entities.Camera3D;
+import a3d.math.FMath;
+import a3d.math.Matrix3DUtils;
+import a3d.textures.Texture2DBase;
 import flash.display3D.Context3D;
 import flash.display3D.Context3DProgramType;
 import flash.display3D.Context3DTextureFormat;
@@ -8,16 +14,16 @@ import flash.geom.Vector3D;
 import flash.Vector;
 
 
-import a3d.entities.Camera3D;
-import a3d.core.base.IRenderable;
-import a3d.core.managers.Stage3DProxy;
-import a3d.math.Matrix3DUtils;
-import a3d.textures.Texture2DBase;
-
-
-
 class DistanceMapPass extends MaterialPassBase
 {
+	/**
+	 * The minimum alpha value for which pixels should be drawn. This is used for transparency that is either
+	 * invisible or entirely opaque, often used with textures for foliage, etc.
+	 * Recommended values are 0 to disable alpha, or 0.5 to create smooth edges. Default value is 0 (disabled).
+	 */
+	public var alphaThreshold(get, set):Float;
+	public var alphaMask(get, set):Texture2DBase;
+	
 	private var _fragmentData:Vector<Float>;
 	private var _vertexData:Vector<Float>;
 	private var _alphaThreshold:Float;
@@ -34,12 +40,7 @@ class DistanceMapPass extends MaterialPassBase
 		_numUsedVertexConstants = 9;
 	}
 
-	/**
-	 * The minimum alpha value for which pixels should be drawn. This is used for transparency that is either
-	 * invisible or entirely opaque, often used with textures for foliage, etc.
-	 * Recommended values are 0 to disable alpha, or 0.5 to create smooth edges. Default value is 0 (disabled).
-	 */
-	public var alphaThreshold(get, set):Float;
+	
 	private function get_alphaThreshold():Float
 	{
 		return _alphaThreshold;
@@ -47,10 +48,8 @@ class DistanceMapPass extends MaterialPassBase
 
 	private function set_alphaThreshold(value:Float):Float
 	{
-		if (value < 0)
-			value = 0;
-		else if (value > 1)
-			value = 1;
+		value = FMath.fclamp(value, 0, 1);
+		
 		if (value == _alphaThreshold)
 			return _alphaThreshold;
 
@@ -63,7 +62,7 @@ class DistanceMapPass extends MaterialPassBase
 		return _alphaThreshold;
 	}
 
-	public var alphaMask(get, set):Texture2DBase;
+	
 	private function get_alphaMask():Texture2DBase
 	{
 		return _alphaMask;

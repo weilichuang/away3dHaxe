@@ -107,7 +107,7 @@ class Grid
 		}
 
 		if (Std.is(object3d,Mesh) && object3d.numChildren == 0 && dovert)
-			snap(Mesh(object3d));
+			snap(Std.instance(object3d,Mesh));
 
 		for (i in 0...object3d.numChildren)
 		{
@@ -125,18 +125,18 @@ class Grid
 		var vertices:Vector<Float>;
 		var j:Int;
 		var i:Int;
-		var vecLength:UInt;
+		var vecLength:Int;
 		var subGeom:SubGeometry;
-		var stride:UInt;
+		var stride:Int;
 
 		for (i in 0...numSubGeoms)
 		{
-			subGeom = SubGeometry(geometries[i]);
+			subGeom = Std.instance(geometries[i],SubGeometry);
 			vertices = subGeom.vertexData;
 			vecLength = vertices.length;
 			stride = subGeom.vertexStride;
 			
-			j = subGeom.vertexOffset
+			j = subGeom.vertexOffset;
 			while (j < vecLength)
 			{
 				vertices[j] -= vertices[j] % _unit;

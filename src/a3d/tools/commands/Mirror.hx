@@ -39,9 +39,10 @@ class Mirror
 		_duplicate = duplicate;
 	}
 
-	private function set_recenter(b:Bool):Void
+	public var recenter(get, set):Bool;
+	private function set_recenter(b:Bool):Bool
 	{
-		_recenter = b;
+		return _recenter = b;
 	}
 
 	private function get_recenter():Bool
@@ -49,9 +50,10 @@ class Mirror
 		return _recenter;
 	}
 
-	private function set_duplicate(b:Bool):Void
+	public var duplicate(get, set):Bool;
+	private function set_duplicate(b:Bool):Bool
 	{
-		_duplicate = b;
+		return _duplicate = b;
 	}
 
 	private function get_duplicate():Bool
@@ -75,7 +77,7 @@ class Mirror
 		//var originalDuplicateMode:Bool = _duplicate;
 		_duplicate = false;
 
-		var newMesh:Mesh = Mesh(mesh.clone());
+		var newMesh:Mesh = Std.instance(mesh.clone(),Mesh);
 		initTransforms(newMesh.bounds);
 		applyToMesh(newMesh, true);
 		_duplicate = false;
@@ -100,17 +102,17 @@ class Mirror
 		//var originalDuplicateMode:Bool = _duplicate; //store the _duplicateMode, because for this function we want to set it to false, but want to restore it later
 		_duplicate = false;
 
-		var newObjectContainer:ObjectContainer3D = ObjectContainer3D(ctr.clone());
+		var newObjectContainer:ObjectContainer3D = Std.instance(ctr.clone(),ObjectContainer3D);
 
 		// Collect ctr (if it's a mesh) and all it's
 		// mesh children to a flat list.
 		if (Std.is(newObjectContainer,Mesh))
-			meshes.push(Mesh(newObjectContainer));
+			meshes.push(Std.instance(newObjectContainer,Mesh));
 
 		collectMeshChildren(newObjectContainer, meshes);
 
-		var len:UInt = meshes.length;
-		for (var i:UInt = 0; i < len; i++)
+		var len:Int = meshes.length;
+		for (i in 0...len)
 		{
 			initTransforms(meshes[i].bounds);
 			applyToMesh(meshes[i], true);
@@ -146,7 +148,7 @@ class Mirror
 	 */
 	public function applyToContainer(ctr:ObjectContainer3D, axis:Int, offset:String = CENTER, additionalOffset:Float = 0):Void
 	{
-		var len:UInt;
+		var len:Int;
 		_axis = axis;
 		_offset = offset;
 		_additionalOffset = additionalOffset;
@@ -156,12 +158,12 @@ class Mirror
 		var meshes:Vector<Mesh> = new Vector<Mesh>();
 
 		if (Std.is(ctr,Mesh))
-			meshes.push(Mesh(ctr));
+			meshes.push(Std.instance(ctr,Mesh));
 
 		collectMeshChildren(ctr, meshes);
 		len = meshes.length;
 
-		for (var i:UInt = 0; i < len; i++)
+		for (i in 0...len)
 		{
 			initTransforms(meshes[i].bounds);
 			applyToMesh(meshes[i]);
@@ -173,9 +175,9 @@ class Mirror
 	{
 		var geom:Geometry = mesh.geometry;
 		var newGeom:Geometry = new Geometry();
-		var len:UInt = geom.subGeometries.length;
+		var len:Int = geom.subGeometries.length;
 
-		for (var i:UInt = 0; i < len; i++)
+		for (i in 0...len)
 			applyToSubGeom(geom.subGeometries[i], newGeom, keepOld);
 
 		mesh.geometry = newGeom;
@@ -184,8 +186,8 @@ class Mirror
 
 	private function applyToSubGeom(subGeom:ISubGeometry, geometry:Geometry, keepOld:Bool):Void
 	{
-		var i:UInt;
-		var len:UInt;
+		var i:Int;
+		var len:Int;
 		var indices:Vector<UInt>;
 		var vertices:Vector<Float>;
 		var normals:Vector<Float>;
@@ -229,7 +231,7 @@ class Mirror
 		vIdx = nIdx = uIdx = 0;
 		len = subGeom.numVertices;
 
-		for (i = 0; i < len; i++)
+		for (i in 0...len)
 		{
 			vertices[vIdx++] = vd[vOffs + i * vStride + 0];
 			vertices[vIdx++] = vd[vOffs + i * vStride + 1];
@@ -256,7 +258,7 @@ class Mirror
 
 			// Copy vertex attributes
 			len = subGeom.numVertices;
-			for (i = 0; i < len; i++)
+			for (i in 0...len)
 			{
 				vertices[len * 3 + i * 3 + 0] = flippedVertices[i * 3 + 0];
 				vertices[len * 3 + i * 3 + 1] = flippedVertices[i * 3 + 1];
@@ -275,21 +277,25 @@ class Mirror
 
 			if (_flipWinding)
 			{
-				for (i = 0; i < len; i += 3)
+				var j:Int = 0;
+				while (j < len)
 				{
-					indices[len + i + 0] = indices[i + 2] + indexOffset;
-					indices[len + i + 1] = indices[i + 1] + indexOffset;
-					indices[len + i + 2] = indices[i + 0] + indexOffset;
+					indices[len + j + 0] = indices[j + 2] + indexOffset;
+					indices[len + j + 1] = indices[j + 1] + indexOffset;
+					indices[len + j + 2] = indices[j + 0] + indexOffset;
+					j += 3;
 				}
 
 			}
 			else
 			{
-				for (i = 0; i < len; i += 3)
+				var j:Int = 0;
+				while (j < len)
 				{
-					indices[len + i + 0] = indices[i + 0] + indexOffset;
-					indices[len + i + 1] = indices[i + 1] + indexOffset;
-					indices[len + i + 2] = indices[i + 2] + indexOffset;
+					indices[len + j + 0] = indices[j + 0] + indexOffset;
+					indices[len + j + 1] = indices[j + 1] + indexOffset;
+					indices[len + j + 2] = indices[j + 2] + indexOffset;
+					j += 3;
 				}
 			}
 
@@ -302,11 +308,13 @@ class Mirror
 
 			if (_flipWinding)
 			{
-				for (i = 0; i < len; i += 3)
+				var j:Int = 0;
+				while (j < len)
 				{
-					indices[i + 0] = oldindicies[i + 2];
-					indices[i + 1] = oldindicies[i + 1];
-					indices[i + 2] = oldindicies[i + 0];
+					indices[j + 0] = oldindicies[j + 2];
+					indices[j + 1] = oldindicies[j + 1];
+					indices[j + 2] = oldindicies[j + 0];
+					j += 3;
 				}
 			}
 
@@ -320,7 +328,7 @@ class Mirror
 		newSubGeoms = GeomUtil.fromVectors(vertices, indices, uvs, normals, null, null, null);
 		len = newSubGeoms.length;
 
-		for (i = 0; i < len; i++)
+		for (i in 0...len)
 			geometry.addSubGeometry(newSubGeoms[i]);
 	}
 
@@ -340,24 +348,23 @@ class Mirror
 		// Scale factors
 		_fullTransform.identity();
 		_scaleTransform.identity();
-		sx = (_axis & X_AXIS) ? -1 : 1;
-		sy = (_axis & Y_AXIS) ? -1 : 1;
-		sz = (_axis & Z_AXIS) ? -1 : 1;
+		sx = (_axis & X_AXIS) != 0 ? -1 : 1;
+		sy = (_axis & Y_AXIS) != 0 ? -1 : 1;
+		sz = (_axis & Z_AXIS) != 0 ? -1 : 1;
 
 		_fullTransform.appendScale(sx, sy, sz);
 		_scaleTransform.appendScale(sx, sy, sz);
 		switch (_offset)
 		{
-
 			case MIN_BOUND:
-				ox = (_axis & X_AXIS) ? 2 * bounds.min.x : 0;
-				oy = (_axis & Y_AXIS) ? 2 * bounds.min.y : 0;
-				oz = (_axis & Z_AXIS) ? 2 * bounds.min.z : 0;
+				ox = (_axis & X_AXIS) != 0 ? 2 * bounds.min.x : 0;
+				oy = (_axis & Y_AXIS) != 0 ? 2 * bounds.min.y : 0;
+				oz = (_axis & Z_AXIS) != 0 ? 2 * bounds.min.z : 0;
 			
 			case MAX_BOUND:
-				ox = (_axis & X_AXIS) ? 2 * bounds.max.x : 0;
-				oy = (_axis & Y_AXIS) ? 2 * bounds.max.y : 0;
-				oz = (_axis & Z_AXIS) ? 2 * bounds.max.z : 0;
+				ox = (_axis & X_AXIS) != 0 ? 2 * bounds.max.x : 0;
+				oy = (_axis & Y_AXIS) != 0 ? 2 * bounds.max.y : 0;
+				oz = (_axis & Z_AXIS) != 0 ? 2 * bounds.max.z : 0;
 			
 			default:
 				ox = oy = oz = 0;
@@ -367,22 +374,22 @@ class Mirror
 		{
 
 			if (ox > 0)
-				ox += (_axis & X_AXIS) ? _additionalOffset : 0;
+				ox += (_axis & X_AXIS) != 0 ? _additionalOffset : 0;
 
 			if (ox < 0)
-				ox -= (_axis & X_AXIS) ? _additionalOffset : 0;
+				ox -= (_axis & X_AXIS) != 0 ? _additionalOffset : 0;
 
 			if (oy > 0)
-				oy += (_axis & Y_AXIS) ? _additionalOffset : 0;
+				oy += (_axis & Y_AXIS) != 0 ? _additionalOffset : 0;
 
 			if (oy < 0)
-				oy -= (_axis & Y_AXIS) ? _additionalOffset : 0;
+				oy -= (_axis & Y_AXIS) != 0 ? _additionalOffset : 0;
 
 			if (oz > 0)
-				oz += (_axis & Z_AXIS) ? _additionalOffset : 0;
+				oz += (_axis & Z_AXIS) != 0 ? _additionalOffset : 0;
 
 			if (oz < 0)
-				oz -= (_axis & Z_AXIS) ? _additionalOffset : 0;
+				oz -= (_axis & Z_AXIS) != 0 ? _additionalOffset : 0;
 
 		}
 		// Full transform contains both offset and scale, and is the one
@@ -423,11 +430,11 @@ class Mirror
 
 	private function collectMeshChildren(ctr:ObjectContainer3D, meshes:Vector<Mesh>):Void
 	{
-		for (var i:UInt = 0; i < ctr.numChildren; i++)
+		for (i in 0...ctr.numChildren)
 		{
 			var child:ObjectContainer3D = ctr.getChildAt(i);
 			if (Std.is(child,Mesh))
-				meshes.push(Mesh(child));
+				meshes.push(Std.instance(child,Mesh));
 
 			collectMeshChildren(child, meshes);
 		}

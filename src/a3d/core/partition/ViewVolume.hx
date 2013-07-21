@@ -1,17 +1,15 @@
 package a3d.core.partition;
 
-import flash.errors.Error;
-import flash.geom.Vector3D;
-import flash.Vector;
-
 import a3d.core.traverse.PartitionTraverser;
 import a3d.core.traverse.SceneIterator;
 import a3d.entities.Entity;
 import a3d.entities.ObjectContainer3D;
-import a3d.entities.Scene3D;
 import a3d.entities.primitives.WireframeCube;
 import a3d.entities.primitives.WireframePrimitiveBase;
-
+import a3d.entities.Scene3D;
+import flash.errors.Error;
+import flash.geom.Vector3D;
+import flash.Vector;
 
 
 // todo: provide markVisibleVolume to pass in another view volume to find all statics in the scene that intersect with target ViewVolume, for constructing view volumes more easily
@@ -169,7 +167,7 @@ class ViewVolume extends NodeBase
 	 * @param indexY The y-index of the cell
 	 * @param indexZ The z-index of the cell
 	 */
-	public function markCellAccessible(indexX:UInt, indexY:UInt, indexZ:UInt):Void
+	public function markCellAccessible(indexX:Int, indexY:Int, indexZ:Int):Void
 	{
 		var index:Int = getCellIndex(indexX, indexY, indexZ);
 		if (_cells[index] == null)
@@ -182,7 +180,7 @@ class ViewVolume extends NodeBase
 	 * @param indexY The y-index of the cell
 	 * @param indexZ The z-index of the cell
 	 */
-	public function markCellInaccessible(indexX:UInt, indexY:UInt, indexZ:UInt):Void
+	public function markCellInaccessible(indexX:Int, indexY:Int, indexZ:Int):Void
 	{
 		var index:Int = getCellIndex(indexX, indexY, indexZ);
 		_cells[index] = null;
@@ -266,7 +264,7 @@ class ViewVolume extends NodeBase
 
 	private function getCellContaining(entryPoint:Vector3D):ViewCell
 	{
-		var cellIndex:UInt;
+		var cellIndex:Int;
 
 		if (_cellSize == -1)
 			cellIndex = 0;

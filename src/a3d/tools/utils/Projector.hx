@@ -1,5 +1,6 @@
 package a3d.tools.utils;
 
+import a3d.math.FMath;
 import flash.geom.Vector3D;
 import flash.Vector;
 
@@ -39,9 +40,6 @@ class Projector
 	private static var _radius:Float;
 	private static var _uv:UV;
 
-	private static inline var PI:Float = Math.PI;
-	private static inline var DOUBLEPI:Float = Math.PI << 1;
-
 	/**
 	 * Class remaps the uv data of a mesh
 	 *
@@ -61,7 +59,7 @@ class Projector
 	{
 		var child:ObjectContainer3D;
 		if (Std.is(obj,Mesh) && obj.numChildren == 0)
-			remapMesh(Mesh(obj));
+			remapMesh(Std.instance(obj,Mesh));
 
 		for (i in 0...obj.numChildren)
 		{
@@ -72,12 +70,12 @@ class Projector
 
 	private static function remapMesh(mesh:Mesh):Void
 	{
-		var minX:Float = Infinity;
-		var minY:Float = Infinity;
-		var minZ:Float = Infinity;
-		var maxX:Float = -Infinity;
-		var maxY:Float = -Infinity;
-		var maxZ:Float = -Infinity;
+		var minX:Float = Math.POSITIVE_INFINITY;
+		var minY:Float = Math.POSITIVE_INFINITY;
+		var minZ:Float = Math.POSITIVE_INFINITY;
+		var maxX:Float = Math.NEGATIVE_INFINITY;
+		var maxY:Float = Math.NEGATIVE_INFINITY;
+		var maxZ:Float = Math.NEGATIVE_INFINITY;
 
 		Bounds.getMeshBounds(mesh);
 		minX = Bounds.minX;
@@ -92,9 +90,9 @@ class Projector
 			_width = maxX - minX;
 			_height = maxY - minY;
 			_depth = maxZ - minZ;
-			_offsetW = (minX > 0) ? -minX : Math.abs(minX);
-			_offsetH = (minY > 0) ? -minY : Math.abs(minY);
-			_offsetD = (minZ > 0) ? -minZ : Math.abs(minZ);
+			_offsetW = (minX > 0) ? -minX : FMath.fabs(minX);
+			_offsetH = (minY > 0) ? -minY : FMath.fabs(minY);
+			_offsetD = (minZ > 0) ? -minZ : FMath.fabs(minZ);
 
 		}
 		else if (_orientation == LEFT || _orientation == RIGHT || _orientation == CYLINDRICAL_Z)
@@ -102,9 +100,9 @@ class Projector
 			_width = maxZ - minZ;
 			_height = maxY - minY;
 			_depth = maxX - minX;
-			_offsetW = (minZ > 0) ? -minZ : Math.abs(minZ);
-			_offsetH = (minY > 0) ? -minY : Math.abs(minY);
-			_offsetD = (minX > 0) ? -minX : Math.abs(minX);
+			_offsetW = (minZ > 0) ? -minZ : FMath.fabs(minZ);
+			_offsetH = (minY > 0) ? -minY : FMath.fabs(minY);
+			_offsetD = (minX > 0) ? -minX : FMath.fabs(minX);
 
 		}
 		else if (_orientation == TOP || _orientation == BOTTOM || _orientation == CYLINDRICAL_Y)
@@ -112,9 +110,9 @@ class Projector
 			_width = maxX - minX;
 			_height = maxZ - minZ;
 			_depth = maxY - minY;
-			_offsetW = (minX > 0) ? -minX : Math.abs(minX);
-			_offsetH = (minZ > 0) ? -minZ : Math.abs(minZ);
-			_offsetD = (minY > 0) ? -minY : Math.abs(minY);
+			_offsetW = (minX > 0) ? -minX : FMath.fabs(minX);
+			_offsetH = (minZ > 0) ? -minZ : FMath.fabs(minZ);
+			_offsetD = (minY > 0) ? -minY : FMath.fabs(minY);
 		}
 
 		var geometry:Geometry = mesh.geometry;
@@ -127,7 +125,7 @@ class Projector
 			_width = maxX - minX;
 			_height = maxZ - minZ;
 			_depth = maxY - minY;
-			_radius = Math.max(_width, _depth, _height) + 10;
+			_radius = Math.max(_width, Math.max(_depth, _height)) + 10;
 			_center.x = _center.y = _center.z = .0001;
 
 			remapSpherical(geometries, mesh.scenePosition);
@@ -167,7 +165,7 @@ class Projector
 		{
 			sub_geom = geometries[i];
 
-			vertices = sub_geom.vertexData
+			vertices = sub_geom.vertexData;
 			vertexOffset = sub_geom.vertexOffset;
 			vertexStride = sub_geom.vertexStride;
 
@@ -250,11 +248,11 @@ class Projector
 
 			if (Std.is(sub_geom,CompactSubGeometry))
 			{
-				CompactSubGeometry(sub_geom).updateData(uvs);
+				Std.instance(sub_geom,CompactSubGeometry).updateData(uvs);
 			}
 			else
 			{
-				SubGeometry(sub_geom).updateUVData(uvs);
+				Std.instance(sub_geom,SubGeometry).updateUVData(uvs);
 			}
 		}
 	}
@@ -270,7 +268,6 @@ class Projector
 		var uvs:Vector<Float>;
 		var uvOffset:Int;
 		var uvStride:Int;
-		var i:UInt;
 		var j:UInt;
 		var vIndex:UInt;
 		var uvIndex:UInt;
@@ -281,7 +278,7 @@ class Projector
 		{
 			sub_geom = geometries[i];
 
-			vertices = sub_geom.vertexData
+			vertices = sub_geom.vertexData;
 			vertexOffset = sub_geom.vertexOffset;
 			vertexStride = sub_geom.vertexStride;
 
@@ -304,7 +301,7 @@ class Projector
 						vIndex = vertexOffset + vertexStride * indices[j];
 						uvIndex = uvOffset + uvStride * indices[j];
 						uvs[uvIndex] = (vertices[vIndex] + offset) / _width;
-						uvs[uvIndex + 1] = (PI + Math.atan2(vertices[vIndex + 1], vertices[vIndex + 2])) / DOUBLEPI;
+						uvs[uvIndex + 1] = (FMath.PI + Math.atan2(vertices[vIndex + 1], vertices[vIndex + 2])) / FMath.DOUBLEPI();
 					}
 				
 				case CYLINDRICAL_Y:
@@ -313,7 +310,7 @@ class Projector
 					{
 						vIndex = vertexOffset + vertexStride * indices[j];
 						uvIndex = uvOffset + uvStride * indices[j];
-						uvs[uvIndex] = (PI + Math.atan2(vertices[vIndex], vertices[vIndex + 2])) / DOUBLEPI;
+						uvs[uvIndex] = (FMath.PI + Math.atan2(vertices[vIndex], vertices[vIndex + 2])) / FMath.DOUBLEPI();
 						uvs[uvIndex + 1] = 1 - (vertices[vIndex + 1] + offset) / _depth;
 					}
 				
@@ -324,18 +321,18 @@ class Projector
 						vIndex = vertexOffset + vertexStride * indices[j];
 						uvIndex = uvOffset + uvStride * indices[j];
 						uvs[uvIndex + 1] = (vertices[vIndex + 2] + offset) / _width;
-						uvs[uvIndex] = (PI + Math.atan2(vertices[vIndex + 1], vertices[vIndex])) / DOUBLEPI;
+						uvs[uvIndex] = (FMath.PI + Math.atan2(vertices[vIndex + 1], vertices[vIndex])) / FMath.DOUBLEPI();
 					}
 
 			}
 
 			if (Std.is(sub_geom,CompactSubGeometry))
 			{
-				CompactSubGeometry(sub_geom).updateData(uvs);
+				Std.instance(sub_geom,CompactSubGeometry).updateData(uvs);
 			}
 			else
 			{
-				SubGeometry(sub_geom).updateUVData(uvs);
+				Std.instance(sub_geom,SubGeometry).updateUVData(uvs);
 			}
 
 		}
@@ -343,8 +340,7 @@ class Projector
 
 	private static function remapSpherical(geometries:Vector<ISubGeometry>, position:Vector3D):Void
 	{
-		position = position;
-		var numSubGeoms:UInt = geometries.length;
+		var numSubGeoms:Int = geometries.length;
 		var sub_geom:ISubGeometry;
 
 		var vertices:Vector<Float>;
@@ -355,17 +351,15 @@ class Projector
 		var uvOffset:Int;
 		var uvStride:Int;
 
-		var i:UInt;
-		var j:UInt;
-		var vIndex:UInt;
-		var uvIndex:UInt;
-		var numIndices:UInt;
+		var vIndex:Int;
+		var uvIndex:Int;
+		var numIndices:Int;
 
 		for (i in 0...numSubGeoms)
 		{
 			sub_geom = geometries[i];
 
-			vertices = sub_geom.vertexData
+			vertices = sub_geom.vertexData;
 			vertexOffset = sub_geom.vertexOffset;
 			vertexStride = sub_geom.vertexStride;
 
@@ -391,11 +385,11 @@ class Projector
 
 			if (Std.is(sub_geom,CompactSubGeometry))
 			{
-				CompactSubGeometry(sub_geom).updateData(uvs);
+				Std.instance(sub_geom,CompactSubGeometry).updateData(uvs);
 			}
 			else
 			{
-				SubGeometry(sub_geom).updateUVData(uvs);
+				Std.instance(sub_geom,SubGeometry).updateUVData(uvs);
 			}
 		}
 	}
@@ -426,9 +420,9 @@ class Projector
 
 		var phi:Float = Math.acos(-_vn.dotProduct(_vp));
 
-		_uv.v = phi / PI;
+		_uv.v = phi / FMath.PI;
 
-		var theta:Float = Math.acos(_vp.dotProduct(_ve) / Math.sin(phi)) / DOUBLEPI;
+		var theta:Float = Math.acos(_vp.dotProduct(_ve) / Math.sin(phi)) / FMath.DOUBLEPI();
 
 		var _crp:Vector3D = _vn.crossProduct(_ve);
 

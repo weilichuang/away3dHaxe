@@ -71,6 +71,29 @@ import a3d.tools.helpers.ParticleGeometryHelper;
 import a3d.tools.helpers.data.ParticleGeometryTransform;
 import a3d.utils.Cast;
 
+import a3d.tools.commands.Align;
+import a3d.tools.commands.Explode;
+import a3d.tools.commands.Merge;
+import a3d.tools.commands.Mirror;
+import a3d.tools.commands.SphereMaker;
+import a3d.tools.commands.Weld;
+
+import a3d.tools.helpers.FaceHelper;
+import a3d.tools.helpers.LightsHelper;
+import a3d.tools.helpers.MeshDebugger;
+import a3d.tools.helpers.MeshHelper;
+import a3d.tools.helpers.ParticleGeometryHelper;
+import a3d.tools.helpers.SpriteSheetHelper;
+import a3d.tools.serialize.Serialize;
+import a3d.tools.serialize.TraceSerializer;
+import a3d.tools.utils.Bounds;
+import a3d.tools.utils.ColorHitMap;
+import a3d.tools.utils.Drag3D;
+import a3d.tools.utils.GeomUtil;
+import a3d.tools.utils.Grid;
+import a3d.tools.utils.Projector;
+import a3d.tools.utils.Ray;
+import a3d.tools.utils.TextureUtils;
 using Reflect;
 
 class Intermediate_ParticleTrails extends BasicApplication

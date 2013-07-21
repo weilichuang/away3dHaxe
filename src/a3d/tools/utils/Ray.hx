@@ -2,16 +2,18 @@ package a3d.tools.utils;
 
 import flash.geom.Vector3D;
 
+using a3d.math.FVector3D;
+
 class Ray
 {
 
-	private var _orig:Vector3D = new Vector3D(0.0, 0.0, 0.0);
-	private var _dir:Vector3D = new Vector3D(0.0, 0.0, 0.0);
-	private var _tu:Vector3D = new Vector3D(0.0, 0.0, 0.0);
-	private var _tv:Vector3D = new Vector3D(0.0, 0.0, 0.0);
-	private var _w:Vector3D = new Vector3D(0.0, 0.0, 0.0);
-	private var _pn:Vector3D = new Vector3D(0.0, 0.0, 0.0);
-	private var _npn:Vector3D = new Vector3D(0.0, 0.0, 0.0);
+	private var _orig:Vector3D;
+	private var _dir:Vector3D;
+	private var _tu:Vector3D;
+	private var _tv:Vector3D;
+	private var _w:Vector3D;
+	private var _pn:Vector3D;
+	private var _npn:Vector3D;
 	private var _a:Float;
 	private var _b:Float;
 	private var _c:Float;
@@ -19,6 +21,13 @@ class Ray
 
 	public function new()
 	{
+		_orig = new Vector3D(0.0, 0.0, 0.0);
+		_dir = new Vector3D(0.0, 0.0, 0.0);
+		_tu = new Vector3D(0.0, 0.0, 0.0);
+		_tv = new Vector3D(0.0, 0.0, 0.0);
+		_w = new Vector3D(0.0, 0.0, 0.0);
+		_pn = new Vector3D(0.0, 0.0, 0.0);
+		_npn = new Vector3D(0.0, 0.0, 0.0);
 	}
 
 	/**
@@ -73,7 +82,7 @@ class Ray
 	*/
 	public function intersectsSphere(pOrig:Vector3D, dir:Vector3D, sPos:Vector3D, radius:Float):Bool
 	{
-		return Bool(hasSphereIntersection(pOrig, dir, sPos, radius) > 0);
+		return (hasSphereIntersection(pOrig, dir, sPos, radius) > 0);
 	}
 
 	/**
@@ -118,7 +127,7 @@ class Ray
 		if (t == 0.0)
 			return null;
 
-		var result:Vector3D = outVector3D || new Vector3D(0.0, 0.0, 0.0);
+		var result:Vector3D = outVector3D != null ? outVector3D : new Vector3D(0.0, 0.0, 0.0);
 		result.x = pOrig.x + (_pn.x * t);
 		result.y = pOrig.y + (_pn.y * t);
 		result.z = pOrig.z + (_pn.z * t);
@@ -204,21 +213,21 @@ class Ray
 		if (r < 0 || r > 1)
 			return null;
 
-		var result:Vector3D = outVector3D || new Vector3D(0.0, 0.0, 0.0);
+		var result:Vector3D = outVector3D != null ? outVector3D : new Vector3D(0.0, 0.0, 0.0);
 		result.x = p0.x + (_dir.x * r);
 		result.y = p0.y + (_dir.y * r);
 		result.z = p0.z + (_dir.z * r);
 
-		var uu:Float = _tu.x * _tu.x + _tu.y * _tu.y + _tu.z * _tu.z;
-		var uv:Float = _tu.x * _tv.x + _tu.y * _tv.y + _tu.z * _tv.z;
-		var vv:Float = _tv.x * _tv.x + _tv.y * _tv.y + _tv.z * _tv.z;
+		var uu:Float = _tu.fastLengthSquared();
+		var uv:Float = _tu.fastDot(_tv);
+		var vv:Float = _tv.fastLengthSquared();
 
 		_w.x = result.x - v0.x;
 		_w.y = result.y - v0.y;
 		_w.z = result.z - v0.z;
 
-		var wu:Float = _w.x * _tu.x + _w.y * _tu.y + _w.z * _tu.z;
-		var wv:Float = _w.x * _tv.x + _w.y * _tv.y + _w.z * _tv.z;
+		var wu:Float = _w.fastDot(_tu);
+		var wv:Float = _w.fastDot(_tv);
 		var d:Float = uv * uv - uu * vv;
 
 		var v:Float = (uv * wv - vv * wu) / d;

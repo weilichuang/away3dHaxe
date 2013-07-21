@@ -12,6 +12,18 @@ import flash.net.NetStream;
 
 class SimpleVideoPlayer implements IVideoPlayer
 {
+	public var source(get, set):String;
+	public var loop(get, set):Bool;
+	public var volume(get, set):Float;
+	public var pan(get, set):Float;
+	public var mute(get, set):Bool;
+	public var soundTransform(get, set):SoundTransform;
+	public var width(get, set):Int;
+	public var height(get, set):Int;
+	public var container(get, null):Sprite;
+	public var time(get, null):Float;
+	public var playing(get, null):Bool;
+	public var paused(get, null):Bool;
 
 	private var _src:String;
 	private var _video:Video;
@@ -225,7 +237,7 @@ class SimpleVideoPlayer implements IVideoPlayer
 	//////////////////////////////////////////////////////
 
 
-	public var source(get, set):String;
+	
 	private function get_source():String
 	{
 		return _src;
@@ -239,7 +251,7 @@ class SimpleVideoPlayer implements IVideoPlayer
 		return _src;
 	}
 
-	public var loop(get, set):Bool;
+	
 	private function get_loop():Bool
 	{
 		return _loop;
@@ -250,7 +262,7 @@ class SimpleVideoPlayer implements IVideoPlayer
 		return _loop = val;
 	}
 
-	public var volume(get, set):Float;
+	
 	private function get_volume():Float
 	{
 		return _ns.soundTransform.volume;
@@ -265,7 +277,7 @@ class SimpleVideoPlayer implements IVideoPlayer
 		return volume;
 	}
 
-	public var pan(get, set):Float;
+	
 	private function get_pan():Float
 	{
 		return _ns.soundTransform.pan;
@@ -278,7 +290,7 @@ class SimpleVideoPlayer implements IVideoPlayer
 		return pan;
 	}
 
-	public var mute(get, set):Bool;
+	
 	private function get_mute():Bool
 	{
 		return _ns.soundTransform.volume == 0;
@@ -291,7 +303,7 @@ class SimpleVideoPlayer implements IVideoPlayer
 		return mute;
 	}
 	
-	public var soundTransform(get, set):SoundTransform;
+	
 	private function get_soundTransform():SoundTransform
 	{
 		return _ns.soundTransform;
@@ -302,7 +314,7 @@ class SimpleVideoPlayer implements IVideoPlayer
 		return _ns.soundTransform = val;
 	}
 
-	public var width(get, set):Int;
+	
 	private function get_width():Int
 	{
 		return _video.width;
@@ -313,7 +325,7 @@ class SimpleVideoPlayer implements IVideoPlayer
 		return _video.width = val;
 	}
 
-	public var height(get, set):Int;
+	
 	private function get_height():Int
 	{
 		return _video.height;
@@ -329,25 +341,25 @@ class SimpleVideoPlayer implements IVideoPlayer
 	// read-only vars
 	//////////////////////////////////////////////////////
 
-	public var container(get, null):Sprite;
+	
 	private function get_container():Sprite
 	{
 		return _container;
 	}
 
-	public var time(get, null):Float;
+	
 	private function get_time():Float
 	{
 		return _ns.time;
 	}
 
-	public var playing(get, null):Bool;
+	
 	private function get_playing():Bool
 	{
 		return _playing;
 	}
 
-	public var paused(get, null):Bool;
+	
 	private function get_paused():Bool
 	{
 		return _paused;

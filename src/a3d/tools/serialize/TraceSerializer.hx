@@ -79,7 +79,7 @@ class TraceSerializer extends SerializerBase
 	{
 		var outputString:String = _indentString();
 		outputString += name;
-		if (value)
+		if (value != null)
 		{
 			outputString += separator;
 			outputString += value;
@@ -94,7 +94,7 @@ class TraceSerializer extends SerializerBase
 	{
 		var outputString:String = _indentString();
 		outputString += name;
-		if (value)
+		if (value != null)
 		{
 			outputString += separator;
 			outputString += value;
@@ -109,19 +109,19 @@ class TraceSerializer extends SerializerBase
 	{
 		var outputString:String = _indentString();
 		outputString += name;
-		if (value)
+		if (value != null)
 		{
 			outputString += separator;
 
-			var matrixIndent:UInt = outputString.length;
+			var matrixIndent:Int = outputString.length;
 
-			for (var i:UInt = 0; i < value.length; i++)
+			for (i in 0...value.length)
 			{
 				outputString += value[i];
 				if ((i < (value.length - 1)) && (((i + 1) % 4) == 0))
 				{
 					outputString += "\n";
-					for (var j:UInt = 0; j < matrixIndent; j++)
+					for (j in 0...matrixIndent)
 					{
 						outputString += " ";
 					}
@@ -142,7 +142,7 @@ class TraceSerializer extends SerializerBase
 	{
 		var outputString:String = _indentString();
 		outputString += name;
-		if (value)
+		if (value != null)
 		{
 			outputString += separator;
 			outputString += value;
@@ -161,7 +161,7 @@ class TraceSerializer extends SerializerBase
 	private function _indentString():String
 	{
 		var indentString:String = "";
-		for (var i:UInt = 0; i < _indent; i++)
+		for (i in 0..._indent)
 		{
 			indentString += " ";
 		}

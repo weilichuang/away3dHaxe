@@ -13,6 +13,25 @@ import a3d.textures.Texture2DBase;
 class TextureMaterial extends SinglePassMaterialBase
 {
 	/**
+	 * Specifies whether or not the UV coordinates should be animated using IRenderable's uvTransform matrix.
+	 *
+	 * @see IRenderable.uvTransform
+	 */
+	public var animateUVs(get, set):Bool;
+	/**
+	 * The alpha of the surface.
+	 */
+	public var alpha(get, set):Float;
+	/**
+	 * The texture object to use for the albedo colour.
+	 */
+	public var texture(get, set):Texture2DBase;
+	/**
+	 * The texture object to use for the ambient colour.
+	 */
+	public var ambientTexture(get, set):Texture2DBase;
+	
+	/**
 	 * Creates a new TextureMaterial.
 	 * @param texture The texture used for the material's albedo color.
 	 * @param smooth Indicates whether the texture should be filtered when sampled. Defaults to true.
@@ -29,12 +48,7 @@ class TextureMaterial extends SinglePassMaterialBase
 
 	}
 
-	/**
-	 * Specifies whether or not the UV coordinates should be animated using IRenderable's uvTransform matrix.
-	 *
-	 * @see IRenderable.uvTransform
-	 */
-	public var animateUVs(get, set):Bool;
+	
 	private function get_animateUVs():Bool
 	{
 		return _screenPass.animateUVs;
@@ -45,10 +59,7 @@ class TextureMaterial extends SinglePassMaterialBase
 		return _screenPass.animateUVs = value;
 	}
 
-	/**
-	 * The alpha of the surface.
-	 */
-	public var alpha(get, set):Float;
+	
 	private function get_alpha():Float
 	{
 		return _screenPass.colorTransform != null ? _screenPass.colorTransform.alphaMultiplier : 1;
@@ -70,10 +81,7 @@ class TextureMaterial extends SinglePassMaterialBase
 		return alpha;
 	}
 
-	/**
-	 * The texture object to use for the albedo colour.
-	 */
-	public var texture(get, set):Texture2DBase;
+	
 	private function get_texture():Texture2DBase
 	{
 		return _screenPass.diffuseMethod.texture;
@@ -84,10 +92,7 @@ class TextureMaterial extends SinglePassMaterialBase
 		return _screenPass.diffuseMethod.texture = value;
 	}
 
-	/**
-	 * The texture object to use for the ambient colour.
-	 */
-	public var ambientTexture(get, set):Texture2DBase;
+	
 	private function get_ambientTexture():Texture2DBase
 	{
 		return _screenPass.ambientMethod.texture;

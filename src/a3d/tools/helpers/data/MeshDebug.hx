@@ -1,5 +1,6 @@
 package a3d.tools.helpers.data;
 
+import flash.errors.Error;
 import flash.geom.Vector3D;
 import flash.Vector;
 
@@ -16,13 +17,16 @@ import a3d.entities.primitives.LineSegment;
 
 class MeshDebug extends SegmentSet
 {
+	private static inline var VERTEXNORMALS:Int = 1;
+	private static inline var TANGENTS:Int = 2;
 
-	private var _normal:Vector3D = new Vector3D();
-	private const VERTEXNORMALS:UInt = 1;
-	private const TANGENTS:UInt = 2;
+	private var _normal:Vector3D;
+	
 
 	public function new()
 	{
+		super();
+		_normal = new Vector3D();
 	}
 
 	public function clearAll():Void
@@ -34,12 +38,12 @@ class MeshDebug extends SegmentSet
 	{
 		var geometry:Geometry = mesh.geometry;
 		var geometries:Vector<ISubGeometry> = geometry.subGeometries;
-		var numSubGeoms:UInt = geometries.length;
+		var numSubGeoms:Int = geometries.length;
 
 		var vertices:Vector<Float>;
 		var indices:Vector<UInt>;
-		var index:UInt;
-		var j:UInt;
+		var index:Int;
+		var j:Int;
 
 		var v0:Vector3D = new Vector3D();
 		var v1:Vector3D = new Vector3D();
@@ -49,14 +53,14 @@ class MeshDebug extends SegmentSet
 		var l1:Vector3D = new Vector3D();
 
 		var subGeom:SubGeometryBase;
-		var stride:UInt;
-		var offset:UInt;
-		var normalOffset:UInt;
-		var tangentOffset:UInt;
+		var stride:Int;
+		var offset:Int;
+		var normalOffset:Int;
+		var tangentOffset:Int;
 
-		for (var i:UInt = 0; i < numSubGeoms; ++i)
+		for (i in 0...numSubGeoms)
 		{
-			subGeom = SubGeometryBase(geometries[i]);
+			subGeom = Std.instance(geometries[i],SubGeometryBase);
 			stride = subGeom.vertexStride;
 			offset = subGeom.vertexOffset;
 			normalOffset = subGeom.vertexNormalOffset;
@@ -64,7 +68,8 @@ class MeshDebug extends SegmentSet
 			vertices = subGeom.vertexData;
 			indices = subGeom.indexData;
 
-			for (j = 0; j < indices.length; j += 3)
+			j = 0;
+			while ( j < indices.length)
 			{
 
 				index = offset + indices[j] * stride;
@@ -96,6 +101,7 @@ class MeshDebug extends SegmentSet
 
 				addSegment(new LineSegment(l0, l1, color, color, 1));
 
+				j += 3;
 			}
 		}
 	}
@@ -114,27 +120,27 @@ class MeshDebug extends SegmentSet
 	{
 		var geometry:Geometry = mesh.geometry;
 		var geometries:Vector<ISubGeometry> = geometry.subGeometries;
-		var numSubGeoms:UInt = geometries.length;
+		var numSubGeoms:Int = geometries.length;
 
 		var vertices:Vector<Float>;
 		var vectorTarget:Vector<Float>;
 
 		var indices:Vector<UInt>;
-		var index:UInt;
-		var j:UInt;
+		var index:Int;
+		var j:Int;
 
 		var v0:Vector3D = new Vector3D();
 		var v1:Vector3D = new Vector3D();
 		var v2:Vector3D = new Vector3D();
 		var l0:Vector3D = new Vector3D();
 		var subGeom:SubGeometryBase;
-		var stride:UInt;
-		var offset:UInt;
-		var offsettarget:UInt;
+		var stride:Int;
+		var offset:Int;
+		var offsettarget:Int;
 
-		for (var i:UInt = 0; i < numSubGeoms; ++i)
+		for (i in 0...numSubGeoms)
 		{
-			subGeom = SubGeometryBase(geometries[i]);
+			subGeom = Std.instance(geometries[i],SubGeometryBase);
 			stride = subGeom.vertexStride;
 			offset = subGeom.vertexOffset;
 			vertices = subGeom.vertexData;
@@ -154,7 +160,8 @@ class MeshDebug extends SegmentSet
 
 			indices = subGeom.indexData;
 
-			for (j = 0; j < indices.length; j += 3)
+			j = 0;
+			while ( j < indices.length)
 			{
 
 				index = offset + indices[j] * stride;
@@ -213,6 +220,7 @@ class MeshDebug extends SegmentSet
 
 				addSegment(new LineSegment(v2, l0, color, color, 1));
 
+				j += 3;
 			}
 		}
 	}

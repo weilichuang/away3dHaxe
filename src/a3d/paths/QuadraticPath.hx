@@ -1,6 +1,7 @@
 package a3d.paths;
 
 import flash.geom.Vector3D;
+import flash.Vector.Vector;
 
 /**
  * Holds information about a single Path definition.
@@ -8,6 +9,16 @@ import flash.geom.Vector3D;
  */
 class QuadraticPath extends SegmentedPathBase implements IPath
 {
+	/**
+	 * returns true if the smoothPath handler is being used.
+	 */
+	public var smoothed(get, null):Bool;
+	
+	/**
+	 * returns true if the averagePath handler is being used.
+	 */
+	public var averaged(get, null):Bool;
+	
 	private var _averaged:Bool;
 	private var _smoothed:Bool;
 
@@ -22,9 +33,7 @@ class QuadraticPath extends SegmentedPathBase implements IPath
 		super(3, data);
 	}
 
-	/**
-	 * returns true if the smoothPath handler is being used.
-	 */
+	
 	private function get_smoothed():Bool
 	{
 		return _smoothed;
@@ -59,9 +68,7 @@ class QuadraticPath extends SegmentedPathBase implements IPath
 	}
 
 
-	/**
-	 * returns true if the averagePath handler is being used.
-	 */
+	
 	private function get_averaged():Bool
 	{
 		return _averaged;
@@ -85,7 +92,6 @@ class QuadraticPath extends SegmentedPathBase implements IPath
 		var seg0:Vector3D;
 		var seg1:Vector3D;
 		var tmp:Vector<Vector3D> = new Vector<Vector3D>();
-		var i:UInt;
 
 		var seg:QuadraticPathSegment = Std.instance(_segments[0],QuadraticPathSegment);
 		var segnext:QuadraticPathSegment = Std.instance(_segments[_segments.length - 1],QuadraticPathSegment);
@@ -93,7 +99,7 @@ class QuadraticPath extends SegmentedPathBase implements IPath
 		var startseg:Vector3D = new Vector3D(seg.start.x, seg.start.y, seg.start.z);
 		var endseg:Vector3D = new Vector3D(segnext.end.x, segnext.end.y, segnext.end.z);
 
-		for (i = 0; i < numSegments - 1; ++i)
+		for (i in 0...numSegments - 1)
 		{
 			seg = Std.instance(_segments[i],QuadraticPathSegment);
 			segnext = Std.instance(_segments[i + 1],QuadraticPathSegment);
@@ -110,13 +116,17 @@ class QuadraticPath extends SegmentedPathBase implements IPath
 			y = (seg0.y + seg1.y) * .5;
 			z = (seg0.z + seg1.z) * .5;
 
-			tmp.push(startseg, new Vector3D(seg0.x, seg0.y, seg0.z), new Vector3D(x, y, z));
+			tmp.push(startseg);
+			tmp.push(new Vector3D(seg0.x, seg0.y, seg0.z));
+			tmp.push(new Vector3D(x, y, z));
 			startseg = new Vector3D(x, y, z);
 			seg = null;
 		}
 
-		seg0 = QuadraticPathSegment(_segments[_segments.length - 1]).control;
-		tmp.push(startseg, new Vector3D((seg0.x + seg1.x) * .5, (seg0.y + seg1.y) * .5, (seg0.z + seg1.z) * .5), endseg);
+		seg0 = Std.instance(_segments[_segments.length - 1],QuadraticPathSegment).control;
+		tmp.push(startseg);
+		tmp.push(new Vector3D((seg0.x + seg1.x) * .5, (seg0.y + seg1.y) * .5, (seg0.z + seg1.z) * .5));
+		tmp.push(endseg);
 
 		_segments = new Vector<IPathSegment>();
 
@@ -149,14 +159,13 @@ class QuadraticPath extends SegmentedPathBase implements IPath
 	public function continuousCurve(points:Vector<Vector3D>, closed:Bool = false):Void
 	{
 		var aVectors:Vector<Vector3D> = new Vector<Vector3D>();
-		var i:UInt;
 		var X:Float;
 		var Y:Float;
 		var Z:Float;
 		var midPoint:Vector3D;
 
 		// Find the mid points and inject them into the array.
-		for (i = 0; i < points.length - 1; i++)
+		for (i in 0...points.length - 1)
 		{
 			var currentPoint:Vector3D = points[i];
 			var nextPoint:Vector3D = points[i + 1];
@@ -166,7 +175,7 @@ class QuadraticPath extends SegmentedPathBase implements IPath
 			Z = (currentPoint.z + nextPoint.z) / 2;
 			midPoint = new Vector3D(X, Y, Z);
 
-			if (i)
+			if (i != 0)
 				aVectors.push(midPoint);
 
 			if (i < points.length - 2 || closed)
@@ -193,7 +202,11 @@ class QuadraticPath extends SegmentedPathBase implements IPath
 
 		_segments = new Vector<IPathSegment>();
 
-		for (i = 0; i < aVectors.length; i += 3)
-			_segments.push(new QuadraticPathSegment(aVectors[i], aVectors[i + 1], aVectors[i + 2]));
+		var k:Int = 0;
+		while (k < aVectors.length)
+		{
+			_segments.push(new QuadraticPathSegment(aVectors[k], aVectors[k + 1], aVectors[k + 2]));
+			k += 3;
+		}
 	}
 }

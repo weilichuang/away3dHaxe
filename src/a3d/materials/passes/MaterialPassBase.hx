@@ -22,6 +22,7 @@ import flash.events.Event;
 import flash.events.EventDispatcher;
 import flash.geom.Matrix3D;
 import flash.geom.Rectangle;
+import flash.Lib;
 import flash.Vector;
 
 
@@ -39,6 +40,57 @@ class MaterialPassBase extends EventDispatcher
 	private static var _previousUsedTexs:Vector<Int> = Vector.ofArray([0, 0, 0, 0, 0, 0, 0, 0]);
 	
 	
+	/**
+	 * The material to which this pass belongs.
+	 */
+	public var material(get, set):MaterialBase;
+	/**
+	 * Indicate whether this pass should write to the depth buffer or not. Ignored when blending is enabled.
+	 */
+	public var writeDepth(get, set):Bool;
+	/**
+	 * Defines whether any used textures should use mipmapping.
+	 */
+	public var mipmap(get, set):Bool;
+	/**
+	 * Defines whether smoothing should be applied to any used textures.
+	 */
+	public var smooth(get, set):Bool;
+	/**
+	 * Defines whether textures should be tiled.
+	 */
+	public var repeat(get, set):Bool;
+	/**
+	 * Defines whether or not the material should perform backface culling.
+	 */
+	public var bothSides(get, set):Bool;
+	public var depthCompareMode(get, set):Context3DCompareMode;
+	/**
+	 * The animation used to add vertex code to the shader code.
+	 */
+	public var animationSet(get, set):IAnimationSet;
+	/**
+	 * Specifies whether this pass renders to texture
+	 */
+	public var renderToTexture(get, null):Bool;
+	/**
+	 * The amount of used vertex streams in the vertex code. Used by the animation code generation to know from which index on streams are available.
+	 */
+	public var numUsedStreams(get, null):Int;
+	/**
+	 * The amount of used vertex constants in the vertex code. Used by the animation code generation to know from which index on registers are available.
+	 */
+	public var numUsedVertexConstants(get, null):Int;
+	public var numUsedVaryings(get, null):Int;
+	public var numUsedFragmentConstants(get, null):Int;
+	public var needFragmentAnimation(get, null):Bool;
+	/**
+	 * Indicates whether the pass requires
+	 */
+	public var needUVAnimation(get, null):Bool;
+	public var lightPicker(get, set):LightPickerBase;
+	public var alphaPremultiplied(get, set):Bool;
+	
 	private var _material:MaterialBase;
 	private var _animationSet:IAnimationSet;
 
@@ -48,11 +100,11 @@ class MaterialPassBase extends EventDispatcher
 
 	// agal props. these NEED to be set by subclasses!
 	// todo: can we perhaps figure these out manually by checking read operations in the bytecode, so other sources can be safely updated?
-	private var _numUsedStreams:UInt;
-	private var _numUsedTextures:UInt;
-	private var _numUsedVertexConstants:UInt;
-	private var _numUsedFragmentConstants:UInt;
-	private var _numUsedVaryings:UInt;
+	private var _numUsedStreams:Int;
+	private var _numUsedTextures:Int;
+	private var _numUsedVertexConstants:Int;
+	private var _numUsedFragmentConstants:Int;
+	private var _numUsedVaryings:Int;
 
 	private var _smooth:Bool = true;
 	private var _repeat:Bool = false;
@@ -87,7 +139,7 @@ class MaterialPassBase extends EventDispatcher
 	private var _UVTarget:String;
 	private var _UVSource:String;
 
-	private var _writeDepth:Bool;
+	private var _writeDepth:Bool = true;
 
 	public var animationRegisterCache:AnimationRegisterCache;
 
@@ -118,8 +170,6 @@ class MaterialPassBase extends EventDispatcher
 		_shadedTarget = "ft0";
 
 		_defaultCulling = Context3DTriangleFace.BACK;
-		
-		_writeDepth = true;
 	}
 
 	public function getProgram3Dids():Vector<Int>
@@ -147,10 +197,7 @@ class MaterialPassBase extends EventDispatcher
 		_program3Ds[stageIndex] = p;
 	}
 
-	/**
-	 * The material to which this pass belongs.
-	 */
-	public var material(get, set):MaterialBase;
+	
 	private function get_material():MaterialBase
 	{
 		return _material;
@@ -161,10 +208,7 @@ class MaterialPassBase extends EventDispatcher
 		return _material = value;
 	}
 
-	/**
-	 * Indicate whether this pass should write to the depth buffer or not. Ignored when blending is enabled.
-	 */
-	public var writeDepth(get, set):Bool;
+	
 	private function get_writeDepth():Bool
 	{
 		return _writeDepth;
@@ -175,10 +219,7 @@ class MaterialPassBase extends EventDispatcher
 		return _writeDepth = value;
 	}
 
-	/**
-	 * Defines whether any used textures should use mipmapping.
-	 */
-	public var mipmap(get, set):Bool;
+	
 	private function get_mipmap():Bool
 	{
 		return _mipmap;
@@ -194,10 +235,7 @@ class MaterialPassBase extends EventDispatcher
 	}
 
 
-	/**
-	 * Defines whether smoothing should be applied to any used textures.
-	 */
-	public var smooth(get, set):Bool;
+	
 	private function get_smooth():Bool
 	{
 		return _smooth;
@@ -212,10 +250,7 @@ class MaterialPassBase extends EventDispatcher
 		return _smooth;
 	}
 
-	/**
-	 * Defines whether textures should be tiled.
-	 */
-	public var repeat(get, set):Bool;
+	
 	private function get_repeat():Bool
 	{
 		return _repeat;
@@ -230,10 +265,7 @@ class MaterialPassBase extends EventDispatcher
 		return _repeat;
 	}
 
-	/**
-	 * Defines whether or not the material should perform backface culling.
-	 */
-	public var bothSides(get, set):Bool;
+	
 	private function get_bothSides():Bool
 	{
 		return _bothSides;
@@ -244,7 +276,7 @@ class MaterialPassBase extends EventDispatcher
 		return _bothSides = value;
 	}
 
-	public var depthCompareMode(get, set):Context3DCompareMode;
+	
 	private function get_depthCompareMode():Context3DCompareMode
 	{
 		return _depthCompareMode;
@@ -255,10 +287,7 @@ class MaterialPassBase extends EventDispatcher
 		return _depthCompareMode = value;
 	}
 
-	/**
-	 * The animation used to add vertex code to the shader code.
-	 */
-	public var animationSet(get, set):IAnimationSet;
+	
 	private function get_animationSet():IAnimationSet
 	{
 		return _animationSet;
@@ -276,10 +305,7 @@ class MaterialPassBase extends EventDispatcher
 		return _animationSet;
 	}
 
-	/**
-	 * Specifies whether this pass renders to texture
-	 */
-	public var renderToTexture(get, null):Bool;
+	
 	private function get_renderToTexture():Bool
 	{
 		return _renderToTexture;
@@ -304,46 +330,37 @@ class MaterialPassBase extends EventDispatcher
 		}
 	}
 
-	/**
-	 * The amount of used vertex streams in the vertex code. Used by the animation code generation to know from which index on streams are available.
-	 */
-	public var numUsedStreams(get, null):UInt;
-	private function get_numUsedStreams():UInt
+	
+	private function get_numUsedStreams():Int
 	{
 		return _numUsedStreams;
 	}
 
-	/**
-	 * The amount of used vertex constants in the vertex code. Used by the animation code generation to know from which index on registers are available.
-	 */
-	public var numUsedVertexConstants(get, null):UInt;
-	private function get_numUsedVertexConstants():UInt
+	
+	private function get_numUsedVertexConstants():Int
 	{
 		return _numUsedVertexConstants;
 	}
 
-	public var numUsedVaryings(get, null):UInt;
-	private function get_numUsedVaryings():UInt
+	
+	private function get_numUsedVaryings():Int
 	{
 		return _numUsedVaryings;
 	}
 
-	public var numUsedFragmentConstants(get, null):UInt;
-	private function get_numUsedFragmentConstants():UInt
+	
+	private function get_numUsedFragmentConstants():Int
 	{
 		return _numUsedFragmentConstants;
 	}
 
-	public var needFragmentAnimation(get, null):Bool;
+	
 	private function get_needFragmentAnimation():Bool
 	{
 		return _needFragmentAnimation;
 	}
 
-	/**
-	 * Indicates whether the pass requires
-	 */
-	public var needUVAnimation(get, null):Bool;
+	
 	private function get_needUVAnimation():Bool
 	{
 		return _needUVAnimation;
@@ -410,9 +427,6 @@ class MaterialPassBase extends EventDispatcher
 
 	public function activate(stage3DProxy:Stage3DProxy, camera:Camera3D):Void
 	{
-		// TODO: not used
-		//camera = camera;
-
 		var contextIndex:Int = stage3DProxy.stage3DIndex;
 		var context:Context3D = stage3DProxy.context3D;
 
@@ -429,7 +443,6 @@ class MaterialPassBase extends EventDispatcher
 		}
 
 		var prevUsed:Int = _previousUsedStreams[contextIndex];
-		var i:UInt;
 		for (i in _numUsedStreams...prevUsed)
 		{
 			context.setVertexBufferAt(i, null);
@@ -463,7 +476,7 @@ class MaterialPassBase extends EventDispatcher
 	 */
 	public function deactivate(stage3DProxy:Stage3DProxy):Void
 	{
-		var index:UInt = stage3DProxy.stage3DIndex;
+		var index:Int = stage3DProxy.stage3DIndex;
 		_previousUsedStreams[index] = _numUsedStreams;
 		_previousUsedTexs[index] = _numUsedTextures;
 
@@ -516,7 +529,7 @@ class MaterialPassBase extends EventDispatcher
 		}
 		else
 		{
-			var len:UInt = _animatableAttributes.length;
+			var len:Int = _animatableAttributes.length;
 
 			// simply write attributes to targets, do not animate them
 			// projection will pick up on targets[0] to do the projection
@@ -531,16 +544,16 @@ class MaterialPassBase extends EventDispatcher
 		var fragmentCode:String = getFragmentCode(fragmentAnimatorCode);
 		if (Debug.active)
 		{
-			trace("Compiling AGAL Code:");
-			trace("--------------------");
-			trace(vertexCode);
-			trace("--------------------");
-			trace(fragmentCode);
+			Lib.trace("Compiling AGAL Code:");
+			Lib.trace("--------------------");
+			Lib.trace(vertexCode);
+			Lib.trace("--------------------");
+			Lib.trace(fragmentCode);
 		}
 		AGALProgram3DCache.getInstance(stage3DProxy).setProgram3D(this, vertexCode, fragmentCode);
 	}
 
-	public var lightPicker(get, set):LightPickerBase;
+	
 	private function get_lightPicker():LightPickerBase
 	{
 		return _lightPicker;
@@ -572,7 +585,7 @@ class MaterialPassBase extends EventDispatcher
 
 	}
 
-	public var alphaPremultiplied(get, set):Bool;
+	
 	private function get_alphaPremultiplied():Bool
 	{
 		return _alphaPremultiplied;

@@ -11,7 +11,7 @@ import a3d.entities.Entity;
 import a3d.entities.Mesh;
 import a3d.entities.ObjectContainer3D;
 
-
+import haxe.ds.ObjectMap;
 
 /**
 * Helper Class to retrieve objects bounds <code>Bounds</code>
@@ -27,7 +27,7 @@ class Bounds
 	private static var _maxY:Float;
 	private static var _maxZ:Float;
 	private static var _defaultPosition:Vector3D = new Vector3D(0.0, 0.0, 0.0);
-	private static var _containers:Dictionary;
+	private static var _containers:ObjectMap<ObjectContainer3D,Vector<Float>>;
 
 	/**
 	* Calculate the bounds of a Mesh object
@@ -50,14 +50,14 @@ class Bounds
 
 		parseObjectContainerBounds(container);
 
-		if (isInfinite(_minX) || isInfinite(_minY) || isInfinite(_minZ) ||
-			isInfinite(_maxX) || isInfinite(_maxY) || isInfinite(_maxZ))
+		if (!Math.isFinite(_minX) || !Math.isFinite(_minY) || !Math.isFinite(_minZ) ||
+			!Math.isFinite(_maxX) || !Math.isFinite(_maxY) || !Math.isFinite(_maxZ))
 			return;
 
 		// Transform min/max values to the scene if required
 		if (worldBased)
 		{
-			var b:Vector<Float> = Vector<Float>([Infinity, Infinity, Infinity, -Infinity, -Infinity, -Infinity]);
+			var b:Vector<Float> = Vector.ofArray([Math.POSITIVE_INFINITY, Math.POSITIVE_INFINITY, Math.POSITIVE_INFINITY, Math.NEGATIVE_INFINITY, Math.NEGATIVE_INFINITY, Math.NEGATIVE_INFINITY]);
 			var c:Vector<Float> = getBoundsCorners(_minX, _minY, _minZ, _maxX, _maxY, _maxZ);
 			transformContainer(b, c, container.sceneTransform);
 			_minX = b[0];
@@ -77,7 +77,7 @@ class Bounds
 	public static function getVerticesVectorBounds(vertices:Vector<Float>):Void
 	{
 		reset();
-		var l:UInt = vertices.length;
+		var l:Int = vertices.length;
 		if (l % 3 != 0)
 			return;
 
@@ -128,7 +128,8 @@ class Bounds
 	/**
 	* @return the smalest x value
 	*/
-	public static function get_minX():Float
+	public static var minX(get, null):Float;
+	private static function get_minX():Float
 	{
 		return _minX;
 	}
@@ -136,7 +137,8 @@ class Bounds
 	/**
 	* @return the smalest y value
 	*/
-	public static function get_minY():Float
+	public static var minY(get, null):Float;
+	private static function get_minY():Float
 	{
 		return _minY;
 	}
@@ -144,7 +146,8 @@ class Bounds
 	/**
 	* @return the smalest z value
 	*/
-	public static function get_minZ():Float
+	public static var minZ(get, null):Float;
+	private static function get_minZ():Float
 	{
 		return _minZ;
 	}
@@ -152,7 +155,8 @@ class Bounds
 	/**
 	* @return the biggest x value
 	*/
-	public static function get_maxX():Float
+	public static var maxX(get, null):Float;
+	private static function get_maxX():Float
 	{
 		return _maxX;
 	}
@@ -160,7 +164,8 @@ class Bounds
 	/**
 	* @return the biggest y value
 	*/
-	public static function get_maxY():Float
+	public static var maxY(get, null):Float;
+	private static function get_maxY():Float
 	{
 		return _maxY;
 	}
@@ -168,7 +173,8 @@ class Bounds
 	/**
 	* @return the biggest z value
 	*/
-	public static function get_maxZ():Float
+	public static var maxZ(get, null):Float;
+	private static function get_maxZ():Float
 	{
 		return _maxZ;
 	}
@@ -199,9 +205,9 @@ class Bounds
 
 	private static function reset():Void
 	{
-		_containers = new Dictionary();
-		_minX = _minY = _minZ = Infinity;
-		_maxX = _maxY = _maxZ = -Infinity;
+		_containers = new ObjectMap<ObjectContainer3D,Vector<Float>>();
+		_minX = _minY = _minZ = Math.POSITIVE_INFINITY;
+		_maxX = _maxY = _maxZ = Math.NEGATIVE_INFINITY;
 		_defaultPosition.x = 0.0;
 		_defaultPosition.y = 0.0;
 		_defaultPosition.z = 0.0;
@@ -212,23 +218,24 @@ class Bounds
 		if (!obj.visible)
 			return;
 
-		if (_containers[obj] == null)
-			_containers[obj] = Vector.ofArray([Infinity, Infinity, Infinity, -Infinity, -Infinity, -Infinity]);
-		var containerBounds:Vector<Float> = _containers[obj];
+		if (!_containers.exists(obj))
+			_containers.set(obj,Vector.ofArray([Math.POSITIVE_INFINITY, Math.POSITIVE_INFINITY, Math.POSITIVE_INFINITY, 
+											   Math.NEGATIVE_INFINITY, Math.NEGATIVE_INFINITY, Math.NEGATIVE_INFINITY]));
+		var containerBounds:Vector<Float> = _containers.get(obj);
 
 		var child:ObjectContainer3D;
 		var isEntity:Entity = Std.instance(obj,Entity);
 		var containerTransform:Matrix3D = new Matrix3D();
 
-		if (isEntity && parentTransform)
+		if (isEntity != null && parentTransform != null)
 		{
 			parseObjectBounds(obj, parentTransform);
 
 			containerTransform = obj.transform.clone();
-			if (parentTransform)
+			if (parentTransform != null)
 				containerTransform.append(parentTransform);
 		}
-		else if (isEntity && !parentTransform)
+		else if (isEntity != null && parentTransform == null)
 		{
 			var mat:Matrix3D = obj.transform.clone();
 			mat.invert();
@@ -241,13 +248,13 @@ class Bounds
 			parseObjectContainerBounds(child, containerTransform);
 		}
 
-		var parentBounds:Vector<Float> = _containers[obj.parent];
-		if (!isEntity && parentTransform)
+		var parentBounds:Vector<Float> = _containers.get(obj.parent);
+		if (isEntity == null && parentTransform != null)
 		{
 			parseObjectBounds(obj, parentTransform, true);
 		}
 
-		if (parentBounds)
+		if (parentBounds != null)
 		{
 			parentBounds[0] = Math.min(parentBounds[0], containerBounds[0]);
 			parentBounds[1] = Math.min(parentBounds[1], containerBounds[1]);
@@ -280,28 +287,28 @@ class Bounds
 		var e:Entity = Std.instance(oC,Entity);
 		var corners:Vector<Float>;
 		var mat:Matrix3D = oC.transform.clone();
-		var cB:Vector<Float> = _containers[oC];
-		if (e)
+		var cB:Vector<Float> = _containers.get(oC);
+		if (e != null)
 		{
 			if (isInfinite(e.minX) || isInfinite(e.minY) || isInfinite(e.minZ) ||
 				isInfinite(e.maxX) || isInfinite(e.maxY) || isInfinite(e.maxZ))
 				return;
 
 			corners = getBoundsCorners(e.minX, e.minY, e.minZ, e.maxX, e.maxY, e.maxZ);
-			if (parentTransform)
+			if (parentTransform != null)
 				mat.append(parentTransform);
 		}
 		else
 		{
 			corners = getBoundsCorners(cB[0], cB[1], cB[2], cB[3], cB[4], cB[5]);
-			if (parentTransform)
+			if (parentTransform != null)
 				mat.prepend(parentTransform);
 		}
 
 		if (resetBounds)
 		{
-			cB[0] = cB[1] = cB[2] = Infinity;
-			cB[3] = cB[4] = cB[5] = -Infinity;
+			cB[0] = cB[1] = cB[2] = Math.POSITIVE_INFINITY;
+			cB[3] = cB[4] = cB[5] = Math.NEGATIVE_INFINITY;
 		}
 
 		transformContainer(cB, corners, mat);
@@ -309,7 +316,7 @@ class Bounds
 
 	private static function getBoundsCorners(minX:Float, minY:Float, minZ:Float, maxX:Float, maxY:Float, maxZ:Float):Vector<Float>
 	{
-		return Vector<Float>([
+		return Vector.ofArray([
 			minX, minY, minZ,
 			minX, minY, maxZ,
 			minX, maxY, minZ,

@@ -36,11 +36,9 @@ class Explode
 
 	public function apply(geom:Geometry, keepNormals:Bool = true):Void
 	{
-		var i:UInt;
-
 		_keepNormals = keepNormals;
 
-		for (i = 0; i < geom.subGeometries.length; i++)
+		for (i in 0...geom.subGeometries.length)
 		{
 			explodeSubGeom(geom.subGeometries[i], geom);
 		}
@@ -53,9 +51,9 @@ class Explode
 	{
 		var child:ObjectContainer3D;
 		if (Std.is(object,Mesh) && object.numChildren == 0)
-			apply(Mesh(object).geometry, _keepNormals);
+			apply(Std.instance(object,Mesh).geometry, _keepNormals);
 
-		for (var i:UInt = 0; i < object.numChildren; ++i)
+		for (i in 0...object.numChildren)
 		{
 			child = object.getChildAt(i);
 			parse(child);
@@ -64,7 +62,6 @@ class Explode
 
 	private function explodeSubGeom(subGeom:ISubGeometry, geom:Geometry):Void
 	{
-		var i:UInt;
 		var len:UInt;
 		var inIndices:Vector<UInt>;
 		var outIndices:Vector<UInt>;
@@ -97,7 +94,7 @@ class Explode
 		vIdx = 0;
 		uIdx = 0;
 		len = inIndices.length;
-		for (i = 0; i < len; i++)
+		for (i in 0...len)
 		{
 			var index:Int;
 
@@ -127,7 +124,7 @@ class Explode
 
 		outSubGeoms = GeomUtil.fromVectors(vertices, outIndices, uvs, normals, null, null, null);
 		geom.removeSubGeometry(subGeom);
-		for (i = 0; i < outSubGeoms.length; i++)
+		for (i in 0...outSubGeoms.length)
 		{
 			outSubGeoms[i].autoDeriveVertexNormals = !_keepNormals;
 			geom.addSubGeometry(outSubGeoms[i]);

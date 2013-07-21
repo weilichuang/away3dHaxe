@@ -2,10 +2,12 @@ package a3d.tools.commands;
 
 
 import a3d.entities.Mesh;
+import a3d.math.FMath;
 import a3d.tools.utils.Bounds;
+import flash.errors.Error;
 import flash.Vector;
 
-
+using Reflect;
 
 /**
 * Class Aligns an arrays of Object3Ds, Vector3D's or Vertexes compaired to each other.<code>Align</code>
@@ -37,7 +39,6 @@ class Align
 		checkCondition(condition);
 		var base:Float;
 		var bounds:Vector<MeshBound> = getMeshesBounds(meshes);
-		var i:UInt;
 		var prop:String = getProp();
 		var mb:MeshBound;
 		var m:Mesh;
@@ -47,28 +48,26 @@ class Align
 		{
 			case POSITIVE:
 				base = getMaxBounds(bounds);
-
-				for (i = 0; i < meshes.length; ++i)
+				for (i in 0...meshes.length)
 				{
 					m = meshes[i];
 					mb = bounds[i];
-					val = m[_axis];
-					val -= base - mb[prop] + m[_axis];
-					m[_axis] = -val;
+					val = m.getProperty(_axis);
+					val -= base - mb.getProperty(prop) + m.getProperty(_axis);
+					m.setProperty(_axis, -val);
 					bounds[i] = null;
 				}
-;
 
 			case NEGATIVE:
 				base = getMinBounds(bounds);
 
-				for (i = 0; i < meshes.length; ++i)
+				for (i in 0...meshes.length)
 				{
 					m = meshes[i];
 					mb = bounds[i];
-					val = m[_axis];
-					val -= base + mb[prop] + m[_axis];
-					m[_axis] = -val;
+					val = m.getProperty(_axis);
+					val -= base + mb.getProperty(prop) + m.getProperty(_axis);
+					m.setProperty(_axis, -val);
 					bounds[i] = null;
 				}
 		}
@@ -84,7 +83,7 @@ class Align
 		if (meshes.length == 0)
 			return;
 
-		for (var i:UInt = 0; i < meshes.length; ++i)
+		for (i in 0...meshes.length)
 		{
 			Bounds.getMeshBounds(meshes[i]);
 			meshes[i].y = Bounds.minY + (Bounds.maxY - Bounds.minY);
@@ -104,11 +103,11 @@ class Align
 	* @param	 axis			String. Represent the axis to align on.
 	* @param	 condition	[optional]. String. Can be '+", "-", "av" or "", Default is "", aligns to given axis at 0.
 	*/
-	public static function align(aObjs:Array, axis:String, condition:String = ""):Void
+	public static function align(aObjs:Array<Dynamic>, axis:String, condition:String = ""):Void
 	{
 		checkAxis(axis);
 		checkCondition(condition);
-		var base:Float;
+		var base:Float = 0;
 
 		switch (_condition)
 		{
@@ -125,8 +124,8 @@ class Align
 				base = 0;
 		}
 
-		for (var i:UInt = 0; i < aObjs.length; ++i)
-			aObjs[i][_axis] = base;
+		for (i in 0...aObjs.length)
+			aObjs[i].setProperty(_axis, base);
 	}
 
 	/**
@@ -135,19 +134,19 @@ class Align
 	* @param	 aObjs		Array. An array with elements with x,y and z public properties such as Mesh, Object3D, ObjectContainer3D,Vector3D or Vertex
 	* @param	 axis			String. Represent the axis to align on.
 	*/
-	public static function distribute(aObjs:Array, axis:String):Void
+	public static function distribute(aObjs:Array<Dynamic>, axis:String):Void
 	{
 		checkAxis(axis);
 
 		var max:Float = getMax(aObjs, _axis);
 		var min:Float = getMin(aObjs, _axis);
 		var unit:Float = (max - min) / aObjs.length;
-		aObjs.sortOn(axis, 16);
+		untyped aObjs.sortOn(axis, 16);
 
 		var step:Float = 0;
-		for (var i:UInt = 0; i < aObjs.length; ++i)
+		for (i in 0...aObjs.length)
 		{
-			aObjs[i][_axis] = min + step;
+			aObjs[i].setProperty(_axis,min + step);
 			step += unit;
 		}
 	}
@@ -167,8 +166,8 @@ class Align
 	private static function checkCondition(condition:String):Void
 	{
 		condition = condition.toLowerCase();
-		var aConds:Array = [POSITIVE, NEGATIVE, "", AVERAGE];
-		for (var i:UInt = 0; i < aConds.length; ++i)
+		var aConds:Array<String> = [POSITIVE, NEGATIVE, "", AVERAGE];
+		for (i in 0...aConds.length)
 		{
 			if (aConds[i] == condition)
 			{
@@ -180,30 +179,30 @@ class Align
 		throw new Error("Invalid condition: possible string value are '+', '-', 'av' or '' ");
 	}
 
-	private static function getMin(a:Array, prop:String):Float
+	private static function getMin(a:Array<Dynamic>, prop:String):Float
 	{
-		var min:Float = Infinity;
-		for (var i:UInt = 0; i < a.length; ++i)
-			min = Math.min(a[i][prop], min);
+		var min:Float = Math.POSITIVE_INFINITY;
+		for (i in 0...a.length)
+			min = Math.min(a[i].getProperty(prop), min);
 
 		return min;
 	}
 
-	private static function getMax(a:Array, prop:String):Float
+	private static function getMax(a:Array<Dynamic>, prop:String):Float
 	{
-		var max:Float = -Infinity;
-		for (var i:UInt = 0; i < a.length; ++i)
-			max = Math.max(a[i][prop], max);
+		var max:Float = Math.NEGATIVE_INFINITY;
+		for (i in 0...a.length)
+			max = Math.max(a[i].getProperty(prop), max);
 
 		return max;
 	}
 
-	private static function getAverage(a:Array, prop:String):Float
+	private static function getAverage(a:Array<Dynamic>, prop:String):Float
 	{
 		var av:Float = 0;
 		var loop:Int = a.length;
-		for (var i:UInt = 0; i < loop; ++i)
-			av += a[i][prop];
+		for (i in 0...loop)
+			av += a[i].getProperty(prop);
 
 		return av / loop;
 	}
@@ -212,7 +211,7 @@ class Align
 	{
 		var mbs:Vector<MeshBound> = new Vector<MeshBound>();
 		var mb:MeshBound;
-		for (var i:UInt = 0; i < meshes.length; ++i)
+		for (i in 0...meshes.length)
 		{
 			Bounds.getMeshBounds(meshes[i]);
 
@@ -232,7 +231,7 @@ class Align
 
 	private static function getProp():String
 	{
-		var prop:String;
+		var prop:String = null;
 
 		switch (_axis)
 		{
@@ -251,10 +250,10 @@ class Align
 
 	private static function getMinBounds(bounds:Vector<MeshBound>):Float
 	{
-		var min:Float = Infinity;
+		var min:Float = Math.POSITIVE_INFINITY;
 		var mb:MeshBound;
 
-		for (var i:UInt = 0; i < bounds.length; ++i)
+		for (i in 0...bounds.length)
 		{
 			mb = bounds[i];
 			switch (_axis)
@@ -275,10 +274,10 @@ class Align
 
 	private static function getMaxBounds(bounds:Vector<MeshBound>):Float
 	{
-		var max:Float = -Infinity;
+		var max:Float = Math.NEGATIVE_INFINITY;
 		var mb:MeshBound;
 
-		for (var i:UInt = 0; i < bounds.length; ++i)
+		for (i in 0...bounds.length)
 		{
 			mb = bounds[i];
 			switch (_axis)
@@ -309,4 +308,9 @@ class MeshBound
 	public var maxX:Float;
 	public var maxY:Float;
 	public var maxZ:Float;
+	
+	public function new()
+	{
+		
+	}
 }

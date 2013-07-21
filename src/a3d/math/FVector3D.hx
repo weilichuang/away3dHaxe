@@ -31,6 +31,11 @@ class FVector3D
 	{
 		return a.x * b.x + a.y * b.y + a.z * b.z;
 	}
+	
+	public static inline function fastLengthSquared(a:Vector3D):Float
+	{
+		return a.x * a.x + a.y * a.y + a.z * a.z;
+	}
 
 	public static inline function fastSetTo(target:Vector3D, x:Float, y:Float, z:Float):Void
 	{
@@ -46,6 +51,13 @@ class FVector3D
 		source.z = target.z;
 		if (copyW)
 			source.w = target.w;
+	}
+	
+	public static inline function fastDecrementBy(source:Vector3D, target:Vector3D):Void
+	{
+		source.x -= target.x;
+		source.y -= target.y;
+		source.z -= target.z;
 	}
 	
 	/**

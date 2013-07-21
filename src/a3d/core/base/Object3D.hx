@@ -403,6 +403,14 @@ class Object3D extends NamedAssetBase
 		
 		return _z;
 	}
+	
+	public function setXYZ(x:Float, y:Float, z:Float):Void
+	{
+		_x = x;
+		_y = y;
+		_z = z;
+		invalidatePosition();
+	}
 
 	
 	private function get_rotationX():Float
@@ -456,6 +464,14 @@ class Object3D extends NamedAssetBase
 		invalidateRotation();
 		
 		return rotationZ;
+	}
+	
+	public function setRotationXYZ(rx:Float, ry:Float, rz:Float):Void
+	{
+		_rotationX = rx * FMath.DEGREES_TO_RADIANS();
+		_rotationY = ry * FMath.DEGREES_TO_RADIANS();
+		_rotationZ = rz * FMath.DEGREES_TO_RADIANS();
+		invalidateRotation();
 	}
 
 	
@@ -512,6 +528,13 @@ class Object3D extends NamedAssetBase
 		return _scaleZ;
 	}
 
+	public function setScaleXYZ(sx:Float, sy:Float, sz:Float):Void
+	{
+		_scaleX = sx;
+		_scaleY = sy;
+		_scaleZ = sz;
+		invalidateScale();
+	}
 	
 	private function get_eulers():Vector3D
 	{

@@ -1,18 +1,18 @@
 package a3d.tools.commands;
 
-import flash.geom.Vector3D;
-import flash.utils.Dictionary;
-import flash.Vector;
-
-
 import a3d.core.base.CompactSubGeometry;
 import a3d.core.base.Geometry;
 import a3d.core.base.ISubGeometry;
 import a3d.entities.Mesh;
 import a3d.entities.ObjectContainer3D;
 import a3d.math.FMath;
+import flash.geom.Vector3D;
+import flash.utils.Dictionary;
+import flash.Vector;
+import haxe.ds.StringMap;
 
 
+using a3d.math.FVector3D;
 
 /**
  * Class Weld removes the vertices that can be shared from one or more meshes (smoothes the mesh surface when lighted).
@@ -72,9 +72,10 @@ class Weld
 	/**
 	 * returns howmany vertices were deleted during the welding operation.
 	 */
-	private function get_verticesRemovedCount():UInt
+	public var verticesRemovedCount(get,null):Int;
+	private function get_verticesRemovedCount():Int
 	{
-		if (isNaN(_vertCnt))
+		if (Math.isNaN(_vertCnt))
 			return 0;
 
 		return (_vertCnt > 0) ? _vertCnt : 0;
@@ -83,12 +84,13 @@ class Weld
 	/**
 	 * returns howmany vertices were added during the welding operation.
 	 */
-	private function get_verticesAddedCount():UInt
+	public var verticesAddedCount(get,null):Int;
+	private function get_verticesAddedCount():Int
 	{
 		if (Math.isNaN(_vertCnt))
 			return 0;
 
-		return (_vertCnt < 0) ? Math.abs(_vertCnt) : 0;
+		return (_vertCnt < 0) ? FMath.abs(_vertCnt) : 0;
 	}
 
 	private function parse(obj:ObjectContainer3D):Int
@@ -96,9 +98,9 @@ class Weld
 		var removedVertCnt:Int = 0;
 		var child:ObjectContainer3D;
 		if (Std.is(obj,Mesh) && obj.numChildren == 0)
-			removedVertCnt += applyToGeom(Mesh(obj).geometry);
+			removedVertCnt += applyToGeom(Std.instance(obj,Mesh).geometry);
 
-		for (var i:UInt = 0; i < obj.numChildren; ++i)
+		for (i in 0...obj.numChildren)
 		{
 			child = obj.getChildAt(i);
 			removedVertCnt += parse(child);
@@ -120,7 +122,7 @@ class Weld
 			// be updated using a single unified method (from vectors.)
 			if (Std.is(subGeom,CompactSubGeometry))
 			{
-				removedVertsCnt += applyToSubGeom(subGeom, CompactSubGeometry(subGeom));
+				removedVertsCnt += applyToSubGeom(subGeom, Std.instance(subGeom,CompactSubGeometry));
 
 			}
 			else
@@ -140,15 +142,14 @@ class Weld
 	private function applyToSubGeom(subGeom:ISubGeometry, outSubGeom:CompactSubGeometry):Int
 	{
 		var maxNormalIdx:Int = 0;
-		var oldVerticleCount:UInt = subGeom.numVertices;
-		var i:UInt;
-		var numOutIndices:UInt = 0;
+		var oldVerticleCount:Int = subGeom.numVertices;
+		var numOutIndices:Int = 0;
 		var searchStringFinal:String;
 
 		var vStride:UInt, nStride:UInt, uStride:UInt;
 		var vOffs:UInt, nOffs:UInt, uOffs:UInt, sn:UInt;
 		var vd:Vector<Float>, nd:Vector<Float>, ud:Vector<Float>;
-		var sharedNormalsDic:Dictionary = new Dictionary();
+		var sharedNormalsDic:StringMap<Int> = new StringMap<Int>();
 		var outnormal:Vector3D = new Vector3D();
 
 		vd = subGeom.vertexData;
@@ -170,14 +171,14 @@ class Weld
 		var oldTargetNormals:Vector<Vector3D> = new Vector<Vector3D>();
 		var sharedPointNormals:Vector<Vector<Vector3D>> = new Vector<Vector<Vector3D>>();
 
-		var usedVertices:Dictionary = new Dictionary();
+		var usedVertices:StringMap<Int> = new StringMap<Int>();
 		var searchString:String = "";
 		var inLen:UInt = inIndices.length;
 		var faceNormals:Vector<Float> = subGeom.faceNormals;
 		var faceIdx:UInt = 0;
 		var faceIdxCnt:UInt = 3;
-		var targetNormal:Vector3D;
-		var storedFaceNormal:Vector3D;
+		var targetNormal:Vector3D = null;
+		var storedFaceNormal:Vector3D = null;
 		var sharedNormalIndex:Int;
 		var origIndex:UInt;
 		var foundNormalsCnt:UInt = 0;
@@ -229,10 +230,10 @@ class Weld
 			searchStringFinal = searchString + "0";
 			outIndex = -1;
 
-			if (usedVertices[searchStringFinal] != undefined)
+			if (usedVertices.exists(searchStringFinal))
 			{
 
-				outIndex = usedVertices[searchStringFinal];
+				outIndex = usedVertices.get(searchStringFinal);
 				foundNormalsCnt = 0;
 				searchforNormal = true;
 				difUvs = false;
@@ -243,15 +244,15 @@ class Weld
 					if (foundNormalsCnt > 0)
 					{
 						outIndex = -1;
-						searchStringFinal = searchString + String(foundNormalsCnt);
+						searchStringFinal = searchString + foundNormalsCnt;
 					}
 
-					if (usedVertices[searchStringFinal] != undefined)
+					if (usedVertices.exists(searchStringFinal))
 					{
-						outIndex = usedVertices[searchStringFinal];
+						outIndex = usedVertices.get(searchStringFinal);
 						storedFaceNormal = oldTargetNormals[outIndex]; // get the Normal-Vector of this allready-existing vertex. (if _useNormalMode==USE_FACENORMALS, this Normal is the Facenormal off the face, the vertex is used by) 
 						// calculate the angle between the normals of the two vertices.
-						dp = storedFaceNormal.x * targetNormal.x + storedFaceNormal.y * targetNormal.y + storedFaceNormal.z * targetNormal.z;
+						dp = storedFaceNormal.fastDot(targetNormal);
 						curangle = (Math.acos(dp));
 						difUvs = false;
 
@@ -290,7 +291,7 @@ class Weld
 			// No vertex found, so create it
 			if (outIndex < 0)
 			{
-				outIndex = outVertices.length / 3;
+				outIndex = Std.int(outVertices.length / 3);
 
 				if (sharedNormalIndex < 0)
 				{
@@ -299,9 +300,9 @@ class Weld
 				}
 
 				oldTargetNormals[outIndex] = targetNormal;
-				sharedPointNormals[outIndex] = new Vector<Vector3D>;
+				sharedPointNormals[outIndex] = new Vector<Vector3D>();
 				sharedPointNormals[outIndex][0] = targetNormal;
-				usedVertices[searchStringFinal] = outIndex;
+				usedVertices.set(searchStringFinal, outIndex);
 				sharedNormalIndices[outIndex] = sharedNormalIndex;
 				outVertices[outIndex * 3 + 0] = px;
 				outVertices[outIndex * 3 + 1] = py;
@@ -325,7 +326,7 @@ class Weld
 			var sharedPointsVectors:Vector<Vector3D> = new Vector<Vector3D>();
 			var foundVector:Int;
 			var curIdx:Int;
-			inLen = outVertices.length / 3;
+			inLen = Std.int(outVertices.length / 3);
 
 			for (i in 0...inLen)
 			{
@@ -338,26 +339,26 @@ class Weld
 				{
 					curIdx = sharedNormalIndices[curIdx];
 				}
-				if (sharedPointsDic[curIdx.toString()] != undefined)
+				if (sharedPointsDic.exists(curIdx+""))
 				{
-					foundVector = sharedPointsDic[curIdx.toString()];
+					foundVector = sharedPointsDic.get(curIdx + "");
 					outnormal = sharedPointsVectors[foundVector];
 				}
 
 				if (foundVector < 0)
 				{
 
-					sharedNormalsDic = new Dictionary();
+					sharedNormalsDic = new StringMap<Int>();
 					foundNormalsCnt = 0;
 
-					for (sn = 0; sn < sharedPointNormals[curIdx].length; sn++)
+					for (sn in 0...sharedPointNormals[curIdx].length)
 					{
 
-						if (sharedNormalsDic[sharedPointNormals[curIdx][sn].toString()] != undefined)
+						if (sharedNormalsDic.exists(sharedPointNormals[curIdx][sn].toString()))
 							continue;
 
 						foundNormalsCnt++;
-						sharedNormalsDic[sharedPointNormals[curIdx][sn].toString()] = 1;
+						sharedNormalsDic.set(sharedPointNormals[curIdx][sn].toString(), 1);
 						outnormal.x += sharedPointNormals[curIdx][sn].x;
 						outnormal.y += sharedPointNormals[curIdx][sn].y;
 						outnormal.z += sharedPointNormals[curIdx][sn].z;
@@ -367,7 +368,7 @@ class Weld
 					outnormal.y /= foundNormalsCnt;
 					outnormal.z /= foundNormalsCnt;
 
-					sharedPointsDic[curIdx.toString()] = sharedPointsVectors.length;
+					sharedPointsDic.set(curIdx+"", sharedPointsVectors.length);
 					sharedPointsVectors[sharedPointsVectors.length] = outnormal;
 				}
 
@@ -380,7 +381,7 @@ class Weld
 		outSubGeom.fromVectors(outVertices, outUvs, outNormals, null);
 		outSubGeom.updateIndexData(outIndices);
 
-		return int(oldVerticleCount - outSubGeom.numVertices);
+		return oldVerticleCount - outSubGeom.numVertices;
 	}
 
 }

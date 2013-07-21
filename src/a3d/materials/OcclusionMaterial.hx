@@ -11,6 +11,11 @@ import a3d.core.managers.Stage3DProxy;
  */
 class OcclusionMaterial extends ColorMaterial
 {
+	/**
+	 * Whether or not an object with this material applied hides other objects.
+	 */
+	public var occlude(get, set):Bool;
+	
 	private var _occlude:Bool = true;
 
 	/**
@@ -25,9 +30,7 @@ class OcclusionMaterial extends ColorMaterial
 		this.occlude = occlude;
 	}
 
-	/**
-	 * Whether or not an object with this material applied hides other objects.
-	 */
+	
 	private function get_occlude():Bool
 	{
 		return _occlude;
@@ -41,11 +44,11 @@ class OcclusionMaterial extends ColorMaterial
 	/**
 	 * @inheritDoc
 	 */
-	override public function activatePass(index:UInt, stage3DProxy:Stage3DProxy, camera:Camera3D):Void
+	override public function activatePass(index:Int, stage3DProxy:Stage3DProxy, camera:Camera3D):Void
 	{
 		if (occlude)
 		{
-			stage3DProxy._context3D.setColorMask(false, false, false, false);
+			stage3DProxy.context3D.setColorMask(false, false, false, false);
 		}
 		super.activatePass(index, stage3DProxy, camera);
 	}
@@ -53,9 +56,9 @@ class OcclusionMaterial extends ColorMaterial
 	/**
 	 * @inheritDoc
 	 */
-	override public function deactivatePass(index:UInt, stage3DProxy:Stage3DProxy):Void
+	override public function deactivatePass(index:Int, stage3DProxy:Stage3DProxy):Void
 	{
 		super.deactivatePass(index, stage3DProxy);
-		stage3DProxy._context3D.setColorMask(true, true, true, true);
+		stage3DProxy.context3D.setColorMask(true, true, true, true);
 	}
 }

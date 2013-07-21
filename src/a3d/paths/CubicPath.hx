@@ -26,9 +26,9 @@ class CubicPath extends SegmentedPathBase implements IPath
 
 	override private function stitchSegment(start:IPathSegment, middle:IPathSegment, end:IPathSegment):Void
 	{
-		var seg:CubicPathSegment = CubicPathSegment(middle);
-		var prevSeg:CubicPathSegment = CubicPathSegment(start);
-		var nextSeg:CubicPathSegment = CubicPathSegment(end);
+		var seg:CubicPathSegment = Std.instance(middle,CubicPathSegment);
+		var prevSeg:CubicPathSegment = Std.instance(start,CubicPathSegment);
+		var nextSeg:CubicPathSegment = Std.instance(end,CubicPathSegment);
 
 		prevSeg.control1.x = (prevSeg.control1.x + seg.control1.x) * 0.5;
 		prevSeg.control1.y = (prevSeg.control1.y + seg.control1.y) * 0.5;

@@ -16,6 +16,11 @@ import a3d.entities.lights.PointLight;
  */
 class StaticLightPicker extends LightPickerBase
 {
+	/**
+	 * The lights used for shading.
+	 */
+	public var lights(get, set):Array<LightBase>;
+	
 	private var _lights:Array<LightBase>;
 
 	/**
@@ -28,10 +33,7 @@ class StaticLightPicker extends LightPickerBase
 		this.lights = lights;
 	}
 
-	/**
-	 * The lights used for shading.
-	 */
-	public var lights(get, set):Array<LightBase>;
+	
 	private function get_lights():Array<LightBase>
 	{
 		return _lights;

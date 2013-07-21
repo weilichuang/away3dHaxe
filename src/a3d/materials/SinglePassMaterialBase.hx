@@ -119,6 +119,10 @@ class SinglePassMaterialBase extends MaterialBase
 	public var ambientColor(get, set):UInt;
 	
 	/**
+	 * The overall strength of the specular reflection.
+	 */
+	public var specular(get, set):Float;
+	/**
 	 * The colour of the specular reflection.
 	 */
 	public var specularColor(get, set):UInt;
@@ -407,10 +411,7 @@ class SinglePassMaterialBase extends MaterialBase
 		return _screenPass.ambientMethod.ambient = value;
 	}
 
-	/**
-	 * The overall strength of the specular reflection.
-	 */
-	public var specular(get, set):Float;
+	
 	private function get_specular():Float
 	{
 		return _screenPass.specularMethod != null ? _screenPass.specularMethod.specular : 0;

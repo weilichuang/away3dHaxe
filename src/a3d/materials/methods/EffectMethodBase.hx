@@ -15,12 +15,14 @@ import a3d.materials.compilation.ShaderRegisterElement;
  */
 class EffectMethodBase extends ShadingMethodBase implements IAsset
 {
+	public var assetType(get, null):String;
+	
 	public function new()
 	{
 		super();
 	}
 
-	public var assetType(get,null):String;
+	
 	private function get_assetType():String
 	{
 		return AssetType.EFFECTS_METHOD;

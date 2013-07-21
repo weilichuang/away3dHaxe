@@ -1,24 +1,25 @@
 package a3d.tools.helpers;
 
-import flash.geom.Matrix3D;
-import flash.geom.Vector3D;
-import flash.utils.Dictionary;
-import flash.Vector;
-
-
 import a3d.core.base.CompactSubGeometry;
-import a3d.core.base.Geometry;
-import a3d.core.base.ISubGeometry;
-import a3d.core.base.Object3D;
-import a3d.core.base.SubGeometry;
 import a3d.core.base.data.UV;
 import a3d.core.base.data.Vertex;
+import a3d.core.base.Geometry;
+import a3d.core.base.ISubGeometry;
+import a3d.core.base.SubGeometry;
 import a3d.entities.Mesh;
 import a3d.entities.ObjectContainer3D;
 import a3d.materials.MaterialBase;
 import a3d.materials.utils.DefaultMaterialManager;
 import a3d.tools.utils.Bounds;
 import a3d.tools.utils.GeomUtil;
+import flash.errors.Error;
+import flash.geom.Matrix3D;
+import flash.geom.Vector3D;
+import flash.utils.Dictionary;
+import flash.Vector;
+import haxe.ds.StringMap;
+
+
 
 
 
@@ -40,12 +41,12 @@ class MeshHelper
 		var radius:Float;
 		try
 		{
-			radius = Math.max((mesh.maxX - mesh.minX) * Object3D(mesh).scaleX, (mesh.maxY - mesh.minY) * Object3D(mesh).scaleY, (mesh.maxZ - mesh.minZ) * Object3D(mesh).scaleZ);
+			radius = Math.max((mesh.maxX - mesh.minX) * mesh.scaleX, Math.max((mesh.maxY - mesh.minY) * mesh.scaleY, (mesh.maxZ - mesh.minZ) * mesh.scaleZ));
 		}
 		catch (e:Error)
 		{
 			Bounds.getMeshBounds(mesh);
-			radius = Math.max((Bounds.maxX - Bounds.minX) * Object3D(mesh).scaleX, (Bounds.maxY - Bounds.minY) * Object3D(mesh).scaleY, (Bounds.maxZ - Bounds.minZ) * Object3D(mesh).scaleZ);
+			radius = Math.max((Bounds.maxX - Bounds.minX) * mesh.scaleX, Math.max((Bounds.maxY - Bounds.minY) * mesh.scaleY, (Bounds.maxZ - Bounds.minZ) * mesh.scaleZ));
 		}
 
 		return radius * .5;
@@ -58,8 +59,7 @@ class MeshHelper
 	public static function boundingRadiusContainer(container:ObjectContainer3D):Float
 	{
 		Bounds.getObjectContainerBounds(container);
-		var radius:Float = Math.max((Bounds.maxX - Bounds.minX) * Object3D(container).scaleX, (Bounds.maxY - Bounds.minY) * Object3D(container).scaleY, (Bounds.maxZ - Bounds.minZ) * Object3D(container).
-			scaleZ);
+		var radius:Float = Math.max((Bounds.maxX - Bounds.minX) * container.scaleX, Math.max((Bounds.maxY - Bounds.minY) * container.scaleY, (Bounds.maxZ - Bounds.minZ) * container.scaleZ));
 		return radius * .5;
 	}
 
@@ -95,12 +95,12 @@ class MeshHelper
 	{
 		var child:ObjectContainer3D;
 
-		if (Std.is(obj,Mesh) && ObjectContainer3D(obj).numChildren == 0)
-			recenter(Mesh(obj), keepPosition);
+		if (Std.is(obj,Mesh) && obj.numChildren == 0)
+			recenter(Std.instance(obj,Mesh), keepPosition);
 
-		for (var i:UInt = 0; i < ObjectContainer3D(obj).numChildren; ++i)
+		for (i in 0...obj.numChildren)
 		{
-			child = ObjectContainer3D(obj).getChildAt(i);
+			child = obj.getChildAt(i);
 			recenterContainer(child, keepPosition);
 		}
 
@@ -123,9 +123,9 @@ class MeshHelper
 		t.appendScale(1 / mesh.scaleX, 1 / mesh.scaleY, 1 / mesh.scaleZ);
 		var holder:Vector3D = new Vector3D();
 
-		for (i = 0; i < numSubGeoms; ++i)
+		for (i in 0...numSubGeoms)
 		{
-			subGeom = ISubGeometry(geometries[i]);
+			subGeom = Std.instance(geometries[i],ISubGeometry);
 			vertices = subGeom.vertexData;
 			vOffs = subGeom.vertexOffset;
 			vStride = subGeom.vertexStride;
@@ -134,7 +134,7 @@ class MeshHelper
 			nStride = subGeom.vertexNormalStride;
 			len = subGeom.numVertices;
 
-			for (j = 0; j < len; j++)
+			for (j in 0...len)
 			{
 				//verts
 				holder.x = vertices[vOffs + j * vStride + 0];
@@ -161,12 +161,12 @@ class MeshHelper
 
 			if (Std.is(subGeom,CompactSubGeometry))
 			{
-				CompactSubGeometry(subGeom).updateData(vertices);
+				Std.instance(subGeom,CompactSubGeometry).updateData(vertices);
 			}
 			else
 			{
-				SubGeometry(subGeom).updateVertexData(vertices);
-				SubGeometry(subGeom).updateVertexNormalData(normals);
+				Std.instance(subGeom,SubGeometry).updateVertexData(vertices);
+				Std.instance(subGeom,SubGeometry).updateVertexNormalData(normals);
 			}
 		}
 
@@ -181,12 +181,12 @@ class MeshHelper
 	{
 		var child:ObjectContainer3D;
 
-		if (Std.is(obj,Mesh) && ObjectContainer3D(obj).numChildren == 0)
-			applyRotations(Mesh(obj));
+		if (Std.is(obj,Mesh) && obj.numChildren == 0)
+			applyRotations(Std.instance(obj,Mesh));
 
-		for (var i:UInt = 0; i < ObjectContainer3D(obj).numChildren; ++i)
+		for (i in 0...obj.numChildren)
 		{
-			child = ObjectContainer3D(obj).getChildAt(i);
+			child = obj.getChildAt(i);
 			applyRotationsContainer(child);
 		}
 
@@ -205,7 +205,7 @@ class MeshHelper
 		if (scaleX == 1 && scaleY == 1 && scaleZ == 1)
 			return;
 
-		if (mesh.animator)
+		if (mesh.animator != null)
 		{
 			mesh.scaleX = scaleX;
 			mesh.scaleY = scaleY;
@@ -217,18 +217,18 @@ class MeshHelper
 		var geometry:Geometry = mesh.geometry;
 		var geometries:Vector<ISubGeometry> = geometry.subGeometries;
 		var vertices:Vector<Float>;
-		var numSubGeoms:UInt = geometries.length;
+		var numSubGeoms:Int = geometries.length;
 		var subGeom:ISubGeometry;
 
-		for (i = 0; i < numSubGeoms; ++i)
+		for (i in 0...numSubGeoms)
 		{
-			subGeom = ISubGeometry(geometries[i]);
+			subGeom = Std.instance(geometries[i],ISubGeometry);
 			vOffs = subGeom.vertexOffset;
 			vStride = subGeom.vertexStride;
 			vertices = subGeom.vertexData;
 			len = subGeom.numVertices;
 
-			for (j = 0; j < len; j++)
+			for (j in 0...len)
 			{
 				vertices[vOffs + j * vStride + 0] *= scaleX;
 				vertices[vOffs + j * vStride + 1] *= scaleY;
@@ -236,14 +236,14 @@ class MeshHelper
 			}
 
 			if (Std.is(subGeom,CompactSubGeometry))
-				CompactSubGeometry(subGeom).updateData(vertices);
+				Std.instance(subGeom,CompactSubGeometry).updateData(vertices);
 			else
-				SubGeometry(subGeom).updateVertexData(vertices);
+				Std.instance(subGeom,SubGeometry).updateVertexData(vertices);
 		}
 
 		mesh.scaleX = mesh.scaleY = mesh.scaleZ = 1;
 
-		if (parent)
+		if (parent != null)
 		{
 			mesh.x *= scaleX;
 			mesh.y *= scaleY;
@@ -260,16 +260,14 @@ class MeshHelper
 	 */
 	public static function applyScalesContainer(obj:ObjectContainer3D, scaleX:Float, scaleY:Float, scaleZ:Float, parent:ObjectContainer3D = null):Void
 	{
-		parent = parent;
-
 		var child:ObjectContainer3D;
 
-		if (Std.is(obj,Mesh) && ObjectContainer3D(obj).numChildren == 0)
-			applyScales(Mesh(obj), scaleX, scaleY, scaleZ, obj);
+		if (Std.is(obj,Mesh) && obj.numChildren == 0)
+			applyScales(Std.instance(obj,Mesh), scaleX, scaleY, scaleZ, obj);
 
-		for (var i:UInt = 0; i < ObjectContainer3D(obj).numChildren; ++i)
+		for (i in 0...obj.numChildren)
 		{
-			child = ObjectContainer3D(obj).getChildAt(i);
+			child = obj.getChildAt(i);
 			applyScalesContainer(child, scaleX, scaleY, scaleZ, obj);
 		}
 	}
@@ -290,15 +288,15 @@ class MeshHelper
 		var numSubGeoms:UInt = geometries.length;
 		var subGeom:ISubGeometry;
 
-		for (i = 0; i < numSubGeoms; ++i)
+		for (i in 0...numSubGeoms)
 		{
-			subGeom = ISubGeometry(geometries[i]);
+			subGeom = Std.instance(geometries[i],ISubGeometry);
 			vOffs = subGeom.vertexOffset;
 			vStride = subGeom.vertexStride;
 			vertices = subGeom.vertexData;
 			len = subGeom.numVertices;
 
-			for (j = 0; j < len; j++)
+			for (j in 0...len)
 			{
 				vertices[vOffs + j * vStride + 0] += dx;
 				vertices[vOffs + j * vStride + 1] += dy;
@@ -306,9 +304,9 @@ class MeshHelper
 			}
 
 			if (Std.is(subGeom,CompactSubGeometry))
-				CompactSubGeometry(subGeom).updateData(vertices);
+				Std.instance(subGeom,CompactSubGeometry).updateData(vertices);
 			else
-				SubGeometry(subGeom).updateVertexData(vertices);
+				Std.instance(subGeom,SubGeometry).updateVertexData(vertices);
 		}
 
 		mesh.x -= dx;
@@ -340,12 +338,12 @@ class MeshHelper
 	{
 		var child:ObjectContainer3D;
 
-		if (Std.is(obj,Mesh) && ObjectContainer3D(obj).numChildren == 0)
-			invertFaces(Mesh(obj));
+		if (Std.is(obj,Mesh) && obj.numChildren == 0)
+			invertFaces(Std.instance(obj,Mesh));
 
-		for (var i:UInt = 0; i < ObjectContainer3D(obj).numChildren; ++i)
+		for (i in 0...obj.numChildren)
 		{
-			child = ObjectContainer3D(obj).getChildAt(i);
+			child = obj.getChildAt(i);
 			invertFacesInContainer(child);
 		}
 
@@ -369,9 +367,9 @@ class MeshHelper
 		var numSubGeoms:UInt = geometries.length;
 		var subGeom:ISubGeometry;
 
-		for (i = 0; i < numSubGeoms; ++i)
+		for (i in 0...numSubGeoms)
 		{
-			subGeom = ISubGeometry(geometries[i]);
+			subGeom = Std.instance(geometries[i],ISubGeometry);
 			indices = subGeom.indexData;
 			indicesC = subGeom.indexData.concat();
 
@@ -388,14 +386,16 @@ class MeshHelper
 			tOffs = subGeom.vertexTangentOffset;
 			tStride = subGeom.vertexTangentStride;
 
-			for (i = 0; i < indices.length; i += 3)
+			var m:Int = 0;
+			while (m < indices.length)
 			{
-				indices[i + 0] = indicesC[i + 2];
-				indices[i + 1] = indicesC[i + 1];
-				indices[i + 2] = indicesC[i + 0];
+				indices[m + 0] = indicesC[m + 2];
+				indices[m + 1] = indicesC[m + 1];
+				indices[m + 2] = indicesC[m + 0];
+				m += 3;
 			}
 
-			for (j = 0; j < len; j++)
+			for (j in 0...len)
 			{
 
 				normals[nOffs + j * nStride + 0] *= -1;
@@ -413,14 +413,14 @@ class MeshHelper
 
 			if (Std.is(subGeom,CompactSubGeometry))
 			{
-				CompactSubGeometry(subGeom).updateData(subGeom.vertexData);
+				Std.instance(subGeom,CompactSubGeometry).updateData(subGeom.vertexData);
 			}
 			else
 			{
-				SubGeometry(subGeom).updateIndexData(indices);
-				SubGeometry(subGeom).updateVertexNormalData(normals);
-				SubGeometry(subGeom).updateVertexTangentData(tangents);
-				SubGeometry(subGeom).updateUVData(uvs);
+				Std.instance(subGeom,SubGeometry).updateIndexData(indices);
+				Std.instance(subGeom,SubGeometry).updateVertexNormalData(normals);
+				Std.instance(subGeom,SubGeometry).updateVertexTangentData(tangents);
+				Std.instance(subGeom,SubGeometry).updateUVData(uvs);
 			}
 		}
 	}
@@ -438,25 +438,31 @@ class MeshHelper
 	 *
 	 * @ returns Mesh
 	 */
-	public static function build(vertices:Vector<Float>, indices:Vector<UInt>, uvs:Vector<Float> = null, name:String = "", material:MaterialBase = null, shareVertices:Bool = true, useDefaultMap:Bool =
-		true, useCompactSubGeometry:Bool = true):Mesh
+	public static function build(vertices:Vector<Float>, 
+								indices:Vector<UInt>, 
+								uvs:Vector<Float> = null, 
+								name:String = "", 
+								material:MaterialBase = null, 
+								shareVertices:Bool = true, 
+								useDefaultMap:Bool = true, 
+								useCompactSubGeometry:Bool = true):Mesh
 	{
-		var i:UInt;
-
+		var geometry:Geometry;
+		var m:Mesh;
 		if (useCompactSubGeometry)
 		{
 			var subGeoms:Vector<ISubGeometry> = GeomUtil.fromVectors(vertices, indices, uvs, null, null, null, null);
-			var geometry:Geometry = new Geometry();
+			geometry = new Geometry();
 
-			for (i = 0; i < subGeoms.length; i++)
+			for (i in 0...subGeoms.length)
 			{
 				subGeoms[i].autoDeriveVertexNormals = true;
 				subGeoms[i].autoDeriveVertexTangents = true;
 				geometry.addSubGeometry(subGeoms[i]);
 			}
 
-			material = (!material) ? DefaultMaterialManager.getDefaultMaterial() : material;
-			var m:Mesh = new Mesh(geometry, material);
+			material = (material == null) ? DefaultMaterialManager.getDefaultMaterial() : material;
+			m = new Mesh(geometry, material);
 
 			if (name != "")
 				m.name = name;
@@ -470,7 +476,7 @@ class MeshHelper
 			geometry = new Geometry();
 			geometry.addSubGeometry(subGeom);
 
-			material = (!material && useDefaultMap) ? DefaultMaterialManager.getDefaultMaterial() : material;
+			material = (material == null && useDefaultMap) ? DefaultMaterialManager.getDefaultMaterial() : material;
 			m = new Mesh(geometry, material);
 
 			if (name != "")
@@ -480,23 +486,25 @@ class MeshHelper
 			var nuvs:Vector<Float> = new Vector<Float>();
 			var nindices:Vector<UInt> = new Vector<UInt>();
 
-			var defaultUVS:Vector<Float> = Vector<Float>([0, 1, .5, 0, 1, 1, .5, 0]);
+			var defaultUVS:Vector<Float> = Vector.ofArray([0, 1, .5, 0, 1, 1, .5, 0]);
 			var uvid:UInt = 0;
 
+			var uv:UV = null;
+			var ref:String = null;
+			var dShared:StringMap<UInt> = null;
 			if (shareVertices)
 			{
-				var dShared:Dictionary = new Dictionary();
-				var uv:UV = new UV();
-				var ref:String;
+				dShared = new StringMap<UInt>();
+				uv = new UV();
 			}
 
-			var uvind:UInt;
-			var vind:UInt;
-			var ind:UInt;
+			var uvind:Int;
+			var vind:Int;
+			var ind:Int;
 			//var j:UInt;
 			var vertex:Vertex = new Vertex();
 
-			for (i = 0; i < indices.length; ++i)
+			for (i in 0...indices.length)
 			{
 				ind = indices[i] * 3;
 				vertex.x = vertices[ind];
@@ -512,7 +520,7 @@ class MeshHelper
 					if (shareVertices)
 					{
 						dShared = null;
-						dShared = new Dictionary();
+						dShared = new StringMap<UInt>();
 					}
 
 					subGeom = new SubGeometry();
@@ -527,7 +535,7 @@ class MeshHelper
 					nuvs = new Vector<Float>();
 				}
 
-				vind = nvertices.length / 3;
+				vind = Std.int(nvertices.length / 3);
 				uvind = indices[i] * 2;
 
 				if (shareVertices)
@@ -535,26 +543,30 @@ class MeshHelper
 					uv.u = uvs[uvind];
 					uv.v = uvs[uvind + 1];
 					ref = vertex.toString() + uv.toString();
-					if (dShared[ref])
+					if (dShared.exists(ref))
 					{
-						nindices[nindices.length] = dShared[ref];
+						nindices[nindices.length] = dShared.get(ref);
 						continue;
 					}
-					dShared[ref] = vind;
+					dShared.set(ref,vind);
 				}
 
 				nindices[nindices.length] = vind;
-				nvertices.push(vertex.x, vertex.y, vertex.z);
+				nvertices.push(vertex.x);
+				nvertices.push(vertex.y);
+				nvertices.push(vertex.z);
 
-				if (!uvs || uvind > uvs.length - 2)
+				if (uvs == null || uvind > uvs.length - 2)
 				{
-					nuvs.push(defaultUVS[uvid], defaultUVS[uvid + 1]);
+					nuvs.push(defaultUVS[uvid]);
+					nuvs.push(defaultUVS[uvid + 1]);
 					uvid = (uvid + 2 > 3) ? 0 : uvid += 2;
 
 				}
 				else
 				{
-					nuvs.push(uvs[uvind], uvs[uvind + 1]);
+					nuvs.push(uvs[uvind]);
+					nuvs.push(uvs[uvind + 1]);
 				}
 			}
 
@@ -588,7 +600,7 @@ class MeshHelper
 			return meshes;
 		}
 
-		if (Std.is(geometries[0],ompactSubGeometry))
+		if (Std.is(geometries[0],CompactSubGeometry))
 			return splitMeshCsg(mesh, disposeSource);
 
 		var vertices:Vector<Float>;
@@ -596,19 +608,18 @@ class MeshHelper
 		var uvs:Vector<Float>;
 		var normals:Vector<Float>;
 		var tangents:Vector<Float>;
-		var subGeom:ISubGeometry;
+		var subGeom:ISubGeometry = null;
 
-		var nGeom:Geometry;
-		var nSubGeom:SubGeometry;
-		var nm:Mesh;
+		var nGeom:Geometry = null;
+		var nSubGeom:SubGeometry = null;
+		var nm:Mesh = null;
 
-		var nMeshMat:MaterialBase;
-		var j:UInt = 0;
-
-		for (var i:UInt = 0; i < numSubGeoms; ++i)
+		var nMeshMat:MaterialBase = null;
+		var j:Int = 0;
+		for (i in 0...numSubGeoms)
 		{
 			if (Std.is(geometries[0],SubGeometry))
-				subGeom = SubGeometry(geometries[i]);
+				subGeom = Std.instance(geometries[i],SubGeometry);
 
 			vertices = subGeom.vertexData;
 			indices = subGeom.indexData;
@@ -649,7 +660,7 @@ class MeshHelper
 			tangents.fixed = false;
 
 			nGeom = new Geometry();
-			nm = new Mesh(nGeom, mesh.subMeshes[i].material ? mesh.subMeshes[i].material : nMeshMat);
+			nm = new Mesh(nGeom, mesh.subMeshes[i].material != null ? mesh.subMeshes[i].material : nMeshMat);
 
 			nSubGeom = new SubGeometry();
 			nSubGeom.updateVertexData(vertices);
@@ -683,20 +694,20 @@ class MeshHelper
 
 		//var vertices:Vector<Float>;
 		//var indices:Vector<UInt>;
-		var subGeom:ISubGeometry;
+		var subGeom:ISubGeometry = null;
 
-		var nGeom:Geometry;
-		var nSubGeom:CompactSubGeometry;
-		var nm:Mesh;
+		var nGeom:Geometry = null;
+		var nSubGeom:CompactSubGeometry = null;
+		var nm:Mesh = null;
 
-		var nMeshMat:MaterialBase;
+		var nMeshMat:MaterialBase = null;
 
-		for (var i:UInt = 0; i < numSubGeoms; ++i)
+		for (i in 0...numSubGeoms)
 		{
-			subGeom = CompactSubGeometry(geometries[i]);
+			subGeom = Std.instance(geometries[i],CompactSubGeometry);
 
 			nGeom = new Geometry();
-			nm = new Mesh(nGeom, mesh.subMeshes[i].material ? mesh.subMeshes[i].material : nMeshMat);
+			nm = new Mesh(nGeom, mesh.subMeshes[i].material != null ? mesh.subMeshes[i].material : nMeshMat);
 
 			nSubGeom = new CompactSubGeometry();
 			nSubGeom.updateData(subGeom.vertexData);

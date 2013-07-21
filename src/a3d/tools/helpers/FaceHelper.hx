@@ -7,6 +7,8 @@ import a3d.core.base.SubGeometry;
 import a3d.core.base.data.UV;
 import a3d.core.base.data.Vertex;
 import a3d.entities.Mesh;
+import a3d.utils.VectorUtil.VectorUtil;
+import flash.errors.Error;
 import flash.Vector;
 
 
@@ -26,7 +28,7 @@ class FaceHelper
 	private static var _t:Vertex = new Vertex();
 
 	/*Adding a face*/
-	public static function addFace(mesh:Mesh, v0:Vertex, v1:Vertex, v2:Vertex, uv0:UV, uv1:UV, uv2:UV, subGeomIndice:UInt):Void
+	public static function addFace(mesh:Mesh, v0:Vertex, v1:Vertex, v2:Vertex, uv0:UV, uv1:UV, uv2:UV, subGeomIndice:Int):Void
 	{
 		var subGeom:SubGeometry;
 		if (mesh.geometry.subGeometries.length == 0)
@@ -44,25 +46,31 @@ class FaceHelper
 		if (mesh.geometry.subGeometries.length - 1 < subGeomIndice)
 			throw new Error("no subGeometry at index provided:" + subGeomIndice);
 
-		subGeom = SubGeometry(mesh.geometry.subGeometries[subGeomIndice]);
+		subGeom = Std.instance(mesh.geometry.subGeometries[subGeomIndice],SubGeometry);
 
-		var vertices:Vector<Float> = subGeom.vertexData || new Vector<Float>();
-		var normals:Vector<Float> = subGeom.vertexNormalData || new Vector<Float>();
-		var tangents:Vector<Float> = subGeom.vertexTangentData || new Vector<Float>();
+		var vertices:Vector<Float> = subGeom.vertexData;
+		if (vertices == null)
+			vertices = new Vector<Float>();
+		var normals:Vector<Float> = subGeom.vertexNormalData;
+		if (normals == null)
+			normals = new Vector<Float>();
+		var tangents:Vector<Float> = subGeom.vertexTangentData;
+		if (tangents == null)
+			tangents = new Vector<Float>();
 		var indices:Vector<UInt>;
 		var uvs:Vector<Float>;
-		var lengthVertices:UInt = vertices.length;
+		var lengthVertices:Int = vertices.length;
 
 		_n = getFaceNormal(v0, v1, v2, _n);
 		_t = getFaceTangent(v0, v1, v2, uv0.v, uv1.v, uv2.v, 1, _t);
 
 		if (lengthVertices + 9 > LIMIT)
 		{
-			indices = Vector<UInt>([0, 1, 2]);
-			vertices = Vector<Float>([v0.x, v0.y, v0.z, v1.x, v1.y, v1.z, v2.x, v2.y, v2.z]);
-			uvs = Vector<Float>([uv0.u, uv0.v, uv1.u, uv1.v, uv2.u, uv2.v]);
-			normals = Vector<Float>([_n.x, _n.y, _n.z, _n.x, _n.y, _n.z, _n.x, _n.y, _n.z]);
-			tangents = Vector<Float>([_t.x, _t.y, _t.z, _t.x, _t.y, _t.z, _t.x, _t.y, _t.z]);
+			indices = VectorUtil.toUIntVector([0, 1, 2]);
+			vertices = Vector.ofArray([v0.x, v0.y, v0.z, v1.x, v1.y, v1.z, v2.x, v2.y, v2.z]);
+			uvs = Vector.ofArray([uv0.u, uv0.v, uv1.u, uv1.v, uv2.u, uv2.v]);
+			normals = Vector.ofArray([_n.x, _n.y, _n.z, _n.x, _n.y, _n.z, _n.x, _n.y, _n.z]);
+			tangents = Vector.ofArray([_t.x, _t.y, _t.z, _t.x, _t.y, _t.z, _t.x, _t.y, _t.z]);
 			subGeom = new SubGeometry();
 			mesh.geometry.addSubGeometry(subGeom);
 
@@ -70,18 +78,49 @@ class FaceHelper
 		else
 		{
 
-			indices = subGeom.indexData || new Vector<UInt>();
-			uvs = subGeom.UVData || new Vector<Float>();
+			indices = subGeom.indexData;
+			if (indices == null)
+				indices = new Vector<UInt>();
+			uvs = subGeom.UVData != null ? subGeom.UVData :  new Vector<Float>();
 			vertices.fixed = indices.fixed = uvs.fixed = false;
-			var ind:UInt = lengthVertices / 3;
-			var nind:UInt = indices.length;
+			var ind:Int = Std.int(lengthVertices / 3);
+			var nind:Int = indices.length;
 			indices[nind++] = ind++;
 			indices[nind++] = ind++;
 			indices[nind++] = ind++;
-			vertices.push(v0.x, v0.y, v0.z, v1.x, v1.y, v1.z, v2.x, v2.y, v2.z);
-			uvs.push(uv0.u, uv0.v, uv1.u, uv1.v, uv2.u, uv2.v);
-			normals.push(_n.x, _n.y, _n.z, _n.x, _n.y, _n.z, _n.x, _n.y, _n.z);
-			tangents.push(_t.x, _t.y, _t.z, _t.x, _t.y, _t.z, _t.x, _t.y, _t.z);
+			vertices.push(v0.x);
+			vertices.push(v0.y);
+			vertices.push(v0.z);
+			vertices.push(v1.x);
+			vertices.push(v1.y);
+			vertices.push(v1.z);
+			vertices.push(v2.x);
+			vertices.push(v2.y);
+			vertices.push(v2.z);
+			uvs.push(uv0.u);
+			uvs.push(uv0.v);
+			uvs.push(uv1.u);
+			uvs.push(uv1.v);
+			uvs.push(uv2.u);
+			uvs.push(uv2.v);
+			normals.push(_n.x);
+			normals.push(_n.y);
+			normals.push(_n.z);
+			normals.push(_n.x);
+			normals.push(_n.y);
+			normals.push(_n.z);
+			normals.push(_n.x);
+			normals.push(_n.y);
+			normals.push(_n.z);
+			tangents.push(_t.x);
+			tangents.push(_t.y);
+			tangents.push(_t.z);
+			tangents.push(_t.x);
+			tangents.push(_t.y);
+			tangents.push(_t.z);
+			tangents.push(_t.x);
+			tangents.push(_t.y);
+			tangents.push(_t.z);
 		}
 
 		updateSubGeometryData(subGeom, vertices, indices, uvs, normals, tangents);
@@ -96,7 +135,7 @@ class FaceHelper
 	*/
 	public static function removeFace(mesh:Mesh, index:UInt, subGeomIndice:UInt):Void
 	{
-		var pointer:UInt = index * 3;
+		var pointer:Int = index * 3;
 		var subGeom:SubGeometry = getSubGeometry(mesh, subGeomIndice);
 
 		var indices:Vector<UInt> = subGeom.indexData.concat();
@@ -109,15 +148,14 @@ class FaceHelper
 		var tangents:Vector<Float> = subGeom.vertexTangentData.concat();
 		var uvs:Vector<Float> = subGeom.UVData.concat();
 
-		var pointerEnd:UInt = pointer + 2;
+		var pointerEnd:Int = pointer + 2;
 
-		var oInd:UInt;
-		var oVInd:UInt;
-		var oUVInd:UInt;
-		var indInd:UInt;
-		var uvInd:UInt;
-		var vInd:UInt;
-		var i:UInt;
+		var oInd:Int = 0;
+		var oVInd:Int = 0;
+		var oUVInd:Int = 0;
+		var indInd:Int = 0;
+		var uvInd:Int = 0;
+		var vInd:Int = 0;
 
 		var nvertices:Vector<Float> = new Vector<Float>();
 		var nnormals:Vector<Float> = new Vector<Float>();
@@ -126,12 +164,11 @@ class FaceHelper
 		var nuvs:Vector<Float> = new Vector<Float>();
 
 		//Check for shared vectors
-		if (vertices.length / 3 != indices.length)
+		if (Std.int(vertices.length / 3) != indices.length)
 		{
-
 			var sharedIndice:Int;
 
-			for (i = 0; i < indices.length; ++i)
+			for (i in 0...indices.length)
 			{
 
 				if (i >= pointer && i <= pointerEnd)
@@ -149,7 +186,7 @@ class FaceHelper
 					continue;
 				}
 
-				nindices[indInd++] = nvertices.length / 3;
+				nindices[indInd++] = Std.int(nvertices.length / 3);
 
 				nvertices[vInd] = vertices[oVInd];
 				nnormals[vInd] = normals[oVInd];
@@ -176,7 +213,7 @@ class FaceHelper
 		else
 		{
 
-			for (i = 0; i < indices.length; ++i)
+			for (i in 0...indices.length)
 			{
 
 				if (i < pointer || i > pointerEnd)
@@ -185,7 +222,7 @@ class FaceHelper
 					oVInd = oInd * 3;
 					oUVInd = oInd * 2;
 
-					nindices[indInd++] = vInd / 3;
+					nindices[indInd++] = Std.int(vInd / 3);
 
 					nvertices[vInd] = vertices[oVInd];
 					nnormals[vInd] = normals[oVInd];
@@ -225,7 +262,7 @@ class FaceHelper
 	*/
 	public static function removeFaces(mesh:Mesh, indices:Vector<UInt>, subGeomIndices:Vector<UInt>):Void
 	{
-		for (var i:UInt = 0; i < indices.length; ++i)
+		for (i in 0...indices.length)
 			removeFace(mesh, indices[i], subGeomIndices[i]);
 	}
 
@@ -241,7 +278,7 @@ class FaceHelper
 	*/
 	public static function addFaces(mesh:Mesh, v0s:Vector<Vertex>, v1s:Vector<Vertex>, v2s:Vector<Vertex>, uv0s:Vector<UV>, uv1s:Vector<UV>, uv2s:Vector<UV>, subGeomIndices:Vector<UInt>):Void
 	{
-		for (var i:UInt = 0; i < v0s.length; ++i)
+		for (i in 0...v0s.length)
 			addFace(mesh, v0s[i], v1s[i], v2s[i], uv0s[i], uv1s[i], uv2s[i], subGeomIndices[i]);
 	}
 
@@ -255,7 +292,7 @@ class FaceHelper
 	*/
 	public static function splitFace(mesh:Mesh, indice:UInt, subGeomIndice:UInt, side:UInt = 0):Void
 	{
-		var pointer:UInt = indice * 3;
+		var pointer:Int = indice * 3;
 		var subGeom:SubGeometry = getSubGeometry(mesh, subGeomIndice);
 		var indices:Vector<UInt> = subGeom.indexData.concat();
 
@@ -297,41 +334,62 @@ class FaceHelper
 		var uv2:UV = new UV(uvs[pointeruv], uvs[pointeruv + 1]);
 
 		var vlength:UInt = indices.length;
-		indices[vlength] = vlength / 3;
+		indices[vlength] = Std.int(vlength / 3);
 		var targetIndice:UInt;
 
 		switch (side)
 		{
 			case 0:
-				vertices.push((v0.x + v1.x) * .5, (v0.y + v1.y) * .5, (v0.z + v1.z) * .5);
-				normals.push((n0.x + n1.x) * .5, (n0.y + n1.y) * .5, (n0.z + n1.z) * .5);
-				tangents.push((t0.x + t1.x) * .5, (t0.y + t1.y) * .5, (t0.z + t1.z) * .5);
-				uvs.push((uv0.u + uv1.u) * .5, (uv0.v + uv1.v) * .5);
+				vertices.push((v0.x + v1.x) * .5);
+				vertices.push((v0.y + v1.y) * .5);
+				vertices.push((v0.z + v1.z) * .5);
+				normals.push((n0.x + n1.x) * .5);
+				normals.push((n0.y + n1.y) * .5);
+				normals.push((n0.z + n1.z) * .5);
+				tangents.push((t0.x + t1.x) * .5);
+				tangents.push((t0.y + t1.y) * .5);
+				tangents.push((t0.z + t1.z) * .5);
+				uvs.push((uv0.u + uv1.u) * .5);
+				uvs.push((uv0.v + uv1.v) * .5);
 				targetIndice = indices[(indice * 3) + 1];
-				indices[(indice * 3) + 1] = (vertices.length - 1) / 3;
+				indices[(indice * 3) + 1] = Std.int((vertices.length - 1) / 3);
 				indices[vlength++] = indices[pointer + 1];
 				indices[vlength++] = targetIndice;
 				indices[vlength++] = indices[pointer + 2];
 			
 			case 1:
-				vertices.push((v1.x + v2.x) * .5, (v1.y + v2.y) * .5, (v1.z + v2.z) * .5);
-				normals.push((n1.x + n2.x) * .5, (n1.y + n2.y) * .5, (n1.z + n2.z) * .5);
-				tangents.push((t1.x + t2.x) * .5, (t1.y + t2.y) * .5, (t1.z + t2.z) * .5);
-				uvs.push((uv1.u + uv2.u) * .5, (uv1.v + uv2.v) * .5);
+				vertices.push((v1.x + v2.x) * .5);
+				vertices.push((v1.y + v2.y) * .5);
+				vertices.push((v1.z + v2.z) * .5);
+				normals.push((n1.x + n2.x) * .5);
+				normals.push((n1.y + n2.y) * .5);
+				normals.push((n1.z + n2.z) * .5);
+				tangents.push((t1.x + t2.x) * .5);
+				tangents.push((t1.y + t2.y) * .5);
+				tangents.push((t1.z + t2.z) * .5);
+				uvs.push((uv1.u + uv2.u) * .5);
+				uvs.push((uv1.v + uv2.v) * .5);
 				targetIndice = indices[(indice * 3) + 2];
 				indices[(indice * 3) + 2] = targetIndice;
-				indices[vlength++] = (vertices.length - 1) / 3;
+				indices[vlength++] = Std.int((vertices.length - 1) / 3);
 				indices[vlength++] = indices[pointer + 2];
 				indices[vlength++] = indices[pointer];
 			
 			default:
-				vertices.push((v2.x + v0.x) * .5, (v2.y + v0.y) * .5, (v2.z + v0.z) * .5);
-				normals.push((n2.x + n0.x) * .5, (n2.y + n0.y) * .5, (n2.z + n0.z) * .5);
-				tangents.push((t2.x + t0.x) * .5, (t2.y + t0.y) * .5, (t2.z + t0.z) * .5);
-				uvs.push((uv2.u + uv0.u) * .5, (uv2.v + uv0.v) * .5);
+				vertices.push((v2.x + v0.x) * .5);
+				vertices.push((v2.y + v0.y) * .5);
+				vertices.push((v2.z + v0.z) * .5);
+				normals.push((n2.x + n0.x) * .5);
+				normals.push((n2.y + n0.y) * .5);
+				normals.push((n2.z + n0.z) * .5);
+				tangents.push((t2.x + t0.x) * .5);
+				tangents.push((t2.y + t0.y) * .5);
+				tangents.push((t2.z + t0.z) * .5);
+				uvs.push((uv2.u + uv0.u) * .5);
+				uvs.push((uv2.v + uv0.v) * .5);
 				targetIndice = indices[indice * 3];
 				indices[indice * 3] = targetIndice;
-				indices[vlength++] = (vertices.length - 1) / 3;
+				indices[vlength++] = Std.int((vertices.length - 1) / 3);
 				indices[vlength++] = indices[pointer];
 				indices[vlength++] = indices[pointer + 1];
 		}
@@ -351,7 +409,7 @@ class FaceHelper
 	*/
 	public static function triFace(mesh:Mesh, indice:UInt, subGeomIndice:UInt):Void
 	{
-		var pointer:UInt = indice * 3;
+		var pointer:Int = indice * 3;
 		var subGeom:SubGeometry = getSubGeometry(mesh, subGeomIndice);
 		var indices:Vector<UInt> = subGeom.indexData.concat();
 
@@ -392,15 +450,22 @@ class FaceHelper
 		pointeruv = indices[pointer + 2] * 2;
 		var uv2:UV = new UV(uvs[pointeruv], uvs[pointeruv + 1]);
 
-		vertices.push((v0.x + v1.x + v2.x) / 3, (v0.y + v1.y + v2.y) / 3, (v0.z + v1.z + v2.z) / 3);
-		normals.push((n0.x + n1.x + n2.x) / 3, (n0.y + n1.y + n2.y) / 3, (n0.z + n1.z + n2.z) / 3);
-		tangents.push((t0.x + t1.x + t2.x) / 3, (t0.y + t1.y + t2.y) / 3, (t0.z + t1.z + t2.z) / 3);
-		uvs.push((uv0.u + uv1.u + uv2.u) / 3, (uv0.v + uv1.v + uv2.v) / 3);
+		vertices.push((v0.x + v1.x + v2.x) / 3);
+		vertices.push((v0.y + v1.y + v2.y) / 3);
+		vertices.push((v0.z + v1.z + v2.z) / 3);
+		normals.push((n0.x + n1.x + n2.x) / 3);
+		normals.push((n0.y + n1.y + n2.y) / 3);
+		normals.push((n0.z + n1.z + n2.z) / 3);
+		tangents.push((t0.x + t1.x + t2.x) / 3);
+		tangents.push((t0.y + t1.y + t2.y) / 3);
+		tangents.push((t0.z + t1.z + t2.z) / 3);
+		uvs.push((uv0.u + uv1.u + uv2.u) / 3);
+		uvs.push((uv0.v + uv1.v + uv2.v) / 3);
 
-		var vlength:UInt = indices.length;
-		var ind:UInt = vlength / 3;
+		var vlength:Int = indices.length;
+		var ind:Int = Std.int(vlength / 3);
 
-		indices[(indice * 3) + 2] = (vertices.length - 1) / 3;
+		indices[(indice * 3) + 2] = Std.int((vertices.length - 1) / 3);
 		indices[vlength++] = ind;
 		indices[vlength++] = indices[pointer];
 		indices[vlength++] = indices[pointer + 2];
@@ -424,7 +489,7 @@ class FaceHelper
 	*/
 	public static function quarterFace(mesh:Mesh, indice:UInt, subGeomIndice:UInt):Void
 	{
-		var pointer:UInt = indice * 3;
+		var pointer:Int = indice * 3;
 		var subGeom:SubGeometry = getSubGeometry(mesh, subGeomIndice);
 		var indices:Vector<UInt> = subGeom.indexData.concat();
 
@@ -465,23 +530,44 @@ class FaceHelper
 		pointeruv = indices[pointer + 2] * 2;
 		var uv2:UV = new UV(uvs[pointeruv], uvs[pointeruv + 1]);
 
-		var vind1:UInt = vertices.length / 3;
-		vertices.push((v0.x + v1.x) * .5, (v0.y + v1.y) * .5, (v0.z + v1.z) * .5);
-		normals.push((n0.x + n1.x) * .5, (n0.y + n1.y) * .5, (n0.z + n1.z) * .5);
-		tangents.push((t0.x + t1.x) * .5, (t0.y + t1.y) * .5, (t0.z + t1.z) * .5);
-		uvs.push((uv0.u + uv1.u) * .5, (uv0.v + uv1.v) * .5);
+		var vind1:Int = Std.int(vertices.length / 3);
+		vertices.push((v0.x + v1.x) * .5);
+		vertices.push((v0.y + v1.y) * .5); 
+		vertices.push((v0.z + v1.z) * .5);
+		normals.push((n0.x + n1.x) * .5); 
+		normals.push((n0.y + n1.y) * .5); 
+		normals.push((n0.z + n1.z) * .5);
+		tangents.push((t0.x + t1.x) * .5); 
+		tangents.push((t0.y + t1.y) * .5); 
+		tangents.push((t0.z + t1.z) * .5);
+		uvs.push((uv0.u + uv1.u) * .5); 
+		uvs.push((uv0.v + uv1.v) * .5);
 
-		var vind2:UInt = vertices.length / 3;
-		vertices.push((v1.x + v2.x) * .5, (v1.y + v2.y) * .5, (v1.z + v2.z) * .5);
-		normals.push((n1.x + n2.x) * .5, (n1.y + n2.y) * .5, (n1.z + n2.z) * .5);
-		tangents.push((t1.x + t2.x) * .5, (t1.y + t2.y) * .5, (t1.z + t2.z) * .5);
-		uvs.push((uv1.u + uv2.u) * .5, (uv1.v + uv2.v) * .5);
+		var vind2:Int = Std.int(vertices.length / 3);
+		vertices.push((v1.x + v2.x) * .5); 
+		vertices.push((v1.y + v2.y) * .5); 
+		vertices.push((v1.z + v2.z) * .5);
+		normals.push((n1.x + n2.x) * .5); 
+		normals.push((n1.y + n2.y) * .5); 
+		normals.push((n1.z + n2.z) * .5);
+		tangents.push((t1.x + t2.x) * .5); 
+		tangents.push((t1.y + t2.y) * .5); 
+		tangents.push((t1.z + t2.z) * .5);
+		uvs.push((uv1.u + uv2.u) * .5); 
+		uvs.push((uv1.v + uv2.v) * .5);
 
-		var vind3:UInt = vertices.length / 3;
-		vertices.push((v2.x + v0.x) * .5, (v2.y + v0.y) * .5, (v2.z + v0.z) * .5);
-		normals.push((n2.x + n0.x) * .5, (n2.y + n0.y) * .5, (n2.z + n0.z) * .5);
-		tangents.push((t2.x + t0.x) * .5, (t2.y + t0.y) * .5, (t2.z + t0.z) * .5);
-		uvs.push((uv2.u + uv0.u) * .5, (uv2.v + uv0.v) * .5);
+		var vind3:Int = Std.int(vertices.length / 3);
+		vertices.push((v2.x + v0.x) * .5); 
+		vertices.push((v2.y + v0.y) * .5); 
+		vertices.push((v2.z + v0.z) * .5);
+		normals.push((n2.x + n0.x) * .5); 
+		normals.push((n2.y + n0.y) * .5);
+		normals.push((n2.z + n0.z) * .5);
+		tangents.push((t2.x + t0.x) * .5); 
+		tangents.push((t2.y + t0.y) * .5); 
+		tangents.push((t2.z + t0.z) * .5);
+		uvs.push((uv2.u + uv0.u) * .5); 
+		uvs.push((uv2.v + uv0.v) * .5);
 
 		var vlength:UInt = indices.length;
 
@@ -554,7 +640,15 @@ class FaceHelper
 
 		var d:Float = 1 / Math.sqrt(cx * cx + cy * cy + cz * cz);
 
-		var normal:Vertex = out || new Vertex(0.0, 0.0, 0.0);
+		var normal:Vertex;
+		if (out != null)
+		{
+			normal = out;
+		}
+		else
+		{
+			normal = new Vertex(0.0, 0.0, 0.0);
+		}
 		normal.x = cx * d;
 		normal.y = cy * d;
 		normal.z = cz * d;
@@ -582,7 +676,7 @@ class FaceHelper
 		var dy2:Float = v2.y - y0;
 		var dz2:Float = v2.z - z0;
 
-		var tangent:Vertex = out || new Vertex(0.0, 0.0, 0.0);
+		var tangent:Vertex = out != null ? out : new Vertex(0.0, 0.0, 0.0);
 
 		var cx:Float = dv2 * dx1 - dv1 * dx2;
 		var cy:Float = dv2 * dy1 - dv1 * dy2;
@@ -604,15 +698,16 @@ class FaceHelper
 			throw new Error("Convert to CompactSubGeometry using mesh.geometry.convertToSeparateBuffers() ");
 
 		var indices:Vector<UInt>;
-		var faceIndex:UInt;
-		var j:UInt;
-		for (var i:UInt = 0; i < subGeoms.length; ++i)
+		var faceIndex:Int;
+		var j:Int;
+		for (i in 0...subGeoms.length)
 		{
 			indices = subGeoms[i].indexData;
 			faceIndex = 0;
-			for (j = 0; j < indices.length; j += 3)
+			j = 0;
+			while (j < indices.length)
 			{
-				faceIndex = j / 3;
+				faceIndex = Std.int(j / 3);
 				switch (methodID)
 				{
 					case 2:
@@ -627,25 +722,30 @@ class FaceHelper
 					default:
 						throw new Error("unknown method reference");
 				}
+				 j += 3;
 			}
 		}
 	}
 
-	private static function updateSubGeometryData(subGeometry:SubGeometry, vertices:Vector<Float>, indices:Vector<UInt>, uvs:Vector<Float>, normals:Vector<Float> = null, tangents:Vector<Float> =
-		null):Void
+	private static function updateSubGeometryData(subGeometry:SubGeometry, 
+												vertices:Vector<Float>, 
+												indices:Vector<UInt>, 
+												uvs:Vector<Float>, 
+												normals:Vector<Float> = null, 
+												tangents:Vector<Float> =null):Void
 	{
 		subGeometry.updateVertexData(vertices);
 		subGeometry.updateIndexData(indices);
 
-		if (normals)
+		if (normals != null)
 			subGeometry.updateVertexNormalData(normals);
-		if (tangents)
+		if (tangents != null)
 			subGeometry.updateVertexTangentData(tangents);
 
 		subGeometry.updateUVData(uvs);
 	}
 
-	private static function getSubGeometry(mesh:Mesh, subGeomIndice:UInt):SubGeometry
+	private static function getSubGeometry(mesh:Mesh, subGeomIndice:Int):SubGeometry
 	{
 		var subGeoms:Vector<ISubGeometry> = mesh.geometry.subGeometries;
 
@@ -655,15 +755,17 @@ class FaceHelper
 		if (subGeomIndice > subGeoms.length - 1)
 			throw new Error("ERROR >> subGeomIndice is out of range!");
 
-		return SubGeometry(subGeoms[subGeomIndice]);
+		return Std.instance(subGeoms[subGeomIndice],SubGeometry);
 	}
 
 	private static function getUsedIndice(vertices:Vector<Float>, x:Float, y:Float, z:Float):Int
 	{
-		for (var i:UInt = 0; i < vertices.length; i += 3)
+		var i:Int = 0;
+		while ( i < vertices.length)
 		{
 			if (vertices[i] == x && vertices[i + 1] == y && vertices[i + 1] == z)
-				return i / 3;
+				return Std.int(i / 3);
+			i += 3;
 		}
 		return -1;
 	}

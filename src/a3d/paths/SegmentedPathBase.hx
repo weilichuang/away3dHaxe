@@ -8,6 +8,18 @@ import flash.geom.Vector3D;
 
 class SegmentedPathBase implements IPath
 {
+	/**
+	 * The number of segments in the Path
+	 */
+	public var numSegments(get, null):Int;
+
+	/**
+	 * returns the Vector.&lt;PathSegment&gt; holding the elements (PathSegment) of the path
+	 *
+	 * @return	a Vector.&lt;PathSegment&gt;: holding the elements (PathSegment) of the path
+	 */
+	public var segments(set, null):Vector<IPathSegment>;
+	
 	public var pointData(set, null):Vector<Vector3D>;
 	
 	private var _pointsPerSegment:Int;
@@ -44,19 +56,13 @@ class SegmentedPathBase implements IPath
 		throw new AbstractMethodError();
 	}
 
-	/**
-	 * The number of segments in the Path
-	 */
+
 	private function get_numSegments():Int
 	{
 		return _segments.length;
 	}
 
-	/**
-	 * returns the Vector.&lt;PathSegment&gt; holding the elements (PathSegment) of the path
-	 *
-	 * @return	a Vector.&lt;PathSegment&gt;: holding the elements (PathSegment) of the path
-	 */
+	
 	private function get_segments():Vector<IPathSegment>
 	{
 		return _segments;

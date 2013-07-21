@@ -13,7 +13,7 @@ import flash.Vector;
 class MeshDebugger
 {
 
-	private var _meshesData:Vector<MeshDebugData> = new Vector<MeshDebugData>();
+	private var _meshesData:Vector<MeshDebugData>;
 	private var _colorNormals:UInt = 0xFF3399;
 	private var _colorVertexNormals:UInt = 0x66CCFF;
 	private var _colorTangents:UInt = 0xFFCC00;
@@ -25,6 +25,7 @@ class MeshDebugger
 
 	public function new()
 	{
+		_meshesData = new Vector<MeshDebugData>();
 	}
 
 	/*
@@ -39,7 +40,7 @@ class MeshDebugger
 	{
 		var meshDebugData:MeshDebugData = isMeshDebug(mesh);
 
-		if (!meshDebugData)
+		if (meshDebugData == null)
 		{
 			meshDebugData = new MeshDebugData();
 			meshDebugData.meshDebug = new MeshDebug();
@@ -175,7 +176,7 @@ class MeshDebugger
 	*/
 	public function hideDebug(mesh:Mesh):Void
 	{
-		for (var i:UInt = 0; i < _meshesData.length; ++i)
+		for (i in 0..._meshesData.length)
 		{
 			if (_meshesData[i].mesh == mesh && _meshesData[i].addChilded)
 			{
@@ -191,7 +192,7 @@ class MeshDebugger
 	*/
 	public function showDebug(mesh:Mesh):Void
 	{
-		for (var i:UInt = 0; i < _meshesData.length; ++i)
+		for (i in 0..._meshesData.length)
 		{
 			if (_meshesData[i].mesh == mesh && !_meshesData[i].addChilded)
 			{
@@ -208,7 +209,7 @@ class MeshDebugger
 	public function removeDebug(mesh:Mesh):Void
 	{
 		var meshDebugData:MeshDebugData;
-		for (var i:UInt = 0; i < _meshesData.length; ++i)
+		for (i in 0..._meshesData.length)
 		{
 			meshDebugData = _meshesData[i];
 			if (meshDebugData.mesh == mesh)
@@ -228,7 +229,7 @@ class MeshDebugger
 
 	public function hasDebug(mesh:Mesh):Bool
 	{
-		return isMeshDebug(mesh) ? true : false;
+		return isMeshDebug(mesh) != null;
 	}
 
 	/*
@@ -237,8 +238,8 @@ class MeshDebugger
 	public function update():Void
 	{
 		var meshDebugData:MeshDebugData;
-		var tmpMDD:MeshDebugData;
-		for (var i:UInt = 0; i < _meshesData.length; ++i)
+		var tmpMDD:MeshDebugData = null;
+		for (i in 0..._meshesData.length)
 		{
 			meshDebugData = _meshesData[i];
 			if (!meshDebugData.addChilded)
@@ -246,7 +247,7 @@ class MeshDebugger
 			if (_dirty)
 			{
 
-				if (!tmpMDD)
+				if (tmpMDD == null)
 					tmpMDD = new MeshDebugData();
 
 				tmpMDD.mesh = meshDebugData.mesh;
@@ -272,7 +273,7 @@ class MeshDebugger
 	private function isMeshDebug(mesh:Mesh):MeshDebugData
 	{
 		var meshDebugData:MeshDebugData;
-		for (var i:UInt = 0; i < _meshesData.length; ++i)
+		for (i in 0..._meshesData.length)
 		{
 			meshDebugData = _meshesData[i];
 			if (meshDebugData.mesh == mesh)
@@ -293,9 +294,9 @@ class MeshDebugger
 	{
 		var child:ObjectContainer3D;
 		if (Std.is(object,Mesh) && object.numChildren == 0)
-			debug(Mesh(object), scene, displayNormals, displayVertexNormals, displayTangents);
+			debug(Std.instance(object,Mesh), scene, displayNormals, displayVertexNormals, displayTangents);
 
-		for (var i:UInt = 0; i < object.numChildren; ++i)
+		for (i in 0...object.numChildren)
 		{
 			child = object.getChildAt(i);
 			parse(child, scene, displayNormals, displayVertexNormals, displayTangents);
@@ -314,4 +315,9 @@ class MeshDebugData
 	public var displayVertexNormals:Bool;
 	public var displayTangents:Bool;
 	public var addChilded:Bool;
+	
+	public function new()
+	{
+		
+	}
 }

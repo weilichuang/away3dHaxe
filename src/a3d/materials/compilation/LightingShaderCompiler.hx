@@ -8,6 +8,16 @@ import flash.Vector;
  */
 class LightingShaderCompiler extends ShaderCompiler
 {
+	/**
+	 * The starting index if the vertex constant to which light data needs to be uploaded.
+	 */
+	public var lightVertexConstantIndex(get,null):Int;
+	/**
+	 * Indicates whether or not lighting happens in tangent space. This is only the case if no world-space
+	 * dependencies exist.
+	 */
+	public var tangentSpace(get, null):Bool;
+	
 	public var pointLightFragmentConstants:Vector<ShaderRegisterElement>;
 	public var pointLightVertexConstants:Vector<ShaderRegisterElement>;
 	public var dirLightFragmentConstants:Vector<ShaderRegisterElement>;
@@ -25,10 +35,7 @@ class LightingShaderCompiler extends ShaderCompiler
 		super(profile);
 	}
 
-	/**
-	 * The starting index if the vertex constant to which light data needs to be uploaded.
-	 */
-	public var lightVertexConstantIndex(get,null):Int;
+	
 	private function get_lightVertexConstantIndex():Int
 	{
 		return _lightVertexConstantIndex;
@@ -67,11 +74,7 @@ class LightingShaderCompiler extends ShaderCompiler
 		_animationTargetRegisters.push(_sharedRegisters.animatedNormal.toString());
 	}
 
-	/**
-	 * Indicates whether or not lighting happens in tangent space. This is only the case if no world-space
-	 * dependencies exist.
-	 */
-	public var tangentSpace(get,null):Bool;
+	
 	private function get_tangentSpace():Bool
 	{
 		return _numLightProbes == 0 && methodSetup.normalMethod.hasOutput &&
