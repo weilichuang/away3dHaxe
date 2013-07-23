@@ -7,6 +7,12 @@ import a3d.entities.Entity;
 
 class ViewVolumePartition extends Partition3D
 {
+	/**
+	 * A dynamic grid to be able to determine visibility of dynamic objects. If none is provided, dynamic objects are only frustum-culled.
+	 * If provided, ViewVolumes need to have visible grid cells assigned from the same DynamicGrid instance.
+	 */
+	public var dynamicGrid(get, set):DynamicGrid;
+	
 	public function new()
 	{
 		super(new ViewVolumeRootNode());
@@ -32,11 +38,7 @@ class ViewVolumePartition extends Partition3D
 		Std.instance(_rootNode,ViewVolumeRootNode).removeViewVolume(viewVolume);
 	}
 
-	/**
-	 * A dynamic grid to be able to determine visibility of dynamic objects. If none is provided, dynamic objects are only frustum-culled.
-	 * If provided, ViewVolumes need to have visible grid cells assigned from the same DynamicGrid instance.
-	 */
-	public var dynamicGrid(get, set):DynamicGrid;
+	
 	private function get_dynamicGrid():DynamicGrid
 	{
 		return Std.instance(_rootNode,ViewVolumeRootNode).dynamicGrid;

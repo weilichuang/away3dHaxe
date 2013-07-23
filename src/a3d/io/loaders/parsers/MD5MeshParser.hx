@@ -1,18 +1,18 @@
 package a3d.io.loaders.parsers;
 
+import a3d.animators.data.Skeleton;
+import a3d.animators.data.SkeletonJoint;
+import a3d.animators.SkeletonAnimationSet;
+import a3d.core.base.Geometry;
+import a3d.core.base.SkinnedSubGeometry;
+import a3d.entities.Mesh;
+import a3d.math.Quaternion;
 import flash.errors.Error;
 import flash.geom.Matrix3D;
 import flash.geom.Vector3D;
 import flash.Vector;
 
 
-import a3d.animators.SkeletonAnimationSet;
-import a3d.animators.data.Skeleton;
-import a3d.animators.data.SkeletonJoint;
-import a3d.core.base.Geometry;
-import a3d.core.base.SkinnedSubGeometry;
-import a3d.entities.Mesh;
-import a3d.math.Quaternion;
 
 
 

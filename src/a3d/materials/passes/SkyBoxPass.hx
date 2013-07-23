@@ -1,5 +1,9 @@
 package a3d.materials.passes;
 
+import a3d.core.base.IRenderable;
+import a3d.core.managers.Stage3DProxy;
+import a3d.entities.Camera3D;
+import a3d.textures.CubeTextureBase;
 import flash.display3D.Context3D;
 import flash.display3D.Context3DCompareMode;
 import flash.display3D.Context3DProgramType;
@@ -9,10 +13,6 @@ import flash.geom.Vector3D;
 import flash.Vector;
 
 
-import a3d.entities.Camera3D;
-import a3d.core.base.IRenderable;
-import a3d.core.managers.Stage3DProxy;
-import a3d.textures.CubeTextureBase;
 
 
 

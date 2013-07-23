@@ -1,13 +1,13 @@
 package a3d.textures;
 
+import a3d.materials.utils.MipmapGenerator;
+import a3d.tools.utils.TextureUtils;
 import flash.display.BitmapData;
 import flash.display3D.textures.TextureBase;
 import flash.errors.Error;
 import flash.Vector;
 
 
-import a3d.materials.utils.MipmapGenerator;
-import a3d.tools.utils.TextureUtils;
 
 
 

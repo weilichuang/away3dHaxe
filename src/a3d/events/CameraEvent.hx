@@ -1,8 +1,8 @@
 package a3d.events;
 
+import a3d.entities.Camera3D;
 import flash.events.Event;
 
-import a3d.entities.Camera3D;
 
 class CameraEvent extends Event
 {

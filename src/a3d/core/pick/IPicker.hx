@@ -1,9 +1,9 @@
 package a3d.core.pick;
 
-import flash.geom.Vector3D;
-
 import a3d.entities.Scene3D;
 import a3d.entities.View3D;
+import flash.geom.Vector3D;
+
 
 /**
  * Provides an interface for picking objects that can pick 3d objects from a view or scene.

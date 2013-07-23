@@ -1,20 +1,18 @@
 package a3d.io.loaders.parsers;
 
-import flash.geom.Vector3D;
-import flash.utils.Dictionary;
-import flash.utils.RegExp;
-import flash.Vector;
-import haxe.ds.StringMap;
-
 import a3d.core.base.CompactSubGeometry;
 import a3d.core.base.Geometry;
 import a3d.entities.Mesh;
+import a3d.entities.primitives.LineSegment;
 import a3d.entities.SegmentSet;
 import a3d.io.loaders.parsers.utils.ParserUtil;
 import a3d.materials.ColorMaterial;
 import a3d.materials.ColorMultiPassMaterial;
 import a3d.materials.MaterialBase;
-import a3d.entities.primitives.LineSegment;
+import flash.geom.Vector3D;
+import flash.Vector;
+import haxe.ds.StringMap;
+
 
 
 

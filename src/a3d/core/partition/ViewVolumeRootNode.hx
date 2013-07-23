@@ -9,6 +9,8 @@ import a3d.entities.Entity;
 
 class ViewVolumeRootNode extends NodeBase
 {
+	public var dynamicGrid(get, set):DynamicGrid;
+	
 	// todo: provide a better data structure to find the containing view volume faster
 	private var _viewVolumes:Vector<ViewVolume>;
 	private var _activeVolume:ViewVolume;
@@ -32,7 +34,7 @@ class ViewVolumeRootNode extends NodeBase
 		return _dynamicGrid != null ? _dynamicGrid.findPartitionForEntity(entity) : this;
 	}
 
-	public var dynamicGrid(get, set):DynamicGrid;
+	
 	private function get_dynamicGrid():DynamicGrid
 	{
 		return _dynamicGrid;

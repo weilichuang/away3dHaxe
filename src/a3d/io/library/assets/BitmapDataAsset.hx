@@ -8,6 +8,13 @@ import flash.display.BitmapData;
  */
 class BitmapDataAsset extends NamedAssetBase implements IAsset
 {
+	/**
+	 * The bitmapData to be treated as a resource.
+	 */
+	public var bitmapData(get, set):BitmapData;
+	
+	public var assetType(get, null):String;
+	
 	private var _bitmapData:BitmapData;
 
 	/**
@@ -20,10 +27,7 @@ class BitmapDataAsset extends NamedAssetBase implements IAsset
 		_bitmapData = bitmapData;
 	}
 
-	/**
-	 * The bitmapData to be treated as a resource.
-	 */
-	public var bitmapData(get, set):BitmapData;
+	
 	private function get_bitmapData():BitmapData
 	{
 		return _bitmapData;
@@ -34,7 +38,7 @@ class BitmapDataAsset extends NamedAssetBase implements IAsset
 		return _bitmapData = value;
 	}
 
-	public var assetType(get, null):String;
+	
 	private function get_assetType():String
 	{
 		return AssetType.TEXTURE;

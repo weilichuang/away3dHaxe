@@ -1,23 +1,23 @@
 package a3d.textures;
 
 
-import a3d.entities.Camera3D;
-import a3d.entities.lenses.ObliqueNearPlaneLens;
-import a3d.entities.View3D;
 import a3d.core.managers.Stage3DProxy;
-import a3d.math.Matrix3DUtils;
-import a3d.math.Plane3D;
 import a3d.core.render.DefaultRenderer;
 import a3d.core.render.RendererBase;
 import a3d.core.traverse.EntityCollector;
+import a3d.entities.Camera3D;
+import a3d.entities.lenses.ObliqueNearPlaneLens;
+import a3d.entities.View3D;
+import a3d.math.Matrix3DUtils;
+import a3d.math.Plane3D;
 import a3d.tools.utils.TextureUtils;
-import flash.Vector;
-
 import flash.display.BitmapData;
 import flash.display3D.textures.TextureBase;
 import flash.geom.Matrix3D;
 import flash.geom.Rectangle;
 import flash.geom.Vector3D;
+import flash.Vector;
+
 
 
 

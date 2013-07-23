@@ -1,13 +1,13 @@
 package a3d.animators.states;
 
-import flash.geom.Vector3D;
-import flash.Vector;
-
-import a3d.animators.IAnimator;
 import a3d.animators.data.JointPose;
 import a3d.animators.data.Skeleton;
 import a3d.animators.data.SkeletonPose;
+import a3d.animators.IAnimator;
 import a3d.animators.nodes.SkeletonDirectionalNode;
+import flash.geom.Vector3D;
+import flash.Vector;
+
 
 
 /**

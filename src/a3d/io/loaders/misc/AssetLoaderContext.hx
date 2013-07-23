@@ -1,11 +1,44 @@
 package a3d.io.loaders.misc;
-import haxe.ds.StringMap.StringMap;
+
+import haxe.ds.StringMap;
 
 class AssetLoaderContext
 {
 	public static inline var UNDEFINED:Int = 0;
 	public static inline var SINGLEPASS_MATERIALS:Int = 1;
 	public static inline var MULTIPASS_MATERIALS:Int = 2;
+	
+	
+	/**
+	 * Defines whether dependencies (all files except the one at the URL given to the load() or
+	 * parseData() operations) should be automatically loaded. Defaults to true.
+	*/
+	public var includeDependencies(get,set):Bool;
+	/**
+	 * MaterialMode defines, if the Parser should create SinglePass or MultiPass Materials
+	 * 0 (Default / undefined) - All Parsers will create SinglePassMaterials, but the AWD2.1parser will create Materials as they are defined in the file
+	 * 1 (Force SinglePass) - All Parsers create SinglePassMaterials
+	 * 2 (Force MultiPass) - All Parsers will create MultiPassMaterials
+	*/
+	public var materialMode(get,set):Int;
+	/**
+	 * A base URL that will be prepended to all relative dependency URLs found in a loaded resource.
+	 * Absolute paths will not be affected by the value of this property.
+	*/
+	public var dependencyBaseUrl(get,set):String;
+	/**
+	 * Defines whether absolute paths (defined as paths that begin with a "/") should be overridden
+	 * with the dependencyBaseUrl defined in this context. If this is true, and the base path is
+	 * "base", /path/to/asset.jpg will be resolved as base/path/to/asset.jpg.
+	*/
+	public var overrideAbsolutePaths(get,set):Bool;
+	/**
+	 * Defines whether "full" URLs (defined as a URL that includes a scheme, e.g. http://) should be
+	 * overridden with the dependencyBaseUrl defined in this context. If this is true, and the base
+	 * path is "base", http://example.com/path/to/asset.jpg will be resolved as base/path/to/asset.jpg.
+	*/
+	public var overrideFullURLs(get, set):Bool;
+	
 	private var _includeDependencies:Bool;
 	private var _dependencyBaseUrl:String;
 	private var _embeddedDataByUrl:StringMap<Dynamic>;
@@ -33,11 +66,7 @@ class AssetLoaderContext
 	}
 
 
-	/**
-	 * Defines whether dependencies (all files except the one at the URL given to the load() or
-	 * parseData() operations) should be automatically loaded. Defaults to true.
-	*/
-	public var includeDependencies(get,set):Bool;
+	
 	private function get_includeDependencies():Bool
 	{
 		return _includeDependencies;
@@ -48,13 +77,7 @@ class AssetLoaderContext
 		return _includeDependencies = val;
 	}
 
-	/**
-	 * MaterialMode defines, if the Parser should create SinglePass or MultiPass Materials
-	 * 0 (Default / undefined) - All Parsers will create SinglePassMaterials, but the AWD2.1parser will create Materials as they are defined in the file
-	 * 1 (Force SinglePass) - All Parsers create SinglePassMaterials
-	 * 2 (Force MultiPass) - All Parsers will create MultiPassMaterials
-	*/
-	public var materialMode(get,set):Int;
+	
 	private function get_materialMode():Int
 	{
 		return _materialMode;
@@ -66,11 +89,7 @@ class AssetLoaderContext
 	}
 
 
-	/**
-	 * A base URL that will be prepended to all relative dependency URLs found in a loaded resource.
-	 * Absolute paths will not be affected by the value of this property.
-	*/
-	public var dependencyBaseUrl(get,set):String;
+	
 	private function get_dependencyBaseUrl():String
 	{
 		return _dependencyBaseUrl;
@@ -81,14 +100,6 @@ class AssetLoaderContext
 		return _dependencyBaseUrl = val;
 	}
 
-
-
-	/**
-	 * Defines whether absolute paths (defined as paths that begin with a "/") should be overridden
-	 * with the dependencyBaseUrl defined in this context. If this is true, and the base path is
-	 * "base", /path/to/asset.jpg will be resolved as base/path/to/asset.jpg.
-	*/
-	public var overrideAbsolutePaths(get,set):Bool;
 	private function get_overrideAbsolutePaths():Bool
 	{
 		return _overrideAbsPath;
@@ -99,13 +110,6 @@ class AssetLoaderContext
 		return _overrideAbsPath = val;
 	}
 
-
-	/**
-	 * Defines whether "full" URLs (defined as a URL that includes a scheme, e.g. http://) should be
-	 * overridden with the dependencyBaseUrl defined in this context. If this is true, and the base
-	 * path is "base", http://example.com/path/to/asset.jpg will be resolved as base/path/to/asset.jpg.
-	*/
-	public var overrideFullURLs(get,set):Bool;
 	private function get_overrideFullURLs():Bool
 	{
 		return _overrideFullUrls;

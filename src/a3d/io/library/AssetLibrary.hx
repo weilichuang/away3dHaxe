@@ -23,15 +23,21 @@ import a3d.io.loaders.parsers.ParserBase;
 class AssetLibrary
 {
 	public static var _instances:StringMap<AssetLibraryBundle> = new StringMap<AssetLibraryBundle>();
-
+	
 	/**
-	 * Creates a new <code>AssetLibrary</code> object.
+	 * Short-hand for conflictStrategy property on default asset library bundle.
 	 *
-	 * @param se A singleton enforcer for the AssetLibrary ensuring it cannnot be instanced.
-	 */
-	public function new()
-	{
-	}
+	 * @see a3d.library.AssetLibraryBundle.conflictStrategy
+	*/
+	public static var conflictStrategy(get,set):ConflictStrategyBase;
+	/**
+	 * Short-hand for conflictPrecedence property on default asset library bundle.
+	 *
+	 * @see a3d.library.AssetLibraryBundle.conflictPrecedence
+	*/
+	public static var conflictPrecedence(get,set):String;
+
+	
 
 	/**
 	 * Returns an AssetLibrary bundle instance. If no key is given, returns the default bundle (which is
@@ -63,12 +69,7 @@ class AssetLibrary
 		SingleFileLoader.enableParsers(parserClasses);
 	}
 
-	/**
-	 * Short-hand for conflictStrategy property on default asset library bundle.
-	 *
-	 * @see a3d.library.AssetLibraryBundle.conflictStrategy
-	*/
-	public static var conflictStrategy(get,set):ConflictStrategyBase;
+	
 	private static function get_conflictStrategy():ConflictStrategyBase
 	{
 		return getBundle().conflictStrategy;
@@ -79,12 +80,7 @@ class AssetLibrary
 		return getBundle().conflictStrategy = val;
 	}
 
-	/**
-	 * Short-hand for conflictPrecedence property on default asset library bundle.
-	 *
-	 * @see a3d.library.AssetLibraryBundle.conflictPrecedence
-	*/
-	public static var conflictPrecedence(get,set):String;
+	
 	public static function get_conflictPrecedence():String
 	{
 		return getBundle().conflictPrecedence;
@@ -227,5 +223,14 @@ class AssetLibrary
 	public static function removeNamespaceAssets(ns:String = null, dispose:Bool = true):Void
 	{
 		getBundle().removeNamespaceAssets(ns, dispose);
+	}
+	
+	/**
+	 * Creates a new <code>AssetLibrary</code> object.
+	 *
+	 * @param se A singleton enforcer for the AssetLibrary ensuring it cannnot be instanced.
+	 */
+	public function new()
+	{
 	}
 }

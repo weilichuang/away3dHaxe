@@ -5,15 +5,25 @@ import flash.events.EventDispatcher;
 
 class NamedAssetBase extends EventDispatcher
 {
+	public static inline var DEFAULT_NAMESPACE:String = 'default';
+
+	/**
+	 * The original name used for this asset in the resource (e.g. file) in which
+	 * it was found. This may not be the same as <code>name</code>, which may
+	 * have changed due to of a name conflict.
+	*/
+	public var originalName(get, null):String;
+	public var id(get, set):String;
+	public var name(get, set):String;
+	public var assetNamespace(get, null):String;
+	public var assetFullPath(get, null):Array<String>;
+	
 	private var _originalName:String;
 	private var _namespace:String;
 	private var _name:String;
 	private var _id:String;
 	private var _full_path:Array<String>;
-
-
-	public static inline var DEFAULT_NAMESPACE:String = 'default';
-
+	
 	public function new(name:String = null)
 	{
 		super();
@@ -28,18 +38,13 @@ class NamedAssetBase extends EventDispatcher
 	}
 
 
-	/**
-	 * The original name used for this asset in the resource (e.g. file) in which
-	 * it was found. This may not be the same as <code>name</code>, which may
-	 * have changed due to of a name conflict.
-	*/
-	public var originalName(get, null):String;
+	
 	private function get_originalName():String
 	{
 		return _originalName;
 	}
 
-	public var id(get, set):String;
+	
 	private function get_id():String
 	{
 		return _id;
@@ -50,7 +55,7 @@ class NamedAssetBase extends EventDispatcher
 		return _id = newID;
 	}
 
-	public var name(get, set):String;
+	
 	private function get_name():String
 	{
 		return _name;
@@ -73,13 +78,13 @@ class NamedAssetBase extends EventDispatcher
 		return _name;
 	}
 
-	public var assetNamespace(get, null):String;
+	
 	private function get_assetNamespace():String
 	{
 		return _namespace;
 	}
 
-	public var assetFullPath(get, null):Array<String>;
+	
 	private function get_assetFullPath():Array<String>
 	{
 		return _full_path;

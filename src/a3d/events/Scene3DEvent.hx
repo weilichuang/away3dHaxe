@@ -1,9 +1,9 @@
 package a3d.events;
 
+import a3d.entities.ObjectContainer3D;
 import flash.events.Event;
 import flash.utils.Object;
 
-import a3d.entities.ObjectContainer3D;
 
 class Scene3DEvent extends Event
 {

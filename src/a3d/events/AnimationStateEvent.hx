@@ -1,10 +1,10 @@
 package a3d.events;
 
-import flash.events.Event;
-
 import a3d.animators.IAnimator;
 import a3d.animators.nodes.AnimationNodeBase;
 import a3d.animators.states.IAnimationState;
+import flash.events.Event;
+
 
 /**
  * Dispatched to notify changes in an animation state's state.

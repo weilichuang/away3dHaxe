@@ -1,12 +1,5 @@
 package a3d.io.loaders.parsers;
 
-import flash.errors.Error;
-import flash.geom.Matrix3D;
-import flash.net.URLRequest;
-import flash.utils.ByteArray;
-import flash.Vector;
-
-
 import a3d.core.base.CompactSubGeometry;
 import a3d.core.base.Geometry;
 import a3d.entities.Mesh;
@@ -17,6 +10,13 @@ import a3d.materials.TextureMaterial;
 import a3d.materials.TextureMultiPassMaterial;
 import a3d.materials.utils.DefaultMaterialManager;
 import a3d.textures.Texture2DBase;
+import flash.errors.Error;
+import flash.geom.Matrix3D;
+import flash.net.URLRequest;
+import flash.utils.ByteArray;
+import flash.Vector;
+
+
 
 
 

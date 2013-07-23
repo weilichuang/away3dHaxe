@@ -1,8 +1,8 @@
 package a3d.core.pick;
 
+import a3d.core.base.SubMesh;
 import flash.geom.Vector3D;
 
-import a3d.core.base.SubMesh;
 
 /**
  * Auto-selecting picking collider for entity objects. Used with the <code>RaycastPicker</code> picking object.

@@ -1,8 +1,9 @@
 package a3d.io.library.naming;
 
 import a3d.io.library.assets.IAsset;
-import haxe.ds.StringMap;
 import flash.errors.Error;
+import haxe.ds.StringMap;
+
 class ErrorConflictStrategy extends ConflictStrategyBase
 {
 	public function new()

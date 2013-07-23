@@ -1,19 +1,19 @@
 package a3d.materials.lightpickers;
 
+import a3d.core.base.IRenderable;
+import a3d.core.traverse.EntityCollector;
+import a3d.entities.lights.DirectionalLight;
+import a3d.entities.lights.LightBase;
+import a3d.entities.lights.LightProbe;
+import a3d.entities.lights.PointLight;
+import a3d.io.library.assets.AssetType;
+import a3d.io.library.assets.IAsset;
+import a3d.io.library.assets.NamedAssetBase;
 import a3d.math.FMath;
 import flash.geom.Vector3D;
 import flash.Vector;
 
 
-import a3d.core.base.IRenderable;
-import a3d.core.traverse.EntityCollector;
-import a3d.io.library.assets.AssetType;
-import a3d.io.library.assets.IAsset;
-import a3d.io.library.assets.NamedAssetBase;
-import a3d.entities.lights.DirectionalLight;
-import a3d.entities.lights.LightBase;
-import a3d.entities.lights.LightProbe;
-import a3d.entities.lights.PointLight;
 
 
 /**

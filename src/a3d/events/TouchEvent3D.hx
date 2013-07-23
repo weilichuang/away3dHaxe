@@ -1,14 +1,13 @@
 package a3d.events;
 
-import flash.events.Event;
-import flash.geom.Point;
-import flash.geom.Vector3D;
-import flash.Lib;
-
 import a3d.core.base.IRenderable;
 import a3d.entities.ObjectContainer3D;
 import a3d.entities.View3D;
 import a3d.materials.MaterialBase;
+import flash.events.Event;
+import flash.geom.Point;
+import flash.geom.Vector3D;
+
 
 class TouchEvent3D extends Event
 {

@@ -1,11 +1,11 @@
 package a3d.core.pick;
 
 
+import a3d.core.base.IRenderable;
+import a3d.entities.Entity;
 import flash.geom.Point;
 import flash.geom.Vector3D;
 
-import a3d.core.base.IRenderable;
-import a3d.entities.Entity;
 
 /**
  * Value object for a picking collision returned by a picking collider. Created as unique objects on entities

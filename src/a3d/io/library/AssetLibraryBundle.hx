@@ -145,6 +145,32 @@ import haxe.ds.StringMap;
  */
 class AssetLibraryBundle extends EventDispatcher
 {
+	/**
+	 * Defines which strategy should be used for resolving naming conflicts, when two library
+	 * assets are given the same name. By default, <code>ConflictStrategy.APPEND_NUM_SUFFIX</code>
+	 * is used which means that a numeric suffix is appended to one of the assets. The
+	 * <code>conflictPrecedence</code> property defines which of the two conflicting assets will
+	 * be renamed.
+	 *
+	 * @see a3d.library.naming.ConflictStrategy
+	 * @see a3d.library.AssetLibrary.conflictPrecedence
+	*/
+	public var conflictStrategy(get, set):ConflictStrategyBase;
+	
+	/**
+	 * Defines which asset should have precedence when resolving a naming conflict between
+	 * two assets of which one has just been renamed by the user or by a parser. By default
+	 * <code>ConflictPrecedence.FAVOR_NEW</code> is used, meaning that the newly renamed
+	 * asset will keep it's new name while the older asset gets renamed to not conflict.
+	 *
+	 * This property is ignored for conflict strategies that do not actually rename an
+	 * asset automatically, such as ConflictStrategy.IGNORE and ConflictStrategy.THROW_ERROR.
+	 *
+	 * @see a3d.library.naming.ConflictPrecedence
+	 * @see a3d.library.naming.ConflictStrategy
+	*/
+	public var conflictPrecedence(get, set):String;
+	
 	private var _loadingSessions:Vector<AssetLoader>;
 
 	private var _strategy:ConflictStrategyBase;
@@ -207,17 +233,7 @@ class AssetLibraryBundle extends EventDispatcher
 		SingleFileLoader.enableParsers(parserClasses);
 	}
 
-	/**
-	 * Defines which strategy should be used for resolving naming conflicts, when two library
-	 * assets are given the same name. By default, <code>ConflictStrategy.APPEND_NUM_SUFFIX</code>
-	 * is used which means that a numeric suffix is appended to one of the assets. The
-	 * <code>conflictPrecedence</code> property defines which of the two conflicting assets will
-	 * be renamed.
-	 *
-	 * @see a3d.library.naming.ConflictStrategy
-	 * @see a3d.library.AssetLibrary.conflictPrecedence
-	*/
-	public var conflictStrategy(get,set):ConflictStrategyBase;
+	
 	private function get_conflictStrategy():ConflictStrategyBase
 	{
 		return _strategy;
@@ -231,19 +247,7 @@ class AssetLibraryBundle extends EventDispatcher
 		return _strategy = val.create();
 	}
 
-	/**
-	 * Defines which asset should have precedence when resolving a naming conflict between
-	 * two assets of which one has just been renamed by the user or by a parser. By default
-	 * <code>ConflictPrecedence.FAVOR_NEW</code> is used, meaning that the newly renamed
-	 * asset will keep it's new name while the older asset gets renamed to not conflict.
-	 *
-	 * This property is ignored for conflict strategies that do not actually rename an
-	 * asset automatically, such as ConflictStrategy.IGNORE and ConflictStrategy.THROW_ERROR.
-	 *
-	 * @see a3d.library.naming.ConflictPrecedence
-	 * @see a3d.library.naming.ConflictStrategy
-	*/
-	public var conflictPrecedence(get,set):String;
+	
 	private function get_conflictPrecedence():String
 	{
 		return _strategyPreference;
@@ -304,12 +308,11 @@ class AssetLibraryBundle extends EventDispatcher
 	 */
 	public function getAsset(name:String, ns:String = null):IAsset
 	{
-		//var asset : IAsset;
-
 		if (_assetDictDirty)
 			rehashAssetDict();
 		if (ns == null)
 			ns = NamedAssetBase.DEFAULT_NAMESPACE;
+			
 		if (!_assetDictionary.exists(ns))
 			return null;
 

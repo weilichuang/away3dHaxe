@@ -9,7 +9,6 @@ import a3d.materials.methods.ShaderMethodSetup;
 import a3d.materials.methods.ShadingMethodBase;
 import flash.display3D.Context3DProfile;
 import flash.Vector;
-import flash.Vector;
 
 /**
  * ShaderCompiler is an abstract base class for shader compilers that use modular shader methods to assemble a

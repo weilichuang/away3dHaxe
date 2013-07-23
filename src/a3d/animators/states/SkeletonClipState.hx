@@ -1,15 +1,15 @@
 package a3d.animators.states;
 
+import a3d.animators.data.JointPose;
+import a3d.animators.data.Skeleton;
+import a3d.animators.data.SkeletonPose;
+import a3d.animators.IAnimator;
+import a3d.animators.nodes.SkeletonClipNode;
+import a3d.animators.SkeletonAnimator;
 import flash.errors.Error;
 import flash.geom.Vector3D;
 import flash.Vector;
 
-import a3d.animators.IAnimator;
-import a3d.animators.SkeletonAnimator;
-import a3d.animators.data.JointPose;
-import a3d.animators.data.Skeleton;
-import a3d.animators.data.SkeletonPose;
-import a3d.animators.nodes.SkeletonClipNode;
 
 /**
  *

@@ -4,7 +4,6 @@ import a3d.errors.AbstractMethodError;
 import a3d.events.AssetEvent;
 import a3d.io.library.assets.IAsset;
 import haxe.ds.StringMap;
-import haxe.ds.StringMap.StringMap;
 
 /**
  * Abstract base class for naming conflict resolution classes. Extend this to create a

@@ -1,5 +1,11 @@
 package a3d.io.loaders.misc;
 
+import a3d.events.AssetEvent;
+import a3d.events.LoaderEvent;
+import a3d.events.ParserEvent;
+import a3d.io.loaders.parsers.ImageParser;
+import a3d.io.loaders.parsers.ParserBase;
+import a3d.io.loaders.parsers.ParserDataFormat;
 import flash.errors.Error;
 import flash.events.Event;
 import flash.events.EventDispatcher;
@@ -10,12 +16,6 @@ import flash.net.URLRequest;
 import flash.Vector;
 
 
-import a3d.events.AssetEvent;
-import a3d.events.LoaderEvent;
-import a3d.events.ParserEvent;
-import a3d.io.loaders.parsers.ImageParser;
-import a3d.io.loaders.parsers.ParserBase;
-import a3d.io.loaders.parsers.ParserDataFormat;
 
 
 
@@ -139,47 +139,8 @@ import a3d.io.loaders.parsers.ParserDataFormat;
  */
 class SingleFileLoader extends EventDispatcher
 {
-	private var _parser:ParserBase;
-	private var _req:URLRequest;
-	private var _fileExtension:String;
-	private var _fileName:String;
-	private var _loadAsRawData:Bool;
-	private var _materialMode:Int;
-	private var _data:Dynamic;
-
 	// Image parser only parser that is added by default, to save file size.
 	private static var _parsers:Vector<Class<ParserBase>> = Vector.convert(Vector.ofArray([ImageParser]));
-
-
-	/**
-	 * Creates a new SingleFileLoader object.
-	 */
-	public function new(materialMode:Int = 0)
-	{
-		super();
-		_materialMode = materialMode;
-	}
-
-	public var url(get, null):String;
-	private function get_url():String
-	{
-		return _req != null ? _req.url : '';
-	}
-
-
-	public var data(get, null):Dynamic;
-	private function get_data():Dynamic
-	{
-		return _data;
-	}
-
-
-	public var loadAsRawData(get, null):Dynamic;
-	private function get_loadAsRawData():Bool
-	{
-		return _loadAsRawData;
-	}
-
 
 	public static function enableParser(parser:Class<ParserBase>):Void
 	{
@@ -196,7 +157,50 @@ class SingleFileLoader extends EventDispatcher
 			enableParser(pc);
 		}
 	}
+	
+	public var url(get, null):String;
+	public var data(get, null):Dynamic;
+	public var loadAsRawData(get, null):Dynamic;
+	/**
+	 * A reference to the parser that will translate the loaded data into a usable resource.
+	 */
+	public var parser(get, null):ParserBase;
+	/**
+	 * A list of dependencies that need to be loaded and resolved for the loaded object.
+	 */
+	public var dependencies(get, null):Vector<ResourceDependency>;
+	
+	private var _parser:ParserBase;
+	private var _req:URLRequest;
+	private var _fileExtension:String;
+	private var _fileName:String;
+	private var _loadAsRawData:Bool;
+	private var _materialMode:Int;
+	private var _data:Dynamic;
 
+	/**
+	 * Creates a new SingleFileLoader object.
+	 */
+	public function new(materialMode:Int = 0)
+	{
+		super();
+		_materialMode = materialMode;
+	}
+	
+	private function get_url():String
+	{
+		return _req != null ? _req.url : '';
+	}
+
+	private function get_data():Dynamic
+	{
+		return _data;
+	}
+
+	private function get_loadAsRawData():Bool
+	{
+		return _loadAsRawData;
+	}
 
 	/**
 	 * Load a resource from a file.
@@ -272,19 +276,13 @@ class SingleFileLoader extends EventDispatcher
 		parse(data);
 	}
 
-	/**
-	 * A reference to the parser that will translate the loaded data into a usable resource.
-	 */
-	public var parser(get, null):ParserBase;
+	
 	private function get_parser():ParserBase
 	{
 		return _parser;
 	}
 
-	/**
-	 * A list of dependencies that need to be loaded and resolved for the loaded object.
-	 */
-	public var dependencies(get, null):Vector<ResourceDependency>;
+	
 	private function get_dependencies():Vector<ResourceDependency>
 	{
 		if (_parser != null)

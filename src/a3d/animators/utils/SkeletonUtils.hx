@@ -1,5 +1,8 @@
 package a3d.animators.utils;
 
+import a3d.animators.data.JointPose;
+import a3d.animators.data.SkeletonPose;
+import a3d.animators.nodes.SkeletonClipNode;
 import flash.errors.Error;
 import flash.geom.Matrix3D;
 import flash.geom.Orientation3D;
@@ -7,9 +10,6 @@ import flash.geom.Vector3D;
 import flash.Vector;
 
 
-import a3d.animators.data.JointPose;
-import a3d.animators.data.SkeletonPose;
-import a3d.animators.nodes.SkeletonClipNode;
 
 class SkeletonUtils
 {

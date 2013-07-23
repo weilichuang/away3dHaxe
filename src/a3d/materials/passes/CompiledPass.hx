@@ -1,21 +1,13 @@
 package a3d.materials.passes;
 
-import flash.display3D.Context3D;
-import flash.display3D.Context3DProfile;
-import flash.display3D.Context3DProgramType;
-import flash.geom.Matrix;
-import flash.geom.Matrix3D;
-import flash.Vector;
-
-
-import a3d.entities.Camera3D;
 import a3d.core.base.IRenderable;
 import a3d.core.managers.Stage3DProxy;
+import a3d.entities.Camera3D;
 import a3d.errors.AbstractMethodError;
 import a3d.events.ShadingMethodEvent;
+import a3d.materials.compilation.ShaderCompiler;
 import a3d.materials.LightSources;
 import a3d.materials.MaterialBase;
-import a3d.materials.compilation.ShaderCompiler;
 import a3d.materials.methods.BasicAmbientMethod;
 import a3d.materials.methods.BasicDiffuseMethod;
 import a3d.materials.methods.BasicNormalMethod;
@@ -25,6 +17,14 @@ import a3d.materials.methods.ShaderMethodSetup;
 import a3d.materials.methods.ShadowMapMethodBase;
 import a3d.math.Matrix3DUtils;
 import a3d.textures.Texture2DBase;
+import flash.display3D.Context3D;
+import flash.display3D.Context3DProfile;
+import flash.display3D.Context3DProgramType;
+import flash.geom.Matrix;
+import flash.geom.Matrix3D;
+import flash.Vector;
+
+
 
 
 

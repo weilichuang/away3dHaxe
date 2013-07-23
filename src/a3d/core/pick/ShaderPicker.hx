@@ -1,8 +1,18 @@
 package a3d.core.pick;
 
+import a3d.core.base.IRenderable;
+import a3d.core.base.ISubGeometry;
+import a3d.core.base.SubMesh;
+import a3d.core.data.RenderableListItem;
+import a3d.core.managers.Stage3DProxy;
+import a3d.core.traverse.EntityCollector;
+import a3d.entities.Camera3D;
+import a3d.entities.Entity;
+import a3d.entities.Scene3D;
+import a3d.entities.View3D;
+import a3d.math.Matrix3DUtils;
+import a3d.tools.utils.GeomUtil;
 import com.adobe.utils.AGALMiniAssembler;
-import flash.Vector;
-
 import flash.display.BitmapData;
 import flash.display3D.Context3D;
 import flash.display3D.Context3DBlendFactor;
@@ -16,20 +26,10 @@ import flash.geom.Matrix3D;
 import flash.geom.Point;
 import flash.geom.Rectangle;
 import flash.geom.Vector3D;
+import flash.Vector;
 
 
-import a3d.entities.Camera3D;
-import a3d.core.base.IRenderable;
-import a3d.core.base.ISubGeometry;
-import a3d.core.base.SubMesh;
-import a3d.core.data.RenderableListItem;
-import a3d.core.managers.Stage3DProxy;
-import a3d.core.traverse.EntityCollector;
-import a3d.entities.Entity;
-import a3d.entities.Scene3D;
-import a3d.entities.View3D;
-import a3d.math.Matrix3DUtils;
-import a3d.tools.utils.GeomUtil;
+
 
 
 

@@ -5,6 +5,9 @@ import flash.Vector;
 
 class AssetLibraryIterator
 {
+	public var currentAsset(get, null):IAsset;
+	public var numAssets(get, null):Int;
+	
 	private var _assets:Vector<IAsset>;
 	private var _filtered:Vector<IAsset>;
 
@@ -16,7 +19,7 @@ class AssetLibraryIterator
 		filter(assetTypeFilter, namespaceFilter, filterFunc);
 	}
 
-	public var currentAsset(get,null):IAsset;
+	
 	private function get_currentAsset():IAsset
 	{
 		// Return current, or null if no current
@@ -24,7 +27,7 @@ class AssetLibraryIterator
 			_filtered[_idx] : null;
 	}
 
-	public var numAssets(get, null):Int;
+	
 	private function get_numAssets():Int
 	{
 		return _filtered.length;
@@ -59,7 +62,7 @@ class AssetLibraryIterator
 	{
 		if (assetTypeFilter != null || namespaceFilter != null)
 		{
-			var idx:UInt;
+			var idx:Int;
 			var asset:IAsset;
 
 			idx = 0;

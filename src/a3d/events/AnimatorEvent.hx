@@ -1,8 +1,8 @@
 package a3d.events;
 
+import a3d.animators.AnimatorBase;
 import flash.events.Event;
 
-import a3d.animators.AnimatorBase;
 
 /**
  * Dispatched to notify changes in an animator's state.

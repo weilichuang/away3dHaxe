@@ -1,5 +1,13 @@
 package a3d.materials.passes;
 
+import a3d.core.base.IRenderable;
+import a3d.core.managers.Stage3DProxy;
+import a3d.entities.Camera3D;
+import a3d.entities.lights.DirectionalLight;
+import a3d.entities.lights.PointLight;
+import a3d.materials.compilation.LightingShaderCompiler;
+import a3d.materials.compilation.ShaderCompiler;
+import a3d.materials.MaterialBase;
 import flash.display3D.Context3DProfile;
 import flash.errors.Error;
 import flash.geom.Matrix3D;
@@ -7,14 +15,6 @@ import flash.geom.Vector3D;
 import flash.Vector;
 
 
-import a3d.entities.Camera3D;
-import a3d.core.base.IRenderable;
-import a3d.core.managers.Stage3DProxy;
-import a3d.entities.lights.DirectionalLight;
-import a3d.entities.lights.PointLight;
-import a3d.materials.MaterialBase;
-import a3d.materials.compilation.LightingShaderCompiler;
-import a3d.materials.compilation.ShaderCompiler;
 
 
 

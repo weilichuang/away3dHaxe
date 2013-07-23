@@ -1,11 +1,11 @@
 ﻿package a3d.io.loaders.misc;
 
+import a3d.io.library.assets.IAsset;
+import a3d.io.loaders.parsers.ParserBase;
 import flash.net.URLRequest;
 import flash.Vector;
 
 
-import a3d.io.library.assets.IAsset;
-import a3d.io.loaders.parsers.ParserBase;
 
 
 
@@ -16,6 +16,24 @@ import a3d.io.loaders.parsers.ParserBase;
  */
 class ResourceDependency
 {
+	public var id(get, null):String;
+	public var assets(get, null):Vector<IAsset>;
+	public var dependencies(get, null):Vector<ResourceDependency>;
+	public var request(get, null):URLRequest;
+	public var retrieveAsRawData(get, null):Bool;
+	public var suppresAssetEvents(get, null):Bool;
+	/**
+	 * The data containing the dependency to be parsed, if the resource was already loaded.
+	 */
+	public var data(get, null):Dynamic;
+	/**
+	 * The parser which is dependent on this ResourceDependency object.
+	 */
+	public var parentParser(get, null):ParserBase;
+	
+	public var loader:SingleFileLoader;
+	public var success:Bool;
+	
 	private var _id:String;
 	private var _req:URLRequest;
 	private var _assets:Vector<IAsset>;
@@ -24,9 +42,6 @@ class ResourceDependency
 	private var _retrieveAsRawData:Bool;
 	private var _suppressAssetEvents:Bool;
 	private var _dependencies:Vector<ResourceDependency>;
-
-	public var loader:SingleFileLoader;
-	public var success:Bool;
 
 
 	public function new(id:String, req:URLRequest, data:Dynamic, parentParser:ParserBase, retrieveAsRawData:Bool = false, suppressAssetEvents:Bool = false)
@@ -43,47 +58,44 @@ class ResourceDependency
 	}
 
 
-	public var id(get, null):String;
+	
 	private function get_id():String
 	{
 		return _id;
 	}
 
-	public var assets(get, null):Vector<IAsset>;
+	
 	private function get_assets():Vector<IAsset>
 	{
 		return _assets;
 	}
 
-	public var dependencies(get, null):Vector<ResourceDependency>;
+	
 	private function get_dependencies():Vector<ResourceDependency>
 	{
 		return _dependencies;
 	}
 
-	public var request(get, null):URLRequest;
+	
 	private function get_request():URLRequest
 	{
 		return _req;
 	}
 
-	public var retrieveAsRawData(get, null):Bool;
+	
 	private function get_retrieveAsRawData():Bool
 	{
 		return _retrieveAsRawData;
 	}
 
-	public var suppresAssetEvents(get, null):Bool;
+	
 	private function get_suppresAssetEvents():Bool
 	{
 		return _suppressAssetEvents;
 	}
 
 
-	/**
-	 * The data containing the dependency to be parsed, if the resource was already loaded.
-	 */
-	public var data(get, null):Dynamic;
+	
 	private function get_data():Dynamic
 	{
 		return _data;
@@ -99,10 +111,7 @@ class ResourceDependency
 		_data = data;
 	}
 
-	/**
-	 * The parser which is dependent on this ResourceDependency object.
-	 */
-	public var parentParser(get, null):ParserBase;
+	
 	private function get_parentParser():ParserBase
 	{
 		return _parentParser;

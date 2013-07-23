@@ -1,11 +1,9 @@
 package a3d.io.loaders.misc;
 
+import a3d.io.loaders.AssetLoader;
 import flash.events.EventDispatcher;
 
 
-import a3d.events.AssetEvent;
-import a3d.events.LoaderEvent;
-import a3d.io.loaders.AssetLoader;
 
 
 

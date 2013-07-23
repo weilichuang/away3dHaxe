@@ -1,8 +1,8 @@
 package a3d.events;
 
+import a3d.core.base.Object3D;
 import flash.events.Event;
 
-import a3d.core.base.Object3D;
 
 /**
 * Passed as a parameter when a 3d object event occurs

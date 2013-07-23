@@ -1,12 +1,12 @@
 package a3d.core.pick;
 
+import a3d.core.base.SubGeometry;
+import a3d.core.base.SubMesh;
+import a3d.tools.utils.GeomUtil;
 import flash.geom.Point;
 import flash.geom.Vector3D;
 import flash.Vector;
 
-import a3d.core.base.SubGeometry;
-import a3d.core.base.SubMesh;
-import a3d.tools.utils.GeomUtil;
 
 /**
  * An abstract base class for all picking collider classes. It should not be instantiated directly.

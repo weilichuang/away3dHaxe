@@ -1,8 +1,8 @@
 package a3d.events;
 
+import a3d.entities.lenses.LensBase;
 import flash.events.Event;
 
-import a3d.entities.lenses.LensBase;
 
 class LensEvent extends Event
 {

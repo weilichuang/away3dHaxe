@@ -1,9 +1,9 @@
 package a3d.animators.states;
 
-import flash.geom.Vector3D;
-
 import a3d.animators.IAnimator;
 import a3d.animators.nodes.AnimationNodeBase;
+import flash.geom.Vector3D;
+
 
 /**
  *

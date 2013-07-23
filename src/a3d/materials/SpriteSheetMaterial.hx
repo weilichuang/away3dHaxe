@@ -24,7 +24,7 @@ class SpriteSheetMaterial extends TextureMaterial
 	private var _TBNormal:Texture2DBase;
 	private var _TBSpecular:Texture2DBase;
 
-	private var _currentMapID:UInt;
+	private var _currentMapID:Int;
 
 	/**
 	* Creates a new SpriteSheetMaterial required for a SpriteSheetAnimator
@@ -39,9 +39,9 @@ class SpriteSheetMaterial extends TextureMaterial
 	*/
 
 	public function new(diffuses:Vector<Texture2DBase>,
-		normals:Vector<Texture2DBase> = null,
-		speculars:Vector<Texture2DBase> = null,
-		smooth:Bool = true, repeat:Bool = false, mipmap:Bool = true)
+						normals:Vector<Texture2DBase> = null,
+						speculars:Vector<Texture2DBase> = null,
+						smooth:Bool = true, repeat:Bool = false, mipmap:Bool = true)
 	{
 
 		_diffuses = diffuses;
@@ -88,9 +88,8 @@ class SpriteSheetMaterial extends TextureMaterial
 
 	}
 
-	public function swap(mapID:UInt = 0):Bool
+	public function swap(mapID:Int = 0):Bool
 	{
-
 		if (_currentMapID != mapID)
 		{
 
@@ -110,7 +109,6 @@ class SpriteSheetMaterial extends TextureMaterial
 		}
 
 		return false;
-
 	}
 
 }

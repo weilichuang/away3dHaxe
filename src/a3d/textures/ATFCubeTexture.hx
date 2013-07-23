@@ -4,7 +4,6 @@ import flash.display3D.Context3D;
 import flash.display3D.textures.CubeTexture;
 import flash.display3D.textures.TextureBase;
 import flash.errors.Error;
-import flash.Lib;
 import flash.utils.ByteArray;
 
 class ATFCubeTexture extends CubeTextureBase

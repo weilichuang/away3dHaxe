@@ -15,6 +15,23 @@ import flash.Vector;
 // todo: provide markVisibleVolume to pass in another view volume to find all statics in the scene that intersect with target ViewVolume, for constructing view volumes more easily
 class ViewVolume extends NodeBase
 {
+	private static var _entityWorldBounds:Vector<Float>;
+	
+	public var minBound(get, null):Vector3D;
+	public var maxBound(get, null):Vector3D;
+	public var width(get,null):Float;
+	public var height(get,null):Float;
+	public var depth(get,null):Float;
+	public var numCellsX(get,null):Int;
+	public var numCellsY(get,null):Int;
+	public var numCellsZ(get,null):Int;
+	public var minX(get,null):Float;
+	public var minY(get,null):Float;
+	public var minZ(get,null):Float;
+	public var maxX(get,null):Float;
+	public var maxY(get,null):Float;
+	public var maxZ(get,null):Float;
+
 	private var _width:Float;
 	private var _height:Float;
 	private var _depth:Float;
@@ -30,8 +47,7 @@ class ViewVolume extends NodeBase
 	private var _maxY:Float;
 	private var _maxZ:Float;
 	public var active:Bool;
-	private static var _entityWorldBounds:Vector<Float>;
-
+	
 	/**
 	 * Creates a new ViewVolume with given dimensions. A ViewVolume is a region where the camera or a shadow casting light could reside in.
 	 *
@@ -54,13 +70,13 @@ class ViewVolume extends NodeBase
 		initCells();
 	}
 
-	public var minBound(get, null):Vector3D;
+	
 	private function get_minBound():Vector3D
 	{
 		return new Vector3D(_minX, _minY, _minZ);
 	}
 
-	public var maxBound(get, null):Vector3D;
+	
 	private function get_maxBound():Vector3D
 	{
 		return new Vector3D(_maxX, _maxY, _maxZ);
@@ -186,62 +202,62 @@ class ViewVolume extends NodeBase
 		_cells[index] = null;
 	}
 
-	public var width(get,null):Float;
+	
 	private function get_width():Float
 	{
 		return _width;
 	}
-	public var height(get,null):Float;
+	
 	private function get_height():Float
 	{
 		return _height;
 	}
-	public var depth(get,null):Float;
+	
 	private function get_depth():Float
 	{
 		return _depth;
 	}
-	public var numCellsX(get,null):Int;
+	
 	private function get_numCellsX():Int
 	{
 		return _numCellsX;
 	}
-	public var numCellsY(get,null):Int;
+	
 	private function get_numCellsY():Int
 	{
 		return _numCellsY;
 	}
-	public var numCellsZ(get,null):Int;
+	
 	private function get_numCellsZ():Int
 	{
 		return _numCellsZ;
 	}
-	public var minX(get,null):Float;
+	
 	private function get_minX():Float
 	{
 		return _minX;
 	}
-	public var minY(get,null):Float;
+	
 	private function get_minY():Float
 	{
 		return _minY;
 	}
-	public var minZ(get,null):Float;
+	
 	private function get_minZ():Float
 	{
 		return _minZ;
 	}
-	public var maxX(get,null):Float;
+	
 	private function get_maxX():Float
 	{
 		return _maxX;
 	}
-	public var maxY(get,null):Float;
+	
 	private function get_maxY():Float
 	{
 		return _maxY;
 	}
-	public var maxZ(get,null):Float;
+	
 	private function get_maxZ():Float
 	{
 		return _maxZ;

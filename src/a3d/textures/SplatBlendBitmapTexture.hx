@@ -7,7 +7,6 @@ import flash.display.ShaderJob;
 import flash.errors.Error;
 import flash.geom.Point;
 import flash.geom.Rectangle;
-import flash.utils.ByteArray;
 
 class SplatBlendBitmapTexture extends BitmapTexture
 {

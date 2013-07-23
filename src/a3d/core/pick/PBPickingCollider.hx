@@ -1,15 +1,14 @@
 package a3d.core.pick;
 
+import a3d.core.base.SubMesh;
 import flash.display.Shader;
 import flash.display.ShaderJob;
 import flash.geom.Point;
 import flash.geom.Vector3D;
-import flash.utils.ByteArray;
 import flash.Vector;
 
-import a3d.core.base.SubMesh;
 
-@:file("pb/RayTriangleKernel.pbj") class RayTriangleKernelClass extends ByteArray { }
+
 /**
  * PixelBender-based picking collider for entity objects. Used with the <code>RaycastPicker</code> picking object.
  *
@@ -151,3 +150,5 @@ class PBPickingCollider extends PickingColliderBase implements IPickingCollider
 		return new Point(w, h);
 	}
 }
+
+@:file("pb/RayTriangleKernel.pbj") class RayTriangleKernelClass extends flash.utils.ByteArray { }

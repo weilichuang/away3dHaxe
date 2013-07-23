@@ -1,16 +1,9 @@
 package a3d.io.loaders.parsers;
 
-import flash.geom.Vector3D;
-import flash.net.URLRequest;
-import flash.utils.ByteArray;
-import flash.utils.Dictionary;
-import flash.Vector;
-
-
 import a3d.core.base.CompactSubGeometry;
-import a3d.core.base.Geometry;
 import a3d.core.base.data.UV;
 import a3d.core.base.data.Vertex;
+import a3d.core.base.Geometry;
 import a3d.entities.Mesh;
 import a3d.entities.ObjectContainer3D;
 import a3d.io.loaders.misc.ResourceDependency;
@@ -22,7 +15,13 @@ import a3d.materials.TextureMaterial;
 import a3d.materials.TextureMultiPassMaterial;
 import a3d.materials.utils.DefaultMaterialManager;
 import a3d.textures.Texture2DBase;
+import flash.geom.Vector3D;
+import flash.net.URLRequest;
+import flash.utils.ByteArray;
+import flash.Vector;
 import haxe.ds.StringMap;
+
+
 
 using StringTools;
 

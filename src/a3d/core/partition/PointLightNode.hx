@@ -8,6 +8,11 @@ import a3d.entities.lights.PointLight;
  */
 class PointLightNode extends EntityNode
 {
+	/**
+	 * The light object contained in this node.
+	 */
+	public var light(get, null):PointLight;
+	
 	private var _light:PointLight;
 
 	/**
@@ -20,10 +25,7 @@ class PointLightNode extends EntityNode
 		_light = light;
 	}
 
-	/**
-	 * The light object contained in this node.
-	 */
-	public var light(get, null):PointLight;
+	
 	private function get_light():PointLight
 	{
 		return _light;

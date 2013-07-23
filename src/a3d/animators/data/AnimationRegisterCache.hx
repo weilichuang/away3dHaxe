@@ -4,11 +4,9 @@ import a3d.animators.nodes.AnimationNodeBase;
 import a3d.materials.compilation.ShaderRegisterCache;
 import a3d.materials.compilation.ShaderRegisterElement;
 import flash.display3D.Context3DProfile;
-import flash.Vector;
-import haxe.ds.ObjectMap;
-import haxe.ds.WeakMap;
 import flash.geom.Matrix3D;
-import flash.utils.Dictionary;
+import flash.Vector;
+import haxe.ds.WeakMap;
 
 /**
  * ...

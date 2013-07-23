@@ -1,11 +1,11 @@
 package a3d.animators.nodes;
 
+import a3d.animators.data.SkeletonPose;
+import a3d.animators.IAnimator;
+import a3d.animators.states.SkeletonClipState;
 import flash.geom.Vector3D;
 import flash.Vector;
 
-import a3d.animators.IAnimator;
-import a3d.animators.data.SkeletonPose;
-import a3d.animators.states.SkeletonClipState;
 
 
 /**

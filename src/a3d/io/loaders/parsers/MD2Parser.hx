@@ -1,14 +1,7 @@
 package a3d.io.loaders.parsers;
 
-import flash.net.URLRequest;
-import flash.utils.ByteArray;
-import flash.utils.Dictionary;
-import flash.utils.Endian;
-import flash.Vector;
-
-
-import a3d.animators.VertexAnimationSet;
 import a3d.animators.nodes.VertexClipNode;
+import a3d.animators.VertexAnimationSet;
 import a3d.core.base.CompactSubGeometry;
 import a3d.core.base.Geometry;
 import a3d.entities.Mesh;
@@ -19,8 +12,14 @@ import a3d.materials.TextureMaterial;
 import a3d.materials.TextureMultiPassMaterial;
 import a3d.materials.utils.DefaultMaterialManager;
 import a3d.textures.Texture2DBase;
-
+import flash.net.URLRequest;
+import flash.utils.ByteArray;
+import flash.utils.Endian;
+import flash.Vector;
 import haxe.ds.WeakMap;
+
+
+
 
 /**
  * MD2Parser provides a parser for the MD2 data type.

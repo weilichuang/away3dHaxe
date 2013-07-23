@@ -1,7 +1,6 @@
 package a3d.materials.compilation;
 
 import flash.errors.Error;
-import flash.utils.Dictionary;
 import flash.Vector;
 import haxe.ds.StringMap;
 

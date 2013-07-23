@@ -1,17 +1,17 @@
 package a3d.textures;
 
 import a3d.A3d;
+import a3d.core.managers.Stage3DProxy;
+import a3d.errors.AbstractMethodError;
+import a3d.io.library.assets.AssetType;
+import a3d.io.library.assets.IAsset;
+import a3d.io.library.assets.NamedAssetBase;
 import flash.display3D.Context3D;
 import flash.display3D.Context3DTextureFormat;
 import flash.display3D.textures.TextureBase;
 import flash.Vector;
 
 
-import a3d.core.managers.Stage3DProxy;
-import a3d.errors.AbstractMethodError;
-import a3d.io.library.assets.AssetType;
-import a3d.io.library.assets.IAsset;
-import a3d.io.library.assets.NamedAssetBase;
 
 
 

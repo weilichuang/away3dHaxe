@@ -1,13 +1,13 @@
 package a3d.materials.lightpickers;
 
-import flash.events.Event;
-import flash.Vector;
-
-import a3d.events.LightEvent;
 import a3d.entities.lights.DirectionalLight;
 import a3d.entities.lights.LightBase;
 import a3d.entities.lights.LightProbe;
 import a3d.entities.lights.PointLight;
+import a3d.events.LightEvent;
+import flash.events.Event;
+import flash.Vector;
+
 
 /**
  * StaticLightPicker is a light picker that provides a static set of lights. The lights can be reassigned, but

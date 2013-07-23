@@ -1,16 +1,16 @@
 package a3d.core.pick;
 
-import a3d.math.FMath;
-import flash.geom.Vector3D;
-import flash.Vector;
-
-
 import a3d.core.data.EntityListItem;
 import a3d.core.traverse.EntityCollector;
 import a3d.core.traverse.RaycastCollector;
 import a3d.entities.Entity;
 import a3d.entities.Scene3D;
 import a3d.entities.View3D;
+import a3d.math.FMath;
+import flash.geom.Vector3D;
+import flash.Vector;
+
+
 
 
 

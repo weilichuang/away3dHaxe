@@ -1,11 +1,5 @@
 package a3d.io.loaders;
 
-import flash.errors.Error;
-import flash.events.EventDispatcher;
-import flash.net.URLRequest;
-import flash.Vector;
-
-
 import a3d.events.AssetEvent;
 import a3d.events.LoaderEvent;
 import a3d.events.ParserEvent;
@@ -14,6 +8,12 @@ import a3d.io.loaders.misc.AssetLoaderToken;
 import a3d.io.loaders.misc.ResourceDependency;
 import a3d.io.loaders.misc.SingleFileLoader;
 import a3d.io.loaders.parsers.ParserBase;
+import flash.errors.Error;
+import flash.events.EventDispatcher;
+import flash.net.URLRequest;
+import flash.Vector;
+
+
 
 
 

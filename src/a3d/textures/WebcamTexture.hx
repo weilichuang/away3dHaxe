@@ -1,5 +1,6 @@
 package a3d.textures;
 
+import a3d.tools.utils.TextureUtils;
 import flash.display.BitmapData;
 import flash.display3D.textures.TextureBase;
 import flash.geom.Matrix;
@@ -7,7 +8,6 @@ import flash.Lib;
 import flash.media.Camera;
 import flash.media.Video;
 
-import a3d.tools.utils.TextureUtils;
 
 class WebcamTexture extends BitmapTexture
 {

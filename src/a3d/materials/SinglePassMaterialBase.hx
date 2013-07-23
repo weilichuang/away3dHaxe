@@ -17,9 +17,6 @@ import flash.errors.Error;
 import flash.geom.ColorTransform;
 
 
-
-
-
 /**
  * SinglePassMaterialBase forms an abstract base class for the default single-pass materials provided by a3d,
  * using material methods to define their appearance.

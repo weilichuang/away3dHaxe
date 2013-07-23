@@ -1,8 +1,8 @@
 package a3d.events;
 
+import a3d.io.library.assets.IAsset;
 import flash.events.Event;
 
-import a3d.io.library.assets.IAsset;
 
 /**
  * Dispatched whenever a ressource (asset) is parsed and created completly.

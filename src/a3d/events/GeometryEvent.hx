@@ -1,8 +1,8 @@
 package a3d.events;
 
+import a3d.core.base.ISubGeometry;
 import flash.events.Event;
 
-import a3d.core.base.ISubGeometry;
 
 /**
  * Dispatched to notify changes in a geometry object's state.

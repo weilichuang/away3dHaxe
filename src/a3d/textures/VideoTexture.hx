@@ -1,13 +1,13 @@
 package a3d.textures;
 
+import a3d.materials.utils.IVideoPlayer;
+import a3d.materials.utils.SimpleVideoPlayer;
+import a3d.tools.utils.TextureUtils;
 import flash.display.BitmapData;
 import flash.display.Sprite;
 import flash.events.Event;
 import flash.geom.Rectangle;
 
-import a3d.materials.utils.IVideoPlayer;
-import a3d.materials.utils.SimpleVideoPlayer;
-import a3d.tools.utils.TextureUtils;
 
 class VideoTexture extends BitmapTexture
 {

@@ -1,6 +1,5 @@
 package a3d.animators.states;
 
-import a3d.arcane;
 import a3d.animators.data.AnimationRegisterCache;
 import a3d.animators.data.AnimationSubGeometry;
 import a3d.animators.nodes.ParticleSegmentedScaleNode;

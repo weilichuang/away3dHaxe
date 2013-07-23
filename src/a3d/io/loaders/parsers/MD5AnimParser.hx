@@ -1,14 +1,14 @@
 package a3d.io.loaders.parsers;
 
+import a3d.animators.data.JointPose;
+import a3d.animators.data.SkeletonPose;
+import a3d.animators.nodes.SkeletonClipNode;
+import a3d.math.Quaternion;
 import flash.errors.Error;
 import flash.geom.Vector3D;
 import flash.Vector;
 
 
-import a3d.animators.data.JointPose;
-import a3d.animators.data.SkeletonPose;
-import a3d.animators.nodes.SkeletonClipNode;
-import a3d.math.Quaternion;
 
 
 

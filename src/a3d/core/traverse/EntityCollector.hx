@@ -63,6 +63,11 @@ class EntityCollector extends PartitionTraverser
 	public var pointLights(get, null):Vector<PointLight>;
 	public var lightProbes(get, null):Vector<LightProbe>;
 	
+	/**
+	 * The total number of triangles collected, and which will be pushed to the render engine.
+	 */
+	public var numTriangles(get,null):Int;
+	
 	private var _skyBox:IRenderable;
 	private var _opaqueRenderableHead:RenderableListItem;
 	private var _blendedRenderableHead:RenderableListItem;
@@ -272,9 +277,11 @@ class EntityCollector extends PartitionTraverser
 			item.materialId = material.uniqueId;
 			item.renderOrderId = material.renderOrderId;
 			item.cascaded = false;
+			
 			var dx:Float = _entryPoint.x - entity.x;
 			var dy:Float = _entryPoint.y - entity.y;
 			var dz:Float = _entryPoint.z - entity.z;
+			
 			// project onto camera's z-axis
 			item.zIndex = dx * _cameraForward.x + dy * _cameraForward.y + dz * _cameraForward.z + entity.zOffset;
 			item.renderSceneTransform = renderable.getRenderSceneTransform(_camera);
@@ -334,10 +341,7 @@ class EntityCollector extends PartitionTraverser
 
 
 
-	/**
-	 * The total number of triangles collected, and which will be pushed to the render engine.
-	 */
-	public var numTriangles(get,null):Int;
+	
 	private function get_numTriangles():Int
 	{
 		return _numTriangles;

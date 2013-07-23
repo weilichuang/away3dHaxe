@@ -23,16 +23,23 @@ import a3d.entities.lights.PointLight;
 class PartitionTraverser
 {
 	/**
+	 * A property that can be used to avoid processing a partition more than once.
+	 */
+	public static var collectionMark:Int;
+	
+	/**
+	 * The entry point for scene graph traversal, ie the point that will be used for traversing the graph
+	 * position-dependently. For example: BSP visibility determination or collision detection.
+	 * For the EntityCollector, this is the camera's scene position for example.
+	 */
+	public var entryPoint(get,null):Vector3D;
+	
+	/**
 	 * The scene being traversed.
 	 */
 	public var scene:Scene3D;
 
 	private var _entryPoint:Vector3D;
-
-	/**
-	 * A property that can be used to avoid processing a partition more than once.
-	 */
-	public static var collectionMark:Int;
 
 	public function new()
 	{
@@ -96,12 +103,7 @@ class PartitionTraverser
 		throw new AbstractMethodError();
 	}
 
-	/**
-	 * The entry point for scene graph traversal, ie the point that will be used for traversing the graph
-	 * position-dependently. For example: BSP visibility determination or collision detection.
-	 * For the EntityCollector, this is the camera's scene position for example.
-	 */
-	public var entryPoint(get,null):Vector3D;
+	
 	private function get_entryPoint():Vector3D
 	{
 		return _entryPoint;

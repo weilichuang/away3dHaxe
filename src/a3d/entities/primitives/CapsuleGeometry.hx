@@ -222,8 +222,8 @@ class CapsuleGeometry extends PrimitiveBase
 		{
 			for (i in 0..._segmentsW+1)
 			{
-				data[index++] = ( i/_segmentsW ) * target.scaleU;
-				data[index++] = ( j/_segmentsH ) * target.scaleV;
+				data[index++] = ( i / _segmentsW ) * target.scaleU;
+				data[index++] = ( j / _segmentsH ) * target.scaleV;
 				index += skip;
 			}
 		}

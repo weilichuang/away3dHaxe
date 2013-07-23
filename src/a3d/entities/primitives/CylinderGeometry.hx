@@ -404,6 +404,9 @@ class CylinderGeometry extends PrimitiveBase
 
 		// current uv component index
 		var currentUvCompIndex:UInt = target.UVOffset;
+		
+		var sv:Float = target.scaleV;
+		var su:Float = target.scaleU;
 
 		// top
 		if (_topClosed)
@@ -415,11 +418,11 @@ class CylinderGeometry extends PrimitiveBase
 				x = 0.5 + 0.5 * -Math.cos(revolutionAngle);
 				y = 0.5 + 0.5 * Math.sin(revolutionAngle);
 
-				UVData[currentUvCompIndex++] = 0.5 * target.scaleU; // central vertex
-				UVData[currentUvCompIndex++] = 0.5 * target.scaleV;
+				UVData[currentUvCompIndex++] = 0.5 * su; // central vertex
+				UVData[currentUvCompIndex++] = 0.5 * sv;
 				currentUvCompIndex += skip;
-				UVData[currentUvCompIndex++] = x * target.scaleU; // revolution vertex
-				UVData[currentUvCompIndex++] = y * target.scaleV;
+				UVData[currentUvCompIndex++] = x * su; // revolution vertex
+				UVData[currentUvCompIndex++] = y * sv;
 				currentUvCompIndex += skip;
 			}
 		}
@@ -434,11 +437,11 @@ class CylinderGeometry extends PrimitiveBase
 				x = 0.5 + 0.5 * Math.cos(revolutionAngle);
 				y = 0.5 + 0.5 * Math.sin(revolutionAngle);
 
-				UVData[currentUvCompIndex++] = 0.5 * target.scaleU; // central vertex
-				UVData[currentUvCompIndex++] = 0.5 * target.scaleV;
+				UVData[currentUvCompIndex++] = 0.5 * su; // central vertex
+				UVData[currentUvCompIndex++] = 0.5 * sv;
 				currentUvCompIndex += skip;
-				UVData[currentUvCompIndex++] = x * target.scaleU; // revolution vertex
-				UVData[currentUvCompIndex++] = y * target.scaleV;
+				UVData[currentUvCompIndex++] = x * su; // revolution vertex
+				UVData[currentUvCompIndex++] = y * sv;
 				currentUvCompIndex += skip;
 			}
 		}
@@ -451,8 +454,8 @@ class CylinderGeometry extends PrimitiveBase
 				for (i in 0..._segmentsW + 1)
 				{
 					// revolution vertex
-					UVData[currentUvCompIndex++] = ( i / _segmentsW ) * target.scaleU;
-					UVData[currentUvCompIndex++] = ( j / _segmentsH ) * target.scaleV;
+					UVData[currentUvCompIndex++] = ( i / _segmentsW ) * su;
+					UVData[currentUvCompIndex++] = ( j / _segmentsH ) * sv;
 					currentUvCompIndex += skip;
 				}
 			}

@@ -1,14 +1,9 @@
 package a3d.io.loaders.parsers;
 
-import flash.errors.Error;
-import flash.net.URLRequest;
-import flash.Vector;
-
-import haxe.ds.StringMap;
-import a3d.core.base.Geometry;
-import a3d.core.base.ISubGeometry;
 import a3d.core.base.data.UV;
 import a3d.core.base.data.Vertex;
+import a3d.core.base.Geometry;
+import a3d.core.base.ISubGeometry;
 import a3d.entities.Mesh;
 import a3d.io.library.assets.AssetType;
 import a3d.io.library.assets.IAsset;
@@ -17,12 +12,17 @@ import a3d.io.loaders.parsers.utils.ParserUtil;
 import a3d.materials.ColorMaterial;
 import a3d.materials.ColorMultiPassMaterial;
 import a3d.materials.MaterialBase;
+import a3d.materials.methods.BasicSpecularMethod;
 import a3d.materials.TextureMaterial;
 import a3d.materials.TextureMultiPassMaterial;
-import a3d.materials.methods.BasicSpecularMethod;
 import a3d.materials.utils.DefaultMaterialManager;
 import a3d.textures.Texture2DBase;
 import a3d.tools.utils.GeomUtil;
+import flash.errors.Error;
+import flash.net.URLRequest;
+import flash.Vector;
+import haxe.ds.StringMap;
+
 
 
 

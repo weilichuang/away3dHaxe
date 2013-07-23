@@ -1,18 +1,18 @@
 package a3d.animators.nodes;
 
+import a3d.animators.data.AnimationRegisterCache;
+import a3d.animators.data.ParticleProperties;
+import a3d.animators.data.ParticlePropertiesMode;
+import a3d.animators.IAnimator;
+import a3d.animators.ParticleAnimationSet;
+import a3d.animators.states.ParticleSpriteSheetState;
+import a3d.materials.compilation.ShaderRegisterElement;
+import a3d.materials.passes.MaterialPassBase;
 import a3d.math.FMath;
 import flash.errors.Error;
 import flash.geom.Vector3D;
 
 
-import a3d.animators.IAnimator;
-import a3d.animators.ParticleAnimationSet;
-import a3d.animators.data.AnimationRegisterCache;
-import a3d.animators.data.ParticleProperties;
-import a3d.animators.data.ParticlePropertiesMode;
-import a3d.animators.states.ParticleSpriteSheetState;
-import a3d.materials.compilation.ShaderRegisterElement;
-import a3d.materials.passes.MaterialPassBase;
 
 using Reflect;
 
