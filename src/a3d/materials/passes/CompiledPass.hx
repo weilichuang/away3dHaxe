@@ -30,6 +30,25 @@ import flash.Vector;
 
 class CompiledPass extends MaterialPassBase
 {
+	public var enableLightFallOff(get,set):Bool;
+	public var forceSeparateMVP(get,set):Bool;
+	public var numPointLights(get,null):Int;
+	public var numDirectionalLights(get,null):Int;
+	public var numLightProbes(get,null):Int;
+	public var preserveAlpha(get,set):Bool;
+	public var animateUVs(get,set):Bool;
+	/**
+	 * The tangent space normal map to influence the direction of the surface for each texel.
+	 */
+	public var normalMap(get,set):Texture2DBase;
+	public var normalMethod(get,set):BasicNormalMethod;
+	public var ambientMethod(get,set):BasicAmbientMethod;
+	public var shadowMethod(get,set):ShadowMapMethodBase;
+	public var diffuseMethod(get,set):BasicDiffuseMethod;
+	public var specularMethod(get,set):BasicSpecularMethod;
+	public var specularLightSources(get,set):UInt;
+	public var diffuseLightSources(get, set):UInt;
+	
 	//internal use
 	public var passes:Vector<MaterialPassBase>;
 	public var passesDirty:Bool;
@@ -90,7 +109,7 @@ class CompiledPass extends MaterialPassBase
 		init();
 	}
 
-	public var enableLightFallOff(get,set):Bool;
+	
 	private function get_enableLightFallOff():Bool
 	{
 		return _enableLightFallOff;
@@ -105,7 +124,7 @@ class CompiledPass extends MaterialPassBase
 		return _enableLightFallOff;
 	}
 	
-	public var forceSeparateMVP(get,set):Bool;
+	
 	private function get_forceSeparateMVP():Bool
 	{
 		return _forceSeparateMVP;
@@ -116,20 +135,20 @@ class CompiledPass extends MaterialPassBase
 		return _forceSeparateMVP = value;
 	}
 
-	public var numPointLights(get,null):UInt;
-	private function get_numPointLights():UInt
+	
+	private function get_numPointLights():Int
 	{
 		return _numPointLights;
 	}
 
-	public var numDirectionalLights(get,null):UInt;
-	private function get_numDirectionalLights():UInt
+	
+	private function get_numDirectionalLights():Int
 	{
 		return _numDirectionalLights;
 	}
 
-	public var numLightProbes(get,null):UInt;
-	private function get_numLightProbes():UInt
+	
+	private function get_numLightProbes():Int
 	{
 		return _numLightProbes;
 	}
@@ -237,7 +256,7 @@ class CompiledPass extends MaterialPassBase
 		_lightProbeSpecularIndices = _compiler.lightProbeSpecularIndices;
 	}
 
-	public var preserveAlpha(get,set):Bool;
+	
 	private function get_preserveAlpha():Bool
 	{
 		return _preserveAlpha;
@@ -252,7 +271,7 @@ class CompiledPass extends MaterialPassBase
 		return _preserveAlpha;
 	}
 
-	public var animateUVs(get,set):Bool;
+	
 	private function get_animateUVs():Bool
 	{
 		return _animateUVs;
@@ -276,10 +295,7 @@ class CompiledPass extends MaterialPassBase
 		return super.mipmap = value;
 	}
 
-	/**
-	 * The tangent space normal map to influence the direction of the surface for each texel.
-	 */
-	public var normalMap(get,set):Texture2DBase;
+	
 	private function get_normalMap():Texture2DBase
 	{
 		return _methodSetup.normalMethod.normalMap;
@@ -290,7 +306,7 @@ class CompiledPass extends MaterialPassBase
 		return _methodSetup.normalMethod.normalMap = value;
 	}
 
-	public var normalMethod(get,set):BasicNormalMethod;
+	
 	private function get_normalMethod():BasicNormalMethod
 	{
 		return _methodSetup.normalMethod;
@@ -301,7 +317,7 @@ class CompiledPass extends MaterialPassBase
 		return _methodSetup.normalMethod = value;
 	}
 
-	public var ambientMethod(get,set):BasicAmbientMethod;
+	
 	private function get_ambientMethod():BasicAmbientMethod
 	{
 		return _methodSetup.ambientMethod;
@@ -312,7 +328,7 @@ class CompiledPass extends MaterialPassBase
 		return _methodSetup.ambientMethod = value;
 	}
 
-	public var shadowMethod(get,set):ShadowMapMethodBase;
+	
 	private function get_shadowMethod():ShadowMapMethodBase
 	{
 		return _methodSetup.shadowMethod;
@@ -323,7 +339,7 @@ class CompiledPass extends MaterialPassBase
 		return _methodSetup.shadowMethod = value;
 	}
 
-	public var diffuseMethod(get,set):BasicDiffuseMethod;
+	
 	private function get_diffuseMethod():BasicDiffuseMethod
 	{
 		return _methodSetup.diffuseMethod;
@@ -334,7 +350,7 @@ class CompiledPass extends MaterialPassBase
 		return _methodSetup.diffuseMethod = value;
 	}
 
-	public var specularMethod(get,set):BasicSpecularMethod;
+	
 	private function get_specularMethod():BasicSpecularMethod
 	{
 		return _methodSetup.specularMethod;
@@ -641,7 +657,7 @@ class CompiledPass extends MaterialPassBase
 //				_passes[i].lightPicker = _lightPicker;
 //		}
 
-	public var specularLightSources(get,set):UInt;
+	
 	private function get_specularLightSources():UInt
 	{
 		return _specularLightSources;
@@ -652,7 +668,7 @@ class CompiledPass extends MaterialPassBase
 		return _specularLightSources = value;
 	}
 
-	public var diffuseLightSources(get,set):UInt;
+	
 	private function get_diffuseLightSources():UInt
 	{
 		return _diffuseLightSources;

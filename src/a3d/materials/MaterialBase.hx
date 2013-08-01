@@ -1,5 +1,19 @@
 package a3d.materials;
 
+import a3d.animators.IAnimationSet;
+import a3d.core.base.IMaterialOwner;
+import a3d.core.base.IRenderable;
+import a3d.core.managers.Stage3DProxy;
+import a3d.core.traverse.EntityCollector;
+import a3d.entities.Camera3D;
+import a3d.io.library.assets.AssetType;
+import a3d.io.library.assets.IAsset;
+import a3d.io.library.assets.NamedAssetBase;
+import a3d.materials.BlendMode;
+import a3d.materials.lightpickers.LightPickerBase;
+import a3d.materials.passes.DepthMapPass;
+import a3d.materials.passes.DistanceMapPass;
+import a3d.materials.passes.MaterialPassBase;
 import flash.display3D.Context3D;
 import flash.display3D.Context3DCompareMode;
 import flash.errors.Error;
@@ -8,20 +22,6 @@ import flash.geom.Matrix3D;
 import flash.Vector;
 
 
-import a3d.animators.IAnimationSet;
-import a3d.entities.Camera3D;
-import a3d.core.base.IMaterialOwner;
-import a3d.core.base.IRenderable;
-import a3d.core.managers.Stage3DProxy;
-import a3d.core.traverse.EntityCollector;
-import a3d.io.library.assets.AssetType;
-import a3d.io.library.assets.IAsset;
-import a3d.io.library.assets.NamedAssetBase;
-import a3d.materials.lightpickers.LightPickerBase;
-import a3d.materials.passes.DepthMapPass;
-import a3d.materials.passes.DistanceMapPass;
-import a3d.materials.passes.MaterialPassBase;
-import a3d.materials.BlendMode;
 
 
 /**

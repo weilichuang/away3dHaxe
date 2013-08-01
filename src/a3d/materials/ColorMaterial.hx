@@ -1,4 +1,5 @@
 package a3d.materials;
+import a3d.math.FMath;
 
 
 
@@ -38,10 +39,8 @@ class ColorMaterial extends SinglePassMaterialBase
 
 	private function set_alpha(value:Float):Float
 	{
-		if (value > 1)
-			value = 1;
-		else if (value < 0)
-			value = 0;
+		value = FMath.fclamp(value, 0, 1);
+		
 		_screenPass.diffuseMethod.diffuseAlpha = _diffuseAlpha = value;
 		_screenPass.preserveAlpha = requiresBlending;
 		_screenPass.setBlendMode(blendMode == BlendMode.NORMAL && requiresBlending ? BlendMode.LAYER : blendMode);

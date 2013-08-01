@@ -18,9 +18,6 @@ import flash.geom.Vector3D;
 import flash.Vector;
 
 
-
-
-
 /**
  * DefaultScreenPass is a shader pass that uses shader methods to compile a complete program.
  *
@@ -29,6 +26,12 @@ import flash.Vector;
 
 class LightingPass extends CompiledPass
 {
+	// these need to be set before the light picker is assigned
+	public var directionalLightsOffset(get,set):Int;
+	public var pointLightsOffset(get,set):Int;
+	public var lightProbesOffset(get,set):Int;
+	public var includeCasters(get, set):Bool;
+	
 	private var _includeCasters:Bool = true;
 	private var _tangentSpace:Bool;
 	private var _lightVertexConstantIndex:Int;
@@ -48,8 +51,7 @@ class LightingPass extends CompiledPass
 		_inverseSceneMatrix = new Vector<Float>();
 	}
 
-	// these need to be set before the light picker is assigned
-	public var directionalLightsOffset(get,set):Int;
+	
 	private function get_directionalLightsOffset():Int
 	{
 		return _directionalLightsOffset;
@@ -60,7 +62,7 @@ class LightingPass extends CompiledPass
 		return _directionalLightsOffset = value;
 	}
 
-	public var pointLightsOffset(get,set):Int;
+	
 	private function get_pointLightsOffset():Int
 	{
 		return _pointLightsOffset;
@@ -71,7 +73,7 @@ class LightingPass extends CompiledPass
 		return _pointLightsOffset = value;
 	}
 
-	public var lightProbesOffset(get,set):Int;
+	
 	private function get_lightProbesOffset():Int
 	{
 		return _lightProbesOffset;
@@ -88,7 +90,7 @@ class LightingPass extends CompiledPass
 		return new LightingShaderCompiler(profile);
 	}
 
-	public var includeCasters(get,set):Bool;
+	
 	private function get_includeCasters():Bool
 	{
 		return _includeCasters;
@@ -123,8 +125,6 @@ class LightingPass extends CompiledPass
 				numDirectionalLights += _lightPicker.numCastingDirectionalLights;
 			}
 		}
-		
-		
 
 		if (numPointLights != _numPointLights ||
 			numDirectionalLights != _numDirectionalLights ||

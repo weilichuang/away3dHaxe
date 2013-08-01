@@ -1,4 +1,5 @@
 package a3d.materials.compilation;
+import a3d.materials.utils.Agal;
 import flash.display3D.Context3DProfile;
 import flash.Vector;
 
@@ -135,11 +136,15 @@ class LightingShaderCompiler extends ShaderCompiler
 			_sharedRegisters.normalVarying = _registerCache.getFreeVarying();
 
 			// no output, world space is enough
-			_vertexCode += "m33 " + _sharedRegisters.normalVarying + ".xyz, " + _sharedRegisters.animatedNormal + ", " + normalMatrix[0] + "\n" +
-				"mov " + _sharedRegisters.normalVarying + ".w, " + _sharedRegisters.animatedNormal + ".w	\n";
+			_vertexCode += Agal.m33(_sharedRegisters.normalVarying + ".xyz", _sharedRegisters.animatedNormal, normalMatrix[0]) +
+						   Agal.mov(_sharedRegisters.normalVarying + ".w", _sharedRegisters.animatedNormal + ".w");
+				//"m33 " + _sharedRegisters.normalVarying + ".xyz, " + _sharedRegisters.animatedNormal + ", " + normalMatrix[0] + "\n" +
+				//"mov " + _sharedRegisters.normalVarying + ".w, " + _sharedRegisters.animatedNormal + ".w	\n";
 
-			_fragmentCode += "nrm " + _sharedRegisters.normalFragment + ".xyz, " + _sharedRegisters.normalVarying + "\n" +
-				"mov " + _sharedRegisters.normalFragment + ".w, " + _sharedRegisters.normalVarying + ".w		\n";
+			_fragmentCode += Agal.nrm(_sharedRegisters.normalFragment + ".xyz", _sharedRegisters.normalVarying) +
+							 Agal.mov(_sharedRegisters.normalFragment + ".w", _sharedRegisters.normalVarying + ".w");
+				//"nrm " + _sharedRegisters.normalFragment + ".xyz, " + _sharedRegisters.normalVarying + "\n" +
+				//"mov " + _sharedRegisters.normalFragment + ".w, " + _sharedRegisters.normalVarying + ".w		\n";
 
 		}
 
@@ -348,7 +353,7 @@ class LightingShaderCompiler extends ShaderCompiler
 				var lightVarying:ShaderRegisterElement = _registerCache.getFreeVarying();
 
 				_vertexCode += "m33 " + lightVarying + ".xyz, " + lightDirReg + ", " + _sharedRegisters.animatedTangent + "\n" +
-					"mov " + lightVarying + ".w, " + lightDirReg + ".w\n";
+								"mov " + lightVarying + ".w, " + lightDirReg + ".w\n";
 
 				lightDirReg = _registerCache.getFreeFragmentVectorTemp();
 				_registerCache.addVertexTempUsages(lightDirReg, 1);
@@ -400,8 +405,8 @@ class LightingShaderCompiler extends ShaderCompiler
 			{
 				var temp:ShaderRegisterElement = _registerCache.getFreeVertexVectorTemp();
 				_vertexCode += "sub " + temp + ", " + lightPosReg + ", " + _sharedRegisters.localPosition + "\n" +
-					"m33 " + lightVarying + ".xyz, " + temp + ", " + _sharedRegisters.animatedTangent + "\n" +
-					"mov " + lightVarying + ".w, " + _sharedRegisters.localPosition + ".w\n";
+								"m33 " + lightVarying + ".xyz, " + temp + ", " + _sharedRegisters.animatedTangent + "\n" +
+								"mov " + lightVarying + ".w, " + _sharedRegisters.localPosition + ".w\n";
 			}
 			else
 			{
@@ -428,7 +433,7 @@ class LightingShaderCompiler extends ShaderCompiler
 			else
 			{
 				_fragmentCode += "nrm " + lightDirReg + ".xyz, " + lightVarying + "\n" +
-					"mov " + lightDirReg + ".w, " + lightVarying + ".w\n";
+								"mov " + lightDirReg + ".w, " + lightVarying + ".w\n";
 			}
 			if (_lightFragmentConstantIndex == -1)
 				_lightFragmentConstantIndex = lightPosReg.index * 4;

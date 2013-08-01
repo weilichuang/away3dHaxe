@@ -580,36 +580,21 @@ class Object3D extends NamedAssetBase
 		var vec:Vector3D;
 
 		vec = elements[0];
-
 		if (_x != vec.x || _y != vec.y || _z != vec.z)
 		{
-			_x = vec.x;
-			_y = vec.y;
-			_z = vec.z;
-
-			invalidatePosition();
+			setXYZ(vec.x, vec.y, vec.z);
 		}
 
 		vec = elements[1];
-
 		if (_rotationX != vec.x || _rotationY != vec.y || _rotationZ != vec.z)
 		{
-			_rotationX = vec.x;
-			_rotationY = vec.y;
-			_rotationZ = vec.z;
-
-			invalidateRotation();
+			setRotationXYZ(vec.x, vec.y, vec.z);
 		}
 
 		vec = elements[2];
-
 		if (_scaleX != vec.x || _scaleY != vec.y || _scaleZ != vec.z)
 		{
-			_scaleX = vec.x;
-			_scaleY = vec.y;
-			_scaleZ = vec.z;
-
-			invalidateScale();
+			setScaleXYZ(vec.x, vec.y, vec.z);
 		}
 		
 		return _transform;
@@ -645,7 +630,7 @@ class Object3D extends NamedAssetBase
 
 		invalidatePosition();
 		
-		return _pos.clone();
+		return value;
 	}
 
 	
@@ -777,11 +762,8 @@ class Object3D extends NamedAssetBase
 	{
 		if (_x == dx && _y == dy && _z == dz)
 			return;
-		_x = dx;
-		_y = dy;
-		_z = dz;
-
-		invalidatePosition();
+			
+		setXYZ(dx, dy, dz);
 	}
 
 	/**
@@ -999,9 +981,7 @@ class Object3D extends NamedAssetBase
 	private function updateTransform():Void
 	{
 		_pos.fastSetTo(_x, _y, _z);
-		
 		_rot.fastSetTo(_rotationX, _rotationY, _rotationZ);
-
 		_sca.fastSetTo(_scaleX, _scaleY, _scaleZ);
 
 		_transform.recompose(_transformComponents);

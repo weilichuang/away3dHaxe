@@ -277,7 +277,7 @@ class BasicDiffuseMethod extends LightingMethodBase
 		}
 
 		code += "tex " + t + ", " + _sharedRegisters.normalFragment + ", " + cubeMapReg + " <cube,linear,miplinear>\n" +
-			"mul " + t + ".xyz, " + t + ".xyz, " + weightRegister + "\n";
+				"mul " + t + ".xyz, " + t + ".xyz, " + weightRegister + "\n";
 
 		if (modulateMethod != null)
 			code += modulateMethod(vo, t, regCache, _sharedRegisters);
@@ -326,8 +326,8 @@ class BasicDiffuseMethod extends LightingMethodBase
 				cutOffReg = regCache.getFreeFragmentConstant();
 				vo.fragmentConstantsIndex = cutOffReg.index * 4;
 				code += "sub " + albedo + ".w, " + albedo + ".w, " + cutOffReg + ".x\n" +
-					"kil " + albedo + ".w\n" +
-					"add " + albedo + ".w, " + albedo + ".w, " + cutOffReg + ".x\n";
+						"kil " + albedo + ".w\n" +
+						"add " + albedo + ".w, " + albedo + ".w, " + cutOffReg + ".x\n";
 			}
 		}
 		else
@@ -345,9 +345,9 @@ class BasicDiffuseMethod extends LightingMethodBase
 		if (_useAmbientTexture)
 		{
 			code += "mul " + albedo + ".xyz, " + albedo + ", " + _totalLightColorReg + "\n" +
-				"mul " + _totalLightColorReg + ".xyz, " + targetReg + ", " + _totalLightColorReg + "\n" +
-				"sub " + targetReg + ".xyz, " + targetReg + ", " + _totalLightColorReg + "\n" +
-				"add " + targetReg + ".xyz, " + albedo + ", " + targetReg + "\n";
+					"mul " + _totalLightColorReg + ".xyz, " + targetReg + ", " + _totalLightColorReg + "\n" +
+					"sub " + targetReg + ".xyz, " + targetReg + ", " + _totalLightColorReg + "\n" +
+					"add " + targetReg + ".xyz, " + albedo + ", " + targetReg + "\n";
 		}
 		else
 		{
@@ -355,12 +355,12 @@ class BasicDiffuseMethod extends LightingMethodBase
 			if (_useTexture)
 			{
 				code += "mul " + targetReg + ".xyz, " + albedo + ", " + targetReg + "\n" +
-					"mov " + targetReg + ".w, " + albedo + ".w\n";
+						"mov " + targetReg + ".w, " + albedo + ".w\n";
 			}
 			else
 			{
 				code += "mul " + targetReg + ".xyz, " + _diffuseInputRegister + ", " + targetReg + "\n" +
-					"mov " + targetReg + ".w, " + _diffuseInputRegister + ".w\n";
+						"mov " + targetReg + ".w, " + _diffuseInputRegister + ".w\n";
 			}
 		}
 

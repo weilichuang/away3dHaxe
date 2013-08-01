@@ -36,9 +36,9 @@ class OcclusionMaterial extends ColorMaterial
 		return _occlude;
 	}
 
-	private function set_occlude(value:Bool):Void
+	private function set_occlude(value:Bool):Bool
 	{
-		_occlude = value;
+		return _occlude = value;
 	}
 
 	/**

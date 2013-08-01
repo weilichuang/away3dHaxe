@@ -1,9 +1,10 @@
 ﻿package a3d.materials;
 
+import a3d.math.FMath;
+import a3d.textures.Texture2DBase;
 import flash.geom.ColorTransform;
 
 
-import a3d.textures.Texture2DBase;
 
 
 
@@ -67,10 +68,7 @@ class TextureMaterial extends SinglePassMaterialBase
 
 	private function set_alpha(value:Float):Float
 	{
-		if (value > 1)
-			value = 1;
-		else if (value < 0)
-			value = 0;
+		value = FMath.fclamp(value, 0, 1);
 		
 		if (colorTransform == null)
 			colorTransform = new ColorTransform();
@@ -78,9 +76,8 @@ class TextureMaterial extends SinglePassMaterialBase
 		_screenPass.preserveAlpha = requiresBlending;
 		_screenPass.setBlendMode(blendMode == BlendMode.NORMAL && requiresBlending ? BlendMode.LAYER : blendMode);
 		
-		return alpha;
+		return value;
 	}
-
 	
 	private function get_texture():Texture2DBase
 	{
@@ -103,6 +100,6 @@ class TextureMaterial extends SinglePassMaterialBase
 		_screenPass.ambientMethod.texture = value;
 		_screenPass.diffuseMethod.useAmbientTexture = (value != null);
 		
-		return _screenPass.ambientMethod.texture;
+		return value;
 	}
 }
