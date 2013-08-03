@@ -421,13 +421,13 @@ class Object3D extends NamedAssetBase
 	private function set_rotationX(val:Float):Float
 	{
 		if (rotationX == val)
-			return rotationX;
+			return val;
 
 		_rotationX = val * FMath.DEGREES_TO_RADIANS();
 
 		invalidateRotation();
 		
-		return rotationX;
+		return val;
 	}
 
 	
@@ -439,13 +439,13 @@ class Object3D extends NamedAssetBase
 	private function set_rotationY(val:Float):Float
 	{
 		if (rotationY == val)
-			return rotationY;
+			return val;
 
 		_rotationY = val * FMath.DEGREES_TO_RADIANS();
 
 		invalidateRotation();
 		
-		return rotationY;
+		return val;
 	}
 
 	
@@ -457,13 +457,13 @@ class Object3D extends NamedAssetBase
 	private function set_rotationZ(val:Float):Float
 	{
 		if (rotationZ == val)
-			return rotationZ;
+			return val;
 
 		_rotationZ = val * FMath.DEGREES_TO_RADIANS();
 
 		invalidateRotation();
 		
-		return rotationZ;
+		return val;
 	}
 	
 	public function setRotationXYZ(rx:Float, ry:Float, rz:Float):Void
@@ -483,13 +483,13 @@ class Object3D extends NamedAssetBase
 	private function set_scaleX(val:Float):Float
 	{
 		if (_scaleX == val)
-			return _scaleX;
+			return val;
 
 		_scaleX = val;
 
 		invalidateScale();
 		
-		return _scaleX;
+		return val;
 	}
 
 	
@@ -501,13 +501,13 @@ class Object3D extends NamedAssetBase
 	private function set_scaleY(val:Float):Float
 	{
 		if (_scaleY == val)
-			return _scaleY;
+			return val;
 
 		_scaleY = val;
 
 		invalidateScale();
 		
-		return _scaleY;
+		return val;
 	}
 
 	
@@ -519,13 +519,13 @@ class Object3D extends NamedAssetBase
 	private function set_scaleZ(val:Float):Float
 	{
 		if (_scaleZ == val)
-			return _scaleZ;
+			return val;
 
 		_scaleZ = val;
 
 		invalidateScale();
 		
-		return _scaleZ;
+		return val;
 	}
 
 	public function setScaleXYZ(sx:Float, sy:Float, sz:Float):Void

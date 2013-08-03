@@ -41,6 +41,20 @@ THE SOFTWARE.
 
 package a3dexample;
 
+import a3d.controllers.FirstPersonController;
+import a3d.entities.extrusions.Elevation;
+import a3d.entities.lights.DirectionalLight;
+import a3d.entities.Mesh;
+import a3d.entities.primitives.PlaneGeometry;
+import a3d.materials.lightpickers.StaticLightPicker;
+import a3d.materials.methods.EnvMapMethod;
+import a3d.materials.methods.FogMethod;
+import a3d.materials.methods.FresnelSpecularMethod;
+import a3d.materials.methods.SimpleWaterNormalMethod;
+import a3d.materials.methods.TerrainDiffuseMethod;
+import a3d.materials.TextureMaterial;
+import a3d.textures.BitmapTexture;
+import a3d.utils.Cast;
 import flash.display.BitmapData;
 import flash.events.Event;
 import flash.events.KeyboardEvent;
@@ -51,21 +65,6 @@ import flash.text.TextField;
 import flash.text.TextFormat;
 import flash.ui.Keyboard;
 
-import a3d.controllers.FirstPersonController;
-import a3d.entities.Mesh;
-import a3d.entities.extrusions.Elevation;
-import a3d.entities.lights.DirectionalLight;
-import a3d.entities.primitives.PlaneGeometry;
-import a3d.filters.BloomFilter3D;
-import a3d.materials.TextureMaterial;
-import a3d.materials.lightpickers.StaticLightPicker;
-import a3d.materials.methods.EnvMapMethod;
-import a3d.materials.methods.FogMethod;
-import a3d.materials.methods.FresnelSpecularMethod;
-import a3d.materials.methods.SimpleWaterNormalMethod;
-import a3d.materials.methods.TerrainDiffuseMethod;
-import a3d.textures.BitmapTexture;
-import a3d.utils.Cast;
 
 class Advanced_TerrainDemo extends BasicApplication
 {

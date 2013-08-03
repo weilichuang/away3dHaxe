@@ -21,7 +21,7 @@
   <build>
     <option directives="" />
     <option flashStrict="True" />
-    <option mainClass="a3dexample.Basic_LoadMD2" />
+    <option mainClass="a3dexample.Basic_Fire" />
     <option enabledebug="True" />
     <option additional="-D advanced-telemetry&#xA;-swf-lib embeds/assets.swf" />
   </build>
@@ -32,7 +32,7 @@
   <!-- Class files to compile (other referenced classes will automatically be included) -->
   <compileTargets>
     <compile path="src\Main.hx" />
-    <compile path="src\a3dexample\Basic_LoadMD2.hx" />
+    <compile path="src\a3dexample\Basic_Fire.hx" />
   </compileTargets>
   <!-- Assets to embed into the output SWF -->
   <library>

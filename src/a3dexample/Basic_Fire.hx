@@ -1,7 +1,28 @@
 package a3dexample;
 
+import a3d.animators.data.ParticleProperties;
+import a3d.animators.data.ParticlePropertiesMode;
+import a3d.animators.nodes.ParticleBillboardNode;
+import a3d.animators.nodes.ParticleColorNode;
+import a3d.animators.nodes.ParticleScaleNode;
+import a3d.animators.nodes.ParticleVelocityNode;
+import a3d.animators.ParticleAnimationSet;
+import a3d.animators.ParticleAnimator;
+import a3d.controllers.HoverController;
+import a3d.core.base.Geometry;
+import a3d.core.base.ParticleGeometry;
+import a3d.entities.Camera3D;
+import a3d.entities.lights.DirectionalLight;
 import a3d.entities.lights.LightBase;
+import a3d.entities.lights.PointLight;
+import a3d.entities.Mesh;
+import a3d.entities.primitives.PlaneGeometry;
+import a3d.entities.Scene3D;
 import a3d.materials.BlendMode;
+import a3d.materials.lightpickers.StaticLightPicker;
+import a3d.materials.TextureMaterial;
+import a3d.materials.TextureMultiPassMaterial;
+import a3d.tools.helpers.ParticleGeometryHelper;
 import flash.events.Event;
 import flash.events.MouseEvent;
 import flash.events.TimerEvent;
@@ -11,39 +32,8 @@ import flash.Lib;
 import flash.utils.Timer;
 import flash.Vector;
 
-import a3d.animators.ParticleAnimationSet;
-import a3d.animators.ParticleAnimator;
-import a3d.animators.data.ParticleProperties;
-import a3d.animators.data.ParticlePropertiesMode;
-import a3d.animators.nodes.ParticleBillboardNode;
-import a3d.animators.nodes.ParticleColorNode;
-import a3d.animators.nodes.ParticleScaleNode;
-import a3d.animators.nodes.ParticleVelocityNode;
-import a3d.entities.Camera3D;
-import a3d.entities.Scene3D;
-import a3d.controllers.HoverController;
-import a3d.core.base.Geometry;
-import a3d.core.base.ParticleGeometry;
-import a3d.entities.Mesh;
-import a3d.entities.lights.DirectionalLight;
-import a3d.entities.lights.PointLight;
-import a3d.materials.TextureMaterial;
-import a3d.materials.TextureMultiPassMaterial;
-import a3d.materials.lightpickers.StaticLightPicker;
-import a3d.entities.primitives.PlaneGeometry;
-import a3d.tools.helpers.ParticleGeometryHelper;
-import a3d.utils.Cast;
-import a3d.animators.ParticleAnimator;
-import a3d.entities.Mesh;
-import a3d.entities.lights.PointLight;
-import uk.co.soulwire.gui.SimpleGUI;
 
-//fire texture
-@:bitmap("embeds/blue.png") class FireTexture extends flash.display.BitmapData { }
-//plane textures
-@:bitmap("embeds/floor_diffuse.jpg") class FloorDiffuse extends flash.display.BitmapData { }
-@:bitmap("embeds/floor_specular.jpg") class FloorSpecular extends flash.display.BitmapData { }
-@:bitmap("embeds/floor_normal.jpg") class FloorNormals extends flash.display.BitmapData { }
+
 
 class Basic_Fire extends BasicApplication
 {
@@ -368,3 +358,10 @@ class FireVO
 		this.animator = animator;
 	}
 }
+
+//fire texture
+@:bitmap("embeds/blue.png") class FireTexture extends flash.display.BitmapData { }
+//plane textures
+@:bitmap("embeds/floor_diffuse.jpg") class FloorDiffuse extends flash.display.BitmapData { }
+@:bitmap("embeds/floor_specular.jpg") class FloorSpecular extends flash.display.BitmapData { }
+@:bitmap("embeds/floor_normal.jpg") class FloorNormals extends flash.display.BitmapData { }
