@@ -360,13 +360,13 @@ class Object3D extends NamedAssetBase
 	private function set_x(val:Float):Float
 	{
 		if (_x == val)
-			return _x;
+			return val;
 
 		_x = val;
 
 		invalidatePosition();
 		
-		return _x;
+		return val;
 	}
 
 	
@@ -378,13 +378,13 @@ class Object3D extends NamedAssetBase
 	private function set_y(val:Float):Float
 	{
 		if (_y == val)
-			return _y;
+			return val;
 
 		_y = val;
 
 		invalidatePosition();
 		
-		return _y;
+		return val;
 	}
 
 	private inline function get_z():Float
@@ -395,17 +395,20 @@ class Object3D extends NamedAssetBase
 	private function set_z(val:Float):Float
 	{
 		if (_z == val)
-			return _z;
+			return val;
 
 		_z = val;
 
 		invalidatePosition();
 		
-		return _z;
+		return val;
 	}
 	
 	public function setXYZ(x:Float, y:Float, z:Float):Void
 	{
+		if (_x == x && _y == y && _z == z)
+			return;
+			
 		_x = x;
 		_y = y;
 		_z = z;
@@ -466,6 +469,12 @@ class Object3D extends NamedAssetBase
 		return val;
 	}
 	
+	/**
+	 * 设置3个方向的旋转角度
+	 * @param	rx
+	 * @param	ry
+	 * @param	rz
+	 */
 	public function setRotationXYZ(rx:Float, ry:Float, rz:Float):Void
 	{
 		_rotationX = rx * FMath.DEGREES_TO_RADIANS();
@@ -528,6 +537,12 @@ class Object3D extends NamedAssetBase
 		return val;
 	}
 
+	/**
+	 * 一次性设置3个方向的缩放
+	 * @param	sx
+	 * @param	sy
+	 * @param	sz
+	 */
 	public function setScaleXYZ(sx:Float, sy:Float, sz:Float):Void
 	{
 		_scaleX = sx;
@@ -580,18 +595,26 @@ class Object3D extends NamedAssetBase
 		var vec:Vector3D;
 
 		vec = elements[0];
+
 		if (_x != vec.x || _y != vec.y || _z != vec.z)
 		{
 			setXYZ(vec.x, vec.y, vec.z);
 		}
 
 		vec = elements[1];
+
+		//这里比较的值是弧度，所有不能使用setRotationXYZ
 		if (_rotationX != vec.x || _rotationY != vec.y || _rotationZ != vec.z)
 		{
-			setRotationXYZ(vec.x, vec.y, vec.z);
+			_rotationX = vec.x;
+			_rotationY = vec.y;
+			_rotationZ = vec.z;
+
+			invalidateRotation();
 		}
 
 		vec = elements[2];
+
 		if (_scaleX != vec.x || _scaleY != vec.y || _scaleZ != vec.z)
 		{
 			setScaleXYZ(vec.x, vec.y, vec.z);
@@ -630,7 +653,7 @@ class Object3D extends NamedAssetBase
 
 		invalidatePosition();
 		
-		return value;
+		return _pos.clone();
 	}
 
 	
@@ -749,21 +772,6 @@ class Object3D extends NamedAssetBase
 	public function moveDown(distance:Float):Void
 	{
 		translateLocal(Vector3D.Y_AXIS, -distance);
-	}
-
-	/**
-	 * Moves the 3d object directly to a point in space
-	 *
-	 * @param	dx		The amount of movement along the local x axis.
-	 * @param	dy		The amount of movement along the local y axis.
-	 * @param	dz		The amount of movement along the local z axis.
-	 */
-	public function moveTo(dx:Float, dy:Float, dz:Float):Void
-	{
-		if (_x == dx && _y == dy && _z == dz)
-			return;
-			
-		setXYZ(dx, dy, dz);
 	}
 
 	/**
@@ -981,7 +989,9 @@ class Object3D extends NamedAssetBase
 	private function updateTransform():Void
 	{
 		_pos.fastSetTo(_x, _y, _z);
+		
 		_rot.fastSetTo(_rotationX, _rotationY, _rotationZ);
+
 		_sca.fastSetTo(_scaleX, _scaleY, _scaleZ);
 
 		_transform.recompose(_transformComponents);
