@@ -14,6 +14,11 @@ import flash.Vector;
  */
 class ColorMatrixMethod extends EffectMethodBase
 {
+	/**
+	 * The 4 x 5 matrix to transform the color of the material.
+	 */
+	public var colorMatrix(get, set):Array<Float>;
+	
 	//private var _data:Vector<Float>;
 	private var _matrix:Array<Float>;
 
@@ -31,10 +36,7 @@ class ColorMatrixMethod extends EffectMethodBase
 		_matrix = matrix;
 	}
 
-	/**
-	 * The 4 x 5 matrix to transform the color of the material.
-	 */
-	public var colorMatrix(get,set):Array<Float>;
+	
 	private function get_colorMatrix():Array<Float>
 	{
 		return _matrix;

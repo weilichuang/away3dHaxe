@@ -16,6 +16,18 @@ import flash.errors.Error;
  */
 class LightMapMethod extends EffectMethodBase
 {
+	/**
+	 * The blend mode with which the light map should be applied to the lighting result.
+	 *
+	 * @see LightMapMethod.ADD
+	 * @see LightMapMethod.MULTIPLY
+	 */
+	public var blendMode(get,set):BlendMode;
+	/**
+	 * The texture containing the light map.
+	 */
+	public var texture(get, set):Texture2DBase;
+	
 	private var _texture:Texture2DBase;
 
 	private var _blendMode:BlendMode;
@@ -48,13 +60,7 @@ class LightMapMethod extends EffectMethodBase
 		vo.needsSecondaryUV = _useSecondaryUV;
 	}
 
-	/**
-	 * The blend mode with which the light map should be applied to the lighting result.
-	 *
-	 * @see LightMapMethod.ADD
-	 * @see LightMapMethod.MULTIPLY
-	 */
-	public var blendMode(get,set):BlendMode;
+	
 	private function get_blendMode():BlendMode
 	{
 		return _blendMode;
@@ -71,10 +77,7 @@ class LightMapMethod extends EffectMethodBase
 		return _blendMode;
 	}
 
-	/**
-	 * The texture containing the light map.
-	 */
-	public var texture(get,set):Texture2DBase;
+	
 	private function get_texture():Texture2DBase
 	{
 		return _texture;

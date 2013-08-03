@@ -16,6 +16,18 @@ import flash.errors.Error;
  */
 class LightMapDiffuseMethod extends CompositeDiffuseMethod
 {
+	/**
+	 * The blend mode with which the light map should be applied to the lighting result.
+	 *
+	 * @see BlendMode.ADD
+	 * @see BlendMode.MULTIPLY
+	 */
+	public var blendMode(get,set):BlendMode;
+	/**
+	 * The texture containing the light map data.
+	 */
+	public var lightMapTexture(get, set):Texture2DBase;
+	
 	private var _blendMode:BlendMode;
 	private var _useSecondaryUV:Bool;
 
@@ -40,13 +52,7 @@ class LightMapDiffuseMethod extends CompositeDiffuseMethod
 		vo.needsUV = !_useSecondaryUV;
 	}
 
-	/**
-	 * The blend mode with which the light map should be applied to the lighting result.
-	 *
-	 * @see BlendMode.ADD
-	 * @see BlendMode.MULTIPLY
-	 */
-	public var blendMode(get,set):BlendMode;
+	
 	private function get_blendMode():BlendMode
 	{
 		return _blendMode;
@@ -64,10 +70,7 @@ class LightMapDiffuseMethod extends CompositeDiffuseMethod
 		return _blendMode;
 	}
 
-	/**
-	 * The texture containing the light map data.
-	 */
-	public var lightMapTexture(get,set):Texture2DBase;
+	
 	private function get_lightMapTexture():Texture2DBase
 	{
 		return _texture;

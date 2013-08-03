@@ -1,19 +1,19 @@
 package a3d.materials.methods;
 
+import a3d.core.base.IRenderable;
+import a3d.core.managers.Stage3DProxy;
+import a3d.entities.Camera3D;
+import a3d.entities.lights.LightBase;
+import a3d.entities.lights.PointLight;
+import a3d.entities.lights.shadowmaps.DirectionalShadowMapper;
+import a3d.errors.AbstractMethodError;
+import a3d.materials.compilation.ShaderRegisterCache;
+import a3d.materials.compilation.ShaderRegisterElement;
 import flash.errors.Error;
 import flash.geom.Vector3D;
 import flash.Vector;
 
 
-import a3d.entities.Camera3D;
-import a3d.core.base.IRenderable;
-import a3d.core.managers.Stage3DProxy;
-import a3d.errors.AbstractMethodError;
-import a3d.entities.lights.LightBase;
-import a3d.entities.lights.PointLight;
-import a3d.entities.lights.shadowmaps.DirectionalShadowMapper;
-import a3d.materials.compilation.ShaderRegisterCache;
-import a3d.materials.compilation.ShaderRegisterElement;
 
 
 /**
@@ -21,6 +21,11 @@ import a3d.materials.compilation.ShaderRegisterElement;
  */
 class SimpleShadowMapMethodBase extends ShadowMapMethodBase
 {
+	/**
+	 * Wrappers that override the vertex shader need to set this explicitly
+	 */
+	public var depthMapCoordReg(get, set):ShaderRegisterElement;
+	
 	private var _depthMapCoordReg:ShaderRegisterElement;
 	private var _usePoint:Bool;
 
@@ -73,10 +78,7 @@ class SimpleShadowMapMethodBase extends ShadowMapMethodBase
 		}
 	}
 
-	/**
-	 * Wrappers that override the vertex shader need to set this explicitly
-	 */
-	public var depthMapCoordReg(get,set):ShaderRegisterElement;
+	
 	private function get_depthMapCoordReg():ShaderRegisterElement
 	{
 		return _depthMapCoordReg;

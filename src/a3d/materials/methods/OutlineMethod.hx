@@ -14,6 +14,21 @@ import flash.Vector;
  */
 class OutlineMethod extends EffectMethodBase
 {
+	/**
+	 * Indicates whether or not strokes should be potentially drawn over the existing model.
+	 * Set this to true to draw outlines for geometry overlapping in the view, useful to achieve a cel-shaded drawing outline.
+	 * Setting this to false will only cause the outline to appear around the 2D projection of the geometry.
+	 */
+	public var showInnerLines(get,set):Bool;
+	/**
+	 * The colour of the outline.
+	 */
+	public var outlineColor(get,set):UInt;
+	/**
+	 * The size of the outline.
+	 */
+	public var outlineSize(get, set):Float;
+	
 	private var _outlinePass:OutlinePass;
 
 	/**
@@ -36,12 +51,7 @@ class OutlineMethod extends EffectMethodBase
 		vo.needsNormals = true;
 	}
 
-	/**
-	 * Indicates whether or not strokes should be potentially drawn over the existing model.
-	 * Set this to true to draw outlines for geometry overlapping in the view, useful to achieve a cel-shaded drawing outline.
-	 * Setting this to false will only cause the outline to appear around the 2D projection of the geometry.
-	 */
-	public var showInnerLines(get,set):Bool;
+	
 	private function get_showInnerLines():Bool
 	{
 		return _outlinePass.showInnerLines;
@@ -52,10 +62,7 @@ class OutlineMethod extends EffectMethodBase
 		return _outlinePass.showInnerLines = value;
 	}
 
-	/**
-	 * The colour of the outline.
-	 */
-	public var outlineColor(get,set):UInt;
+	
 	private function get_outlineColor():UInt
 	{
 		return _outlinePass.outlineColor;
@@ -66,10 +73,7 @@ class OutlineMethod extends EffectMethodBase
 		return _outlinePass.outlineColor = value;
 	}
 
-	/**
-	 * The size of the outline.
-	 */
-	public var outlineSize(get,set):Float;
+	
 	private function get_outlineSize():Float
 	{
 		return _outlinePass.outlineSize;

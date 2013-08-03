@@ -49,7 +49,7 @@ class DepthDiffuseMethod extends BasicDiffuseMethod
 			if (_shadowRegister != null)
 				code += "mul " + _totalLightColorReg + ".xyz, " + _totalLightColorReg + ".xyz, " + _shadowRegister + ".w\n";
 			code += "add " + targetReg + ".xyz, " + _totalLightColorReg + ".xyz, " + targetReg + ".xyz\n" +
-				"sat " + targetReg + ".xyz, " + targetReg + ".xyz\n";
+					"sat " + targetReg + ".xyz, " + targetReg + ".xyz\n";
 			regCache.removeFragmentTempUsage(_totalLightColorReg);
 		}
 
@@ -60,16 +60,16 @@ class DepthDiffuseMethod extends BasicDiffuseMethod
 		decReg = regCache.getFreeFragmentConstant();
 		vo.fragmentConstantsIndex = decReg.index * 4;
 		code += getTex2DSampleCode(vo, temp, _diffuseInputRegister, texture) +
-			"dp4 " + temp + ".x, " + temp + ", " + decReg + "\n" +
-			"mov " + temp + ".yz, " + temp + ".xx			\n" +
-			"mov " + temp + ".w, " + decReg + ".x\n" +
-			"sub " + temp + ".xyz, " + decReg + ".xxx, " + temp + ".xyz\n";
+				"dp4 " + temp + ".x, " + temp + ", " + decReg + "\n" +
+				"mov " + temp + ".yz, " + temp + ".xx			\n" +
+				"mov " + temp + ".w, " + decReg + ".x\n" +
+				"sub " + temp + ".xyz, " + decReg + ".xxx, " + temp + ".xyz\n";
 
 		if (vo.numLights == 0)
 			return code;
 
 		code += "mul " + targetReg + ".xyz, " + temp + ".xyz, " + targetReg + ".xyz\n" +
-			"mov " + targetReg + ".w, " + temp + ".w\n";
+				"mov " + targetReg + ".w, " + temp + ".w\n";
 
 		return code;
 	}

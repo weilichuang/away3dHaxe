@@ -24,15 +24,22 @@ import flash.Vector;
  */
 class NearShadowMapMethod extends SimpleShadowMapMethodBase
 {
+	/**
+	 * The base shadow map method on which this method's shading is based.
+	 */
+	public var baseMethod(get, set):SimpleShadowMapMethodBase;
+	
+	/**
+	 * The amount of shadow fading to the outer shadow area. A value of 1 would mean the shadows start fading from the camera's near plane.
+	 */
+	public var fadeRatio(get,set):Float;
+	
 	private var _baseMethod:SimpleShadowMapMethodBase;
 
 	private var _fadeRatio:Float;
 	private var _nearShadowMapper:NearDirectionalShadowMapper;
 
-	/**
-	 * The base shadow map method on which this method's shading is based.
-	 */
-	public var baseMethod(get,set):SimpleShadowMapMethodBase;
+	
 	
 
 	/**
@@ -109,10 +116,7 @@ class NearShadowMapMethod extends SimpleShadowMapMethodBase
 		return _baseMethod.epsilon = value;
 	}
 
-	/**
-	 * The amount of shadow fading to the outer shadow area. A value of 1 would mean the shadows start fading from the camera's near plane.
-	 */
-	public var fadeRatio(get,set):Float;
+	
 	private function get_fadeRatio():Float
 	{
 		return _fadeRatio;

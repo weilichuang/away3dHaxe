@@ -18,6 +18,11 @@ import flash.Vector;
  */
 class CompositeSpecularMethod extends BasicSpecularMethod
 {
+	/**
+	 * The base specular method on which this method's shading is based.
+	 */
+	public var baseMethod(get, set):BasicSpecularMethod;
+	
 	private var _baseMethod:BasicSpecularMethod;
 
 	/**
@@ -43,10 +48,7 @@ class CompositeSpecularMethod extends BasicSpecularMethod
 		_baseMethod.initConstants(vo);
 	}
 
-	/**
-	 * The base specular method on which this method's shading is based.
-	 */
-	public var baseMethod(get,set):BasicSpecularMethod;
+	
 	private function get_baseMethod():BasicSpecularMethod
 	{
 		return _baseMethod;

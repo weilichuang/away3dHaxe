@@ -1,17 +1,17 @@
 package a3d.materials.methods;
 
 
-import a3d.entities.Camera3D;
 import a3d.core.base.IRenderable;
 import a3d.core.managers.Stage3DProxy;
+import a3d.entities.Camera3D;
 import a3d.entities.TextureProjector;
 import a3d.materials.BlendMode;
 import a3d.materials.compilation.ShaderRegisterCache;
 import a3d.materials.compilation.ShaderRegisterElement;
 import flash.errors.Error;
+import flash.geom.Matrix3D;
 import flash.Vector;
 
-import flash.geom.Matrix3D;
 
 
 
@@ -22,14 +22,24 @@ import flash.geom.Matrix3D;
  */
 class ProjectiveTextureMethod extends EffectMethodBase
 {
-	public static inline var MULTIPLY:String = "multiply";
-	public static inline var ADD:String = "add";
-	public static inline var MIX:String = "mix";
+	/**
+	 * The blend mode with which the texture is blended unto the object.
+	 * ProjectiveTextureMethod.MULTIPLY can be used to project shadows. To prevent clamping, the texture's alpha should be white!
+	 * ProjectiveTextureMethod.ADD can be used to project light, such as a slide projector or light coming through stained glass. To prevent clamping, the texture's alpha should be black!
+	 * ProjectiveTextureMethod.MIX provides normal alpha blending. To prevent clamping, the texture's alpha should be transparent!
+	 */
+	public var blendMode(get,set):BlendMode;
+	/**
+	 * The TextureProjector object that defines the projection properties as well as the texture.
+	 *
+	 * @see a3d.entities.TextureProjector
+	 */
+	public var projector(get,set):TextureProjector;
 
 	private var _projector:TextureProjector;
 	private var _uvVarying:ShaderRegisterElement;
 	private var _projMatrix:Matrix3D;
-	private var _mode:BlendMode;
+	private var _blendMode:BlendMode;
 
 	/**
 	 * Creates a new ProjectiveTextureMethod object.
@@ -46,7 +56,7 @@ class ProjectiveTextureMethod extends EffectMethodBase
 		_projMatrix = new Matrix3D();
 		
 		_projector = projector;
-		_mode = mode;
+		_blendMode = mode;
 	}
 
 	override public function initConstants(vo:MethodVO):Void
@@ -65,33 +75,22 @@ class ProjectiveTextureMethod extends EffectMethodBase
 		_uvVarying = null;
 	}
 
-	/**
-	 * The blend mode with which the texture is blended unto the object.
-	 * ProjectiveTextureMethod.MULTIPLY can be used to project shadows. To prevent clamping, the texture's alpha should be white!
-	 * ProjectiveTextureMethod.ADD can be used to project light, such as a slide projector or light coming through stained glass. To prevent clamping, the texture's alpha should be black!
-	 * ProjectiveTextureMethod.MIX provides normal alpha blending. To prevent clamping, the texture's alpha should be transparent!
-	 */
-	public var mode(get,set):BlendMode;
-	private function get_mode():BlendMode
+	
+	private function get_blendMode():BlendMode
 	{
-		return _mode;
+		return _blendMode;
 	}
 
-	private function set_mode(value:BlendMode):BlendMode
+	private function set_blendMode(value:BlendMode):BlendMode
 	{
-		if (_mode == value)
-			return _mode;
-		_mode = value;
+		if (_blendMode == value)
+			return _blendMode;
+		_blendMode = value;
 		invalidateShaderProgram();
-		return _mode;
+		return _blendMode;
 	}
 
-	/**
-	 * The TextureProjector object that defines the projection properties as well as the texture.
-	 *
-	 * @see a3d.entities.TextureProjector
-	 */
-	public var projector(get,set):TextureProjector;
+	
 	private function get_projector():TextureProjector
 	{
 		return _projector;
@@ -131,23 +130,23 @@ class ProjectiveTextureMethod extends EffectMethodBase
 		vo.texturesIndex = mapRegister.index;
 
 		code += "div " + col + ", " + _uvVarying + ", " + _uvVarying + ".w						\n" +
-			"mul " + col + ".xy, " + col + ".xy, " + toTexReg + ".xy	\n" +
-			"add " + col + ".xy, " + col + ".xy, " + toTexReg + ".xx	\n";
+				"mul " + col + ".xy, " + col + ".xy, " + toTexReg + ".xy	\n" +
+				"add " + col + ".xy, " + col + ".xy, " + toTexReg + ".xx	\n";
 		code += getTex2DSampleCode(vo, col, mapRegister, _projector.texture, col, "clamp");
 
-		if (_mode == BlendMode.MULTIPLY)
+		if (_blendMode == BlendMode.MULTIPLY)
 			code += "mul " + targetReg + ".xyz, " + targetReg + ".xyz, " + col + ".xyz			\n";
-		else if (_mode == BlendMode.ADD)
+		else if (_blendMode == BlendMode.ADD)
 			code += "add " + targetReg + ".xyz, " + targetReg + ".xyz, " + col + ".xyz			\n";
-		else if (_mode == BlendMode.MIX)
+		else if (_blendMode == BlendMode.MIX)
 		{
 			code += "sub " + col + ".xyz, " + col + ".xyz, " + targetReg + ".xyz				\n" +
-				"mul " + col + ".xyz, " + col + ".xyz, " + col + ".w						\n" +
-				"add " + targetReg + ".xyz, " + targetReg + ".xyz, " + col + ".xyz			\n";
+					"mul " + col + ".xyz, " + col + ".xyz, " + col + ".w						\n" +
+					"add " + targetReg + ".xyz, " + targetReg + ".xyz, " + col + ".xyz			\n";
 		}
 		else
 		{
-			throw new Error("Unknown mode \"" + _mode + "\"");
+			throw new Error("Unknown mode \"" + _blendMode + "\"");
 		}
 
 		return code;

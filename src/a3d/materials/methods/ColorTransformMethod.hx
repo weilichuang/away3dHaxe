@@ -16,6 +16,11 @@ import flash.geom.ColorTransform;
  */
 class ColorTransformMethod extends EffectMethodBase
 {
+	/**
+	 * The ColorTransform object to transform the colour of the material with.
+	 */
+	public var colorTransform(get, set):ColorTransform;
+	
 	private var _colorTransform:ColorTransform;
 
 	/**
@@ -26,10 +31,7 @@ class ColorTransformMethod extends EffectMethodBase
 		super();
 	}
 
-	/**
-	 * The ColorTransform object to transform the colour of the material with.
-	 */
-	public var colorTransform(get,set):ColorTransform;
+	
 	private function get_colorTransform():ColorTransform
 	{
 		return _colorTransform;

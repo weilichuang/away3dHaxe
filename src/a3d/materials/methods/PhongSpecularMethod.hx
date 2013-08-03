@@ -37,25 +37,25 @@ class PhongSpecularMethod extends BasicSpecularMethod
 		// phong model
 		code += "dp3 " + t + ".w, " + lightDirReg + ", " + normalReg + "\n" + // sca1 = light.normal
 
-			//find the reflected light vector R
-			"add " + t + ".w, " + t + ".w, " + t + ".w\n" + // sca1 = sca1*2
-			"mul " + t + ".xyz, " + normalReg + ", " + t + ".w\n" + // vec1 = normal*sca1
-			"sub " + t + ".xyz, " + t + ", " + lightDirReg + "\n" + // vec1 = vec1 - light (light vector is negative)
+				//find the reflected light vector R
+				"add " + t + ".w, " + t + ".w, " + t + ".w\n" + // sca1 = sca1*2
+				"mul " + t + ".xyz, " + normalReg + ", " + t + ".w\n" + // vec1 = normal*sca1
+				"sub " + t + ".xyz, " + t + ", " + lightDirReg + "\n" + // vec1 = vec1 - light (light vector is negative)
 
-			//smooth the edge as incidence angle approaches 90
-			"add" + t + ".w, " + t + ".w, " + _sharedRegisters.commons + ".w\n" + // sca1 = sca1 + smoothtep;
-			"sat " + t + ".w, " + t + ".w\n" + // sca1 range 0 - 1
-			"mul " + t + ".xyz, " + t + ", " + t + ".w\n" + // vec1 = vec1*sca1
+				//smooth the edge as incidence angle approaches 90
+				"add" + t + ".w, " + t + ".w, " + _sharedRegisters.commons + ".w\n" + // sca1 = sca1 + smoothtep;
+				"sat " + t + ".w, " + t + ".w\n" + // sca1 range 0 - 1
+				"mul " + t + ".xyz, " + t + ", " + t + ".w\n" + // vec1 = vec1*sca1
 
-			//find the dot product between R and V
-			"dp3 " + t + ".w, " + t + ", " + viewDirReg + "\n" + // sca1 = vec1.view
-			"sat " + t + ".w, " + t + ".w\n";
+				//find the dot product between R and V
+				"dp3 " + t + ".w, " + t + ", " + viewDirReg + "\n" + // sca1 = vec1.view
+				"sat " + t + ".w, " + t + ".w\n";
 
 		if (_useTexture)
 		{
 			// apply gloss modulation from texture
 			code += "mul " + _specularTexData + ".w, " + _specularTexData + ".y, " + _specularDataRegister + ".w\n" +
-				"pow " + t + ".w, " + t + ".w, " + _specularTexData + ".w\n";
+					"pow " + t + ".w, " + t + ".w, " + _specularTexData + ".w\n";
 		}
 		else
 			code += "pow " + t + ".w, " + t + ".w, " + _specularDataRegister + ".w\n";

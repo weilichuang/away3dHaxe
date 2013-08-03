@@ -58,44 +58,44 @@ class FilteredShadowMapMethod extends SimpleShadowMapMethodBase
 
 		code += "mov " + uvReg + ", " + _depthMapCoordReg + "\n" +
 
-			"tex " + depthCol + ", " + _depthMapCoordReg + ", " + depthMapRegister + " <2d, nearest, clamp>\n" +
-			"dp4 " + depthCol + ".z, " + depthCol + ", " + decReg + "\n" +
-			"slt " + uvReg + ".z, " + _depthMapCoordReg + ".z, " + depthCol + ".z\n" + // 0 if in shadow
+				"tex " + depthCol + ", " + _depthMapCoordReg + ", " + depthMapRegister + " <2d, nearest, clamp>\n" +
+				"dp4 " + depthCol + ".z, " + depthCol + ", " + decReg + "\n" +
+				"slt " + uvReg + ".z, " + _depthMapCoordReg + ".z, " + depthCol + ".z\n" + // 0 if in shadow
 
-			"add " + uvReg + ".x, " + _depthMapCoordReg + ".x, " + customDataReg + ".z\n" + // (1, 0)
-			"tex " + depthCol + ", " + uvReg + ", " + depthMapRegister + " <2d, nearest, clamp>\n" +
-			"dp4 " + depthCol + ".z, " + depthCol + ", " + decReg + "\n" +
-			"slt " + uvReg + ".w, " + _depthMapCoordReg + ".z, " + depthCol + ".z\n" + // 0 if in shadow
+				"add " + uvReg + ".x, " + _depthMapCoordReg + ".x, " + customDataReg + ".z\n" + // (1, 0)
+				"tex " + depthCol + ", " + uvReg + ", " + depthMapRegister + " <2d, nearest, clamp>\n" +
+				"dp4 " + depthCol + ".z, " + depthCol + ", " + decReg + "\n" +
+				"slt " + uvReg + ".w, " + _depthMapCoordReg + ".z, " + depthCol + ".z\n" + // 0 if in shadow
 
-			"mul " + depthCol + ".x, " + _depthMapCoordReg + ".x, " + customDataReg + ".y\n" +
-			"frc " + depthCol + ".x, " + depthCol + ".x\n" +
-			"sub " + uvReg + ".w, " + uvReg + ".w, " + uvReg + ".z\n" +
-			"mul " + uvReg + ".w, " + uvReg + ".w, " + depthCol + ".x\n" +
-			"add " + targetReg + ".w, " + uvReg + ".z, " + uvReg + ".w\n" +
+				"mul " + depthCol + ".x, " + _depthMapCoordReg + ".x, " + customDataReg + ".y\n" +
+				"frc " + depthCol + ".x, " + depthCol + ".x\n" +
+				"sub " + uvReg + ".w, " + uvReg + ".w, " + uvReg + ".z\n" +
+				"mul " + uvReg + ".w, " + uvReg + ".w, " + depthCol + ".x\n" +
+				"add " + targetReg + ".w, " + uvReg + ".z, " + uvReg + ".w\n" +
 
-			"mov " + uvReg + ".x, " + _depthMapCoordReg + ".x\n" +
-			"add " + uvReg + ".y, " + _depthMapCoordReg + ".y, " + customDataReg + ".z\n" + // (0, 1)
-			"tex " + depthCol + ", " + uvReg + ", " + depthMapRegister + " <2d, nearest, clamp>\n" +
-			"dp4 " + depthCol + ".z, " + depthCol + ", " + decReg + "\n" +
-			"slt " + uvReg + ".z, " + _depthMapCoordReg + ".z, " + depthCol + ".z\n" + // 0 if in shadow
+				"mov " + uvReg + ".x, " + _depthMapCoordReg + ".x\n" +
+				"add " + uvReg + ".y, " + _depthMapCoordReg + ".y, " + customDataReg + ".z\n" + // (0, 1)
+				"tex " + depthCol + ", " + uvReg + ", " + depthMapRegister + " <2d, nearest, clamp>\n" +
+				"dp4 " + depthCol + ".z, " + depthCol + ", " + decReg + "\n" +
+				"slt " + uvReg + ".z, " + _depthMapCoordReg + ".z, " + depthCol + ".z\n" + // 0 if in shadow
 
-			"add " + uvReg + ".x, " + _depthMapCoordReg + ".x, " + customDataReg + ".z\n" + // (1, 1)
-			"tex " + depthCol + ", " + uvReg + ", " + depthMapRegister + " <2d, nearest, clamp>\n" +
-			"dp4 " + depthCol + ".z, " + depthCol + ", " + decReg + "\n" +
-			"slt " + uvReg + ".w, " + _depthMapCoordReg + ".z, " + depthCol + ".z\n" + // 0 if in shadow
+				"add " + uvReg + ".x, " + _depthMapCoordReg + ".x, " + customDataReg + ".z\n" + // (1, 1)
+				"tex " + depthCol + ", " + uvReg + ", " + depthMapRegister + " <2d, nearest, clamp>\n" +
+				"dp4 " + depthCol + ".z, " + depthCol + ", " + decReg + "\n" +
+				"slt " + uvReg + ".w, " + _depthMapCoordReg + ".z, " + depthCol + ".z\n" + // 0 if in shadow
 
-			// recalculate fraction, since we ran out of registers :(
-			"mul " + depthCol + ".x, " + _depthMapCoordReg + ".x, " + customDataReg + ".y\n" +
-			"frc " + depthCol + ".x, " + depthCol + ".x\n" +
-			"sub " + uvReg + ".w, " + uvReg + ".w, " + uvReg + ".z\n" +
-			"mul " + uvReg + ".w, " + uvReg + ".w, " + depthCol + ".x\n" +
-			"add " + uvReg + ".w, " + uvReg + ".z, " + uvReg + ".w\n" +
+				// recalculate fraction, since we ran out of registers :(
+				"mul " + depthCol + ".x, " + _depthMapCoordReg + ".x, " + customDataReg + ".y\n" +
+				"frc " + depthCol + ".x, " + depthCol + ".x\n" +
+				"sub " + uvReg + ".w, " + uvReg + ".w, " + uvReg + ".z\n" +
+				"mul " + uvReg + ".w, " + uvReg + ".w, " + depthCol + ".x\n" +
+				"add " + uvReg + ".w, " + uvReg + ".z, " + uvReg + ".w\n" +
 
-			"mul " + depthCol + ".x, " + _depthMapCoordReg + ".y, " + customDataReg + ".y\n" +
-			"frc " + depthCol + ".x, " + depthCol + ".x\n" +
-			"sub " + uvReg + ".w, " + uvReg + ".w, " + targetReg + ".w\n" +
-			"mul " + uvReg + ".w, " + uvReg + ".w, " + depthCol + ".x\n" +
-			"add " + targetReg + ".w, " + targetReg + ".w, " + uvReg + ".w\n";
+				"mul " + depthCol + ".x, " + _depthMapCoordReg + ".y, " + customDataReg + ".y\n" +
+				"frc " + depthCol + ".x, " + depthCol + ".x\n" +
+				"sub " + uvReg + ".w, " + uvReg + ".w, " + targetReg + ".w\n" +
+				"mul " + uvReg + ".w, " + uvReg + ".w, " + depthCol + ".x\n" +
+				"add " + targetReg + ".w, " + targetReg + ".w, " + uvReg + ".w\n";
 
 		regCache.removeFragmentTempUsage(depthCol);
 		regCache.removeFragmentTempUsage(uvReg);
@@ -127,36 +127,36 @@ class FilteredShadowMapMethod extends SimpleShadowMapMethodBase
 		regCache.addFragmentTempUsages(predicate, 1);
 
 		code = "tex " + temp + ", " + depthProjection + ", " + depthTexture + " <2d, nearest, clamp>\n" +
-			"dp4 " + temp + ".z, " + temp + ", " + decodeRegister + "\n" +
-			"slt " + predicate + ".x, " + depthProjection + ".z, " + temp + ".z\n" +
+				"dp4 " + temp + ".z, " + temp + ", " + decodeRegister + "\n" +
+				"slt " + predicate + ".x, " + depthProjection + ".z, " + temp + ".z\n" +
 
-			"add " + depthProjection + ".x, " + depthProjection + ".x, " + dataReg + ".y\n" +
-			"tex " + temp + ", " + depthProjection + ", " + depthTexture + " <2d, nearest, clamp>\n" +
-			"dp4 " + temp + ".z, " + temp + ", " + decodeRegister + "\n" +
-			"slt " + predicate + ".z, " + depthProjection + ".z, " + temp + ".z\n" +
+				"add " + depthProjection + ".x, " + depthProjection + ".x, " + dataReg + ".y\n" +
+				"tex " + temp + ", " + depthProjection + ", " + depthTexture + " <2d, nearest, clamp>\n" +
+				"dp4 " + temp + ".z, " + temp + ", " + decodeRegister + "\n" +
+				"slt " + predicate + ".z, " + depthProjection + ".z, " + temp + ".z\n" +
 
-			"add " + depthProjection + ".y, " + depthProjection + ".y, " + dataReg + ".y\n" +
-			"tex " + temp + ", " + depthProjection + ", " + depthTexture + " <2d, nearest, clamp>\n" +
-			"dp4 " + temp + ".z, " + temp + ", " + decodeRegister + "\n" +
-			"slt " + predicate + ".w, " + depthProjection + ".z, " + temp + ".z\n" +
+				"add " + depthProjection + ".y, " + depthProjection + ".y, " + dataReg + ".y\n" +
+				"tex " + temp + ", " + depthProjection + ", " + depthTexture + " <2d, nearest, clamp>\n" +
+				"dp4 " + temp + ".z, " + temp + ", " + decodeRegister + "\n" +
+				"slt " + predicate + ".w, " + depthProjection + ".z, " + temp + ".z\n" +
 
-			"sub " + depthProjection + ".x, " + depthProjection + ".x, " + dataReg + ".y\n" +
-			"tex " + temp + ", " + depthProjection + ", " + depthTexture + " <2d, nearest, clamp>\n" +
-			"dp4 " + temp + ".z, " + temp + ", " + decodeRegister + "\n" +
-			"slt " + predicate + ".y, " + depthProjection + ".z, " + temp + ".z\n" +
+				"sub " + depthProjection + ".x, " + depthProjection + ".x, " + dataReg + ".y\n" +
+				"tex " + temp + ", " + depthProjection + ", " + depthTexture + " <2d, nearest, clamp>\n" +
+				"dp4 " + temp + ".z, " + temp + ", " + decodeRegister + "\n" +
+				"slt " + predicate + ".y, " + depthProjection + ".z, " + temp + ".z\n" +
 
-			"mul " + temp + ".xy, " + depthProjection + ".xy, " + dataReg + ".x\n" +
-			"frc " + temp + ".xy, " + temp + ".xy\n" +
+				"mul " + temp + ".xy, " + depthProjection + ".xy, " + dataReg + ".x\n" +
+				"frc " + temp + ".xy, " + temp + ".xy\n" +
 
-			// some strange register juggling to prevent agal bugging out
-			"sub " + depthProjection + ", " + predicate + ".xyzw, " + predicate + ".zwxy\n" +
-			"mul " + depthProjection + ", " + depthProjection + ", " + temp + ".x\n" +
+				// some strange register juggling to prevent agal bugging out
+				"sub " + depthProjection + ", " + predicate + ".xyzw, " + predicate + ".zwxy\n" +
+				"mul " + depthProjection + ", " + depthProjection + ", " + temp + ".x\n" +
 
-			"add " + predicate + ".xy, " + predicate + ".xy, " + depthProjection + ".zw\n" +
+				"add " + predicate + ".xy, " + predicate + ".xy, " + depthProjection + ".zw\n" +
 
-			"sub " + predicate + ".y, " + predicate + ".y, " + predicate + ".x\n" +
-			"mul " + predicate + ".y, " + predicate + ".y, " + temp + ".y\n" +
-			"add " + targetRegister + ".w, " + predicate + ".x, " + predicate + ".y\n";
+				"sub " + predicate + ".y, " + predicate + ".y, " + predicate + ".x\n" +
+				"mul " + predicate + ".y, " + predicate + ".y, " + temp + ".y\n" +
+				"add " + targetRegister + ".w, " + predicate + ".x, " + predicate + ".y\n";
 
 		regCache.removeFragmentTempUsage(temp);
 		regCache.removeFragmentTempUsage(predicate);

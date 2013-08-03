@@ -16,6 +16,12 @@ import a3d.textures.Texture2DBase;
  */
 class GradientDiffuseMethod extends BasicDiffuseMethod
 {
+	/**
+	 * A texture that contains the light colour based on the angle. This can be used to change the light colour
+	 * due to subsurface scattering when the surface faces away from the light.
+	 */
+	public var gradient(get, set):Texture2DBase;
+	
 	private var _gradientTextureRegister:ShaderRegisterElement;
 	private var _gradient:Texture2DBase;
 
@@ -30,11 +36,7 @@ class GradientDiffuseMethod extends BasicDiffuseMethod
 		_gradient = gradient;
 	}
 
-	/**
-	 * A texture that contains the light colour based on the angle. This can be used to change the light colour
-	 * due to subsurface scattering when the surface faces away from the light.
-	 */
-	public var gradient(get,set):Texture2DBase;
+	
 	private function get_gradient():Texture2DBase
 	{
 		return _gradient;

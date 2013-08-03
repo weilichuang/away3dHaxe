@@ -15,6 +15,19 @@ import a3d.textures.PlanarReflectionTexture;
  */
 class PlanarReflectionMethod extends EffectMethodBase
 {
+	/**
+	 * The reflectivity of the surface.
+	 */
+	public var alpha(get,set):Float;
+	/**
+	 * The PlanarReflectionTexture used to render the reflected view.
+	 */
+	public var texture(get,set):PlanarReflectionTexture;
+	/**
+	 * The amount of displacement on the surface, for use with water waves.
+	 */
+	public var normalDisplacement(get, set):Float;
+	
 	private var _texture:PlanarReflectionTexture;
 	private var _alpha:Float = 1;
 	private var _normalDisplacement:Float = 0;
@@ -40,10 +53,7 @@ class PlanarReflectionMethod extends EffectMethodBase
 		vo.needsNormals = _normalDisplacement > 0;
 	}
 
-	/**
-	 * The reflectivity of the surface.
-	 */
-	public var alpha(get,set):Float;
+	
 	private function get_alpha():Float
 	{
 		return _alpha;
@@ -54,10 +64,7 @@ class PlanarReflectionMethod extends EffectMethodBase
 		return _alpha = value;
 	}
 
-	/**
-	 * The PlanarReflectionTexture used to render the reflected view.
-	 */
-	public var texture(get,set):PlanarReflectionTexture;
+	
 	private function get_texture():PlanarReflectionTexture
 	{
 		return _texture;
@@ -68,10 +75,7 @@ class PlanarReflectionMethod extends EffectMethodBase
 		return _texture = value;
 	}
 
-	/**
-	 * The amount of displacement on the surface, for use with water waves.
-	 */
-	public var normalDisplacement(get,set):Float;
+	
 	private function get_normalDisplacement():Float
 	{
 		return _normalDisplacement;
@@ -121,28 +125,28 @@ class PlanarReflectionMethod extends EffectMethodBase
 		regCache.addFragmentTempUsages(temp, 1);
 
 		code = "div " + temp + ", " + projectionReg + ", " + projectionReg + ".w\n" +
-			"mul " + temp + ", " + temp + ", " + dataReg + "\n" +
-			"add " + temp + ", " + temp + ", fc0.xx\n";
+				"mul " + temp + ", " + temp + ", " + dataReg + "\n" +
+				"add " + temp + ", " + temp + ", fc0.xx\n";
 
 		if (_normalDisplacement > 0)
 		{
 			var dataReg2:ShaderRegisterElement = regCache.getFreeFragmentConstant();
 			code += "add " + temp + ".w, " + projectionReg + ".w, " + "fc0.w\n" +
-				"sub " + temp + ".z, fc0.w, " + _sharedRegisters.normalFragment + ".y\n" +
-				"div " + temp + ".z, " + temp + ".z, " + temp + ".w\n" +
-				"mul " + temp + ".z, " + dataReg + ".z, " + temp + ".z\n" +
-				"add " + temp + ".x, " + temp + ".x, " + temp + ".z\n" +
-				"min " + temp + ".x, " + temp + ".x, " + dataReg2 + ".x\n" +
-				"max " + temp + ".x, " + temp + ".x, " + dataReg2 + ".z\n";
+					"sub " + temp + ".z, fc0.w, " + _sharedRegisters.normalFragment + ".y\n" +
+					"div " + temp + ".z, " + temp + ".z, " + temp + ".w\n" +
+					"mul " + temp + ".z, " + dataReg + ".z, " + temp + ".z\n" +
+					"add " + temp + ".x, " + temp + ".x, " + temp + ".z\n" +
+					"min " + temp + ".x, " + temp + ".x, " + dataReg2 + ".x\n" +
+					"max " + temp + ".x, " + temp + ".x, " + dataReg2 + ".z\n";
 		}
 
 		var temp2:ShaderRegisterElement = regCache.getFreeFragmentSingleTemp();
 		code += "tex " + temp + ", " + temp + ", " + textureReg + " <2d," + filter + ">\n" +
-			"sub " + temp2 + ", " + temp + ".w,  fc0.x\n" +
-			"kil " + temp2 + "\n" +
-			"sub " + temp + ", " + temp + ", " + targetReg + "\n" +
-			"mul " + temp + ", " + temp + ", " + dataReg + ".w\n" +
-			"add " + targetReg + ", " + targetReg + ", " + temp + "\n";
+				"sub " + temp2 + ", " + temp + ".w,  fc0.x\n" +
+				"kil " + temp2 + "\n" +
+				"sub " + temp + ", " + temp + ", " + targetReg + "\n" +
+				"mul " + temp + ", " + temp + ", " + dataReg + ".w\n" +
+				"add " + targetReg + ", " + targetReg + ", " + temp + "\n";
 
 		regCache.removeFragmentTempUsage(temp);
 

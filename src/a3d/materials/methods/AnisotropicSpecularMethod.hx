@@ -42,28 +42,28 @@ class AnisotropicSpecularMethod extends BasicSpecularMethod
 		// (sin(l,t) * sin(v,t) - cos(l,t)*cos(v,t)) ^ k
 
 		code += "nrm " + t + ".xyz, " + _sharedRegisters.tangentVarying + ".xyz\n" +
-			"dp3 " + t + ".w, " + t + ".xyz, " + lightDirReg + ".xyz\n" +
-			"dp3 " + t + ".z, " + t + ".xyz, " + _sharedRegisters.viewDirFragment + ".xyz\n";
+				"dp3 " + t + ".w, " + t + ".xyz, " + lightDirReg + ".xyz\n" +
+				"dp3 " + t + ".z, " + t + ".xyz, " + _sharedRegisters.viewDirFragment + ".xyz\n";
 
 		// (sin(t.w) * sin(t.z) - cos(t.w)*cos(t.z)) ^ k
 		code += "sin " + t + ".x, " + t + ".w\n" +
-			"sin " + t + ".y, " + t + ".z\n" +
-			// (t.x * t.y - cos(t.w)*cos(t.z)) ^ k
-			"mul " + t + ".x, " + t + ".x, " + t + ".y\n" +
-			// (t.x - cos(t.w)*cos(t.z)) ^ k
-			"cos " + t + ".z, " + t + ".z\n" +
-			"cos " + t + ".w, " + t + ".w\n" +
-			// (t.x - t.w*t.z) ^ k
-			"mul " + t + ".w, " + t + ".w, " + t + ".z\n" +
-			// (t.x - t.w) ^ k
-			"sub " + t + ".w, " + t + ".x, " + t + ".w\n";
+				"sin " + t + ".y, " + t + ".z\n" +
+				// (t.x * t.y - cos(t.w)*cos(t.z)) ^ k
+				"mul " + t + ".x, " + t + ".x, " + t + ".y\n" +
+				// (t.x - cos(t.w)*cos(t.z)) ^ k
+				"cos " + t + ".z, " + t + ".z\n" +
+				"cos " + t + ".w, " + t + ".w\n" +
+				// (t.x - t.w*t.z) ^ k
+				"mul " + t + ".w, " + t + ".w, " + t + ".z\n" +
+				// (t.x - t.w) ^ k
+				"sub " + t + ".w, " + t + ".x, " + t + ".w\n";
 
 
 		if (_useTexture)
 		{
 			// apply gloss modulation from texture
 			code += "mul " + _specularTexData + ".w, " + _specularTexData + ".y, " + _specularDataRegister + ".w\n" +
-				"pow " + t + ".w, " + t + ".w, " + _specularTexData + ".w\n";
+					"pow " + t + ".w, " + t + ".w, " + _specularTexData + ".w\n";
 		}
 		else
 			code += "pow " + t + ".w, " + t + ".w, " + _specularDataRegister + ".w\n";

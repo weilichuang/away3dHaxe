@@ -13,6 +13,27 @@ import flash.Vector;
  */
 class SimpleWaterNormalMethod extends BasicNormalMethod
 {
+	/**
+	 * The translation of the first wave layer along the X-axis.
+	 */
+	public var water1OffsetX(get,set):Float;
+	/**
+	 * The translation of the first wave layer along the Y-axis.
+	 */
+	public var water1OffsetY(get,set):Float;
+	/**
+	 * The translation of the second wave layer along the X-axis.
+	 */
+	public var water2OffsetX(get,set):Float;
+	/**
+	 * The translation of the second wave layer along the Y-axis.
+	 */
+	public var water2OffsetY(get,set):Float;
+	/**
+	 * A second normal map that will be combined with the first to create a wave-like animation pattern.
+	 */
+	public var secondaryNormalMap(get, set):Texture2DBase;
+	
 	private var _texture2:Texture2DBase;
 	private var _normalTextureRegister2:ShaderRegisterElement;
 	private var _useSecondNormalMap:Bool;
@@ -49,10 +70,7 @@ class SimpleWaterNormalMethod extends BasicNormalMethod
 		_useSecondNormalMap = normalMap != secondaryNormalMap;
 	}
 
-	/**
-	 * The translation of the first wave layer along the X-axis.
-	 */
-	public var water1OffsetX(get,set):Float;
+	
 	private function get_water1OffsetX():Float
 	{
 		return _water1OffsetX;
@@ -63,10 +81,7 @@ class SimpleWaterNormalMethod extends BasicNormalMethod
 		return _water1OffsetX = value;
 	}
 
-	/**
-	 * The translation of the first wave layer along the Y-axis.
-	 */
-	public var water1OffsetY(get,set):Float;
+	
 	private function get_water1OffsetY():Float
 	{
 		return _water1OffsetY;
@@ -77,10 +92,7 @@ class SimpleWaterNormalMethod extends BasicNormalMethod
 		return _water1OffsetY = value;
 	}
 
-	/**
-	 * The translation of the second wave layer along the X-axis.
-	 */
-	public var water2OffsetX(get,set):Float;
+	
 	private function get_water2OffsetX():Float
 	{
 		return _water2OffsetX;
@@ -91,10 +103,7 @@ class SimpleWaterNormalMethod extends BasicNormalMethod
 		return _water2OffsetX = value;
 	}
 
-	/**
-	 * The translation of the second wave layer along the Y-axis.
-	 */
-	public var water2OffsetY(get,set):Float;
+	
 	private function get_water2OffsetY():Float
 	{
 		return _water2OffsetY;
@@ -113,10 +122,7 @@ class SimpleWaterNormalMethod extends BasicNormalMethod
 		return super.normalMap = value;
 	}
 
-	/**
-	 * A second normal map that will be combined with the first to create a wave-like animation pattern.
-	 */
-	public var secondaryNormalMap(get,set):Texture2DBase;
+	
 	private function get_secondaryNormalMap():Texture2DBase
 	{
 		return _texture2;

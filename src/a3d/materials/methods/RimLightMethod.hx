@@ -13,6 +13,24 @@ import flash.Vector;
  */
 class RimLightMethod extends EffectMethodBase
 {
+	/**
+	 * The blend mode with which to add the light to the object.
+	 *
+	 * RimLightMethod.MULTIPLY multiplies the rim light with the material's colour.
+	 * RimLightMethod.ADD adds the rim light with the material's colour.
+	 * RimLightMethod.MIX provides normal alpha blending.
+	 */
+	public var blendMode(get, set) : BlendMode;
+	
+	public var color(get, set):UInt;
+	
+	/**
+	 * The strength of the rim light.
+	 */
+	public var strength(get, set):Float;
+	
+	public var power(get, set):Float;
+	
 	private var _color:UInt;
 	private var _blendMode:BlendMode;
 	private var _colorR:Float;
@@ -49,14 +67,7 @@ class RimLightMethod extends EffectMethodBase
 		vo.needsView = true;
 	}
 	
-	/**
-	 * The blend mode with which to add the light to the object.
-	 *
-	 * RimLightMethod.MULTIPLY multiplies the rim light with the material's colour.
-	 * RimLightMethod.ADD adds the rim light with the material's colour.
-	 * RimLightMethod.MIX provides normal alpha blending.
-	 */
-	public var blendMode(get,set) : BlendMode;
+	
 	private function get_blendMode() : BlendMode
 	{
 		return _blendMode;
@@ -73,7 +84,7 @@ class RimLightMethod extends EffectMethodBase
 		return _blendMode;
 	}
 
-	public var color(get,set):UInt;
+	
 	private function get_color():UInt
 	{
 		return _color;
@@ -88,10 +99,7 @@ class RimLightMethod extends EffectMethodBase
 		return _color;
 	}
 
-	/**
-	 * The strength of the rim light.
-	 */
-	public var strength(get,set):Float;
+	
 	private function get_strength():Float
 	{
 		return _strength;
@@ -102,7 +110,7 @@ class RimLightMethod extends EffectMethodBase
 		return _strength = value;
 	}
 
-	public var power(get,set):Float;
+	
 	private function get_power():Float
 	{
 		return _power;
@@ -134,30 +142,30 @@ class RimLightMethod extends EffectMethodBase
 		vo.fragmentConstantsIndex = dataRegister.index * 4;
 
 		code += "dp3 " + temp + ".x, " + _sharedRegisters.viewDirFragment + ".xyz, " + _sharedRegisters.normalFragment + ".xyz	\n" +
-			"sat " + temp + ".x, " + temp + ".x														\n" +
-			"sub " + temp + ".x, " + dataRegister + ".w, " + temp + ".x								\n" +
-			"pow " + temp + ".x, " + temp + ".x, " + dataRegister2 + ".y							\n" +
-			"mul " + temp + ".x, " + temp + ".x, " + dataRegister2 + ".x							\n" +
-			"sub " + temp + ".x, " + dataRegister + ".w, " + temp + ".x								\n" +
-			"mul " + targetReg + ".xyz, " + targetReg + ".xyz, " + temp + ".x						\n" +
-			"sub " + temp + ".w, " + dataRegister + ".w, " + temp + ".x								\n";
+				"sat " + temp + ".x, " + temp + ".x														\n" +
+				"sub " + temp + ".x, " + dataRegister + ".w, " + temp + ".x								\n" +
+				"pow " + temp + ".x, " + temp + ".x, " + dataRegister2 + ".y							\n" +
+				"mul " + temp + ".x, " + temp + ".x, " + dataRegister2 + ".x							\n" +
+				"sub " + temp + ".x, " + dataRegister + ".w, " + temp + ".x								\n" +
+				"mul " + targetReg + ".xyz, " + targetReg + ".xyz, " + temp + ".x						\n" +
+				"sub " + temp + ".w, " + dataRegister + ".w, " + temp + ".x								\n";
 
 
 		if (_blendMode == BlendMode.ADD)
 		{
 			code += "mul " + temp + ".xyz, " + temp + ".w, " + dataRegister + ".xyz							\n" +
-				"add " + targetReg + ".xyz, " + targetReg + ".xyz, " + temp + ".xyz						\n";
+					"add " + targetReg + ".xyz, " + targetReg + ".xyz, " + temp + ".xyz						\n";
 		}
 		else if (_blendMode == BlendMode.MULTIPLY)
 		{
 			code += "mul " + temp + ".xyz, " + temp + ".w, " + dataRegister + ".xyz							\n" +
-				"mul " + targetReg + ".xyz, " + targetReg + ".xyz, " + temp + ".xyz						\n";
+					"mul " + targetReg + ".xyz, " + targetReg + ".xyz, " + temp + ".xyz						\n";
 		}
 		else
 		{
 			code += "sub " + temp + ".xyz, " + dataRegister + ".xyz, " + targetReg + ".xyz				\n" +
-				"mul " + temp + ".xyz, " + temp + ".xyz, " + temp + ".w								\n" +
-				"add " + targetReg + ".xyz, " + targetReg + ".xyz, " + temp + ".xyz					\n";
+					"mul " + temp + ".xyz, " + temp + ".xyz, " + temp + ".w								\n" +
+					"add " + targetReg + ".xyz, " + targetReg + ".xyz, " + temp + ".xyz					\n";
 		}
 
 		return code;

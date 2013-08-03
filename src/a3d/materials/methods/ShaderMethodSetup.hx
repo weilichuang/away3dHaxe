@@ -12,6 +12,45 @@ using a3d.utils.VectorUtil;
  */
 class ShaderMethodSetup extends EventDispatcher
 {
+	public var colorTransformMethodVO(get,null):MethodVO;
+	public var normalMethodVO(get,null):MethodVO;
+	public var ambientMethodVO(get,null):MethodVO;
+	public var shadowMethodVO(get,null):MethodVO;
+	public var diffuseMethodVO(get,null):MethodVO;
+	public var specularMethodVO(get, null):MethodVO;
+	
+	/**
+	 *  The method used to generate the per-pixel normals.
+	 */
+	public var normalMethod(get,set):BasicNormalMethod;
+	/**
+	 * The method that provides the ambient lighting contribution.
+	 */
+	public var ambientMethod(get,set):BasicAmbientMethod;
+	/**
+	 * The method used to render shadows cast on this surface, or null if no shadows are to be rendered.
+	 */
+	public var shadowMethod(get,set):ShadowMapMethodBase;
+	/**
+	 * The method that provides the diffuse lighting contribution.
+	 */
+	public var diffuseMethod(get,set):BasicDiffuseMethod;
+	/**
+	 * The method to perform specular shading.
+	 */
+	public var specularMethod(get,set):BasicSpecularMethod;
+	/**
+	 * @private
+	 */
+	public var colorTransformMethod(get, set):ColorTransformMethod;
+	
+	/**
+	 * The number of "effect" methods added to the material.
+	 */
+	public var numMethods(get, null):Int;
+	
+	public var methods(get,null):Vector<MethodVOSet>;
+	
 	private var _colorTransformMethod:ColorTransformMethod;
 	private var _colorTransformMethodVO:MethodVO;
 
@@ -26,42 +65,6 @@ class ShaderMethodSetup extends EventDispatcher
 	private var _specularMethod:BasicSpecularMethod;
 	private var _specularMethodVO:MethodVO;
 	private var _methods:Vector<MethodVOSet>;
-
-	public var colorTransformMethodVO(get,null):MethodVO;
-	private function get_colorTransformMethodVO():MethodVO
-	{
-		return _colorTransformMethodVO;
-	}
-
-	public var normalMethodVO(get,null):MethodVO;
-	private function get_normalMethodVO():MethodVO
-	{
-		return _normalMethodVO;
-	}
-
-	public var ambientMethodVO(get,null):MethodVO;
-	private function get_ambientMethodVO():MethodVO
-	{
-		return _ambientMethodVO;
-	}
-
-	public var shadowMethodVO(get,null):MethodVO;
-	private function get_shadowMethodVO():MethodVO
-	{
-		return _shadowMethodVO;
-	}
-
-	public var diffuseMethodVO(get,null):MethodVO;
-	private function get_diffuseMethodVO():MethodVO
-	{
-		return _diffuseMethodVO;
-	}
-
-	public var specularMethodVO(get,null):MethodVO;
-	private function get_specularMethodVO():MethodVO
-	{
-		return _specularMethodVO;
-	}
 
 	/**
 	 * Creates a new ShaderMethodSetup object.
@@ -84,6 +87,41 @@ class ShaderMethodSetup extends EventDispatcher
 		_diffuseMethodVO = _diffuseMethod.createMethodVO();
 		_specularMethodVO = _specularMethod.createMethodVO();
 	}
+	
+	private function get_colorTransformMethodVO():MethodVO
+	{
+		return _colorTransformMethodVO;
+	}
+
+	
+	private function get_normalMethodVO():MethodVO
+	{
+		return _normalMethodVO;
+	}
+
+	
+	private function get_ambientMethodVO():MethodVO
+	{
+		return _ambientMethodVO;
+	}
+
+	
+	private function get_shadowMethodVO():MethodVO
+	{
+		return _shadowMethodVO;
+	}
+
+	
+	private function get_diffuseMethodVO():MethodVO
+	{
+		return _diffuseMethodVO;
+	}
+
+	
+	private function get_specularMethodVO():MethodVO
+	{
+		return _specularMethodVO;
+	}
 
 	/**
 	 * Called when any method's code is invalidated.
@@ -101,10 +139,7 @@ class ShaderMethodSetup extends EventDispatcher
 		dispatchEvent(new ShadingMethodEvent(ShadingMethodEvent.SHADER_INVALIDATED));
 	}
 
-	/**
-	 *  The method used to generate the per-pixel normals.
-	 */
-	public var normalMethod(get,set):BasicNormalMethod;
+	
 	private function get_normalMethod():BasicNormalMethod
 	{
 		return _normalMethod;
@@ -131,10 +166,7 @@ class ShaderMethodSetup extends EventDispatcher
 		return _normalMethod;
 	}
 
-	/**
-	 * The method that provides the ambient lighting contribution.
-	 */
-	public var ambientMethod(get,set):BasicAmbientMethod;
+	
 	private function get_ambientMethod():BasicAmbientMethod
 	{
 		return _ambientMethod;
@@ -159,10 +191,7 @@ class ShaderMethodSetup extends EventDispatcher
 		return _ambientMethod;
 	}
 
-	/**
-	 * The method used to render shadows cast on this surface, or null if no shadows are to be rendered.
-	 */
-	public var shadowMethod(get,set):ShadowMapMethodBase;
+	
 	private function get_shadowMethod():ShadowMapMethodBase
 	{
 		return _shadowMethod;
@@ -184,10 +213,7 @@ class ShaderMethodSetup extends EventDispatcher
 		return _shadowMethod;
 	}
 
-	/**
-	 * The method that provides the diffuse lighting contribution.
-	 */
-	public var diffuseMethod(get,set):BasicDiffuseMethod;
+	
 	private function get_diffuseMethod():BasicDiffuseMethod
 	{
 		return _diffuseMethod;
@@ -214,10 +240,7 @@ class ShaderMethodSetup extends EventDispatcher
 		return _diffuseMethod;
 	}
 
-	/**
-	 * The method to perform specular shading.
-	 */
-	public var specularMethod(get,set):BasicSpecularMethod;
+	
 	private function get_specularMethod():BasicSpecularMethod
 	{
 		return _specularMethod;
@@ -245,12 +268,6 @@ class ShaderMethodSetup extends EventDispatcher
 		return _specularMethod;
 	}
 
-
-
-	/**
-	 * @private
-	 */
-	public var colorTransformMethod(get,set):ColorTransformMethod;
 	private function get_colorTransformMethod():ColorTransformMethod
 	{
 		return _colorTransformMethod;
@@ -349,16 +366,13 @@ class ShaderMethodSetup extends EventDispatcher
 		return _methods[index].method;
 	}
 
-	/**
-	 * The number of "effect" methods added to the material.
-	 */
-	public var numMethods(get,null):Int;
+	
 	private function get_numMethods():Int
 	{
 		return _methods.length;
 	}
 
-	public var methods(get,null):Vector<MethodVOSet>;
+	
 	private function get_methods():Vector<MethodVOSet>
 	{
 		return _methods;

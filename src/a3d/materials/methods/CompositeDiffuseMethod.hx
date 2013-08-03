@@ -16,13 +16,13 @@ import a3d.textures.Texture2DBase;
  */
 class CompositeDiffuseMethod extends BasicDiffuseMethod
 {
-	private var _baseMethod:BasicDiffuseMethod;
-
 	/**
 	 * The base diffuse method on which this method's shading is based.
 	 */
 	public var baseMethod(get, set):BasicDiffuseMethod;
 	
+	
+	private var _baseMethod:BasicDiffuseMethod;
 
 	/**
 	 * Creates a new WrapDiffuseMethod object.

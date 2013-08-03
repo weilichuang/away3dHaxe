@@ -12,6 +12,17 @@ import flash.Vector;
  */
 class FogMethod extends EffectMethodBase
 {
+	/**
+	 * The distance from which the fog starts appearing.
+	 */
+	public var minDistance(get,set):Float;
+	/**
+	 * The distance at which the fog is densest.
+	 */
+	public var maxDistance(get, set):Float;
+	
+	public var fogColor(get, set):UInt;
+	
 	private var _minDistance:Float = 0;
 	private var _maxDistance:Float = 1000;
 	private var _fogColor:UInt;
@@ -47,10 +58,7 @@ class FogMethod extends EffectMethodBase
 		data[index + 7] = 0;
 	}
 
-	/**
-	 * The distance from which the fog starts appearing.
-	 */
-	public var minDistance(get,set):Float;
+	
 	private function get_minDistance():Float
 	{
 		return _minDistance;
@@ -61,10 +69,7 @@ class FogMethod extends EffectMethodBase
 		return _minDistance = value;
 	}
 
-	/**
-	 * The distance at which the fog is densest.
-	 */
-	public var maxDistance(get,set):Float;
+	
 	private function get_maxDistance():Float
 	{
 		return _maxDistance;
@@ -75,7 +80,7 @@ class FogMethod extends EffectMethodBase
 		return _maxDistance = value;
 	}
 
-	public var fogColor(get,set):UInt;
+	
 	private function get_fogColor():UInt
 	{
 		return _fogColor;
@@ -113,11 +118,11 @@ class FogMethod extends EffectMethodBase
 		vo.fragmentConstantsIndex = fogColor.index * 4;
 
 		code += "sub " + temp2 + ".w, " + _sharedRegisters.projectionFragment + ".z, " + fogData + ".x          \n" +
-			"mul " + temp2 + ".w, " + temp2 + ".w, " + fogData + ".y					\n" +
-			"sat " + temp2 + ".w, " + temp2 + ".w										\n" +
-			"sub " + temp + ", " + fogColor + ", " + targetReg + "\n" + // (fogColor- col)
-			"mul " + temp + ", " + temp + ", " + temp2 + ".w					\n" + // (fogColor- col)*fogRatio
-			"add " + targetReg + ", " + targetReg + ", " + temp + "\n"; // fogRatio*(fogColor- col) + col
+				"mul " + temp2 + ".w, " + temp2 + ".w, " + fogData + ".y					\n" +
+				"sat " + temp2 + ".w, " + temp2 + ".w										\n" +
+				"sub " + temp + ", " + fogColor + ", " + targetReg + "\n" + // (fogColor- col)
+				"mul " + temp + ", " + temp + ", " + temp2 + ".w					\n" + // (fogColor- col)*fogRatio
+				"add " + targetReg + ", " + targetReg + ", " + temp + "\n"; // fogRatio*(fogColor- col) + col
 
 		regCache.removeFragmentTempUsage(temp);
 

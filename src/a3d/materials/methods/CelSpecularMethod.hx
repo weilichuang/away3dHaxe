@@ -14,6 +14,15 @@ import flash.Vector;
  */
 class CelSpecularMethod extends CompositeSpecularMethod
 {
+	/**
+	 * The smoothness of the highlight edge.
+	 */
+	public var smoothness(get,set):Float;
+	/**
+	 * The threshold at which the specular highlight should be shown.
+	 */
+	public var specularCutOff(get, set):Float;
+	
 	private var _dataReg:ShaderRegisterElement;
 	private var _smoothness:Float = .1;
 	private var _specularCutOff:Float = .1;
@@ -29,10 +38,7 @@ class CelSpecularMethod extends CompositeSpecularMethod
 		_specularCutOff = specularCutOff;
 	}
 
-	/**
-	 * The smoothness of the highlight edge.
-	 */
-	public var smoothness(get,set):Float;
+	
 	private function get_smoothness():Float
 	{
 		return _smoothness;
@@ -43,10 +49,7 @@ class CelSpecularMethod extends CompositeSpecularMethod
 		return _smoothness = value;
 	}
 
-	/**
-	 * The threshold at which the specular highlight should be shown.
-	 */
-	public var specularCutOff(get,set):Float;
+	
 	private function get_specularCutOff():Float
 	{
 		return _specularCutOff;

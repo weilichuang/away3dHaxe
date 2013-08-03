@@ -136,13 +136,13 @@ class LightingShaderCompiler extends ShaderCompiler
 			_sharedRegisters.normalVarying = _registerCache.getFreeVarying();
 
 			// no output, world space is enough
-			_vertexCode += Agal.m33(_sharedRegisters.normalVarying + ".xyz", _sharedRegisters.animatedNormal, normalMatrix[0]) +
-						   Agal.mov(_sharedRegisters.normalVarying + ".w", _sharedRegisters.animatedNormal + ".w");
+			_vertexCode += Agal.m33(_sharedRegisters.normalVarying.toString() + ".xyz", _sharedRegisters.animatedNormal.toString(), normalMatrix[0].toString()) +
+						   Agal.mov(_sharedRegisters.normalVarying.toString() + ".w", _sharedRegisters.animatedNormal.toString() + ".w");
 				//"m33 " + _sharedRegisters.normalVarying + ".xyz, " + _sharedRegisters.animatedNormal + ", " + normalMatrix[0] + "\n" +
 				//"mov " + _sharedRegisters.normalVarying + ".w, " + _sharedRegisters.animatedNormal + ".w	\n";
 
-			_fragmentCode += Agal.nrm(_sharedRegisters.normalFragment + ".xyz", _sharedRegisters.normalVarying) +
-							 Agal.mov(_sharedRegisters.normalFragment + ".w", _sharedRegisters.normalVarying + ".w");
+			_fragmentCode += Agal.nrm(_sharedRegisters.normalFragment.toString() + ".xyz", _sharedRegisters.normalVarying.toString()) +
+							 Agal.mov(_sharedRegisters.normalFragment.toString() + ".w", _sharedRegisters.normalVarying.toString() + ".w");
 				//"nrm " + _sharedRegisters.normalFragment + ".xyz, " + _sharedRegisters.normalVarying + "\n" +
 				//"mov " + _sharedRegisters.normalFragment + ".w, " + _sharedRegisters.normalVarying + ".w		\n";
 

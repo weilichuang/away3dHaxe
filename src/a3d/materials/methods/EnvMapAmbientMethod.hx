@@ -15,6 +15,11 @@ import a3d.textures.CubeTextureBase;
  */
 class EnvMapAmbientMethod extends BasicAmbientMethod
 {
+	/**
+	 * The cube environment map to use for the diffuse lighting.
+	 */
+	public var envMap(get, set):CubeTextureBase;
+	
 	private var _cubeTexture:CubeTextureBase;
 
 	/**
@@ -40,10 +45,7 @@ class EnvMapAmbientMethod extends BasicAmbientMethod
 	{
 	}
 
-	/**
-	 * The cube environment map to use for the diffuse lighting.
-	 */
-	public var envMap(get,set):CubeTextureBase;
+	
 	private function get_envMap():CubeTextureBase
 	{
 		return _cubeTexture;

@@ -58,15 +58,15 @@ class HardShadowMapMethod extends SimpleShadowMapMethodBase
 		vo.texturesIndex = depthMapRegister.index;
 
 		code += "sub " + lightDir + ", " + _sharedRegisters.globalPositionVarying + ", " + posReg + "\n" +
-			"dp3 " + lightDir + ".w, " + lightDir + ".xyz, " + lightDir + ".xyz\n" +
-			"mul " + lightDir + ".w, " + lightDir + ".w, " + posReg + ".w\n" +
-			"nrm " + lightDir + ".xyz, " + lightDir + ".xyz\n" +
+				"dp3 " + lightDir + ".w, " + lightDir + ".xyz, " + lightDir + ".xyz\n" +
+				"mul " + lightDir + ".w, " + lightDir + ".w, " + posReg + ".w\n" +
+				"nrm " + lightDir + ".xyz, " + lightDir + ".xyz\n" +
 
-			"tex " + depthSampleCol + ", " + lightDir + ", " + depthMapRegister + " <cube, nearest, clamp>\n" +
-			"dp4 " + depthSampleCol + ".z, " + depthSampleCol + ", " + decReg + "\n" +
-			"add " + targetReg + ".w, " + lightDir + ".w, " + epsReg + ".x\n" + // offset by epsilon
+				"tex " + depthSampleCol + ", " + lightDir + ", " + depthMapRegister + " <cube, nearest, clamp>\n" +
+				"dp4 " + depthSampleCol + ".z, " + depthSampleCol + ", " + decReg + "\n" +
+				"add " + targetReg + ".w, " + lightDir + ".w, " + epsReg + ".x\n" + // offset by epsilon
 
-			"slt " + targetReg + ".w, " + targetReg + ".w, " + depthSampleCol + ".z\n"; // 0 if in shadow
+				"slt " + targetReg + ".w, " + targetReg + ".w, " + depthSampleCol + ".z\n"; // 0 if in shadow
 
 		regCache.removeFragmentTempUsage(depthSampleCol);
 
@@ -79,8 +79,8 @@ class HardShadowMapMethod extends SimpleShadowMapMethodBase
 	{
 		var temp:ShaderRegisterElement = regCache.getFreeFragmentVectorTemp();
 		return "tex " + temp + ", " + depthProjection + ", " + depthTexture + " <2d, nearest, clamp>\n" +
-			"dp4 " + temp + ".z, " + temp + ", " + decodeRegister + "\n" +
-			"slt " + targetRegister + ".w, " + depthProjection + ".z, " + temp + ".z\n"; // 0 if in shadow
+				"dp4 " + temp + ".z, " + temp + ", " + decodeRegister + "\n" +
+				"slt " + targetRegister + ".w, " + depthProjection + ".z, " + temp + ".z\n"; // 0 if in shadow
 	}
 
 	override public function activateForCascade(vo:MethodVO, stage3DProxy:Stage3DProxy):Void

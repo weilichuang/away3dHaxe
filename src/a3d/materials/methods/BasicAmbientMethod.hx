@@ -18,6 +18,23 @@ import flash.Vector.Vector;
 
 class BasicAmbientMethod extends ShadingMethodBase
 {
+	/**
+	 * The strength of the ambient reflection of the surface.
+	 */
+	public var ambient(get, set):Float;
+	/**
+	 * The colour of the ambient reflection of the surface.
+	 */
+	public var ambientColor(get, set):UInt;
+	/**
+	 * The bitmapData to use to define the diffuse reflection color per texel.
+	 */
+	public var texture(get, set):Texture2DBase;
+	
+	public var lightAmbientR:Float;
+	public var lightAmbientG:Float;
+	public var lightAmbientB:Float;
+	
 	private var _useTexture:Bool;
 	private var _texture:Texture2DBase;
 
@@ -28,11 +45,7 @@ class BasicAmbientMethod extends ShadingMethodBase
 	private var _ambientG:Float; 
 	private var _ambientB:Float;
 	private var _ambient:Float;
-	public var lightAmbientR:Float;
-	public var lightAmbientG:Float;
-	public var lightAmbientB:Float;
-
-
+	
 	/**
 	 * Creates a new BasicAmbientMethod object.
 	 */
@@ -60,10 +73,7 @@ class BasicAmbientMethod extends ShadingMethodBase
 		vo.fragmentData[vo.fragmentConstantsIndex + 3] = 1;
 	}
 
-	/**
-	 * The strength of the ambient reflection of the surface.
-	 */
-	public var ambient(get, set):Float;
+	
 	private function get_ambient():Float
 	{
 		return _ambient;
@@ -74,10 +84,7 @@ class BasicAmbientMethod extends ShadingMethodBase
 		return _ambient = value;
 	}
 
-	/**
-	 * The colour of the ambient reflection of the surface.
-	 */
-	public var ambientColor(get, set):UInt;
+	
 	private function get_ambientColor():UInt
 	{
 		return _ambientColor;
@@ -88,10 +95,7 @@ class BasicAmbientMethod extends ShadingMethodBase
 		return _ambientColor = value;
 	}
 
-	/**
-	 * The bitmapData to use to define the diffuse reflection color per texel.
-	 */
-	public var texture(get, set):Texture2DBase;
+	
 	private function get_texture():Texture2DBase
 	{
 		return _texture;

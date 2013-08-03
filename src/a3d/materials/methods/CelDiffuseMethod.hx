@@ -14,6 +14,15 @@ import flash.Vector;
  */
 class CelDiffuseMethod extends CompositeDiffuseMethod
 {
+	/**
+	 * The amount of shadow gradations.
+	 */
+	public var levels(get,set):Int;
+	/**
+	 * The smoothness of the edge between 2 shading levels.
+	 */
+	public var smoothness(get, set):Float;
+	
 	private var _levels:Int;
 	private var _dataReg:ShaderRegisterElement;
 	private var _smoothness:Float = .1;
@@ -39,10 +48,7 @@ class CelDiffuseMethod extends CompositeDiffuseMethod
 		data[index + 2] = 0;
 	}
 
-	/**
-	 * The amount of shadow gradations.
-	 */
-	public var levels(get,set):Int;
+	
 	private function get_levels():Int
 	{
 		return _levels;
@@ -53,10 +59,7 @@ class CelDiffuseMethod extends CompositeDiffuseMethod
 		return _levels = value;
 	}
 
-	/**
-	 * The smoothness of the edge between 2 shading levels.
-	 */
-	public var smoothness(get,set):Float;
+	
 	private function get_smoothness():Float
 	{
 		return _smoothness;

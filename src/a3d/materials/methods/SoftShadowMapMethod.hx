@@ -13,6 +13,16 @@ import flash.Vector;
  */
 class SoftShadowMapMethod extends SimpleShadowMapMethodBase
 {
+	/**
+	 * The amount of samples to take for dithering. Minimum 1, maximum 32. The actual maximum may depend on the
+	 * complexity of the shader.
+	 */
+	public var numSamples(get,set):Int;
+	/**
+	 * The range in the shadow map in which to distribute the samples.
+	 */
+	public var range(get, set):Float;
+	
 	private var _range:Float = 1;
 	private var _numSamples:Int;
 	private var _offsets:Vector<Float>;
@@ -31,11 +41,7 @@ class SoftShadowMapMethod extends SimpleShadowMapMethodBase
 		this.range = range;
 	}
 	
-	/**
-	 * The amount of samples to take for dithering. Minimum 1, maximum 32. The actual maximum may depend on the
-	 * complexity of the shader.
-	 */
-	public var numSamples(get,set):Int;
+	
 	private function get_numSamples():Int
 	{
 		return _numSamples;
@@ -55,10 +61,7 @@ class SoftShadowMapMethod extends SimpleShadowMapMethodBase
 		return _numSamples;
 	}
 
-	/**
-	 * The range in the shadow map in which to distribute the samples.
-	 */
-	public var range(get,set):Float;
+	
 	private function get_range():Float
 	{
 		return _range;

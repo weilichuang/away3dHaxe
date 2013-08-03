@@ -13,6 +13,32 @@ import flash.Vector;
  */
 class RefractionEnvMapMethod extends EffectMethodBase
 {
+	/**
+	 * The cube environment map to use for the refraction.
+	 */
+	public var envMap(get,set):CubeTextureBase;
+	/**
+	 * The refractive index of the material.
+	 */
+	public var refractionIndex(get,set):Float;
+	/**
+	 * The amount of chromatic dispersion of the red channel. Defaults to 0 (none).
+	 */
+	public var dispersionR(get,set):Float;
+	/**
+	 * The amount of chromatic dispersion of the green channel. Defaults to 0 (none).
+	 */
+	public var dispersionG(get,set):Float;
+	/**
+	 * The amount of chromatic dispersion of the blue channel. Defaults to 0 (none).
+	 */
+	public var dispersionB(get,set):Float;
+	/**
+	 * The amount of transparency of the object. Warning: the alpha applies to the refracted color, not the actual
+	 * material. A value of 1 will make it appear fully transparent.
+	 */
+	public var alpha(get, set):Float;
+	
 	private var _envMap:CubeTextureBase;
 
 	private var _dispersionR:Float = 0;
@@ -56,10 +82,7 @@ class RefractionEnvMapMethod extends EffectMethodBase
 		vo.needsView = true;
 	}
 
-	/**
-	 * The cube environment map to use for the refraction.
-	 */
-	public var envMap(get,set):CubeTextureBase;
+	
 	private function get_envMap():CubeTextureBase
 	{
 		return _envMap;
@@ -70,10 +93,7 @@ class RefractionEnvMapMethod extends EffectMethodBase
 		return _envMap = value;
 	}
 
-	/**
-	 * The refractive index of the material.
-	 */
-	public var refractionIndex(get,set):Float;
+	
 	private function get_refractionIndex():Float
 	{
 		return _refractionIndex;
@@ -84,10 +104,7 @@ class RefractionEnvMapMethod extends EffectMethodBase
 		return _refractionIndex = value;
 	}
 
-	/**
-	 * The amount of chromatic dispersion of the red channel. Defaults to 0 (none).
-	 */
-	public var dispersionR(get,set):Float;
+	
 	private function get_dispersionR():Float
 	{
 		return _dispersionR;
@@ -106,10 +123,7 @@ class RefractionEnvMapMethod extends EffectMethodBase
 		return _dispersionR;
 	}
 
-	/**
-	 * The amount of chromatic dispersion of the green channel. Defaults to 0 (none).
-	 */
-	public var dispersionG(get,set):Float;
+	
 	private function get_dispersionG():Float
 	{
 		return _dispersionG;
@@ -129,10 +143,7 @@ class RefractionEnvMapMethod extends EffectMethodBase
 		return _dispersionG;
 	}
 
-	/**
-	 * The amount of chromatic dispersion of the blue channel. Defaults to 0 (none).
-	 */
-	public var dispersionB(get,set):Float;
+	
 	private function get_dispersionB():Float
 	{
 		return _dispersionB;
@@ -151,11 +162,7 @@ class RefractionEnvMapMethod extends EffectMethodBase
 		return _dispersionB;
 	}
 
-	/**
-	 * The amount of transparency of the object. Warning: the alpha applies to the refracted color, not the actual
-	 * material. A value of 1 will make it appear fully transparent.
-	 */
-	public var alpha(get,set):Float;
+	
 	private function get_alpha():Float
 	{
 		return _alpha;
@@ -207,78 +214,78 @@ class RefractionEnvMapMethod extends EffectMethodBase
 		code += "neg " + viewDirReg + ".xyz, " + viewDirReg + ".xyz\n";
 
 		code += "dp3 " + temp + ".x, " + viewDirReg + ".xyz, " + normalReg + ".xyz\n" +
-			"mul " + temp + ".w, " + temp + ".x, " + temp + ".x\n" +
-			"sub " + temp + ".w, " + data2 + ".x, " + temp + ".w\n" +
-			"mul " + temp + ".w, " + data + ".x, " + temp + ".w\n" +
-			"mul " + temp + ".w, " + data + ".x, " + temp + ".w\n" +
-			"sub " + temp + ".w, " + data2 + ".x, " + temp + ".w\n" +
-			"sqt " + temp + ".y, " + temp + ".w\n" +
+				"mul " + temp + ".w, " + temp + ".x, " + temp + ".x\n" +
+				"sub " + temp + ".w, " + data2 + ".x, " + temp + ".w\n" +
+				"mul " + temp + ".w, " + data + ".x, " + temp + ".w\n" +
+				"mul " + temp + ".w, " + data + ".x, " + temp + ".w\n" +
+				"sub " + temp + ".w, " + data2 + ".x, " + temp + ".w\n" +
+				"sqt " + temp + ".y, " + temp + ".w\n" +
 
-			"mul " + temp + ".x, " + data + ".x, " + temp + ".x\n" +
-			"add " + temp + ".x, " + temp + ".x, " + temp + ".y\n" +
-			"mul " + temp + ".xyz, " + temp + ".x, " + normalReg + ".xyz\n" +
+				"mul " + temp + ".x, " + data + ".x, " + temp + ".x\n" +
+				"add " + temp + ".x, " + temp + ".x, " + temp + ".y\n" +
+				"mul " + temp + ".xyz, " + temp + ".x, " + normalReg + ".xyz\n" +
 
-			"mul " + refractionDir + ", " + data + ".x, " + viewDirReg + "\n" +
-			"sub " + refractionDir + ".xyz, " + refractionDir + ".xyz, " + temp + ".xyz\n" +
-			"nrm " + refractionDir + ".xyz, " + refractionDir + ".xyz\n";
+				"mul " + refractionDir + ", " + data + ".x, " + viewDirReg + "\n" +
+				"sub " + refractionDir + ".xyz, " + refractionDir + ".xyz, " + temp + ".xyz\n" +
+				"nrm " + refractionDir + ".xyz, " + refractionDir + ".xyz\n";
 
 
 		code += getTexCubeSampleCode(vo, refractionColor, cubeMapReg, _envMap, refractionDir) +
-			"sub " + refractionColor + ".w, " + refractionColor + ".w, fc0.x	\n" +
-			"kil " + refractionColor + ".w\n";
+				"sub " + refractionColor + ".w, " + refractionColor + ".w, fc0.x	\n" +
+				"kil " + refractionColor + ".w\n";
 
 		if (_useDispersion)
 		{
 			// GREEN
 
 			code += "dp3 " + temp + ".x, " + viewDirReg + ".xyz, " + normalReg + ".xyz\n" +
-				"mul " + temp + ".w, " + temp + ".x, " + temp + ".x\n" +
-				"sub " + temp + ".w, " + data2 + ".x, " + temp + ".w\n" +
-				"mul " + temp + ".w, " + data + ".y, " + temp + ".w\n" +
-				"mul " + temp + ".w, " + data + ".y, " + temp + ".w\n" +
-				"sub " + temp + ".w, " + data2 + ".x, " + temp + ".w\n" +
-				"sqt " + temp + ".y, " + temp + ".w\n" +
+					"mul " + temp + ".w, " + temp + ".x, " + temp + ".x\n" +
+					"sub " + temp + ".w, " + data2 + ".x, " + temp + ".w\n" +
+					"mul " + temp + ".w, " + data + ".y, " + temp + ".w\n" +
+					"mul " + temp + ".w, " + data + ".y, " + temp + ".w\n" +
+					"sub " + temp + ".w, " + data2 + ".x, " + temp + ".w\n" +
+					"sqt " + temp + ".y, " + temp + ".w\n" +
 
-				"mul " + temp + ".x, " + data + ".y, " + temp + ".x\n" +
-				"add " + temp + ".x, " + temp + ".x, " + temp + ".y\n" +
-				"mul " + temp + ".xyz, " + temp + ".x, " + normalReg + ".xyz\n" +
+					"mul " + temp + ".x, " + data + ".y, " + temp + ".x\n" +
+					"add " + temp + ".x, " + temp + ".x, " + temp + ".y\n" +
+					"mul " + temp + ".xyz, " + temp + ".x, " + normalReg + ".xyz\n" +
 
-				"mul " + refractionDir + ", " + data + ".y, " + viewDirReg + "\n" +
-				"sub " + refractionDir + ".xyz, " + refractionDir + ".xyz, " + temp + ".xyz\n" +
-				"nrm " + refractionDir + ".xyz, " + refractionDir + ".xyz\n";
+					"mul " + refractionDir + ", " + data + ".y, " + viewDirReg + "\n" +
+					"sub " + refractionDir + ".xyz, " + refractionDir + ".xyz, " + temp + ".xyz\n" +
+					"nrm " + refractionDir + ".xyz, " + refractionDir + ".xyz\n";
 			//
 			code += getTexCubeSampleCode(vo, temp, cubeMapReg, _envMap, refractionDir) +
-				"mov " + refractionColor + ".y, " + temp + ".y\n";
+					"mov " + refractionColor + ".y, " + temp + ".y\n";
 
 
 
 			// BLUE
 
 			code += "dp3 " + temp + ".x, " + viewDirReg + ".xyz, " + normalReg + ".xyz\n" +
-				"mul " + temp + ".w, " + temp + ".x, " + temp + ".x\n" +
-				"sub " + temp + ".w, " + data2 + ".x, " + temp + ".w\n" +
-				"mul " + temp + ".w, " + data + ".z, " + temp + ".w\n" +
-				"mul " + temp + ".w, " + data + ".z, " + temp + ".w\n" +
-				"sub " + temp + ".w, " + data2 + ".x, " + temp + ".w\n" +
-				"sqt " + temp + ".y, " + temp + ".w\n" +
+					"mul " + temp + ".w, " + temp + ".x, " + temp + ".x\n" +
+					"sub " + temp + ".w, " + data2 + ".x, " + temp + ".w\n" +
+					"mul " + temp + ".w, " + data + ".z, " + temp + ".w\n" +
+					"mul " + temp + ".w, " + data + ".z, " + temp + ".w\n" +
+					"sub " + temp + ".w, " + data2 + ".x, " + temp + ".w\n" +
+					"sqt " + temp + ".y, " + temp + ".w\n" +
 
-				"mul " + temp + ".x, " + data + ".z, " + temp + ".x\n" +
-				"add " + temp + ".x, " + temp + ".x, " + temp + ".y\n" +
-				"mul " + temp + ".xyz, " + temp + ".x, " + normalReg + ".xyz\n" +
+					"mul " + temp + ".x, " + data + ".z, " + temp + ".x\n" +
+					"add " + temp + ".x, " + temp + ".x, " + temp + ".y\n" +
+					"mul " + temp + ".xyz, " + temp + ".x, " + normalReg + ".xyz\n" +
 
-				"mul " + refractionDir + ", " + data + ".z, " + viewDirReg + "\n" +
-				"sub " + refractionDir + ".xyz, " + refractionDir + ".xyz, " + temp + ".xyz\n" +
-				"nrm " + refractionDir + ".xyz, " + refractionDir + ".xyz\n";
+					"mul " + refractionDir + ", " + data + ".z, " + viewDirReg + "\n" +
+					"sub " + refractionDir + ".xyz, " + refractionDir + ".xyz, " + temp + ".xyz\n" +
+					"nrm " + refractionDir + ".xyz, " + refractionDir + ".xyz\n";
 
 			code += getTexCubeSampleCode(vo, temp, cubeMapReg, _envMap, refractionDir) +
-				"mov " + refractionColor + ".z, " + temp + ".z\n";
+					"mov " + refractionColor + ".z, " + temp + ".z\n";
 		}
 
 		regCache.removeFragmentTempUsage(refractionDir);
 
 		code += "sub " + refractionColor + ".xyz, " + refractionColor + ".xyz, " + targetReg + ".xyz\n" +
-			"mul " + refractionColor + ".xyz, " + refractionColor + ".xyz, " + data + ".w\n" +
-			"add " + targetReg + ".xyz, " + targetReg + ".xyz, " + refractionColor + ".xyz\n";
+				"mul " + refractionColor + ".xyz, " + refractionColor + ".xyz, " + data + ".w\n" +
+				"add " + targetReg + ".xyz, " + targetReg + ".xyz, " + refractionColor + ".xyz\n";
 		regCache.removeFragmentTempUsage(refractionColor);
 
 		// restore

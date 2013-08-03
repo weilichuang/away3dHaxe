@@ -15,6 +15,19 @@ import flash.display3D.Context3D;
  */
 class EnvMapMethod extends EffectMethodBase
 {
+	/**
+	 * An optional texture to modulate the reflectivity of the surface.
+	 */
+	public var mask(get,set):Texture2DBase;
+	/**
+	 * The cubic environment map containing the reflected scene.
+	 */
+	public var envMap(get,set):CubeTextureBase;
+	/**
+	 * The reflectivity of the surface.
+	 */
+	public var alpha(get, set):Float;
+	
 	private var _cubeTexture:CubeTextureBase;
 	private var _alpha:Float;
 	private var _mask:Texture2DBase;
@@ -31,10 +44,7 @@ class EnvMapMethod extends EffectMethodBase
 		_alpha = alpha;
 	}
 
-	/**
-	 * An optional texture to modulate the reflectivity of the surface.
-	 */
-	public var mask(get,set):Texture2DBase;
+	
 	private function get_mask():Texture2DBase
 	{
 		return _mask;
@@ -58,10 +68,7 @@ class EnvMapMethod extends EffectMethodBase
 		vo.needsUV = _mask != null;
 	}
 
-	/**
-	 * The cubic environment map containing the reflected scene.
-	 */
-	public var envMap(get,set):CubeTextureBase;
+	
 	private function get_envMap():CubeTextureBase
 	{
 		return _cubeTexture;
@@ -79,10 +86,7 @@ class EnvMapMethod extends EffectMethodBase
 	{
 	}
 
-	/**
-	 * The reflectivity of the surface.
-	 */
-	public var alpha(get,set):Float;
+	
 	private function get_alpha():Float
 	{
 		return _alpha;

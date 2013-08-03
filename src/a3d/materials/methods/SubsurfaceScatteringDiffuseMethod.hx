@@ -23,6 +23,20 @@ import flash.geom.Matrix3D;
  */
 class SubsurfaceScatteringDiffuseMethod extends CompositeDiffuseMethod
 {
+	/**
+	 * The amount by which the light scatters. It can be used to set the translucent surface's thickness. Use low
+	 * values for skin.
+	 */
+	public var scattering(get,set):Float;
+	/**
+	 * The translucency of the object.
+	 */
+	public var translucency(get,set):Float;
+	/**
+	 * The colour of the "insides" of the object, ie: the colour the light becomes after leaving the object.
+	 */
+	public var scatterColor(get, set):UInt;
+	
 	private var _depthPass:SingleObjectDepthPass;
 	private var _lightProjVarying:ShaderRegisterElement;
 	private var _propReg:ShaderRegisterElement;
@@ -85,11 +99,7 @@ class SubsurfaceScatteringDiffuseMethod extends CompositeDiffuseMethod
 		_targetReg = null;
 	}
 
-	/**
-	 * The amount by which the light scatters. It can be used to set the translucent surface's thickness. Use low
-	 * values for skin.
-	 */
-	public var scattering(get,set):Float;
+	
 	private function get_scattering():Float
 	{
 		return _scattering;
@@ -100,10 +110,7 @@ class SubsurfaceScatteringDiffuseMethod extends CompositeDiffuseMethod
 		return _scattering = value;
 	}
 
-	/**
-	 * The translucency of the object.
-	 */
-	public var translucency(get,set):Float;
+	
 	private function get_translucency():Float
 	{
 		return _translucency;
@@ -114,10 +121,7 @@ class SubsurfaceScatteringDiffuseMethod extends CompositeDiffuseMethod
 		return _translucency = value;
 	}
 
-	/**
-	 * The colour of the "insides" of the object, ie: the colour the light becomes after leaving the object.
-	 */
-	public var scatterColor(get,set):UInt;
+	
 	private function get_scatterColor():UInt
 	{
 		return _scatterColor;

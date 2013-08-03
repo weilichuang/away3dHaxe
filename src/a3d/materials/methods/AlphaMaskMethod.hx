@@ -15,6 +15,17 @@ import a3d.textures.Texture2DBase;
  */
 class AlphaMaskMethod extends EffectMethodBase
 {
+	/**
+	 * Indicated whether or not the secondary uv set for the mask. This allows mapping alpha independently, for
+	 * instance to tile the main texture and normal map while providing untiled alpha, for example to define the
+	 * transparency over a tiled water surface.
+	 */
+	public var useSecondaryUV(get, set):Bool;
+	/**
+	 * The texture to use as the alpha mask.
+	 */
+	public var texture(get, set):Texture2DBase;
+	
 	private var _texture:Texture2DBase;
 	private var _useSecondaryUV:Bool;
 
@@ -36,12 +47,7 @@ class AlphaMaskMethod extends EffectMethodBase
 		vo.needsUV = !_useSecondaryUV;
 	}
 
-	/**
-	 * Indicated whether or not the secondary uv set for the mask. This allows mapping alpha independently, for
-	 * instance to tile the main texture and normal map while providing untiled alpha, for example to define the
-	 * transparency over a tiled water surface.
-	 */
-	public var useSecondaryUV(get, set):Bool;
+	
 	private function get_useSecondaryUV():Bool
 	{
 		return _useSecondaryUV;
@@ -56,10 +62,7 @@ class AlphaMaskMethod extends EffectMethodBase
 		return _useSecondaryUV;
 	}
 
-	/**
-	 * The texture to use as the alpha mask.
-	 */
-	public var texture(get, set):Texture2DBase;
+	
 	private function get_texture():Texture2DBase
 	{
 		return _texture;

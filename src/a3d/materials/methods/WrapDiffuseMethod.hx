@@ -14,6 +14,11 @@ import flash.Vector;
  */
 class WrapDiffuseMethod extends BasicDiffuseMethod
 {
+	/**
+	 * A factor to indicate the amount by which the light is allowed to wrap.
+	 */
+	public var wrapFactor(get, set):Float;
+	
 	private var _wrapDataRegister:ShaderRegisterElement;
 	private var _wrapFactor:Float;
 
@@ -33,10 +38,7 @@ class WrapDiffuseMethod extends BasicDiffuseMethod
 		_wrapDataRegister = null;
 	}
 
-	/**
-	 * A factor to indicate the amount by which the light is allowed to wrap.
-	 */
-	public var wrapFactor(get,set):Float;
+	
 	private function get_wrapFactor():Float
 	{
 		return _wrapFactor;

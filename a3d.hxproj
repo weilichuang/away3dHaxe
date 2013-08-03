@@ -21,7 +21,7 @@
   <build>
     <option directives="" />
     <option flashStrict="True" />
-    <option mainClass="a3dexample.Advanced_MultiPassSponzaDemo" />
+    <option mainClass="a3dexample.Basic_LoadMD2" />
     <option enabledebug="True" />
     <option additional="-D advanced-telemetry&#xA;-swf-lib embeds/assets.swf" />
   </build>
@@ -32,7 +32,7 @@
   <!-- Class files to compile (other referenced classes will automatically be included) -->
   <compileTargets>
     <compile path="src\Main.hx" />
-    <compile path="src\a3dexample\Advanced_MultiPassSponzaDemo.hx" />
+    <compile path="src\a3dexample\Basic_LoadMD2.hx" />
   </compileTargets>
   <!-- Assets to embed into the output SWF -->
   <library>
@@ -40,7 +40,7 @@
   </library>
   <!-- Paths to exclude from the Project Explorer tree -->
   <hiddenPaths>
-    <!-- example: <hidden path="..." /> -->
+    <hidden path="obj" />
   </hiddenPaths>
   <!-- Executed before build -->
   <preBuildCommand />
@@ -49,7 +49,7 @@
   <!-- Other project options -->
   <options>
     <option showHiddenPaths="False" />
-    <option testMovie="Default" />
+    <option testMovie="ExternalPlayer" />
   </options>
   <!-- Plugin storage -->
   <storage />

@@ -1,19 +1,19 @@
 package a3d.materials.methods;
 
+import a3d.core.base.IRenderable;
+import a3d.core.managers.Stage3DProxy;
+import a3d.entities.Camera3D;
+import a3d.entities.lights.DirectionalLight;
+import a3d.entities.lights.shadowmaps.CascadeShadowMapper;
+import a3d.events.ShadingMethodEvent;
+import a3d.materials.compilation.ShaderRegisterCache;
+import a3d.materials.compilation.ShaderRegisterData;
+import a3d.materials.compilation.ShaderRegisterElement;
 import flash.errors.Error;
 import flash.events.Event;
 import flash.Vector;
 
 
-import a3d.entities.Camera3D;
-import a3d.core.base.IRenderable;
-import a3d.core.managers.Stage3DProxy;
-import a3d.events.ShadingMethodEvent;
-import a3d.entities.lights.DirectionalLight;
-import a3d.entities.lights.shadowmaps.CascadeShadowMapper;
-import a3d.materials.compilation.ShaderRegisterCache;
-import a3d.materials.compilation.ShaderRegisterData;
-import a3d.materials.compilation.ShaderRegisterElement;
 
 
 /**
@@ -24,6 +24,15 @@ import a3d.materials.compilation.ShaderRegisterElement;
  */
 class CascadeShadowMapMethod extends ShadowMapMethodBase
 {
+	/**
+	 * The shadow map sampling method used to sample individual cascades. These are typically those used in conjunction
+	 * with a DirectionalShadowMapper.
+	 *
+	 * @see HardShadowMapMethod
+	 * @see SoftShadowMapMethod
+	 */
+	public var baseMethod(get, set):SimpleShadowMapMethodBase;
+	
 	private var _baseMethod:SimpleShadowMapMethodBase;
 	private var _cascadeShadowMapper:CascadeShadowMapper;
 	private var _depthMapCoordVaryings:Vector<ShaderRegisterElement>;
@@ -49,14 +58,7 @@ class CascadeShadowMapMethod extends ShadowMapMethodBase
 		_baseMethod.addEventListener(ShadingMethodEvent.SHADER_INVALIDATED, onShaderInvalidated, false, 0, true);
 	}
 
-	/**
-	 * The shadow map sampling method used to sample individual cascades. These are typically those used in conjunction
-	 * with a DirectionalShadowMapper.
-	 *
-	 * @see HardShadowMapMethod
-	 * @see SoftShadowMapMethod
-	 */
-	public var baseMethod(get,set):SimpleShadowMapMethodBase;
+	
 	private function get_baseMethod():SimpleShadowMapMethodBase
 	{
 		return _baseMethod;

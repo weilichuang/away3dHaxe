@@ -17,6 +17,29 @@ import a3d.textures.PlanarReflectionTexture;
  */
 class FresnelPlanarReflectionMethod extends EffectMethodBase
 {
+	/**
+	 * The reflectivity of the surface.
+	 */
+	public var alpha(get,set):Float;
+	/**
+	 * The power used in the Fresnel equation. Higher values make the fresnel effect more pronounced. Defaults to 5.
+	 */
+	public var fresnelPower(get,set):Float;
+	/**
+	 * The minimum amount of reflectance, ie the reflectance when the view direction is normal to the surface or light direction.
+	 */
+	public var normalReflectance(get,set):Float;
+	/**
+	 * The PlanarReflectionTexture containing a render of the mirrored scene.
+	 *
+	 * @see a3d.textures.PlanarReflectionTexture
+	 */
+	public var texture(get,set):PlanarReflectionTexture;
+	/**
+	 * The amount of displacement caused by per-pixel normals.
+	 */
+	public var normalDisplacement(get, set):Float;
+	
 	private var _texture:PlanarReflectionTexture;
 	private var _alpha:Float = 1;
 	private var _normalDisplacement:Float = 0;
@@ -37,10 +60,7 @@ class FresnelPlanarReflectionMethod extends EffectMethodBase
 		_alpha = alpha;
 	}
 
-	/**
-	 * The reflectivity of the surface.
-	 */
-	public var alpha(get,set):Float;
+	
 	private function get_alpha():Float
 	{
 		return _alpha;
@@ -51,10 +71,7 @@ class FresnelPlanarReflectionMethod extends EffectMethodBase
 		return _alpha = value;
 	}
 
-	/**
-	 * The power used in the Fresnel equation. Higher values make the fresnel effect more pronounced. Defaults to 5.
-	 */
-	public var fresnelPower(get,set):Float;
+	
 	private function get_fresnelPower():Float
 	{
 		return _fresnelPower;
@@ -65,10 +82,7 @@ class FresnelPlanarReflectionMethod extends EffectMethodBase
 		return _fresnelPower = value;
 	}
 
-	/**
-	 * The minimum amount of reflectance, ie the reflectance when the view direction is normal to the surface or light direction.
-	 */
-	public var normalReflectance(get,set):Float;
+	
 	private function get_normalReflectance():Float
 	{
 		return _normalReflectance;
@@ -86,12 +100,7 @@ class FresnelPlanarReflectionMethod extends EffectMethodBase
 		vo.needsView = true;
 	}
 
-	/**
-	 * The PlanarReflectionTexture containing a render of the mirrored scene.
-	 *
-	 * @see a3d.textures.PlanarReflectionTexture
-	 */
-	public var texture(get,set):PlanarReflectionTexture;
+	
 	private function get_texture():PlanarReflectionTexture
 	{
 		return _texture;
@@ -102,10 +111,7 @@ class FresnelPlanarReflectionMethod extends EffectMethodBase
 		return _texture = value;
 	}
 
-	/**
-	 * The amount of displacement caused by per-pixel normals.
-	 */
-	public var normalDisplacement(get,set):Float;
+	
 	private function get_normalDisplacement():Float
 	{
 		return _normalDisplacement;
@@ -156,41 +162,41 @@ class FresnelPlanarReflectionMethod extends EffectMethodBase
 		var viewDirReg:ShaderRegisterElement = _sharedRegisters.viewDirFragment;
 
 		code = "div " + temp + ", " + projectionReg + ", " + projectionReg + ".w\n" +
-			"mul " + temp + ", " + temp + ", " + dataReg + ".xyww\n" +
-			"add " + temp + ".xy, " + temp + ".xy, fc0.xx\n";
+				"mul " + temp + ", " + temp + ", " + dataReg + ".xyww\n" +
+				"add " + temp + ".xy, " + temp + ".xy, fc0.xx\n";
 
 		if (_normalDisplacement > 0)
 		{
 			code += "add " + temp + ".w, " + projectionReg + ".w, " + "fc0.w\n" +
-				"sub " + temp + ".z, fc0.w, " + normalReg + ".y\n" +
-				"div " + temp + ".z, " + temp + ".z, " + temp + ".w\n" +
-				"mul " + temp + ".z, " + dataReg + ".z, " + temp + ".z\n" +
-				"add " + temp + ".x, " + temp + ".x, " + temp + ".z\n" +
-				"min " + temp + ".x, " + temp + ".x, " + dataReg2 + ".z\n" +
-				"max " + temp + ".x, " + temp + ".x, " + dataReg2 + ".w\n";
+					"sub " + temp + ".z, fc0.w, " + normalReg + ".y\n" +
+					"div " + temp + ".z, " + temp + ".z, " + temp + ".w\n" +
+					"mul " + temp + ".z, " + dataReg + ".z, " + temp + ".z\n" +
+					"add " + temp + ".x, " + temp + ".x, " + temp + ".z\n" +
+					"min " + temp + ".x, " + temp + ".x, " + dataReg2 + ".z\n" +
+					"max " + temp + ".x, " + temp + ".x, " + dataReg2 + ".w\n";
 		}
 
 		code += "tex " + temp + ", " + temp + ", " + textureReg + " <2d," + filter + ">\n" +
-			"sub " + viewDirReg + ".w, " + temp + ".w,  fc0.x\n" +
-			"kil " + viewDirReg + ".w\n";
+				"sub " + viewDirReg + ".w, " + temp + ".w,  fc0.x\n" +
+				"kil " + viewDirReg + ".w\n";
 
 		// calculate fresnel term
 		code += "dp3 " + viewDirReg + ".w, " + viewDirReg + ".xyz, " + normalReg + ".xyz\n" + // dot(V, H)
-			"sub " + viewDirReg + ".w, fc0.w, " + viewDirReg + ".w\n" + // base = 1-dot(V, H)
+				"sub " + viewDirReg + ".w, fc0.w, " + viewDirReg + ".w\n" + // base = 1-dot(V, H)
 
-			"pow " + viewDirReg + ".w, " + viewDirReg + ".w, " + dataReg2 + ".y\n" + // exp = pow(base, 5)
+				"pow " + viewDirReg + ".w, " + viewDirReg + ".w, " + dataReg2 + ".y\n" + // exp = pow(base, 5)
 
-			"sub " + normalReg + ".w, fc0.w, " + viewDirReg + ".w\n" + // 1 - exp
-			"mul " + normalReg + ".w, " + dataReg2 + ".x, " + normalReg + ".w\n" + // f0*(1 - exp)
-			"add " + viewDirReg + ".w, " + viewDirReg + ".w, " + normalReg + ".w\n" + // exp + f0*(1 - exp)
+				"sub " + normalReg + ".w, fc0.w, " + viewDirReg + ".w\n" + // 1 - exp
+				"mul " + normalReg + ".w, " + dataReg2 + ".x, " + normalReg + ".w\n" + // f0*(1 - exp)
+				"add " + viewDirReg + ".w, " + viewDirReg + ".w, " + normalReg + ".w\n" + // exp + f0*(1 - exp)
 
-			// total alpha
-			"mul " + viewDirReg + ".w, " + dataReg + ".w, " + viewDirReg + ".w\n" +
+				// total alpha
+				"mul " + viewDirReg + ".w, " + dataReg + ".w, " + viewDirReg + ".w\n" +
 
-			"sub " + temp + ", " + temp + ", " + targetReg + "\n" +
-			"mul " + temp + ", " + temp + ", " + viewDirReg + ".w\n" +
+				"sub " + temp + ", " + temp + ", " + targetReg + "\n" +
+				"mul " + temp + ", " + temp + ", " + viewDirReg + ".w\n" +
 
-			"add " + targetReg + ", " + targetReg + ", " + temp + "\n";
+				"add " + targetReg + ", " + targetReg + ", " + temp + "\n";
 
 		return code;
 	}

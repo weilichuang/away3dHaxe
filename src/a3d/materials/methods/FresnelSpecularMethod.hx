@@ -14,6 +14,19 @@ import flash.Vector;
  */
 class FresnelSpecularMethod extends CompositeSpecularMethod
 {
+	/**
+	 * Defines whether the fresnel effect should be based on the view angle on the surface (if true), or on the angle between the light and the view.
+	 */
+	public var basedOnSurface(get,set):Bool;
+	/**
+	 * The power used in the Fresnel equation. Higher values make the fresnel effect more pronounced. Defaults to 5.
+	 */
+	public var fresnelPower(get,set):Float;
+	/**
+	 * The minimum amount of reflectance, ie the reflectance when the view direction is normal to the surface or light direction.
+	 */
+	public var normalReflectance(get, set):Float;
+	
 	private var _dataReg:ShaderRegisterElement;
 	private var _incidentLight:Bool;
 	private var _fresnelPower:Float = 5;
@@ -38,10 +51,7 @@ class FresnelSpecularMethod extends CompositeSpecularMethod
 		vo.fragmentData[index + 3] = 0;
 	}
 
-	/**
-	 * Defines whether the fresnel effect should be based on the view angle on the surface (if true), or on the angle between the light and the view.
-	 */
-	public var basedOnSurface(get,set):Bool;
+	
 	private function get_basedOnSurface():Bool
 	{
 		return !_incidentLight;
@@ -59,10 +69,7 @@ class FresnelSpecularMethod extends CompositeSpecularMethod
 		return basedOnSurface;
 	}
 
-	/**
-	 * The power used in the Fresnel equation. Higher values make the fresnel effect more pronounced. Defaults to 5.
-	 */
-	public var fresnelPower(get,set):Float;
+	
 	private function get_fresnelPower():Float
 	{
 		return _fresnelPower;
@@ -79,10 +86,7 @@ class FresnelSpecularMethod extends CompositeSpecularMethod
 		_dataReg = null;
 	}
 
-	/**
-	 * The minimum amount of reflectance, ie the reflectance when the view direction is normal to the surface or light direction.
-	 */
-	public var normalReflectance(get,set):Float;
+	
 	private function get_normalReflectance():Float
 	{
 		return _normalReflectance;
@@ -129,12 +133,12 @@ class FresnelSpecularMethod extends CompositeSpecularMethod
 		var code:String;
 
 		code = "dp3 " + target + ".y, " + sharedRegisters.viewDirFragment + ".xyz, " + (_incidentLight ? target + ".xyz\n" : sharedRegisters.normalFragment + ".xyz\n") + // dot(V, H)
-			"sub " + target + ".y, " + _dataReg + ".z, " + target + ".y\n" + // base = 1-dot(V, H)
-			"pow " + target + ".x, " + target + ".y, " + _dataReg + ".y\n" + // exp = pow(base, 5)
-			"sub " + target + ".y, " + _dataReg + ".z, " + target + ".y\n" + // 1 - exp
-			"mul " + target + ".y, " + _dataReg + ".x, " + target + ".y\n" + // f0*(1 - exp)
-			"add " + target + ".y, " + target + ".x, " + target + ".y\n" + // exp + f0*(1 - exp)
-			"mul " + target + ".w, " + target + ".w, " + target + ".y\n";
+				"sub " + target + ".y, " + _dataReg + ".z, " + target + ".y\n" + // base = 1-dot(V, H)
+				"pow " + target + ".x, " + target + ".y, " + _dataReg + ".y\n" + // exp = pow(base, 5)
+				"sub " + target + ".y, " + _dataReg + ".z, " + target + ".y\n" + // 1 - exp
+				"mul " + target + ".y, " + _dataReg + ".x, " + target + ".y\n" + // f0*(1 - exp)
+				"add " + target + ".y, " + target + ".x, " + target + ".y\n" + // exp + f0*(1 - exp)
+				"mul " + target + ".w, " + target + ".w, " + target + ".y\n";
 
 		return code;
 	}

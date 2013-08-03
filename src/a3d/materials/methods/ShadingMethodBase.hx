@@ -1,12 +1,8 @@
 package a3d.materials.methods;
 
-import flash.display3D.Context3DTextureFormat;
-import flash.Vector;
-
-
-import a3d.entities.Camera3D;
 import a3d.core.base.IRenderable;
 import a3d.core.managers.Stage3DProxy;
+import a3d.entities.Camera3D;
 import a3d.events.ShadingMethodEvent;
 import a3d.io.library.assets.NamedAssetBase;
 import a3d.materials.compilation.ShaderRegisterCache;
@@ -14,6 +10,10 @@ import a3d.materials.compilation.ShaderRegisterData;
 import a3d.materials.compilation.ShaderRegisterElement;
 import a3d.materials.passes.MaterialPassBase;
 import a3d.textures.TextureProxyBase;
+import flash.display3D.Context3DTextureFormat;
+import flash.Vector;
+
+
 
 
 

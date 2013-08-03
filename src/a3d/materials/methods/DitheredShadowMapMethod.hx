@@ -20,6 +20,16 @@ class DitheredShadowMapMethod extends SimpleShadowMapMethodBase
 	private static var _grainTexture:BitmapTexture;
 	private static var _grainUsages:Int;
 	private static var _grainBitmapData:BitmapData;
+	
+	
+	public var numSamples(get,set):Int;
+	/**
+	 * The range in the shadow map in which to distribute the samples.
+	 */
+	public var range(get, set):Float;
+	
+	
+	
 	private var _depthMapSize:Int;
 	private var _range:Float = 1;
 	private var _numSamples:Int;
@@ -43,7 +53,7 @@ class DitheredShadowMapMethod extends SimpleShadowMapMethodBase
 			initGrainTexture();
 	}
 
-	public var numSamples(get,set):Int;
+	
 	private function get_numSamples():Int
 	{
 		return _numSamples;
@@ -76,10 +86,7 @@ class DitheredShadowMapMethod extends SimpleShadowMapMethodBase
 		fragmentData[index + 8] = 1 / _numSamples;
 	}
 
-	/**
-	 * The range in the shadow map in which to distribute the samples.
-	 */
-	public var range(get,set):Float;
+	
 	private function get_range():Float
 	{
 		return _range * 2;

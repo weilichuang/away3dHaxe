@@ -15,6 +15,21 @@ import a3d.materials.compilation.ShaderRegisterElement;
  */
 class ShadowMapMethodBase extends ShadingMethodBase implements IAsset
 {
+	public var assetType(get, null):String;
+	/**
+	 * The "transparency" of the shadows. This allows making shadows less strong.
+	 */
+	public var alpha(get,set):Float;
+	/**
+	 * The light casting the shadows.
+	 */
+	public var castingLight(get,null):LightBase;
+	/**
+	 * A small value to counter floating point precision errors when comparing values in the shadow map with the
+	 * calculated depth value. Increase this if shadow banding occurs, decrease it if the shadow seems to be too detached.
+	 */
+	public var epsilon(get, set):Float;
+	
 	private var _castingLight:LightBase;
 	private var _shadowMapper:ShadowMapperBase;
 
@@ -33,16 +48,13 @@ class ShadowMapMethodBase extends ShadingMethodBase implements IAsset
 		_shadowMapper = castingLight.shadowMapper;
 	}
 
-	public var assetType(get, null):String;
+	
 	private function get_assetType():String
 	{
 		return AssetType.SHADOW_MAP_METHOD;
 	}
 
-	/**
-	 * The "transparency" of the shadows. This allows making shadows less strong.
-	 */
-	public var alpha(get,set):Float;
+	
 	private function get_alpha():Float
 	{
 		return _alpha;
@@ -53,20 +65,13 @@ class ShadowMapMethodBase extends ShadingMethodBase implements IAsset
 		return _alpha = value;
 	}
 
-	/**
-	 * The light casting the shadows.
-	 */
-	public var castingLight(get,null):LightBase;
+	
 	private function get_castingLight():LightBase
 	{
 		return _castingLight;
 	}
 
-	/**
-	 * A small value to counter floating point precision errors when comparing values in the shadow map with the
-	 * calculated depth value. Increase this if shadow banding occurs, decrease it if the shadow seems to be too detached.
-	 */
-	public var epsilon(get,set):Float;
+	
 	private function get_epsilon():Float
 	{
 		return _epsilon;
