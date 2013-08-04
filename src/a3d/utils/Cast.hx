@@ -1,19 +1,17 @@
 package a3d.utils;
 
+import a3d.errors.CastError;
+import a3d.textures.BitmapTexture;
 import flash.display.Bitmap;
 import flash.display.BitmapData;
 import flash.display.DisplayObject;
 import flash.errors.ArgumentError;
 import flash.errors.ReferenceError;
 import flash.geom.Matrix;
-import flash.Lib;
 import flash.utils.ByteArray;
-import flash.utils.Dictionary;
 import flash.xml.XML;
 import haxe.ds.StringMap;
 
-import a3d.errors.CastError;
-import a3d.textures.BitmapTexture;
 
 /** Helper class for casting assets to usable objects */
 class Cast

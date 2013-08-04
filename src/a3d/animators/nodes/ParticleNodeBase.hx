@@ -15,6 +15,34 @@ import a3d.materials.passes.MaterialPassBase;
  */
 class ParticleNodeBase extends AnimationNodeBase
 {
+	/**
+	 * Returns the property mode of the particle animation node. Typically set in the node constructor
+	 *
+	 * @see a3d.animators.data.ParticlePropertiesMode
+	 */
+	public var mode(get,null):Int;
+	/**
+	 * Returns the priority of the particle animation node, used to order the agal generated in a particle animation set. Set automatically on instantiation.
+	 *
+	 * @see a3d.animators.ParticleAnimationSet
+	 * @see #getAGALVertexCode
+	 */
+	public var priority(get,null):Int;
+	/**
+	 * Returns the length of the data used by the node when in <code>LOCAL_STATIC</code> mode. Used to generate the local static data of the particle animation set.
+	 *
+	 * @see a3d.animators.ParticleAnimationSet
+	 * @see #getAGALVertexCode
+	 */
+	public var dataLength(get,null):Int;
+	/**
+	 * Returns the generated data vector of the node after one particle pass during the generation of all local static data of the particle animation set.
+	 *
+	 * @see a3d.animators.ParticleAnimationSet
+	 * @see #generatePropertyOfOneParticle
+	 */
+	public var oneData(get, null):Vector<Float>;
+	
 	private var _mode:Int;
 	private var _priority:Int;
 
@@ -23,48 +51,25 @@ class ParticleNodeBase extends AnimationNodeBase
 
 	public var dataOffset:Int;
 
-	/**
-	 * Returns the property mode of the particle animation node. Typically set in the node constructor
-	 *
-	 * @see a3d.animators.data.ParticlePropertiesMode
-	 */
-	public var mode(get,null):Int;
+	
 	private function get_mode():Int
 	{
 		return _mode;
 	}
 
-	/**
-	 * Returns the priority of the particle animation node, used to order the agal generated in a particle animation set. Set automatically on instantiation.
-	 *
-	 * @see a3d.animators.ParticleAnimationSet
-	 * @see #getAGALVertexCode
-	 */
-	public var priority(get,null):Int;
+	
 	private function get_priority():Int
 	{
 		return _priority;
 	}
 
-	/**
-	 * Returns the length of the data used by the node when in <code>LOCAL_STATIC</code> mode. Used to generate the local static data of the particle animation set.
-	 *
-	 * @see a3d.animators.ParticleAnimationSet
-	 * @see #getAGALVertexCode
-	 */
-	public var dataLength(get,null):Int;
+	
 	private function get_dataLength():Int
 	{
 		return _dataLength;
 	}
 
-	/**
-	 * Returns the generated data vector of the node after one particle pass during the generation of all local static data of the particle animation set.
-	 *
-	 * @see a3d.animators.ParticleAnimationSet
-	 * @see #generatePropertyOfOneParticle
-	 */
-	public var oneData(get,null):Vector<Float>;
+	
 	private function get_oneData():Vector<Float>
 	{
 		return _oneData;

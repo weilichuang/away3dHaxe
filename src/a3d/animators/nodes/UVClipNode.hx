@@ -9,9 +9,12 @@ import flash.Vector;
  */
 class UVClipNode extends AnimationClipNodeBase
 {
-	private var _frames:Vector<UVAnimationFrame>;
-
+	/**
+	 * Returns a vector of UV frames representing the uv values of each animation frame in the clip.
+	 */
+	public var frames(get, null):Vector<UVAnimationFrame>;
 	
+	private var _frames:Vector<UVAnimationFrame>;
 
 	/**
 	 * Creates a new <code>UVClipNode</code> object.
@@ -23,10 +26,7 @@ class UVClipNode extends AnimationClipNodeBase
 		_frames = new Vector<UVAnimationFrame>();
 	}
 	
-	/**
-	 * Returns a vector of UV frames representing the uv values of each animation frame in the clip.
-	 */
-	public var frames(get,null):Vector<UVAnimationFrame>;
+	
 	private function get_frames():Vector<UVAnimationFrame>
 	{
 		return _frames;

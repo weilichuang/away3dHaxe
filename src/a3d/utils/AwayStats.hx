@@ -180,7 +180,7 @@ class AwayStats extends Sprite
 		// is not enforced, since the widget will work anyway.
 		if (_INSTANCE != null)
 		{
-			trace('Creating several statistics windows in one project. Is this intentional?');
+			Lib.trace('Creating several statistics windows in one project. Is this intentional?');
 		}
 		_INSTANCE = this;
 

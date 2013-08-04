@@ -9,7 +9,7 @@ import flash.geom.Matrix3D;
 import flash.geom.Vector3D;
 import flash.Vector;
 
-
+using a3d.math.FVector3D;
 
 
 
@@ -94,8 +94,8 @@ class BoundingVolumeBase
 	 */
 	public function nullify():Void
 	{
-		_min.x = _min.y = _min.z = 0;
-		_max.x = _max.y = _max.z = 0;
+		_min.setTo(0, 0, 0);
+		_max.setTo(0, 0, 0);
 		_aabbPointsDirty = true;
 		if (_boundingRenderable != null)
 			updateBoundingRenderable();
@@ -118,19 +118,19 @@ class BoundingVolumeBase
 	 */
 	public function fromVertices(vertices:Vector<Float>):Void
 	{
-		var i:Int = 0;
 		var len:Int = vertices.length;
-		var minX:Float, minY:Float, minZ:Float;
-		var maxX:Float, maxY:Float, maxZ:Float;
-
 		if (len == 0)
 		{
 			nullify();
 			return;
 		}
 
+		var minX:Float, minY:Float, minZ:Float;
+		var maxX:Float, maxY:Float, maxZ:Float;
+
 		var v:Float;
 
+		var i:Int = 0;
 		minX = maxX = vertices[i++];
 		minY = maxY = vertices[i++];
 		minZ = maxZ = vertices[i++];
@@ -166,11 +166,10 @@ class BoundingVolumeBase
 	{
 		var subGeoms:Vector<ISubGeometry> = geometry.subGeometries;
 		var numSubGeoms:Int = subGeoms.length;
-		var minX:Float, minY:Float, minZ:Float;
-		var maxX:Float, maxY:Float, maxZ:Float;
-
 		if (numSubGeoms > 0)
 		{
+			var minX:Float, minY:Float, minZ:Float;
+			var maxX:Float, maxY:Float, maxZ:Float;
 			var j:Int = 0;
 			minX = minY = minZ = Math.POSITIVE_INFINITY;
 			maxX = maxY = maxZ = Math.NEGATIVE_INFINITY;
@@ -237,12 +236,8 @@ class BoundingVolumeBase
 	 */
 	public function fromExtremes(minX:Float, minY:Float, minZ:Float, maxX:Float, maxY:Float, maxZ:Float):Void
 	{
-		_min.x = minX;
-		_min.y = minY;
-		_min.z = minZ;
-		_max.x = maxX;
-		_max.y = maxY;
-		_max.z = maxZ;
+		_min.fastSetTo(minX, minY, minZ);
+		_max.fastSetTo(maxX, maxY, maxZ);
 		_aabbPointsDirty = true;
 		if (_boundingRenderable != null)
 			updateBoundingRenderable();
@@ -267,11 +262,11 @@ class BoundingVolumeBase
 		var min:Vector3D = bounds._min;
 		var max:Vector3D = bounds._max;
 		return _max.x > min.x &&
-			_min.x < max.x &&
-			_max.y > min.y &&
-			_min.y < max.y &&
-			_max.z > min.z &&
-			_min.z < max.z;
+				_min.x < max.x &&
+				_max.y > min.y &&
+				_min.y < max.y &&
+				_max.z > min.z &&
+				_min.z < max.z;
 	}
 
 	/*public function classifyAgainstPlane(plane : Plane3D) : int

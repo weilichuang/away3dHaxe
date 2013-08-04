@@ -8,7 +8,7 @@ import a3d.core.traverse.EntityCollector;
 import a3d.entities.Camera3D;
 import a3d.entities.lenses.ObliqueNearPlaneLens;
 import a3d.entities.View3D;
-import a3d.math.Matrix3DUtils;
+import a3d.math.FMatrix3D;
 import a3d.math.Plane3D;
 import a3d.tools.utils.TextureUtils;
 import flash.display.BitmapData;
@@ -28,6 +28,21 @@ import flash.Vector;
  */
 class PlanarReflectionTexture extends RenderTexture
 {
+	/**
+	 * The plane to reflect with.
+	 */
+	public var plane(get, set):Plane3D;
+	/**
+	 * The renderer to use.
+	 */
+	public var renderer(get, set):RendererBase;
+	/**
+	 * A scale factor to reduce the quality of the reflection. Default value is 1 (same quality as the View)
+	 */
+	public var scale(get, set):Float;
+	public var textureRatioX(get, null):Float;
+	public var textureRatioY(get, null):Float;
+	
 	private var _mockTexture:BitmapTexture;
 	private var _mockBitmapData:BitmapData;
 	private var _renderer:RendererBase;
@@ -62,10 +77,7 @@ class PlanarReflectionTexture extends RenderTexture
 		initMockTexture();
 	}
 
-	/**
-	 * The plane to reflect with.
-	 */
-	public var plane(get, set):Plane3D;
+	
 	private function get_plane():Plane3D
 	{
 		return _plane;
@@ -82,7 +94,7 @@ class PlanarReflectionTexture extends RenderTexture
 	 */
 	public function applyTransform(matrix:Matrix3D):Void
 	{
-		//var rawData : Vector<Float> = Matrix3DUtils.RAW_DATA_CONTAINER;
+		//var rawData : Vector<Float> = FMatrix3D.RAW_DATA_CONTAINER;
 		_matrix.copyFrom(matrix);
 		// invert transpose
 		_matrix.invert();
@@ -102,10 +114,7 @@ class PlanarReflectionTexture extends RenderTexture
 		return _isRendering ? _mockTexture.getTextureForStage3D(stage3DProxy) : super.getTextureForStage3D(stage3DProxy);
 	}
 
-	/**
-	 * The renderer to use.
-	 */
-	public var renderer(get, set):RendererBase;
+	
 	private function get_renderer():RendererBase
 	{
 		return _renderer;
@@ -119,10 +128,7 @@ class PlanarReflectionTexture extends RenderTexture
 		return value;
 	}
 
-	/**
-	 * A scale factor to reduce the quality of the reflection. Default value is 1 (same quality as the View)
-	 */
-	public var scale(get, set):Float;
+	
 	private function get_scale():Float
 	{
 		return _scale;
@@ -167,13 +173,13 @@ class PlanarReflectionTexture extends RenderTexture
 		_mockBitmapData.dispose();
 	}
 
-	public var textureRatioX(get, null):Float;
+	
 	private function get_textureRatioX():Float
 	{
 		return _renderer.textureRatioX;
 	}
 
-	public var textureRatioY(get, null):Float;
+	
 	private function get_textureRatioY():Float
 	{
 		return _renderer.textureRatioY;
@@ -188,7 +194,7 @@ class PlanarReflectionTexture extends RenderTexture
 
 	private function updateCamera(camera:Camera3D):Void
 	{
-		Matrix3DUtils.reflection(_plane, _matrix);
+		FMatrix3D.reflection(_plane, _matrix);
 		_matrix.prepend(camera.sceneTransform);
 		_matrix.prependScale(1, -1, 1);
 		_camera.transform = _matrix;
@@ -205,7 +211,7 @@ class PlanarReflectionTexture extends RenderTexture
 	private function transformPlane(plane:Plane3D, matrix:Matrix3D):Plane3D
 	{
 		// actually transposed inverseSceneTransform is used, but since sceneTransform is already the inverse of the inverse
-		var rawData:Vector<Float> = Matrix3DUtils.RAW_DATA_CONTAINER;
+		var rawData:Vector<Float> = FMatrix3D.RAW_DATA_CONTAINER;
 		var a:Float = plane.a, b:Float = plane.b, c:Float = plane.c, d:Float = plane.d;
 		matrix.copyRawDataTo(rawData);
 		var transf:Plane3D = new Plane3D(

@@ -26,6 +26,52 @@ class Drag3D
 	public static inline var PLANE_XZ:String = "xz";
 	public static inline var PLANE_XY:String = "xy";
 	public static inline var PLANE_ZY:String = "zy";
+	
+	public var object3d(get,set):ObjectContainer3D;
+	/**
+	* Defines if the target object3d plane will be aligned to object rotations or not
+	*
+	* @param	b		Bool. Defines if the target object3d planes will be aligned to object rotations or not. Default is false.
+	*/
+	public var useRotations(get,set):Bool;
+	/**
+	* Defines an offset for the drag from center mesh to mouse position.
+	* object3d must have been set previously for this setter. if not an error is triggered
+	* Since the offset is set from center to mouse projection, its usually a good practice to set it during firt mouse down
+	* prior to drag.
+	*/
+	public var offsetCenter(get,set):Bool;
+	/**
+	* getIntersect method returns the 3d point in space (Vector3D) where mouse hits the given plane.
+	*@return Vector3D the difference mouse mouse hit to object center
+	*/
+	public var offsetMouseCenter(get,null):Vector3D;
+	/**
+	* Displays the planes for debug/visual aid purposes
+	*
+	* @param	b				Bool. Display the planes of the dragged object3d. Default is false;
+	*/
+	public var debug(get,set):Bool;
+	/**
+	* Changes the plane the object will be considered on.
+	* If class debug is set to true. It display the selected plane for debug/visual aid purposes with a brighter color.
+	* @param	planeid				String. Plane to drag the object3d on.
+	* Possible strings are Drag3D.PLANE_XZ ("xz"), Drag3D.PLANE_XY ("xy") or Drag3D.PLANE_ZY ("zy"). Default is Drag3D.PLANE_XZ;
+	*/
+	public var plane(null, set):String;
+	
+	/**
+	* Defines planes as the position of a given ObjectContainer3D
+	*
+	* @param	object3d		ObjectContainer3D. The object3d that will be used to define the planes
+	*/
+	public var planeObject3d(null,set):ObjectContainer3D;
+	/**
+	* Defines planes position by a postion Vector3D
+	*
+	* @param	pos		Vector3D. The Vector3D that will be used to define the planes position
+	*/
+	public var planePosition(null,set):Vector3D;
 
 	private var EPS:Float = 0.000001;
 
@@ -73,18 +119,13 @@ class Drag3D
 		init();
 	}
 
-	public var object3d(get,set):ObjectContainer3D;
+	
 	private function get_object3d():ObjectContainer3D
 	{
 		return _object3d;
 	}
 
-	/**
-	* Defines if the target object3d plane will be aligned to object rotations or not
-	*
-	* @param	b		Bool. Defines if the target object3d planes will be aligned to object rotations or not. Default is false.
-	*/
-	public var useRotations(get,set):Bool;
+	
 	private function set_useRotations(b:Bool):Bool
 	{
 		_useRotations = b;
@@ -104,13 +145,7 @@ class Drag3D
 		return _useRotations;
 	}
 
-	/**
-	* Defines an offset for the drag from center mesh to mouse position.
-	* object3d must have been set previously for this setter. if not an error is triggered
-	* Since the offset is set from center to mouse projection, its usually a good practice to set it during firt mouse down
-	* prior to drag.
-	*/
-	public var offsetCenter(get,set):Bool;
+	
 	private function set_offsetCenter(b:Bool):Bool
 	{
 		if (b && _object3d == null)
@@ -136,22 +171,13 @@ class Drag3D
 		return _bSetOffset;
 	}
 
-	/**
-	* getIntersect method returns the 3d point in space (Vector3D) where mouse hits the given plane.
-	*@return Vector3D the difference mouse mouse hit to object center
-	*/
-	public var offsetMouseCenter(get,null):Vector3D;
+	
 	private function get_offsetMouseCenter():Vector3D
 	{
 		return _offsetCenter;
 	}
 
-	/**
-	* Displays the planes for debug/visual aid purposes
-	*
-	* @param	b				Bool. Display the planes of the dragged object3d. Default is false;
-	*/
-	public var debug(get,set):Bool;
+	
 	private function set_debug(b:Bool):Bool
 	{
 		_debug = b;
@@ -206,13 +232,7 @@ class Drag3D
 		return _debug;
 	}
 
-	/**
-	* Changes the plane the object will be considered on.
-	* If class debug is set to true. It display the selected plane for debug/visual aid purposes with a brighter color.
-	* @param	planeid				String. Plane to drag the object3d on.
-	* Possible strings are Drag3D.PLANE_XZ ("xz"), Drag3D.PLANE_XY ("xy") or Drag3D.PLANE_ZY ("zy"). Default is Drag3D.PLANE_XZ;
-	*/
-	public var plane(null,set):String;
+	
 	private function set_plane(planeid:String):String
 	{
 		_planeid = planeid.toLowerCase();
@@ -288,12 +308,7 @@ class Drag3D
 		return _object3d;
 	}
 
-	/**
-	* Defines planes as the position of a given ObjectContainer3D
-	*
-	* @param	object3d		ObjectContainer3D. The object3d that will be used to define the planes
-	*/
-	public var planeObject3d(null,set):ObjectContainer3D;
+	
 	private function set_planeObject3d(object3d:ObjectContainer3D):ObjectContainer3D
 	{
 		updateNormalPlanes(object3d);
@@ -304,12 +319,7 @@ class Drag3D
 		return object3d;
 	}
 
-	/**
-	* Defines planes position by a postion Vector3D
-	*
-	* @param	pos		Vector3D. The Vector3D that will be used to define the planes position
-	*/
-	public var planePosition(null,set):Vector3D;
+	
 	private function set_planePosition(pos:Vector3D):Vector3D
 	{
 		switch (_planeid)

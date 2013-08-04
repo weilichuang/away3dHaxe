@@ -60,7 +60,7 @@ import flash.Vector;
 	
 	private inline function get_magnitude():Float
 	{
-		return Math.sqrt(w * w + x * x + y * y + z * z);
+		return FMath.sqrt(w * w + x * x + y * y + z * z);
 	}
 
 	/**
@@ -263,7 +263,7 @@ import flash.Vector;
 	 */
 	public function toMatrix3D(target:Matrix3D = null):Matrix3D
 	{
-		var rawData:Vector<Float> = Matrix3DUtils.RAW_DATA_CONTAINER;
+		var rawData:Vector<Float> = FMatrix3D.RAW_DATA_CONTAINER;
 		var xy2:Float = 2.0 * x * y, xz2:Float = 2.0 * x * z, xw2:Float = 2.0 * x * w;
 		var yz2:Float = 2.0 * y * z, yw2:Float = 2.0 * y * w, zw2:Float = 2.0 * z * w;
 		var xx:Float = x * x, yy:Float = y * y, zz:Float = z * z, ww:Float = w * w;

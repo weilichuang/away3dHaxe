@@ -299,6 +299,7 @@ class Mouse3DManager
 
 	private function hasKey(view:View3D):Bool
 	{
+		//return _view3DLookup.indexOf(view) != -1;
 		var keys:Iterator<View3D> = _view3Ds.keys();
 		for (v in keys)
 		{

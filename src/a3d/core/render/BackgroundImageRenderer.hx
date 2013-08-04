@@ -37,23 +37,6 @@ class BackgroundImageRenderer
 		this.stage3DProxy = stage3DProxy;
 	}
 
-	
-	private function get_stage3DProxy():Stage3DProxy
-	{
-		return _stage3DProxy;
-	}
-
-	private function set_stage3DProxy(value:Stage3DProxy):Stage3DProxy
-	{
-		if (value == _stage3DProxy)
-			return _stage3DProxy;
-		_stage3DProxy = value;
-
-		removeBuffers();
-		
-		return _stage3DProxy;
-	}
-
 	private function removeBuffers():Void
 	{
 		if (_vertexBuffer != null)
@@ -139,6 +122,21 @@ class BackgroundImageRenderer
 			]), 0, 4);
 	}
 
+	private function get_stage3DProxy():Stage3DProxy
+	{
+		return _stage3DProxy;
+	}
+
+	private function set_stage3DProxy(value:Stage3DProxy):Stage3DProxy
+	{
+		if (value == _stage3DProxy)
+			return _stage3DProxy;
+		_stage3DProxy = value;
+
+		removeBuffers();
+		
+		return _stage3DProxy;
+	}
 	
 	private function get_texture():Texture2DBase
 	{

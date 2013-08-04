@@ -10,13 +10,16 @@ import a3d.entities.primitives.PlaneGeometry;
 import a3d.entities.primitives.SphereGeometry;
 import a3d.entities.primitives.TorusGeometry;
 import a3d.entities.Scene3D;
+import a3d.events.MouseEvent3D;
 import a3d.materials.lightpickers.StaticLightPicker;
+import a3d.materials.methods.OutlineMethod;
 import a3d.materials.TextureMaterial;
 import a3d.textures.BitmapTexture;
 import flash.events.Event;
 import flash.events.MouseEvent;
 import flash.geom.Vector3D;
 import flash.Lib;
+import flash.ui.Mouse;
 
 
 
@@ -120,6 +123,7 @@ class Basic_Shading extends BasicApplication
 		cubeMaterial.normalMap = createBitmapTexture(TrinketNormals);
 		cubeMaterial.lightPicker = lightPicker;
 		cubeMaterial.mipmap = false;
+		
 
 		var weaveDiffuseTexture:BitmapTexture = createBitmapTexture(WeaveDiffuse);
 		torusMaterial = new TextureMaterial(weaveDiffuseTexture);
@@ -174,6 +178,9 @@ class Basic_Shading extends BasicApplication
 		cube.x = 300;
 		cube.y = 160;
 		cube.z = -250;
+		cube.mouseEnabled = true;
+		cube.addEventListener(MouseEvent3D.MOUSE_OVER, onMouseOverCube);
+		cube.addEventListener(MouseEvent3D.MOUSE_OUT, onMouseOutCube);
 
 		scene.addChild(cube);
 
@@ -184,6 +191,28 @@ class Basic_Shading extends BasicApplication
 		torus.z = -250;
 
 		scene.addChild(torus);
+	}
+	
+	private var outlineMethod:OutlineMethod;
+	private function onMouseOverCube(e:MouseEvent3D):Void 
+	{
+		if (outlineMethod == null)
+		{
+			outlineMethod = new OutlineMethod(0xff0000, 6);
+		}
+		
+		if (!cubeMaterial.hasMethod(outlineMethod))
+		{
+			cubeMaterial.addMethod(outlineMethod);
+		}
+	}
+	
+	private function onMouseOutCube(e:MouseEvent3D):Void 
+	{
+		if (cubeMaterial.hasMethod(outlineMethod))
+		{
+			cubeMaterial.removeMethod(outlineMethod);
+		}
 	}
 
 	/**

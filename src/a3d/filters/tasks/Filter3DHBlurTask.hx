@@ -73,7 +73,7 @@ class Filter3DHBlurTask extends Filter3DTaskBase
 		var numSamples:Int = 1;
 
 		code = "mov ft0, v0	\n" +
-			"sub ft0.x, v0.x, fc0.x\n";
+				"sub ft0.x, v0.x, fc0.x\n";
 
 		code += "tex ft1, ft0, fs0 <2d,linear,clamp>\n";
 
@@ -81,8 +81,8 @@ class Filter3DHBlurTask extends Filter3DTaskBase
 		while ( x <= _amount)
 		{
 			code += "add ft0.x, ft0.x, fc0.y	\n" +
-				"tex ft2, ft0, fs0 <2d,linear,clamp>\n" +
-				"add ft1, ft1, ft2 \n";
+					"tex ft2, ft0, fs0 <2d,linear,clamp>\n" +
+					"add ft1, ft1, ft2 \n";
 			++numSamples;
 			x += _realStepSize;
 		}
@@ -117,9 +117,6 @@ class Filter3DHBlurTask extends Filter3DTaskBase
 
 	private function calculateStepSize():Void
 	{
-		_realStepSize = _stepSize > 0 ? _stepSize :
-			_amount > MAX_AUTO_SAMPLES ? _amount / MAX_AUTO_SAMPLES :
-			1;
-
+		_realStepSize = _stepSize > 0 ? _stepSize : (_amount > MAX_AUTO_SAMPLES ? _amount / MAX_AUTO_SAMPLES : 1);
 	}
 }

@@ -14,7 +14,7 @@ import a3d.core.base.IRenderable;
 import a3d.core.data.RenderableListItem;
 import a3d.core.traverse.EntityCollector;
 import a3d.utils.Debug;
-import a3d.math.Matrix3DUtils;
+import a3d.math.FMatrix3D;
 
 /**
  * The PositionRenderer renders normalized position coordinates.
@@ -44,7 +44,7 @@ class PositionRenderer extends RendererBase
 	{
 		var item:RenderableListItem;
 		var renderable:IRenderable;
-		var matrix:Matrix3D = Matrix3DUtils.CALCULATION_MATRIX;
+		var matrix:Matrix3D = FMatrix3D.CALCULATION_MATRIX;
 		var viewProjection:Matrix3D = entityCollector.camera.viewProjection;
 
 		_context.setDepthTest(true, Context3DCompareMode.LESS);
@@ -100,6 +100,6 @@ class PositionRenderer extends RendererBase
 		fragmentCode = "mov oc, v0\n";
 
 		_program3D.upload(new AGALMiniAssembler(Debug.active).assemble(Context3DProgramType.VERTEX, vertexCode),
-			new AGALMiniAssembler(Debug.active).assemble(Context3DProgramType.FRAGMENT, fragmentCode));
+						new AGALMiniAssembler(Debug.active).assemble(Context3DProgramType.FRAGMENT, fragmentCode));
 	}
 }

@@ -19,6 +19,30 @@ import haxe.ds.ObjectMap;
 
 class Bounds
 {
+	/**
+	* @return the smalest x value
+	*/
+	public static var minX(get, null):Float;
+	/**
+	* @return the smalest y value
+	*/
+	public static var minY(get, null):Float;
+	/**
+	* @return the smalest z value
+	*/
+	public static var minZ(get, null):Float;
+	/**
+	* @return the biggest x value
+	*/
+	public static var maxX(get, null):Float;
+	/**
+	* @return the biggest y value
+	*/
+	public static var maxY(get, null):Float;
+	/**
+	* @return the biggest z value
+	*/
+	public static var maxZ(get, null):Float;
 
 	private static var _minX:Float;
 	private static var _minY:Float;
@@ -125,55 +149,37 @@ class Bounds
 		return center;
 	}
 		
-	/**
-	* @return the smalest x value
-	*/
-	public static var minX(get, null):Float;
+	
 	private static function get_minX():Float
 	{
 		return _minX;
 	}
 
-	/**
-	* @return the smalest y value
-	*/
-	public static var minY(get, null):Float;
+	
 	private static function get_minY():Float
 	{
 		return _minY;
 	}
 
-	/**
-	* @return the smalest z value
-	*/
-	public static var minZ(get, null):Float;
+	
 	private static function get_minZ():Float
 	{
 		return _minZ;
 	}
 
-	/**
-	* @return the biggest x value
-	*/
-	public static var maxX(get, null):Float;
+	
 	private static function get_maxX():Float
 	{
 		return _maxX;
 	}
 
-	/**
-	* @return the biggest y value
-	*/
-	public static var maxY(get, null):Float;
+	
 	private static function get_maxY():Float
 	{
 		return _maxY;
 	}
 
-	/**
-	* @return the biggest z value
-	*/
-	public static var maxZ(get, null):Float;
+	
 	private static function get_maxZ():Float
 	{
 		return _maxZ;

@@ -70,7 +70,7 @@ class FVector3D
 	{
 		var m2:Matrix3D = new Matrix3D();
 		var result:Vector3D = new Vector3D();
-		var raw:Vector<Float> = Matrix3DUtils.RAW_DATA_CONTAINER;
+		var raw:Vector<Float> = FMatrix3D.RAW_DATA_CONTAINER;
 		m1.copyRawDataTo(raw);
 
 		// Extract the first angle, rotationX
@@ -197,7 +197,7 @@ class FVector3D
 	public static function matrix2scale(m:Matrix3D):Vector3D
 	{
 		var result:Vector3D = new Vector3D();
-		var raw:Vector<Float> = Matrix3DUtils.RAW_DATA_CONTAINER;
+		var raw:Vector<Float> = FMatrix3D.RAW_DATA_CONTAINER;
 		m.copyRawDataTo(raw);
 
 		result.x = Math.sqrt(raw[0] * raw[0] + raw[1] * raw[1] + raw[2] * raw[2]);

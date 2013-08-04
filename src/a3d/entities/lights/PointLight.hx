@@ -7,7 +7,7 @@ import a3d.core.partition.EntityNode;
 import a3d.core.partition.PointLightNode;
 import a3d.entities.lights.shadowmaps.CubeMapShadowMapper;
 import a3d.entities.lights.shadowmaps.ShadowMapperBase;
-import a3d.math.Matrix3DUtils;
+import a3d.math.FMatrix3D;
 import flash.geom.Matrix3D;
 import flash.geom.Vector3D;
 import flash.Vector;
@@ -128,7 +128,7 @@ class PointLight extends LightBase
 	 */
 	override public function getObjectProjectionMatrix(renderable:IRenderable, target:Matrix3D = null):Matrix3D
 	{
-		var raw:Vector<Float> = Matrix3DUtils.RAW_DATA_CONTAINER;
+		var raw:Vector<Float> = FMatrix3D.RAW_DATA_CONTAINER;
 		var bounds:BoundingVolumeBase = renderable.sourceEntity.bounds;
 		var m:Matrix3D = new Matrix3D();
 

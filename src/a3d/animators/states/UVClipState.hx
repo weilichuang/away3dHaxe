@@ -7,34 +7,21 @@ import flash.Vector;
 
 class UVClipState extends AnimationClipState implements IUVAnimationState
 {
-	private var _frames:Vector<UVAnimationFrame>;
-	private var _uvClipNode:UVClipNode;
-	private var _currentUVFrame:UVAnimationFrame;
-	private var _nextUVFrame:UVAnimationFrame;
-
 	/**
 	 * @inheritDoc
 	 */
 	public var currentUVFrame(get,null):UVAnimationFrame;
-	private function get_currentUVFrame():UVAnimationFrame
-	{
-		if (_framesDirty)
-			updateFrames();
-
-		return _currentUVFrame;
-	}
+	
 
 	/**
 	 * @inheritDoc
 	 */
-	public var nextUVFrame(get,null):UVAnimationFrame;
-	private function get_nextUVFrame():UVAnimationFrame
-	{
-		if (_framesDirty)
-			updateFrames();
-
-		return _nextUVFrame;
-	}
+	public var nextUVFrame(get, null):UVAnimationFrame;
+	
+	private var _frames:Vector<UVAnimationFrame>;
+	private var _uvClipNode:UVClipNode;
+	private var _currentUVFrame:UVAnimationFrame;
+	private var _nextUVFrame:UVAnimationFrame;
 
 	public function new(animator:IAnimator, uvClipNode:UVClipNode)
 	{
@@ -42,6 +29,22 @@ class UVClipState extends AnimationClipState implements IUVAnimationState
 
 		_uvClipNode = uvClipNode;
 		_frames = _uvClipNode.frames;
+	}
+	
+	private function get_currentUVFrame():UVAnimationFrame
+	{
+		if (_framesDirty)
+			updateFrames();
+
+		return _currentUVFrame;
+	}
+	
+	private function get_nextUVFrame():UVAnimationFrame
+	{
+		if (_framesDirty)
+			updateFrames();
+
+		return _nextUVFrame;
 	}
 
 	/**

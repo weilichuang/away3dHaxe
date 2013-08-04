@@ -13,6 +13,9 @@ import haxe.ds.WeakMap;
  */
 class AnimationRegisterCache extends ShaderRegisterCache
 {
+	public var numVertexConstant(get,null):Int;
+	public var numFragmentConstant(get, null):Int;
+	
 	//vertex
 	public var positionAttribute:ShaderRegisterElement;
 	public var uvAttribute:ShaderRegisterElement;
@@ -220,13 +223,13 @@ class AnimationRegisterCache extends ShaderRegisterCache
 		return new ShaderRegisterElement(temp[0], Std.parseInt(temp[1]));
 	}
 
-	public var numVertexConstant(get,null):Int;
+	
 	private function get_numVertexConstant():Int
 	{
 		return _numVertexConstant;
 	}
 
-	public var numFragmentConstant(get,null):Int;
+	
 	private function get_numFragmentConstant():Int
 	{
 		return _numFragmentConstant;

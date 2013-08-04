@@ -9,7 +9,7 @@ import a3d.controllers.ControllerBase;
 import a3d.events.Object3DEvent;
 import a3d.io.library.assets.NamedAssetBase;
 import a3d.math.FMath;
-import a3d.math.Matrix3DUtils;
+import a3d.math.FMatrix3D;
 
 using a3d.math.FVector3D;
 
@@ -585,7 +585,7 @@ class Object3D extends NamedAssetBase
 		//ridiculous matrix error
 		if (val.rawData[0] == 0)
 		{
-			var raw:Vector<Float> = Matrix3DUtils.RAW_DATA_CONTAINER;
+			var raw:Vector<Float> = FMatrix3D.RAW_DATA_CONTAINER;
 			val.copyRawDataTo(raw);
 			raw[0] = _smallestNumber;
 			val.copyRawDataFrom(raw);
@@ -659,25 +659,25 @@ class Object3D extends NamedAssetBase
 	
 	private function get_forwardVector():Vector3D
 	{
-		return Matrix3DUtils.getForward(transform);
+		return FMatrix3D.getForward(transform);
 	}
 
 	
 	private function get_rightVector():Vector3D
 	{
-		return Matrix3DUtils.getRight(transform);
+		return FMatrix3D.getRight(transform);
 	}
 
 	
 	private function get_upVector():Vector3D
 	{
-		return Matrix3DUtils.getUp(transform);
+		return FMatrix3D.getUp(transform);
 	}
 
 	
 	private function get_backVector():Vector3D
 	{
-		var director:Vector3D = Matrix3DUtils.getForward(transform);
+		var director:Vector3D = FMatrix3D.getForward(transform);
 		director.negate();
 
 		return director;
@@ -686,7 +686,7 @@ class Object3D extends NamedAssetBase
 	
 	private function get_leftVector():Vector3D
 	{
-		var director:Vector3D = Matrix3DUtils.getRight(transform);
+		var director:Vector3D = FMatrix3D.getRight(transform);
 		director.negate();
 
 		return director;
@@ -695,7 +695,7 @@ class Object3D extends NamedAssetBase
 	
 	private function get_downVector():Vector3D
 	{
-		var director:Vector3D = Matrix3DUtils.getUp(transform);
+		var director:Vector3D = FMatrix3D.getUp(transform);
 		director.negate();
 
 		return director;
@@ -928,7 +928,7 @@ class Object3D extends NamedAssetBase
 
 		yAxis = zAxis.crossProduct(xAxis);
 
-		raw = Matrix3DUtils.RAW_DATA_CONTAINER;
+		raw = FMatrix3D.RAW_DATA_CONTAINER;
 
 		raw[0] = _scaleX * xAxis.x;
 		raw[1] = _scaleX * xAxis.y;

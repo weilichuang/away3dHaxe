@@ -20,25 +20,14 @@ class VertexClipState extends AnimationClipState implements IVertexAnimationStat
 	 * @inheritDoc
 	 */
 	public var currentGeometry(get, null):Geometry;
-	private function get_currentGeometry():Geometry
-	{
-		if (_framesDirty)
-			updateFrames();
-
-		return _currentGeometry;
-	}
+	
 
 	/**
 	 * @inheritDoc
 	 */
 	public var nextGeometry(get, null):Geometry;
-	private function get_nextGeometry():Geometry
-	{
-		if (_framesDirty)
-			updateFrames();
-
-		return _nextGeometry;
-	}
+	
+	
 
 	public function new(animator:IAnimator, vertexClipNode:VertexClipNode)
 	{
@@ -74,5 +63,21 @@ class VertexClipState extends AnimationClipState implements IVertexAnimationStat
 	override private function updatePositionDelta():Void
 	{
 		//TODO:implement positiondelta functionality for vertex animations
+	}
+	
+	private function get_currentGeometry():Geometry
+	{
+		if (_framesDirty)
+			updateFrames();
+
+		return _currentGeometry;
+	}
+	
+	private function get_nextGeometry():Geometry
+	{
+		if (_framesDirty)
+			updateFrames();
+
+		return _nextGeometry;
 	}
 }

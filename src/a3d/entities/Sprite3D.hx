@@ -19,7 +19,7 @@ import a3d.core.partition.EntityNode;
 import a3d.core.partition.RenderableNode;
 import a3d.core.pick.IPickingCollider;
 import a3d.materials.MaterialBase;
-import a3d.math.Matrix3DUtils;
+import a3d.math.FMatrix3D;
 
 
 
@@ -299,7 +299,7 @@ class Sprite3D extends Entity implements IRenderable
 	{
 		var viewTransform:Matrix3D = _camera.inverseSceneTransform.clone();
 		viewTransform.transpose();
-		var rawViewTransform:Vector<Float> = Matrix3DUtils.RAW_DATA_CONTAINER;
+		var rawViewTransform:Vector<Float> = FMatrix3D.RAW_DATA_CONTAINER;
 		viewTransform.copyRawDataTo(rawViewTransform);
 		rawViewTransform[3] = 0;
 		rawViewTransform[7] = 0;

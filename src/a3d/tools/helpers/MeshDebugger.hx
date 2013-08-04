@@ -12,6 +12,30 @@ import flash.Vector;
 */
 class MeshDebugger
 {
+	/*
+	* To set a the color of the normals display. Default is 0xFF3399.
+	*/
+	public var colorNormals(get, set):UInt;
+	/*
+	* To set a the color of the vertexnormals display. Default is 0x66CCFF.
+	*/
+	public var colorVertexNormals(get, set):UInt;
+	/*
+	* To set a the color of the tangent display. Default is 0xFFCC00.
+	*/
+	public var colorTangents(get, set):UInt;
+	/*
+	* To set a the length of the vertexnormals segments. Default is 50.
+	*/
+	public var lengthVertexNormals(get, set):Float;
+	/*
+	* To set a the length of the normals segments. Default is 50.
+	*/
+	public var lengthNormals(get, set):Float;
+	/*
+	* To set a the length of the tangents segments. Default is 50.
+	*/
+	public var lengthTangents(get, set):Float;
 
 	private var _meshesData:Vector<MeshDebugData>;
 	private var _colorNormals:UInt = 0xFF3399;
@@ -84,13 +108,12 @@ class MeshDebugger
 		parse(object, scene, displayNormals, displayVertexNormals, displayTangents);
 	}
 
-	/*
-	* To set a the color of the normals display. Default is 0xFF3399.
-	*/
-	private function set_colorNormals(val:UInt):Void
+	
+	private function set_colorNormals(val:UInt):UInt
 	{
 		_colorNormals = val;
 		invalidate();
+		return _colorNormals;
 	}
 
 	private function get_colorNormals():UInt
@@ -98,13 +121,12 @@ class MeshDebugger
 		return _colorNormals;
 	}
 
-	/*
-	* To set a the color of the vertexnormals display. Default is 0x66CCFF.
-	*/
-	private function set_colorVertexNormals(val:UInt):Void
+	
+	private function set_colorVertexNormals(val:UInt):UInt
 	{
 		_colorVertexNormals = val;
 		invalidate();
+		return _colorVertexNormals;
 	}
 
 	private function get_colorVertexNormals():UInt
@@ -112,13 +134,12 @@ class MeshDebugger
 		return _colorVertexNormals;
 	}
 
-	/*
-	* To set a the color of the tangent display. Default is 0xFFCC00.
-	*/
-	private function set_colorTangents(val:UInt):Void
+	
+	private function set_colorTangents(val:UInt):UInt
 	{
 		_colorTangents = val;
 		invalidate();
+		return _colorTangents;
 	}
 
 	private function get_colorTangents():UInt
@@ -126,14 +147,13 @@ class MeshDebugger
 		return _colorTangents;
 	}
 
-	/*
-	* To set a the length of the vertexnormals segments. Default is 50.
-	*/
-	private function set_lengthVertexNormals(val:Float):Void
+	
+	private function set_lengthVertexNormals(val:Float):Float
 	{
 		val = val < 0 ? 1 : val;
 		_lengthVertexNormals = val;
 		invalidate();
+		return _lengthVertexNormals;
 	}
 
 	private function get_lengthVertexNormals():Float
@@ -141,14 +161,13 @@ class MeshDebugger
 		return _lengthVertexNormals;
 	}
 
-	/*
-	* To set a the length of the normals segments. Default is 50.
-	*/
-	private function set_lengthNormals(val:Float):Void
+	
+	private function set_lengthNormals(val:Float):Float
 	{
 		val = val < 0 ? 1 : val;
 		_lengthNormals = val;
 		invalidate();
+		return _lengthNormals;
 	}
 
 	private function get_lengthNormals():Float
@@ -156,14 +175,13 @@ class MeshDebugger
 		return _lengthNormals;
 	}
 
-	/*
-	* To set a the length of the tangents segments. Default is 50.
-	*/
-	private function set_lengthTangents(val:Float):Void
+	
+	private function set_lengthTangents(val:Float):Float
 	{
 		val = val < 0 ? 1 : val;
 		_lengthTangents = val;
 		invalidate();
+		return _lengthTangents;
 	}
 
 	private function get_lengthTangents():Float

@@ -74,8 +74,6 @@ class WebcamTexture extends BitmapTexture
 		
 		return _autoUpdate;
 	}
-
-
 	
 	private function get_camera():Camera
 	{

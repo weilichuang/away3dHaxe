@@ -2,7 +2,7 @@ package a3d.entities.lenses;
 
 import flash.geom.Vector3D;
 
-import a3d.math.Matrix3DUtils;
+import a3d.math.FMatrix3D;
 
 /**
  * The PerspectiveLens object provides a projection matrix that projects 3D geometry with perspective distortion.
@@ -147,7 +147,7 @@ class PerspectiveOffCenterLens extends LensBase
 	 */
 	override private function updateMatrix():Void
 	{
-		var raw:Vector<Float> = Matrix3DUtils.RAW_DATA_CONTAINER;
+		var raw:Vector<Float> = FMatrix3D.RAW_DATA_CONTAINER;
 
 		_minLengthX = _near * _tanMinX;
 		_maxLengthX = _near * _tanMaxX;

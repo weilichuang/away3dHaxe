@@ -6,6 +6,7 @@ import a3d.core.base.ISubGeometry;
 import a3d.core.base.SubGeometry;
 import a3d.entities.Mesh;
 import a3d.entities.ObjectContainer3D;
+import a3d.math.FMath;
 import flash.Vector;
 
 
@@ -15,6 +16,14 @@ import flash.Vector;
  */
 class Grid
 {
+	/**
+	* Defines if the grid unit.
+	*/
+	public var unit(get, set):Float;
+	/**
+	* Defines if the grid unit is applied in objectspace or worldspace. In worldspace, objects positions are affected.
+	*/
+	public var objectSpace(get, set):Bool;
 
 	private var _unit:Float;
 	private var _objectSpace:Bool;
@@ -68,13 +77,11 @@ class Grid
 		snap(mesh);
 	}
 
-	/**
-	* Defines if the grid unit.
-	*/
-	private function set_unit(val:Float):Void
+	
+	private function set_unit(val:Float):Float
 	{
-		_unit = Math.abs(val);
-		_unit = (_unit == 0) ? .001 : _unit;
+		_unit = FMath.fabs(val);
+		return _unit = (_unit == 0) ? .001 : _unit;
 	}
 
 	private function get_unit():Float
@@ -82,12 +89,10 @@ class Grid
 		return _unit;
 	}
 
-	/**
-	* Defines if the grid unit is applied in objectspace or worldspace. In worldspace, objects positions are affected.
-	*/
-	private function set_objectSpace(b:Bool):Void
+	
+	private function set_objectSpace(b:Bool):Bool
 	{
-		_objectSpace = b;
+		return _objectSpace = b;
 	}
 
 	private function get_objectSpace():Bool
@@ -124,7 +129,6 @@ class Grid
 
 		var vertices:Vector<Float>;
 		var j:Int;
-		var i:Int;
 		var vecLength:Int;
 		var subGeom:SubGeometry;
 		var stride:Int;

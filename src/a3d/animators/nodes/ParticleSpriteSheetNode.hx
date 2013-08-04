@@ -27,6 +27,27 @@ class ParticleSpriteSheetNode extends ParticleNodeBase
 
 	/** @private */
 	public static inline var UV_INDEX_1:UInt = 1;
+	
+	/**
+	 * Reference for spritesheet node properties on a single particle (when in local property mode).
+	 * Expects a <code>Vector3D</code> representing the cycleDuration (x), optional phaseTime (y).
+	 */
+	public static inline var UV_VECTOR3D:String = "UVVector3D";
+
+	
+	
+	/**
+	 * Defines the number of columns in the spritesheet, when in global mode. Defaults to 1. Read only.
+	 */
+	public var numColumns(get, null):Int;
+	/**
+	 * Defines the number of rows in the spritesheet, when in global mode. Defaults to 1. Read only.
+	 */
+	public var numRows(get, null):Int;
+	/**
+	 * Defines the total number of frames used by the spritesheet, when in global mode. Defaults to the number defined by numColumns and numRows. Read only.
+	 */
+	public var totalFrames(get, null):Int;
 
 	/** @private */
 	public var usesCycle:Bool;
@@ -44,36 +65,6 @@ class ParticleSpriteSheetNode extends ParticleNodeBase
 	public var cycleDuration:Float;
 	/** @private */
 	public var cyclePhase:Float;
-
-	/**
-	 * Reference for spritesheet node properties on a single particle (when in local property mode).
-	 * Expects a <code>Vector3D</code> representing the cycleDuration (x), optional phaseTime (y).
-	 */
-	public static inline var UV_VECTOR3D:String = "UVVector3D";
-
-	/**
-	 * Defines the number of columns in the spritesheet, when in global mode. Defaults to 1. Read only.
-	 */
-	private function get_numColumns():Float
-	{
-		return numColumns;
-	}
-
-	/**
-	 * Defines the number of rows in the spritesheet, when in global mode. Defaults to 1. Read only.
-	 */
-	private function get_numRows():Float
-	{
-		return numRows;
-	}
-
-	/**
-	 * Defines the total number of frames used by the spritesheet, when in global mode. Defaults to the number defined by numColumns and numRows. Read only.
-	 */
-	private function get_totalFrames():Float
-	{
-		return _totalFrames;
-	}
 
 	/**
 	 * Creates a new <code>ParticleSpriteSheetNode</code>
@@ -107,6 +98,23 @@ class ParticleSpriteSheetNode extends ParticleNodeBase
 		this.cyclePhase = cyclePhase;
 		this.cycleDuration = cycleDuration;
 		this._totalFrames = FMath.min(totalFrames, numColumns * numRows);
+	}
+	
+	private function get_numColumns():Int
+	{
+		return numColumns;
+	}
+
+	
+	private function get_numRows():Int
+	{
+		return numRows;
+	}
+
+	
+	private function get_totalFrames():Int
+	{
+		return _totalFrames;
 	}
 
 	/**

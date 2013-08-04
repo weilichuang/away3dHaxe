@@ -6,6 +6,16 @@ using a3d.math.FVector3D;
 
 class Ray
 {
+	/**
+	* Defines the origin point of the Ray object
+	* @return	Vector3D		The origin point of the Ray object
+	*/
+	public var orig(get, set):Vector3D;
+	/**
+	* Defines the directional vector of the Ray object
+	* @return	Vector3D		The directional vector
+	*/
+	public var dir(get, set):Vector3D;
 
 	private var _orig:Vector3D;
 	private var _dir:Vector3D;
@@ -30,15 +40,13 @@ class Ray
 		_npn = new Vector3D(0.0, 0.0, 0.0);
 	}
 
-	/**
-	* Defines the origin point of the Ray object
-	* @return	Vector3D		The origin point of the Ray object
-	*/
-	private function set_orig(o:Vector3D):Void
+	
+	private function set_orig(o:Vector3D):Vector3D
 	{
 		_orig.x = o.x;
 		_orig.y = o.y;
 		_orig.z = o.z;
+		return _orig;
 	}
 
 	private function get_orig():Vector3D
@@ -46,15 +54,13 @@ class Ray
 		return _orig;
 	}
 
-	/**
-	* Defines the directional vector of the Ray object
-	* @return	Vector3D		The directional vector
-	*/
-	private function set_dir(n:Vector3D):Void
+	
+	private function set_dir(n:Vector3D):Vector3D
 	{
 		_dir.x = n.x;
 		_dir.y = n.y;
 		_dir.z = n.z;
+		return _dir;
 	}
 
 	private function get_dir():Vector3D

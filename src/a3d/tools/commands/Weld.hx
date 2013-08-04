@@ -22,6 +22,15 @@ class Weld
 
 	public static inline var USE_VERTEXNORMALS:String = "UseVertexNormals";
 	public static inline var USE_FACENORMALS:String = "UseFaceNormals";
+	
+	/**
+	 * returns howmany vertices were deleted during the welding operation.
+	 */
+	public var verticesRemovedCount(get,null):Int;
+	/**
+	 * returns howmany vertices were added during the welding operation.
+	 */
+	public var verticesAddedCount(get,null):Int;
 
 	private var _keepUvs:Bool;
 	private var _normalThreshold:Float;
@@ -69,10 +78,7 @@ class Weld
 		_vertCnt = parse(obj);
 	}
 
-	/**
-	 * returns howmany vertices were deleted during the welding operation.
-	 */
-	public var verticesRemovedCount(get,null):Int;
+	
 	private function get_verticesRemovedCount():Int
 	{
 		if (Math.isNaN(_vertCnt))
@@ -81,10 +87,7 @@ class Weld
 		return (_vertCnt > 0) ? _vertCnt : 0;
 	}
 
-	/**
-	 * returns howmany vertices were added during the welding operation.
-	 */
-	public var verticesAddedCount(get,null):Int;
+	
 	private function get_verticesAddedCount():Int
 	{
 		if (Math.isNaN(_vertCnt))

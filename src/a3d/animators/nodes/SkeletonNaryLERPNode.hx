@@ -15,22 +15,10 @@ class SkeletonNaryLERPNode extends AnimationNodeBase
 	private var _numInputs:Int;
 
 	public var inputs(get,set):Vector<AnimationNodeBase>;
-	private function get_inputs():Vector<AnimationNodeBase>
-	{
-		return _inputs;
-	}
-
-	private function set_inputs(value:Vector<AnimationNodeBase>):Vector<AnimationNodeBase>
-	{
-		return _inputs = value;
-	}
+	
 
 	public var numInputs(get,null):Int;
-	private function get_numInputs():Int
-	{
-		return _numInputs;
-	}
-
+	
 	/**
 	 * Creates a new <code>SkeletonNaryLERPNode</code> object.
 	 */
@@ -40,6 +28,22 @@ class SkeletonNaryLERPNode extends AnimationNodeBase
 		_stateClass = SkeletonNaryLERPState;
 		_inputs = new Vector<AnimationNodeBase>();
 	}
+	
+	private function get_inputs():Vector<AnimationNodeBase>
+	{
+		return _inputs;
+	}
+
+	private function set_inputs(value:Vector<AnimationNodeBase>):Vector<AnimationNodeBase>
+	{
+		return _inputs = value;
+	}
+	
+	private function get_numInputs():Int
+	{
+		return _numInputs;
+	}
+
 
 	/**
 	 * Returns an integer representing the input index of the given skeleton animation node.

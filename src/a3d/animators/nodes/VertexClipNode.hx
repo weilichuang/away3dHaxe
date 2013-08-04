@@ -12,18 +12,13 @@ import flash.Vector;
  */
 class VertexClipNode extends AnimationClipNodeBase
 {
-	private var _frames:Vector<Geometry>;
-	private var _translations:Vector<Vector3D>;
-
-
 	/**
 	 * Returns a vector of geometry frames representing the vertex values of each animation frame in the clip.
 	 */
 	public var frames(get, null):Vector<Geometry>;
-	private function get_frames():Vector<Geometry>
-	{
-		return _frames;
-	}
+	
+	private var _frames:Vector<Geometry>;
+	private var _translations:Vector<Vector3D>;
 
 	/**
 	 * Creates a new <code>VertexClipNode</code> object.
@@ -37,6 +32,10 @@ class VertexClipNode extends AnimationClipNodeBase
 		_translations = new Vector<Vector3D>();
 	}
 
+	private function get_frames():Vector<Geometry>
+	{
+		return _frames;
+	}
 
 	/**
 	 * Adds a geometry object to the internal timeline of the animation node.

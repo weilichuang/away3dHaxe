@@ -17,17 +17,11 @@ import flash.geom.Vector3D;
  */
 class ParticleUVNode extends ParticleNodeBase
 {
-	/** @private */
-	public static inline var UV_INDEX:Int = 0;
-
-	/** @private */
-	public var uvData:Vector3D;
-
 	/**
 	 * Used to set the time node into global property mode.
 	 */
 	public static inline var GLOBAL:UInt = 1;
-
+	
 	/**
 	 *
 	 */
@@ -37,6 +31,25 @@ class ParticleUVNode extends ParticleNodeBase
 	 *
 	 */
 	public static inline var V_AXIS:String = "y";
+	
+	/**
+	 *
+	 */
+	public var cycle(get, set):Float;
+	/**
+	 *
+	 */
+	public var scale(get, set):Float;
+	/**
+	 *
+	 */
+	public var axis(get, set):String;
+	
+	/** @private */
+	public static inline var UV_INDEX:Int = 0;
+
+	/** @private */
+	public var uvData:Vector3D;
 
 	private var _cycle:Float;
 	private var _scale:Float;
@@ -63,10 +76,7 @@ class ParticleUVNode extends ParticleNodeBase
 		updateUVData();
 	}
 
-	/**
-	 *
-	 */
-	public var cycle(get, set):Float;
+	
 	private function get_cycle():Float
 	{
 		return _cycle;
@@ -81,10 +91,7 @@ class ParticleUVNode extends ParticleNodeBase
 		return _cycle;
 	}
 
-	/**
-	 *
-	 */
-	public var scale(get, set):Float;
+	
 	private function get_scale():Float
 	{
 		return _scale;
@@ -99,10 +106,7 @@ class ParticleUVNode extends ParticleNodeBase
 		return _scale;
 	}
 
-	/**
-	 *
-	 */
-	public var axis(get, set):String;
+	
 	private function get_axis():String
 	{
 		return _axis;

@@ -13,8 +13,7 @@ import flash.Vector;
  */
 class SkeletonClipNode extends AnimationClipNodeBase
 {
-	private var _frames:Vector<SkeletonPose>;
-
+	
 	/**
 	 * Determines whether to use SLERP equations (true) or LERP equations (false) in the calculation
 	 * of the output skeleton pose. Defaults to false.
@@ -26,6 +25,7 @@ class SkeletonClipNode extends AnimationClipNodeBase
 	 */
 	public var frames(get, null):Vector<SkeletonPose>;
 	
+	private var _frames:Vector<SkeletonPose>;
 
 	/**
 	 * Creates a new <code>SkeletonClipNode</code> object.

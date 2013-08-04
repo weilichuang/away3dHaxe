@@ -4,7 +4,7 @@ import a3d.core.base.IRenderable;
 import a3d.core.managers.Stage3DProxy;
 import a3d.entities.Camera3D;
 import a3d.math.FMath;
-import a3d.math.Matrix3DUtils;
+import a3d.math.FMatrix3D;
 import a3d.textures.Texture2DBase;
 import flash.display3D.Context3D;
 import flash.display3D.Context3DProgramType;
@@ -161,7 +161,7 @@ class DistanceMapPass extends MaterialPassBase
 		if (_alphaThreshold > 0)
 			renderable.activateUVBuffer(1, stage3DProxy);
 
-		var matrix:Matrix3D = Matrix3DUtils.CALCULATION_MATRIX;
+		var matrix:Matrix3D = FMatrix3D.CALCULATION_MATRIX;
 		matrix.copyFrom(sceneTransform);
 		matrix.append(viewProjection);
 		context.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX, 0, matrix, true);

@@ -2,7 +2,7 @@ package a3d.bounds;
 
 import a3d.entities.primitives.WireframePrimitiveBase;
 import a3d.entities.primitives.WireframeSphere;
-import a3d.math.Matrix3DUtils;
+import a3d.math.FMatrix3D;
 import a3d.math.Plane3D;
 import a3d.math.PlaneClassification;
 import flash.geom.Matrix3D;
@@ -210,7 +210,7 @@ class BoundingSphere extends BoundingVolumeBase
 		var cx:Float = sphere._centerX;
 		var cy:Float = sphere._centerY;
 		var cz:Float = sphere._centerZ;
-		var raw:Vector<Float> = Matrix3DUtils.RAW_DATA_CONTAINER;
+		var raw:Vector<Float> = FMatrix3D.RAW_DATA_CONTAINER;
 		matrix.copyRawDataTo(raw);
 		var m11:Float = raw[0], m12:Float = raw[4], m13:Float = raw[8], m14:Float = raw[12];
 		var m21:Float = raw[1], m22:Float = raw[5], m23:Float = raw[9], m24:Float = raw[13];

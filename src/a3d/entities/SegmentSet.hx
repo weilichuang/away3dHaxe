@@ -28,6 +28,29 @@ import a3d.entities.primitives.data.Segment;
 
 class SegmentSet extends Entity implements IRenderable
 {
+	/**
+	* @returns howmany segments are in the SegmentSet
+	*/
+	public var segmentCount(get, null):Int;
+	public var subSetCount(get, null):Int;
+	public var hasData(get, null):Bool;
+	public var numTriangles(get, null):Int;
+	public var sourceEntity(get, null):Entity;
+	public var castsShadows(get, null):Bool;
+	public var material(get, set):MaterialBase;
+	public var animator(get, null):IAnimator;
+	public var uvTransform(get, null):Matrix;
+	public var vertexData(get, null):Vector<Float>;
+	public var indexData(get, null):Vector<UInt>;
+	public var UVData(get, null):Vector<Float>;
+	public var numVertices(get, null):Int;
+	public var vertexStride(get, null):Int;
+	public var vertexNormalData(get, null):Vector<Float>;
+	public var vertexTangentData(get, null):Vector<Float>;
+	public var vertexOffset(get, null):Int;
+	public var vertexNormalOffset(get, null):Int;
+	public var vertexTangentOffset(get, null):Int;
+	
 	private var LIMIT:Int = 3 * 0xFFFF;
 	private var _activeSubSet:SubSet;
 	private var _subSets:Vector<SubSet>;
@@ -246,16 +269,13 @@ class SegmentSet extends Entity implements IRenderable
 		return _segments.get(index).segment;
 	}
 
-	/**
-	* @returns howmany segments are in the SegmentSet
-	*/
-	public var segmentCount(get, null):Int;
+	
 	private function get_segmentCount():Int
 	{
 		return _indexSegments;
 	}
 
-	public var subSetCount(get, null):Int;
+	
 	private function get_subSetCount():Int
 	{
 		return _subSetCount;
@@ -329,7 +349,7 @@ class SegmentSet extends Entity implements IRenderable
 		_boundsInvalid = true;
 	}
 
-	public var hasData(get, null):Bool;
+	
 	private function get_hasData():Bool
 	{
 		return _hasData;
@@ -528,31 +548,31 @@ class SegmentSet extends Entity implements IRenderable
 		return new RenderableNode(this);
 	}
 
-	public var numTriangles(get, null):Int;
+	
 	private function get_numTriangles():Int
 	{
 		return Std.int(_numIndices / 3);
 	}
 
-	public var sourceEntity(get, null):Entity;
+	
 	private function get_sourceEntity():Entity
 	{
 		return this;
 	}
 
-	public var castsShadows(get, null):Bool;
+	
 	private function get_castsShadows():Bool
 	{
 		return false;
 	}
 
-	public var material(get, set):MaterialBase;
+	
 	private function get_material():MaterialBase
 	{
 		return _material;
 	}
 
-	public var animator(get, null):IAnimator;
+	
 	private function get_animator():IAnimator
 	{
 		return _animator;
@@ -571,67 +591,67 @@ class SegmentSet extends Entity implements IRenderable
 		return _material;
 	}
 
-	public var uvTransform(get, null):Matrix;
+	
 	private function get_uvTransform():Matrix
 	{
 		return null;
 	}
 
-	public var vertexData(get, null):Vector<Float>;
+	
 	private function get_vertexData():Vector<Float>
 	{
 		return null;
 	}
 
-	public var indexData(get, null):Vector<UInt>;
+	
 	private function get_indexData():Vector<UInt>
 	{
 		return null;
 	}
 
-	public var UVData(get, null):Vector<Float>;
+	
 	private function get_UVData():Vector<Float>
 	{
 		return null;
 	}
 
-	public var numVertices(get, null):Int;
+	
 	private function get_numVertices():Int
 	{
 		return 0;
 	}
 
-	public var vertexStride(get, null):Int;
+	
 	private function get_vertexStride():Int
 	{
 		return 11;
 	}
 
-	public var vertexNormalData(get, null):Vector<Float>;
+	
 	private function get_vertexNormalData():Vector<Float>
 	{
 		return null;
 	}
 
-	public var vertexTangentData(get, null):Vector<Float>;
+	
 	private function get_vertexTangentData():Vector<Float>
 	{
 		return null;
 	}
 
-	public var vertexOffset(get, null):Int;
+	
 	private function get_vertexOffset():Int
 	{
 		return 0;
 	}
 
-	public var vertexNormalOffset(get, null):Int;
+	
 	private function get_vertexNormalOffset():Int
 	{
 		return 0;
 	}
 
-	public var vertexTangentOffset(get, null):Int;
+	
 	private function get_vertexTangentOffset():Int
 	{
 		return 0;

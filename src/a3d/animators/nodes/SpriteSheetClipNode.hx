@@ -9,6 +9,11 @@ import flash.Vector;
  */
 class SpriteSheetClipNode extends AnimationClipNodeBase
 {
+	/**
+	 * Returns a vector of SpriteSheetAnimationFrame representing the uv values of each animation frame in the clip.
+	 */
+	public var frames(get, null):Vector<SpriteSheetAnimationFrame>;
+	
 	private var _frames:Vector<SpriteSheetAnimationFrame>;
 
 	/**
@@ -21,10 +26,7 @@ class SpriteSheetClipNode extends AnimationClipNodeBase
 		_frames = new Vector<SpriteSheetAnimationFrame>();
 	}
 
-	/**
-	 * Returns a vector of SpriteSheetAnimationFrame representing the uv values of each animation frame in the clip.
-	 */
-	public var frames(get,null):Vector<SpriteSheetAnimationFrame>;
+	
 	private function get_frames():Vector<SpriteSheetAnimationFrame>
 	{
 		return _frames;

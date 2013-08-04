@@ -1,11 +1,11 @@
 package a3d.core.partition;
 
+import a3d.core.traverse.PartitionTraverser;
+import a3d.entities.Entity;
 import flash.geom.Vector3D;
 import flash.Vector.Vector;
 
 
-import a3d.core.traverse.PartitionTraverser;
-import a3d.entities.Entity;
 
 class ViewVolumeRootNode extends NodeBase
 {

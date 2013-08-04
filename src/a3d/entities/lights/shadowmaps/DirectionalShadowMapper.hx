@@ -1,18 +1,18 @@
 package a3d.entities.lights.shadowmaps;
 
+import a3d.core.render.DepthRenderer;
+import a3d.entities.Camera3D;
+import a3d.entities.lenses.FreeMatrixLens;
+import a3d.entities.lights.DirectionalLight;
+import a3d.entities.Scene3D;
+import a3d.math.FMatrix3D;
+import a3d.math.Plane3D;
 import flash.display3D.textures.TextureBase;
 import flash.geom.Matrix3D;
 import flash.geom.Vector3D;
 import flash.Vector;
 
 
-import a3d.entities.Camera3D;
-import a3d.entities.lenses.FreeMatrixLens;
-import a3d.core.render.DepthRenderer;
-import a3d.entities.Scene3D;
-import a3d.entities.lights.DirectionalLight;
-import a3d.math.Matrix3DUtils;
-import a3d.math.Plane3D;
 
 
 
@@ -130,7 +130,7 @@ class DirectionalShadowMapper extends ShadowMapperBase
 
 	private function updateProjectionFromFrustumCorners(viewCamera:Camera3D, corners:Vector<Float>, matrix:Matrix3D):Void
 	{
-		var raw:Vector<Float> = Matrix3DUtils.RAW_DATA_CONTAINER;
+		var raw:Vector<Float> = FMatrix3D.RAW_DATA_CONTAINER;
 
 		var minX:Float, minY:Float;
 		var maxX:Float, maxY:Float;

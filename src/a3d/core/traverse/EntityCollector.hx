@@ -1,16 +1,12 @@
 package a3d.core.traverse;
 
-import flash.geom.Vector3D;
-import flash.Vector;
-
-
-import a3d.entities.Camera3D;
 import a3d.core.base.IRenderable;
 import a3d.core.data.EntityListItem;
 import a3d.core.data.EntityListItemPool;
 import a3d.core.data.RenderableListItem;
 import a3d.core.data.RenderableListItemPool;
 import a3d.core.partition.NodeBase;
+import a3d.entities.Camera3D;
 import a3d.entities.Entity;
 import a3d.entities.lights.DirectionalLight;
 import a3d.entities.lights.LightBase;
@@ -18,6 +14,10 @@ import a3d.entities.lights.LightProbe;
 import a3d.entities.lights.PointLight;
 import a3d.materials.MaterialBase;
 import a3d.math.Plane3D;
+import flash.geom.Vector3D;
+import flash.Vector;
+
+
 
 
 
@@ -39,6 +39,7 @@ class EntityCollector extends PartitionTraverser
 	 * The camera that provides the visible frustum.
 	 */
 	public var camera(get, set):Camera3D;
+	
 	public var cullPlanes(get, set):Vector<Plane3D>;
 	/**
 	 * The sky box object if encountered.
@@ -54,7 +55,9 @@ class EntityCollector extends PartitionTraverser
 	 * @param value
 	 */
 	public var blendedRenderableHead(get, set):RenderableListItem;
+	
 	public var entityHead(get, null):EntityListItem;
+	
 	/**
 	 * The lights of which the affecting area intersects the camera's frustum.
 	 */
@@ -108,97 +111,6 @@ class EntityCollector extends PartitionTraverser
 		_lightProbes = new Vector<LightProbe>();
 		_renderableListItemPool = new RenderableListItemPool();
 		_entityListItemPool = new EntityListItemPool();
-	}
-
-	
-	private inline function get_camera():Camera3D
-	{
-		return _camera;
-	}
-
-	private function set_camera(value:Camera3D):Camera3D
-	{
-		_camera = value;
-		_entryPoint = _camera.scenePosition;
-		_cameraForward = _camera.forwardVector;
-		_cullPlanes = _camera.frustumPlanes;
-		
-		return _camera;
-	}
-
-	
-	private inline function get_cullPlanes():Vector<Plane3D>
-	{
-		return _customCullPlanes;
-	}
-
-	private function set_cullPlanes(value:Vector<Plane3D>):Vector<Plane3D>
-	{
-		return _customCullPlanes = value;
-	}
-
-	
-	private inline function get_numMouseEnableds():Int
-	{
-		return _numMouseEnableds;
-	}
-
-	
-	private inline function get_skyBox():IRenderable
-	{
-		return _skyBox;
-	}
-
-	
-	private inline function get_opaqueRenderableHead():RenderableListItem
-	{
-		return _opaqueRenderableHead;
-	}
-
-	private inline function set_opaqueRenderableHead(value:RenderableListItem):RenderableListItem
-	{
-		return _opaqueRenderableHead = value;
-	}
-
-	
-	private inline function get_blendedRenderableHead():RenderableListItem
-	{
-		return _blendedRenderableHead;
-	}
-
-	private inline function set_blendedRenderableHead(value:RenderableListItem):RenderableListItem
-	{
-		return _blendedRenderableHead = value;
-	}
-
-	
-	private inline function get_entityHead():EntityListItem
-	{
-		return _entityHead;
-	}
-
-	
-	private inline function get_lights():Vector<LightBase>
-	{
-		return _lights;
-	}
-
-	
-	private inline function get_directionalLights():Vector<DirectionalLight>
-	{
-		return _directionalLights;
-	}
-
-	
-	private inline function get_pointLights():Vector<PointLight>
-	{
-		return _pointLights;
-	}
-
-	
-	private inline function get_lightProbes():Vector<LightProbe>
-	{
-		return _lightProbes;
 	}
 
 	/**
@@ -338,19 +250,109 @@ class EntityCollector extends PartitionTraverser
 		_lights[_numLights++] = light;
 		_lightProbes[_numLightProbes++] = light;
 	}
-
-
-
 	
-	private function get_numTriangles():Int
-	{
-		return _numTriangles;
-	}
-
 	/**
 	 * Cleans up any data at the end of a frame.
 	 */
 	public function cleanUp():Void
 	{
 	}
+
+
+	private inline function get_camera():Camera3D
+	{
+		return _camera;
+	}
+
+	private function set_camera(value:Camera3D):Camera3D
+	{
+		_camera = value;
+		_entryPoint = _camera.scenePosition;
+		_cameraForward = _camera.forwardVector;
+		_cullPlanes = _camera.frustumPlanes;
+		
+		return _camera;
+	}
+
+	
+	private inline function get_cullPlanes():Vector<Plane3D>
+	{
+		return _customCullPlanes;
+	}
+
+	private function set_cullPlanes(value:Vector<Plane3D>):Vector<Plane3D>
+	{
+		return _customCullPlanes = value;
+	}
+
+	
+	private inline function get_numMouseEnableds():Int
+	{
+		return _numMouseEnableds;
+	}
+
+	
+	private inline function get_skyBox():IRenderable
+	{
+		return _skyBox;
+	}
+
+	
+	private inline function get_opaqueRenderableHead():RenderableListItem
+	{
+		return _opaqueRenderableHead;
+	}
+
+	private inline function set_opaqueRenderableHead(value:RenderableListItem):RenderableListItem
+	{
+		return _opaqueRenderableHead = value;
+	}
+
+	
+	private inline function get_blendedRenderableHead():RenderableListItem
+	{
+		return _blendedRenderableHead;
+	}
+
+	private inline function set_blendedRenderableHead(value:RenderableListItem):RenderableListItem
+	{
+		return _blendedRenderableHead = value;
+	}
+
+	
+	private inline function get_entityHead():EntityListItem
+	{
+		return _entityHead;
+	}
+
+	
+	private inline function get_lights():Vector<LightBase>
+	{
+		return _lights;
+	}
+
+	
+	private inline function get_directionalLights():Vector<DirectionalLight>
+	{
+		return _directionalLights;
+	}
+
+	
+	private inline function get_pointLights():Vector<PointLight>
+	{
+		return _pointLights;
+	}
+
+	
+	private inline function get_lightProbes():Vector<LightProbe>
+	{
+		return _lightProbes;
+	}
+	
+	private function get_numTriangles():Int
+	{
+		return _numTriangles;
+	}
+
+	
 }

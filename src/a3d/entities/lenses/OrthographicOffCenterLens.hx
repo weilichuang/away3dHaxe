@@ -1,6 +1,6 @@
 package a3d.entities.lenses;
 
-import a3d.math.Matrix3DUtils;
+import a3d.math.FMatrix3D;
 import flash.geom.Vector3D;
 import flash.Vector;
 
@@ -114,7 +114,7 @@ class OrthographicOffCenterLens extends LensBase
 	 */
 	override private function updateMatrix():Void
 	{
-		var raw:Vector<Float> = Matrix3DUtils.RAW_DATA_CONTAINER;
+		var raw:Vector<Float> = FMatrix3D.RAW_DATA_CONTAINER;
 		var w:Float = 1 / (_maxX - _minX);
 		var h:Float = 1 / (_maxY - _minY);
 		var d:Float = 1 / (_far - _near);

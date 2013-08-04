@@ -5,14 +5,14 @@ import flash.geom.Vector3D;
 import flash.Vector;
 
 /**
- * Matrix3DUtils provides additional Matrix3D math functions.
+ * FMatrix3D provides additional Matrix3D math functions.
  */
-class Matrix3DUtils
+class FMatrix3D
 {
 	/**
 	 * A reference to a Vector to be used as a temporary raw data container, to prevent object creation.
 	 */
-	public static var RAW_DATA_CONTAINER:Vector<Float> = new Vector<Float>(16);
+	public static var RAW_DATA_CONTAINER:Vector<Float> = new Vector<Float>(16, true);
 
 	public static var CALCULATION_MATRIX:Matrix3D = new Matrix3D();
 
@@ -88,6 +88,7 @@ class Matrix3DUtils
 	{
 		if (v == null)
 			v = new Vector3D(0.0, 0.0, 0.0);
+			
 		m.copyColumnTo(1, v);
 		v.normalize();
 
@@ -104,6 +105,7 @@ class Matrix3DUtils
 	{
 		if (v == null)
 			v = new Vector3D(0.0, 0.0, 0.0);
+			
 		m.copyColumnTo(0, v);
 		v.normalize();
 
@@ -115,7 +117,7 @@ class Matrix3DUtils
 	   */
 	public static function compare(m1:Matrix3D, m2:Matrix3D):Bool
 	{
-		var r1:Vector<Float> = Matrix3DUtils.RAW_DATA_CONTAINER;
+		var r1:Vector<Float> = FMatrix3D.RAW_DATA_CONTAINER;
 		var r2:Vector<Float> = m2.rawData;
 		m1.copyRawDataTo(r1);
 
@@ -168,8 +170,9 @@ class Matrix3DUtils
 	{
 		if (target == null)
 			target = new Matrix3D();
+			
 		var a:Float = plane.a, b:Float = plane.b, c:Float = plane.c, d:Float = plane.d;
-		var rawData:Vector<Float> = Matrix3DUtils.RAW_DATA_CONTAINER;
+		var rawData:Vector<Float> = FMatrix3D.RAW_DATA_CONTAINER;
 		var ab2:Float = -2 * a * b;
 		var ac2:Float = -2 * a * c;
 		var bc2:Float = -2 * b * c;

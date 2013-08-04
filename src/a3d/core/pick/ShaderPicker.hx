@@ -10,7 +10,7 @@ import a3d.entities.Camera3D;
 import a3d.entities.Entity;
 import a3d.entities.Scene3D;
 import a3d.entities.View3D;
-import a3d.math.Matrix3DUtils;
+import a3d.math.FMatrix3D;
 import a3d.tools.utils.GeomUtil;
 import com.adobe.utils.AGALMiniAssembler;
 import flash.display.BitmapData;
@@ -219,7 +219,7 @@ class ShaderPicker implements IPicker
 	 */
 	private function drawRenderables(item:RenderableListItem, camera:Camera3D):Void
 	{
-		var matrix:Matrix3D = Matrix3DUtils.CALCULATION_MATRIX;
+		var matrix:Matrix3D = FMatrix3D.CALCULATION_MATRIX;
 		var renderable:IRenderable;
 		var viewProjection:Matrix3D = camera.viewProjection;
 
@@ -328,7 +328,7 @@ class ShaderPicker implements IPicker
 		var col:UInt;
 		var scX:Float, scY:Float, scZ:Float;
 		var offsX:Float, offsY:Float, offsZ:Float;
-		var localViewProjection:Matrix3D = Matrix3DUtils.CALCULATION_MATRIX;
+		var localViewProjection:Matrix3D = FMatrix3D.CALCULATION_MATRIX;
 		localViewProjection.copyFrom(_hitRenderable.getRenderSceneTransform(camera));
 		localViewProjection.append(camera.viewProjection);
 		if (_triangleProgram3D == null)
@@ -510,7 +510,7 @@ class ShaderPicker implements IPicker
 		var rx:Float, ry:Float, rz:Float;
 		var ox:Float, oy:Float, oz:Float;
 		var t:Float;
-		var raw:Vector<Float> = Matrix3DUtils.RAW_DATA_CONTAINER;
+		var raw:Vector<Float> = FMatrix3D.RAW_DATA_CONTAINER;
 		var cx:Float = _rayPos.x, cy:Float = _rayPos.y, cz:Float = _rayPos.z;
 
 		// unprojected projection point, gives ray dir in cam space

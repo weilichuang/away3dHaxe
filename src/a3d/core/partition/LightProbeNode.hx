@@ -8,6 +8,11 @@ import a3d.entities.lights.LightProbe;
  */
 class LightProbeNode extends EntityNode
 {
+	/**
+	 * The light object contained in this node.
+	 */
+	public var light(get, null):LightProbe;
+	
 	private var _light:LightProbe;
 
 	/**
@@ -20,10 +25,7 @@ class LightProbeNode extends EntityNode
 		_light = light;
 	}
 
-	/**
-	 * The light object contained in this node.
-	 */
-	public var light(get, null):LightProbe;
+	
 	private function get_light():LightProbe
 	{
 		return _light;

@@ -1,5 +1,11 @@
 package a3d.entities.lights.shadowmaps;
 
+import a3d.core.render.DepthRenderer;
+import a3d.entities.Camera3D;
+import a3d.entities.lenses.FreeMatrixLens;
+import a3d.entities.lenses.LensBase;
+import a3d.entities.Scene3D;
+import a3d.math.FMatrix3D;
 import flash.display3D.textures.TextureBase;
 import flash.errors.Error;
 import flash.events.Event;
@@ -10,12 +16,6 @@ import flash.geom.Rectangle;
 import flash.Vector;
 
 
-import a3d.entities.Camera3D;
-import a3d.entities.lenses.FreeMatrixLens;
-import a3d.entities.lenses.LensBase;
-import a3d.core.render.DepthRenderer;
-import a3d.entities.Scene3D;
-import a3d.math.Matrix3DUtils;
 
 
 
@@ -190,7 +190,7 @@ class CascadeShadowMapper extends DirectionalShadowMapper implements IEventDispa
 
 	private function updateProjectionPartition(matrix:Matrix3D, splitRatio:Float, texOffsetX:Float, texOffsetY:Float):Void
 	{
-		var raw:Vector<Float> = Matrix3DUtils.RAW_DATA_CONTAINER;
+		var raw:Vector<Float> = FMatrix3D.RAW_DATA_CONTAINER;
 		var xN:Float, yN:Float, zN:Float;
 		var xF:Float, yF:Float, zF:Float;
 		var minX:Float = Math.POSITIVE_INFINITY, minY:Float = Math.POSITIVE_INFINITY, minZ:Float;

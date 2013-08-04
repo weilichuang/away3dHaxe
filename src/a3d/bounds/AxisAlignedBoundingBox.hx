@@ -3,7 +3,7 @@ package a3d.bounds;
 import a3d.entities.primitives.WireframeCube;
 import a3d.entities.primitives.WireframePrimitiveBase;
 import a3d.math.FMath;
-import a3d.math.Matrix3DUtils;
+import a3d.math.FMatrix3D;
 import a3d.math.Plane3D;
 import a3d.math.PlaneClassification;
 import flash.geom.Matrix3D;
@@ -252,9 +252,7 @@ class AxisAlignedBoundingBox extends BoundingVolumeBase
 		_boundingRenderable.scaleX = Math.max(_halfExtentsX * 2, 0.001);
 		_boundingRenderable.scaleY = Math.max(_halfExtentsY * 2, 0.001);
 		_boundingRenderable.scaleZ = Math.max(_halfExtentsZ * 2, 0.001);
-		_boundingRenderable.x = _centerX;
-		_boundingRenderable.y = _centerY;
-		_boundingRenderable.z = _centerZ;
+		_boundingRenderable.setXYZ(_centerX, _centerY, _centerZ);
 	}
 
 	override private function createBoundingRenderable():WireframePrimitiveBase
@@ -269,12 +267,9 @@ class AxisAlignedBoundingBox extends BoundingVolumeBase
 		var b:Float = plane.b;
 		var c:Float = plane.c;
 		var centerDistance:Float = a * _centerX + b * _centerY + c * _centerZ - plane.d;
-		if (a < 0)
-			a = -a;
-		if (b < 0)
-			b = -b;
-		if (c < 0)
-			c = -c;
+		a = FMath.fabs(a);
+		b = FMath.fabs(b);
+		c = FMath.fabs(c);
 		var boundOffset:Float = a * _halfExtentsX + b * _halfExtentsY + c * _halfExtentsZ;
 
 		return centerDistance > boundOffset ? PlaneClassification.FRONT :
@@ -288,7 +283,7 @@ class AxisAlignedBoundingBox extends BoundingVolumeBase
 		var cx:Float = aabb._centerX;
 		var cy:Float = aabb._centerY;
 		var cz:Float = aabb._centerZ;
-		var raw:Vector<Float> = Matrix3DUtils.RAW_DATA_CONTAINER;
+		var raw:Vector<Float> = FMatrix3D.RAW_DATA_CONTAINER;
 		matrix.copyRawDataTo(raw);
 		var m11:Float = raw[0], m12:Float = raw[4], m13:Float = raw[8], m14:Float = raw[12];
 		var m21:Float = raw[1], m22:Float = raw[5], m23:Float = raw[9], m24:Float = raw[13];
@@ -298,27 +293,20 @@ class AxisAlignedBoundingBox extends BoundingVolumeBase
 		_centerY = cx * m21 + cy * m22 + cz * m23 + m24;
 		_centerZ = cx * m31 + cy * m32 + cz * m33 + m34;
 
-		if (m11 < 0)
-			m11 = -m11;
-		if (m12 < 0)
-			m12 = -m12;
-		if (m13 < 0)
-			m13 = -m13;
-		if (m21 < 0)
-			m21 = -m21;
-		if (m22 < 0)
-			m22 = -m22;
-		if (m23 < 0)
-			m23 = -m23;
-		if (m31 < 0)
-			m31 = -m31;
-		if (m32 < 0)
-			m32 = -m32;
-		if (m33 < 0)
-			m33 = -m33;
+		m11 = FMath.fabs(m11);
+		m12 = FMath.fabs(m12);
+		m13 = FMath.fabs(m13);
+		m21 = FMath.fabs(m21);
+		m22 = FMath.fabs(m22);
+		m23 = FMath.fabs(m23);
+		m31 = FMath.fabs(m31);
+		m32 = FMath.fabs(m32);
+		m33 = FMath.fabs(m33);
+		
 		var hx:Float = aabb._halfExtentsX;
 		var hy:Float = aabb._halfExtentsY;
 		var hz:Float = aabb._halfExtentsZ;
+		
 		_halfExtentsX = hx * m11 + hy * m12 + hz * m13;
 		_halfExtentsY = hx * m21 + hy * m22 + hz * m23;
 		_halfExtentsZ = hx * m31 + hy * m32 + hz * m33;

@@ -41,27 +41,6 @@ class RaycastCollector extends EntityCollector
 		_rayDirection = new Vector3D();
 	}
 
-	
-	private function get_rayPosition():Vector3D
-	{
-		return _rayPosition;
-	}
-
-	private function set_rayPosition(value:Vector3D):Vector3D
-	{
-		return _rayPosition = value;
-	}
-
-	private function get_rayDirection():Vector3D
-	{
-		return _rayDirection;
-	}
-
-	private function set_rayDirection(value:Vector3D):Vector3D
-	{
-		return _rayDirection = value;
-	}
-
 	/**
 	 * Returns true if the current node is at least partly in the frustum. If so, the partition node knows to pass on the traverser to its children.
 	 *
@@ -92,5 +71,25 @@ class RaycastCollector extends EntityCollector
 	 */
 	override public function applyUnknownLight(light:LightBase):Void
 	{
+	}
+	
+	private function get_rayPosition():Vector3D
+	{
+		return _rayPosition;
+	}
+
+	private function set_rayPosition(value:Vector3D):Vector3D
+	{
+		return _rayPosition = value;
+	}
+
+	private function get_rayDirection():Vector3D
+	{
+		return _rayDirection;
+	}
+
+	private function set_rayDirection(value:Vector3D):Vector3D
+	{
+		return _rayDirection = value;
 	}
 }

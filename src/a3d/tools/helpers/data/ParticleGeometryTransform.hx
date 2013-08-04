@@ -8,6 +8,10 @@ import flash.geom.Matrix3D;
  */
 class ParticleGeometryTransform
 {
+	public var vertexTransform(get, set):Matrix3D;
+	public var UVTransform(get, set):Matrix;
+	public var invVertexTransform(get, null):Matrix3D;
+	
 	private var _defaultVertexTransform:Matrix3D;
 	private var _defaultInvVertexTransform:Matrix3D;
 	private var _defaultUVTransform:Matrix;
@@ -16,7 +20,7 @@ class ParticleGeometryTransform
 	{
 	}
 
-	public var vertexTransform(get, set):Matrix3D;
+	
 	private function get_vertexTransform():Matrix3D
 	{
 		return _defaultVertexTransform;
@@ -32,7 +36,7 @@ class ParticleGeometryTransform
 		return _defaultVertexTransform;
 	}
 
-	public var UVTransform(get, set):Matrix;
+	
 	private function set_UVTransform(value:Matrix):Matrix
 	{
 		return _defaultUVTransform = value;
@@ -42,10 +46,7 @@ class ParticleGeometryTransform
 	{
 		return _defaultUVTransform;
 	}
-
 	
-
-	public var invVertexTransform(get, null):Matrix3D;
 	private function get_invVertexTransform():Matrix3D
 	{
 		return _defaultInvVertexTransform;

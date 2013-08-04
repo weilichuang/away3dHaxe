@@ -10,6 +10,8 @@ import a3d.tools.utils.GeomUtil;
 
 class FractalTreeRound extends PrimitiveBase
 {
+	public var leafPositions(get, null):Vector<Float>;
+	
 	private var _rawVertices:Vector<Float>;
 	private var _rawNormals:Vector<Float>;
 	private var _rawIndices:Vector<UInt>;
@@ -343,7 +345,7 @@ class FractalTreeRound extends PrimitiveBase
 		return (max - min) * Math.random() + min;
 	}
 
-	public var leafPositions(get,null):Vector<Float>;
+	
 	private function get_leafPositions():Vector<Float>
 	{
 		return _leafPositions;

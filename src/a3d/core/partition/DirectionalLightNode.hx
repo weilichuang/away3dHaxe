@@ -8,6 +8,11 @@ import a3d.entities.lights.DirectionalLight;
  */
 class DirectionalLightNode extends EntityNode
 {
+	/**
+	 * The light object contained in this node.
+	 */
+	public var light(get, null):DirectionalLight;
+	
 	private var _light:DirectionalLight;
 
 	/**
@@ -20,10 +25,7 @@ class DirectionalLightNode extends EntityNode
 		_light = light;
 	}
 
-	/**
-	 * The light object contained in this node.
-	 */
-	public var light(get, null):DirectionalLight;
+	
 	private function get_light():DirectionalLight
 	{
 		return _light;

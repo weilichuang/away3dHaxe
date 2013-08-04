@@ -2,13 +2,13 @@ package a3d.core.partition;
 
 
 import a3d.bounds.BoundingVolumeBase;
-import a3d.math.Plane3D;
 import a3d.entities.Entity;
 import a3d.entities.primitives.WireframeCube;
 import a3d.entities.primitives.WireframePrimitiveBase;
+import a3d.math.Plane3D;
+import flash.geom.Vector3D;
 import flash.Vector;
 
-import flash.geom.Vector3D;
 
 
 

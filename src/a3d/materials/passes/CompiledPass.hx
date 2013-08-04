@@ -15,7 +15,7 @@ import a3d.materials.methods.BasicSpecularMethod;
 import a3d.materials.methods.MethodVOSet;
 import a3d.materials.methods.ShaderMethodSetup;
 import a3d.materials.methods.ShadowMapMethodBase;
-import a3d.math.Matrix3DUtils;
+import a3d.math.FMatrix3D;
 import a3d.textures.Texture2DBase;
 import flash.display3D.Context3D;
 import flash.display3D.Context3DProfile;
@@ -583,7 +583,7 @@ class CompiledPass extends MaterialPassBase
 		}
 		else
 		{
-			var matrix3D:Matrix3D = Matrix3DUtils.CALCULATION_MATRIX;
+			var matrix3D:Matrix3D = FMatrix3D.CALCULATION_MATRIX;
 			matrix3D.copyFrom(renderable.getRenderSceneTransform(camera));
 			matrix3D.append(viewProjection);
 			matrix3D.copyRawDataTo(_vertexConstantData, 0, true);

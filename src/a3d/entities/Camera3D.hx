@@ -16,7 +16,7 @@ import a3d.core.partition.EntityNode;
 import a3d.events.CameraEvent;
 import a3d.events.LensEvent;
 import a3d.io.library.assets.AssetType;
-import a3d.math.Matrix3DUtils;
+import a3d.math.FMatrix3D;
 import a3d.math.Plane3D;
 
 
@@ -107,7 +107,7 @@ class Camera3D extends Entity
 		var c31:Float, c32:Float, c33:Float, c34:Float;
 		var c41:Float, c42:Float, c43:Float, c44:Float;
 		var p:Plane3D;
-		var raw:Vector<Float> = Matrix3DUtils.RAW_DATA_CONTAINER;
+		var raw:Vector<Float> = FMatrix3D.RAW_DATA_CONTAINER;
 		var invLen:Float;
 		viewProjection.copyRawDataTo(raw);
 

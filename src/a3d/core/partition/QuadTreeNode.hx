@@ -1,12 +1,12 @@
 package a3d.core.partition;
 
+import a3d.bounds.BoundingVolumeBase;
+import a3d.entities.Entity;
+import a3d.math.Plane3D;
 import flash.geom.Vector3D;
 import flash.Vector;
 
 
-import a3d.bounds.BoundingVolumeBase;
-import a3d.entities.Entity;
-import a3d.math.Plane3D;
 
 
 

@@ -22,6 +22,9 @@ class Mirror
 	public static inline var MIN_BOUND:String = 'min';
 	public static inline var MAX_BOUND:String = 'max';
 	public static inline var CENTER:String = 'center';
+	
+	public var recenter(get, set):Bool;
+	public var duplicate(get, set):Bool;
 
 	private var _recenter:Bool;
 	private var _duplicate:Bool;
@@ -39,7 +42,7 @@ class Mirror
 		_duplicate = duplicate;
 	}
 
-	public var recenter(get, set):Bool;
+	
 	private function set_recenter(b:Bool):Bool
 	{
 		return _recenter = b;
@@ -50,7 +53,7 @@ class Mirror
 		return _recenter;
 	}
 
-	public var duplicate(get, set):Bool;
+	
 	private function set_duplicate(b:Bool):Bool
 	{
 		return _duplicate = b;

@@ -1,18 +1,18 @@
 package a3d.entities.lights.shadowmaps;
 
-import flash.display3D.textures.TextureBase;
-import flash.errors.Error;
-
 import a3d.core.managers.Stage3DProxy;
 import a3d.core.render.DepthRenderer;
 import a3d.core.traverse.EntityCollector;
 import a3d.core.traverse.ShadowCasterCollector;
 import a3d.entities.Camera3D;
-import a3d.entities.Scene3D;
 import a3d.entities.lights.LightBase;
+import a3d.entities.Scene3D;
 import a3d.errors.AbstractMethodError;
 import a3d.textures.RenderTexture;
 import a3d.textures.TextureProxyBase;
+import flash.display3D.textures.TextureBase;
+import flash.errors.Error;
+
 
 
 

@@ -8,6 +8,19 @@ class WireframeRegularPolygon extends WireframePrimitiveBase
 	public static inline var ORIENTATION_YZ:String = "yz";
 	public static inline var ORIENTATION_XY:String = "xy";
 	public static inline var ORIENTATION_XZ:String = "xz";
+	
+	/**
+	 * The orientaion in which the polygon lies.
+	 */
+	public var orientation(get, set):String;
+	/**
+	 * The radius of the regular polygon.
+	 */
+	public var radius(get, set):Float;
+	/**
+	 * The number of sides to the regular polygon.
+	 */
+	public var sides(get, set):Int;
 
 	private var _radius : Float;
 	private var _sides : Int;
@@ -32,10 +45,7 @@ class WireframeRegularPolygon extends WireframePrimitiveBase
 		_orientation = orientation;
 	}
 
-	/**
-	 * The orientaion in which the polygon lies.
-	 */
-	public var orientation(get, set):String;
+	
 	private function get_orientation() : String
 	{
 		return _orientation;
@@ -48,10 +58,7 @@ class WireframeRegularPolygon extends WireframePrimitiveBase
 		return _orientation;
 	}
 
-	/**
-	 * The radius of the regular polygon.
-	 */
-	public var radius(get, set):Float;
+	
 	private function get_radius() : Float
 	{
 		return _radius;
@@ -64,10 +71,7 @@ class WireframeRegularPolygon extends WireframePrimitiveBase
 		return _radius;
 	}
 
-	/**
-	 * The number of sides to the regular polygon.
-	 */
-	public var sides(get, set):Int;
+	
 	private function get_sides() : Int
 	{
 		return _sides;

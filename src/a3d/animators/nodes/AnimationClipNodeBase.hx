@@ -8,6 +8,23 @@ import flash.Vector;
  */
 class AnimationClipNodeBase extends AnimationNodeBase
 {
+	/**
+	 * Determines whether the contents of the animation node have looping characteristics enabled.
+	 */
+	public var looping(get, set):Bool;
+	/**
+	 * Defines if looping content blends the final frame of animation data with the first (true) or works on the
+	 * assumption that both first and last frames are identical (false). Defaults to false.
+	 */
+	public var stitchFinalFrame(get, set):Bool;
+	public var totalDuration(get, null):Int;
+	public var totalDelta(get, null):Vector3D;
+	public var lastFrame(get, null):Int;
+	/**
+	 * Returns a vector of time values representing the duration (in milliseconds) of each animation frame in the clip.
+	 */
+	public var durations(get, null):Vector<UInt>;
+	
 	private var _looping:Bool = true;
 	private var _totalDuration:Int = 0;
 	private var _lastFrame:Int;
@@ -33,10 +50,7 @@ class AnimationClipNodeBase extends AnimationNodeBase
 		_totalDelta = new Vector3D();
 	}
 	
-	/**
-	 * Determines whether the contents of the animation node have looping characteristics enabled.
-	 */
-	public var looping(get, set):Bool;
+	
 	private function get_looping():Bool
 	{
 		return _looping;
@@ -54,11 +68,7 @@ class AnimationClipNodeBase extends AnimationNodeBase
 		return _looping;
 	}
 
-	/**
-	 * Defines if looping content blends the final frame of animation data with the first (true) or works on the
-	 * assumption that both first and last frames are identical (false). Defaults to false.
-	 */
-	public var stitchFinalFrame(get, set):Bool;
+	
 	private function get_stitchFinalFrame():Bool
 	{
 		return _stitchFinalFrame;
@@ -76,7 +86,7 @@ class AnimationClipNodeBase extends AnimationNodeBase
 		return _stitchFinalFrame;
 	}
 
-	public var totalDuration(get, null):Int;
+	
 	private function get_totalDuration():Int
 	{
 		if (_stitchDirty)
@@ -85,7 +95,7 @@ class AnimationClipNodeBase extends AnimationNodeBase
 		return _totalDuration;
 	}
 
-	public var totalDelta(get, null):Vector3D;
+	
 	private function get_totalDelta():Vector3D
 	{
 		if (_stitchDirty)
@@ -94,7 +104,7 @@ class AnimationClipNodeBase extends AnimationNodeBase
 		return _totalDelta;
 	}
 
-	public var lastFrame(get, null):Int;
+	
 	private function get_lastFrame():Int
 	{
 		if (_stitchDirty)
@@ -103,10 +113,7 @@ class AnimationClipNodeBase extends AnimationNodeBase
 		return _lastFrame;
 	}
 
-	/**
-	 * Returns a vector of time values representing the duration (in milliseconds) of each animation frame in the clip.
-	 */
-	public var durations(get, null):Vector<UInt>;
+	
 	private function get_durations():Vector<UInt>
 	{
 		return _durations;

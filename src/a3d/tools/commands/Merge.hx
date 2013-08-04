@@ -13,6 +13,18 @@ import flash.Vector;
  */
 class Merge
 {
+	/**
+	 * Determines if the mesh and geometry source(s) used for the merging are disposed. Defaults to false.
+	 */
+	public var disposeSources(get,set):Bool;
+	/**
+	 * Defines if mesh2 will be merged using its own material information.
+	 */
+	public var keepMaterial(get,set):Bool;
+	/**
+	 * Defines if mesh2 is merged using its objectSpace.
+	 */
+	public var objectSpace(get,set):Bool;
 
 	//private const LIMIT:UInt = 196605;
 	private var _objectSpace:Bool;
@@ -35,10 +47,7 @@ class Merge
 		_objectSpace = objectSpace;
 	}
 
-	/**
-	 * Determines if the mesh and geometry source(s) used for the merging are disposed. Defaults to false.
-	 */
-	public var disposeSources(get,set):Bool;
+	
 	private function set_disposeSources(b:Bool):Bool
 	{
 		return _disposeSources = b;
@@ -49,10 +58,7 @@ class Merge
 		return _disposeSources;
 	}
 
-	/**
-	 * Defines if mesh2 will be merged using its own material information.
-	 */
-	public var keepMaterial(get,set):Bool;
+	
 	private function set_keepMaterial(b:Bool):Bool
 	{
 		return _keepMaterial = b;
@@ -63,10 +69,7 @@ class Merge
 		return _keepMaterial;
 	}
 
-	/**
-	 * Defines if mesh2 is merged using its objectSpace.
-	 */
-	public var objectSpace(get,set):Bool;
+	
 	private function set_objectSpace(b:Bool):Bool
 	{
 		return _objectSpace = b;

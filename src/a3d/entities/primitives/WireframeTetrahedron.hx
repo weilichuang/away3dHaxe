@@ -14,6 +14,19 @@ class WireframeTetrahedron extends WireframePrimitiveBase
 	public static inline var ORIENTATION_YZ:String = "yz";
 	public static inline var ORIENTATION_XY:String = "xy";
 	public static inline var ORIENTATION_XZ:String = "xz";
+	
+	/**
+	 * The orientation in which the plane lies
+	 */
+	public var orientation(get, set):String;
+	/**
+	 * The size of the tetrahedron bottom.
+	 */
+	public var width(get, set):Float;
+	/**
+	 * The size of the tetrahedron height.
+	 */
+	public var height(get, set):Float;
 
 	private var _width:Float;
 	private var _height:Float;
@@ -36,10 +49,7 @@ class WireframeTetrahedron extends WireframePrimitiveBase
 		_orientation = orientation;
 	}
 
-	/**
-	 * The orientation in which the plane lies
-	 */
-	public var orientation(get, set):String;
+	
 	private function get_orientation():String
 	{
 		return _orientation;
@@ -52,10 +62,7 @@ class WireframeTetrahedron extends WireframePrimitiveBase
 		return _orientation;
 	}
 
-	/**
-	 * The size of the tetrahedron bottom.
-	 */
-	public var width(get, set):Float;
+	
 	private function get_width():Float
 	{
 		return _width;
@@ -70,10 +77,7 @@ class WireframeTetrahedron extends WireframePrimitiveBase
 		return _width;
 	}
 
-	/**
-	 * The size of the tetrahedron height.
-	 */
-	public var height(get, set):Float;
+	
 	private function get_height():Float
 	{
 		return _height;

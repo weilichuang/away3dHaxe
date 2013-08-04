@@ -8,7 +8,7 @@ import a3d.core.base.SubMesh;
 import a3d.core.managers.Stage3DProxy;
 import a3d.entities.Camera3D;
 import a3d.entities.Mesh;
-import a3d.math.Matrix3DUtils;
+import a3d.math.FMatrix3D;
 import flash.display3D.Context3D;
 import flash.display3D.Context3DCompareMode;
 import flash.display3D.Context3DProgramType;
@@ -188,7 +188,7 @@ class OutlinePass extends MaterialPassBase
 		var mesh:Mesh, dedicatedRenderable:IRenderable;
 
 		var context:Context3D = stage3DProxy.context3D;
-		var matrix3D:Matrix3D = Matrix3DUtils.CALCULATION_MATRIX;
+		var matrix3D:Matrix3D = FMatrix3D.CALCULATION_MATRIX;
 		matrix3D.copyFrom(renderable.getRenderSceneTransform(camera));
 		matrix3D.append(viewProjection);
 

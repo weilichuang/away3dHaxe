@@ -1,5 +1,15 @@
 package a3d.core.render;
 
+import a3d.core.base.IRenderable;
+import a3d.core.data.RenderableListItem;
+import a3d.core.managers.Stage3DProxy;
+import a3d.core.traverse.EntityCollector;
+import a3d.entities.Camera3D;
+import a3d.entities.lights.DirectionalLight;
+import a3d.entities.lights.LightBase;
+import a3d.entities.lights.PointLight;
+import a3d.entities.lights.shadowmaps.ShadowMapperBase;
+import a3d.materials.MaterialBase;
 import flash.display3D.Context3DBlendFactor;
 import flash.display3D.Context3DCompareMode;
 import flash.display3D.textures.TextureBase;
@@ -9,16 +19,6 @@ import flash.geom.Vector3D;
 import flash.Vector;
 
 
-import a3d.entities.Camera3D;
-import a3d.core.base.IRenderable;
-import a3d.core.data.RenderableListItem;
-import a3d.core.managers.Stage3DProxy;
-import a3d.core.traverse.EntityCollector;
-import a3d.entities.lights.DirectionalLight;
-import a3d.entities.lights.LightBase;
-import a3d.entities.lights.PointLight;
-import a3d.entities.lights.shadowmaps.ShadowMapperBase;
-import a3d.materials.MaterialBase;
 
 using a3d.math.FVector3D;
 
@@ -51,14 +51,7 @@ class DefaultRenderer extends RendererBase
 		_skyboxProjection = new Matrix3D();
 	}
 
-	override private function set_stage3DProxy(value:Stage3DProxy):Stage3DProxy
-	{
-		super.set_stage3DProxy(value);
-		
-		_distanceRenderer.stage3DProxy = _depthRenderer.stage3DProxy = value;
-		
-		return value;
-	}
+	
 
 	override private function executeRender(entityCollector:EntityCollector, target:TextureBase = null, scissorRect:Rectangle = null, surfaceSelector:Int = 0):Void
 	{
@@ -230,5 +223,14 @@ class DefaultRenderer extends RendererBase
 		_distanceRenderer.dispose();
 		_depthRenderer = null;
 		_distanceRenderer = null;
+	}
+	
+	override private function set_stage3DProxy(value:Stage3DProxy):Stage3DProxy
+	{
+		super.set_stage3DProxy(value);
+		
+		_distanceRenderer.stage3DProxy = _depthRenderer.stage3DProxy = value;
+		
+		return value;
 	}
 }

@@ -13,6 +13,40 @@ import a3d.math.FMath;
  */
 class FirstPersonController extends ControllerBase
 {
+	/**
+	 * Fractional step taken each time the <code>hover()</code> method is called. Defaults to 8.
+	 *
+	 * Affects the speed at which the <code>tiltAngle</code> and <code>panAngle</code> resolve to their targets.
+	 *
+	 * @see	#tiltAngle
+	 * @see	#panAngle
+	 */
+	public var steps(get, set):Int;
+	/**
+	 * Rotation of the camera in degrees around the y axis. Defaults to 0.
+	 */
+	public var panAngle(get, set):Float;
+	/**
+	 * Elevation angle of the camera in degrees. Defaults to 90.
+	 */
+	public var tiltAngle(get, set):Float;
+	/**
+	 * Minimum bounds for the <code>tiltAngle</code>. Defaults to -90.
+	 *
+	 * @see	#tiltAngle
+	 */
+	public var minTiltAngle(get, set):Float;
+	/**
+	 * Maximum bounds for the <code>tiltAngle</code>. Defaults to 90.
+	 *
+	 * @see	#tiltAngle
+	 */
+	public var maxTiltAngle(get, set):Float;
+	/**
+	 * Defines whether the value of the pan angle wraps when over 360 degrees or under 0 degrees. Defaults to false.
+	 */
+	public var wrapPanAngle(get, set):Bool;
+	
 	public var currentPanAngle:Float = 0;
 	public var currentTiltAngle:Float = 90;
 
@@ -26,144 +60,6 @@ class FirstPersonController extends ControllerBase
 	private var _wrapPanAngle:Bool = false;
 
 	public var fly:Bool = false;
-
-	/**
-	 * Fractional step taken each time the <code>hover()</code> method is called. Defaults to 8.
-	 *
-	 * Affects the speed at which the <code>tiltAngle</code> and <code>panAngle</code> resolve to their targets.
-	 *
-	 * @see	#tiltAngle
-	 * @see	#panAngle
-	 */
-	public var steps(get, set):Int;
-	private function get_steps():Int
-	{
-		return _steps;
-	}
-
-	private function set_steps(val:Int):Int
-	{
-		val = (val < 1) ? 1 : val;
-
-		if (_steps == val)
-			return _steps;
-
-		_steps = val;
-
-		notifyUpdate();
-		
-		return _steps;
-	}
-
-	/**
-	 * Rotation of the camera in degrees around the y axis. Defaults to 0.
-	 */
-	public var panAngle(get, set):Float;
-	private function get_panAngle():Float
-	{
-		return _panAngle;
-	}
-
-	private function set_panAngle(val:Float):Float
-	{
-		if (_panAngle == val)
-			return _panAngle;
-
-		_panAngle = val;
-
-		notifyUpdate();
-		
-		return _panAngle;
-	}
-
-	/**
-	 * Elevation angle of the camera in degrees. Defaults to 90.
-	 */
-	public var tiltAngle(get, set):Float;
-	private function get_tiltAngle():Float
-	{
-		return _tiltAngle;
-	}
-
-	private function set_tiltAngle(val:Float):Float
-	{
-		val = FMath.fclamp(val, _minTiltAngle, _maxTiltAngle);
-
-		if (_tiltAngle == val)
-			return _tiltAngle;
-
-		_tiltAngle = val;
-
-		notifyUpdate();
-		
-		return _tiltAngle;
-	}
-
-	/**
-	 * Minimum bounds for the <code>tiltAngle</code>. Defaults to -90.
-	 *
-	 * @see	#tiltAngle
-	 */
-	public var minTiltAngle(get, set):Float;
-	private function get_minTiltAngle():Float
-	{
-		return _minTiltAngle;
-	}
-
-	private function set_minTiltAngle(val:Float):Float
-	{
-		if (_minTiltAngle == val)
-			return _minTiltAngle;
-
-		_minTiltAngle = val;
-
-		tiltAngle = FMath.fclamp(_tiltAngle, _minTiltAngle, _maxTiltAngle);
-
-		return _minTiltAngle;
-	}
-
-	/**
-	 * Maximum bounds for the <code>tiltAngle</code>. Defaults to 90.
-	 *
-	 * @see	#tiltAngle
-	 */
-	public var maxTiltAngle(get, set):Float;
-	private function get_maxTiltAngle():Float
-	{
-		return _maxTiltAngle;
-	}
-
-	private function set_maxTiltAngle(val:Float):Float
-	{
-		if (_maxTiltAngle == val)
-			return _maxTiltAngle;
-
-		_maxTiltAngle = val;
-
-		tiltAngle = FMath.fclamp(_tiltAngle, _minTiltAngle, _maxTiltAngle);
-		return _maxTiltAngle;
-	}
-	
-	/**
-	 * Defines whether the value of the pan angle wraps when over 360 degrees or under 0 degrees. Defaults to false.
-	 */
-	public var wrapPanAngle(get, set):Bool;
-	private function get_wrapPanAngle():Bool
-	{
-		return _wrapPanAngle;
-	}
-	
-	private function set_wrapPanAngle(val:Bool):Bool
-	{
-		if (_wrapPanAngle == val)
-			return _wrapPanAngle;
-		
-		_wrapPanAngle = val;
-		
-		notifyUpdate();
-		
-		return _wrapPanAngle;
-	}
 
 	/**
 	 * Creates a new <code>HoverController</code> object.
@@ -183,6 +79,118 @@ class FirstPersonController extends ControllerBase
 		currentPanAngle = _panAngle;
 		currentTiltAngle = _tiltAngle;
 	}
+	
+	private function get_steps():Int
+	{
+		return _steps;
+	}
+
+	private function set_steps(val:Int):Int
+	{
+		val = (val < 1) ? 1 : val;
+
+		if (_steps == val)
+			return _steps;
+
+		_steps = val;
+
+		notifyUpdate();
+		
+		return _steps;
+	}
+
+	
+	private function get_panAngle():Float
+	{
+		return _panAngle;
+	}
+
+	private function set_panAngle(val:Float):Float
+	{
+		if (_panAngle == val)
+			return _panAngle;
+
+		_panAngle = val;
+
+		notifyUpdate();
+		
+		return _panAngle;
+	}
+
+	
+	private function get_tiltAngle():Float
+	{
+		return _tiltAngle;
+	}
+
+	private function set_tiltAngle(val:Float):Float
+	{
+		val = FMath.fclamp(val, _minTiltAngle, _maxTiltAngle);
+
+		if (_tiltAngle == val)
+			return _tiltAngle;
+
+		_tiltAngle = val;
+
+		notifyUpdate();
+		
+		return _tiltAngle;
+	}
+
+	
+	private function get_minTiltAngle():Float
+	{
+		return _minTiltAngle;
+	}
+
+	private function set_minTiltAngle(val:Float):Float
+	{
+		if (_minTiltAngle == val)
+			return _minTiltAngle;
+
+		_minTiltAngle = val;
+
+		tiltAngle = FMath.fclamp(_tiltAngle, _minTiltAngle, _maxTiltAngle);
+
+		return _minTiltAngle;
+	}
+
+	
+	private function get_maxTiltAngle():Float
+	{
+		return _maxTiltAngle;
+	}
+
+	private function set_maxTiltAngle(val:Float):Float
+	{
+		if (_maxTiltAngle == val)
+			return _maxTiltAngle;
+
+		_maxTiltAngle = val;
+
+		tiltAngle = FMath.fclamp(_tiltAngle, _minTiltAngle, _maxTiltAngle);
+		return _maxTiltAngle;
+	}
+	
+	
+	private function get_wrapPanAngle():Bool
+	{
+		return _wrapPanAngle;
+	}
+	
+	private function set_wrapPanAngle(val:Bool):Bool
+	{
+		if (_wrapPanAngle == val)
+			return _wrapPanAngle;
+		
+		_wrapPanAngle = val;
+		
+		notifyUpdate();
+		
+		return _wrapPanAngle;
+	}
+
+	
 
 	/**
 	 * Updates the current tilt angle and pan angle values.
