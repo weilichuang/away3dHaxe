@@ -7,11 +7,14 @@ import a3d.math.FMath;
 import flash.geom.Matrix3D;
 import flash.geom.Vector3D;
 
-
-
-
 class StereoCamera3D extends Camera3D
 {
+	
+	public var leftCamera(get, null):Camera3D;
+	public var rightCamera(get, null):Camera3D;
+	public var stereoFocus(get, set):Float;
+	public var stereoOffset(get, set):Float;
+	
 	private var _leftCam:Camera3D;
 	private var _rightCam:Camera3D;
 
@@ -45,7 +48,7 @@ class StereoCamera3D extends Camera3D
 	}
 
 
-	public var leftCamera(get, null):Camera3D;
+	
 	private function get_leftCamera():Camera3D
 	{
 		if (_leftCamDirty)
@@ -69,8 +72,6 @@ class StereoCamera3D extends Camera3D
 		return _leftCam;
 	}
 
-
-	public var rightCamera(get, null):Camera3D;
 	private function get_rightCamera():Camera3D
 	{
 		if (_rightCamDirty)
@@ -94,8 +95,6 @@ class StereoCamera3D extends Camera3D
 		return _rightCam;
 	}
 
-
-	public var stereoFocus(get, set):Float;
 	private function get_stereoFocus():Float
 	{
 		return _focus;
@@ -108,7 +107,7 @@ class StereoCamera3D extends Camera3D
 		return value;
 	}
 
-	public var stereoOffset(get, set):Float;
+
 	private function get_stereoOffset():Float
 	{
 		return _offset;

@@ -13,9 +13,6 @@ import flash.geom.Vector3D;
 import flash.Vector;
 
 
-
-
-
 /**
  * PointLight represents an omni-directional light. The light is emitted from a given position in the scene.
  */

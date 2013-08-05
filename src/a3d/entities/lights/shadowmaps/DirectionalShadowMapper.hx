@@ -55,34 +55,34 @@ class DirectionalShadowMapper extends ShadowMapperBase
 	}
 
 	
-	private function get_snap():Float
+	private inline function get_snap():Float
 	{
 		return _snap;
 	}
 
-	private function set_snap(value:Float):Float
+	private inline function set_snap(value:Float):Float
 	{
 		return _snap = value;
 	}
 
-	private function get_lightOffset():Float
+	private inline function get_lightOffset():Float
 	{
 		return _lightOffset;
 	}
 
-	private function set_lightOffset(value:Float):Float
+	private inline function set_lightOffset(value:Float):Float
 	{
 		return _lightOffset = value;
 	}
 
 	
-	private function get_depthProjection():Matrix3D
+	private inline function get_depthProjection():Matrix3D
 	{
 		return _overallDepthCamera.viewProjection;
 	}
 
 	
-	private function get_depth():Float
+	private inline function get_depth():Float
 	{
 		return _maxZ - _minZ;
 	}
@@ -130,8 +130,6 @@ class DirectionalShadowMapper extends ShadowMapperBase
 
 	private function updateProjectionFromFrustumCorners(viewCamera:Camera3D, corners:Vector<Float>, matrix:Matrix3D):Void
 	{
-		var raw:Vector<Float> = FMatrix3D.RAW_DATA_CONTAINER;
-
 		var minX:Float, minY:Float;
 		var maxX:Float, maxY:Float;
 		
@@ -163,10 +161,12 @@ class DirectionalShadowMapper extends ShadowMapperBase
 				minX = x;
 			if (x > maxX)
 				maxX = x;
+				
 			if (y < minY)
 				minY = y;
 			if (y > maxY)
 				maxY = y;
+				
 			if (z > _maxZ)
 				_maxZ = z;
 			i += 3;
@@ -194,6 +194,7 @@ class DirectionalShadowMapper extends ShadowMapperBase
 		w = 1 / w;
 		h = 1 / h;
 
+		var raw:Vector<Float> = FMatrix3D.RAW_DATA_CONTAINER;
 		raw[0] = 2 * w;
 		raw[5] = 2 * h;
 		raw[10] = d;

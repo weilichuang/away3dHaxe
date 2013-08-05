@@ -52,16 +52,16 @@ class InterleavedStereoRenderMethod extends StereoRenderMethodBase
 	override public function getFragmentCode():String
 	{
 		return "tex ft0, v1, fs0 <2d,linear,nomip>\n" +
-			"tex ft1, v1, fs1 <2d,linear,nomip>\n" +
-			"add ft2, v0.y, fc0.z\n" +
-			"div ft2, ft2, fc0.x\n" +
-			"mul ft2, ft2, fc0.y\n" +
-			"div ft3, ft2, fc0.x\n" +
-			"frc ft3, ft3\n" +
-			"slt ft4, ft3, fc0.w\n" +
-			"sge ft5, ft3, fc0.w\n" +
-			"mul ft6, ft0, ft4\n" +
-			"mul ft7, ft1, ft5\n" +
-			"add oc, ft7, ft6";
+				"tex ft1, v1, fs1 <2d,linear,nomip>\n" +
+				"add ft2, v0.y, fc0.z\n" +
+				"div ft2, ft2, fc0.x\n" +
+				"mul ft2, ft2, fc0.y\n" +
+				"div ft3, ft2, fc0.x\n" +
+				"frc ft3, ft3\n" +
+				"slt ft4, ft3, fc0.w\n" +
+				"sge ft5, ft3, fc0.w\n" +
+				"mul ft6, ft0, ft4\n" +
+				"mul ft7, ft1, ft5\n" +
+				"add oc, ft7, ft6";
 	}
 }

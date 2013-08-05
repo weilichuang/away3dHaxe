@@ -29,13 +29,13 @@ class AnaglyphStereoRenderMethod extends StereoRenderMethodBase
 	override public function getFragmentCode():String
 	{
 		return "tex ft0, v1, fs0 <2d,linear,nomip>\n" +
-			"tex ft1, v1, fs1 <2d,linear,nomip>\n" +
-			"mul ft0, ft0, fc0\n" +
-			"sub ft0, fc2, ft0\n" +
-			"mul ft1, ft1, fc1\n" +
-			"sub ft1, fc2, ft1\n" +
-			"mul ft2, ft0, ft1\n" +
-			"div ft2, ft2, fc2\n" +
-			"sub oc, fc2, ft2";
+				"tex ft1, v1, fs1 <2d,linear,nomip>\n" +
+				"mul ft0, ft0, fc0\n" +
+				"sub ft0, fc2, ft0\n" +
+				"mul ft1, ft1, fc1\n" +
+				"sub ft1, fc2, ft1\n" +
+				"mul ft2, ft0, ft1\n" +
+				"div ft2, ft2, fc2\n" +
+				"sub oc, fc2, ft2";
 	}
 }

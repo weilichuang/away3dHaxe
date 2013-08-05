@@ -13,9 +13,6 @@ import flash.geom.Vector3D;
 import flash.Vector;
 
 
-
-
-
 /**
  * DirectionalLight represents an idealized light "at infinity", to be used for distant light sources such as the sun.
  * In any position in the scene, the light raytracing will always be parallel.
@@ -73,6 +70,7 @@ class DirectionalLight extends LightBase
 	private function set_direction(value:Vector3D):Vector3D
 	{
 		_direction = value;
+		
 		//lookAt(new Vector3D(x + _direction.x, y + _direction.y, z + _direction.z));
 		if (_tmpLookAt == null)
 			_tmpLookAt = new Vector3D();
@@ -122,10 +120,9 @@ class DirectionalLight extends LightBase
 	 */
 	override public function getObjectProjectionMatrix(renderable:IRenderable, target:Matrix3D = null):Matrix3D
 	{
-		var raw:Vector<Float> = FMatrix3D.RAW_DATA_CONTAINER;
 		var bounds:BoundingVolumeBase = renderable.sourceEntity.bounds;
+		
 		var m:Matrix3D = new Matrix3D();
-
 		m.copyFrom(renderable.sceneTransform);
 		m.append(inverseSceneTransform);
 
@@ -145,11 +142,13 @@ class DirectionalLight extends LightBase
 				xMin = d;
 			if (d > xMax)
 				xMax = d;
+				
 			d = _projAABBPoints[i++];
 			if (d < yMin)
 				yMin = d;
 			if (d > yMax)
 				yMax = d;
+				
 			d = _projAABBPoints[i++];
 			if (d < zMin)
 				zMin = d;
@@ -160,6 +159,8 @@ class DirectionalLight extends LightBase
 		var invXRange:Float = 1 / (xMax - xMin);
 		var invYRange:Float = 1 / (yMax - yMin);
 		var invZRange:Float = 1 / (zMax - zMin);
+		
+		var raw:Vector<Float> = FMatrix3D.RAW_DATA_CONTAINER;
 		raw[0] = 2 * invXRange;
 		raw[5] = 2 * invYRange;
 		raw[10] = invZRange;
