@@ -1,7 +1,22 @@
 ﻿package a3d.entities;
 
+import a3d.core.managers.Mouse3DManager;
+import a3d.core.managers.RTTBufferManager;
+import a3d.core.managers.Stage3DManager;
+import a3d.core.managers.Stage3DProxy;
+import a3d.core.managers.Touch3DManager;
+import a3d.core.pick.IPicker;
+import a3d.core.render.DefaultRenderer;
+import a3d.core.render.DepthRenderer;
+import a3d.core.render.Filter3DRenderer;
+import a3d.core.render.RendererBase;
+import a3d.core.traverse.EntityCollector;
+import a3d.events.CameraEvent;
+import a3d.events.Scene3DEvent;
+import a3d.events.Stage3DEvent;
 import a3d.filters.Filter3DBase;
 import a3d.math.FMath;
+import a3d.textures.Texture2DBase;
 import flash.display.Sprite;
 import flash.display3D.Context3D;
 import flash.display3D.Context3DProfile;
@@ -17,21 +32,6 @@ import flash.geom.Vector3D;
 import flash.Lib;
 
 
-import a3d.core.managers.Mouse3DManager;
-import a3d.core.managers.RTTBufferManager;
-import a3d.core.managers.Stage3DManager;
-import a3d.core.managers.Stage3DProxy;
-import a3d.core.managers.Touch3DManager;
-import a3d.core.pick.IPicker;
-import a3d.core.render.DefaultRenderer;
-import a3d.core.render.DepthRenderer;
-import a3d.core.render.Filter3DRenderer;
-import a3d.core.render.RendererBase;
-import a3d.core.traverse.EntityCollector;
-import a3d.events.CameraEvent;
-import a3d.events.Scene3DEvent;
-import a3d.events.Stage3DEvent;
-import a3d.textures.Texture2DBase;
 
 
 

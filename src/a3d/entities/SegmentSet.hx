@@ -1,17 +1,5 @@
 package a3d.entities;
 
-import flash.display3D.Context3D;
-import flash.display3D.Context3DVertexBufferFormat;
-import flash.display3D.IndexBuffer3D;
-import flash.display3D.VertexBuffer3D;
-import flash.geom.Matrix;
-import flash.geom.Matrix3D;
-import flash.geom.Vector3D;
-import flash.utils.Dictionary;
-import flash.Vector;
-import haxe.ds.IntMap;
-
-
 import a3d.animators.IAnimator;
 import a3d.bounds.BoundingSphere;
 import a3d.bounds.BoundingVolumeBase;
@@ -19,10 +7,21 @@ import a3d.core.base.IRenderable;
 import a3d.core.managers.Stage3DProxy;
 import a3d.core.partition.EntityNode;
 import a3d.core.partition.RenderableNode;
+import a3d.entities.primitives.data.Segment;
 import a3d.io.library.assets.AssetType;
 import a3d.materials.MaterialBase;
 import a3d.materials.SegmentMaterial;
-import a3d.entities.primitives.data.Segment;
+import flash.display3D.Context3D;
+import flash.display3D.Context3DVertexBufferFormat;
+import flash.display3D.IndexBuffer3D;
+import flash.display3D.VertexBuffer3D;
+import flash.geom.Matrix;
+import flash.geom.Matrix3D;
+import flash.geom.Vector3D;
+import flash.Vector;
+import haxe.ds.IntMap;
+
+
 
 
 

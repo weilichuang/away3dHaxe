@@ -1,12 +1,12 @@
 package a3d.entities;
 
-import flash.events.EventDispatcher;
-import flash.Vector;
-
 import a3d.core.partition.NodeBase;
 import a3d.core.partition.Partition3D;
 import a3d.core.traverse.PartitionTraverser;
 import a3d.events.Scene3DEvent;
+import flash.events.EventDispatcher;
+import flash.Vector;
+
 
 
 

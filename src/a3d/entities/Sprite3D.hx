@@ -1,13 +1,5 @@
 package a3d.entities;
 
-import a3d.utils.VectorUtil.VectorUtil;
-import flash.display3D.IndexBuffer3D;
-import flash.geom.Matrix;
-import flash.geom.Matrix3D;
-import flash.geom.Vector3D;
-import flash.Vector;
-
-
 import a3d.animators.IAnimator;
 import a3d.bounds.AxisAlignedBoundingBox;
 import a3d.bounds.BoundingVolumeBase;
@@ -20,6 +12,14 @@ import a3d.core.partition.RenderableNode;
 import a3d.core.pick.IPickingCollider;
 import a3d.materials.MaterialBase;
 import a3d.math.FMatrix3D;
+import a3d.utils.VectorUtil.VectorUtil;
+import flash.display3D.IndexBuffer3D;
+import flash.geom.Matrix;
+import flash.geom.Matrix3D;
+import flash.geom.Vector3D;
+import flash.Vector;
+
+
 
 
 

@@ -1,12 +1,12 @@
 package a3d.entities;
 
-import flash.geom.Matrix3D;
-
-
 import a3d.entities.lenses.PerspectiveLens;
 import a3d.events.LensEvent;
 import a3d.io.library.assets.AssetType;
 import a3d.textures.Texture2DBase;
+import flash.geom.Matrix3D;
+
+
 
 
 

@@ -11,9 +11,6 @@ import a3d.io.library.assets.AssetType;
 import flash.geom.Vector3D;
 
 
-
-
-
 /**
  * The Entity class provides an abstract base class for all scene graph objects that are considered having a
  * "presence" in the scene, in the sense that it can be considered an actual object with a position and a size (even

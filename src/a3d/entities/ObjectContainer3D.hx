@@ -1,5 +1,11 @@
 package a3d.entities;
 
+import a3d.core.base.Object3D;
+import a3d.core.partition.Partition3D;
+import a3d.events.Object3DEvent;
+import a3d.events.Scene3DEvent;
+import a3d.io.library.assets.AssetType;
+import a3d.io.library.assets.IAsset;
 import flash.errors.Error;
 import flash.events.Event;
 import flash.geom.Matrix3D;
@@ -7,12 +13,6 @@ import flash.geom.Vector3D;
 import flash.Vector;
 
 
-import a3d.core.base.Object3D;
-import a3d.core.partition.Partition3D;
-import a3d.events.Object3DEvent;
-import a3d.events.Scene3DEvent;
-import a3d.io.library.assets.AssetType;
-import a3d.io.library.assets.IAsset;
 
 
 
