@@ -104,7 +104,7 @@ class BasicNormalMethod extends ShadingMethodBase
 		_normalTextureRegister = regCache.getFreeTextureReg();
 		vo.texturesIndex = _normalTextureRegister.index;
 		return getTex2DSampleCode(vo, targetReg, _normalTextureRegister, _texture) +
-			"sub " + targetReg + ".xyz, " + targetReg + ".xyz, " + _sharedRegisters.commons + ".xxx	\n" +
-			"nrm " + targetReg + ".xyz, " + targetReg + ".xyz							\n";
+				"sub " + targetReg + ".xyz, " + targetReg + ".xyz, " + _sharedRegisters.commons + ".xxx	\n" +
+				"nrm " + targetReg + ".xyz, " + targetReg + ".xyz\n";
 	}
-}
+} 

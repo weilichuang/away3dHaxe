@@ -173,7 +173,7 @@ class ShadingMethodBase extends NamedAssetBase
 										inputReg:ShaderRegisterElement, 
 										texture:TextureProxyBase, 
 										uvReg:ShaderRegisterElement = null, 
-										forceWrap:String =null):String
+										forceWrap:String = null):String
 	{
 		if (forceWrap == null)
 		{

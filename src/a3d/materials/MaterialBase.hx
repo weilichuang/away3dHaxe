@@ -581,8 +581,6 @@ class MaterialBase extends NamedAssetBase implements IAsset
 	 */
 	public function invalidatePasses(triggerPass:MaterialPassBase):Void
 	{
-		var owner:IMaterialOwner;
-
 		_depthPass.invalidateShaderProgram();
 		_distancePass.invalidateShaderProgram();
 
@@ -665,15 +663,11 @@ class MaterialBase extends NamedAssetBase implements IAsset
 	private function onPassChange(event:Event):Void
 	{
 		var mult:Float = 1;
-		var ids:Vector<Int>;
-		var len:Int;
-
 		renderOrderId = 0;
-
 		for (i in 0..._numPasses)
 		{
-			ids = _passes[i].getProgram3Dids();
-			len = ids.length;
+			var ids:Vector<Int> = _passes[i].getProgram3Dids();
+			var len:Int = ids.length;
 			for (j in 0...len)
 			{
 				if (ids[j] != -1)
@@ -693,7 +687,7 @@ class MaterialBase extends NamedAssetBase implements IAsset
 	private function onDistancePassChange(event:Event):Void
 	{
 		var ids:Vector<Int> = _distancePass.getProgram3Dids();
-		var len:UInt = ids.length;
+		var len:Int = ids.length;
 
 		depthPassId = 0;
 
