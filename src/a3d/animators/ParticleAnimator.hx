@@ -1,23 +1,22 @@
 package a3d.animators;
 
-import flash.display3D.Context3DProgramType;
-import flash.errors.Error;
-import flash.utils.Dictionary;
-import flash.Vector;
-
-
 import a3d.animators.data.AnimationRegisterCache;
 import a3d.animators.data.AnimationSubGeometry;
 import a3d.animators.data.ParticlePropertiesMode;
 import a3d.animators.nodes.ParticleNodeBase;
 import a3d.animators.states.ParticleStateBase;
-import a3d.entities.Camera3D;
 import a3d.core.base.IRenderable;
 import a3d.core.base.ISubGeometry;
 import a3d.core.base.SubMesh;
 import a3d.core.managers.Stage3DProxy;
+import a3d.entities.Camera3D;
 import a3d.materials.passes.MaterialPassBase;
+import flash.display3D.Context3DProgramType;
+import flash.errors.Error;
+import flash.Vector;
 import haxe.ds.WeakMap;
+
+
 
 
 /**

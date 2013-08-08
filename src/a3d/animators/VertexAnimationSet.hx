@@ -1,15 +1,14 @@
 package a3d.animators;
 
-import flash.display3D.Context3D;
-import flash.display3D.Context3DProfile;
-import flash.utils.Dictionary;
-import flash.Vector;
-
-
 import a3d.animators.data.VertexAnimationMode;
 import a3d.core.managers.Stage3DProxy;
 import a3d.materials.passes.MaterialPassBase;
+import flash.display3D.Context3D;
+import flash.display3D.Context3DProfile;
+import flash.Vector;
 import haxe.ds.WeakMap;
+
+
 
 
 /**

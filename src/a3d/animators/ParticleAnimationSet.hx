@@ -1,12 +1,5 @@
 package a3d.animators;
 
-import a3d.utils.VectorUtil;
-import flash.display3D.Context3D;
-import flash.display3D.Context3DProfile;
-import flash.errors.Error;
-import flash.utils.Dictionary;
-import flash.Vector;
-
 import a3d.animators.data.AnimationRegisterCache;
 import a3d.animators.data.AnimationSubGeometry;
 import a3d.animators.data.ParticleAnimationData;
@@ -15,14 +8,19 @@ import a3d.animators.data.ParticlePropertiesMode;
 import a3d.animators.nodes.AnimationNodeBase;
 import a3d.animators.nodes.ParticleNodeBase;
 import a3d.animators.nodes.ParticleTimeNode;
+import a3d.core.base.data.ParticleData;
 import a3d.core.base.ISubGeometry;
 import a3d.core.base.ParticleGeometry;
 import a3d.core.base.SubMesh;
-import a3d.core.base.data.ParticleData;
 import a3d.core.managers.Stage3DProxy;
 import a3d.entities.Mesh;
 import a3d.materials.passes.MaterialPassBase;
+import flash.display3D.Context3D;
+import flash.display3D.Context3DProfile;
+import flash.errors.Error;
+import flash.Vector;
 import haxe.ds.WeakMap;
+
 
 using a3d.utils.VectorUtil;
 

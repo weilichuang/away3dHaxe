@@ -4,6 +4,8 @@ package a3d.materials.methods;
 import a3d.core.managers.Stage3DProxy;
 import a3d.materials.compilation.ShaderRegisterCache;
 import a3d.materials.compilation.ShaderRegisterElement;
+import a3d.materials.utils.Agal;
+import a3d.math.FMath;
 import a3d.textures.Texture2DBase;
 import flash.Vector;
 
@@ -143,7 +145,7 @@ class BasicDiffuseMethod extends LightingMethodBase
 
 		_useTexture = (value != null);
 		_texture = value;
-		return _texture;
+		return value;
 	}
 
 	
@@ -154,19 +156,16 @@ class BasicDiffuseMethod extends LightingMethodBase
 
 	private function set_alphaThreshold(value:Float):Float
 	{
-		if (value < 0)
-			value = 0;
-		else if (value > 1)
-			value = 1;
+		value = FMath.fclamp(value, 0, 1);
 		if (value == _alphaThreshold)
-			return _alphaThreshold;
+			return value;
 
 		if (value == 0 || _alphaThreshold == 0)
 			invalidateShaderProgram();
 
 		_alphaThreshold = value;
 		
-		return _alphaThreshold;
+		return value;
 	}
 
 	/**
@@ -237,7 +236,7 @@ class BasicDiffuseMethod extends LightingMethodBase
 		}
 
 		code += "dp3 " + t + ".x, " + lightDirReg + ", " + _sharedRegisters.normalFragment + "\n" +
-			"max " + t + ".w, " + t + ".x, " + _sharedRegisters.commons + ".y\n";
+				"max " + t + ".w, " + t + ".x, " + _sharedRegisters.commons + ".y\n";
 
 		if (vo.useLightFallOff)
 			code += "mul " + t + ".w, " + t + ".w, " + lightDirReg + ".w\n";
@@ -377,7 +376,8 @@ class BasicDiffuseMethod extends LightingMethodBase
 	 */
 	private function applyShadow(vo:MethodVO, regCache:ShaderRegisterCache):String
 	{
-		return "mul " + _totalLightColorReg + ".xyz, " + _totalLightColorReg + ", " + _shadowRegister + ".w\n";
+		return Agal.mul(_totalLightColorReg.toString() + ".xyz", _totalLightColorReg.toString(), _shadowRegister.toString() + ".w");
+		//"mul " + _totalLightColorReg + ".xyz, " + _totalLightColorReg + ", " + _shadowRegister + ".w\n";
 	}
 
 	/**

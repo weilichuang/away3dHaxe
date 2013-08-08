@@ -1,13 +1,5 @@
 package a3d.animators;
 
-import flash.display.Sprite;
-import flash.events.Event;
-import flash.geom.Vector3D;
-import flash.Lib;
-import flash.utils.Dictionary;
-import flash.Vector;
-import haxe.ds.WeakMap;
-
 import a3d.animators.nodes.AnimationNodeBase;
 import a3d.animators.states.AnimationStateBase;
 import a3d.animators.states.IAnimationState;
@@ -16,6 +8,13 @@ import a3d.events.AnimatorEvent;
 import a3d.io.library.assets.AssetType;
 import a3d.io.library.assets.IAsset;
 import a3d.io.library.assets.NamedAssetBase;
+import flash.display.Sprite;
+import flash.events.Event;
+import flash.geom.Vector3D;
+import flash.Lib;
+import flash.Vector;
+import haxe.ds.WeakMap;
+
 
 
 

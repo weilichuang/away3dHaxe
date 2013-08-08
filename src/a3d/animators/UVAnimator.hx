@@ -1,21 +1,21 @@
 package a3d.animators;
 
+import a3d.animators.data.UVAnimationFrame;
+import a3d.animators.states.IUVAnimationState;
+import a3d.animators.transitions.IAnimationTransition;
+import a3d.core.base.IRenderable;
+import a3d.core.base.SubMesh;
+import a3d.core.managers.Stage3DProxy;
+import a3d.entities.Camera3D;
+import a3d.materials.passes.MaterialPassBase;
+import a3d.materials.TextureMaterial;
+import a3d.math.FMath;
 import flash.display3D.Context3DProgramType;
 import flash.errors.Error;
 import flash.geom.Matrix;
 import flash.Vector;
 
 
-import a3d.animators.data.UVAnimationFrame;
-import a3d.animators.states.IUVAnimationState;
-import a3d.animators.transitions.IAnimationTransition;
-import a3d.entities.Camera3D;
-import a3d.core.base.IRenderable;
-import a3d.core.base.SubMesh;
-import a3d.core.managers.Stage3DProxy;
-import a3d.materials.TextureMaterial;
-import a3d.materials.passes.MaterialPassBase;
-import a3d.math.FMath;
 
 
 

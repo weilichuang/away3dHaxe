@@ -1,12 +1,12 @@
 package a3d.animators.nodes;
 
+import a3d.animators.data.AnimationRegisterCache;
+import a3d.animators.data.ParticleProperties;
+import a3d.animators.ParticleAnimationSet;
+import a3d.materials.passes.MaterialPassBase;
 import flash.Vector;
 
 
-import a3d.animators.ParticleAnimationSet;
-import a3d.animators.data.AnimationRegisterCache;
-import a3d.animators.data.ParticleProperties;
-import a3d.materials.passes.MaterialPassBase;
 
 
 

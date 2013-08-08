@@ -1,9 +1,9 @@
 package a3d.animators.data;
 
+import a3d.math.Quaternion;
 import flash.geom.Matrix3D;
 import flash.geom.Vector3D;
 
-import a3d.math.Quaternion;
 
 using a3d.math.FVector3D;
 

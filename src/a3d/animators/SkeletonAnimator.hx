@@ -1,28 +1,26 @@
 package a3d.animators;
 
-import a3d.core.base.CompactSubGeometry;
-import flash.display3D.Context3DProgramType;
-import flash.errors.Error;
-import flash.geom.Vector3D;
-import flash.utils.Dictionary;
-import flash.Vector;
-import haxe.ds.ObjectMap;
-
-
 import a3d.animators.data.JointPose;
 import a3d.animators.data.Skeleton;
 import a3d.animators.data.SkeletonJoint;
 import a3d.animators.data.SkeletonPose;
 import a3d.animators.states.ISkeletonAnimationState;
 import a3d.animators.transitions.IAnimationTransition;
-import a3d.entities.Camera3D;
 import a3d.core.base.IRenderable;
 import a3d.core.base.SkinnedSubGeometry;
 import a3d.core.base.SubMesh;
 import a3d.core.managers.Stage3DProxy;
+import a3d.entities.Camera3D;
 import a3d.events.AnimationStateEvent;
 import a3d.materials.passes.MaterialPassBase;
 import a3d.math.Quaternion;
+import flash.display3D.Context3DProgramType;
+import flash.errors.Error;
+import flash.geom.Vector3D;
+import flash.Vector;
+import haxe.ds.ObjectMap;
+
+
 
 
 

@@ -1,15 +1,15 @@
 package a3d.animators.nodes;
 
-import flash.geom.ColorTransform;
-
-
-import a3d.animators.ParticleAnimationSet;
 import a3d.animators.data.AnimationRegisterCache;
 import a3d.animators.data.ParticleProperties;
 import a3d.animators.data.ParticlePropertiesMode;
+import a3d.animators.ParticleAnimationSet;
 import a3d.animators.states.ParticleInitialColorState;
 import a3d.materials.compilation.ShaderRegisterElement;
 import a3d.materials.passes.MaterialPassBase;
+import flash.geom.ColorTransform;
+
+
 
 
 
