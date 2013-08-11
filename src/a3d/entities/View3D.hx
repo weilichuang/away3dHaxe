@@ -32,10 +32,6 @@ import flash.geom.Vector3D;
 import flash.Lib;
 
 
-
-
-
-
 class View3D extends Sprite
 {
 	public var depthPrepass(get, set):Bool;
@@ -461,7 +457,9 @@ class View3D extends Sprite
 	 */
 	private function set_scene(scene:Scene3D):Scene3D
 	{
-		_scene.removeEventListener(Scene3DEvent.PARTITION_CHANGED, onScenePartitionChanged);
+		if(_scene != null)
+			_scene.removeEventListener(Scene3DEvent.PARTITION_CHANGED, onScenePartitionChanged);
+		
 		_scene = scene;
 		_scene.addEventListener(Scene3DEvent.PARTITION_CHANGED, onScenePartitionChanged);
 

@@ -112,25 +112,25 @@ class CelDiffuseMethod extends CompositeDiffuseMethod
 	private function clampDiffuse(vo:MethodVO, t:ShaderRegisterElement, regCache:ShaderRegisterCache, sharedRegisters:ShaderRegisterData):String
 	{
 		return "mul " + t + ".w, " + t + ".w, " + _dataReg + ".x\n" +
-			"frc " + t + ".z, " + t + ".w\n" +
-			"sub " + t + ".y, " + t + ".w, " + t + ".z\n" +
-			"mov " + t + ".x, " + _dataReg + ".x\n" +
-			"sub " + t + ".x, " + t + ".x, " + _dataReg + ".y\n" +
-			"rcp " + t + ".x," + t + ".x\n" +
-			"mul " + t + ".w, " + t + ".y, " + t + ".x\n" +
+				"frc " + t + ".z, " + t + ".w\n" +
+				"sub " + t + ".y, " + t + ".w, " + t + ".z\n" +
+				"mov " + t + ".x, " + _dataReg + ".x\n" +
+				"sub " + t + ".x, " + t + ".x, " + _dataReg + ".y\n" +
+				"rcp " + t + ".x," + t + ".x\n" +
+				"mul " + t + ".w, " + t + ".y, " + t + ".x\n" +
 
-			// previous clamped strength
-			"sub " + t + ".y, " + t + ".w, " + t + ".x\n" +
+				// previous clamped strength
+				"sub " + t + ".y, " + t + ".w, " + t + ".x\n" +
 
-			// fract/epsilon (so 0 - epsilon will become 0 - 1)
-			"div " + t + ".z, " + t + ".z, " + _dataReg + ".w\n" +
-			"sat " + t + ".z, " + t + ".z\n" +
+				// fract/epsilon (so 0 - epsilon will become 0 - 1)
+				"div " + t + ".z, " + t + ".z, " + _dataReg + ".w\n" +
+				"sat " + t + ".z, " + t + ".z\n" +
 
-			"mul " + t + ".w, " + t + ".w, " + t + ".z\n" +
-			// 1-z
-			"sub " + t + ".z, " + _dataReg + ".y, " + t + ".z\n" +
-			"mul " + t + ".y, " + t + ".y, " + t + ".z\n" +
-			"add " + t + ".w, " + t + ".w, " + t + ".y\n" +
-			"sat " + t + ".w, " + t + ".w\n";
+				"mul " + t + ".w, " + t + ".w, " + t + ".z\n" +
+				// 1-z
+				"sub " + t + ".z, " + _dataReg + ".y, " + t + ".z\n" +
+				"mul " + t + ".y, " + t + ".y, " + t + ".z\n" +
+				"add " + t + ".w, " + t + ".w, " + t + ".y\n" +
+				"sat " + t + ".w, " + t + ".w\n";
 	}
 }

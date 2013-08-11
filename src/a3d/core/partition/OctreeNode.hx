@@ -9,9 +9,6 @@ import a3d.math.Plane3D;
 import flash.geom.Vector3D;
 import flash.Vector;
 
-
-
-
 class OctreeNode extends NodeBase
 {
 	private var _centerX:Float;

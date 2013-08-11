@@ -46,48 +46,7 @@ interface ISubGeometry
 	 */
 	var secondaryUVStride(get,null):Int;
 
-	/**
-	 * Assigns the attribute stream for vertex positions.
-	 * @param index The attribute stream index for the vertex shader
-	 * @param stage3DProxy The Stage3DProxy to assign the stream to
-	 */
-	function activateVertexBuffer(index:Int, stage3DProxy:Stage3DProxy):Void;
-
-
-	/**
-	 * Assigns the attribute stream for UV coordinates
-	 * @param index The attribute stream index for the vertex shader
-	 * @param stage3DProxy The Stage3DProxy to assign the stream to
-	 */
-	function activateUVBuffer(index:Int, stage3DProxy:Stage3DProxy):Void;
-
-	/**
-	 * Assigns the attribute stream for a secondary set of UV coordinates
-	 * @param index The attribute stream index for the vertex shader
-	 * @param stage3DProxy The Stage3DProxy to assign the stream to
-	 */
-	function activateSecondaryUVBuffer(index:Int, stage3DProxy:Stage3DProxy):Void;
-
-	/**
-	 * Assigns the attribute stream for vertex normals
-	 * @param index The attribute stream index for the vertex shader
-	 * @param stage3DProxy The Stage3DProxy to assign the stream to
-	 */
-	function activateVertexNormalBuffer(index:Int, stage3DProxy:Stage3DProxy):Void;
-
-	/**
-	 * Assigns the attribute stream for vertex tangents
-	 * @param index The attribute stream index for the vertex shader
-	 * @param stage3DProxy The Stage3DProxy to assign the stream to
-	 */
-	function activateVertexTangentBuffer(index:Int, stage3DProxy:Stage3DProxy):Void;
-
-	/**
-	 * Retrieves the IndexBuffer3D object that contains triangle indices.
-	 * @param context The Context3D for which we request the buffer
-	 * @return The VertexBuffer3D object that contains triangle indices.
-	 */
-	function getIndexBuffer(stage3DProxy:Stage3DProxy):IndexBuffer3D;
+	
 
 	/**
 	 * Retrieves the object's vertices as a Number array.
@@ -138,26 +97,73 @@ interface ISubGeometry
 	/**
 	 * Retrieves the object's uvs as a Number array.
 	 */
-	var UVData(get,null):Vector<Float>;
+	var UVData(get, null):Vector<Float>;
+	
+	var scaleU(get, set):Float;
+	
+	var parentGeometry(get,set):Geometry;
+
+	var faceNormals(get, null):Vector<Float>;
+	
+	var autoDeriveVertexNormals(get,set):Bool;
+	var autoDeriveVertexTangents(get, set):Bool;
+	
+	var vertexPositionData(get,null):Vector<Float>;
+
+	
+	/**
+	 * Assigns the attribute stream for vertex positions.
+	 * @param index The attribute stream index for the vertex shader
+	 * @param stage3DProxy The Stage3DProxy to assign the stream to
+	 */
+	function activateVertexBuffer(index:Int, stage3DProxy:Stage3DProxy):Void;
+
+
+	/**
+	 * Assigns the attribute stream for UV coordinates
+	 * @param index The attribute stream index for the vertex shader
+	 * @param stage3DProxy The Stage3DProxy to assign the stream to
+	 */
+	function activateUVBuffer(index:Int, stage3DProxy:Stage3DProxy):Void;
+
+	/**
+	 * Assigns the attribute stream for a secondary set of UV coordinates
+	 * @param index The attribute stream index for the vertex shader
+	 * @param stage3DProxy The Stage3DProxy to assign the stream to
+	 */
+	function activateSecondaryUVBuffer(index:Int, stage3DProxy:Stage3DProxy):Void;
+
+	/**
+	 * Assigns the attribute stream for vertex normals
+	 * @param index The attribute stream index for the vertex shader
+	 * @param stage3DProxy The Stage3DProxy to assign the stream to
+	 */
+	function activateVertexNormalBuffer(index:Int, stage3DProxy:Stage3DProxy):Void;
+
+	/**
+	 * Assigns the attribute stream for vertex tangents
+	 * @param index The attribute stream index for the vertex shader
+	 * @param stage3DProxy The Stage3DProxy to assign the stream to
+	 */
+	function activateVertexTangentBuffer(index:Int, stage3DProxy:Stage3DProxy):Void;
+
+	/**
+	 * Retrieves the IndexBuffer3D object that contains triangle indices.
+	 * @param context The Context3D for which we request the buffer
+	 * @return The VertexBuffer3D object that contains triangle indices.
+	 */
+	function getIndexBuffer(stage3DProxy:Stage3DProxy):IndexBuffer3D;
 
 	function applyTransformation(transform:Matrix3D):Void;
 	function scale(scale:Float):Void;
 
 	function dispose():Void;
 	function clone():ISubGeometry;
-	var scaleU(get,set):Float;
+	
 	function scaleUV(scaleU:Float = 1, scaleV:Float = 1):Void;
 
-	var parentGeometry(get,set):Geometry;
-
-	var faceNormals(get,null):Vector<Float>;
-
+	
 	function cloneWithSeperateBuffers():SubGeometry;
 
-	var autoDeriveVertexNormals(get,set):Bool;
-	var autoDeriveVertexTangents(get,set):Bool;
-
 	function fromVectors(vertices:Vector<Float>, uvs:Vector<Float>, normals:Vector<Float>, tangents:Vector<Float>):Void;
-
-	var vertexPositionData(get,null):Vector<Float>;
 }

@@ -180,7 +180,7 @@ class CubeGeometry extends PrimitiveBase
 		var indices:Vector<UInt>;
 
 		var tl:Int, tr:Int, bl:Int, br:Int;
-		var i:Int, j:Int, inc:Int = 0;
+		var inc:Int = 0;
 
 		var vidx:UInt, fidx:UInt; // indices
 		var hw:Float, hh:Float, hd:Float; // halves
@@ -189,8 +189,8 @@ class CubeGeometry extends PrimitiveBase
 		var outer_pos:Float;
 
 		var numVerts:Int = ((_segmentsW + 1) * (_segmentsH + 1) +
-			(_segmentsW + 1) * (_segmentsD + 1) +
-			(_segmentsH + 1) * (_segmentsD + 1)) * 2;
+							(_segmentsW + 1) * (_segmentsD + 1) +
+							(_segmentsH + 1) * (_segmentsD + 1)) * 2;
 
 		var stride:Int = target.vertexStride;
 		var skip:Int = stride - 9;

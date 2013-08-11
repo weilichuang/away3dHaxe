@@ -11,6 +11,11 @@ import flash.geom.Vector3D;
 interface IPicker
 {
 	/**
+	 * Determines whether the picker takes account of the mouseEnabled properties of entities. Defaults to true.
+	 */
+	var onlyMouseEnabled(get, set):Bool;
+	
+	/**
 	 * Gets the collision object from the screen coordinates of the picking ray.
 	 *
 	 * @param x The x coordinate of the picking ray in screen-space.
@@ -27,11 +32,6 @@ interface IPicker
 	 * @param scene The scene on which the picking object acts.
 	 */
 	function getSceneCollision(position:Vector3D, direction:Vector3D, scene:Scene3D):PickingCollisionVO;
-
-	/**
-	 * Determines whether the picker takes account of the mouseEnabled properties of entities. Defaults to true.
-	 */
-	var onlyMouseEnabled(get,set):Bool;
 
 	/**
 	 * Disposes memory used by the IPicker object

@@ -18,9 +18,6 @@ import flash.geom.Vector3D;
 import flash.Vector;
 
 
-
-
-
 /**
  * A Camera3D object represents a virtual camera through which we view the scene.
  */

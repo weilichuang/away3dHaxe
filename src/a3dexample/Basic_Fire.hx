@@ -106,6 +106,8 @@ class Basic_Fire extends BasicApplication
 		view.antiAlias = 4;
 		view.scene = scene;
 		view.camera = camera;
+		
+		view.scene.partition.showDebugBounds = true;
 
 		//setup controller to be used on the camera
 		cameraController = new HoverController(camera);
@@ -214,6 +216,9 @@ class Basic_Fire extends BasicApplication
 
 			//create a fire object and add it to the fire object vector
 			fireObjects.push(new FireVO(particleMesh, animator));
+			
+			particleMesh.showBounds = true;
+			
 			view.scene.addChild(particleMesh);
 		}
 

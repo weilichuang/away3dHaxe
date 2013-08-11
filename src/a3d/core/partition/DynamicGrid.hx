@@ -15,6 +15,11 @@ import flash.geom.Vector3D;
  */
 class DynamicGrid
 {
+	public var numCellsX(get, null):Int;
+	public var numCellsY(get, null):Int;
+	public var numCellsZ(get, null):Int;
+	public var showDebugBounds(get, set):Bool;
+	
 	private var _minX:Float;
 	private var _minY:Float;
 	private var _minZ:Float;
@@ -41,19 +46,19 @@ class DynamicGrid
 		_leaves = createLevel(numCellsX, numCellsY, numCellsZ, _cellWidth, _cellHeight, _cellDepth);
 	}
 
-	public var numCellsX(get, null):Int;
+	
 	private function get_numCellsX():Int
 	{
 		return _numCellsX;
 	}
 
-	public var numCellsY(get, null):Int;
+	
 	private function get_numCellsY():Int
 	{
 		return _numCellsY;
 	}
 
-	public var numCellsZ(get, null):Int;
+	
 	private function get_numCellsZ():Int
 	{
 		return _numCellsZ;
@@ -172,7 +177,7 @@ class DynamicGrid
 		return node;
 	}
 
-	public var showDebugBounds(get, set):Bool;
+	
 	private function get_showDebugBounds():Bool
 	{
 		return _showDebugBounds;

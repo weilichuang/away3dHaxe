@@ -28,7 +28,7 @@ class MeshNode extends EntityNode
 	}
 
 	
-	private function get_mesh():Mesh
+	private inline function get_mesh():Mesh
 	{
 		return _mesh;
 	}

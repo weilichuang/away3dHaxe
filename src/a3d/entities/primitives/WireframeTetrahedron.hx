@@ -2,7 +2,6 @@ package a3d.entities.primitives;
 
 import flash.errors.Error;
 import flash.geom.Vector3D;
-import a3d.entities.primitives.WireframePrimitiveBase;
 
 
 /**

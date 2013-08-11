@@ -21,6 +21,11 @@ import flash.Vector;
  */
 class RaycastPicker implements IPicker
 {
+	/**
+	 * @inheritDoc
+	 */
+	public var onlyMouseEnabled(get, set):Bool;
+	
 	// TODO: add option of finding best hit?
 
 	private var _findClosestCollision:Bool;
@@ -47,10 +52,6 @@ class RaycastPicker implements IPicker
 		_ignoredEntities = [];
 	}
 
-	/**
-	 * @inheritDoc
-	 */
-	public var onlyMouseEnabled(get,set):Bool;
 	private function get_onlyMouseEnabled():Bool
 	{
 		return _onlyMouseEnabled;

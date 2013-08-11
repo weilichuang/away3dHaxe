@@ -13,9 +13,6 @@ import flash.geom.Vector3D;
 import flash.Vector;
 
 
-
-
-
 /**
  * Dispatched when the scene transform matrix of the 3d object changes.
  *
@@ -76,16 +73,20 @@ import flash.Vector;
 class ObjectContainer3D extends Object3D implements IAsset
 {
 	public var ancestorsAllowMouseEnabled(get, set):Bool;
+	
 	public var isRoot(get, set):Bool;
+	
 	/**
 	 * Does not apply any transformations to this object. Allows static objects to be described in world coordinates without any matrix calculations.
 	 */
 	public var ignoreTransform(get, set):Bool;
+	
 	/**
 	 * @private
 	 * The space partition used for this object, possibly inherited from its parent.
 	 */
 	public var implicitPartition(get, set):Partition3D;
+	
 	/** @private */
 	public var isVisible(get, null):Bool;
 	
@@ -101,6 +102,7 @@ class ObjectContainer3D extends Object3D implements IAsset
 	 *
 	 */
 	public var visible(get, set):Bool;
+	
 	public var assetType(get, null):String;
 	/**
 	 * The global position of the ObjectContainer3D in the scene. The value of the return object should not be changed.
@@ -262,14 +264,11 @@ class ObjectContainer3D extends Object3D implements IAsset
 		if (value == _implicitPartition)
 			return _implicitPartition;
 
-		var len:Int = _children.length;
-		var child:ObjectContainer3D;
-
 		_implicitPartition = value;
 
-		for(i in 0...len)
+		for(i in 0..._children.length)
 		{
-			child = _children[i];
+			var child:ObjectContainer3D = _children[i];
 
 			// assign implicit partition if no explicit one is given
 			if (child._explicitPartition == null)
@@ -309,9 +308,8 @@ class ObjectContainer3D extends Object3D implements IAsset
 
 		invalidateSceneTransform();
 
-		var len:Int = _children.length;
 		//act recursively on child objects
-		for(i in 0...len)
+		for(i in 0..._children.length)
 			_children[i].notifySceneTransformChange();
 
 		//trigger event if listener exists
@@ -327,9 +325,8 @@ class ObjectContainer3D extends Object3D implements IAsset
 	{
 		notifySceneTransformChange();
 
-		var len:Int = _children.length;
 		//act recursively on child objects
-		for(i in 0...len)
+		for(i in 0..._children.length)
 			_children[i].notifySceneChange();
 
 		if (_listenToSceneChanged)
@@ -354,8 +351,7 @@ class ObjectContainer3D extends Object3D implements IAsset
 		}
 
 		// Sweep children.
-		var len:Int = _children.length;
-		for (i in 0...len)
+		for (i in 0..._children.length)
 			_children[i].updateMouseChildren();
 	}
 
@@ -431,11 +427,9 @@ class ObjectContainer3D extends Object3D implements IAsset
 
 	private function set_visible(value:Bool):Bool
 	{
-		var len:Int = _children.length;
-
 		_explicitVisibility = value;
 
-		for (i in 0...len)
+		for (i in 0..._children.length)
 			_children[i].updateImplicitVisibility();
 			
 		return _explicitVisibility;
@@ -462,11 +456,10 @@ class ObjectContainer3D extends Object3D implements IAsset
 	
 	private function get_minX():Float
 	{
-		var len:Int = _children.length;
 		var min:Float = Math.POSITIVE_INFINITY;
 		var m:Float;
 
-		for(i in 0...len)
+		for(i in 0..._children.length)
 		{
 			var child:ObjectContainer3D = _children[i];
 			m = child.minX + child.x;
@@ -480,11 +473,10 @@ class ObjectContainer3D extends Object3D implements IAsset
 	
 	private function get_minY():Float
 	{
-		var len:Int = _children.length;
 		var min:Float = Math.POSITIVE_INFINITY;
 		var m:Float;
 
-		for(i in 0...len)
+		for(i in 0..._children.length)
 		{
 			var child:ObjectContainer3D = _children[i];
 			m = child.minY + child.y;

@@ -1,9 +1,9 @@
 package a3d.entities.lenses;
 
 import a3d.math.FMatrix3D;
+import flash.geom.Vector3D;
 import flash.Vector;
 
-import flash.geom.Vector3D;
 
 /**
  * The PerspectiveLens object provides a projection matrix that projects 3D geometry with perspective distortion.
@@ -138,7 +138,7 @@ class PerspectiveLens extends LensBase
 			raw[10] = _far / (_far - _near);
 			raw[11] = 1;
 			raw[1] = raw[2] = raw[3] = raw[4] =
-				raw[6] = raw[7] = raw[8] = raw[9] =
+			raw[6] = raw[7] = raw[8] = raw[9] =
 				raw[12] = raw[13] = raw[15] = 0;
 			raw[14] = -_near * raw[10];
 		}

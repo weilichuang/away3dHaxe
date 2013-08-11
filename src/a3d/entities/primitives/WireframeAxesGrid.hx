@@ -1,8 +1,8 @@
 ﻿package a3d.entities.primitives;
 
+import a3d.entities.SegmentSet;
 import flash.geom.Vector3D;
 
-import a3d.entities.SegmentSet;
 
 using a3d.math.FVector3D;
 

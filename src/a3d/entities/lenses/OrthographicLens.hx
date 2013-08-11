@@ -10,6 +10,11 @@ import flash.Vector;
  */
 class OrthographicLens extends LensBase
 {
+	/**
+	 * The vertical field of view of the projection.
+	 */
+	public var projectionHeight(get, set):Float;
+	
 	private var _projectionHeight:Float;
 	private var _xMax:Float;
 	private var _yMax:Float;
@@ -23,10 +28,6 @@ class OrthographicLens extends LensBase
 		_projectionHeight = projectionHeight;
 	}
 
-	/**
-	 * The vertical field of view of the projection.
-	 */
-	public var projectionHeight(get, set):Float;
 	private function get_projectionHeight():Float
 	{
 		return _projectionHeight;

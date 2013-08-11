@@ -26,7 +26,7 @@ class DirectionalLightNode extends EntityNode
 	}
 
 	
-	private function get_light():DirectionalLight
+	private inline function get_light():DirectionalLight
 	{
 		return _light;
 	}

@@ -1,17 +1,16 @@
 package a3d.entities.lenses;
 
-import a3d.math.Plane3D;
 import a3d.events.LensEvent;
-import flash.Vector;
-
+import a3d.math.Plane3D;
 import flash.geom.Matrix3D;
-
 import flash.geom.Vector3D;
-
-
+import flash.Vector;
 
 class ObliqueNearPlaneLens extends LensBase
 {
+	public var plane(get, set):Plane3D;
+	public var baseLens(null, set):LensBase;
+	
 	private var _baseLens:LensBase;
 	private var _plane:Plane3D;
 
@@ -57,7 +56,7 @@ class ObliqueNearPlaneLens extends LensBase
 		return _baseLens.aspectRatio = value;
 	}
 
-	public var plane(get, set):Plane3D;
+	
 	private function get_plane():Plane3D
 	{
 		return _plane;
@@ -70,7 +69,7 @@ class ObliqueNearPlaneLens extends LensBase
 		return _plane;
 	}
 
-	public var baseLens(null, set):LensBase;
+	
 	private function set_baseLens(value:LensBase):LensBase
 	{
 		if (_baseLens != null)

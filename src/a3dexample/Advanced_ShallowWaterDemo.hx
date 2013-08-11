@@ -43,6 +43,24 @@ THE SOFTWARE.
 
 package a3dexample;
 
+import a3d.controllers.HoverController;
+import a3d.core.base.SubGeometry;
+import a3d.core.pick.PickingColliderType;
+import a3d.entities.lights.PointLight;
+import a3d.entities.Mesh;
+import a3d.entities.primitives.CubeGeometry;
+import a3d.entities.primitives.PlaneGeometry;
+import a3d.events.MouseEvent3D;
+import a3d.materials.ColorMaterial;
+import a3d.materials.lightpickers.StaticLightPicker;
+import a3d.materials.methods.BasicDiffuseMethod;
+import a3d.materials.methods.EnvMapMethod;
+import a3d.materials.methods.FogMethod;
+import a3d.materials.TextureMaterial;
+import a3d.textures.BitmapTexture;
+import a3dexample.shallowwater.DisturbanceBrush;
+import a3dexample.shallowwater.FluidDisturb;
+import a3dexample.shallowwater.ShallowFluid;
 import flash.display.BitmapData;
 import flash.display.Sprite;
 import flash.events.Event;
@@ -50,43 +68,50 @@ import flash.events.KeyboardEvent;
 import flash.events.MouseEvent;
 import flash.events.TimerEvent;
 import flash.geom.ColorTransform;
-import flash.geom.Vector3D;
 import flash.Lib;
 import flash.ui.Keyboard;
-import flash.utils.ByteArray;
 import flash.utils.Timer;
-
-import a3d.controllers.HoverController;
-import a3d.core.base.SubGeometry;
-import a3d.core.pick.PickingColliderType;
-import a3d.entities.Mesh;
-import a3d.events.MouseEvent3D;
-import a3d.entities.lights.PointLight;
-import a3d.materials.ColorMaterial;
-import a3d.materials.TextureMaterial;
-import a3d.materials.lightpickers.StaticLightPicker;
-import a3d.materials.methods.BasicDiffuseMethod;
-import a3d.materials.methods.EnvMapMethod;
-import a3d.materials.methods.FogMethod;
-import a3d.entities.primitives.CubeGeometry;
-import a3d.entities.primitives.PlaneGeometry;
-import a3d.entities.primitives.SkyBox;
-import a3d.textures.BitmapCubeTexture;
-import a3d.textures.BitmapTexture;
-import a3d.utils.Cast;
-
-import a3dexample.shallowwater.DisturbanceBrush;
-import a3dexample.shallowwater.FluidDisturb;
-import a3dexample.shallowwater.ShallowFluid;
-
 import uk.co.soulwire.gui.SimpleGUI;
+
+
+
 
 class Advanced_ShallowWaterDemo extends BasicApplication
 {
-	public static function main()
+	static function main()
 	{
 		Lib.current.addChild(new Advanced_ShallowWaterDemo());
 	}
+	
+	/**
+	 * GUI property for controlling the active displacement brush on the mouse
+	 */
+	public var activeMouseBrushClip(get,set):Sprite;
+	/**
+	 * GUI property for controlling the rate of rain
+	 */
+	public var rainTime(get,set):Int;
+	/**
+	 * GUI property for toggling shading on the water plane
+	 */
+	public var toggleShading(get,set):Bool;
+	/**
+	 * GUI property for toggling a3d text image
+	 */
+	public var toggleLiquidImage(get,set):Bool;
+	/**
+	 * GUI property for toggling Winston Churchill image
+	 */
+	public var toggleLiquidImage1(get, set):Bool;
+	
+	/**
+	 * GUI property for toggling Mustang image
+	 */
+	public var toggleLiquidImage2(get,set):Bool;
+	/**
+	 * GUI property for toggling rain
+	 */
+	public var toggleRain(get,set):Bool;
 
 	//engine variables
 	private var cameraController:HoverController;
@@ -522,10 +547,7 @@ class Advanced_ShallowWaterDemo extends BasicApplication
 		fluidDisturb.disturbBitmapInstant(0.8 * Math.random() + 0.1, 0.8 * Math.random() + 0.1, rainBrushStrength, rainBrush.bitmapData);
 	}
 	
-	/**
-	 * GUI property for controlling the active displacement brush on the mouse
-	 */
-	public var activeMouseBrushClip(get,set):Sprite;
+	
 	private function set_activeMouseBrushClip(value:Sprite):Sprite
 	{
 		aMouseBrushClip = value;
@@ -538,10 +560,7 @@ class Advanced_ShallowWaterDemo extends BasicApplication
 		return aMouseBrushClip;
 	}
 
-	/**
-	 * GUI property for controlling the rate of rain
-	 */
-	public var rainTime(get,set):Int;
+	
 	private function set_rainTime(delay:Int):Int
 	{
 		dropTmr.delay = delay;
@@ -553,10 +572,7 @@ class Advanced_ShallowWaterDemo extends BasicApplication
 		return Std.int(dropTmr.delay);
 	}
 
-	/**
-	 * GUI property for toggling shading on the water plane
-	 */
-	public var toggleShading(get,set):Bool;
+	
 	private function set_toggleShading(value:Bool):Bool
 	{
 		liquidShading = value;
@@ -572,10 +588,7 @@ class Advanced_ShallowWaterDemo extends BasicApplication
 		return liquidShading;
 	}
 
-	/**
-	 * GUI property for toggling a3d text image
-	 */
-	public var toggleLiquidImage(get,set):Bool;
+	
 	private function set_toggleLiquidImage(value:Bool):Bool
 	{
 		showingLiquidImage = value;
@@ -594,10 +607,7 @@ class Advanced_ShallowWaterDemo extends BasicApplication
 		return showingLiquidImage;
 	}
 
-	/**
-	 * GUI property for toggling Winston Churchill image
-	 */
-	public var toggleLiquidImage1(get,set):Bool;
+	
 	private function set_toggleLiquidImage1(value:Bool):Bool
 	{
 		showingLiquidImage1 = value;
@@ -616,10 +626,7 @@ class Advanced_ShallowWaterDemo extends BasicApplication
 		return showingLiquidImage1;
 	}
 
-	/**
-	 * GUI property for toggling Mustang image
-	 */
-	public var toggleLiquidImage2(get,set):Bool;
+	
 	private function set_toggleLiquidImage2(value:Bool):Bool
 	{
 		showingLiquidImage2 = value;
@@ -640,10 +647,7 @@ class Advanced_ShallowWaterDemo extends BasicApplication
 		return showingLiquidImage2;
 	}
 
-	/**
-	 * GUI property for toggling rain
-	 */
-	public var toggleRain(get,set):Bool;
+	
 	private function set_toggleRain(value:Bool):Bool
 	{
 		rain = value;

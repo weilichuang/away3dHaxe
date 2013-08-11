@@ -46,6 +46,10 @@ class ShaderPicker implements IPicker
 {
 	private static var MOUSE_SCISSOR_RECT:Rectangle = new Rectangle(0, 0, 1, 1);
 
+	/**
+	 * @inheritDoc
+	 */
+	public var onlyMouseEnabled(get, set):Bool;
 	
 	private var _stage3DProxy:Stage3DProxy;
 	private var _context:Context3D;
@@ -96,10 +100,7 @@ class ShaderPicker implements IPicker
 		_rayDir = new Vector3D();
 	}
 	
-	/**
-	 * @inheritDoc
-	 */
-	public var onlyMouseEnabled(get, set):Bool;
+	
 	private function get_onlyMouseEnabled():Bool
 	{
 		return _onlyMouseEnabled;

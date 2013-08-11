@@ -22,9 +22,6 @@ import flash.Vector;
 import haxe.ds.IntMap;
 
 
-
-
-
 class SegmentSet extends Entity implements IRenderable
 {
 	/**
@@ -51,16 +48,17 @@ class SegmentSet extends Entity implements IRenderable
 	public var vertexTangentOffset(get, null):Int;
 	
 	private var LIMIT:Int = 3 * 0xFFFF;
+	
 	private var _activeSubSet:SubSet;
 	private var _subSets:Vector<SubSet>;
-	private var _subSetCount:UInt;
-	private var _numIndices:UInt;
+	private var _subSetCount:Int;
+	private var _numIndices:Int;
 	private var _material:MaterialBase;
 	private var _animator:IAnimator;
 	private var _hasData:Bool;
 
 	private var _segments:IntMap<SegRef>;
-	private var _indexSegments:UInt;
+	private var _indexSegments:Int;
 
 	/**
 	 * Creates a new SegmentSet object.
@@ -88,7 +86,7 @@ class SegmentSet extends Entity implements IRenderable
 
 		_hasData = true;
 
-		var subSetIndex:UInt = _subSets.length - 1;
+		var subSetIndex:Int = _subSets.length - 1;
 		var subSet:SubSet = _subSets[subSetIndex];
 
 		if (subSet.vertices.length + 44 > LIMIT)
@@ -102,7 +100,7 @@ class SegmentSet extends Entity implements IRenderable
 
 		updateSegment(segment);
 
-		var index:UInt = subSet.lineCount << 2;
+		var index:Int = subSet.lineCount << 2;
 
 		subSet.indices.push(index);
 		subSet.indices.push(index + 1);
@@ -136,7 +134,7 @@ class SegmentSet extends Entity implements IRenderable
 	*	If 2 segments are added, segment #1 has index 0, segment #2 has index 1
 	*	if segment #1 is removed, segment#2 will get index 0 instead of 1.
 	*/
-	public function removeSegmentByIndex(index:UInt, dispose:Bool = false):Void
+	public function removeSegmentByIndex(index:Int, dispose:Bool = false):Void
 	{
 		var segRef:SegRef;
 		if (index >= _indexSegments)
@@ -161,7 +159,7 @@ class SegmentSet extends Entity implements IRenderable
 		var segment:Segment = segRef.segment;
 		var indices:Vector<UInt> = subSet.indices;
 
-		var ind:UInt = index * 6;
+		var ind:Int = index * 6;
 		for (i in ind...indices.length)
 			indices[i] -= 4;
 
@@ -260,7 +258,7 @@ class SegmentSet extends Entity implements IRenderable
 	/**
 	* @returns a segment object from a given index.
 	*/
-	public function getSegment(index:UInt):Segment
+	public function getSegment(index:Int):Segment
 	{
 		if (index > _indexSegments - 1)
 			return null;

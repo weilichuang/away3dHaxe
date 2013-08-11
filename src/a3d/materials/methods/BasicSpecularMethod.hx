@@ -34,6 +34,11 @@ class BasicSpecularMethod extends LightingMethodBase
 	 */
 	public var texture(get, set):Texture2DBase;
 	
+	/**
+	 * Set internally by the compiler, so the method knows the register containing the shadow calculation.
+	 */
+	public var shadowRegister(null,set):ShaderRegisterElement;
+	
 	public var specularR:Float; 
 	public var specularG:Float; 
 	public var specularB:Float;
@@ -219,16 +224,16 @@ class BasicSpecularMethod extends LightingMethodBase
 
 		// blinn-phong half vector model
 		code += "add " + t + ", " + lightDirReg + ", " + viewDirReg + "\n" +
-			"nrm " + t + ".xyz, " + t + "\n" +
-			"dp3 " + t + ".w, " + normalReg + ", " + t + "\n" +
-			"sat " + t + ".w, " + t + ".w\n";
+				"nrm " + t + ".xyz, " + t + "\n" +
+				"dp3 " + t + ".w, " + normalReg + ", " + t + "\n" +
+				"sat " + t + ".w, " + t + ".w\n";
 
 
 		if (_useTexture)
 		{
 			// apply gloss modulation from texture
 			code += "mul " + _specularTexData + ".w, " + _specularTexData + ".y, " + _specularDataRegister + ".w\n" +
-				"pow " + t + ".w, " + t + ".w, " + _specularTexData + ".w\n";
+					"pow " + t + ".w, " + t + ".w, " + _specularTexData + ".w\n";
 		}
 		else
 			code += "pow " + t + ".w, " + t + ".w, " + _specularDataRegister + ".w\n";
@@ -273,11 +278,11 @@ class BasicSpecularMethod extends LightingMethodBase
 		var normalReg:ShaderRegisterElement = _sharedRegisters.normalFragment;
 		var viewDirReg:ShaderRegisterElement = _sharedRegisters.viewDirFragment;
 		code += "dp3 " + t + ".w, " + normalReg + ", " + viewDirReg + "\n" +
-			"add " + t + ".w, " + t + ".w, " + t + ".w\n" +
-			"mul " + t + ", " + t + ".w, " + normalReg + "\n" +
-			"sub " + t + ", " + t + ", " + viewDirReg + "\n" +
-			"tex " + t + ", " + t + ", " + cubeMapReg + " <cube," + (vo.useSmoothTextures ? "linear" : "nearest") + ",miplinear>\n" +
-			"mul " + t + ".xyz, " + t + ", " + weightRegister + "\n";
+				"add " + t + ".w, " + t + ".w, " + t + ".w\n" +
+				"mul " + t + ", " + t + ".w, " + normalReg + "\n" +
+				"sub " + t + ", " + t + ", " + viewDirReg + "\n" +
+				"tex " + t + ", " + t + ", " + cubeMapReg + " <cube," + (vo.useSmoothTextures ? "linear" : "nearest") + ",miplinear>\n" +
+				"mul " + t + ".xyz, " + t + ", " + weightRegister + "\n";
 
 		if (modulateMethod != null)
 			code += modulateMethod(vo, t, regCache, _sharedRegisters);
@@ -316,7 +321,7 @@ class BasicSpecularMethod extends LightingMethodBase
 
 		// apply material's specular reflection
 		code += "mul " + _totalLightColorReg + ".xyz, " + _totalLightColorReg + ", " + _specularDataRegister + "\n" +
-			"add " + targetReg + ".xyz, " + targetReg + ", " + _totalLightColorReg + "\n";
+				"add " + targetReg + ".xyz, " + targetReg + ", " + _totalLightColorReg + "\n";
 		regCache.removeFragmentTempUsage(_totalLightColorReg);
 
 		return code;
@@ -352,10 +357,7 @@ class BasicSpecularMethod extends LightingMethodBase
 		specularB = (_specularColor & 0xff) / 0xff * _specular;
 	}
 
-	/**
-	 * Set internally by the compiler, so the method knows the register containing the shadow calculation.
-	 */
-	public var shadowRegister(null,set):ShaderRegisterElement;
+	
 	private function set_shadowRegister(shadowReg:ShaderRegisterElement):ShaderRegisterElement
 	{
 		return _shadowRegister = shadowReg;

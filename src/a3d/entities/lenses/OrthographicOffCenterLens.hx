@@ -10,6 +10,11 @@ import flash.Vector;
  */
 class OrthographicOffCenterLens extends LensBase
 {
+	public var minX(get, set):Float;
+	public var maxX(get, set):Float;
+	public var minY(get, set):Float;
+	public var maxY(get, set):Float;
+	
 	private var _minX:Float;
 	private var _maxX:Float;
 	private var _minY:Float;
@@ -28,7 +33,7 @@ class OrthographicOffCenterLens extends LensBase
 		_maxY = maxY;
 	}
 
-	public var minX(get, set):Float;
+	
 	private function get_minX():Float
 	{
 		return _minX;
@@ -41,7 +46,7 @@ class OrthographicOffCenterLens extends LensBase
 		return _minX;
 	}
 
-	public var maxX(get, set):Float;
+	
 	private function get_maxX():Float
 	{
 		return _maxX;
@@ -54,7 +59,7 @@ class OrthographicOffCenterLens extends LensBase
 		return _maxX;
 	}
 
-	public var minY(get, set):Float;
+	
 	private function get_minY():Float
 	{
 		return _minY;
@@ -67,7 +72,7 @@ class OrthographicOffCenterLens extends LensBase
 		return _minY;
 	}
 
-	public var maxY(get, set):Float;
+	
 	private function get_maxY():Float
 	{
 		return _maxY;

@@ -16,9 +16,6 @@ import flash.geom.Rectangle;
 import flash.Vector;
 
 
-
-
-
 class CascadeShadowMapper extends DirectionalShadowMapper implements IEventDispatcher
 {
 	public var numCascades(get, set):Int;
