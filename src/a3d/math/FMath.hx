@@ -104,6 +104,16 @@ class FMath
 		return a < b ? a : b;
 	}
 	
+	public static inline function fmax(a:Float, b:Float):Float
+	{
+		return a > b ? a : b;
+	}
+	
+	public static inline function fmin(a:Float, b:Float):Float
+	{
+		return a < b ? a : b;
+	}
+	
 	public static inline function fabs(a:Float):Float
 	{
 		return a > 0 ? a : -a;

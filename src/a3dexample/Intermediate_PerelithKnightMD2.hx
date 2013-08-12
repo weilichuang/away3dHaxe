@@ -40,10 +40,24 @@ THE SOFTWARE.
 
 package a3dexample;
 
+import a3d.animators.VertexAnimationSet;
+import a3d.animators.VertexAnimator;
+import a3d.controllers.HoverController;
+import a3d.entities.lights.DirectionalLight;
+import a3d.entities.Mesh;
+import a3d.entities.primitives.PlaneGeometry;
+import a3d.events.AssetEvent;
+import a3d.events.LoaderEvent;
+import a3d.io.library.AssetLibrary;
+import a3d.io.library.assets.AssetType;
+import a3d.io.loaders.parsers.MD2Parser;
+import a3d.materials.lightpickers.StaticLightPicker;
+import a3d.materials.methods.FilteredShadowMapMethod;
+import a3d.materials.TextureMaterial;
 import a3d.textures.BitmapTexture;
-import flash.display.Bitmap;
+import a3d.utils.Cast;
+import a3dexample.utils.BitmapFilterEffects;
 import flash.display.BitmapData;
-import flash.events.Event;
 import flash.events.KeyboardEvent;
 import flash.events.MouseEvent;
 import flash.filters.DropShadowFilter;
@@ -54,27 +68,9 @@ import flash.text.GridFitType;
 import flash.text.TextField;
 import flash.text.TextFormat;
 import flash.ui.Keyboard;
-import flash.utils.ByteArray;
 import flash.Vector.Vector;
 
-import a3d.animators.VertexAnimationSet;
-import a3d.animators.VertexAnimator;
-import a3d.controllers.HoverController;
-import a3d.utils.AwayStats;
-import a3d.entities.Mesh;
-import a3d.events.AssetEvent;
-import a3d.events.LoaderEvent;
-import a3d.io.library.AssetLibrary;
-import a3d.io.library.assets.AssetType;
-import a3d.entities.lights.DirectionalLight;
-import a3d.io.loaders.parsers.MD2Parser;
-import a3d.materials.TextureMaterial;
-import a3d.materials.lightpickers.StaticLightPicker;
-import a3d.materials.methods.FilteredShadowMapMethod;
-import a3d.entities.primitives.PlaneGeometry;
-import a3d.utils.Cast;
 
-import a3dexample.utils.BitmapFilterEffects;
 
 class Intermediate_PerelithKnightMD2 extends BasicApplication
 {
@@ -395,4 +391,4 @@ class Intermediate_PerelithKnightMD2 extends BasicApplication
 @:bitmap("embeds/pknight/pknight4.png") class PKnightTexture4 extends flash.display.BitmapData { }
 
 //Perelith Knight model
-@:file("embeds/pknight/pknight.md2") class PKnightModel extends ByteArray { }
+@:file("embeds/pknight/pknight.md2") class PKnightModel extends flash.utils.ByteArray { }

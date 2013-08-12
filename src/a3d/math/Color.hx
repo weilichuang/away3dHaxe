@@ -4,6 +4,10 @@ import flash.Vector;
 
 class Color
 {
+	public var color(get, set):UInt;
+	
+	public var rgb(get, set):UInt;
+	
 	public var r:Float = 0;
 
 	public var g:Float = 0;
@@ -11,6 +15,8 @@ class Color
 	public var b:Float = 0;
 
 	public var a:Float = 0;
+	
+	
 
 	/**
 	 * Constructor instantiates a new <code>Color</code> object. The
@@ -51,13 +57,28 @@ class Color
 		result[2] = b;
 		result[3] = a;
 	}
+	
+	private inline function get_rgb():Int
+	{
+		return (Std.int(r * 255) << 16 | Std.int(g * 255) << 8 | Std.int(b * 255));
+	}
+	
+	public function set_rgb(color:Int):Int
+	{
+		var invert:Float = 1 / 255;
+		r = (color >> 16 & 0xFF) * invert;
+		g = (color >> 8 & 0xFF) * invert;
+		b = (color & 0xFF) * invert;
+		
+		return color;
+	}
 
-	public function get_color():Int
+	private inline function get_color():Int
 	{
 		return (Std.int(a * 255) << 24 | Std.int(r * 255) << 16 | Std.int(g * 255) << 8 | Std.int(b * 255));
 	}
 
-	public function set_color(value:Int):Int
+	private function set_color(value:Int):Int
 	{
 		var invert:Float = 1 / 255;
 		a = (value >> 24 & 0xFF) * invert;
@@ -67,13 +88,7 @@ class Color
 		return value;
 	}
 
-	public function setRGB(color:Int):Void
-	{
-		var invert:Float = 1 / 255;
-		r = (color >> 16 & 0xFF) * invert;
-		g = (color >> 8 & 0xFF) * invert;
-		b = (color & 0xFF) * invert;
-	}
+	
 
 	public inline function clone():Color
 	{
