@@ -14,6 +14,35 @@ import a3d.materials.MaterialBase;
 
 class Elevation extends Mesh
 {
+	/**
+	* Locks elevation factor beneath this color reading level. Default is 0;
+	*/
+	public var minElevation(get, set):Int;
+	/**
+	* Locks elevation factor above this color reading level. Default is 255;
+	* Allows to build "canyon" like landscapes with no additional work on heightmap source.
+	*/
+	public var maxElevation(get, set):Int;
+	/**
+	 * The number of segments that make up the plane along the Y or Z-axis, depending on whether yUp is true or
+	 * false, respectively. Defaults to 1.
+	 */
+	public var segmentsH(get, set):Int;
+	/**
+	 * The width of the terrain plane.
+	 */
+	public var width(get, set):Float;
+	public var height(get, set):Float;
+	/**
+	 * The depth of the terrain plane.
+	 */
+	public var depth(get, set):Float;
+	
+	/*
+	* Returns the smoothed heightmap
+	*/
+	public var smoothedHeightMap(get, null):BitmapData;
+	
 	private var _segmentsW:Int;
 	private var _segmentsH:Int;
 	private var _width:Float;
@@ -67,10 +96,7 @@ class Elevation extends Mesh
 			generateSmoothedHeightMap();
 	}
 
-	/**
-	* Locks elevation factor beneath this color reading level. Default is 0;
-	*/
-	public var minElevation(get, set):Int;
+	
 	private function set_minElevation(val:Int):Int
 	{
 		if (_minElevation == val)
@@ -86,11 +112,7 @@ class Elevation extends Mesh
 		return _minElevation;
 	}
 
-	/**
-	* Locks elevation factor above this color reading level. Default is 255;
-	* Allows to build "canyon" like landscapes with no additional work on heightmap source.
-	*/
-	public var maxElevation(get, set):Int;
+	
 	private function set_maxElevation(val:Int):Int
 	{
 		if (_maxElevation == val)
@@ -107,11 +129,7 @@ class Elevation extends Mesh
 		return _maxElevation;
 	}
 
-	/**
-	 * The number of segments that make up the plane along the Y or Z-axis, depending on whether yUp is true or
-	 * false, respectively. Defaults to 1.
-	 */
-	public var segmentsH(get, set):Int;
+	
 	private function get_segmentsH():Int
 	{
 		return _segmentsH;
@@ -125,10 +143,7 @@ class Elevation extends Mesh
 		return _segmentsH;
 	}
 
-	/**
-	 * The width of the terrain plane.
-	 */
-	public var width(get, set):Float;
+	
 	private function get_width():Float
 	{
 		return _width;
@@ -141,7 +156,7 @@ class Elevation extends Mesh
 		return _width;
 	}
 
-	public var height(get, set):Float;
+	
 	private function get_height():Float
 	{
 		return _height;
@@ -152,10 +167,7 @@ class Elevation extends Mesh
 		return _height = value;
 	}
 
-	/**
-	 * The depth of the terrain plane.
-	 */
-	public var depth(get, set):Float;
+	
 	private function get_depth():Float
 	{
 		return _depth;
@@ -298,10 +310,7 @@ class Elevation extends Mesh
 	}
 
 
-	/*
-	* Returns the smoothed heightmap
-	*/
-	public var smoothedHeightMap(get, null):BitmapData;
+	
 	private function get_smoothedHeightMap():BitmapData
 	{
 		return _smoothedHeightMap;

@@ -24,10 +24,6 @@ import flash.geom.Matrix;
 import flash.geom.Matrix3D;
 import flash.Vector;
 
-
-
-
-
 class CompiledPass extends MaterialPassBase
 {
 	public var enableLightFallOff(get,set):Bool;
@@ -46,15 +42,15 @@ class CompiledPass extends MaterialPassBase
 	public var shadowMethod(get,set):ShadowMapMethodBase;
 	public var diffuseMethod(get,set):BasicDiffuseMethod;
 	public var specularMethod(get,set):BasicSpecularMethod;
-	public var specularLightSources(get,set):UInt;
-	public var diffuseLightSources(get, set):UInt;
+	public var specularLightSources(get,set):Int;
+	public var diffuseLightSources(get, set):Int;
 	
 	//internal use
 	public var passes:Vector<MaterialPassBase>;
 	public var passesDirty:Bool;
 
-	private var _specularLightSources:UInt = 0x01;
-	private var _diffuseLightSources:UInt = 0x03;
+	private var _specularLightSources:Int = 0x01;
+	private var _diffuseLightSources:Int = 0x03;
 
 	private var _vertexCode:String;
 	private var _fragmentLightCode:String;
@@ -521,10 +517,14 @@ class CompiledPass extends MaterialPassBase
 
 		if (_usesNormals)
 			_methodSetup.normalMethod.activate(_methodSetup.normalMethodVO, stage3DProxy);
+			
 		_methodSetup.ambientMethod.activate(_methodSetup.ambientMethodVO, stage3DProxy);
+		
 		if (_methodSetup.shadowMethod != null)
 			_methodSetup.shadowMethod.activate(_methodSetup.shadowMethodVO, stage3DProxy);
+			
 		_methodSetup.diffuseMethod.activate(_methodSetup.diffuseMethodVO, stage3DProxy);
+		
 		if (_usingSpecularMethod)
 			_methodSetup.specularMethod.activate(_methodSetup.specularMethodVO, stage3DProxy);
 	}
@@ -538,10 +538,13 @@ class CompiledPass extends MaterialPassBase
 		var context:Context3D = stage3DProxy.context3D;
 		if (_uvBufferIndex >= 0)
 			renderable.activateUVBuffer(_uvBufferIndex, stage3DProxy);
+			
 		if (_secondaryUVBufferIndex >= 0)
 			renderable.activateSecondaryUVBuffer(_secondaryUVBufferIndex, stage3DProxy);
+			
 		if (_normalBufferIndex >= 0)
 			renderable.activateVertexNormalBuffer(_normalBufferIndex, stage3DProxy);
+			
 		if (_tangentBufferIndex >= 0)
 			renderable.activateVertexTangentBuffer(_tangentBufferIndex, stage3DProxy);
 
@@ -603,15 +606,17 @@ class CompiledPass extends MaterialPassBase
 
 		if (_methodSetup.shadowMethod != null)
 			_methodSetup.shadowMethod.setRenderState(_methodSetup.shadowMethodVO, renderable, stage3DProxy, camera);
+			
 		_methodSetup.diffuseMethod.setRenderState(_methodSetup.diffuseMethodVO, renderable, stage3DProxy, camera);
+		
 		if (_usingSpecularMethod)
 			_methodSetup.specularMethod.setRenderState(_methodSetup.specularMethodVO, renderable, stage3DProxy, camera);
+			
 		if (_methodSetup.colorTransformMethod != null)
 			_methodSetup.colorTransformMethod.setRenderState(_methodSetup.colorTransformMethodVO, renderable, stage3DProxy, camera);
 
 		var methods:Vector<MethodVOSet> = _methodSetup.methods;
-		var len:UInt = methods.length;
-		for (i in 0...len)
+		for (i in 0...methods.length)
 		{
 			var mset:MethodVOSet = methods[i];
 			mset.method.setRenderState(mset.data, renderable, stage3DProxy, camera);
@@ -643,38 +648,42 @@ class CompiledPass extends MaterialPassBase
 
 		if (_usesNormals)
 			_methodSetup.normalMethod.deactivate(_methodSetup.normalMethodVO, stage3DProxy);
+			
 		_methodSetup.ambientMethod.deactivate(_methodSetup.ambientMethodVO, stage3DProxy);
+		
 		if (_methodSetup.shadowMethod != null)
 			_methodSetup.shadowMethod.deactivate(_methodSetup.shadowMethodVO, stage3DProxy);
+			
 		_methodSetup.diffuseMethod.deactivate(_methodSetup.diffuseMethodVO, stage3DProxy);
+		
 		if (_usingSpecularMethod)
 			_methodSetup.specularMethod.deactivate(_methodSetup.specularMethodVO, stage3DProxy);
 	}
 
-//		override private function updateLights() : void
-//		{
-//			for (var i : int = 0; i < _passes.length; ++i)
-//				_passes[i].lightPicker = _lightPicker;
-//		}
+//	override private function updateLights() : void
+//	{
+//		for (i in 0..._passes.length)
+//			_passes[i].lightPicker = _lightPicker;
+//	}
 
 	
-	private function get_specularLightSources():UInt
+	private function get_specularLightSources():Int
 	{
 		return _specularLightSources;
 	}
 
-	private function set_specularLightSources(value:UInt):UInt
+	private function set_specularLightSources(value:Int):Int
 	{
 		return _specularLightSources = value;
 	}
 
 	
-	private function get_diffuseLightSources():UInt
+	private function get_diffuseLightSources():Int
 	{
 		return _diffuseLightSources;
 	}
 
-	private function set_diffuseLightSources(value:UInt):UInt
+	private function set_diffuseLightSources(value:Int):Int
 	{
 		return _diffuseLightSources = value;
 	}

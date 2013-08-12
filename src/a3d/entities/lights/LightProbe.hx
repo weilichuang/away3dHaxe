@@ -9,10 +9,6 @@ import a3d.textures.CubeTextureBase;
 import flash.errors.Error;
 import flash.geom.Matrix3D;
 
-
-
-
-
 class LightProbe extends LightBase
 {
 	public var diffuseMap(get,set):CubeTextureBase;

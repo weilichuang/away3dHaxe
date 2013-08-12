@@ -8,10 +8,6 @@ import flash.geom.Vector3D;
 import flash.Vector;
 
 
-
-
-
-
 /**
  * The NodeBase class is an abstract base class for any type of space partition tree node. The concrete
  * subtype will control the creation of its child nodes, which are necessarily of the same type. The exception is
@@ -59,7 +55,7 @@ class NodeBase
 	private function set_showDebugBounds(value:Bool):Bool
 	{
 		if ((_debugPrimitive != null) == value)
-			return showDebugBounds;
+			return value;
 
 		if (value)
 		{

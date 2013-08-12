@@ -56,7 +56,7 @@ class Partition3D
 		var t:EntityNode = _updateQueue;
 
 		// if already marked for update
-		while (t != null)
+ 		while (t != null)
 		{
 			if (node == t)
 				return;

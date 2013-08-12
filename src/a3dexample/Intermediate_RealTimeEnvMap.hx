@@ -41,7 +41,21 @@ THE SOFTWARE.
 package a3dexample;
 
 
-import flash.display.BitmapData;
+import a3d.controllers.HoverController;
+import a3d.entities.extrusions.Elevation;
+import a3d.entities.lights.DirectionalLight;
+import a3d.entities.Mesh;
+import a3d.events.AssetEvent;
+import a3d.io.library.AssetLibrary;
+import a3d.io.library.assets.AssetType;
+import a3d.io.loaders.parsers.OBJParser;
+import a3d.materials.ColorMaterial;
+import a3d.materials.lightpickers.StaticLightPicker;
+import a3d.materials.methods.EnvMapMethod;
+import a3d.materials.methods.FogMethod;
+import a3d.materials.methods.FresnelEnvMapMethod;
+import a3d.materials.TextureMaterial;
+import a3d.textures.CubeReflectionTexture;
 import flash.events.Event;
 import flash.events.KeyboardEvent;
 import flash.events.MouseEvent;
@@ -53,26 +67,7 @@ import flash.text.GridFitType;
 import flash.text.TextField;
 import flash.text.TextFormat;
 import flash.ui.Keyboard;
-import flash.utils.ByteArray;
 
-import a3d.controllers.HoverController;
-import a3d.entities.Mesh;
-import a3d.events.AssetEvent;
-import a3d.entities.extrusions.Elevation;
-import a3d.io.library.AssetLibrary;
-import a3d.io.library.assets.AssetType;
-import a3d.entities.lights.DirectionalLight;
-import a3d.io.loaders.parsers.OBJParser;
-import a3d.materials.ColorMaterial;
-import a3d.materials.TextureMaterial;
-import a3d.materials.lightpickers.StaticLightPicker;
-import a3d.materials.methods.EnvMapMethod;
-import a3d.materials.methods.FogMethod;
-import a3d.materials.methods.FresnelEnvMapMethod;
-import a3d.entities.primitives.SkyBox;
-import a3d.textures.BitmapCubeTexture;
-import a3d.textures.CubeReflectionTexture;
-import a3d.utils.Cast;
 
 class Intermediate_RealTimeEnvMap extends BasicApplication
 {
@@ -426,16 +421,16 @@ class Intermediate_RealTimeEnvMap extends BasicApplication
 }
 
 // R2D2 Model
-@:file("embeds/R2D2.obj") class R2D2Model extends ByteArray {}
+@:file("embeds/R2D2.obj") class R2D2Model extends flash.utils.ByteArray {}
 
 // R2D2 Texture
-@:bitmap("embeds/r2d2_diffuse.jpg") class R2D2Texture extends BitmapData {}
+@:bitmap("embeds/r2d2_diffuse.jpg") class R2D2Texture extends flash.display.BitmapData {}
 
 // desert texture
-@:bitmap("embeds/arid.jpg") class DesertTexture extends BitmapData {}
+@:bitmap("embeds/arid.jpg") class DesertTexture extends flash.display.BitmapData {}
 
 //desert height map
-@:bitmap("embeds/desertHeightMap.jpg") class DesertHeightMap extends BitmapData {}
+@:bitmap("embeds/desertHeightMap.jpg") class DesertHeightMap extends flash.display.BitmapData {}
 
 // head Model
-@:file("embeds/head.obj") class HeadModel extends ByteArray {}
+@:file("embeds/head.obj") class HeadModel extends flash.utils.ByteArray {}

@@ -1,6 +1,5 @@
 package a3d.entities.primitives;
 
-
 import a3d.bounds.BoundingVolumeBase;
 import a3d.entities.primitives.data.Segment;
 import a3d.entities.SegmentSet;
@@ -8,8 +7,6 @@ import a3d.errors.AbstractMethodError;
 import flash.geom.Vector3D;
 
 using a3d.math.FVector3D;
-
-
 
 class WireframePrimitiveBase extends SegmentSet
 {

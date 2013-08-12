@@ -35,7 +35,8 @@ class LightBase extends Entity
 	/**
 	 * The ambient emission strength of the light. Default value is <code>0</code>.
 	 */
-	public var ambient(get,set):Float;
+	public var ambient(get, set):Float;
+	
 	public var ambientColor(get, set):UInt;
 	
 	public var shadowMapper(get, set):ShadowMapperBase;

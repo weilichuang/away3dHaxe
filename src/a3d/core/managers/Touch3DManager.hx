@@ -23,6 +23,9 @@ class Touch3DManager
 	private static var _previousCollidingObjectFromTouchId:IntMap<PickingCollisionVO> = new IntMap<PickingCollisionVO>();
 	private static var _queuedEvents:Vector<TouchEvent3D> = new Vector<TouchEvent3D>();
 
+	public var forceTouchMove(get, set):Bool;
+	public var touchPicker(get, set):IPicker;
+	public var view(null, set):View3D;
 	
 	private var _updateDirty:Bool;
 	private var _nullVector:Vector3D;
@@ -258,7 +261,7 @@ class Touch3DManager
 	// ---------------------------------------------------------------------
 	// Getters & setters.
 	// ---------------------------------------------------------------------
-	public var forceTouchMove(get, set):Bool;
+	
 	private function get_forceTouchMove():Bool
 	{
 		return _forceTouchMove;
@@ -269,7 +272,7 @@ class Touch3DManager
 		return _forceTouchMove = value;
 	}
 
-	public var touchPicker(get, set):IPicker;
+	
 	private function get_touchPicker():IPicker
 	{
 		return _touchPicker;
@@ -280,7 +283,7 @@ class Touch3DManager
 		return _touchPicker = value;
 	}
 
-	public var view(null, set):View3D;
+	
 	private function set_view(value:View3D):View3D
 	{
 		return _view = value;

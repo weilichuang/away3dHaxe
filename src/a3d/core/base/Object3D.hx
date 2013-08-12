@@ -180,11 +180,6 @@ class Object3D extends NamedAssetBase
 	private var _rotationDirty:Bool;
 	private var _scaleDirty:Bool;
 
-	// TODO: not used
-	// private var _positionValuesDirty:Bool;
-	// private var _rotationValuesDirty:Bool;
-	// private var _scaleValuesDirty:Bool;
-
 	private var _positionChanged:Object3DEvent;
 	private var _rotationChanged:Object3DEvent;
 	private var _scaleChanged:Object3DEvent;
@@ -228,8 +223,8 @@ class Object3D extends NamedAssetBase
 		_transform = new Matrix3D();
 		_pivotPoint = new Vector3D();
 		_pos = new Vector3D();
-		_rot = new Vector3D();
-		_sca = new Vector3D();
+		_rot = new Vector3D(0,0,0);
+		_sca = new Vector3D(1,1,1);
 	
 		// Cached vector of transformation components used when
 		// recomposing the transform matrix in updateTransform()

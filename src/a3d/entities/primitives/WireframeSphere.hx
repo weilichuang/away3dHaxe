@@ -38,15 +38,15 @@ class WireframeSphere extends WireframePrimitiveBase
 		var v0:Vector3D = new Vector3D();
 		var v1:Vector3D = new Vector3D();
 		var numVerts:UInt = 0;
-		var index:Int=0;
+		var index:Int = 0;
 
-		for (j in 0..._segmentsH+1)
+		for (j in 0..._segmentsH + 1)
 		{
 			var horangle:Float = Math.PI * j / _segmentsH;
 			var z:Float = -_radius * Math.cos(horangle);
 			var ringradius:Float = _radius * Math.sin(horangle);
 
-			for (i in 0..._segmentsW+1)
+			for (i in 0..._segmentsW + 1)
 			{
 				var verangle:Float = 2 * Math.PI * i / _segmentsW;
 				var x:Float = ringradius * Math.cos(verangle);
@@ -57,9 +57,9 @@ class WireframeSphere extends WireframePrimitiveBase
 			}
 		}
 
-		for (j in 1..._segmentsH+1)
+		for (j in 1..._segmentsH + 1)
 		{
-			for (i in 1..._segmentsW+1)
+			for (i in 1..._segmentsW + 1)
 			{
 				var a:Int = ((_segmentsW + 1) * j + i) * 3;
 				var b:Int = ((_segmentsW + 1) * j + i - 1) * 3;

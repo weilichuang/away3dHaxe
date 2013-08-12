@@ -1,5 +1,6 @@
 package a3d.core.managers;
 
+import a3d.tools.utils.TextureUtils;
 import a3d.utils.VectorUtil;
 import flash.display3D.Context3D;
 import flash.display3D.IndexBuffer3D;
@@ -8,11 +9,9 @@ import flash.errors.Error;
 import flash.events.Event;
 import flash.events.EventDispatcher;
 import flash.geom.Rectangle;
-import flash.utils.Dictionary;
 import flash.Vector;
 import haxe.ds.ObjectMap;
 
-import a3d.tools.utils.TextureUtils;
 
 class RTTBufferManager extends EventDispatcher
 {
@@ -34,6 +33,17 @@ class RTTBufferManager extends EventDispatcher
 		}
 		return rttb;
 	}
+	
+	public var textureRatioX(get, null):Float;
+	public var textureRatioY(get, null):Float;
+	public var viewWidth(get, set):Int;
+	public var viewHeight(get, set):Int;
+	public var renderToTextureVertexBuffer(get, null):VertexBuffer3D;
+	public var renderToScreenVertexBuffer(get, null):VertexBuffer3D;
+	public var indexBuffer(get, null):IndexBuffer3D;
+	public var renderToTextureRect(get, null):Rectangle;
+	public var textureWidth(get, null):Int;
+	public var textureHeight(get, null):Int;
 
 	private var _renderToTextureVertexBuffer:VertexBuffer3D;
 	private var _renderToScreenVertexBuffer:VertexBuffer3D;
@@ -59,7 +69,7 @@ class RTTBufferManager extends EventDispatcher
 		_stage3DProxy = stage3DProxy;
 	}
 
-	public var textureRatioX(get, null):Float;
+	
 	private function get_textureRatioX():Float
 	{
 		if (_buffersInvalid)
@@ -67,7 +77,7 @@ class RTTBufferManager extends EventDispatcher
 		return _textureRatioX;
 	}
 
-	public var textureRatioY(get, null):Float;
+	
 	private function get_textureRatioY():Float
 	{
 		if (_buffersInvalid)
@@ -75,7 +85,7 @@ class RTTBufferManager extends EventDispatcher
 		return _textureRatioY;
 	}
 
-	public var viewWidth(get, set):Int;
+	
 	private function get_viewWidth():Int
 	{
 		return _viewWidth;
@@ -85,6 +95,7 @@ class RTTBufferManager extends EventDispatcher
 	{
 		if (value == _viewWidth)
 			return _viewWidth;
+			
 		_viewWidth = value;
 
 		_buffersInvalid = true;
@@ -107,7 +118,7 @@ class RTTBufferManager extends EventDispatcher
 		return _viewWidth;
 	}
 
-	public var viewHeight(get, set):Int;
+	
 	private function get_viewHeight():Int
 	{
 		return _viewHeight;
@@ -117,6 +128,7 @@ class RTTBufferManager extends EventDispatcher
 	{
 		if (value == _viewHeight)
 			return _viewHeight;
+			
 		_viewHeight = value;
 
 		_buffersInvalid = true;
@@ -139,7 +151,7 @@ class RTTBufferManager extends EventDispatcher
 		return _viewHeight;
 	}
 
-	public var renderToTextureVertexBuffer(get, null):VertexBuffer3D;
+	
 	private function get_renderToTextureVertexBuffer():VertexBuffer3D
 	{
 		if (_buffersInvalid)
@@ -147,7 +159,7 @@ class RTTBufferManager extends EventDispatcher
 		return _renderToTextureVertexBuffer;
 	}
 
-	public var renderToScreenVertexBuffer(get, null):VertexBuffer3D;
+	
 	private function get_renderToScreenVertexBuffer():VertexBuffer3D
 	{
 		if (_buffersInvalid)
@@ -155,13 +167,13 @@ class RTTBufferManager extends EventDispatcher
 		return _renderToScreenVertexBuffer;
 	}
 
-	public var indexBuffer(get, null):IndexBuffer3D;
+	
 	private function get_indexBuffer():IndexBuffer3D
 	{
 		return _indexBuffer;
 	}
 
-	public var renderToTextureRect(get, null):Rectangle;
+	
 	private function get_renderToTextureRect():Rectangle
 	{
 		if (_buffersInvalid)
@@ -169,13 +181,13 @@ class RTTBufferManager extends EventDispatcher
 		return _renderToTextureRect;
 	}
 
-	public var textureWidth(get, null):Int;
+	
 	private function get_textureWidth():Int
 	{
 		return _textureWidth;
 	}
 
-	public var textureHeight(get, null):Int;
+	
 	private function get_textureHeight():Int
 	{
 		return _textureHeight;
@@ -201,9 +213,6 @@ class RTTBufferManager extends EventDispatcher
 	private function updateRTTBuffers():Void
 	{
 		var context:Context3D = _stage3DProxy.context3D;
-		var textureVerts:Vector<Float>;
-		var screenVerts:Vector<Float>;
-		var x:Float, y:Float;
 
 		if (_renderToTextureVertexBuffer == null)
 			_renderToTextureVertexBuffer = context.createVertexBuffer(4, 5);
@@ -216,6 +225,7 @@ class RTTBufferManager extends EventDispatcher
 			_indexBuffer.uploadFromVector(VectorUtil.toUIntVector([2, 1, 0, 3, 2, 0]), 0, 6);
 		}
 
+		var x:Float, y:Float;
 		_textureRatioX = x = Math.min(_viewWidth / _textureWidth, 1);
 		_textureRatioY = y = Math.min(_viewHeight / _textureHeight, 1);
 
@@ -225,12 +235,12 @@ class RTTBufferManager extends EventDispatcher
 		var v2:Float = (1 - y) * .5;
 
 		// last element contains indices for data per vertex that can be passed to the vertex shader if necessary (ie: frustum corners for deferred rendering)
-		textureVerts = Vector.ofArray([-x, -y, u1, v1, 0,
+		var textureVerts:Vector<Float> = Vector.ofArray([-x, -y, u1, v1, 0,
 			x, -y, u2, v1, 1,
 			x, y, u2, v2, 2,
 			-x, y, u1, v2, 3]);
 
-		screenVerts = Vector.ofArray([-1, -1, u1, v1, 0,
+		var screenVerts:Vector<Float> = Vector.ofArray([-1, -1, u1, v1, 0,
 			1, -1, u2, v1, 1,
 			1, 1, u2, v2, 2,
 			-1, 1, u1, v2, 3]);

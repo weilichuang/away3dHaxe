@@ -16,6 +16,8 @@ import a3d.core.managers.Stage3DProxy;
 class CompactSubGeometry extends SubGeometryBase implements ISubGeometry
 {
 	public var numVertices(get, null):Int;
+	public var secondaryUVStride(get, null):Int;
+	public var secondaryUVOffset(get, null):Int;
 	
 	private var _vertexDataInvalid:Vector<Bool>;
 	private var _vertexBuffer:Vector<VertexBuffer3D>;
@@ -287,7 +289,7 @@ class CompactSubGeometry extends SubGeometryBase implements ISubGeometry
 	}
 
 
-	public var secondaryUVStride(get, null):Int;
+	
 	private function get_secondaryUVStride():Int
 	{
 		return 13;
@@ -313,7 +315,6 @@ class CompactSubGeometry extends SubGeometryBase implements ISubGeometry
 		return 9;
 	}
 
-	public var secondaryUVOffset(get, null):Int;
 	private function get_secondaryUVOffset():Int
 	{
 		return 11;
@@ -325,7 +326,6 @@ class CompactSubGeometry extends SubGeometryBase implements ISubGeometry
 		disposeVertexBuffers(_vertexBuffer);
 		_vertexBuffer = null;
 	}
-
 
 	override private function disposeVertexBuffers(buffers:Vector<VertexBuffer3D>):Void
 	{

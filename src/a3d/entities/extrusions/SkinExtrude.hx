@@ -16,6 +16,28 @@ import a3d.tools.helpers.MeshHelper;
 
 class SkinExtrude extends Mesh
 {
+	/**
+	 * Defines if the texture(s) should be stretched to cover the entire mesh or per step between segments. Defaults to false.
+	 */
+	public var profiles(get, set):Vector<Vector<Vector3D>>;
+	/**
+	 * Defines if the texture(s) should be stretched to cover the entire mesh or per step between segments. Defaults to false.
+	 */
+	public var coverAll(get, set):Bool;
+	/**
+	* Defines if the last vector of Vector3D are joined to the first one, closing the shape. works from 3 vector.&lt;Vector3D&gt; entered.
+	*/
+	public var closeShape(get, set):Bool;
+	/**
+	 * Defines if the face orientatio needs to be inverted
+	 */
+	public var flip(get, set):Bool;
+	/**
+	 * Defines whether the mesh is _centerMeshed of not after generation
+	 */
+	public var centerMesh(get, set):Bool;
+	public var subdivision(get, set):Float;
+	
 	private var LIMIT:Int = 196605;
 	private var _tmpVectors:Vector<Float>;
 	private var _subGeometry:SubGeometry;
@@ -66,10 +88,7 @@ class SkinExtrude extends Mesh
 		_flip = flip;
 	}
 
-	/**
-	 * Defines if the texture(s) should be stretched to cover the entire mesh or per step between segments. Defaults to false.
-	 */
-	public var profiles(get, set):Vector<Vector<Vector3D>>;
+	
 	private function get_profiles():Vector<Vector<Vector3D>>
 	{
 		return _profiles;
@@ -81,10 +100,7 @@ class SkinExtrude extends Mesh
 		invalidateGeometry();
 	}
 
-	/**
-	 * Defines if the texture(s) should be stretched to cover the entire mesh or per step between segments. Defaults to false.
-	 */
-	public var coverAll(get, set):Bool;
+	
 	private function get_coverAll():Bool
 	{
 		return _coverAll;
@@ -100,10 +116,7 @@ class SkinExtrude extends Mesh
 		return _coverAll;
 	}
 
-	/**
-	* Defines if the last vector of Vector3D are joined to the first one, closing the shape. works from 3 vector.&lt;Vector3D&gt; entered.
-	*/
-	public var closeShape(get, set):Bool;
+	
 	private function get_closeShape():Bool
 	{
 		return _closeShape;
@@ -119,10 +132,7 @@ class SkinExtrude extends Mesh
 		return _closeShape;
 	}
 
-	/**
-	 * Defines if the face orientatio needs to be inverted
-	 */
-	public var flip(get, set):Bool;
+	
 	private function get_flip():Bool
 	{
 		return _flip;
@@ -138,10 +148,7 @@ class SkinExtrude extends Mesh
 		return _flip;
 	}
 
-	/**
-	 * Defines whether the mesh is _centerMeshed of not after generation
-	 */
-	public var centerMesh(get, set):Bool;
+	
 	private function get_centerMesh():Bool
 	{
 		return _centerMesh;
@@ -165,7 +172,7 @@ class SkinExtrude extends Mesh
 		return _centerMesh;
 	}
 
-	public var subdivision(get, set):Float;
+	
 	private function get_subdivision():Float
 	{
 		return _subdivision;
@@ -228,9 +235,6 @@ class SkinExtrude extends Mesh
 
 	private function extrude(vectsA:Vector<Vector3D>, vectsB:Vector<Vector3D>, vscale:Float, indexv:Int):Void
 	{
-		var i:Int;
-		var j:Int;
-		var k:Int;
 		var stepx:Float;
 		var stepy:Float;
 		var stepz:Float;

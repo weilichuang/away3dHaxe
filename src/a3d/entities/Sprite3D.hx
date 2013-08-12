@@ -19,10 +19,6 @@ import flash.geom.Matrix3D;
 import flash.geom.Vector3D;
 import flash.Vector;
 
-
-
-
-
 /**
  * Sprite3D is a 3D billboard, a renderable rectangular area that is always aligned with the projection plane.
  * As a result, no perspective transformation occurs on a Sprite3D object.

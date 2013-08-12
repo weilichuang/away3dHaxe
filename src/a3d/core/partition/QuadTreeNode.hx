@@ -7,9 +7,6 @@ import flash.geom.Vector3D;
 import flash.Vector;
 
 
-
-
-
 class QuadTreeNode extends NodeBase
 {
 	private var _centerX:Float;

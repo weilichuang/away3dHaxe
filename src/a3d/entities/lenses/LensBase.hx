@@ -107,6 +107,7 @@ class LensBase extends EventDispatcher
 	{
 		if (value == _near)
 			return _near;
+			
 		_near = value;
 		invalidateMatrix();
 		return _near;
@@ -122,6 +123,7 @@ class LensBase extends EventDispatcher
 	{
 		if (value == _far)
 			return _far;
+			
 		_far = value;
 		invalidateMatrix();
 		return _far;

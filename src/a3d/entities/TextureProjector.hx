@@ -7,9 +7,6 @@ import a3d.textures.Texture2DBase;
 import flash.geom.Matrix3D;
 
 
-
-
-
 /**
  * TextureProjector is an object in the scene that can be used to project textures onto geometry. To do so,
  * the object's material must have a ProjectiveTextureMethod method added to it with a TextureProjector object

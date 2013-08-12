@@ -18,9 +18,6 @@ import flash.geom.Vector3D;
 import flash.Vector;
 
 
-
-
-
 /**
  * The EntityCollector class is a traverser for scene partitions that collects all scene graph entities that are
  * considered potientially visible.

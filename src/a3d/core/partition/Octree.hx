@@ -1,9 +1,5 @@
 package a3d.core.partition;
 
-
-
-
-
 class Octree extends Partition3D
 {
 	public function new(maxDepth:Int, size:Float)

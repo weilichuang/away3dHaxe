@@ -92,10 +92,10 @@ class CelSpecularMethod extends CompositeSpecularMethod
 	private function clampSpecular(methodVO:MethodVO, target:ShaderRegisterElement, regCache:ShaderRegisterCache, sharedRegisters:ShaderRegisterData):String
 	{
 		return "sub " + target + ".y, " + target + ".w, " + _dataReg + ".y\n" + // x - cutoff
-			"div " + target + ".y, " + target + ".y, " + _dataReg + ".x\n" + // (x - cutoff)/epsilon
-			"sat " + target + ".y, " + target + ".y\n" +
-			"sge " + target + ".w, " + target + ".w, " + _dataReg + ".y\n" +
-			"mul " + target + ".w, " + target + ".w, " + target + ".y\n";
+				"div " + target + ".y, " + target + ".y, " + _dataReg + ".x\n" + // (x - cutoff)/epsilon
+				"sat " + target + ".y, " + target + ".y\n" +
+				"sge " + target + ".w, " + target + ".w, " + _dataReg + ".y\n" +
+				"mul " + target + ".w, " + target + ".w, " + target + ".y\n";
 	}
 
 	/**

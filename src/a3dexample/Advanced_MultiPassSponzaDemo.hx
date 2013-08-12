@@ -27,7 +27,6 @@ import a3d.materials.methods.HardShadowMapMethod;
 import a3d.materials.methods.SoftShadowMapMethod;
 import a3d.materials.TextureMaterial;
 import a3d.materials.TextureMultiPassMaterial;
-import a3d.math.FVector3D;
 import a3d.textures.ATFCubeTexture;
 import a3d.textures.ATFTexture;
 import a3d.textures.SpecularBitmapTexture;
@@ -56,7 +55,6 @@ import flash.text.TextField;
 import flash.text.TextFormat;
 import flash.text.TextFormatAlign;
 import flash.ui.Keyboard;
-import flash.utils.ByteArray;
 import flash.Vector;
 import haxe.ds.StringMap;
 import uk.co.soulwire.gui.SimpleGUI;
@@ -361,7 +359,7 @@ class Advanced_MultiPassSponzaDemo extends BasicApplication
 
 		view.camera.y = 150;
 		view.camera.z = 0;
-
+		
 		//setup controller to be used on the camera
 		_cameraController = new FirstPersonController(view.camera, 90, 0, -80, 80);
 	}
@@ -1118,8 +1116,8 @@ class FlameVO
 
 
 //skybox texture
-@:file("embeds/skybox/hourglass_cubemap.atf") class SkyMapCubeTexture extends ByteArray {}
+@:file("embeds/skybox/hourglass_cubemap.atf") class SkyMapCubeTexture extends flash.utils.ByteArray {}
 
 //fire texture
 
-@:file("embeds/fire.atf") class FlameTexture extends ByteArray {}
+@:file("embeds/fire.atf") class FlameTexture extends flash.utils.ByteArray {}

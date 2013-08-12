@@ -22,6 +22,43 @@ class LinearExtrude extends Mesh
 	public static inline var X_AXIS:String = "x";
 	public static inline var Y_AXIS:String = "y";
 	public static inline var Z_AXIS:String = "z";
+	
+	/**
+	 * Defines the axis used for the extrusion. Defaults to "y".
+	 */
+	public var axis(get,set):String;
+	/**
+	 * An optional MultipleMaterials object that defines left, right, front, back, top and bottom materials to be set on the resulting lathe extrusion.
+	 */
+	public var materials(get,set):MultipleMaterials;
+	/**
+	 * Defines the subdivisions created in the mesh for the total number of revolutions. Defaults to 2, minimum 2.
+	 */
+	public var subdivision(get,set):Int;
+	/**
+	 * Defines if the texture(s) should be stretched to cover the entire mesh or per step between segments. Defaults to true.
+	 */
+	public var coverAll(get,set):Bool;
+	/**
+	 * Defines if the generated faces should be inversed. Default false.
+	 */
+	public var flip(get,set):Bool;
+	/**
+	 * Defines whether the mesh is recentered of not after generation
+	 */
+	public var centerMesh(get,set):Bool;
+	/**
+	 * Defines the _thickness of the resulting lathed geometry. Defaults to 0 (single face).
+	 */
+	public var thickness(get,set):Float;
+	/**
+	 * Defines the subdivision for the top, bottom, right and left if thickness is set higher to 0. Defaults to 1.
+	 */
+	public var thicknessSubdivision(get,set):Int;
+	/**
+	 * Defines if the top, bottom, left, right, front or back of the the extrusion is left open.
+	 */
+	public var ignoreSides(get,set):String;
 
 	private const LIMIT:UInt = 196605;
 	private const EPS:Float = .0001;
@@ -158,10 +195,7 @@ class LinearExtrude extends Mesh
 		_uvarr = null;
 	}
 
-	/**
-	 * Defines the axis used for the extrusion. Defaults to "y".
-	 */
-	public var axis(get,set):String;
+	
 	private function get_axis():String
 	{
 		return _axis;
@@ -177,10 +211,7 @@ class LinearExtrude extends Mesh
 		return _axis;
 	}
 
-	/**
-	 * An optional MultipleMaterials object that defines left, right, front, back, top and bottom materials to be set on the resulting lathe extrusion.
-	 */
-	public var materials(get,set):MultipleMaterials;
+	
 	private function get_materials():MultipleMaterials
 	{
 		return _materials;
@@ -199,10 +230,7 @@ class LinearExtrude extends Mesh
 	}
 
 
-	/**
-	 * Defines the subdivisions created in the mesh for the total number of revolutions. Defaults to 2, minimum 2.
-	 */
-	public var subdivision(get,set):Int;
+	
 	private function get_subdivision():Int
 	{
 		return _subdivision;
@@ -218,10 +246,7 @@ class LinearExtrude extends Mesh
 		return _subdivision;
 	}
 
-	/**
-	 * Defines if the texture(s) should be stretched to cover the entire mesh or per step between segments. Defaults to true.
-	 */
-	public var coverAll(get,set):Bool;
+	
 	private function get_coverAll():Bool
 	{
 		return _coverAll;
@@ -237,10 +262,7 @@ class LinearExtrude extends Mesh
 		return _coverAll;
 	}
 
-	/**
-	 * Defines if the generated faces should be inversed. Default false.
-	 */
-	public var flip(get,set):Bool;
+	
 	private function get_flip():Bool
 	{
 		return _flip;
@@ -256,10 +278,7 @@ class LinearExtrude extends Mesh
 		return _flip;
 	}
 
-	/**
-	 * Defines whether the mesh is recentered of not after generation
-	 */
-	public var centerMesh(get,set):Bool;
+	
 	private function get_centerMesh():Bool
 	{
 		return _centerMesh;
@@ -283,10 +302,7 @@ class LinearExtrude extends Mesh
 		return _centerMesh;
 	}
 
-	/**
-	 * Defines the _thickness of the resulting lathed geometry. Defaults to 0 (single face).
-	 */
-	public var thickness(get,set):Float;
+	
 	private function get_thickness():Float
 	{
 		return _thickness;
@@ -303,10 +319,7 @@ class LinearExtrude extends Mesh
 		return _thickness;
 	}
 
-	/**
-	 * Defines the subdivision for the top, bottom, right and left if thickness is set higher to 0. Defaults to 1.
-	 */
-	public var thicknessSubdivision(get,set):Int;
+	
 	private function get_thicknessSubdivision():Int
 	{
 		return _thicknessSubdivision;
@@ -323,10 +336,7 @@ class LinearExtrude extends Mesh
 		return _thicknessSubdivision;
 	}
 
-	/**
-	 * Defines if the top, bottom, left, right, front or back of the the extrusion is left open.
-	 */
-	public var ignoreSides(get,set):String;
+	
 	private function get_ignoreSides():String
 	{
 		return _ignoreSides;

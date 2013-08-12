@@ -6,6 +6,7 @@ import a3d.animators.data.SkeletonJoint;
 import a3d.animators.data.SkeletonPose;
 import a3d.animators.states.ISkeletonAnimationState;
 import a3d.animators.transitions.IAnimationTransition;
+import a3d.core.base.CompactSubGeometry;
 import a3d.core.base.IRenderable;
 import a3d.core.base.SkinnedSubGeometry;
 import a3d.core.base.SubMesh;
