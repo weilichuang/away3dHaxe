@@ -5,6 +5,7 @@ import a3d.core.base.IRenderable;
 import a3d.core.base.ISubGeometry;
 import a3d.core.base.SubGeometry;
 import a3d.core.base.SubMesh;
+import a3d.core.managers.Context3DProxy;
 import a3d.core.managers.Stage3DProxy;
 import a3d.entities.Camera3D;
 import a3d.entities.Mesh;
@@ -23,6 +24,10 @@ using a3d.math.FMath;
 
 class OutlinePass extends MaterialPassBase
 {
+	public var showInnerLines(get,set):Bool;
+	public var outlineColor(get,set):UInt;
+	public var outlineSize(get, set):Float;
+	
 	private var _outlineColor:UInt;
 	private var _colorData:Vector<Float>;
 	private var _offsetData:Vector<Float>;
@@ -77,8 +82,7 @@ class OutlinePass extends MaterialPassBase
 
 	private function disposeDedicated(keySubMesh:Dynamic):Void
 	{
-		var mesh:Mesh;
-		mesh = _outlineMeshes.get(keySubMesh);
+		var mesh:Mesh = _outlineMeshes.get(keySubMesh);
 		mesh.geometry.dispose();
 		mesh.dispose();
 		_outlineMeshes.remove(keySubMesh);
@@ -97,7 +101,7 @@ class OutlinePass extends MaterialPassBase
 		}
 	}
 
-	public var showInnerLines(get,set):Bool;
+	
 	private function get_showInnerLines():Bool
 	{
 		return _showInnerLines;
@@ -108,7 +112,7 @@ class OutlinePass extends MaterialPassBase
 		return _showInnerLines = value;
 	}
 
-	public var outlineColor(get,set):UInt;
+	
 	private function get_outlineColor():UInt
 	{
 		return _outlineColor;
@@ -123,7 +127,7 @@ class OutlinePass extends MaterialPassBase
 		return _outlineColor;
 	}
 
-	public var outlineSize(get,set):Float;
+	
 	private function get_outlineSize():Float
 	{
 		return _offsetData[0];
@@ -163,7 +167,7 @@ class OutlinePass extends MaterialPassBase
 	 */
 	override public function activate(stage3DProxy:Stage3DProxy, camera:Camera3D):Void
 	{
-		var context:Context3D = stage3DProxy.context3D;
+		var context:Context3DProxy = stage3DProxy.context3D;
 		super.activate(stage3DProxy, camera);
 
 		// do not write depth if not drawing inner lines (will cause the overdraw to hide inner lines)
@@ -187,7 +191,7 @@ class OutlinePass extends MaterialPassBase
 	{
 		var mesh:Mesh, dedicatedRenderable:IRenderable;
 
-		var context:Context3D = stage3DProxy.context3D;
+		var context:Context3DProxy = stage3DProxy.context3D;
 		var matrix3D:Matrix3D = FMatrix3D.CALCULATION_MATRIX;
 		matrix3D.copyFrom(renderable.getRenderSceneTransform(camera));
 		matrix3D.append(viewProjection);

@@ -1,6 +1,7 @@
 package a3d.animators.data;
 
 import a3d.A3d;
+import a3d.core.managers.Context3DProxy;
 import a3d.core.managers.Stage3DProxy;
 import flash.display3D.Context3D;
 import flash.display3D.Context3DVertexBufferFormat;
@@ -20,7 +21,7 @@ class AnimationSubGeometry
 	private var _vertexData:Vector<Float>;
 
 	private var _vertexBuffer:Vector<VertexBuffer3D>;
-	private var _bufferContext:Vector<Context3D>;
+	private var _bufferContext:Vector<Context3DProxy>;
 	private var _bufferDirty:Vector<Bool>;
 
 	private var _numVertices:Int;
@@ -36,7 +37,7 @@ class AnimationSubGeometry
 	public function new()
 	{
 		_vertexBuffer = new Vector<VertexBuffer3D>(A3d.MAX_NUM_STAGE3D);
-		_bufferContext = new Vector<Context3D>(A3d.MAX_NUM_STAGE3D);
+		_bufferContext = new Vector<Context3DProxy>(A3d.MAX_NUM_STAGE3D);
 		
 		numProcessedVertices = 0;
 		previousTime = Math.NEGATIVE_INFINITY;
@@ -57,7 +58,7 @@ class AnimationSubGeometry
 	public function activateVertexBuffer(index:Int, bufferOffset:Int, stage3DProxy:Stage3DProxy, format:Context3DVertexBufferFormat):Void
 	{
 		var contextIndex:Int = stage3DProxy.stage3DIndex;
-		var context:Context3D = stage3DProxy.context3D;
+		var context:Context3DProxy = stage3DProxy.context3D;
 
 		var buffer:VertexBuffer3D = _vertexBuffer[contextIndex];
 		if (buffer == null || _bufferContext[contextIndex] != context)

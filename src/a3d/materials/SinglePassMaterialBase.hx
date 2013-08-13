@@ -1,5 +1,6 @@
 ﻿package a3d.materials;
 
+import a3d.core.managers.Context3DProxy;
 import a3d.core.managers.Stage3DProxy;
 import a3d.entities.Camera3D;
 import a3d.materials.lightpickers.LightPickerBase;
@@ -460,7 +461,7 @@ class SinglePassMaterialBase extends MaterialBase
 	/**
 	 * @inheritDoc
 	 */
-	override public function updateMaterial(context:Context3D):Void
+	override public function updateMaterial(context:Context3DProxy):Void
 	{
 		if (_screenPass.passesDirty)
 		{

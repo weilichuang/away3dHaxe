@@ -1,6 +1,7 @@
 ﻿package a3d.materials.passes;
 
 import a3d.core.base.IRenderable;
+import a3d.core.managers.Context3DProxy;
 import a3d.core.managers.Stage3DProxy;
 import a3d.entities.Camera3D;
 import a3d.entities.SegmentSet;
@@ -115,7 +116,7 @@ class SegmentPass extends MaterialPassBase
 	 */
 	override public function render(renderable:IRenderable, stage3DProxy:Stage3DProxy, camera:Camera3D, viewProjection:Matrix3D):Void
 	{
-		var context:Context3D = stage3DProxy.context3D;
+		var context:Context3DProxy = stage3DProxy.context3D;
 		_calcMatrix.copyFrom(renderable.sourceEntity.sceneTransform);
 		_calcMatrix.append(camera.inverseSceneTransform);
 
@@ -137,7 +138,7 @@ class SegmentPass extends MaterialPassBase
 	 */
 	override public function activate(stage3DProxy:Stage3DProxy, camera:Camera3D):Void
 	{
-		var context:Context3D = stage3DProxy.context3D;
+		var context:Context3DProxy = stage3DProxy.context3D;
 		super.activate(stage3DProxy, camera);
 
 		if (stage3DProxy.scissorRect != null)
@@ -165,7 +166,7 @@ class SegmentPass extends MaterialPassBase
 	 */
 	override public function deactivate(stage3DProxy:Stage3DProxy):Void
 	{
-		var context:Context3D = stage3DProxy.context3D;
+		var context:Context3DProxy = stage3DProxy.context3D;
 		context.setVertexBufferAt(0, null);
 		context.setVertexBufferAt(1, null);
 		context.setVertexBufferAt(2, null);

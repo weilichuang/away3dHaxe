@@ -1,5 +1,6 @@
 package a3d.core.render;
 
+import a3d.core.managers.Context3DProxy;
 import a3d.utils.VectorUtil;
 import com.adobe.utils.AGALMiniAssembler;
 import flash.Vector;
@@ -30,7 +31,7 @@ class BackgroundImageRenderer
 	private var _indexBuffer:IndexBuffer3D;
 	private var _vertexBuffer:VertexBuffer3D;
 	private var _stage3DProxy:Stage3DProxy;
-	private var _context:Context3D;
+	private var _context:Context3DProxy;
 
 	public function new(stage3DProxy:Stage3DProxy)
 	{
@@ -81,7 +82,7 @@ class BackgroundImageRenderer
 
 	public function render():Void
 	{
-		var context:Context3D = _stage3DProxy.context3D;
+		var context:Context3DProxy = _stage3DProxy.context3D;
 
 		if (context != _context)
 		{
@@ -105,7 +106,7 @@ class BackgroundImageRenderer
 		context.setTextureAt(0, null);
 	}
 
-	private function initBuffers(context:Context3D):Void
+	private function initBuffers(context:Context3DProxy):Void
 	{
 		_vertexBuffer = context.createVertexBuffer(4, 4);
 		_program3d = context.createProgram();

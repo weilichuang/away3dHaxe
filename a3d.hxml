@@ -6,7 +6,7 @@
 -swf-header 1024:768:60:FFFFFF
 --flash-strict
 -swf-version 11.7
--main JPGEncodeTest
+-main a3dexample.Basic_Shading
 -D advanced-telemetry
 -swf-lib embeds/assets.swf
 -D alchemy

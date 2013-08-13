@@ -1,6 +1,7 @@
 package a3d.materials.passes;
 
 import a3d.core.base.IRenderable;
+import a3d.core.managers.Context3DProxy;
 import a3d.core.managers.Stage3DProxy;
 import a3d.entities.Camera3D;
 import a3d.errors.AbstractMethodError;
@@ -535,7 +536,7 @@ class CompiledPass extends MaterialPassBase
 	override public function render(renderable:IRenderable, stage3DProxy:Stage3DProxy, camera:Camera3D, viewProjection:Matrix3D):Void
 	{
 		var i:UInt;
-		var context:Context3D = stage3DProxy.context3D;
+		var context:Context3DProxy = stage3DProxy.context3D;
 		if (_uvBufferIndex >= 0)
 			renderable.activateUVBuffer(_uvBufferIndex, stage3DProxy);
 			

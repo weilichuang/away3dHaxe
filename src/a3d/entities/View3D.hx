@@ -1,5 +1,6 @@
 ﻿package a3d.entities;
 
+import a3d.core.managers.Context3DProxy;
 import a3d.core.managers.Mouse3DManager;
 import a3d.core.managers.RTTBufferManager;
 import a3d.core.managers.Stage3DManager;
@@ -834,7 +835,7 @@ class View3D extends Sprite
 		_depthRenderer.render(entityCollector, _depthRender);
 	}
 
-	private function initDepthTexture(context:Context3D):Void
+	private function initDepthTexture(context:Context3DProxy):Void
 	{
 		_depthTextureInvalid = false;
 

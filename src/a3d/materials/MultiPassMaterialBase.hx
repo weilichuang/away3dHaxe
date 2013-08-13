@@ -1,5 +1,6 @@
 ﻿package a3d.materials;
 
+import a3d.core.managers.Context3DProxy;
 import flash.display3D.Context3D;
 import flash.display3D.Context3DBlendFactor;
 import flash.display3D.Context3DCompareMode;
@@ -486,7 +487,7 @@ class MultiPassMaterialBase extends MaterialBase
 	/**
 	 * @inheritDoc
 	 */
-	override public function updateMaterial(context:Context3D):Void
+	override public function updateMaterial(context:Context3DProxy):Void
 	{
 		var passesInvalid:Bool = false;
 

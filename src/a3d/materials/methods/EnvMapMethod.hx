@@ -1,6 +1,7 @@
 package a3d.materials.methods;
 
 
+import a3d.core.managers.Context3DProxy;
 import a3d.core.managers.Stage3DProxy;
 import a3d.materials.compilation.ShaderRegisterCache;
 import a3d.materials.compilation.ShaderRegisterElement;
@@ -99,7 +100,7 @@ class EnvMapMethod extends EffectMethodBase
 
 	override public function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):Void
 	{
-		var context:Context3D = stage3DProxy.context3D;
+		var context:Context3DProxy = stage3DProxy.context3D;
 		vo.fragmentData[vo.fragmentConstantsIndex] = _alpha;
 		context.setTextureAt(vo.texturesIndex, _cubeTexture.getTextureForStage3D(stage3DProxy));
 		if (_mask != null)

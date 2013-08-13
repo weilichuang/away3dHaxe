@@ -1,6 +1,7 @@
 ﻿package a3d.core.base;
 
 import a3d.A3d;
+import a3d.core.managers.Context3DProxy;
 import flash.display3D.Context3D;
 import flash.display3D.Context3DVertexBufferFormat;
 import flash.display3D.VertexBuffer3D;
@@ -48,11 +49,11 @@ class SubGeometry extends SubGeometryBase implements ISubGeometry
 	private var _vertexTangentBuffer:Vector<VertexBuffer3D>;
 
 	// buffer dirty flags, per context:
-	private var _vertexBufferContext:Vector<Context3D>;
-	private var _uvBufferContext:Vector<Context3D>;
-	private var _secondaryUvBufferContext:Vector<Context3D>;
-	private var _vertexNormalBufferContext:Vector<Context3D>;
-	private var _vertexTangentBufferContext:Vector<Context3D>;
+	private var _vertexBufferContext:Vector<Context3DProxy>;
+	private var _uvBufferContext:Vector<Context3DProxy>;
+	private var _secondaryUvBufferContext:Vector<Context3DProxy>;
+	private var _vertexNormalBufferContext:Vector<Context3DProxy>;
+	private var _vertexTangentBufferContext:Vector<Context3DProxy>;
 
 	private var _numVertices:Int;
 
@@ -78,11 +79,11 @@ class SubGeometry extends SubGeometryBase implements ISubGeometry
 		_vertexTangentBuffer = new Vector<VertexBuffer3D>(A3d.MAX_NUM_STAGE3D);
 
 		// buffer dirty flags, per context:
-		_vertexBufferContext = new Vector<Context3D>(A3d.MAX_NUM_STAGE3D);
-		_uvBufferContext = new Vector<Context3D>(A3d.MAX_NUM_STAGE3D);
-		_secondaryUvBufferContext = new Vector<Context3D>(A3d.MAX_NUM_STAGE3D);
-		_vertexNormalBufferContext = new Vector<Context3D>(A3d.MAX_NUM_STAGE3D);
-		_vertexTangentBufferContext = new Vector<Context3D>(A3d.MAX_NUM_STAGE3D);
+		_vertexBufferContext = new Vector<Context3DProxy>(A3d.MAX_NUM_STAGE3D);
+		_uvBufferContext = new Vector<Context3DProxy>(A3d.MAX_NUM_STAGE3D);
+		_secondaryUvBufferContext = new Vector<Context3DProxy>(A3d.MAX_NUM_STAGE3D);
+		_vertexNormalBufferContext = new Vector<Context3DProxy>(A3d.MAX_NUM_STAGE3D);
+		_vertexTangentBufferContext = new Vector<Context3DProxy>(A3d.MAX_NUM_STAGE3D);
 	}
 
 	private function get_numVertices():Int
@@ -96,7 +97,7 @@ class SubGeometry extends SubGeometryBase implements ISubGeometry
 	public function activateVertexBuffer(index:Int, stage3DProxy:Stage3DProxy):Void
 	{
 		var contextIndex:Int = stage3DProxy.stage3DIndex;
-		var context:Context3D = stage3DProxy.context3D;
+		var context:Context3DProxy = stage3DProxy.context3D;
 		
 		if (_vertexBuffer[contextIndex] == null || 
 			_vertexBufferContext[contextIndex] != context)
@@ -121,7 +122,7 @@ class SubGeometry extends SubGeometryBase implements ISubGeometry
 	public function activateUVBuffer(index:Int, stage3DProxy:Stage3DProxy):Void
 	{
 		var contextIndex:Int = stage3DProxy.stage3DIndex;
-		var context:Context3D = stage3DProxy.context3D;
+		var context:Context3DProxy = stage3DProxy.context3D;
 
 		if (_autoGenerateUVs && _uvsDirty)
 			_uvs = updateDummyUVs(_uvs);
@@ -149,7 +150,7 @@ class SubGeometry extends SubGeometryBase implements ISubGeometry
 	public function activateSecondaryUVBuffer(index:Int, stage3DProxy:Stage3DProxy):Void
 	{
 		var contextIndex:Int = stage3DProxy.stage3DIndex;
-		var context:Context3D = stage3DProxy.context3D;
+		var context:Context3DProxy = stage3DProxy.context3D;
 
 		if (_secondaryUvBuffer[contextIndex] == null || 
 			_secondaryUvBufferContext[contextIndex] != context)
@@ -175,7 +176,7 @@ class SubGeometry extends SubGeometryBase implements ISubGeometry
 	public function activateVertexNormalBuffer(index:Int, stage3DProxy:Stage3DProxy):Void
 	{
 		var contextIndex:Int = stage3DProxy.stage3DIndex;
-		var context:Context3D = stage3DProxy.context3D;
+		var context:Context3DProxy = stage3DProxy.context3D;
 
 		if (_autoDeriveVertexNormals && _vertexNormalsDirty)
 			_vertexNormals = updateVertexNormals(_vertexNormals);
@@ -205,7 +206,7 @@ class SubGeometry extends SubGeometryBase implements ISubGeometry
 	public function activateVertexTangentBuffer(index:Int, stage3DProxy:Stage3DProxy):Void
 	{
 		var contextIndex:Int = stage3DProxy.stage3DIndex;
-		var context:Context3D = stage3DProxy.context3D;
+		var context:Context3DProxy = stage3DProxy.context3D;
 
 		if (_vertexTangentsDirty)
 			_vertexTangents = updateVertexTangents(_vertexTangents);

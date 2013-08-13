@@ -1,6 +1,7 @@
 package a3d.textures;
 
 import a3d.A3d;
+import a3d.core.managers.Context3DProxy;
 import a3d.core.managers.Stage3DProxy;
 import a3d.errors.AbstractMethodError;
 import a3d.io.library.assets.AssetType;
@@ -27,7 +28,7 @@ class TextureProxyBase extends NamedAssetBase implements IAsset
 	private var _hasMipmaps:Bool;
 
 	private var _textures:Vector<TextureBase>;
-	private var _dirty:Vector<Context3D>;
+	private var _dirty:Vector<Context3DProxy>;
 
 	private var _width:Int;
 	private var _height:Int;
@@ -37,7 +38,7 @@ class TextureProxyBase extends NamedAssetBase implements IAsset
 		super();
 		
 		_textures = new Vector<TextureBase>(A3d.MAX_NUM_STAGE3D);
-		_dirty = new Vector<Context3D>(A3d.MAX_NUM_STAGE3D);
+		_dirty = new Vector<Context3DProxy>(A3d.MAX_NUM_STAGE3D);
 		
 		_format = Context3DTextureFormat.BGRA;
 		_hasMipmaps = true;
@@ -87,7 +88,7 @@ class TextureProxyBase extends NamedAssetBase implements IAsset
 	{
 		var contextIndex:Int = stage3DProxy.stage3DIndex;
 		var tex:TextureBase = _textures[contextIndex];
-		var context:Context3D = stage3DProxy.context3D;
+		var context:Context3DProxy = stage3DProxy.context3D;
 
 		if (tex == null || _dirty[contextIndex] != context)
 		{
@@ -136,7 +137,7 @@ class TextureProxyBase extends NamedAssetBase implements IAsset
 		}
 	}
 
-	private function createTexture(context:Context3D):TextureBase
+	private function createTexture(context:Context3DProxy):TextureBase
 	{
 		throw new AbstractMethodError();
 	}

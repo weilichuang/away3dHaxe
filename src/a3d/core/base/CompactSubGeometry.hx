@@ -1,6 +1,7 @@
 package a3d.core.base;
 
 import a3d.A3d;
+import a3d.core.managers.Context3DProxy;
 import flash.display3D.Context3D;
 import flash.display3D.Context3DVertexBufferFormat;
 import flash.display3D.VertexBuffer3D;
@@ -21,11 +22,11 @@ class CompactSubGeometry extends SubGeometryBase implements ISubGeometry
 	
 	private var _vertexDataInvalid:Vector<Bool>;
 	private var _vertexBuffer:Vector<VertexBuffer3D>;
-	private var _bufferContext:Vector<Context3D>;
+	private var _bufferContext:Vector<Context3DProxy>;
 	private var _numVertices:Int;
 	private var _contextIndex:Int;
 	private var _activeBuffer:VertexBuffer3D;
-	private var _activeContext:Context3D;
+	private var _activeContext:Context3DProxy;
 	private var _activeDataInvalid:Bool;
 	private var _isolatedVertexPositionData:Vector<Float>;
 	private var _isolatedVertexPositionDataDirty:Bool;
@@ -39,7 +40,7 @@ class CompactSubGeometry extends SubGeometryBase implements ISubGeometry
 		
 		_vertexDataInvalid = new Vector<Bool>(A3d.MAX_NUM_STAGE3D, true);
 		_vertexBuffer = new Vector<VertexBuffer3D>(A3d.MAX_NUM_STAGE3D);
-		_bufferContext = new Vector<Context3D>(A3d.MAX_NUM_STAGE3D);
+		_bufferContext = new Vector<Context3DProxy>(A3d.MAX_NUM_STAGE3D);
 	}
 
 	private function get_numVertices():Int
@@ -85,7 +86,7 @@ class CompactSubGeometry extends SubGeometryBase implements ISubGeometry
 	public function activateVertexBuffer(index:Int, stage3DProxy:Stage3DProxy):Void
 	{
 		var contextIndex:Int = stage3DProxy.stage3DIndex;
-		var context:Context3D = stage3DProxy.context3D;
+		var context:Context3DProxy = stage3DProxy.context3D;
 
 		if (contextIndex != _contextIndex)
 			updateActiveBuffer(contextIndex);
@@ -101,7 +102,7 @@ class CompactSubGeometry extends SubGeometryBase implements ISubGeometry
 	public function activateUVBuffer(index:Int, stage3DProxy:Stage3DProxy):Void
 	{
 		var contextIndex:Int = stage3DProxy.stage3DIndex;
-		var context:Context3D = stage3DProxy.context3D;
+		var context:Context3DProxy = stage3DProxy.context3D;
 
 		if (_uvsDirty && _autoGenerateUVs)
 		{
@@ -123,7 +124,7 @@ class CompactSubGeometry extends SubGeometryBase implements ISubGeometry
 	public function activateSecondaryUVBuffer(index:Int, stage3DProxy:Stage3DProxy):Void
 	{
 		var contextIndex:Int = stage3DProxy.stage3DIndex;
-		var context:Context3D = stage3DProxy.context3D;
+		var context:Context3DProxy = stage3DProxy.context3D;
 
 		if (contextIndex != _contextIndex)
 			updateActiveBuffer(contextIndex);
@@ -145,7 +146,7 @@ class CompactSubGeometry extends SubGeometryBase implements ISubGeometry
 	public function activateVertexNormalBuffer(index:Int, stage3DProxy:Stage3DProxy):Void
 	{
 		var contextIndex:Int = stage3DProxy.stage3DIndex;
-		var context:Context3D = stage3DProxy.context3D;
+		var context:Context3DProxy = stage3DProxy.context3D;
 
 		if (contextIndex != _contextIndex)
 			updateActiveBuffer(contextIndex);
@@ -161,7 +162,7 @@ class CompactSubGeometry extends SubGeometryBase implements ISubGeometry
 	public function activateVertexTangentBuffer(index:Int, stage3DProxy:Stage3DProxy):Void
 	{
 		var contextIndex:Int = stage3DProxy.stage3DIndex;
-		var context:Context3D = stage3DProxy.context3D;
+		var context:Context3DProxy = stage3DProxy.context3D;
 
 		if (contextIndex != _contextIndex)
 			updateActiveBuffer(contextIndex);
@@ -174,7 +175,7 @@ class CompactSubGeometry extends SubGeometryBase implements ISubGeometry
 		context.setVertexBufferAt(index, _activeBuffer, 6, Context3DVertexBufferFormat.FLOAT_3);
 	}
 
-	private function createBuffer(contextIndex:Int, context:Context3D):Void
+	private function createBuffer(contextIndex:Int, context:Context3DProxy):Void
 	{
 		_vertexBuffer[contextIndex] = _activeBuffer = context.createVertexBuffer(_numVertices, 13);
 		_bufferContext[contextIndex] = _activeContext = context;

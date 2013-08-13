@@ -1,5 +1,6 @@
 package a3d.core.render;
 
+import a3d.core.managers.Context3DProxy;
 import flash.display.BitmapData;
 import flash.display3D.Context3D;
 import flash.display3D.Context3DCompareMode;
@@ -69,7 +70,7 @@ class RendererBase
 	public var textureRatioX(get, set):Float;
 	public var textureRatioY(get, set):Float;
 	
-	private var _context:Context3D;
+	private var _context:Context3DProxy;
 	private var _stage3DProxy:Stage3DProxy;
 
 	private var _backgroundR:Float = 0;

@@ -1,5 +1,6 @@
 package a3d.materials.methods;
 
+import a3d.core.managers.Context3DProxy;
 import a3d.core.managers.Stage3DProxy;
 import a3d.materials.compilation.ShaderRegisterCache;
 import a3d.materials.compilation.ShaderRegisterElement;
@@ -128,7 +129,7 @@ class TerrainDiffuseMethod extends BasicDiffuseMethod
 
 	override public function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):Void
 	{
-		var context:Context3D = stage3DProxy.context3D;
+		var context:Context3DProxy = stage3DProxy.context3D;
 		var i:Int;
 		var texIndex:Int = vo.texturesIndex;
 		super.activate(vo, stage3DProxy);

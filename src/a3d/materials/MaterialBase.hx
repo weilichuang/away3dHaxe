@@ -3,6 +3,7 @@ package a3d.materials;
 import a3d.animators.IAnimationSet;
 import a3d.core.base.IMaterialOwner;
 import a3d.core.base.IRenderable;
+import a3d.core.managers.Context3DProxy;
 import a3d.core.managers.Stage3DProxy;
 import a3d.core.traverse.EntityCollector;
 import a3d.entities.Camera3D;
@@ -557,7 +558,7 @@ class MaterialBase extends NamedAssetBase implements IAsset
 	 *
 	 * @private
 	 */
-	public function updateMaterial(context:Context3D):Void
+	public function updateMaterial(context:Context3DProxy):Void
 	{
 
 	}

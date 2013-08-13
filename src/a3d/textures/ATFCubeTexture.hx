@@ -1,5 +1,6 @@
 package a3d.textures;
 
+import a3d.core.managers.Context3DProxy;
 import flash.display3D.Context3D;
 import flash.display3D.textures.CubeTexture;
 import flash.display3D.textures.TextureBase;
@@ -46,7 +47,7 @@ class ATFCubeTexture extends CubeTextureBase
 		Std.instance(texture,CubeTexture).uploadCompressedTextureFromByteArray(_atfData.data, 0, false);
 	}
 
-	override private function createTexture(context:Context3D):TextureBase
+	override private function createTexture(context:Context3DProxy):TextureBase
 	{
 		return context.createCubeTexture(_atfData.width, _atfData.format, false);
 	}

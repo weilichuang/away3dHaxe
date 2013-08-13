@@ -1,5 +1,6 @@
 package a3d.core.render;
 
+import a3d.core.managers.Context3DProxy;
 import flash.display3D.Context3D;
 import flash.display3D.Context3DBlendFactor;
 import flash.display3D.Context3DVertexBufferFormat;
@@ -116,7 +117,7 @@ class Filter3DRenderer
 	{
 		var len:Int;
 		var task:Filter3DTaskBase;
-		var context:Context3D = stage3DProxy.context3D;
+		var context:Context3DProxy = stage3DProxy.context3D;
 		var indexBuffer:IndexBuffer3D = _rttManager.indexBuffer;
 		var vertexBuffer:VertexBuffer3D = _rttManager.renderToTextureVertexBuffer;
 

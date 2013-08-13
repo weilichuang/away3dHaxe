@@ -1,6 +1,7 @@
 package a3d.animators;
 
 import a3d.animators.data.VertexAnimationMode;
+import a3d.core.managers.Context3DProxy;
 import a3d.core.managers.Stage3DProxy;
 import a3d.materials.passes.MaterialPassBase;
 import flash.display3D.Context3D;
@@ -104,7 +105,7 @@ class VertexAnimationSet extends AnimationSetBase implements IAnimationSet
 	public function deactivate(stage3DProxy:Stage3DProxy, pass:MaterialPassBase):Void
 	{
 		var index:Int = _streamIndices.get(pass);
-		var context:Context3D = stage3DProxy.context3D;
+		var context:Context3DProxy = stage3DProxy.context3D;
 		context.setVertexBufferAt(index, null);
 		if (_uploadNormals)
 			context.setVertexBufferAt(index + 1, null);

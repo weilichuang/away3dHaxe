@@ -1,5 +1,6 @@
 package a3d.animators;
 
+import a3d.core.managers.Context3DProxy;
 import a3d.core.managers.Stage3DProxy;
 import a3d.materials.passes.MaterialPassBase;
 import flash.display3D.Context3D;
@@ -98,7 +99,7 @@ class SkeletonAnimationSet extends AnimationSetBase implements IAnimationSet
 	public function deactivate(stage3DProxy:Stage3DProxy, pass:MaterialPassBase):Void
 	{
 		var streamOffset:Int = pass.numUsedStreams;
-		var context:Context3D = stage3DProxy.context3D;
+		var context:Context3DProxy = stage3DProxy.context3D;
 		context.setVertexBufferAt(streamOffset, null);
 		context.setVertexBufferAt(streamOffset + 1, null);
 	}

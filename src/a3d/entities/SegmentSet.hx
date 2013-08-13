@@ -4,6 +4,7 @@ import a3d.animators.IAnimator;
 import a3d.bounds.BoundingSphere;
 import a3d.bounds.BoundingVolumeBase;
 import a3d.core.base.IRenderable;
+import a3d.core.managers.Context3DProxy;
 import a3d.core.managers.Stage3DProxy;
 import a3d.core.partition.EntityNode;
 import a3d.core.partition.RenderableNode;
@@ -382,7 +383,7 @@ class SegmentSet extends Entity implements IRenderable
 			subSet.vertexContext3D = stage3DProxy.context3D;
 		}
 
-		var context3d:Context3D = stage3DProxy.context3D;
+		var context3d:Context3DProxy = stage3DProxy.context3D;
 		context3d.setVertexBufferAt(0, vertexBuffer, 0, Context3DVertexBufferFormat.FLOAT_3);
 		context3d.setVertexBufferAt(1, vertexBuffer, 3, Context3DVertexBufferFormat.FLOAT_3);
 		context3d.setVertexBufferAt(2, vertexBuffer, 6, Context3DVertexBufferFormat.FLOAT_1);
@@ -689,8 +690,8 @@ class SegmentSet extends Entity implements IRenderable
 	public var vertexBufferDirty:Bool;
 	public var indexBufferDirty:Bool;
 
-	public var vertexContext3D:Context3D;
-	public var indexContext3D:Context3D;
+	public var vertexContext3D:Context3DProxy;
+	public var indexContext3D:Context3DProxy;
 
 	public var vertexBuffer:VertexBuffer3D;
 	public var indexBuffer:IndexBuffer3D;

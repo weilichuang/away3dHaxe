@@ -1,6 +1,7 @@
 ﻿package a3d.materials.passes;
 
 import a3d.core.base.IRenderable;
+import a3d.core.managers.Context3DProxy;
 import a3d.core.managers.Stage3DProxy;
 import a3d.entities.Camera3D;
 import a3d.math.FMath;
@@ -148,7 +149,7 @@ class DepthMapPass extends MaterialPassBase
 		if (_alphaThreshold > 0)
 			renderable.activateUVBuffer(1, stage3DProxy);
 
-		var context:Context3D = stage3DProxy.context3D;
+		var context:Context3DProxy = stage3DProxy.context3D;
 		var matrix:Matrix3D = FMatrix3D.CALCULATION_MATRIX;
 		matrix.copyFrom(renderable.getRenderSceneTransform(camera));
 		matrix.append(viewProjection);
@@ -162,7 +163,7 @@ class DepthMapPass extends MaterialPassBase
 	 */
 	override public function activate(stage3DProxy:Stage3DProxy, camera:Camera3D):Void
 	{
-		var context:Context3D = stage3DProxy.context3D;
+		var context:Context3DProxy = stage3DProxy.context3D;
 		super.activate(stage3DProxy, camera);
 
 		if (_alphaThreshold > 0)

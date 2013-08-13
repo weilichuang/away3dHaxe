@@ -1,6 +1,7 @@
 package a3d.materials.passes;
 
 import a3d.core.base.IRenderable;
+import a3d.core.managers.Context3DProxy;
 import a3d.core.managers.Stage3DProxy;
 import a3d.entities.Camera3D;
 import a3d.entities.lights.DirectionalLight;
@@ -389,7 +390,7 @@ class LightingPass extends CompiledPass
 
 	override private function updateProbes(stage3DProxy:Stage3DProxy):Void
 	{
-		var context:Context3D = stage3DProxy.context3D;
+		var context:Context3DProxy = stage3DProxy.context3D;
 		var probe:LightProbe;
 		var lightProbes:Vector<LightProbe> = _lightPicker.lightProbes;
 		var weights:Vector<Float> = _lightPicker.lightProbeWeights;

@@ -1,6 +1,7 @@
 package a3d.materials.passes;
 
 import a3d.core.base.IRenderable;
+import a3d.core.managers.Context3DProxy;
 import a3d.core.managers.Stage3DProxy;
 import a3d.entities.Camera3D;
 import a3d.entities.lights.LightBase;
@@ -156,7 +157,7 @@ class SingleObjectDepthPass extends MaterialPassBase
 	{
 		var matrix:Matrix3D;
 		var contextIndex:Int = stage3DProxy.stage3DIndex;
-		var context:Context3D = stage3DProxy.context3D;
+		var context:Context3DProxy = stage3DProxy.context3D;
 		var len:UInt;
 		var light:LightBase;
 		var lights:Vector<LightBase> = _lightPicker.allPickedLights;

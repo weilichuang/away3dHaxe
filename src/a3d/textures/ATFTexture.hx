@@ -1,5 +1,6 @@
 ﻿package a3d.textures;
 
+import a3d.core.managers.Context3DProxy;
 import flash.display3D.Context3D;
 import flash.display3D.textures.Texture;
 import flash.display3D.textures.TextureBase;
@@ -42,7 +43,7 @@ class ATFTexture extends Texture2DBase
 		Std.instance(texture,Texture).uploadCompressedTextureFromByteArray(_atfData.data, 0, false);
 	}
 
-	override private function createTexture(context:Context3D):TextureBase
+	override private function createTexture(context:Context3DProxy):TextureBase
 	{
 		return context.createTexture(_width, _height, atfData.format, false);
 	}

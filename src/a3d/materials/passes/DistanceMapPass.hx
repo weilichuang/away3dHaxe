@@ -1,6 +1,7 @@
 ﻿package a3d.materials.passes;
 
 import a3d.core.base.IRenderable;
+import a3d.core.managers.Context3DProxy;
 import a3d.core.managers.Stage3DProxy;
 import a3d.entities.Camera3D;
 import a3d.math.FMath;
@@ -145,7 +146,7 @@ class DistanceMapPass extends MaterialPassBase
 	 */
 	override public function render(renderable:IRenderable, stage3DProxy:Stage3DProxy, camera:Camera3D, viewProjection:Matrix3D):Void
 	{
-		var context:Context3D = stage3DProxy.context3D;
+		var context:Context3DProxy = stage3DProxy.context3D;
 		var pos:Vector3D = camera.scenePosition;
 
 		_vertexData[0] = pos.x;
@@ -174,7 +175,7 @@ class DistanceMapPass extends MaterialPassBase
 	 */
 	override public function activate(stage3DProxy:Stage3DProxy, camera:Camera3D):Void
 	{
-		var context:Context3D = stage3DProxy.context3D;
+		var context:Context3DProxy = stage3DProxy.context3D;
 		super.activate(stage3DProxy, camera);
 
 		var f:Float = camera.lens.far;

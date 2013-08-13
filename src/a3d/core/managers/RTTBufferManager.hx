@@ -212,7 +212,7 @@ class RTTBufferManager extends EventDispatcher
 	// needs to be stored per view of course
 	private function updateRTTBuffers():Void
 	{
-		var context:Context3D = _stage3DProxy.context3D;
+		var context:Context3DProxy = _stage3DProxy.context3D;
 
 		if (_renderToTextureVertexBuffer == null)
 			_renderToTextureVertexBuffer = context.createVertexBuffer(4, 5);

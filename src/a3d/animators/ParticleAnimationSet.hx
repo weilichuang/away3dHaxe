@@ -12,6 +12,7 @@ import a3d.core.base.data.ParticleData;
 import a3d.core.base.ISubGeometry;
 import a3d.core.base.ParticleGeometry;
 import a3d.core.base.SubMesh;
+import a3d.core.managers.Context3DProxy;
 import a3d.core.managers.Stage3DProxy;
 import a3d.entities.Mesh;
 import a3d.materials.passes.MaterialPassBase;
@@ -171,7 +172,7 @@ class ParticleAnimationSet extends AnimationSetBase implements IAnimationSet
 	 */
 	public function deactivate(stage3DProxy:Stage3DProxy, pass:MaterialPassBase):Void
 	{
-		var context:Context3D = stage3DProxy.context3D;
+		var context:Context3DProxy = stage3DProxy.context3D;
 		var offset:Int = _animationRegisterCache.vertexAttributesOffset;
 		var used:Int = _animationRegisterCache.numUsedStreams;
 		for (i in offset...used)

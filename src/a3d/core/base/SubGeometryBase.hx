@@ -1,6 +1,7 @@
 package a3d.core.base;
 
 import a3d.A3d;
+import a3d.core.managers.Context3DProxy;
 import a3d.core.managers.Stage3DProxy;
 import a3d.errors.AbstractMethodError;
 import flash.display3D.Context3D;
@@ -93,7 +94,7 @@ class SubGeometryBase
 	private var _indices:Vector<UInt>;
 	private var _indexBuffer:Vector<IndexBuffer3D>;
 	private var _numIndices:UInt;
-	private var _indexBufferContext:Vector<Context3D>;
+	private var _indexBufferContext:Vector<Context3DProxy>;
 	private var _indicesInvalid:Vector<Bool>;
 	private var _numTriangles:Int;
 
@@ -118,7 +119,7 @@ class SubGeometryBase
 		_faceTangentsDirty = true;
 		
 		_indexBuffer = new Vector<IndexBuffer3D>(A3d.MAX_NUM_STAGE3D);
-		_indexBufferContext = new Vector<Context3D>(A3d.MAX_NUM_STAGE3D);
+		_indexBufferContext = new Vector<Context3DProxy>(A3d.MAX_NUM_STAGE3D);
 		_indicesInvalid = new Vector<Bool>(A3d.MAX_NUM_STAGE3D, true);
 		
 		_autoDeriveVertexNormals = true;
@@ -193,7 +194,7 @@ class SubGeometryBase
 	public function getIndexBuffer(stage3DProxy:Stage3DProxy):IndexBuffer3D
 	{
 		var contextIndex:Int = stage3DProxy.stage3DIndex;
-		var context:Context3D = stage3DProxy.context3D;
+		var context:Context3DProxy = stage3DProxy.context3D;
 
 		if (_indexBuffer[contextIndex] == null || _indexBufferContext[contextIndex] != context)
 		{

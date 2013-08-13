@@ -1,6 +1,7 @@
 package a3d.materials.methods;
 
 
+import a3d.core.managers.Context3DProxy;
 import a3d.core.managers.Stage3DProxy;
 import a3d.materials.compilation.ShaderRegisterCache;
 import a3d.materials.compilation.ShaderRegisterElement;
@@ -139,7 +140,7 @@ class FresnelEnvMapMethod extends EffectMethodBase
 	{
 		var data:Vector<Float> = vo.fragmentData;
 		var index:Int = vo.fragmentConstantsIndex;
-		var context:Context3D = stage3DProxy.context3D;
+		var context:Context3DProxy = stage3DProxy.context3D;
 		data[index] = _alpha;
 		data[index + 1] = _normalReflectance;
 		data[index + 2] = _fresnelPower;

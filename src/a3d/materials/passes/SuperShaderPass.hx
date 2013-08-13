@@ -1,5 +1,6 @@
 package a3d.materials.passes;
 
+import a3d.core.managers.Context3DProxy;
 import a3d.core.managers.Stage3DProxy;
 import a3d.entities.Camera3D;
 import a3d.entities.lights.DirectionalLight;
@@ -364,7 +365,7 @@ class SuperShaderPass extends CompiledPass
 		var len:Int = lightProbes.length;
 		var addDiff:Bool = usesProbesForDiffuse();
 		var addSpec:Bool = (_methodSetup.specularMethod != null && usesProbesForSpecular());
-		var context:Context3D = stage3DProxy.context3D;
+		var context:Context3DProxy = stage3DProxy.context3D;
 
 		if (!(addDiff || addSpec))
 			return;

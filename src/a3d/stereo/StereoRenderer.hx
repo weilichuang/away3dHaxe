@@ -1,5 +1,6 @@
 package a3d.stereo;
 
+import a3d.core.managers.Context3DProxy;
 import a3d.core.managers.RTTBufferManager;
 import a3d.core.managers.Stage3DProxy;
 import a3d.stereo.methods.InterleavedStereoRenderMethod;
@@ -92,7 +93,7 @@ class StereoRenderer
 	{
 		var vertexBuffer:VertexBuffer3D;
 		var indexBuffer:IndexBuffer3D;
-		var context:Context3D;
+		var context:Context3DProxy;
 
 		if (_rttManager == null)
 			setupRTTManager(stage3DProxy);

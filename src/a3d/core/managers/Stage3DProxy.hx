@@ -53,7 +53,7 @@ class Stage3DProxy extends EventDispatcher
 	/**
 	 * The Context3D object associated with the given Stage3D object.
 	 */
-	public var context3D(get, null):Context3D;
+	public var context3D(get, null):Context3DProxy;
 	/**
 	 * The driver information as reported by the Context3D object (if any)
 	*/
@@ -107,7 +107,7 @@ class Stage3DProxy extends EventDispatcher
 	
 	public var touch3DManager(get, set):Touch3DManager;
 
-	private var _context3D:Context3D;
+	private var _context3D:Context3DProxy;
 	private var _stage3DIndex:Int = -1;
 
 	private var _usesSoftwareRendering:Bool;
@@ -356,7 +356,7 @@ class Stage3DProxy extends EventDispatcher
 	}
 
 	
-	private inline function get_context3D():Context3D
+	private inline function get_context3D():Context3DProxy
 	{
 		return _context3D;
 	}
@@ -545,7 +545,7 @@ class Stage3DProxy extends EventDispatcher
 		if (_stage3D.context3D != null)
 		{
 			var hadContext:Bool = (_context3D != null);
-			_context3D = _stage3D.context3D;
+			_context3D = new Context3DProxy(_stage3D.context3D);
 			_context3D.enableErrorChecking = Debug.active;
 
 			_usesSoftwareRendering = (_context3D.driverInfo.indexOf('Software') == 0);

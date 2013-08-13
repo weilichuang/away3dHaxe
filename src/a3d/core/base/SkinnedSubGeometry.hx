@@ -1,5 +1,6 @@
 package a3d.core.base;
 
+import a3d.core.managers.Context3DProxy;
 import a3d.core.managers.Stage3DProxy;
 import a3d.materials.utils.VertexFormatUtil;
 import flash.display3D.Context3D;
@@ -49,8 +50,8 @@ class SkinnedSubGeometry extends CompactSubGeometry
 	private var _jointIndexBuffer:Vector<VertexBuffer3D>;
 	private var _jointWeightsInvalid:Vector<Bool>;
 	private var _jointIndicesInvalid:Vector<Bool>;
-	private var _jointWeightContext:Vector<Context3D>;
-	private var _jointIndexContext:Vector<Context3D>;
+	private var _jointWeightContext:Vector<Context3DProxy>;
+	private var _jointIndexContext:Vector<Context3DProxy>;
 	private var _jointsPerVertex:Int;
 
 	private var _condensedJointIndexData:Vector<Float>;
@@ -72,8 +73,8 @@ class SkinnedSubGeometry extends CompactSubGeometry
 		_jointIndexBuffer = new Vector<VertexBuffer3D>(A3d.MAX_NUM_STAGE3D);
 		_jointWeightsInvalid = new Vector<Bool>(A3d.MAX_NUM_STAGE3D, true);
 		_jointIndicesInvalid = new Vector<Bool>(A3d.MAX_NUM_STAGE3D, true);
-		_jointWeightContext = new Vector<Context3D>(A3d.MAX_NUM_STAGE3D);
-		_jointIndexContext = new Vector<Context3D>(A3d.MAX_NUM_STAGE3D);
+		_jointWeightContext = new Vector<Context3DProxy>(A3d.MAX_NUM_STAGE3D);
+		_jointIndexContext = new Vector<Context3DProxy>(A3d.MAX_NUM_STAGE3D);
 	}
 
 	public function updateAnimatedData(value:Vector<Float>):Void
@@ -90,7 +91,7 @@ class SkinnedSubGeometry extends CompactSubGeometry
 	public function activateJointWeightsBuffer(index:Int, stage3DProxy:Stage3DProxy):Void
 	{
 		var contextIndex:Int = stage3DProxy.stage3DIndex;
-		var context:Context3D = stage3DProxy.context3D;
+		var context:Context3DProxy = stage3DProxy.context3D;
 		if (_jointWeightContext[contextIndex] != context || _jointWeightsBuffer[contextIndex] == null)
 		{
 			_jointWeightsBuffer[contextIndex] = context.createVertexBuffer(_numVertices, _jointsPerVertex);
@@ -113,7 +114,7 @@ class SkinnedSubGeometry extends CompactSubGeometry
 	public function activateJointIndexBuffer(index:Int, stage3DProxy:Stage3DProxy):Void
 	{
 		var contextIndex:Int = stage3DProxy.stage3DIndex;
-		var context:Context3D = stage3DProxy.context3D;
+		var context:Context3DProxy = stage3DProxy.context3D;
 
 		if (_jointIndexContext[contextIndex] != context || 
 			_jointIndexBuffer[contextIndex] == null)

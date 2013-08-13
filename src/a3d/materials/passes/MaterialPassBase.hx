@@ -4,6 +4,7 @@ import a3d.animators.data.AnimationRegisterCache;
 import a3d.animators.IAnimationSet;
 import a3d.core.base.IRenderable;
 import a3d.core.managers.AGALProgram3DCache;
+import a3d.core.managers.Context3DProxy;
 import a3d.core.managers.Stage3DProxy;
 import a3d.entities.Camera3D;
 import a3d.errors.AbstractMethodError;
@@ -96,7 +97,7 @@ class MaterialPassBase extends EventDispatcher
 
 	private var _program3Ds:Vector<Program3D>;
 	private var _program3Dids:Vector<Int>;
-	private var _context3Ds:Vector<Context3D>;
+	private var _context3Ds:Vector<Context3DProxy>;
 
 	// agal props. these NEED to be set by subclasses!
 	// todo: can we perhaps figure these out manually by checking read operations in the bytecode, so other sources can be safely updated?
@@ -158,7 +159,7 @@ class MaterialPassBase extends EventDispatcher
 		
 		_program3Ds = new Vector<Program3D>(8);
 		_program3Dids = Vector.ofArray([ -1, -1, -1, -1, -1, -1, -1, -1]);
-		_context3Ds = new Vector<Context3D>(8);
+		_context3Ds = new Vector<Context3DProxy>(8);
 		
 		_depthCompareMode = Context3DCompareMode.LESS_EQUAL;
 
@@ -428,7 +429,7 @@ class MaterialPassBase extends EventDispatcher
 	public function activate(stage3DProxy:Stage3DProxy, camera:Camera3D):Void
 	{
 		var contextIndex:Int = stage3DProxy.stage3DIndex;
-		var context:Context3D = stage3DProxy.context3D;
+		var context:Context3DProxy = stage3DProxy.context3D;
 
 		context.setDepthTest(_writeDepth && !_enableBlending, _depthCompareMode);
 		if (_enableBlending)

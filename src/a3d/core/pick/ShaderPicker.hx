@@ -4,6 +4,7 @@ import a3d.core.base.IRenderable;
 import a3d.core.base.ISubGeometry;
 import a3d.core.base.SubMesh;
 import a3d.core.data.RenderableListItem;
+import a3d.core.managers.Context3DProxy;
 import a3d.core.managers.Stage3DProxy;
 import a3d.core.traverse.EntityCollector;
 import a3d.entities.Camera3D;
@@ -52,7 +53,7 @@ class ShaderPicker implements IPicker
 	public var onlyMouseEnabled(get, set):Bool;
 	
 	private var _stage3DProxy:Stage3DProxy;
-	private var _context:Context3D;
+	private var _context:Context3DProxy;
 	private var _onlyMouseEnabled:Bool = true;
 
 	private var _objectProgram3D:Program3D;

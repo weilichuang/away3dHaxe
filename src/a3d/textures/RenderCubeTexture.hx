@@ -1,5 +1,6 @@
 ﻿package a3d.textures;
 
+import a3d.core.managers.Context3DProxy;
 import a3d.materials.utils.MipmapGenerator;
 import a3d.tools.utils.TextureUtils;
 import flash.display.BitmapData;
@@ -41,7 +42,7 @@ class RenderCubeTexture extends CubeTextureBase
 		bmd.dispose();
 	}
 
-	override private function createTexture(context:Context3D):TextureBase
+	override private function createTexture(context:Context3DProxy):TextureBase
 	{
 		return context.createCubeTexture(_width, Context3DTextureFormat.BGRA, true);
 	}
