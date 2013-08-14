@@ -1,16 +1,8 @@
 ﻿package a3d.materials;
 
 import a3d.core.managers.Context3DProxy;
-import flash.display3D.Context3D;
-import flash.display3D.Context3DBlendFactor;
-import flash.display3D.Context3DCompareMode;
-import flash.errors.Error;
-import flash.events.Event;
-import flash.Vector;
-
-
-import a3d.entities.Camera3D;
 import a3d.core.managers.Stage3DProxy;
+import a3d.entities.Camera3D;
 import a3d.materials.lightpickers.LightPickerBase;
 import a3d.materials.lightpickers.StaticLightPicker;
 import a3d.materials.methods.BasicAmbientMethod;
@@ -24,6 +16,13 @@ import a3d.materials.passes.LightingPass;
 import a3d.materials.passes.ShadowCasterPass;
 import a3d.materials.passes.SuperShaderPass;
 import a3d.textures.Texture2DBase;
+import flash.display3D.Context3DBlendFactor;
+import flash.display3D.Context3DCompareMode;
+import flash.errors.Error;
+import flash.events.Event;
+import flash.Vector;
+
+
 
 
 

@@ -1,5 +1,7 @@
 package a3d.filters.tasks;
 
+import a3d.core.managers.Stage3DProxy;
+import a3d.entities.Camera3D;
 import a3d.materials.BlendMode;
 import flash.display3D.Context3D;
 import flash.display3D.Context3DProgramType;
@@ -8,8 +10,6 @@ import flash.display3D.textures.TextureBase;
 import flash.Vector;
 
 
-import a3d.entities.Camera3D;
-import a3d.core.managers.Stage3DProxy;
 
 
 

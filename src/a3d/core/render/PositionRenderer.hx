@@ -1,7 +1,11 @@
 package a3d.core.render;
 
+import a3d.core.base.IRenderable;
+import a3d.core.data.RenderableListItem;
+import a3d.core.traverse.EntityCollector;
+import a3d.math.FMatrix3D;
+import a3d.utils.Debug;
 import com.adobe.utils.AGALMiniAssembler;
-
 import flash.display3D.Context3D;
 import flash.display3D.Context3DBlendFactor;
 import flash.display3D.Context3DCompareMode;
@@ -10,11 +14,7 @@ import flash.display3D.Program3D;
 import flash.display3D.textures.TextureBase;
 import flash.geom.Matrix3D;
 
-import a3d.core.base.IRenderable;
-import a3d.core.data.RenderableListItem;
-import a3d.core.traverse.EntityCollector;
-import a3d.utils.Debug;
-import a3d.math.FMatrix3D;
+
 
 /**
  * The PositionRenderer renders normalized position coordinates.

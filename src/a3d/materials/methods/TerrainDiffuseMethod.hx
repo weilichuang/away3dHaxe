@@ -9,7 +9,6 @@ import a3d.textures.TextureProxyBase;
 import flash.errors.Error;
 import flash.Vector;
 
-import flash.display3D.Context3D;
 
 
 /**

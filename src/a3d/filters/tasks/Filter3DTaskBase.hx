@@ -1,16 +1,16 @@
 package a3d.filters.tasks;
 
+import a3d.core.managers.Stage3DProxy;
+import a3d.entities.Camera3D;
+import a3d.errors.AbstractMethodError;
+import a3d.utils.Debug;
 import com.adobe.utils.AGALMiniAssembler;
-
 import flash.display3D.Context3DProgramType;
 import flash.display3D.Context3DTextureFormat;
 import flash.display3D.Program3D;
 import flash.display3D.textures.Texture;
 
-import a3d.entities.Camera3D;
-import a3d.core.managers.Stage3DProxy;
-import a3d.utils.Debug;
-import a3d.errors.AbstractMethodError;
+
 
 class Filter3DTaskBase
 {

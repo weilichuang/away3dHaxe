@@ -18,7 +18,6 @@ import a3d.materials.methods.ShaderMethodSetup;
 import a3d.materials.methods.ShadowMapMethodBase;
 import a3d.math.FMatrix3D;
 import a3d.textures.Texture2DBase;
-import flash.display3D.Context3D;
 import flash.display3D.Context3DProfile;
 import flash.display3D.Context3DProgramType;
 import flash.geom.Matrix;

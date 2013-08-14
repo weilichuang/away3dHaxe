@@ -1,21 +1,20 @@
 package a3d.core.render;
 
 import a3d.core.managers.Context3DProxy;
+import a3d.core.managers.Stage3DProxy;
+import a3d.textures.Texture2DBase;
+import a3d.utils.Debug;
 import a3d.utils.VectorUtil;
 import com.adobe.utils.AGALMiniAssembler;
-import flash.Vector;
-
-import flash.display3D.Context3D;
 import flash.display3D.Context3DProgramType;
 import flash.display3D.Context3DTextureFormat;
 import flash.display3D.Context3DVertexBufferFormat;
 import flash.display3D.IndexBuffer3D;
 import flash.display3D.Program3D;
 import flash.display3D.VertexBuffer3D;
+import flash.Vector;
 
-import a3d.core.managers.Stage3DProxy;
-import a3d.utils.Debug;
-import a3d.textures.Texture2DBase;
+
 
 /**
  * 背景图片绘制

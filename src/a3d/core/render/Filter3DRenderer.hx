@@ -1,20 +1,19 @@
 package a3d.core.render;
 
 import a3d.core.managers.Context3DProxy;
-import flash.display3D.Context3D;
+import a3d.core.managers.RTTBufferManager;
+import a3d.core.managers.Stage3DProxy;
+import a3d.entities.Camera3D;
+import a3d.filters.Filter3DBase;
+import a3d.filters.tasks.Filter3DTaskBase;
 import flash.display3D.Context3DBlendFactor;
 import flash.display3D.Context3DVertexBufferFormat;
 import flash.display3D.IndexBuffer3D;
-import flash.display3D.VertexBuffer3D;
 import flash.display3D.textures.Texture;
+import flash.display3D.VertexBuffer3D;
 import flash.events.Event;
 import flash.Vector;
 
-import a3d.entities.Camera3D;
-import a3d.core.managers.RTTBufferManager;
-import a3d.core.managers.Stage3DProxy;
-import a3d.filters.Filter3DBase;
-import a3d.filters.tasks.Filter3DTaskBase;
 
 class Filter3DRenderer
 {

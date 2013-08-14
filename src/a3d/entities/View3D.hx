@@ -19,7 +19,6 @@ import a3d.filters.Filter3DBase;
 import a3d.math.FMath;
 import a3d.textures.Texture2DBase;
 import flash.display.Sprite;
-import flash.display3D.Context3D;
 import flash.display3D.Context3DProfile;
 import flash.display3D.Context3DTextureFormat;
 import flash.display3D.textures.Texture;

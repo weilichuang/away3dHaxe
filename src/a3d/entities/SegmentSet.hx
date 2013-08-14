@@ -12,7 +12,6 @@ import a3d.entities.primitives.data.Segment;
 import a3d.io.library.assets.AssetType;
 import a3d.materials.MaterialBase;
 import a3d.materials.SegmentMaterial;
-import flash.display3D.Context3D;
 import flash.display3D.Context3DVertexBufferFormat;
 import flash.display3D.IndexBuffer3D;
 import flash.display3D.VertexBuffer3D;

@@ -13,7 +13,6 @@ import a3d.materials.MaterialBase;
 import a3d.materials.methods.ColorTransformMethod;
 import a3d.materials.methods.EffectMethodBase;
 import a3d.materials.methods.MethodVOSet;
-import flash.display3D.Context3D;
 import flash.display3D.Context3DProfile;
 import flash.geom.ColorTransform;
 import flash.geom.Vector3D;

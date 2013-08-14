@@ -2,7 +2,6 @@ package a3d.core.managers;
 
 import a3d.tools.utils.TextureUtils;
 import a3d.utils.VectorUtil;
-import flash.display3D.Context3D;
 import flash.display3D.IndexBuffer3D;
 import flash.display3D.VertexBuffer3D;
 import flash.errors.Error;

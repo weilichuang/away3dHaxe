@@ -12,7 +12,6 @@ import a3d.materials.BlendMode;
 import a3d.materials.lightpickers.LightPickerBase;
 import a3d.materials.MaterialBase;
 import a3d.utils.Debug;
-import flash.display3D.Context3D;
 import flash.display3D.Context3DBlendFactor;
 import flash.display3D.Context3DCompareMode;
 import flash.display3D.Context3DTriangleFace;

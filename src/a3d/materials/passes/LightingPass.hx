@@ -12,7 +12,6 @@ import a3d.materials.compilation.ShaderCompiler;
 import a3d.materials.LightSources;
 import a3d.materials.MaterialBase;
 import a3d.math.FMath;
-import flash.display3D.Context3D;
 import flash.display3D.Context3DProfile;
 import flash.geom.Matrix3D;
 import flash.geom.Vector3D;

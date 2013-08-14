@@ -1,15 +1,6 @@
 package a3d.core.render;
 
 import a3d.core.managers.Context3DProxy;
-import flash.display.BitmapData;
-import flash.display3D.Context3D;
-import flash.display3D.Context3DCompareMode;
-import flash.display3D.textures.TextureBase;
-import flash.events.Event;
-import flash.geom.Matrix3D;
-import flash.geom.Rectangle;
-
-
 import a3d.core.managers.Stage3DProxy;
 import a3d.core.sort.IEntitySorter;
 import a3d.core.sort.RenderableMergeSort;
@@ -17,6 +8,14 @@ import a3d.core.traverse.EntityCollector;
 import a3d.errors.AbstractMethodError;
 import a3d.events.Stage3DEvent;
 import a3d.textures.Texture2DBase;
+import flash.display.BitmapData;
+import flash.display3D.Context3DCompareMode;
+import flash.display3D.textures.TextureBase;
+import flash.events.Event;
+import flash.geom.Matrix3D;
+import flash.geom.Rectangle;
+
+
 
 
 

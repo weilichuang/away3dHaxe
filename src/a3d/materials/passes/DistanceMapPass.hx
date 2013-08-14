@@ -7,7 +7,6 @@ import a3d.entities.Camera3D;
 import a3d.math.FMath;
 import a3d.math.FMatrix3D;
 import a3d.textures.Texture2DBase;
-import flash.display3D.Context3D;
 import flash.display3D.Context3DProgramType;
 import flash.display3D.Context3DTextureFormat;
 import flash.geom.Matrix3D;

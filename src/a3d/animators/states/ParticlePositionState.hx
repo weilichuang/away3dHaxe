@@ -1,21 +1,20 @@
 package a3d.animators.states;
 
-import flash.display3D.Context3DVertexBufferFormat;
-import flash.geom.Vector3D;
-import flash.utils.Dictionary;
-import flash.Vector;
-
-
-import a3d.animators.ParticleAnimator;
 import a3d.animators.data.AnimationRegisterCache;
 import a3d.animators.data.AnimationSubGeometry;
 import a3d.animators.data.ParticlePropertiesMode;
 import a3d.animators.nodes.ParticlePositionNode;
-import a3d.entities.Camera3D;
+import a3d.animators.ParticleAnimator;
 import a3d.core.base.IRenderable;
 import a3d.core.managers.Stage3DProxy;
-
+import a3d.entities.Camera3D;
+import flash.display3D.Context3DVertexBufferFormat;
+import flash.geom.Vector3D;
+import flash.Vector;
 import haxe.ds.WeakMap;
+
+
+
 
 /**
  * ...

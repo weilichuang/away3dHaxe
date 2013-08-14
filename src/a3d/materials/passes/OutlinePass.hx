@@ -10,7 +10,6 @@ import a3d.core.managers.Stage3DProxy;
 import a3d.entities.Camera3D;
 import a3d.entities.Mesh;
 import a3d.math.FMatrix3D;
-import flash.display3D.Context3D;
 import flash.display3D.Context3DCompareMode;
 import flash.display3D.Context3DProgramType;
 import flash.display3D.Context3DTriangleFace;

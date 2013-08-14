@@ -4,7 +4,6 @@ import a3d.animators.data.VertexAnimationMode;
 import a3d.core.managers.Context3DProxy;
 import a3d.core.managers.Stage3DProxy;
 import a3d.materials.passes.MaterialPassBase;
-import flash.display3D.Context3D;
 import flash.display3D.Context3DProfile;
 import flash.Vector;
 import haxe.ds.WeakMap;

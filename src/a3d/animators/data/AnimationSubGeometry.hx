@@ -3,7 +3,6 @@ package a3d.animators.data;
 import a3d.A3d;
 import a3d.core.managers.Context3DProxy;
 import a3d.core.managers.Stage3DProxy;
-import flash.display3D.Context3D;
 import flash.display3D.Context3DVertexBufferFormat;
 import flash.display3D.VertexBuffer3D;
 import flash.Vector;

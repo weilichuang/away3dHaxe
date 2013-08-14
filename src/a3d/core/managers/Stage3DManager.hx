@@ -3,8 +3,8 @@ package a3d.core.managers;
 import flash.display.Stage;
 import flash.display3D.Context3DProfile;
 import flash.errors.Error;
-import haxe.ds.ObjectMap;
 import flash.Vector;
+import haxe.ds.ObjectMap;
 
 /**
  * The Stage3DManager class provides a multiton object that handles management for Stage3D objects. Stage3D objects

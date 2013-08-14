@@ -12,7 +12,6 @@ import a3d.materials.methods.EffectMethodBase;
 import a3d.materials.methods.ShadowMapMethodBase;
 import a3d.materials.passes.SuperShaderPass;
 import a3d.textures.Texture2DBase;
-import flash.display3D.Context3D;
 import flash.display3D.Context3DCompareMode;
 import flash.errors.Error;
 import flash.geom.ColorTransform;

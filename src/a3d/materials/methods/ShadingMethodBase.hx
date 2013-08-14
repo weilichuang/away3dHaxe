@@ -13,10 +13,6 @@ import a3d.textures.TextureProxyBase;
 import flash.display3D.Context3DTextureFormat;
 import flash.Vector;
 
-
-
-
-
 /**
  * ShadingMethodBase provides an abstract base method for shading methods, used by compiled passes to compile
  * the final shading program.

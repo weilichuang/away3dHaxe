@@ -2,17 +2,12 @@ package a3d.core.base;
 
 import a3d.A3d;
 import a3d.core.managers.Context3DProxy;
-import flash.display3D.Context3D;
+import a3d.core.managers.Stage3DProxy;
 import flash.display3D.Context3DVertexBufferFormat;
 import flash.display3D.VertexBuffer3D;
 import flash.errors.Error;
 import flash.geom.Matrix3D;
 import flash.Vector;
-
-
-import a3d.core.managers.Stage3DProxy;
-
-
 
 class CompactSubGeometry extends SubGeometryBase implements ISubGeometry
 {

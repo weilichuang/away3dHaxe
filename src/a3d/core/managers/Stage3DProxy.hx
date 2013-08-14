@@ -4,7 +4,6 @@ import a3d.events.Stage3DEvent;
 import a3d.utils.Debug;
 import flash.display.Shape;
 import flash.display.Stage3D;
-import flash.display3D.Context3D;
 import flash.display3D.Context3DClearMask;
 import flash.display3D.Context3DProfile;
 import flash.display3D.Context3DRenderMode;

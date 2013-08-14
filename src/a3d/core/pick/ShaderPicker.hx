@@ -15,7 +15,6 @@ import a3d.math.FMatrix3D;
 import a3d.tools.utils.GeomUtil;
 import com.adobe.utils.AGALMiniAssembler;
 import flash.display.BitmapData;
-import flash.display3D.Context3D;
 import flash.display3D.Context3DBlendFactor;
 import flash.display3D.Context3DClearMask;
 import flash.display3D.Context3DCompareMode;

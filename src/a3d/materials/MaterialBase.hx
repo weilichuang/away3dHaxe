@@ -15,7 +15,6 @@ import a3d.materials.lightpickers.LightPickerBase;
 import a3d.materials.passes.DepthMapPass;
 import a3d.materials.passes.DistanceMapPass;
 import a3d.materials.passes.MaterialPassBase;
-import flash.display3D.Context3D;
 import flash.display3D.Context3DCompareMode;
 import flash.errors.Error;
 import flash.events.Event;

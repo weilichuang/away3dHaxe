@@ -7,7 +7,6 @@ import a3d.stereo.methods.InterleavedStereoRenderMethod;
 import a3d.stereo.methods.StereoRenderMethodBase;
 import a3d.utils.Debug;
 import com.adobe.utils.AGALMiniAssembler;
-import flash.display3D.Context3D;
 import flash.display3D.Context3DProgramType;
 import flash.display3D.Context3DTextureFormat;
 import flash.display3D.Context3DVertexBufferFormat;
