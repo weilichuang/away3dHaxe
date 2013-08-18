@@ -1,5 +1,6 @@
 package a3d.core.managers;
 
+import a3d.A3d;
 import a3d.events.Stage3DEvent;
 import a3d.materials.passes.MaterialPassBase;
 import a3d.utils.Debug;
@@ -39,7 +40,7 @@ class AGALProgram3DCache
 		var index:Int = stage3DProxy.stage3DIndex;
 
 		if(_instances == null)
-			_instances = new Vector<AGALProgram3DCache>(8, true);
+			_instances = new Vector<AGALProgram3DCache>(A3d.MAX_NUM_STAGE3D, true);
 
 		if (_instances[index] == null)
 		{

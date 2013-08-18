@@ -12,6 +12,7 @@ import a3d.tools.helpers.MeshHelper;
 import flash.errors.Error;
 import flash.geom.Point;
 import flash.geom.Vector3D;
+import flash.Lib;
 import flash.Vector;
 
 
@@ -1623,7 +1624,7 @@ class LatheExtrude extends Mesh
 		}
 		else
 		{
-			trace("infinity");
+			Lib.trace("infinity");
 			return null;
 		}
 	}

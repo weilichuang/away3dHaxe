@@ -544,11 +544,11 @@ class MaterialPassBase extends EventDispatcher
 		var fragmentCode:String = getFragmentCode(fragmentAnimatorCode);
 		if (Debug.active)
 		{
-			Lib.trace("Compiling AGAL Code:");
-			Lib.trace("--------------------");
-			Lib.trace(vertexCode);
-			Lib.trace("--------------------");
-			Lib.trace(fragmentCode);
+			Debug.trace("Compiling AGAL Code:");
+			Debug.trace("--------------------");
+			Debug.trace(vertexCode);
+			Debug.trace("--------------------");
+			Debug.trace(fragmentCode);
 		}
 		AGALProgram3DCache.getInstance(stage3DProxy).setProgram3D(this, vertexCode, fragmentCode);
 	}

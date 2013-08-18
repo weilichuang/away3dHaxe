@@ -11,9 +11,6 @@ import flash.geom.Vector3D;
 import flash.Vector;
 
 
-
-
-
 class SubGeometryBase
 {
 	/**

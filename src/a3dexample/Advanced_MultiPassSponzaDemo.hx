@@ -204,7 +204,7 @@ class Advanced_MultiPassSponzaDemo extends BasicApplication
 
 		updateMaterialPass(value ? _singleMaterialMap : _multiMaterialMap);
 		
-		return _singlePassMaterial;
+		return value;
 	}
 
 	/**
@@ -223,7 +223,7 @@ class Advanced_MultiPassSponzaDemo extends BasicApplication
 
 		updateMaterialPass(value ? _multiMaterialMap : _singleMaterialMap);
 		
-		return _multiPassMaterial;
+		return value;
 	}
 
 	/**
@@ -241,7 +241,7 @@ class Advanced_MultiPassSponzaDemo extends BasicApplication
 
 		_cascadeShadowMapper.numCascades = value;
 		
-		return _cascadeLevels;
+		return value;
 	}
 
 	/**
@@ -268,7 +268,7 @@ class Advanced_MultiPassSponzaDemo extends BasicApplication
 			case "Dithered":
 				_cascadeMethod.baseMethod = new DitheredShadowMapMethod(_directionalLight);
 		}
-		return _shadowOptions;
+		return value;
 	}
 
 	/**
@@ -472,14 +472,12 @@ class Advanced_MultiPassSponzaDemo extends BasicApplication
 			{label: "Unfiltered", data: "Unfiltered"},
 			{label: "PCF", data: "PCF"},
 			{label: "Multiple taps", data: "Multiple taps"},
-			{label: "Dithered", data: "Dithered"}
-			];
+			{label: "Dithered", data: "Dithered"}];
 
 		var depthMapSize:Array<Dynamic> = [
 			{label: "512", data: 512},
 			{label: "1024", data: 1024},
-			{label: "2048", data: 2048}
-			];
+			{label: "2048", data: 2048}];
 
 		_gui = new SimpleGUI(this, "");
 

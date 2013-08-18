@@ -13,9 +13,6 @@ import a3d.math.FMath;
 import flash.geom.Vector3D;
 import flash.Vector;
 
-
-
-
 /**
  * LightPickerBase provides an abstract base clase for light picker classes. These classes are responsible for
  * feeding materials with relevant lights. Usually, StaticLightPicker can be used, but LightPickerBase can be

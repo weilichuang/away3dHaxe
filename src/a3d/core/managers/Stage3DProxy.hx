@@ -119,8 +119,8 @@ class Stage3DProxy extends EventDispatcher
 	private var _antiAlias:Int;
 	private var _enableDepthAndStencil:Bool;
 	private var _contextRequested:Bool;
-	//private var _activeVertexBuffers : Vector<VertexBuffer3D> = new Vector<VertexBuffer3D>(8, true);
-	//private var _activeTextures : Vector<TextureBase> = new Vector<TextureBase>(8, true);
+	//private var _activeVertexBuffers : Vector<VertexBuffer3D> = new Vector<VertexBuffer3D>(A3d.MAX_NUM_STAGE3D, true);
+	//private var _activeTextures : Vector<TextureBase> = new Vector<TextureBase>(A3d.MAX_NUM_STAGE3D, true);
 	private var _renderTarget:TextureBase;
 	private var _renderSurfaceSelector:Int;
 	private var _scissorRect:Rectangle;

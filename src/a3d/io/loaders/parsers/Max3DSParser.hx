@@ -19,6 +19,7 @@ import a3d.materials.utils.DefaultMaterialManager;
 import a3d.math.FMath;
 import a3d.textures.Texture2DBase;
 import a3d.tools.utils.GeomUtil;
+import a3d.utils.Debug;
 import flash.geom.Matrix3D;
 import flash.geom.Vector3D;
 import flash.net.URLRequest;
@@ -516,7 +517,7 @@ class Max3DSParser extends ParserBase
 			var faces:Vector<FaceVO> = null;
 
 			if (obj.materials.length > 1)
-				trace('The a3d 3DS parser does not support multiple materials per mesh at this point.');
+				Debug.trace('The a3d 3DS parser does not support multiple materials per mesh at this point.');
 
 			// Ignore empty objects
 			if (obj.indices == null || obj.indices.length == 0)

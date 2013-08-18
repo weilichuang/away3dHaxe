@@ -238,7 +238,7 @@ class Minimalcompshx extends Sprite {
 	
 	public function onClick(e:MouseEvent):Void 
 	{
-		trace("click");
+		Lib.trace("click");
 	}
 	
 	private function initialize():Void {

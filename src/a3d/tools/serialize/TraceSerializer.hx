@@ -1,5 +1,6 @@
 package a3d.tools.serialize;
 
+import a3d.utils.Debug;
 import flash.geom.Vector3D;
 import flash.Vector;
 
@@ -57,7 +58,7 @@ class TraceSerializer extends SerializerBase
 		outputString += name;
 		outputString += separator;
 		outputString += value;
-		trace(outputString);
+		Debug.trace(outputString);
 	}
 
 	/**
@@ -69,7 +70,7 @@ class TraceSerializer extends SerializerBase
 		outputString += name;
 		outputString += separator;
 		outputString += value;
-		trace(outputString);
+		Debug.trace(outputString);
 	}
 
 	/**
@@ -84,7 +85,7 @@ class TraceSerializer extends SerializerBase
 			outputString += separator;
 			outputString += value;
 		}
-		trace(outputString);
+		Debug.trace(outputString);
 	}
 
 	/**
@@ -99,7 +100,7 @@ class TraceSerializer extends SerializerBase
 			outputString += separator;
 			outputString += value;
 		}
-		trace(outputString);
+		Debug.trace(outputString);
 	}
 
 	/**
@@ -132,7 +133,7 @@ class TraceSerializer extends SerializerBase
 				}
 			}
 		}
-		trace(outputString);
+		Debug.trace(outputString);
 	}
 
 	/**
@@ -147,7 +148,7 @@ class TraceSerializer extends SerializerBase
 			outputString += separator;
 			outputString += value;
 		}
-		trace(outputString);
+		Debug.trace(outputString);
 	}
 
 	/**

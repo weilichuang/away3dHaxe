@@ -9,10 +9,6 @@ import flash.geom.Matrix3D;
 import flash.geom.Vector3D;
 import flash.Vector;
 
-
-
-
-
 /**
  * BoundingSphere represents a spherical bounding volume defined by a center point and a radius.
  * This bounding volume is useful for point lights.

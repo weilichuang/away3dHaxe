@@ -18,6 +18,7 @@ import a3d.materials.TextureMultiPassMaterial;
 import a3d.materials.utils.DefaultMaterialManager;
 import a3d.textures.Texture2DBase;
 import a3d.tools.utils.GeomUtil;
+import a3d.utils.Debug;
 import flash.errors.Error;
 import flash.net.URLRequest;
 import flash.Vector;
@@ -749,7 +750,7 @@ class OBJParser extends ParserBase
 				lm.materialID = _lastMtlID;
 
 				if (alpha == 0)
-					trace("Warning: an alpha value of 0 was found in mtl color tag (Tr or d) ref:" + _lastMtlID + ", mesh(es) using it will be invisible!");
+					Debug.trace("Warning: an alpha value of 0 was found in mtl color tag (Tr or d) ref:" + _lastMtlID + ", mesh(es) using it will be invisible!");
 
 				var cm:MaterialBase;
 				if (materialMode < 2)
