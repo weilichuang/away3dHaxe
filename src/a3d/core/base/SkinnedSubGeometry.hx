@@ -7,10 +7,6 @@ import flash.display3D.Context3DVertexBufferFormat;
 import flash.display3D.VertexBuffer3D;
 import flash.Vector;
 import haxe.ds.IntMap;
-import haxe.ds.IntMap.IntMap;
-
-
-
 
 
 /**

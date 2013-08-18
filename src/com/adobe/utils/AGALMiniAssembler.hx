@@ -755,6 +755,6 @@ class Sampler
 
 	public function toString() : String 
 	{
-		return "[Sampler name=\"" + name.toString() + "\", flag=\"" + flag.toString() + "\", mask=" + mask.toString() + "]";
+		return "[Sampler name=\"" + name + "\", flag=\"" + flag + "\", mask=" + mask + "]";
 	}
 }
