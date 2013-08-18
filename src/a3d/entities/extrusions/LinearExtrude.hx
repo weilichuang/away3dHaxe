@@ -2,6 +2,7 @@
 
 import flash.geom.Point;
 import flash.geom.Vector3D;
+import flash.Lib;
 import flash.Vector;
 
 import a3d.bounds.BoundingVolumeBase;
@@ -1096,7 +1097,7 @@ class LinearExtrude extends Mesh
 		}
 		else
 		{
-			trace("infinity");
+			Lib.trace("infinity");
 			return null;
 		}
 	}

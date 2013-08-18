@@ -8,6 +8,7 @@ import a3d.io.library.assets.IAsset;
 import a3d.io.loaders.misc.ResourceDependency;
 import a3d.io.loaders.parsers.utils.ParserUtil;
 import a3d.tools.utils.TextureUtils;
+import a3d.utils.Debug;
 import flash.display.BitmapData;
 import flash.errors.Error;
 import flash.events.EventDispatcher;
@@ -207,7 +208,7 @@ class ParserBase extends EventDispatcher
 	{
 		var isValid:Bool = TextureUtils.isBitmapDataValid(bitmapData);
 		if (!isValid)
-			trace(">> Bitmap loaded is not having power of 2 dimensions or is higher than 2048");
+			Debug.trace(">> Bitmap loaded is not having power of 2 dimensions or is higher than 2048");
 
 		return isValid;
 	}

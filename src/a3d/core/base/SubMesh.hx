@@ -14,9 +14,6 @@ import flash.geom.Matrix3D;
 import flash.Vector;
 
 
-
-
-
 /**
  * SubMesh wraps a SubGeometry as a scene graph instantiation. A SubMesh is owned by a Mesh object.
  *

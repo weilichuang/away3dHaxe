@@ -1,5 +1,6 @@
 package a3d.materials.utils;
 
+import a3d.utils.Debug;
 import flash.display.Sprite;
 import flash.events.AsyncErrorEvent;
 import flash.events.IOErrorEvent;
@@ -91,7 +92,7 @@ class SimpleVideoPlayer implements IVideoPlayer
 
 		if (!_src)
 		{
-			trace("Video source not set.");
+			Debug.trace("Video source not set.");
 			return;
 		}
 
@@ -190,12 +191,12 @@ class SimpleVideoPlayer implements IVideoPlayer
 
 	private function ioErrorHandler(e:IOErrorEvent):Void
 	{
-		trace("An IOerror occured: " + e.text);
+		Debug.trace("An IOerror occured: " + e.text);
 	}
 
 	private function securityErrorHandler(e:SecurityErrorEvent):Void
 	{
-		trace("A security error occured: " + e.text + " Remember that the FLV must be in the same security sandbox as your SWF.");
+		Debug.trace("A security error occured: " + e.text + " Remember that the FLV must be in the same security sandbox as your SWF.");
 	}
 
 	private function onBWDone():Void
@@ -205,7 +206,7 @@ class SimpleVideoPlayer implements IVideoPlayer
 
 	private function streamClose():Void
 	{
-		trace("The stream was closed. Incorrect URL?");
+		Debug.trace("The stream was closed. Incorrect URL?");
 	}
 
 
@@ -223,10 +224,10 @@ class SimpleVideoPlayer implements IVideoPlayer
 				//this.dispatchEvent( new VideoEvent(VideoEvent.PLAY,_netStream, file) );
 				
 			case "NetStream.Play.StreamNotFound":
-				trace("The file " + _src + " was not found", e);
+				Debug.trace("The file " + _src + " was not found", e);
 				
 			case "NetConnection.Connect.Success":
-				trace("Connected to stream", e);
+				Debug.trace("Connected to stream", e);
 				
 		}
 	}

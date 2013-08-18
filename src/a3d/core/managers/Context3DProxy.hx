@@ -33,6 +33,12 @@ class Context3DProxy
 	public var context3D(get, set):Context3D;
 	
 	private var _context3D:Context3D;
+	private var _curProgram:Program3D;
+	private var _curDepthMask:Bool;
+	private var _curCompareMode:Context3DCompareMode;
+	private var _curSourceFactor:Context3DBlendFactor;
+	private var _curDestinationFactor:Context3DBlendFactor;
+	private var _curCulling:Context3DTriangleFace;
 
 	public function new(context3D:Context3D) 
 	{
@@ -92,7 +98,12 @@ class Context3DProxy
 	
 	public inline function setBlendFactors(sourceFactor:Context3DBlendFactor, destinationFactor:Context3DBlendFactor):Void
 	{
-		_context3D.setBlendFactors(sourceFactor, destinationFactor);
+		if (_curSourceFactor != sourceFactor || _curDestinationFactor != destinationFactor)
+		{
+			_curSourceFactor = sourceFactor;
+			_curDestinationFactor = destinationFactor;
+			_context3D.setBlendFactors(sourceFactor, destinationFactor);
+		}
 	}
 	
 	public inline function setColorMask(red:Bool, green:Bool, blue:Bool, alpha:Bool):Void
@@ -102,17 +113,30 @@ class Context3DProxy
 	
 	public inline function setCulling(triangleFaceToCull:Context3DTriangleFace):Void
 	{
-		_context3D.setCulling(triangleFaceToCull);
+		if (_curCulling != triangleFaceToCull)
+		{
+			_curCulling = triangleFaceToCull;
+			_context3D.setCulling(triangleFaceToCull);
+		}
 	}
 	
 	public inline function setDepthTest(depthMask:Bool, passCompareMode:Context3DCompareMode):Void
 	{
-		_context3D.setDepthTest(depthMask, passCompareMode);
+		if (_curDepthMask != depthMask || _curCompareMode != passCompareMode)
+		{
+			_curDepthMask = depthMask;
+			_curCompareMode = passCompareMode;
+			_context3D.setDepthTest(depthMask, passCompareMode);
+		}
 	}
 	
 	public inline function setProgram(program:Program3D):Void
 	{
-		_context3D.setProgram(program);
+		if (program != _curProgram)
+		{
+			_curProgram = program;
+			_context3D.setProgram(_curProgram);
+		}
 	}
 	
 	public inline function setProgramConstantsFromByteArray(programType:Context3DProgramType, firstRegister:Int, numRegisters:Int, data:ByteArray, byteArrayOffset:UInt):Void

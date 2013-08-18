@@ -681,7 +681,7 @@ class DAEParser extends ParserBase
 			}
 			catch (e:Error)
 			{
-				trace("Errors found in skeleton joints data");
+				Debug.trace("Errors found in skeleton joints data");
 				return false;
 			}
 			if (node != null && node.channels.length != 0)
@@ -836,7 +836,7 @@ class DAEParser extends ParserBase
 			}
 			catch (e:Error)
 			{
-				trace(e.message);
+				Debug.trace(e.message);
 			}
 		}
 	}
@@ -883,7 +883,7 @@ class DAEParser extends ParserBase
 			else
 				mat = new ColorMultiPassMaterial(diffuse.color.rgb);
 		}
-		trace("mat = " + materialMode);
+		Debug.trace("mat = " + materialMode);
 		if (mat != null)
 		{
 			if (materialMode < 2)
@@ -1986,7 +1986,7 @@ class DAEShader extends DAEElement
 				this.props.setField(nodeName,Std.parseFloat(readText(child.node.resolve(":float"))));
 				
 			default:
-				trace("[WARNING] unhandled DAEShader property: " + nodeName);
+				Debug.trace("[WARNING] unhandled DAEShader property: " + nodeName);
 		}
 	}
 }
@@ -2054,7 +2054,7 @@ class DAEEffect extends DAEElement
 					this.sampler.sid = element.att.sid;
 					
 				default:
-					trace("[WARNING] unhandled newparam: " + name);
+					Debug.trace("[WARNING] unhandled newparam: " + name);
 			}
 		}
 	}
@@ -2286,13 +2286,13 @@ class DAENode extends DAEElement
 								if (channel.arrayIndices.length > 1)
 								{
 									//	m.rawData[channel.arrayIndices[0] * 4 + channel.arrayIndices[1]] = odata[0];
-									//	trace(channel.arrayIndices[0] * 4 + channel.arrayIndices[1])
+									//	Debug.trace(channel.arrayIndices[0] * 4 + channel.arrayIndices[1])
 								}
 
 							}
 							else if (channel.dotAccess)
 							{
-								trace("unhandled matrix array access");
+								Debug.trace("unhandled matrix array access");
 
 							}
 							else if (odata.length == 16)
@@ -2303,14 +2303,14 @@ class DAENode extends DAEElement
 							}
 							else
 							{
-								trace("unhandled matrix " + transform.sid + " " + odata);
+								Debug.trace("unhandled matrix " + transform.sid + " " + odata);
 							}
 							
 
 						case "rotate":
 							if (channel.arrayAccess)
 							{
-								trace("unhandled rotate array access");
+								Debug.trace("unhandled rotate array access");
 
 							}
 							else if (channel.dotAccess)
@@ -2322,20 +2322,20 @@ class DAENode extends DAEElement
 										m.appendRotation(odata[0], new Vector3D(tdata[0], tdata[1], tdata[2]));
 										
 									default:
-										trace("unhandled rotate dot access " + channel.dotAccessor);
+										Debug.trace("unhandled rotate dot access " + channel.dotAccessor);
 								}
 
 							}
 							else
 							{
-								trace("unhandled rotate");
+								Debug.trace("unhandled rotate");
 							}
 							
 
 						case "scale":
 							if (channel.arrayAccess)
 							{
-								trace("unhandled scale array access");
+								Debug.trace("unhandled scale array access");
 
 							}
 							else if (channel.dotAccess)
@@ -2353,20 +2353,20 @@ class DAENode extends DAEElement
 										m.appendScale(tdata[0], tdata[1], odata[0]);
 										
 									default:
-										trace("unhandled scale dot access " + channel.dotAccessor);
+										Debug.trace("unhandled scale dot access " + channel.dotAccessor);
 								}
 
 							}
 							else
 							{
-								trace("unhandled scale: " + odata.length);
+								Debug.trace("unhandled scale: " + odata.length);
 							}
 							
 
 						case "translate":
 							if (channel.arrayAccess)
 							{
-								trace("unhandled translate array access");
+								Debug.trace("unhandled translate array access");
 
 							}
 							else if (channel.dotAccess)
@@ -2384,7 +2384,7 @@ class DAENode extends DAEElement
 										m.appendTranslation(tdata[0], tdata[1], odata[0]);
 										
 									default:
-										trace("unhandled translate dot access " + channel.dotAccessor);
+										Debug.trace("unhandled translate dot access " + channel.dotAccessor);
 								}
 
 							}
@@ -2395,7 +2395,7 @@ class DAENode extends DAEElement
 							
 
 						default:
-							trace("unhandled transform type " + transform.type);
+							Debug.trace("unhandled transform type " + transform.type);
 							continue;
 					}
 					matrix.prepend(m);

@@ -9,6 +9,7 @@ import a3d.io.loaders.parsers.utils.ParserUtil;
 import a3d.materials.ColorMaterial;
 import a3d.materials.ColorMultiPassMaterial;
 import a3d.materials.MaterialBase;
+import a3d.utils.Debug;
 import flash.geom.Vector3D;
 import flash.Vector;
 import haxe.ds.StringMap;
@@ -379,7 +380,7 @@ class DXFParser extends ParserBase
 							}
 							else
 							{
-								trace("Skip: unsupported POLYLINE structure");
+								Debug.trace("Skip: unsupported POLYLINE structure");
 								_polyLines = null;
 								_polyLinesIndices = null;
 							}

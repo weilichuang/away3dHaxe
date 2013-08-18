@@ -1,13 +1,13 @@
 package a3d.core.base;
 
-import flash.geom.Matrix3D;
-import flash.Vector;
-
-
 import a3d.events.GeometryEvent;
 import a3d.io.library.assets.AssetType;
 import a3d.io.library.assets.IAsset;
 import a3d.io.library.assets.NamedAssetBase;
+import flash.geom.Matrix3D;
+import flash.Vector;
+
+
 
 
 

@@ -1,6 +1,7 @@
 package a3d.textures;
 
 import a3d.tools.utils.TextureUtils;
+import a3d.utils.Debug;
 import flash.display.BitmapData;
 import flash.display3D.textures.TextureBase;
 import flash.geom.Matrix;
@@ -185,7 +186,7 @@ class WebcamTexture extends BitmapTexture
 		{
 			var oldSize:Int = size;
 			size = TextureUtils.getBestPowerOf2(size);
-			Lib.trace("Warning: " + oldSize + " is not a valid material size. Updating to the closest supported resolution: " + size);
+			Debug.trace("Warning: " + oldSize + " is not a valid material size. Updating to the closest supported resolution: " + size);
 		}
 
 		return size;

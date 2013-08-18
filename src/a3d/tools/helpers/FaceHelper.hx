@@ -7,6 +7,7 @@ import a3d.core.base.SubGeometry;
 import a3d.core.base.data.UV;
 import a3d.core.base.data.Vertex;
 import a3d.entities.Mesh;
+import a3d.utils.Debug;
 import a3d.utils.VectorUtil.VectorUtil;
 import flash.errors.Error;
 import flash.Vector;
@@ -303,7 +304,7 @@ class FaceHelper
 
 		if (indices.length + 3 > LIMIT || vertices.length + 9 > LIMIT)
 		{
-			trace("splitFace cannot take place, not enough room in target subGeometry");
+			Debug.trace("splitFace cannot take place, not enough room in target subGeometry");
 			return;
 		}
 
@@ -420,7 +421,7 @@ class FaceHelper
 
 		if (indices.length + 6 > LIMIT || vertices.length + 18 > LIMIT)
 		{
-			trace("triFace cannot take place, not enough room in target subGeometry");
+			Debug.trace("triFace cannot take place, not enough room in target subGeometry");
 			return;
 		}
 
@@ -500,7 +501,7 @@ class FaceHelper
 
 		if (indices.length + 9 > LIMIT || vertices.length + 27 > LIMIT)
 		{
-			trace("quarterFace cannot take place, not enough room in target subGeometry");
+			Debug.trace("quarterFace cannot take place, not enough room in target subGeometry");
 			return;
 		}
 

@@ -112,7 +112,7 @@ class Ray
 		var spherePosition:Vector3D = new Vector3D(200, 200, 200);
 
 		//hittest
-		trace("Ray intersects sphere :"+ _ray.intersectsSphere(pMouse, dir, spherePosition, 500) );
+		Debug.trace("Ray intersects sphere :"+ _ray.intersectsSphere(pMouse, dir, spherePosition, 500) );
 
 		var sintersect:Vector3D = _ray.getRayToSphereIntersection(pMouse, dir, spherePosition, 500, true, false);
 		if sintersect == null no hit, else sintersect = intersection vector3d or the normal of the intersection
@@ -176,7 +176,7 @@ class Ray
 		var dest: Vector3D = new Vector3D(0, 0, 0);
 
 		var intersect:Vector3D = _ray.getRayToTriangleIntersection(_view.camera.position, dest, v0, v1, v2 );
-		trace("intersect ray: "+intersect);
+		Debug.trace("intersect ray: "+intersect);
 
 	*
 	* @return	Vector3D	The intersection point

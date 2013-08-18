@@ -3,6 +3,7 @@ package a3d.core.partition;
 import a3d.core.traverse.PartitionTraverser;
 import a3d.entities.Entity;
 import flash.geom.Vector3D;
+import flash.Lib;
 import flash.Vector.Vector;
 
 
@@ -69,7 +70,7 @@ class ViewVolumeRootNode extends NodeBase
 			var volume:ViewVolume = getVolumeContaining(traverser.entryPoint);
 
 			if (!volume)
-				trace("WARNING: No view volume found for the current position.");
+				Lib.trace("WARNING: No view volume found for the current position.");
 
 			// keep the active one if no volume is found (it may be just be a small error)
 			else if (volume != _activeVolume)

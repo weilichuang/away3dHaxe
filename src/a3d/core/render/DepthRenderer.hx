@@ -14,9 +14,6 @@ import flash.geom.Rectangle;
 import flash.Vector;
 
 
-
-
-
 /**
  * The DepthRenderer class renders 32-bit depth information encoded as RGBA
  */

@@ -2,6 +2,7 @@ package a3d.audio;
 
 import flash.events.Event;
 import flash.geom.Vector3D;
+import flash.Lib;
 import flash.media.Sound;
 
 import a3d.audio.drivers.ISound3DDriver;
@@ -195,7 +196,7 @@ class Sound3D extends ObjectContainer3D
 	*/
 	private function onSceneChanged(ev:Object3DEvent):Void
 	{
-		trace('scene changed');
+		Lib.trace('scene changed');
 		// mute driver if there is no scene available, i.e. when the
 		// sound3d object has been removed from the scene
 		_driver.mute = (_scene == null);
