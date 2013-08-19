@@ -47,6 +47,7 @@ class VertexAnimator extends AnimatorBase implements IAnimator
 		
 		_poses = new Vector<Geometry>();
 		_weights = Vector.ofArray([1., 0, 0, 0]);
+		_weights.fixed = true;
 	}
 
 	/**
@@ -102,7 +103,9 @@ class VertexAnimator extends AnimatorBase implements IAnimator
 
 		_poses[0] = _activeVertexState.currentGeometry;
 		_poses[1] = _activeVertexState.nextGeometry;
-		_weights[0] = 1 - (_weights[1] = _activeVertexState.blendWeight);
+		
+		_weights[0] = 1 - _activeVertexState.blendWeight;
+		_weights[1] = _activeVertexState.blendWeight;
 	}
 
 
@@ -126,7 +129,7 @@ class VertexAnimator extends AnimatorBase implements IAnimator
 
 		stage3DProxy.context3D.setProgramConstantsFromVector(Context3DProgramType.VERTEX, vertexConstantOffset, _weights, 1);
 
-		var s:UInt;
+		var s:Int;
 		if (_blendMode == VertexAnimationMode.ABSOLUTE)
 		{
 			s = 1;
@@ -163,7 +166,7 @@ class VertexAnimator extends AnimatorBase implements IAnimator
 
 		if (_blendMode == VertexAnimationMode.ABSOLUTE)
 		{
-			var len:UInt = _numPoses;
+			var len:Int = _numPoses;
 			for (i in 1...len)
 			{
 				renderable.activateVertexBuffer(vertexStreamOffset++, stage3DProxy);

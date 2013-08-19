@@ -1,44 +1,4 @@
-﻿/*
-
-Vertex animation example in a3d using the MD2 format
-
-Demonstrates:
-
-How to use the AssetLibrary class to load an embedded internal md2 model.
-How to clone an asset from the AssetLibrary and apply different mateirals.
-How to load animations into an animation set and apply to individual meshes.
-
-Code by Rob Bateman
-rob@infiniteturtles.co.uk
-http://www.infiniteturtles.co.uk
-
-Perelith Knight, by James Green (no email given)
-
-This code is distributed under the MIT License
-
-Copyright (c) The Away Foundation http://www.theawayfoundation.org
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the “Software”), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
-
-*/
-
-package a3dexample;
+﻿package a3dexample;
 
 import a3d.animators.VertexAnimationSet;
 import a3d.animators.VertexAnimator;
@@ -68,7 +28,7 @@ import flash.text.GridFitType;
 import flash.text.TextField;
 import flash.text.TextFormat;
 import flash.ui.Keyboard;
-import flash.Vector.Vector;
+import flash.Vector;
 
 
 
@@ -116,15 +76,14 @@ class Intermediate_PerelithKnightMD2 extends BasicApplication
 	 */
 	public function new()
 	{
-		super();
-		
 		_lookAtPosition = new Vector3D();
 		_pKnightTextures = Vector.ofArray([new PKnightTexture1(0, 0), 
 											new PKnightTexture2(0, 0), 
 											new PKnightTexture3(0, 0), 
 											new PKnightTexture4(0,0)]);
 		_pKnightMaterials = new Vector<TextureMaterial>();
-
+		
+		super();
 	}
 
 	/**
@@ -178,7 +137,7 @@ class Intermediate_PerelithKnightMD2 extends BasicApplication
 		addChild(text);
 
 		//setup the floor
-		_floor = new Mesh(new PlaneGeometry(5000, 5000), _floorMaterial);
+		_floor = new Mesh(new PlaneGeometry(10000, 10000), _floorMaterial);
 		_floor.geometry.scaleUV(5, 5);
 
 		//setup the scene
@@ -196,7 +155,7 @@ class Intermediate_PerelithKnightMD2 extends BasicApplication
 		_shadowMapMethod = new FilteredShadowMapMethod(_light);
 
 		//setup floor material
-		_floorMaterial = new TextureMaterial(Cast.bitmapTexture(FloorDiffuse));
+		_floorMaterial = new TextureMaterial(createBitmapTexture(FloorDiffuse));
 		_floorMaterial.lightPicker = _lightPicker;
 		_floorMaterial.specular = 0;
 		_floorMaterial.ambient = 1;
@@ -279,8 +238,8 @@ class Intermediate_PerelithKnightMD2 extends BasicApplication
 	private function onResourceComplete(event:LoaderEvent):Void
 	{
 		//create 20 x 20 different clones of the ogre
-		var numWide:Int = 20;
-		var numDeep:Int = 20;
+		var numWide:Int = 50;
+		var numDeep:Int = 50;
 		var k:Int = 0;
 		for (i in 0...numWide)
 		{
@@ -288,8 +247,8 @@ class Intermediate_PerelithKnightMD2 extends BasicApplication
 			{
 				//clone mesh
 				var clone:Mesh = Std.instance(_mesh.clone(),Mesh);
-				clone.x = (i - (numWide - 1) / 2) * 5000 / numWide;
-				clone.z = (j - (numDeep - 1) / 2) * 5000 / numDeep;
+				clone.x = (i - (numWide - 1) / 2) * 10000 / numWide;
+				clone.z = (j - (numDeep - 1) / 2) * 10000 / numDeep;
 				clone.castsShadows = true;
 				clone.material = _pKnightMaterials[Std.int(Math.random() * _pKnightMaterials.length)];
 				view.scene.addChild(clone);

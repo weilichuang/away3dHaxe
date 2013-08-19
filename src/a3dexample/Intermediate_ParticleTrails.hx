@@ -39,7 +39,28 @@ THE SOFTWARE.
 
 package a3dexample;
 
+import a3d.animators.data.ParticleProperties;
+import a3d.animators.data.ParticlePropertiesMode;
+import a3d.animators.nodes.ParticleBillboardNode;
+import a3d.animators.nodes.ParticleColorNode;
+import a3d.animators.nodes.ParticleFollowNode;
+import a3d.animators.nodes.ParticleVelocityNode;
+import a3d.animators.ParticleAnimationSet;
+import a3d.animators.ParticleAnimator;
+import a3d.controllers.HoverController;
+import a3d.core.base.Geometry;
+import a3d.core.base.Object3D;
+import a3d.core.base.ParticleGeometry;
+import a3d.entities.Camera3D;
+import a3d.entities.Mesh;
+import a3d.entities.primitives.PlaneGeometry;
+import a3d.entities.primitives.WireframeAxesGrid;
+import a3d.entities.Scene3D;
 import a3d.materials.BlendMode;
+import a3d.materials.TextureMaterial;
+import a3d.tools.helpers.data.ParticleGeometryTransform;
+import a3d.tools.helpers.ParticleGeometryHelper;
+import a3d.utils.Cast;
 import flash.events.Event;
 import flash.events.MouseEvent;
 import flash.geom.ColorTransform;
@@ -48,52 +69,8 @@ import flash.geom.Vector3D;
 import flash.Lib;
 import flash.Vector.Vector;
 
-import a3d.animators.ParticleAnimationSet;
-import a3d.animators.ParticleAnimator;
-import a3d.animators.data.ParticleProperties;
-import a3d.animators.data.ParticlePropertiesMode;
-import a3d.animators.nodes.ParticleBillboardNode;
-import a3d.animators.nodes.ParticleColorNode;
-import a3d.animators.nodes.ParticleFollowNode;
-import a3d.animators.nodes.ParticleVelocityNode;
-import a3d.entities.Camera3D;
-import a3d.entities.Scene3D;
-import a3d.entities.View3D;
-import a3d.controllers.HoverController;
-import a3d.core.base.Geometry;
-import a3d.core.base.Object3D;
-import a3d.core.base.ParticleGeometry;
-import a3d.entities.primitives.WireframeAxesGrid;
-import a3d.entities.Mesh;
-import a3d.materials.TextureMaterial;
-import a3d.entities.primitives.PlaneGeometry;
-import a3d.tools.helpers.ParticleGeometryHelper;
-import a3d.tools.helpers.data.ParticleGeometryTransform;
-import a3d.utils.Cast;
 
-import a3d.tools.commands.Align;
-import a3d.tools.commands.Explode;
-import a3d.tools.commands.Merge;
-import a3d.tools.commands.Mirror;
-import a3d.tools.commands.SphereMaker;
-import a3d.tools.commands.Weld;
 
-import a3d.tools.helpers.FaceHelper;
-import a3d.tools.helpers.LightsHelper;
-import a3d.tools.helpers.MeshDebugger;
-import a3d.tools.helpers.MeshHelper;
-import a3d.tools.helpers.ParticleGeometryHelper;
-import a3d.tools.helpers.SpriteSheetHelper;
-import a3d.tools.serialize.Serialize;
-import a3d.tools.serialize.TraceSerializer;
-import a3d.tools.utils.Bounds;
-import a3d.tools.utils.ColorHitMap;
-import a3d.tools.utils.Drag3D;
-import a3d.tools.utils.GeomUtil;
-import a3d.tools.utils.Grid;
-import a3d.tools.utils.Projector;
-import a3d.tools.utils.Ray;
-import a3d.tools.utils.TextureUtils;
 using Reflect;
 
 class Intermediate_ParticleTrails extends BasicApplication
