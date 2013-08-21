@@ -543,6 +543,8 @@ class Stage3DProxy extends EventDispatcher
 	{
 		if (_stage3D.context3D != null)
 		{
+			AGALProgram3DCache.getInstance().initialize(this);
+			
 			var hadContext:Bool = (_context3D != null);
 			_context3D = new Context3DProxy(_stage3D.context3D);
 			_context3D.enableErrorChecking = Debug.active;

@@ -88,10 +88,10 @@ class SubGeometryBase
 	private var _faceTangentsDirty:Bool;
 	private var _faceTangents:Vector<Float>;
 	private var _indices:Vector<UInt>;
-	private var _indexBuffer:Vector<IndexBuffer3D>;
+	private var _indexBuffer:IndexBuffer3D;
 	private var _numIndices:Int;
-	private var _indexBufferContext:Vector<Context3DProxy>;
-	private var _indicesInvalid:Vector<Bool>;
+	private var _indexBufferContext:Context3DProxy;
+	private var _indicesInvalid:Bool;
 	private var _numTriangles:Int;
 
 	private var _autoDeriveVertexNormals:Bool = true;
@@ -113,10 +113,6 @@ class SubGeometryBase
 	{
 		_faceNormalsDirty = true;
 		_faceTangentsDirty = true;
-		
-		_indexBuffer = new Vector<IndexBuffer3D>(A3d.MAX_NUM_STAGE3D);
-		_indexBufferContext = new Vector<Context3DProxy>(A3d.MAX_NUM_STAGE3D);
-		_indicesInvalid = new Vector<Bool>(A3d.MAX_NUM_STAGE3D, true);
 		
 		_autoDeriveVertexNormals = true;
 		_autoDeriveVertexTangents = true;
@@ -192,20 +188,20 @@ class SubGeometryBase
 		var contextIndex:Int = stage3DProxy.stage3DIndex;
 		var context:Context3DProxy = stage3DProxy.context3D;
 
-		if (_indexBuffer[contextIndex] == null || _indexBufferContext[contextIndex] != context)
+		if (_indexBuffer == null || _indexBufferContext != context)
 		{
-			_indexBuffer[contextIndex] = context.createIndexBuffer(_numIndices);
-			_indexBufferContext[contextIndex] = context;
-			_indicesInvalid[contextIndex] = true;
+			_indexBuffer = context.createIndexBuffer(_numIndices);
+			_indexBufferContext = context;
+			_indicesInvalid = true;
 		}
 		
-		if (_indicesInvalid[contextIndex])
+		if (_indicesInvalid)
 		{
-			_indexBuffer[contextIndex].uploadFromVector(_indices, 0, _numIndices);
-			_indicesInvalid[contextIndex] = false;
+			_indexBuffer.uploadFromVector(_indices, 0, _numIndices);
+			_indicesInvalid = false;
 		}
 
-		return _indexBuffer[contextIndex];
+		return _indexBuffer;
 	}
 
 	/**
@@ -490,13 +486,22 @@ class SubGeometryBase
 
 	public function dispose():Void
 	{
-		disposeIndexBuffers(_indexBuffer);
+		disposeIndexBuffer();
 		_indices = null;
 		_indexBufferContext = null;
 		_faceNormals = null;
 		_faceWeights = null;
 		_faceTangents = null;
 		_vertexData = null;
+	}
+	
+	private inline function disposeIndexBuffer():Void
+	{
+		if (_indexBuffer != null)
+		{
+			_indexBuffer.dispose();
+			_indexBuffer = null;
+		}
 	}
 
 	
@@ -516,16 +521,29 @@ class SubGeometryBase
 
 		var numTriangles:Int = Std.int(_numIndices / 3);
 		if (_numTriangles != numTriangles)
-			disposeIndexBuffers(_indexBuffer);
+		{
+			if (_indexBuffer != null)
+			{
+				_indexBuffer.dispose();
+				_indexBuffer = null;
+			}
+			//disposeIndexBuffers(_indexBuffer);
+		}
 			
 		_numTriangles = numTriangles;
-		invalidateBuffers(_indicesInvalid);
+		//invalidateBuffers(_indicesInvalid);
+		invalidIndicesBuffer();
 		_faceNormalsDirty = true;
 
 		if (_autoDeriveVertexNormals)
 			_vertexNormalsDirty = true;
 		if (_autoDeriveVertexTangents)
 			_vertexTangentsDirty = true;
+	}
+	
+	private function invalidIndicesBuffer():Void
+	{
+		_indicesInvalid = true;
 	}
 
 	/**
@@ -582,17 +600,6 @@ class SubGeometryBase
 			updateFaceNormals();
 		return _faceNormals;
 	}
-
-	/**
-	 * Invalidates all buffers in a vector, causing them the update when they are first requested.
-	 * @param buffers The vector of buffers to invalidate.
-	 */
-	private function invalidateBuffers(invalid:Vector<Bool>):Void
-	{
-		for (i in 0...A3d.MAX_NUM_STAGE3D)
-			invalid[i] = true;
-	}
-
 	
 	private function get_UVStride():Int
 	{

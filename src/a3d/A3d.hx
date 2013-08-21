@@ -6,7 +6,7 @@ package a3d;
  */
 class A3d
 {
-	public static inline var MAX_NUM_STAGE3D:Int = 4;
+	public static inline var MAX_NUM_STAGE3D:Int = 1;
 	
 	public static inline var MAJOR_VERSION:Int = 4;
 

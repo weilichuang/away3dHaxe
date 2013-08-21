@@ -41,18 +41,29 @@ class SkinnedSubGeometry extends CompactSubGeometry
 	private var _jointWeightsData:Vector<Float>;
 	private var _jointIndexData:Vector<Float>;
 	private var _animatedData:Vector<Float>; // used for cpu fallback
-	private var _jointWeightsBuffer:Vector<VertexBuffer3D>;
-	private var _jointIndexBuffer:Vector<VertexBuffer3D>;
-	private var _jointWeightsInvalid:Vector<Bool>;
-	private var _jointIndicesInvalid:Vector<Bool>;
-	private var _jointWeightContext:Vector<Context3DProxy>;
-	private var _jointIndexContext:Vector<Context3DProxy>;
+	private var _jointWeightsBuffer:VertexBuffer3D;
+	private var _jointIndexBuffer:VertexBuffer3D;
+	private var _jointWeightsInvalid:Bool;
+	private var _jointIndicesInvalid:Bool;
+	private var _jointWeightContext:Context3DProxy;
+	private var _jointIndexContext:Context3DProxy;
 	private var _jointsPerVertex:Int;
 
 	private var _condensedJointIndexData:Vector<Float>;
 	private var _condensedIndexLookUp:Vector<UInt>; // used for linking condensed indices to the real ones
 	private var _numCondensedJoints:Int;
 
+	private function invalidJointIndicesBuffer():Void
+	{
+		_jointIndicesInvalid = true;
+		_activeDataInvalid = true;
+	}
+	
+	private function invalidJointWeightsBuffer():Void
+	{
+		_jointWeightsInvalid = true;
+		_activeDataInvalid = true;
+	}
 
 	/**
 	 * Creates a new SkinnedSubGeometry object.
@@ -63,19 +74,12 @@ class SkinnedSubGeometry extends CompactSubGeometry
 		super();
 		_jointsPerVertex = jointsPerVertex;
 		_bufferFormat = VertexFormatUtil.getVertexBufferFormat(_jointsPerVertex);
-		
-		_jointWeightsBuffer = new Vector<VertexBuffer3D>(A3d.MAX_NUM_STAGE3D);
-		_jointIndexBuffer = new Vector<VertexBuffer3D>(A3d.MAX_NUM_STAGE3D);
-		_jointWeightsInvalid = new Vector<Bool>(A3d.MAX_NUM_STAGE3D, true);
-		_jointIndicesInvalid = new Vector<Bool>(A3d.MAX_NUM_STAGE3D, true);
-		_jointWeightContext = new Vector<Context3DProxy>(A3d.MAX_NUM_STAGE3D);
-		_jointIndexContext = new Vector<Context3DProxy>(A3d.MAX_NUM_STAGE3D);
 	}
 
 	public function updateAnimatedData(value:Vector<Float>):Void
 	{
 		_animatedData = value;
-		invalidateBuffers(_vertexDataInvalid);
+		invalidVertexDataBuffer();
 	}
 
 	/**
@@ -87,18 +91,18 @@ class SkinnedSubGeometry extends CompactSubGeometry
 	{
 		var contextIndex:Int = stage3DProxy.stage3DIndex;
 		var context:Context3DProxy = stage3DProxy.context3D;
-		if (_jointWeightContext[contextIndex] != context || _jointWeightsBuffer[contextIndex] == null)
+		if (_jointWeightContext != context || _jointWeightsBuffer == null)
 		{
-			_jointWeightsBuffer[contextIndex] = context.createVertexBuffer(_numVertices, _jointsPerVertex);
-			_jointWeightContext[contextIndex] = context;
-			_jointWeightsInvalid[contextIndex] = true;
+			_jointWeightsBuffer = context.createVertexBuffer(_numVertices, _jointsPerVertex);
+			_jointWeightContext = context;
+			_jointWeightsInvalid = true;
 		}
-		if (_jointWeightsInvalid[contextIndex])
+		if (_jointWeightsInvalid)
 		{
-			_jointWeightsBuffer[contextIndex].uploadFromVector(_jointWeightsData, 0, Std.int(_jointWeightsData.length / _jointsPerVertex));
-			_jointWeightsInvalid[contextIndex] = false;
+			_jointWeightsBuffer.uploadFromVector(_jointWeightsData, 0, Std.int(_jointWeightsData.length / _jointsPerVertex));
+			_jointWeightsInvalid = false;
 		}
-		context.setVertexBufferAt(index, _jointWeightsBuffer[contextIndex], 0, _bufferFormat);
+		context.setVertexBufferAt(index, _jointWeightsBuffer, 0, _bufferFormat);
 	}
 
 	/**
@@ -111,19 +115,19 @@ class SkinnedSubGeometry extends CompactSubGeometry
 		var contextIndex:Int = stage3DProxy.stage3DIndex;
 		var context:Context3DProxy = stage3DProxy.context3D;
 
-		if (_jointIndexContext[contextIndex] != context || 
-			_jointIndexBuffer[contextIndex] == null)
+		if (_jointIndexContext != context || 
+			_jointIndexBuffer == null)
 		{
-			_jointIndexBuffer[contextIndex] = context.createVertexBuffer(_numVertices, _jointsPerVertex);
-			_jointIndexContext[contextIndex] = context;
-			_jointIndicesInvalid[contextIndex] = true;
+			_jointIndexBuffer = context.createVertexBuffer(_numVertices, _jointsPerVertex);
+			_jointIndexContext = context;
+			_jointIndicesInvalid = true;
 		}
-		if (_jointIndicesInvalid[contextIndex])
+		if (_jointIndicesInvalid)
 		{
-			_jointIndexBuffer[contextIndex].uploadFromVector(_numCondensedJoints > 0 ? _condensedJointIndexData : _jointIndexData, 0, Std.int(_jointIndexData.length / _jointsPerVertex));
-			_jointIndicesInvalid[contextIndex] = false;
+			_jointIndexBuffer.uploadFromVector(_numCondensedJoints > 0 ? _condensedJointIndexData : _jointIndexData, 0, Std.int(_jointIndexData.length / _jointsPerVertex));
+			_jointIndicesInvalid = false;
 		}
-		context.setVertexBufferAt(index, _jointIndexBuffer[contextIndex], 0, _bufferFormat);
+		context.setVertexBufferAt(index, _jointIndexBuffer, 0, _bufferFormat);
 	}
 
 	override private function uploadData(contextIndex:Int):Void
@@ -131,7 +135,7 @@ class SkinnedSubGeometry extends CompactSubGeometry
 		if (_animatedData != null)
 		{
 			_activeBuffer.uploadFromVector(_animatedData, 0, _numVertices);
-			_vertexDataInvalid[contextIndex] = _activeDataInvalid = false;
+			_vertexDataInvalid = _activeDataInvalid = false;
 		}
 		else
 			super.uploadData(contextIndex);
@@ -162,8 +166,18 @@ class SkinnedSubGeometry extends CompactSubGeometry
 	override public function dispose():Void
 	{
 		super.dispose();
-		disposeVertexBuffers(_jointWeightsBuffer);
-		disposeVertexBuffers(_jointIndexBuffer);
+		if (_jointWeightsBuffer != null)
+		{
+			_jointWeightsBuffer.dispose();
+			_jointWeightsBuffer = null;
+		}
+		if (_jointIndexBuffer != null)
+		{
+			_jointIndexBuffer.dispose();
+			_jointIndexBuffer = null;
+		}
+		//disposeVertexBuffers(_jointWeightsBuffer);
+		//disposeVertexBuffers(_jointIndexBuffer);
 	}
 
 	/**
@@ -194,7 +208,7 @@ class SkinnedSubGeometry extends CompactSubGeometry
 		}
 		_numCondensedJoints = Std.int(newIndex / 3);
 
-		invalidateBuffers(_jointIndicesInvalid);
+		invalidJointIndicesBuffer();
 	}
 	
 	private function get_condensedIndexLookUp():Vector<UInt>
@@ -229,7 +243,7 @@ class SkinnedSubGeometry extends CompactSubGeometry
 		_condensedJointIndexData = null;
 
 		_jointWeightsData = value;
-		invalidateBuffers(_jointWeightsInvalid);
+		invalidJointWeightsBuffer();
 	}
 
 	
@@ -241,6 +255,6 @@ class SkinnedSubGeometry extends CompactSubGeometry
 	public function updateJointIndexData(value:Vector<Float>):Void
 	{
 		_jointIndexData = value;
-		invalidateBuffers(_jointIndicesInvalid);
+		invalidJointIndicesBuffer();
 	}
 }

@@ -15,8 +15,8 @@ import haxe.ds.StringMap;
 //TODO 重命名
 class AGALProgram3DCache
 {
-	private static var _instances:Vector<AGALProgram3DCache>;
-	private static var _currentId:Int;
+	private static var _instance:AGALProgram3DCache;
+	private static var _currentId:Int = 0;
 
 	private var _stage3DProxy:Stage3DProxy;
 
@@ -25,9 +25,16 @@ class AGALProgram3DCache
 	private var _usages:Array<Int>;
 	private var _keys:Array<String>;
 
-	public function new(stage3DProxy:Stage3DProxy)
+	public function new()
+	{
+	}
+	
+	public function initialize(stage3DProxy:Stage3DProxy):Void
 	{
 		_stage3DProxy = stage3DProxy;
+		_stage3DProxy.addEventListener(Stage3DEvent.CONTEXT3D_DISPOSED, onContext3DDisposed, false, 0, true);
+		_stage3DProxy.addEventListener(Stage3DEvent.CONTEXT3D_CREATED, onContext3DDisposed, false, 0, true);
+		_stage3DProxy.addEventListener(Stage3DEvent.CONTEXT3D_RECREATED, onContext3DDisposed, false, 0, true);
 
 		_program3Ds = new StringMap<Program3D>();
 		_ids = new StringMap<Int>();
@@ -35,40 +42,22 @@ class AGALProgram3DCache
 		_keys = [];
 	}
 
-	public static function getInstance(stage3DProxy:Stage3DProxy):AGALProgram3DCache
+	public static function getInstance():AGALProgram3DCache
 	{
-		var index:Int = stage3DProxy.stage3DIndex;
-
-		if(_instances == null)
-			_instances = new Vector<AGALProgram3DCache>(A3d.MAX_NUM_STAGE3D, true);
-
-		if (_instances[index] == null)
-		{
-			_instances[index] = new AGALProgram3DCache(stage3DProxy);
-			stage3DProxy.addEventListener(Stage3DEvent.CONTEXT3D_DISPOSED, onContext3DDisposed, false, 0, true);
-			stage3DProxy.addEventListener(Stage3DEvent.CONTEXT3D_CREATED, onContext3DDisposed, false, 0, true);
-			stage3DProxy.addEventListener(Stage3DEvent.CONTEXT3D_RECREATED, onContext3DDisposed, false, 0, true);
-		}
-
-		return _instances[index];
+		if (_instance == null)
+			_instance = new AGALProgram3DCache();
+		return _instance;
 	}
 
-	public static function getInstanceFromIndex(index:Int):AGALProgram3DCache
-	{
-		if (_instances[index] == null)
-			throw new Error("Instance not created yet!");
-		return _instances[index];
-	}
-
-	private static function onContext3DDisposed(event:Stage3DEvent):Void
+	private function onContext3DDisposed(event:Stage3DEvent):Void
 	{
 		var stage3DProxy:Stage3DProxy = Std.instance(event.target,Stage3DProxy);
-		var index:Int = stage3DProxy.stage3DIndex;
-		_instances[index].dispose();
-		_instances[index] = null;
 		stage3DProxy.removeEventListener(Stage3DEvent.CONTEXT3D_DISPOSED, onContext3DDisposed);
 		stage3DProxy.removeEventListener(Stage3DEvent.CONTEXT3D_CREATED, onContext3DDisposed);
 		stage3DProxy.removeEventListener(Stage3DEvent.CONTEXT3D_RECREATED, onContext3DDisposed);
+		
+		_instance.dispose();
+		_instance.initialize(stage3DProxy);
 	}
 
 	public function dispose():Void

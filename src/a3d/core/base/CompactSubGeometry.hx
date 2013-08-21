@@ -15,9 +15,9 @@ class CompactSubGeometry extends SubGeometryBase implements ISubGeometry
 	public var secondaryUVStride(get, null):Int;
 	public var secondaryUVOffset(get, null):Int;
 	
-	private var _vertexDataInvalid:Vector<Bool>;
-	private var _vertexBuffer:Vector<VertexBuffer3D>;
-	private var _bufferContext:Vector<Context3DProxy>;
+	private var _vertexDataInvalid:Bool;
+	private var _vertexBuffer:VertexBuffer3D;
+	private var _bufferContext:Context3DProxy;
 	private var _numVertices:Int;
 	private var _contextIndex:Int;
 	private var _activeBuffer:VertexBuffer3D;
@@ -32,10 +32,6 @@ class CompactSubGeometry extends SubGeometryBase implements ISubGeometry
 		
 		_autoDeriveVertexNormals = false;
 		_autoDeriveVertexTangents = false;
-		
-		_vertexDataInvalid = new Vector<Bool>(A3d.MAX_NUM_STAGE3D, true);
-		_vertexBuffer = new Vector<VertexBuffer3D>(A3d.MAX_NUM_STAGE3D);
-		_bufferContext = new Vector<Context3DProxy>(A3d.MAX_NUM_STAGE3D);
 	}
 
 	private function get_numVertices():Int
@@ -65,7 +61,14 @@ class CompactSubGeometry extends SubGeometryBase implements ISubGeometry
 		_vertexData = data;
 		var numVertices:Int = Std.int(_vertexData.length / 13);
 		if (numVertices != _numVertices)
-			disposeVertexBuffers(_vertexBuffer);
+		{
+			if (_vertexBuffer != null)
+			{
+				_vertexBuffer.dispose();
+				_vertexBuffer = null;
+			}
+			//disposeVertexBuffers(_vertexBuffer);
+		}
 		_numVertices = numVertices;
 
 		if (_numVertices == 0)
@@ -73,7 +76,7 @@ class CompactSubGeometry extends SubGeometryBase implements ISubGeometry
 			throw new Error("Bad data: geometry can't have zero triangles");
 		}
 
-		invalidateBuffers(_vertexDataInvalid);
+		invalidVertexDataBuffer();
 
 		invalidateBounds();
 	}
@@ -102,7 +105,7 @@ class CompactSubGeometry extends SubGeometryBase implements ISubGeometry
 		if (_uvsDirty && _autoGenerateUVs)
 		{
 			_vertexData = updateDummyUVs(_vertexData);
-			invalidateBuffers(_vertexDataInvalid);
+			invalidVertexDataBuffer();
 		}
 
 		if (contextIndex != _contextIndex)
@@ -135,7 +138,7 @@ class CompactSubGeometry extends SubGeometryBase implements ISubGeometry
 	private function uploadData(contextIndex:Int):Void
 	{
 		_activeBuffer.uploadFromVector(_vertexData, 0, _numVertices);
-		_vertexDataInvalid[contextIndex] = _activeDataInvalid = false;
+		_vertexDataInvalid = _activeDataInvalid = false;
 	}
 
 	public function activateVertexNormalBuffer(index:Int, stage3DProxy:Stage3DProxy):Void
@@ -172,17 +175,17 @@ class CompactSubGeometry extends SubGeometryBase implements ISubGeometry
 
 	private function createBuffer(contextIndex:Int, context:Context3DProxy):Void
 	{
-		_vertexBuffer[contextIndex] = _activeBuffer = context.createVertexBuffer(_numVertices, 13);
-		_bufferContext[contextIndex] = _activeContext = context;
-		_vertexDataInvalid[contextIndex] = _activeDataInvalid = true;
+		_vertexBuffer = _activeBuffer = context.createVertexBuffer(_numVertices, 13);
+		_bufferContext = _activeContext = context;
+		_vertexDataInvalid = _activeDataInvalid = true;
 	}
 
 	private function updateActiveBuffer(contextIndex:Int):Void
 	{
 		_contextIndex = contextIndex;
-		_activeDataInvalid = _vertexDataInvalid[contextIndex];
-		_activeBuffer = _vertexBuffer[contextIndex];
-		_activeContext = _bufferContext[contextIndex];
+		_activeDataInvalid = _vertexDataInvalid;
+		_activeBuffer = _vertexBuffer;
+		_activeContext = _bufferContext;
 	}
 
 	override private function get_vertexData():Vector<Float>
@@ -199,7 +202,7 @@ class CompactSubGeometry extends SubGeometryBase implements ISubGeometry
 
 	override private function updateVertexNormals(target:Vector<Float>):Vector<Float>
 	{
-		invalidateBuffers(_vertexDataInvalid);
+		invalidVertexDataBuffer();
 		return super.updateVertexNormals(target);
 	}
 
@@ -207,7 +210,7 @@ class CompactSubGeometry extends SubGeometryBase implements ISubGeometry
 	{
 		if (_vertexNormalsDirty)
 			_vertexData = updateVertexNormals(_vertexData);
-		invalidateBuffers(_vertexDataInvalid);
+		invalidVertexDataBuffer();
 		return super.updateVertexTangents(target);
 	}
 
@@ -231,7 +234,7 @@ class CompactSubGeometry extends SubGeometryBase implements ISubGeometry
 		if (_uvsDirty && _autoGenerateUVs)
 		{
 			_vertexData = updateDummyUVs(_vertexData);
-			invalidateBuffers(_vertexDataInvalid);
+			invalidVertexDataBuffer();
 		}
 		return _vertexData;
 	}
@@ -239,13 +242,13 @@ class CompactSubGeometry extends SubGeometryBase implements ISubGeometry
 	override public function applyTransformation(transform:Matrix3D):Void
 	{
 		super.applyTransformation(transform);
-		invalidateBuffers(_vertexDataInvalid);
+		invalidVertexDataBuffer();
 	}
 
 	override public function scale(scale:Float):Void
 	{
 		super.scale(scale);
-		invalidateBuffers(_vertexDataInvalid);
+		invalidVertexDataBuffer();
 	}
 
 	public function clone():ISubGeometry
@@ -261,7 +264,7 @@ class CompactSubGeometry extends SubGeometryBase implements ISubGeometry
 	override public function scaleUV(scaleU:Float = 1, scaleV:Float = 1):Void
 	{
 		super.scaleUV(scaleU, scaleV);
-		invalidateBuffers(_vertexDataInvalid);
+		invalidVertexDataBuffer();
 	}
 
 	override private function get_vertexStride():Int
@@ -319,8 +322,12 @@ class CompactSubGeometry extends SubGeometryBase implements ISubGeometry
 	override public function dispose():Void
 	{
 		super.dispose();
-		disposeVertexBuffers(_vertexBuffer);
-		_vertexBuffer = null;
+		//disposeVertexBuffers(_vertexBuffer);
+		if (_vertexBuffer != null)
+		{
+			_vertexBuffer.dispose();
+			_vertexBuffer = null;
+		}
 	}
 
 	override private function disposeVertexBuffers(buffers:Vector<VertexBuffer3D>):Void
@@ -329,13 +336,18 @@ class CompactSubGeometry extends SubGeometryBase implements ISubGeometry
 		_activeBuffer = null;
 	}
 
-	override private function invalidateBuffers(invalid:Vector<Bool>):Void
+	override private function invalidIndicesBuffer():Void
 	{
-		super.invalidateBuffers(invalid);
+		_indicesInvalid = true;
 		_activeDataInvalid = true;
 	}
-
-
+	
+	private function invalidVertexDataBuffer():Void
+	{
+		_vertexDataInvalid = true;
+		_activeDataInvalid = true;
+	}
+	
 	public function cloneWithSeperateBuffers():SubGeometry
 	{
 		var clone:SubGeometry = new SubGeometry();

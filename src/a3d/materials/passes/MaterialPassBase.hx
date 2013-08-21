@@ -1,5 +1,6 @@
 package a3d.materials.passes;
 
+import a3d.A3d;
 import a3d.animators.data.AnimationRegisterCache;
 import a3d.animators.IAnimationSet;
 import a3d.core.base.IRenderable;
@@ -320,11 +321,11 @@ class MaterialPassBase extends EventDispatcher
 		if (_lightPicker != null)
 			_lightPicker.removeEventListener(Event.CHANGE, onLightsChange);
 
-		for (i in 0...8)
+		for (i in 0...A3d.MAX_NUM_STAGE3D)
 		{
 			if (_program3Ds[i] != null)
 			{
-				AGALProgram3DCache.getInstanceFromIndex(i).freeProgram3D(_program3Dids[i]);
+				AGALProgram3DCache.getInstance().freeProgram3D(_program3Dids[i]);
 				_program3Ds[i] = null;
 			}
 		}
@@ -550,7 +551,7 @@ class MaterialPassBase extends EventDispatcher
 			Debug.trace("--------------------");
 			Debug.trace(fragmentCode);
 		}
-		AGALProgram3DCache.getInstance(stage3DProxy).setProgram3D(this, vertexCode, fragmentCode);
+		AGALProgram3DCache.getInstance().setProgram3D(this, vertexCode, fragmentCode);
 	}
 
 	
