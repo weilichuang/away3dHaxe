@@ -1,13 +1,13 @@
 package a3d.core.base;
 
+import a3d.core.managers.Stage3DProxy;
+import a3d.entities.Camera3D;
+import a3d.entities.Entity;
 import flash.display3D.IndexBuffer3D;
 import flash.geom.Matrix;
 import flash.geom.Matrix3D;
 import flash.Vector;
 
-import a3d.entities.Camera3D;
-import a3d.core.managers.Stage3DProxy;
-import a3d.entities.Entity;
 
 /**
  * IRenderable provides an interface for objects that can be rendered in the rendering pipeline.

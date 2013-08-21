@@ -14,7 +14,8 @@ class Agal
 	
 	public static inline function mov(des:String, src1:String):String
 	{
-		return "mov " + des + "," + src1 + "\n";
+		return 'mov ${des},${src1}\n';
+		//"mov $}" + des + "," + src1 + "\n";
 	}
 	
 	public static inline function add(des:String, src1:String,src2:String):String
@@ -29,7 +30,8 @@ class Agal
 	
 	public static inline function mul(des:String, src1:String,src2:String):String
 	{
-		return "mul " + des + "," + src1 + "," + src2 + "\n";
+		return 'mul ${des},${src1},${src2}\n';
+		//return "mul " + des + "," + src1 + "," + src2 + "\n";
 	}
 	
 	public static inline function div(des:String, src1:String,src2:String):String

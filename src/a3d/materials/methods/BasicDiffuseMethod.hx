@@ -333,7 +333,7 @@ class BasicDiffuseMethod extends LightingMethodBase
 		{
 			_diffuseInputRegister = regCache.getFreeFragmentConstant();
 			vo.fragmentConstantsIndex = _diffuseInputRegister.index * 4;
-			code += "mov " + albedo + ", " + _diffuseInputRegister + "\n";
+			code += 'mov ${albedo}, ${_diffuseInputRegister}\n';
 		}
 
 		if (vo.numLights == 0)
@@ -376,7 +376,7 @@ class BasicDiffuseMethod extends LightingMethodBase
 	 */
 	private function applyShadow(vo:MethodVO, regCache:ShaderRegisterCache):String
 	{
-		return Agal.mul(_totalLightColorReg.toString() + ".xyz", _totalLightColorReg.toString(), _shadowRegister.toString() + ".w");
+		return Agal.mul('${_totalLightColorReg.toString()}.xyz', _totalLightColorReg.toString(), '${_shadowRegister.toString()}.w');
 		//"mul " + _totalLightColorReg + ".xyz, " + _totalLightColorReg + ", " + _shadowRegister + ".w\n";
 	}
 

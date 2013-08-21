@@ -1,10 +1,10 @@
 package a3d.core.base;
 
+import a3d.core.managers.Stage3DProxy;
 import flash.display3D.IndexBuffer3D;
 import flash.geom.Matrix3D;
 import flash.Vector;
 
-import a3d.core.managers.Stage3DProxy;
 
 interface ISubGeometry
 {
