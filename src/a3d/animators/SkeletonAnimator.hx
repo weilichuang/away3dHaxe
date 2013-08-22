@@ -22,9 +22,6 @@ import flash.Vector;
 import haxe.ds.ObjectMap;
 
 
-
-
-
 /**
  * Provides an interface for assigning skeleton-based animation data sets to mesh-based entity objects
  * and controlling the various available states of animation through an interative playhead that can be
@@ -53,7 +50,7 @@ class SkeletonAnimator extends AnimatorBase implements IAnimator
 	 * Indicates whether the skeleton animator is disabled by default for GPU rendering, something that allows the animator to perform calculation on the GPU.
 	 * Defaults to false.
 	 */
-	public var forceCPU(get, null):Bool;
+	public var forceCPU(default, null):Bool;
 	/**
 	 * Offers the option of enabling GPU accelerated animation on skeletons larger than 32 joints
 	 * by condensing the number of joint index values required per mesh. Only applicable to
@@ -69,7 +66,6 @@ class SkeletonAnimator extends AnimatorBase implements IAnimator
 	private var _condensedMatrices:Vector<Float>;
 
 	private var _skeleton:Skeleton;
-	private var _forceCPU:Bool;
 	private var _useCondensedIndices:Bool;
 	private var _jointsPerVertex:Int;
 	private var _activeSkeletonState:ISkeletonAnimationState;
@@ -86,7 +82,7 @@ class SkeletonAnimator extends AnimatorBase implements IAnimator
 		super(animationSet);
 
 		_skeleton = skeleton;
-		_forceCPU = forceCPU;
+		this.forceCPU = forceCPU;
 		_jointsPerVertex = animationSet.jointsPerVertex;
 
 		_numJoints = _skeleton.numJoints;
@@ -136,13 +132,6 @@ class SkeletonAnimator extends AnimatorBase implements IAnimator
 	{
 		return _skeleton;
 	}
-
-	
-	private function get_forceCPU():Bool
-	{
-		return _forceCPU;
-	}
-
 	
 	private function get_useCondensedIndices():Bool
 	{
@@ -161,7 +150,7 @@ class SkeletonAnimator extends AnimatorBase implements IAnimator
 	{
 		/* The cast to SkeletonAnimationSet should never fail, as _animationSet can only be set
 		   through the constructor, which will only accept a SkeletonAnimationSet. */
-		return new SkeletonAnimator(Std.instance(_animationSet,SkeletonAnimationSet), _skeleton, _forceCPU);
+		return new SkeletonAnimator(Std.instance(_animationSet,SkeletonAnimationSet), _skeleton, forceCPU);
 	}
 
 	/**
@@ -262,7 +251,7 @@ class SkeletonAnimator extends AnimatorBase implements IAnimator
 	 */
 	public function testGPUCompatibility(pass:MaterialPassBase):Void
 	{
-		if (!_useCondensedIndices && (_forceCPU || _jointsPerVertex > 4 || pass.numUsedVertexConstants + _numJoints * 3 > 128))
+		if (!_useCondensedIndices && (forceCPU || _jointsPerVertex > 4 || pass.numUsedVertexConstants + _numJoints * 3 > 128))
 		{
 			_animationSet.cancelGPUCompatibility();
 		}

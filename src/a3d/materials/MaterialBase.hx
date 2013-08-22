@@ -22,8 +22,6 @@ import flash.geom.Matrix3D;
 import flash.Vector;
 
 
-
-
 /**
  * MaterialBase forms an abstract base class for any material.
  * A material consists of several passes, each of which constitutes at least one render call. Several passes could
@@ -103,13 +101,13 @@ class MaterialBase extends NamedAssetBase implements IAsset
 	 * which reduces render state changes across
 	 * materials using the same Program3D.
 	 */
-	public var uniqueId(get, null):UInt;
+	public var uniqueId(default, null):Int;
 	/**
 	 * The amount of passes used by the material.
 	 *
 	 * @private
 	 */
-	public var numPasses(get, null):UInt;
+	public var numPasses(default, null):Int;
 	/**
 	 * A list of the IMaterialOwners that use this material
 	 * @private
@@ -130,14 +128,6 @@ class MaterialBase extends NamedAssetBase implements IAsset
 	 * @private
 	 */
 	public var classification:String;
-
-	/**
-	 * An id for this material used to sort the renderables by material, which reduces render state changes across
-	 * materials using the same Program3D.
-	 *
-	 * @private
-	 */
-	private var _uniqueId:UInt;
 	
 	/**
 	 * An id for this material used to sort the renderables by shader program, which reduces Program3D state changes.
@@ -156,16 +146,12 @@ class MaterialBase extends NamedAssetBase implements IAsset
 	private var _bothSides:Bool;
 	private var _animationSet:IAnimationSet;
 
-	/**
-	 * A list of material owners, renderables or custom Entities.
-	 */
 	private var _owners:Vector<IMaterialOwner>;
 
 	private var _alphaPremultiplied:Bool;
 
 	private var _blendMode:BlendMode;
 
-	private var _numPasses:Int;
 	private var _passes:Vector<MaterialPassBase>;
 
 	private var _mipmap:Bool = true;
@@ -199,7 +185,7 @@ class MaterialBase extends NamedAssetBase implements IAsset
 		// Default to considering pre-multiplied textures while blending
 		alphaPremultiplied = true;
 
-		_uniqueId = MATERIAL_ID_COUNT++;
+		uniqueId = MATERIAL_ID_COUNT++;
 	}
 
 	
@@ -235,7 +221,7 @@ class MaterialBase extends NamedAssetBase implements IAsset
 	private function set_mipmap(value:Bool):Bool
 	{
 		_mipmap = value;
-		for (i in 0..._numPasses)
+		for (i in 0...numPasses)
 			_passes[i].mipmap = value;
 		return _mipmap;
 	}
@@ -249,7 +235,7 @@ class MaterialBase extends NamedAssetBase implements IAsset
 	private function set_smooth(value:Bool):Bool
 	{
 		_smooth = value;
-		for (i in 0..._numPasses)
+		for (i in 0...numPasses)
 			_passes[i].smooth = value;
 		return _smooth;
 	}
@@ -274,7 +260,7 @@ class MaterialBase extends NamedAssetBase implements IAsset
 	private function set_repeat(value:Bool):Bool
 	{
 		_repeat = value;
-		for (i in 0..._numPasses)
+		for (i in 0...numPasses)
 			_passes[i].repeat = value;
 		return _repeat;
 	}
@@ -286,7 +272,7 @@ class MaterialBase extends NamedAssetBase implements IAsset
 	 */
 	public function dispose():Void
 	{
-		for (i in 0..._numPasses)
+		for (i in 0...numPasses)
 			_passes[i].dispose();
 
 		_depthPass.dispose();
@@ -305,7 +291,7 @@ class MaterialBase extends NamedAssetBase implements IAsset
 	{
 		_bothSides = value;
 
-		for (i in 0..._numPasses)
+		for (i in 0...numPasses)
 			_passes[i].bothSides = value;
 
 		_depthPass.bothSides = value;
@@ -334,7 +320,7 @@ class MaterialBase extends NamedAssetBase implements IAsset
 	{
 		_alphaPremultiplied = value;
 
-		for (i in 0..._numPasses)
+		for (i in 0...numPasses)
 			_passes[i].alphaPremultiplied = value;
 		return _alphaPremultiplied;
 	}
@@ -343,18 +329,6 @@ class MaterialBase extends NamedAssetBase implements IAsset
 	private function get_requiresBlending():Bool
 	{
 		return _blendMode != BlendMode.NORMAL;
-	}
-
-	
-	private inline function get_uniqueId():UInt
-	{
-		return _uniqueId;
-	}
-
-	
-	private inline function get_numPasses():Int
-	{
-		return _numPasses;
 	}
 
 	/**
@@ -517,7 +491,7 @@ class MaterialBase extends NamedAssetBase implements IAsset
 				if (_animationSet != owner.animator.animationSet)
 				{
 					_animationSet = owner.animator.animationSet;
-					for (i in 0..._numPasses)
+					for (i in 0...numPasses)
 						_passes[i].animationSet = _animationSet;
 					_depthPass.animationSet = _animationSet;
 					_distancePass.animationSet = _animationSet;
@@ -538,7 +512,7 @@ class MaterialBase extends NamedAssetBase implements IAsset
 		if (_owners.length == 0)
 		{
 			_animationSet = null;
-			for (i in 0..._numPasses)
+			for (i in 0...numPasses)
 				_passes[i].animationSet = _animationSet;
 			_depthPass.animationSet = _animationSet;
 			_distancePass.animationSet = _animationSet;
@@ -569,7 +543,7 @@ class MaterialBase extends NamedAssetBase implements IAsset
 	 */
 	public function deactivate(stage3DProxy:Stage3DProxy):Void
 	{
-		_passes[_numPasses - 1].deactivate(stage3DProxy);
+		_passes[numPasses - 1].deactivate(stage3DProxy);
 	}
 
 	/**
@@ -600,7 +574,7 @@ class MaterialBase extends NamedAssetBase implements IAsset
 			}
 		}
 
-		for (i in 0..._numPasses)
+		for (i in 0...numPasses)
 		{
 			// only invalidate the pass if it wasn't the triggering pass
 			if (_passes[i] != triggerPass)
@@ -624,7 +598,7 @@ class MaterialBase extends NamedAssetBase implements IAsset
 	private function removePass(pass:MaterialPassBase):Void
 	{
 		_passes.splice(_passes.indexOf(pass), 1);
-		--_numPasses;
+		--numPasses;
 	}
 
 	/**
@@ -632,11 +606,11 @@ class MaterialBase extends NamedAssetBase implements IAsset
 	 */
 	private function clearPasses():Void
 	{
-		for (i in 0..._numPasses)
+		for (i in 0...numPasses)
 			_passes[i].removeEventListener(Event.CHANGE, onPassChange);
 
 		_passes.length = 0;
-		_numPasses = 0;
+		numPasses = 0;
 	}
 
 	/**
@@ -645,7 +619,7 @@ class MaterialBase extends NamedAssetBase implements IAsset
 	 */
 	private function addPass(pass:MaterialPassBase):Void
 	{
-		_passes[_numPasses++] = pass;
+		_passes[numPasses++] = pass;
 		pass.animationSet = _animationSet;
 		pass.alphaPremultiplied = _alphaPremultiplied;
 		pass.mipmap = _mipmap;
@@ -664,18 +638,12 @@ class MaterialBase extends NamedAssetBase implements IAsset
 	{
 		var mult:Float = 1;
 		renderOrderId = 0;
-		for (i in 0..._numPasses)
+		for (i in 0...numPasses)
 		{
-			var ids:Vector<Int> = _passes[i].getProgram3Dids();
-			var len:Int = ids.length;
-			for (j in 0...len)
+			var id:Int = _passes[i].getProgram3Did();
+			if (id != -1)
 			{
-				if (ids[j] != -1)
-				{
-					renderOrderId += Std.int(mult * ids[j]);
-					//j = len;
-					break;
-				}
+				renderOrderId += Std.int(mult * id);
 			}
 			mult *= 1000;
 		}
@@ -686,19 +654,12 @@ class MaterialBase extends NamedAssetBase implements IAsset
 	 */
 	private function onDistancePassChange(event:Event):Void
 	{
-		var ids:Vector<Int> = _distancePass.getProgram3Dids();
-		var len:Int = ids.length;
+		var id:Int = _distancePass.getProgram3Did();
 
 		depthPassId = 0;
-
-		for (j in 0...len)
+		if (id != -1)
 		{
-			if (ids[j] != -1)
-			{
-				depthPassId += ids[j];
-				//j = len;
-				break;
-			}
+			depthPassId = id;
 		}
 	}
 
@@ -707,19 +668,12 @@ class MaterialBase extends NamedAssetBase implements IAsset
 	 */
 	private function onDepthPassChange(event:Event):Void
 	{
-		var ids:Vector<Int> = _depthPass.getProgram3Dids();
-		var len:Int = ids.length;
+		var id:Int = _depthPass.getProgram3Did();
 
 		depthPassId = 0;
-
-		for (j in 0...len)
+		if (id != -1)
 		{
-			if (ids[j] != -1)
-			{
-				depthPassId += ids[j];
-				//j = len;
-				break;
-			}
+			depthPassId = id;
 		}
 	}
 }

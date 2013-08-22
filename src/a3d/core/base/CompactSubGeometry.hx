@@ -19,10 +19,7 @@ class CompactSubGeometry extends SubGeometryBase implements ISubGeometry
 	private var _vertexBuffer:VertexBuffer3D;
 	private var _bufferContext:Context3DProxy;
 	private var _numVertices:Int;
-	private var _contextIndex:Int;
-	private var _activeBuffer:VertexBuffer3D;
-	private var _activeContext:Context3DProxy;
-	private var _activeDataInvalid:Bool;
+
 	private var _isolatedVertexPositionData:Vector<Float>;
 	private var _isolatedVertexPositionDataDirty:Bool;
 
@@ -83,23 +80,18 @@ class CompactSubGeometry extends SubGeometryBase implements ISubGeometry
 
 	public function activateVertexBuffer(index:Int, stage3DProxy:Stage3DProxy):Void
 	{
-		var contextIndex:Int = stage3DProxy.stage3DIndex;
 		var context:Context3DProxy = stage3DProxy.context3D;
 
-		if (contextIndex != _contextIndex)
-			updateActiveBuffer(contextIndex);
+		if (_vertexBuffer == null || _bufferContext != context)
+			createBuffer(context);
+		if (_vertexDataInvalid)
+			uploadData();
 
-		if (_activeBuffer == null || _activeContext != context)
-			createBuffer(contextIndex, context);
-		if (_activeDataInvalid)
-			uploadData(contextIndex);
-
-		context.setVertexBufferAt(index, _activeBuffer, 0, Context3DVertexBufferFormat.FLOAT_3);
+		context.setVertexBufferAt(index, _vertexBuffer, 0, Context3DVertexBufferFormat.FLOAT_3);
 	}
 
 	public function activateUVBuffer(index:Int, stage3DProxy:Stage3DProxy):Void
 	{
-		var contextIndex:Int = stage3DProxy.stage3DIndex;
 		var context:Context3DProxy = stage3DProxy.context3D;
 
 		if (_uvsDirty && _autoGenerateUVs)
@@ -108,84 +100,61 @@ class CompactSubGeometry extends SubGeometryBase implements ISubGeometry
 			invalidVertexDataBuffer();
 		}
 
-		if (contextIndex != _contextIndex)
-			updateActiveBuffer(contextIndex);
+		if (_vertexBuffer == null || _bufferContext != context)
+			createBuffer(context);
+		if (_vertexDataInvalid)
+			uploadData();
 
-		if (_activeBuffer == null || _activeContext != context)
-			createBuffer(contextIndex, context);
-		if (_activeDataInvalid)
-			uploadData(contextIndex);
-
-		context.setVertexBufferAt(index, _activeBuffer, 9, Context3DVertexBufferFormat.FLOAT_2);
+		context.setVertexBufferAt(index, _vertexBuffer, 9, Context3DVertexBufferFormat.FLOAT_2);
 	}
 
 	public function activateSecondaryUVBuffer(index:Int, stage3DProxy:Stage3DProxy):Void
 	{
-		var contextIndex:Int = stage3DProxy.stage3DIndex;
 		var context:Context3DProxy = stage3DProxy.context3D;
 
-		if (contextIndex != _contextIndex)
-			updateActiveBuffer(contextIndex);
+		if (_vertexBuffer == null || _bufferContext != context)
+			createBuffer(context);
+		if (_vertexDataInvalid)
+			uploadData();
 
-		if (_activeBuffer == null || _activeContext != context)
-			createBuffer(contextIndex, context);
-		if (_activeDataInvalid)
-			uploadData(contextIndex);
-
-		context.setVertexBufferAt(index, _activeBuffer, 11, Context3DVertexBufferFormat.FLOAT_2);
+		context.setVertexBufferAt(index, _vertexBuffer, 11, Context3DVertexBufferFormat.FLOAT_2);
 	}
 
-	private function uploadData(contextIndex:Int):Void
+	private function uploadData():Void
 	{
-		_activeBuffer.uploadFromVector(_vertexData, 0, _numVertices);
-		_vertexDataInvalid = _activeDataInvalid = false;
+		_vertexBuffer.uploadFromVector(_vertexData, 0, _numVertices);
+		_vertexDataInvalid = false;
 	}
 
 	public function activateVertexNormalBuffer(index:Int, stage3DProxy:Stage3DProxy):Void
 	{
-		var contextIndex:Int = stage3DProxy.stage3DIndex;
 		var context:Context3DProxy = stage3DProxy.context3D;
+		
+		if (_vertexBuffer == null || _bufferContext != context)
+			createBuffer(context);
+		if (_vertexDataInvalid)
+			uploadData();
 
-		if (contextIndex != _contextIndex)
-			updateActiveBuffer(contextIndex);
-
-		if (_activeBuffer == null || _activeContext != context)
-			createBuffer(contextIndex, context);
-		if (_activeDataInvalid)
-			uploadData(contextIndex);
-
-		context.setVertexBufferAt(index, _activeBuffer, 3, Context3DVertexBufferFormat.FLOAT_3);
+		context.setVertexBufferAt(index, _vertexBuffer, 3, Context3DVertexBufferFormat.FLOAT_3);
 	}
 
 	public function activateVertexTangentBuffer(index:Int, stage3DProxy:Stage3DProxy):Void
 	{
-		var contextIndex:Int = stage3DProxy.stage3DIndex;
 		var context:Context3DProxy = stage3DProxy.context3D;
 
-		if (contextIndex != _contextIndex)
-			updateActiveBuffer(contextIndex);
+		if (_vertexBuffer == null || _bufferContext != context)
+			createBuffer(context);
+		if (_vertexDataInvalid)
+			uploadData();
 
-		if (_activeBuffer == null || _activeContext != context)
-			createBuffer(contextIndex, context);
-		if (_activeDataInvalid)
-			uploadData(contextIndex);
-
-		context.setVertexBufferAt(index, _activeBuffer, 6, Context3DVertexBufferFormat.FLOAT_3);
+		context.setVertexBufferAt(index, _vertexBuffer, 6, Context3DVertexBufferFormat.FLOAT_3);
 	}
 
-	private function createBuffer(contextIndex:Int, context:Context3DProxy):Void
+	private function createBuffer(context:Context3DProxy):Void
 	{
-		_vertexBuffer = _activeBuffer = context.createVertexBuffer(_numVertices, 13);
-		_bufferContext = _activeContext = context;
-		_vertexDataInvalid = _activeDataInvalid = true;
-	}
-
-	private function updateActiveBuffer(contextIndex:Int):Void
-	{
-		_contextIndex = contextIndex;
-		_activeDataInvalid = _vertexDataInvalid;
-		_activeBuffer = _vertexBuffer;
-		_activeContext = _bufferContext;
+		_vertexBuffer = context.createVertexBuffer(_numVertices, 13);
+		_bufferContext = context;
+		_vertexDataInvalid = true;
 	}
 
 	override private function get_vertexData():Vector<Float>
@@ -322,7 +291,6 @@ class CompactSubGeometry extends SubGeometryBase implements ISubGeometry
 	override public function dispose():Void
 	{
 		super.dispose();
-		//disposeVertexBuffers(_vertexBuffer);
 		if (_vertexBuffer != null)
 		{
 			_vertexBuffer.dispose();
@@ -330,22 +298,20 @@ class CompactSubGeometry extends SubGeometryBase implements ISubGeometry
 		}
 	}
 
-	override private function disposeVertexBuffers(buffers:Vector<VertexBuffer3D>):Void
-	{
-		super.disposeVertexBuffers(buffers);
-		_activeBuffer = null;
-	}
+	//override private function disposeVertexBuffers(buffers:Vector<VertexBuffer3D>):Void
+	//{
+		//super.disposeVertexBuffers(buffers);
+		//_activeBuffer = null;
+	//}
 
 	override private function invalidIndicesBuffer():Void
 	{
 		_indicesInvalid = true;
-		_activeDataInvalid = true;
 	}
 	
 	private function invalidVertexDataBuffer():Void
 	{
 		_vertexDataInvalid = true;
-		_activeDataInvalid = true;
 	}
 	
 	public function cloneWithSeperateBuffers():SubGeometry

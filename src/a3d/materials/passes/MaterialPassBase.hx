@@ -37,8 +37,8 @@ import flash.Vector;
 class MaterialPassBase extends EventDispatcher
 {
 	// keep track of previously rendered usage for faster cleanup of old vertex buffer streams and textures
-	private static var _previousUsedStreams:Vector<Int> = Vector.ofArray([0, 0, 0, 0, 0, 0, 0, 0]);
-	private static var _previousUsedTexs:Vector<Int> = Vector.ofArray([0, 0, 0, 0, 0, 0, 0, 0]);
+	private static var _previousUsedStream:Int = 0;
+	private static var _previousUsedTex:Int = 0;
 	
 	
 	/**
@@ -95,15 +95,15 @@ class MaterialPassBase extends EventDispatcher
 	private var _material:MaterialBase;
 	private var _animationSet:IAnimationSet;
 
-	private var _program3Ds:Vector<Program3D>;
-	private var _program3Dids:Vector<Int>;
-	private var _context3Ds:Vector<Context3DProxy>;
+	private var _program3D:Program3D;
+	private var _program3Did:Int = -1;
+	private var _context3D:Context3DProxy;
 
 	// agal props. these NEED to be set by subclasses!
 	// todo: can we perhaps figure these out manually by checking read operations in the bytecode, so other sources can be safely updated?
-	private var _numUsedStreams:Int;
+	private var _numUsedStreams:Int = 1;
 	private var _numUsedTextures:Int;
-	private var _numUsedVertexConstants:Int;
+	private var _numUsedVertexConstants:Int = 5;
 	private var _numUsedFragmentConstants:Int;
 	private var _numUsedVaryings:Int;
 
@@ -154,13 +154,7 @@ class MaterialPassBase extends EventDispatcher
 		super();
 		
 		_renderToTexture = renderToTexture;
-		_numUsedStreams = 1;
-		_numUsedVertexConstants = 5;
-		
-		_program3Ds = new Vector<Program3D>(8);
-		_program3Dids = Vector.ofArray([ -1, -1, -1, -1, -1, -1, -1, -1]);
-		_context3Ds = new Vector<Context3DProxy>(8);
-		
+
 		_depthCompareMode = Context3DCompareMode.LESS_EQUAL;
 
 		_blendFactorSource = Context3DBlendFactor.ONE;
@@ -173,29 +167,24 @@ class MaterialPassBase extends EventDispatcher
 		_defaultCulling = Context3DTriangleFace.BACK;
 	}
 
-	public function getProgram3Dids():Vector<Int>
+	public function getProgram3Did():Int
 	{
-		return _program3Dids;
+		return _program3Did;
 	}
 
-	public function getProgram3Did(stageIndex:Int):Int
+	public function setProgram3Did(value:Int):Void
 	{
-		return _program3Dids[stageIndex];
+		_program3Did = value;
 	}
 
-	public function setProgram3Dids(stageIndex:Int, value:Int):Void
+	public function getProgram3D():Program3D
 	{
-		_program3Dids[stageIndex] = value;
+		return _program3D;
 	}
 
-	public function getProgram3D(stageIndex:Int):Program3D
+	public function setProgram3D(p:Program3D):Void
 	{
-		return _program3Ds[stageIndex];
-	}
-
-	public function setProgram3D(stageIndex:Int, p:Program3D):Void
-	{
-		_program3Ds[stageIndex] = p;
+		_program3D = p;
 	}
 
 	
@@ -321,14 +310,7 @@ class MaterialPassBase extends EventDispatcher
 		if (_lightPicker != null)
 			_lightPicker.removeEventListener(Event.CHANGE, onLightsChange);
 
-		for (i in 0...A3d.MAX_NUM_STAGE3D)
-		{
-			if (_program3Ds[i] != null)
-			{
-				AGALProgram3DCache.getInstance().freeProgram3D(_program3Dids[i]);
-				_program3Ds[i] = null;
-			}
-		}
+		AGALProgram3DCache.getInstance().freeProgram3D(_program3Did);
 	}
 
 	
@@ -435,29 +417,27 @@ class MaterialPassBase extends EventDispatcher
 		if (_enableBlending)
 			context.setBlendFactors(_blendFactorSource, _blendFactorDest);
 
-		if (_context3Ds[contextIndex] != context || 
-			_program3Ds[contextIndex] == null)
+		if (_context3D != context || _program3D == null)
 		{
-			_context3Ds[contextIndex] = context;
+			_context3D = context;
 			updateProgram(stage3DProxy);
 			dispatchEvent(new Event(Event.CHANGE));
 		}
 
-		var prevUsed:Int = _previousUsedStreams[contextIndex];
+		var prevUsed:Int = _previousUsedStream;
 		for (i in _numUsedStreams...prevUsed)
 		{
 			context.setVertexBufferAt(i, null);
 		}
 
-		prevUsed = _previousUsedTexs[contextIndex];
-
+		prevUsed = _previousUsedTex;
 		for (i in _numUsedTextures...prevUsed)
 			context.setTextureAt(i, null);
 
 		if (_animationSet != null && !_animationSet.usesCPU)
 			_animationSet.activate(stage3DProxy, this);
 
-		context.setProgram(_program3Ds[contextIndex]);
+		context.setProgram(_program3D);
 
 		context.setCulling(_bothSides ? Context3DTriangleFace.NONE : _defaultCulling);
 
@@ -478,8 +458,8 @@ class MaterialPassBase extends EventDispatcher
 	public function deactivate(stage3DProxy:Stage3DProxy):Void
 	{
 		var index:Int = stage3DProxy.stage3DIndex;
-		_previousUsedStreams[index] = _numUsedStreams;
-		_previousUsedTexs[index] = _numUsedTextures;
+		_previousUsedStream = _numUsedStreams;
+		_previousUsedTex = _numUsedTextures;
 
 		if (_animationSet != null && !_animationSet.usesCPU)
 			_animationSet.deactivate(stage3DProxy, this);
@@ -501,8 +481,7 @@ class MaterialPassBase extends EventDispatcher
 	 */
 	public function invalidateShaderProgram(updateMaterial:Bool = true):Void
 	{
-		for (i in 0...8)
-			_program3Ds[i] = null;
+		_program3D = null;
 
 		if (_material != null && updateMaterial)
 			_material.invalidatePasses(this);

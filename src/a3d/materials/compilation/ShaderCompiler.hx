@@ -18,6 +18,187 @@ import flash.Vector;
  */
 class ShaderCompiler
 {
+	/**
+	 * Whether or not to use fallOff and radius properties for lights. This can be used to improve performance and
+	 * compatibility for constrained mode.
+	 */
+	public var enableLightFallOff(get, set):Bool;
+	/**
+	 * Indicates whether the compiled code needs UV animation.
+	 */
+	public var needUVAnimation(get,null):Bool;
+	/**
+	 * The target register to place the animated UV coordinate.
+	 */
+	public var UVTarget(get,null):String;
+	/**
+	 * The souce register providing the UV coordinate to animate.
+	 */
+	public var UVSource(get,null):String;
+	/**
+	 * Indicates whether the screen projection should be calculated by forcing a separate scene matrix and
+	 * view-projection matrix. This is used to prevent rounding errors when using multiple passes with different
+	 * projection code.
+	 */
+	public var forceSeperateMVP(get, set):Bool;
+	
+	public var animateUVs(get,set):Bool;
+	/**
+	 * Indicates whether visible textures (or other pixels) used by this material have
+	 * already been premultiplied.
+	 */
+	public var alphaPremultiplied(get,set):Bool;
+	/**
+	 * Indicates whether the output alpha value should remain unchanged compared to the material's original alpha.
+	 */
+	public var preserveAlpha(get,set):Bool;
+	/**
+	 * The shader method setup object containing the method configuration and their value objects for the material being compiled.
+	 */
+	public var methodSetup(get, set):ShaderMethodSetup;
+	
+	/**
+	 * The index for the common data register.
+	 */
+	public var commonsDataIndex(get,null):Int;
+	/**
+	 * The amount of vertex constants used by the material. Any animation code to be added can append its vertex
+	 * constant data after this.
+	 */
+	public var numUsedVertexConstants(get,null):Int;
+	/**
+	 * The amount of fragment constants used by the material. Any animation code to be added can append its vertex
+	 * constant data after this.
+	 */
+	public var numUsedFragmentConstants(get,null):Int;
+	/**
+	 * The amount of vertex attribute streams used by the material. Any animation code to be added can add its
+	 * streams after this. Also used to automatically disable attribute slots on pass deactivation.
+	 */
+	public var numUsedStreams(get,null):Int;
+	/**
+	 * The amount of textures used by the material. Used to automatically disable texture slots on pass deactivation.
+	 */
+	public var numUsedTextures(get,null):Int;
+	/**
+	 * Number of used varyings. Any animation code to be added can add its used varyings after this.
+	 */
+	public var numUsedVaryings(get,null):Int;
+	/**
+	 * Define which light source types to use for diffuse reflections. This allows choosing between regular lights
+	 * and/or light probes for diffuse reflections.
+	 *
+	 * @see a3d.materials.LightSources
+	 */
+	public var diffuseLightSources(get, set):Int;
+	
+	/**
+	 * Define which light source types to use for specular reflections. This allows choosing between regular lights
+	 * and/or light probes for specular reflections.
+	 *
+	 * @see a3d.materials.LightSources
+	 */
+	public var specularLightSources(get,set):Int;
+	/**
+	 * The index for the UV vertex attribute stream.
+	 */
+	public var uvBufferIndex(get,null):Int;
+	/**
+	 * The index for the UV transformation matrix vertex constant.
+	 */
+	public var uvTransformIndex(get,null):Int;
+	/**
+	 * The index for the secondary UV vertex attribute stream.
+	 */
+	public var secondaryUVBufferIndex(get,null):Int;
+	/**
+	 * The index for the vertex normal attribute stream.
+	 */
+	public var normalBufferIndex(get,null):Int;
+	/**
+	 * The index for the vertex tangent attribute stream.
+	 */
+	public var tangentBufferIndex(get,null):Int;
+	/**
+	 * The first index for the fragment constants containing the light data.
+	 */
+	public var lightFragmentConstantIndex(get,null):Int;
+	/**
+	 * The index of the vertex constant containing the camera position.
+	 */
+	public var cameraPositionIndex(get,null):Int;
+	/**
+	 * The index of the vertex constant containing the scene matrix.
+	 */
+	public var sceneMatrixIndex(get, null):Int;
+	
+	/**
+	 * The index of the vertex constant containing the uniform scene matrix (the inverse transpose).
+	 */
+	public var sceneNormalMatrixIndex(get,null):Int;
+	/**
+	 * The index of the fragment constant containing the weights for the light probes.
+	 */
+	public var probeWeightsIndex(get,null):Int;
+	/**
+	 * The generated vertex code.
+	 */
+	public var vertexCode(get,null):String;
+	/**
+	 * The generated fragment code.
+	 */
+	public var fragmentCode(get,null):String;
+	/**
+	 * The code containing the lighting calculations.
+	 */
+	public var fragmentLightCode(get,null):String;
+	/**
+	 * The code containing the post-lighting calculations.
+	 */
+	public var fragmentPostLightCode(get,null):String;
+	/**
+	 * The register name containing the final shaded colour.
+	 */
+	public var shadedTarget(get,null):String;
+	/**
+	 * The amount of point lights that need to be supported.
+	 */
+	public var numPointLights(get, set):Int;
+	
+	/**
+	 * The amount of directional lights that need to be supported.
+	 */
+	public var numDirectionalLights(get,set):Int;
+	/**
+	 * The amount of light probes that need to be supported.
+	 */
+	public var numLightProbes(get,set):Int;
+	/**
+	 * Indicates whether the specular method is used.
+	 */
+	public var usingSpecularMethod(get,null):Bool;
+	/**
+	 * The attributes that need to be animated by animators.
+	 */
+	public var animatableAttributes(get,null):Vector<String>;
+	/**
+	 * The target registers for animated properties, written to by the animators.
+	 */
+	public var animationTargetRegisters(get,null):Vector<String>;
+	/**
+	 * Indicates whether the compiled shader uses normals.
+	 */
+	public var usesNormals(get, null):Bool;
+	
+	/**
+	 * Indices for the light probe diffuse textures.
+	 */
+	public var lightProbeDiffuseIndices(get,null):Vector<UInt>;
+	/**
+	 * Indices for the light probe specular textures.
+	 */
+	public var lightProbeSpecularIndices(get,null):Vector<UInt>;
+	
 	private var _sharedRegisters:ShaderRegisterData;
 	private var _registerCache:ShaderRegisterCache;
 	private var _dependencyCounter:MethodDependencyCounter;
@@ -89,11 +270,7 @@ class ShaderCompiler
 		initRegisterCache(profile);
 	}
 
-	/**
-	 * Whether or not to use fallOff and radius properties for lights. This can be used to improve performance and
-	 * compatibility for constrained mode.
-	 */
-	public var enableLightFallOff(get,set):Bool;
+	
 	private function get_enableLightFallOff():Bool
 	{
 		return _enableLightFallOff;
@@ -104,39 +281,25 @@ class ShaderCompiler
 		return _enableLightFallOff = value;
 	}
 
-	/**
-	 * Indicates whether the compiled code needs UV animation.
-	 */
-	public var needUVAnimation(get,null):Bool;
+	
 	private function get_needUVAnimation():Bool
 	{
 		return _needUVAnimation;
 	}
 
-	/**
-	 * The target register to place the animated UV coordinate.
-	 */
-	public var UVTarget(get,null):String;
+	
 	private function get_UVTarget():String
 	{
 		return _UVTarget;
 	}
 
-	/**
-	 * The souce register providing the UV coordinate to animate.
-	 */
-	public var UVSource(get,null):String;
+	
 	private function get_UVSource():String
 	{
 		return _UVSource;
 	}
 
-	/**
-	 * Indicates whether the screen projection should be calculated by forcing a separate scene matrix and
-	 * view-projection matrix. This is used to prevent rounding errors when using multiple passes with different
-	 * projection code.
-	 */
-	public var forceSeperateMVP(get,set):Bool;
+	
 	private function get_forceSeperateMVP():Bool
 	{
 		return _forceSeperateMVP;
@@ -158,7 +321,7 @@ class ShaderCompiler
 		_registerCache.reset();
 	}
 
-	public var animateUVs(get,set):Bool;
+	
 	private function get_animateUVs():Bool
 	{
 		return _animateUVs;
@@ -169,11 +332,7 @@ class ShaderCompiler
 		return _animateUVs = value;
 	}
 
-	/**
-	 * Indicates whether visible textures (or other pixels) used by this material have
-	 * already been premultiplied.
-	 */
-	public var alphaPremultiplied(get,set):Bool;
+	
 	private function get_alphaPremultiplied():Bool
 	{
 		return _alphaPremultiplied;
@@ -184,10 +343,7 @@ class ShaderCompiler
 		return _alphaPremultiplied = value;
 	}
 
-	/**
-	 * Indicates whether the output alpha value should remain unchanged compared to the material's original alpha.
-	 */
-	public var preserveAlpha(get,set):Bool;
+	
 	private function get_preserveAlpha():Bool
 	{
 		return _preserveAlpha;
@@ -222,10 +378,7 @@ class ShaderCompiler
 		_fragmentConstantData = fragmentConstantData;
 	}
 
-	/**
-	 * The shader method setup object containing the method configuration and their value objects for the material being compiled.
-	 */
-	public var methodSetup(get,set):ShaderMethodSetup;
+	
 	private function get_methodSetup():ShaderMethodSetup
 	{
 		return _methodSetup;
@@ -520,10 +673,7 @@ class ShaderCompiler
 		method.initVO(methodVO);
 	}
 
-	/**
-	 * The index for the common data register.
-	 */
-	public var commonsDataIndex(get,null):Int;
+	
 	private function get_commonsDataIndex():Int
 	{
 		return _commonsDataIndex;
@@ -550,50 +700,32 @@ class ShaderCompiler
 			methods[i].method.sharedRegisters = _sharedRegisters;
 	}
 
-	/**
-	 * The amount of vertex constants used by the material. Any animation code to be added can append its vertex
-	 * constant data after this.
-	 */
-	public var numUsedVertexConstants(get,null):UInt;
-	private function get_numUsedVertexConstants():UInt
+	
+	private function get_numUsedVertexConstants():Int
 	{
 		return _registerCache.numUsedVertexConstants;
 	}
 
-	/**
-	 * The amount of fragment constants used by the material. Any animation code to be added can append its vertex
-	 * constant data after this.
-	 */
-	public var numUsedFragmentConstants(get,null):UInt;
-	private function get_numUsedFragmentConstants():UInt
+	
+	private function get_numUsedFragmentConstants():Int
 	{
 		return _registerCache.numUsedFragmentConstants;
 	}
 
-	/**
-	 * The amount of vertex attribute streams used by the material. Any animation code to be added can add its
-	 * streams after this. Also used to automatically disable attribute slots on pass deactivation.
-	 */
-	public var numUsedStreams(get,null):UInt;
-	private function get_numUsedStreams():UInt
+	
+	private function get_numUsedStreams():Int
 	{
 		return _registerCache.numUsedStreams;
 	}
 
-	/**
-	 * The amount of textures used by the material. Used to automatically disable texture slots on pass deactivation.
-	 */
-	public var numUsedTextures(get,null):UInt;
-	private function get_numUsedTextures():UInt
+	
+	private function get_numUsedTextures():Int
 	{
 		return _registerCache.numUsedTextures;
 	}
 
-	/**
-	 * Number of used varyings. Any animation code to be added can add its used varyings after this.
-	 */
-	public var numUsedVaryings(get,null):UInt;
-	private function get_numUsedVaryings():UInt
+	
+	private function get_numUsedVaryings():Int
 	{
 		return _registerCache.numUsedVaryings;
 	}
@@ -632,54 +764,47 @@ class ShaderCompiler
 	{
 		if (_methodSetup.normalMethod != null)
 			_methodSetup.normalMethod.cleanCompilationData();
+			
 		if (_methodSetup.diffuseMethod != null)
 			_methodSetup.diffuseMethod.cleanCompilationData();
+			
 		if (_methodSetup.ambientMethod != null)
 			_methodSetup.ambientMethod.cleanCompilationData();
+			
 		if (_methodSetup.specularMethod != null)
 			_methodSetup.specularMethod.cleanCompilationData();
+			
 		if (_methodSetup.shadowMethod != null)
 			_methodSetup.shadowMethod.cleanCompilationData();
+			
 		if (_methodSetup.colorTransformMethod != null)
 			_methodSetup.colorTransformMethod.cleanCompilationData();
 
 		var methods:Vector<MethodVOSet> = _methodSetup.methods;
-		var len:UInt = methods.length;
+		var len:Int = methods.length;
 		for (i in 0...len)
 			methods[i].method.cleanCompilationData();
 	}
 
 
-	/**
-	 * Define which light source types to use for specular reflections. This allows choosing between regular lights
-	 * and/or light probes for specular reflections.
-	 *
-	 * @see a3d.materials.LightSources
-	 */
-	public var specularLightSources(get,set):UInt;
-	private function get_specularLightSources():UInt
+	
+	private function get_specularLightSources():Int
 	{
 		return _specularLightSources;
 	}
 
-	private function set_specularLightSources(value:UInt):UInt
+	private function set_specularLightSources(value:Int):Int
 	{
 		return _specularLightSources = value;
 	}
 
-	/**
-	 * Define which light source types to use for diffuse reflections. This allows choosing between regular lights
-	 * and/or light probes for diffuse reflections.
-	 *
-	 * @see a3d.materials.LightSources
-	 */
-	public var diffuseLightSources(get,set):UInt;
-	private function get_diffuseLightSources():UInt
+	
+	private function get_diffuseLightSources():Int
 	{
 		return _diffuseLightSources;
 	}
 
-	private function set_diffuseLightSources(value:UInt):UInt
+	private function set_diffuseLightSources(value:Int):Int
 	{
 		return _diffuseLightSources = value;
 	}
@@ -708,216 +833,150 @@ class ShaderCompiler
 		return _numLightProbes > 0 && ((_diffuseLightSources | _specularLightSources) & LightSources.PROBES) != 0;
 	}
 
-	/**
-	 * The index for the UV vertex attribute stream.
-	 */
-	public var uvBufferIndex(get,null):Int;
+	
 	private function get_uvBufferIndex():Int
 	{
 		return _uvBufferIndex;
 	}
 
-	/**
-	 * The index for the UV transformation matrix vertex constant.
-	 */
-	public var uvTransformIndex(get,null):Int;
+	
 	private function get_uvTransformIndex():Int
 	{
 		return _uvTransformIndex;
 	}
 
-	/**
-	 * The index for the secondary UV vertex attribute stream.
-	 */
-	public var secondaryUVBufferIndex(get,null):Int;
+	
 	private function get_secondaryUVBufferIndex():Int
 	{
 		return _secondaryUVBufferIndex;
 	}
 	
-	/**
-	 * The index for the vertex normal attribute stream.
-	 */
-	public var normalBufferIndex(get,null):Int;
+	
 	private function get_normalBufferIndex():Int
 	{
 		return _normalBufferIndex;
 	}
 	
-	/**
-	 * The index for the vertex tangent attribute stream.
-	 */
-	public var tangentBufferIndex(get,null):Int;
+	
 	private function get_tangentBufferIndex():Int
 	{
 		return _tangentBufferIndex;
 	}
 
-	/**
-	 * The first index for the fragment constants containing the light data.
-	 */
-	public var lightFragmentConstantIndex(get,null):Int;
+	
 	private function get_lightFragmentConstantIndex():Int
 	{
 		return _lightFragmentConstantIndex;
 	}
 
-	/**
-	 * The index of the vertex constant containing the camera position.
-	 */
-	public var cameraPositionIndex(get,null):Int;
+	
 	private function get_cameraPositionIndex():Int
 	{
 		return _cameraPositionIndex;
 	}
 
-	/**
-	 * The index of the vertex constant containing the scene matrix.
-	 */
-	public var sceneMatrixIndex(get,null):Int;
+	
 	private function get_sceneMatrixIndex():Int
 	{
 		return _sceneMatrixIndex;
 	}
 
-	/**
-	 * The index of the vertex constant containing the uniform scene matrix (the inverse transpose).
-	 */
-	public var sceneNormalMatrixIndex(get,null):Int;
+	
 	private function get_sceneNormalMatrixIndex():Int
 	{
 		return _sceneNormalMatrixIndex;
 	}
 
-	/**
-	 * The index of the fragment constant containing the weights for the light probes.
-	 */
-	public var probeWeightsIndex(get,null):Int;
+	
 	private function get_probeWeightsIndex():Int
 	{
 		return _probeWeightsIndex;
 	}
 
-	/**
-	 * The generated vertex code.
-	 */
-	public var vertexCode(get,null):String;
+	
 	private function get_vertexCode():String
 	{
 		return _vertexCode;
 	}
 
-	/**
-	 * The generated fragment code.
-	 */
-	public var fragmentCode(get,null):String;
+	
 	private function get_fragmentCode():String
 	{
 		return _fragmentCode;
 	}
 
-	/**
-	 * The code containing the lighting calculations.
-	 */
-	public var fragmentLightCode(get,null):String;
+	
 	private function get_fragmentLightCode():String
 	{
 		return _fragmentLightCode;
 	}
 
-	/**
-	 * The code containing the post-lighting calculations.
-	 */
-	public var fragmentPostLightCode(get,null):String;
+	
 	private function get_fragmentPostLightCode():String
 	{
 		return _fragmentPostLightCode;
 	}
 
-	/**
-	 * The register name containing the final shaded colour.
-	 */
-	public var shadedTarget(get,null):String;
+	
 	private function get_shadedTarget():String
 	{
 		return _sharedRegisters.shadedTarget.toString();
 	}
 
-	/**
-	 * The amount of point lights that need to be supported.
-	 */
-	public var numPointLights(get,set):UInt;
-	private function get_numPointLights():UInt
+	
+	private function get_numPointLights():Int
 	{
 		return _numPointLights;
 	}
 
-	private function set_numPointLights(numPointLights:UInt):UInt
+	private function set_numPointLights(numPointLights:Int):Int
 	{
 		return _numPointLights = numPointLights;
 	}
 
 
-	/**
-	 * The amount of directional lights that need to be supported.
-	 */
-	public var numDirectionalLights(get,set):UInt;
-	private function get_numDirectionalLights():UInt
+	
+	private function get_numDirectionalLights():Int
 	{
 		return _numDirectionalLights;
 	}
 
-	private function set_numDirectionalLights(value:UInt):UInt
+	private function set_numDirectionalLights(value:Int):Int
 	{
 		return _numDirectionalLights = value;
 	}
 
 
-	/**
-	 * The amount of light probes that need to be supported.
-	 */
-	public var numLightProbes(get,set):UInt;
-	private function get_numLightProbes():UInt
+	
+	private function get_numLightProbes():Int
 	{
 		return _numLightProbes;
 	}
 
-	private function set_numLightProbes(value:UInt):UInt
+	private function set_numLightProbes(value:Int):Int
 	{
 		return _numLightProbes = value;
 	}
 
-	/**
-	 * Indicates whether the specular method is used.
-	 */
-	public var usingSpecularMethod(get,null):Bool;
+	
 	private function get_usingSpecularMethod():Bool
 	{
 		return _usingSpecularMethod;
 	}
 
-	/**
-	 * The attributes that need to be animated by animators.
-	 */
-	public var animatableAttributes(get,null):Vector<String>;
+	
 	private function get_animatableAttributes():Vector<String>
 	{
 		return _animatableAttributes;
 	}
 
-	/**
-	 * The target registers for animated properties, written to by the animators.
-	 */
-	public var animationTargetRegisters(get,null):Vector<String>;
+	
 	private function get_animationTargetRegisters():Vector<String>
 	{
 		return _animationTargetRegisters;
 	}
 
-	/**
-	 * Indicates whether the compiled shader uses normals.
-	 */
-	public var usesNormals(get,null):Bool;
+	
 	private function get_usesNormals():Bool
 	{
 		return _dependencyCounter.normalDependencies > 0 && _methodSetup.normalMethod.hasOutput;
@@ -938,9 +997,9 @@ class ShaderCompiler
 	{
 		var methods:Vector<MethodVOSet> = _methodSetup.methods;
 		var numMethods:UInt = methods.length;
-		var method:EffectMethodBase=null;
-		var data:MethodVO=null;
-		var alphaReg:ShaderRegisterElement=null;
+		var method:EffectMethodBase = null;
+		var data:MethodVO = null;
+		var alphaReg:ShaderRegisterElement = null;
 
 		if (_preserveAlpha)
 		{
@@ -977,19 +1036,13 @@ class ShaderCompiler
 		}
 	}
 
-	/**
-	 * Indices for the light probe diffuse textures.
-	 */
-	public var lightProbeDiffuseIndices(get,null):Vector<UInt>;
+	
 	private function get_lightProbeDiffuseIndices():Vector<UInt>
 	{
 		return _lightProbeDiffuseIndices;
 	}
 
-	/**
-	 * Indices for the light probe specular textures.
-	 */
-	public var lightProbeSpecularIndices(get,null):Vector<UInt>;
+	
 	private function get_lightProbeSpecularIndices():Vector<UInt>
 	{
 		return _lightProbeSpecularIndices;

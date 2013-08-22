@@ -70,10 +70,10 @@ class SuperShaderCompiler extends ShaderCompiler
 		else
 		{
 			_vertexCode += "m33 " + _sharedRegisters.normalVarying + ".xyz, " + _sharedRegisters.animatedNormal + ", " + normalMatrix[0] + "\n" +
-				"mov " + _sharedRegisters.normalVarying + ".w, " + _sharedRegisters.animatedNormal + ".w	\n";
+							"mov " + _sharedRegisters.normalVarying + ".w, " + _sharedRegisters.animatedNormal + ".w\n";
 
 			_fragmentCode += "nrm " + _sharedRegisters.normalFragment + ".xyz, " + _sharedRegisters.normalVarying + "\n" +
-				"mov " + _sharedRegisters.normalFragment + ".w, " + _sharedRegisters.normalVarying + ".w		\n";
+							"mov " + _sharedRegisters.normalFragment + ".w, " + _sharedRegisters.normalVarying + ".w\n";
 
 
 			if (_dependencyCounter.tangentDependencies > 0)
@@ -129,7 +129,8 @@ class SuperShaderCompiler extends ShaderCompiler
 			"nrm " + _sharedRegisters.animatedTangent + ".xyz, " + _sharedRegisters.animatedTangent + "\n";
 
 		var bitanTemp:ShaderRegisterElement = _registerCache.getFreeVertexVectorTemp();
-		_vertexCode += "mov " + _sharedRegisters.tangentVarying + ".x, " + _sharedRegisters.animatedTangent + ".x  \n" +
+		_vertexCode += 'mov ${_sharedRegisters.tangentVarying}.x,${_sharedRegisters.animatedTangent}.x\n'+
+			//"mov " + _sharedRegisters.tangentVarying + ".x, " + _sharedRegisters.animatedTangent + ".x  \n" +
 			"mov " + _sharedRegisters.tangentVarying + ".z, " + _sharedRegisters.animatedNormal + ".x  \n" +
 			"mov " + _sharedRegisters.tangentVarying + ".w, " + _sharedRegisters.normalInput + ".w  \n" +
 			"mov " + _sharedRegisters.bitangentVarying + ".x, " + _sharedRegisters.animatedTangent + ".y  \n" +

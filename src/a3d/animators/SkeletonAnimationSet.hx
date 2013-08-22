@@ -17,17 +17,11 @@ import flash.Vector;
  */
 class SkeletonAnimationSet extends AnimationSetBase implements IAnimationSet
 {
-	private var _jointsPerVertex:Int;
-
 	/**
 	 * Returns the amount of skeleton joints that can be linked to a single vertex via skinned weight values. For GPU-base animation, the
 	 * maximum allowed value is 4.
 	 */
-	public var jointsPerVertex(get,null):Int;
-	private function get_jointsPerVertex():Int
-	{
-		return _jointsPerVertex;
-	}
+	public var jointsPerVertex(default, null):Int;
 
 	/**
 	 * Creates a new <code>SkeletonAnimationSet</code> object.
@@ -37,7 +31,7 @@ class SkeletonAnimationSet extends AnimationSetBase implements IAnimationSet
 	public function new(jointsPerVertex:Int = 4)
 	{
 		super();
-		_jointsPerVertex = jointsPerVertex;
+		this.jointsPerVertex = jointsPerVertex;
 	}
 
 	/**

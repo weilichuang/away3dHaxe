@@ -56,13 +56,13 @@ class SkinnedSubGeometry extends CompactSubGeometry
 	private function invalidJointIndicesBuffer():Void
 	{
 		_jointIndicesInvalid = true;
-		_activeDataInvalid = true;
+		_vertexDataInvalid = true;
 	}
 	
 	private function invalidJointWeightsBuffer():Void
 	{
 		_jointWeightsInvalid = true;
-		_activeDataInvalid = true;
+		_vertexDataInvalid = true;
 	}
 
 	/**
@@ -130,15 +130,15 @@ class SkinnedSubGeometry extends CompactSubGeometry
 		context.setVertexBufferAt(index, _jointIndexBuffer, 0, _bufferFormat);
 	}
 
-	override private function uploadData(contextIndex:Int):Void
+	override private function uploadData():Void
 	{
 		if (_animatedData != null)
 		{
-			_activeBuffer.uploadFromVector(_animatedData, 0, _numVertices);
-			_vertexDataInvalid = _activeDataInvalid = false;
+			_vertexBuffer.uploadFromVector(_animatedData, 0, _numVertices);
+			_vertexDataInvalid = false;
 		}
 		else
-			super.uploadData(contextIndex);
+			super.uploadData();
 	}
 
 	/**

@@ -26,23 +26,23 @@ class LightPickerBase extends NamedAssetBase implements IAsset
 	/**
 	 * The maximum amount of directional lights that will be provided
 	 */
-	public var numDirectionalLights(get,null):Int;
+	public var numDirectionalLights(default,null):Int;
 	/**
 	 * The maximum amount of point lights that will be provided
 	 */
-	public var numPointLights(get,null):Int;
+	public var numPointLights(default,null):Int;
 	/**
 	 * The maximum amount of directional lights that cast shadows
 	 */
-	public var numCastingDirectionalLights(get,null):Int;
+	public var numCastingDirectionalLights(default,null):Int;
 	/**
 	 * The amount of point lights that cast shadows
 	 */
-	public var numCastingPointLights(get,null):Int;
+	public var numCastingPointLights(default,null):Int;
 	/**
 	 * The maximum amount of light probes that will be provided
 	 */
-	public var numLightProbes(get,null):Int;
+	public var numLightProbes(default,null):Int;
 	/**
 	 * The collected point lights to be used for shading.
 	 */
@@ -72,11 +72,6 @@ class LightPickerBase extends NamedAssetBase implements IAsset
 	 */
 	public var allPickedLights(get, null):Vector<LightBase>;
 	
-	private var _numPointLights:Int;
-	private var _numDirectionalLights:Int;
-	private var _numCastingPointLights:Int;
-	private var _numCastingDirectionalLights:Int;
-	private var _numLightProbes:Int;
 	private var _allPickedLights:Vector<LightBase>;
 	private var _pointLights:Vector<PointLight>;
 	private var _castingPointLights:Vector<PointLight>;
@@ -106,37 +101,6 @@ class LightPickerBase extends NamedAssetBase implements IAsset
 		return AssetType.LIGHT_PICKER;
 	}
 
-	
-	private function get_numDirectionalLights():Int
-	{
-		return _numDirectionalLights;
-	}
-
-	
-	private function get_numPointLights():Int
-	{
-		return _numPointLights;
-	}
-
-	
-	private function get_numCastingDirectionalLights():Int
-	{
-		return _numCastingDirectionalLights;
-	}
-
-	
-	private function get_numCastingPointLights():Int
-	{
-		return _numCastingPointLights;
-	}
-
-	
-	private function get_numLightProbes():Int
-	{
-		return _numLightProbes;
-	}
-
-	
 	private function get_pointLights():Vector<PointLight>
 	{
 		return _pointLights;
@@ -202,7 +166,7 @@ class LightPickerBase extends NamedAssetBase implements IAsset
 		var w:Float, total:Float = 0;
 
 		// calculates weights for probes
-		for (i in 0..._numLightProbes)
+		for (i in 0...numLightProbes)
 		{
 			lightPos = _lightProbes[i].scenePosition;
 			dx = rx - lightPos.x;
@@ -219,7 +183,7 @@ class LightPickerBase extends NamedAssetBase implements IAsset
 
 		// normalize
 		total = 1 / total;
-		for (i in 0..._numLightProbes)
+		for (i in 0...numLightProbes)
 			_lightProbeWeights[i] *= total;
 	}
 

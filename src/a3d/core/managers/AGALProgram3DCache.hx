@@ -93,7 +93,7 @@ class AGALProgram3DCache
 			_program3Ds.set(key, program);
 		}
 
-		var oldId:Int = pass.getProgram3Did(stageIndex);
+		var oldId:Int = pass.getProgram3Did();
 		var newId:Int = _ids.get(key);
 
 		if (oldId != newId)
@@ -103,8 +103,8 @@ class AGALProgram3DCache
 			_usages[newId]++;
 		}
 
-		pass.setProgram3Dids(stageIndex, newId);
-		pass.setProgram3D(stageIndex, _program3Ds.get(key));
+		pass.setProgram3Did(newId);
+		pass.setProgram3D(_program3Ds.get(key));
 	}
 
 	public function freeProgram3D(programId:Int):Void

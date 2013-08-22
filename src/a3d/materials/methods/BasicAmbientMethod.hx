@@ -7,7 +7,7 @@ import a3d.core.managers.Stage3DProxy;
 import a3d.materials.compilation.ShaderRegisterCache;
 import a3d.materials.compilation.ShaderRegisterElement;
 import a3d.textures.Texture2DBase;
-import flash.Vector.Vector;
+import flash.Vector;
 
 
 

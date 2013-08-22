@@ -43,7 +43,7 @@ class LightingPass extends CompiledPass
 	private var _maxLights:Int = 3;
 
 	/**
-	 * Creates a new DefaultScreenPass objects.
+	 * Creates a new LightingPass objects.
 	 */
 	public function new(material:MaterialBase)
 	{

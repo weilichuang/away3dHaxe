@@ -91,7 +91,8 @@ class Sprite3D extends Entity implements IRenderable
 	{
 		super.pickingCollider = value;
 		if (value != null)
-		{ // bounds collider is the only null value
+		{ 
+			// bounds collider is the only null value
 			_pickingSubMesh = new SubMesh(_geometry, null);
 			_pickingTransform = new Matrix3D();
 		}

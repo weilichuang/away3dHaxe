@@ -8,6 +8,7 @@ import a3d.events.LightEvent;
 import flash.events.Event;
 import flash.Vector;
 
+using a3d.utils.VectorUtil;
 
 /**
  * StaticLightPicker is a light picker that provides a static set of lights. The lights can be reassigned, but
@@ -41,11 +42,11 @@ class StaticLightPicker extends LightPickerBase
 
 	private function set_lights(value:Array<LightBase>):Array<LightBase>
 	{
-		var numPointLights:Int = 0;
-		var numDirectionalLights:Int = 0;
-		var numCastingPointLights:Int = 0;
-		var numCastingDirectionalLights:Int = 0;
-		var numLightProbes:Int = 0;
+		var numPL:Int = 0;
+		var numDL:Int = 0;
+		var numCPL:Int = 0;
+		var numCDL:Int = 0;
+		var numLP:Int = 0;
 		var light:LightBase;
 
 		if (_lights != null)
@@ -67,36 +68,39 @@ class StaticLightPicker extends LightPickerBase
 			if (Std.is(light,PointLight))
 			{
 				if (light.castsShadows)
-					_castingPointLights[numCastingPointLights++] = Std.instance(light,PointLight);
+					_castingPointLights[numCPL++] = Std.instance(light,PointLight);
 				else
-					_pointLights[numPointLights++] = Std.instance(light,PointLight);
+					_pointLights[numPL++] = Std.instance(light,PointLight);
 
 			}
 			else if (Std.is(light,DirectionalLight))
 			{
 				if (light.castsShadows)
-					_castingDirectionalLights[numCastingDirectionalLights++] = Std.instance(light,DirectionalLight);
+					_castingDirectionalLights[numCDL++] = Std.instance(light,DirectionalLight);
 				else
-					_directionalLights[numDirectionalLights++] = Std.instance(light,DirectionalLight);
+					_directionalLights[numDL++] = Std.instance(light,DirectionalLight);
 			}
-			else if (Std.is(light,LightProbe))
-				_lightProbes[numLightProbes++] = Std.instance(light,LightProbe);
+			else if (Std.is(light, LightProbe))
+			{
+				_lightProbes[numLP++] = Std.instance(light,LightProbe);
+			}
 		}
 
-		if (_numDirectionalLights == numDirectionalLights && 
-			_numPointLights == numPointLights && _numLightProbes == numLightProbes &&
-			_numCastingPointLights == numCastingPointLights && 
-			_numCastingDirectionalLights == numCastingDirectionalLights)
+		if (this.numDirectionalLights == numDL && 
+			this.numPointLights == numPL && 
+			this.numLightProbes == numLP &&
+			this.numCastingPointLights == numCPL && 
+			this.numCastingDirectionalLights == numCDL)
 			return _lights;
 
-		_numDirectionalLights = numDirectionalLights;
-		_numCastingDirectionalLights = numCastingDirectionalLights;
-		_numPointLights = numPointLights;
-		_numCastingPointLights = numCastingPointLights;
-		_numLightProbes = numLightProbes;
+		this.numDirectionalLights = numDL;
+		this.numCastingDirectionalLights = numCDL;
+		this.numPointLights = numPL;
+		this.numCastingPointLights = numCPL;
+		this.numLightProbes = numLP;
 
 		// MUST HAVE MULTIPLE OF 4 ELEMENTS!
-		_lightProbeWeights = new Vector<Float>(Math.ceil(numLightProbes / 4) * 4, true);
+		_lightProbeWeights = new Vector<Float>(Math.ceil(numLP / 4) * 4, true);
 
 		// notify material lights have changed
 		dispatchEvent(new Event(Event.CHANGE));
@@ -124,10 +128,14 @@ class StaticLightPicker extends LightPickerBase
 
 		var light:LightBase = Std.instance(event.target,LightBase);
 
-		if (Std.is(light,PointLight))
+		if (Std.is(light, PointLight))
+		{
 			updatePointCasting(Std.instance(light,PointLight));
-		else if (Std.is(light,DirectionalLight))
+		}
+		else if (Std.is(light, DirectionalLight))
+		{
 			updateDirectionalCasting(Std.instance(light,DirectionalLight));
+		}
 
 		dispatchEvent(new Event(Event.CHANGE));
 	}
@@ -139,16 +147,16 @@ class StaticLightPicker extends LightPickerBase
 	{
 		if (light.castsShadows)
 		{
-			--_numDirectionalLights;
-			++_numCastingDirectionalLights;
-			_directionalLights.splice(_directionalLights.indexOf(light), 1);
+			--numDirectionalLights;
+			++numCastingDirectionalLights;
+			_directionalLights.remove(light);
 			_castingDirectionalLights.push(light);
 		}
 		else
 		{
-			++_numDirectionalLights;
-			--_numCastingDirectionalLights;
-			_castingDirectionalLights.splice(_castingDirectionalLights.indexOf(light), 1);
+			++numDirectionalLights;
+			--numCastingDirectionalLights;
+			_castingDirectionalLights.remove(light);
 			_directionalLights.push(light);
 		}
 	}
@@ -160,16 +168,16 @@ class StaticLightPicker extends LightPickerBase
 	{
 		if (light.castsShadows)
 		{
-			--_numPointLights;
-			++_numCastingPointLights;
-			_pointLights.splice(_pointLights.indexOf(light), 1);
+			--numPointLights;
+			++numCastingPointLights;
+			_pointLights.remove(light);
 			_castingPointLights.push(light);
 		}
 		else
 		{
-			++_numPointLights;
-			--_numCastingPointLights;
-			_castingPointLights.splice(_castingPointLights.indexOf(light), 1);
+			++numPointLights;
+			--numCastingPointLights;
+			_castingPointLights.remove(light);
 			_pointLights.push(light);
 		}
 	}

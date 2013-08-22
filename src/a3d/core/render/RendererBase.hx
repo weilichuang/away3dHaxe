@@ -277,7 +277,7 @@ class RendererBase
 
 		executeRender(entityCollector, target, scissorRect, surfaceSelector);
 
-		//TODO 坚持最多可用的数量
+		//TODO 修改最多可用的数量
 		// clear buffers
 		for (i in 0...8)
 		{

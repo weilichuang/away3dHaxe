@@ -11,21 +11,19 @@ class ShaderRegisterElement
 	/**
 	 * The register's index.
 	 */
-	public var index(get, null):Int;
+	public var index:Int;
 	
 	/**
 	 * The register's name.
 	 */
-	public var regName(get, null):String;
+	public var regName:String;
 	
-	private var _regName:String;
-	private var _index:Int;
-	private var _toStr:String;
-
 	/**
 	 * The register's component, if not the entire register is represented.
 	 */
-	public var _component:Int;
+	public var component:Int;
+	
+	private var _toStr:String;
 
 	/**
 	 * Creates a new ShaderRegisterElement object.
@@ -35,14 +33,14 @@ class ShaderRegisterElement
 	 */
 	public function new(regName:String, index:Int, component:Int = -1)
 	{
-		_component = component;
-		_regName = regName;
-		_index = index;
+		this.regName = regName;
+		this.index = index;
+		this.component = component;
 
-		_toStr = _regName;
+		_toStr = regName;
 
-		if (_index >= 0)
-			_toStr += _index;
+		if (index >= 0)
+			_toStr += index;
 
 		if (component > -1)
 			_toStr += "." + COMPONENTS[component];
@@ -54,17 +52,5 @@ class ShaderRegisterElement
 	public function toString():String
 	{
 		return _toStr;
-	}
-
-	
-	private inline function get_regName():String
-	{
-		return _regName;
-	}
-
-	
-	private inline function get_index():Int
-	{
-		return _index;
 	}
 }

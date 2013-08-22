@@ -5,9 +5,6 @@ import a3d.textures.Texture2DBase;
 import flash.geom.ColorTransform;
 
 
-
-
-
 /**
  * TextureMaterial is a single-pass material that uses a texture to define the surface's diffuse reflection colour (albedo).
  */

@@ -90,9 +90,9 @@ class RegisterPool
 	 */
 	public function addUsage(register:ShaderRegisterElement, usageCount:Int):Void
 	{
-		if (register._component > -1)
+		if (register.component > -1)
 		{
-			_usedSingleCount[register._component][register.index] += usageCount;
+			_usedSingleCount[register.component][register.index] += usageCount;
 		}
 		else
 		{
@@ -106,9 +106,9 @@ class RegisterPool
 	 */
 	public function removeUsage(register:ShaderRegisterElement):Void
 	{
-		if (register._component > -1)
+		if (register.component > -1)
 		{
-			if (--_usedSingleCount[register._component][register.index] < 0)
+			if (--_usedSingleCount[register.component][register.index] < 0)
 			{
 				throw new Error("More usages removed than exist!");
 			}

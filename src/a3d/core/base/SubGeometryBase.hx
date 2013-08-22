@@ -562,22 +562,6 @@ class SubGeometryBase
 		}
 	}
 
-	/**
-	 * Disposes all buffers in a given vector.
-	 * @param buffers The vector of buffers to dispose.
-	 */
-	private function disposeVertexBuffers(buffers:Vector<VertexBuffer3D>):Void
-	{
-		for (i in 0...A3d.MAX_NUM_STAGE3D)
-		{
-			if (buffers[i] != null)
-			{
-				buffers[i].dispose();
-				buffers[i] = null;
-			}
-		}
-	}
-
 	
 	private function get_autoDeriveVertexTangents():Bool
 	{

@@ -23,9 +23,6 @@ import flash.events.Event;
 import flash.Vector;
 
 
-
-
-
 /**
  * MultiPassMaterialBase forms an abstract base class for the default multi-pass materials provided by a3d,
  * using material methods to define their appearance.
