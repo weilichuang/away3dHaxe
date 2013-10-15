@@ -4,9 +4,6 @@ import flash.display3D.Context3DTextureFormat;
 import flash.errors.Error;
 import flash.utils.ByteArray;
 
-/**
- * @author simo
- */
 class ATFData
 {
 
@@ -19,7 +16,6 @@ class ATFData
 	public var height:Int;
 	public var numTextures:Int;
 	public var data:ByteArray;
-	public var totalBytes:Int;
 
 	/** Create a new instance by parsing the given byte array. */
 	public function new(data:ByteArray)
@@ -28,7 +24,11 @@ class ATFData
 		if (sign != "ATF")
 			throw new Error("ATF parsing error, unknown format " + sign);
 
-		this.totalBytes = (data.readUnsignedByte() << 16) + (data.readUnsignedByte() << 8) + data.readUnsignedByte();
+		if (untyped data[6] == 255)
+			data.position = 12; // new file version
+		else
+			data.position = 6; // old file version
+
 
 		var tdata:UInt = data.readUnsignedByte();
 		var _type:Int = tdata >> 7; // UB[1]

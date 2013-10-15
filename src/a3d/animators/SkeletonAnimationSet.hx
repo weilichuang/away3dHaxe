@@ -57,7 +57,7 @@ class SkeletonAnimationSet extends AnimationSetBase implements IAnimationSet
 		{
 			var src:String = sourceRegisters[i];
 
-			for (j in 0..._jointsPerVertex)
+			for (j in 0...jointsPerVertex)
 			{
 				code += dot + " " + temp1 + ".x, " + src + ", vc[" + indices[j] + "+" + indexOffset0 + "]		\n" +
 					dot + " " + temp1 + ".y, " + src + ", vc[" + indices[j] + "+" + indexOffset1 + "]    	\n" +

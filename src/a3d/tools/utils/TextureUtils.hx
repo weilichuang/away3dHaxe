@@ -4,7 +4,7 @@ import flash.display.BitmapData;
 
 class TextureUtils
 {
-	private static inline var MAX_SIZE:Int = 2048;
+	private static inline var MAX_SIZE:Int = 4096;
 
 	public static function isBitmapDataValid(bitmapData:BitmapData):Bool
 	{

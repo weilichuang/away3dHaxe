@@ -16,6 +16,7 @@ import flash.net.URLRequest;
 import flash.utils.ByteArray;
 import flash.utils.Endian;
 import flash.Vector;
+import haxe.ds.IntMap.IntMap;
 import haxe.ds.WeakMap;
 
 
@@ -57,6 +58,7 @@ class MD2Parser extends ParserBase
 	private var _uvIndices:Vector<Float>;
 	private var _indices:Vector<UInt>;
 	private var _vertIndices:Vector<Float>;
+	private var _indexMap:IntMap<IntMap<Int>>;
 
 	// the current subgeom being built
 	private var _animationSet:VertexAnimationSet;
@@ -85,6 +87,7 @@ class MD2Parser extends ParserBase
 		_ignoreTexturePath = ignoreTexturePath;
 		_clipNodes = new WeakMap<String,VertexClipNode>();
 		_animationSet = new VertexAnimationSet();
+		_indexMap = new IntMap();
 	}
 
 	/**
@@ -377,6 +380,11 @@ class MD2Parser extends ParserBase
 
 		if (index == -1)
 		{
+			if (!_indexMap.exists(vertexIndex))
+			{
+				_indexMap.set(vertexIndex, new IntMap<Int>());
+			}
+			_indexMap.get(vertexIndex).set(uvIndex, _vertIndices.length);
 			_indices.push(_vertIndices.length);
 			_vertIndices.push(vertexIndex);
 			_uvIndices.push(uvIndex);
@@ -395,10 +403,8 @@ class MD2Parser extends ParserBase
 	 */
 	private function findIndex(vertexIndex:Int, uvIndex:Int):Int
 	{
-		var len:Int = _vertIndices.length;
-		for (i in 0...len)
-			if (_vertIndices[i] == vertexIndex && _uvIndices[i] == uvIndex)
-				return i;
+		if (_indexMap.exists(vertexIndex) && _indexMap.get(vertexIndex).exists(uvIndex))
+			return _indexMap.get(vertexIndex).get(uvIndex);
 
 		return -1;
 	}

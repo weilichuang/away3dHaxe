@@ -144,7 +144,7 @@ class Projector
 
 	private static function remapLinear(geometries:Vector<ISubGeometry>, position:Vector3D):Void
 	{
-		var numSubGeoms:UInt = geometries.length;
+		var numSubGeoms:Int = geometries.length;
 		var sub_geom:ISubGeometry;
 		var vertices:Vector<Float>;
 		var vertexOffset:Int;
@@ -153,11 +153,10 @@ class Projector
 		var uvs:Vector<Float>;
 		var uvOffset:Int;
 		var uvStride:Int;
-		var i:UInt;
-		var j:UInt;
-		var vIndex:UInt;
-		var uvIndex:UInt;
-		var numIndices:UInt;
+
+		var vIndex:Int;
+		var uvIndex:Int;
+		var numIndices:Int;
 		var offsetU:Float;
 		var offsetV:Float;
 

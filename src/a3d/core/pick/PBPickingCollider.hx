@@ -75,7 +75,7 @@ class PBPickingCollider extends PickingColliderBase implements IPickingCollider
 			_rayTriangleKernel.data.vertexBuffer.height = vertexBufferDims.y;
 			_rayTriangleKernel.data.vertexBufferWidth.value = [vertexBufferDims.x];
 			_rayTriangleKernel.data.vertexBuffer.input = duplicateVertexData;
-			_rayTriangleKernel.data.bothSides.value = [subMesh.material.bothSides ? 1.0 : 0.0];
+			_rayTriangleKernel.data.bothSides.value = [subMesh.material != null && subMesh.material.bothSides ? 1.0 : 0.0];
 
 			// send indices to pb
 			_rayTriangleKernel.data.indexBuffer.width = indexBufferDims.x;

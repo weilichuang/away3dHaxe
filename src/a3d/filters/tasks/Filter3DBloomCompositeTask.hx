@@ -8,10 +8,6 @@ import flash.display3D.textures.Texture;
 import flash.display3D.textures.TextureBase;
 import flash.Vector;
 
-
-
-
-
 class Filter3DBloomCompositeTask extends Filter3DTaskBase
 {
 	public var overlayTexture(get, set):TextureBase;
@@ -72,7 +68,7 @@ class Filter3DBloomCompositeTask extends Filter3DTaskBase
 	private function set_exposure(exposure:Float):Float
 	{
 		_exposure = exposure;
-		_data[4] = 1 + _exposure / 10;
+		_data[3] = 1 + _exposure / 10;
 		return _exposure;
 	}
 }

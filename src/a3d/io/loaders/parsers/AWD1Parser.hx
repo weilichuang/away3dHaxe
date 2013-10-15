@@ -76,14 +76,14 @@ class AWD1Parser extends ParserBase
 		var ba:ByteArray;
 		var str1:String;
 		var str2:String;
-
-		ba = ParserUtil.toByteArray(data);
 		var readLength:Int = 100;
-		if (ba.length < 100)
-			readLength = ba.length;
-
+		
+		ba = ParserUtil.toByteArray(data);
 		if (ba != null)
 		{
+			if (ba.length < 100)
+				readLength = ba.length;
+			
 			ba.position = 0;
 			str1 = ba.readUTFBytes(2);
 			str2 = ba.readUTFBytes(readLength);

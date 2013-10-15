@@ -275,10 +275,14 @@ class CompiledPass extends MaterialPassBase
 
 	private function set_animateUVs(value:Bool):Bool
 	{
+		if (_animateUVs == value)
+			return value;
+			
 		_animateUVs = value;
-		if ((value && !_animateUVs) || (!value && _animateUVs))
-			invalidateShaderProgram();
-		return _animateUVs;
+		
+		invalidateShaderProgram();
+		
+		return value;
 	}
 
 	/**

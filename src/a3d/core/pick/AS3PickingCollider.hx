@@ -48,7 +48,7 @@ class AS3PickingCollider extends PickingColliderBase implements IPickingCollider
 		var vertexData:Vector<Float> = subMesh.vertexData;
 		var uvData:Vector<Float> = subMesh.UVData;
 		var collisionTriangleIndex:Int = -1;
-		var bothSides:Bool = subMesh.material.bothSides;
+		var bothSides:Bool = subMesh.material != null && subMesh.material.bothSides;
 
 		var vertexStride:Int = subMesh.vertexStride;
 		var vertexOffset:Int = subMesh.vertexOffset;

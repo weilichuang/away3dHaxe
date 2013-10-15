@@ -891,9 +891,15 @@ class Object3D extends NamedAssetBase
 	 */
 	public function rotate(axis:Vector3D, angle:Float):Void
 	{
-		transform.prependRotation(angle, axis);
-
-		transform = transform;
+		var m:Matrix3D = new Matrix3D();
+		m.prependRotation(angle, axis);
+		
+		var vec:Vector3D = m.decompose()[1];
+		_rotationX += vec.x;
+		_rotationY += vec.y;
+		_rotationZ += vec.z;
+		
+		invalidateRotation();
 	}
 
 	/**

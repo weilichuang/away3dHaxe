@@ -102,14 +102,6 @@ class DepthMapPass extends MaterialPassBase
 	 */
 	override public function getFragmentCode(code:String):String
 	{
-		var wrap:String = _repeat ? "wrap" : "clamp";
-		var filter:String;
-
-		if (_smooth)
-			filter = _mipmap ? "linear,miplinear" : "linear";
-		else
-			filter = _mipmap ? "nearest,mipnearest" : "nearest";
-
 		var codeF:String =
 			"div ft2, v0, v0.w		\n" +
 			"mul ft0, fc0, ft2.z	\n" +
@@ -118,7 +110,16 @@ class DepthMapPass extends MaterialPassBase
 
 		if (_alphaThreshold > 0)
 		{
+			var wrap:String = _repeat ? "wrap" : "clamp";
+			var filter:String;
 			var format:String;
+			var enableMipMaps:Bool = _mipmap && _alphaMask.hasMipMaps;
+			
+			if (_smooth)
+				filter = enableMipMaps ? "linear,miplinear" : "linear";
+			else
+				filter = enableMipMaps ? "nearest,mipnearest" : "nearest";
+
 			switch (_alphaMask.format)
 			{
 				case Context3DTextureFormat.COMPRESSED:

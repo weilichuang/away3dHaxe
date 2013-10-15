@@ -115,11 +115,24 @@ class BackgroundImageRenderer
 			new AGALMiniAssembler(Debug.active).assemble(Context3DProgramType.FRAGMENT, getFragmentCode())
 			);
 
-		_vertexBuffer.uploadFromVector(Vector.ofArray([-1., -1, 0, 1,
-			1, -1, 1, 1,
-			1, 1, 1, 0,
-			-1, 1, 0, 0
-			]), 0, 4);
+		var w:Float = 2;
+		var h:Float = 2;
+		var x:Float = -1;
+		var y:Float = 1;
+		
+		if (_stage3DProxy.scissorRect != null) 
+		{
+			x = (_stage3DProxy.scissorRect.x * 2 - _stage3DProxy.viewPort.width) / _stage3DProxy.viewPort.width;
+			y = (_stage3DProxy.scissorRect.y * 2 - _stage3DProxy.viewPort.height) / _stage3DProxy.viewPort.height * -1;
+			w = 2 / (_stage3DProxy.viewPort.width / _stage3DProxy.scissorRect.width);
+			h = 2 / (_stage3DProxy.viewPort.height / _stage3DProxy.scissorRect.height);
+		}
+		
+		_vertexBuffer.uploadFromVector(Vector.ofArray([x, y-h, 0, 1,
+														x+w, y-h, 1, 1,
+														x+w, y, 1, 0,
+														x, y, 0, 0]), 0, 4);
+
 	}
 
 	private function get_stage3DProxy():Stage3DProxy

@@ -29,10 +29,6 @@ import flash.geom.Vector3D;
 import flash.Vector;
 
 
-
-
-
-
 /**
  * Picks a 3d object from a view or scene by performing a separate render pass on the scene around the area being picked using key color values,
  * then reading back the color value of the pixel in the render representing the picking ray. Requires multiple passes and readbacks for retriving details
@@ -238,7 +234,7 @@ class ShaderPicker implements IPicker
 
 			_potentialFound = true;
 
-			_context.setCulling(renderable.material.bothSides ? Context3DTriangleFace.NONE : Context3DTriangleFace.BACK);
+			_context.setCulling(renderable.material != null && renderable.material.bothSides ? Context3DTriangleFace.NONE : Context3DTriangleFace.BACK);
 
 			_interactives[_interactiveId++] = renderable;
 			// color code so that reading from bitmapdata will contain the correct value

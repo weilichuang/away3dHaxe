@@ -1,10 +1,6 @@
 package a3d.utils;
 import flash.Vector;
 
-/**
- * ...
- * @author 
- */
 class VectorUtil<T>
 {
 
@@ -23,14 +19,17 @@ class VectorUtil<T>
 		{
 			list.push(listAfter[i]);
 		}
-	};
+	}
 	
 	public static inline function remove<T>(list:Vector<T>, element:T):Bool 
 	{
 		var idx:Int = list.indexOf(element);
 		if ( idx == -1 ) 
 			return false;
-		list.splice(idx,1);
-		return true;
-	};
+		else
+		{
+			list.splice(idx,1);
+			return true;
+		}
+	}
 }
