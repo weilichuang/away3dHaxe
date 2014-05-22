@@ -22,7 +22,7 @@
     <option directives="" />
     <option flashStrict="True" />
     <option noInlineOnDebug="False" />
-    <option mainClass="a3dexample.Intermediate_ParticleTrails" />
+    <option mainClass="a3dexample.Advanced_MultiPassSponzaDemo" />
     <option enabledebug="True" />
     <option additional="-D advanced-telemetry&#xA;-swf-lib embeds/assets.swf&#xA;-D alchemy" />
   </build>
@@ -35,7 +35,7 @@
   <!-- Class files to compile (other referenced classes will automatically be included) -->
   <compileTargets>
     <compile path="src\Main.hx" />
-    <compile path="src\a3dexample\Intermediate_ParticleTrails.hx" />
+    <compile path="src\a3dexample\Advanced_MultiPassSponzaDemo.hx" />
   </compileTargets>
   <!-- Assets to embed into the output SWF -->
   <library>

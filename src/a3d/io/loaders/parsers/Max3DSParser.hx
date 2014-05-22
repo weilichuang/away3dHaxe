@@ -97,21 +97,22 @@ class Max3DSParser extends ParserBase
 		// TODO: Implement
 	}
 
+	override private override function startParsing(frameLimit:Float):Void
+	{
+		super.startParsing(frameLimit);
+		
+		_byteData = ParserUtil.toByteArray(_data);
+		_byteData.position = 0;
+		_byteData.endian = Endian.LITTLE_ENDIAN;
+		
+		_textures = new StringMap<TextureVO>();
+		_materials = new StringMap<MaterialVO>();
+		_unfinalized_objects = new StringMap<ObjectVO>();
+	}
+
 
 	override private function proceedParsing():Bool
 	{
-		if (_byteData == null)
-		{
-			_byteData = ParserUtil.toByteArray(_data);
-			_byteData.position = 0;
-			_byteData.endian = Endian.LITTLE_ENDIAN;
-
-			_textures = new StringMap<TextureVO>();
-			_materials = new StringMap<MaterialVO>();
-			_unfinalized_objects = new StringMap<ObjectVO>();
-		}
-
-
 		// TODO: With this construct, the loop will run no-op for as long
 		// as there is time once file has finished reading. Consider a nice
 		// way to stop loop when byte array is empty, without putting it in

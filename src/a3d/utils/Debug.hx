@@ -40,6 +40,6 @@ class Debug
 	
 	private static inline function dotrace(message:Dynamic):Void
 	{
-		Lib.trace(message);
+		trace(message);
 	}
 }
