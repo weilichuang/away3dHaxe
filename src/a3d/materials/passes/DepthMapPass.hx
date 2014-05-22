@@ -102,41 +102,38 @@ class DepthMapPass extends MaterialPassBase
 	 */
 	override public function getFragmentCode(code:String):String
 	{
-		var wrap:String = _repeat ? "wrap" : "clamp";
-		var filter:String;
-
-		if (_smooth)
-			filter = _mipmap ? "linear,miplinear" : "linear";
-		else
-			filter = _mipmap ? "nearest,mipnearest" : "nearest";
-
 		var codeF:String =
 			"div ft2, v0, v0.w		\n" +
 			"mul ft0, fc0, ft2.z	\n" +
 			"frc ft0, ft0			\n" +
 			"mul ft1, ft0.yzww, fc1	\n";
-
+		
 		if (_alphaThreshold > 0)
 		{
-			var format:String;
-			switch (_alphaMask.format)
-			{
+			var wrap:String = _repeat ? "wrap" : "clamp";
+			var filter:String, format:String;
+			var enableMipMaps:Bool = _mipmap && _alphaMask.hasMipMaps;
+			
+			if (_smooth)
+				filter = enableMipMaps ? "linear,miplinear" : "linear";
+			else
+				filter = enableMipMaps ? "nearest,mipnearest" : "nearest";
+			
+			switch (_alphaMask.format) {
 				case Context3DTextureFormat.COMPRESSED:
 					format = "dxt1,";
-					
-				case "compressedAlpha":
+				case Context3DTextureFormat.COMPRESSED_ALPHA:
 					format = "dxt5,";
-					
 				default:
 					format = "";
 			}
 			codeF += "tex ft3, v1, fs0 <2d," + filter + "," + format + wrap + ">\n" +
-					"sub ft3.w, ft3.w, fc2.x\n" +
-					"kil ft3.w\n";
+				"sub ft3.w, ft3.w, fc2.x\n" +
+				"kil ft3.w\n";
 		}
-
-		codeF += "sub oc, ft0, ft1\n";
-
+		
+		codeF += "sub oc, ft0, ft1		\n";
+		
 		return codeF;
 	}
 

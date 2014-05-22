@@ -1,6 +1,7 @@
 package a3d.math;
 
 import flash.geom.Matrix3D;
+import flash.geom.Orientation3D;
 import flash.geom.Vector3D;
 import flash.Vector;
 
@@ -15,6 +16,9 @@ class FMatrix3D
 	public static var RAW_DATA_CONTAINER:Vector<Float> = new Vector<Float>(16, true);
 
 	public static var CALCULATION_MATRIX:Matrix3D = new Matrix3D();
+	
+	public static var CALCULATION_VECTOR3D:Vector3D = new Vector3D();
+	public static var CALCULATION_DECOMPOSE:Vector<Vector3D> = Vector.ofArray([new Vector3D(), new Vector3D(), new Vector3D()]);
 
 	/**
 	* Fills the 3d matrix object with values representing the transformation made by the given quaternion.
@@ -71,7 +75,8 @@ class FMatrix3D
 	public static function getForward(m:Matrix3D, v:Vector3D = null):Vector3D
 	{
 		if (v == null)
-			v = new Vector3D(0.0, 0.0, 0.0);
+			v = new Vector3D();
+			
 		m.copyColumnTo(2, v);
 		v.normalize();
 
@@ -87,7 +92,7 @@ class FMatrix3D
 	public static function getUp(m:Matrix3D, v:Vector3D = null):Vector3D
 	{
 		if (v == null)
-			v = new Vector3D(0.0, 0.0, 0.0);
+			v = new Vector3D();
 			
 		m.copyColumnTo(1, v);
 		v.normalize();
@@ -104,7 +109,7 @@ class FMatrix3D
 	public static function getRight(m:Matrix3D, v:Vector3D = null):Vector3D
 	{
 		if (v == null)
-			v = new Vector3D(0.0, 0.0, 0.0);
+			v = new Vector3D();
 			
 		m.copyColumnTo(0, v);
 		v.normalize();
@@ -196,5 +201,240 @@ class FMatrix3D
 		target.copyRawDataFrom(rawData);
 
 		return target;
+	}
+	
+	public static function decompose(sourceMatrix:Matrix3D, orientationStyle:Orientation3D = null):Vector<Vector3D> 
+	{
+		if (orientationStyle == null)
+			orientationStyle = Orientation3D.EULER_ANGLES;
+			
+		var raw:Vector<Float> = RAW_DATA_CONTAINER;
+		sourceMatrix.copyRawDataTo(raw);
+
+		var a:Float = raw[0];
+		var e:Float = raw[1];
+		var i:Float = raw[2];
+		var b:Float = raw[4];
+		var f:Float = raw[5];
+		var j:Float = raw[6];
+		var c:Float = raw[8];
+		var g:Float = raw[9];
+		var k:Float = raw[10];
+
+		var x:Float = raw[12];
+		var y:Float = raw[13];
+		var z:Float = raw[14];
+
+		var tx:Float = Math.sqrt(a * a + e * e + i * i);
+		var ty:Float = Math.sqrt(b * b + f * f + j * j);
+		var tz:Float = Math.sqrt(c * c + g * g + k * k);
+		var tw:Float = 0;
+
+		var scaleX:Float = tx;
+		var scaleY:Float = ty;
+		var scaleZ:Float = tz;
+		
+		if (a * (f * k - j * g) - e * (b * k - j * c) + i * (b * g - f * c) < 0)
+		{
+			scaleZ = -scaleZ;
+		}
+
+		a = a / scaleX;
+		e = e / scaleX;
+		i = i / scaleX;
+		b = b / scaleY;
+		f = f / scaleY;
+		j = j / scaleY;
+		c = c / scaleZ;
+		g = g / scaleZ;
+		k = k / scaleZ;
+
+		//from away3d-ts
+		if (orientationStyle == Orientation3D.EULER_ANGLES) 
+		{
+			tx = Math.atan2(j, k);
+			ty = Math.atan2(-i, Math.sqrt(a * a + e * e));
+			var s1:Float = Math.sin(tx);
+			var c1:Float = Math.cos(tx);
+			tz = Math.atan2(s1 * c - c1 * b, c1 * f - s1 * g);
+		} 
+		else if (orientationStyle == Orientation3D.AXIS_ANGLE)
+		{
+			tw = Math.acos((a + f + k - 1) / 2);
+			var len:Float = Math.sqrt((j - g) * (j - g) + (c - i) * (c - i) + (e - b) * (e - b));
+			if (len != 0) 
+			{
+				tx = (j - g) / len;
+				ty = (c - i) / len;
+				tz = (e - b) / len;
+			} 
+			else
+			{
+				tx = ty = tz = 0;
+			}
+		} 
+		else //Orientation3D.QUATERNION
+		{
+			var tr:Float = a + f + k;
+			if (tr > 0)
+			{
+				tw = Math.sqrt(1 + tr) / 2;
+				tx = (j - g) / (4 * tw);
+				ty = (c - i) / (4 * tw);
+				tz = (e - b) / (4 * tw);
+			} 
+			else if ((a > f) && (a > k)) 
+			{
+				tx = Math.sqrt(1 + a - f - k) / 2;
+				tw = (j - g) / (4 * tx);
+				ty = (e + b) / (4 * tx);
+				tz = (c + i) / (4 * tx);
+			} 
+			else if (f > k) 
+			{
+				ty = Math.sqrt(1 + f - a - k) / 2;
+				tx = (e + b) / (4 * ty);
+				tw = (c - i) / (4 * ty);
+				tz = (j + g) / (4 * ty);
+			}
+			else 
+			{
+				tz = Math.sqrt(1 + k - a - f) / 2;
+				tx = (c + i) / (4 * tz);
+				ty = (j + g) / (4 * tz);
+				tw = (e - b) / (4 * tz);
+			}
+		}
+
+		var v:Vector<Vector3D> = CALCULATION_DECOMPOSE;
+		v[0].x = x;
+		v[0].y = y;
+		v[0].z = z;
+		v[1].x = tx;
+		v[1].y = ty;
+		v[1].z = tz;
+		v[1].w = tw;
+		v[2].x = scaleX;
+		v[2].y = scaleY;
+		v[2].z = scaleZ;
+		return v;
+	}
+
+	public static function transformVector(matrix:Matrix3D, vector:Vector3D, result:Vector3D = null):Vector3D 
+	{
+		if (result == null ) 
+			result = new Vector3D();
+			
+		var raw:Vector<Float> = RAW_DATA_CONTAINER;
+		matrix.copyRawDataTo(raw);
+		
+		var a:Float = raw[0];
+		var e:Float = raw[1];
+		var i:Float = raw[2];
+		var m:Float = raw[3];
+		
+		var b:Float = raw[4];
+		var f:Float = raw[5];
+		var j:Float = raw[6];
+		var n:Float = raw[7];
+		
+		var c:Float = raw[8];
+		var g:Float = raw[9];
+		var k:Float = raw[10];
+		var o:Float = raw[11];
+		var d:Float = raw[12];
+		
+		var h:Float = raw[13];
+		var l:Float = raw[14];
+		var p:Float = raw[15];
+		
+		var x:Float = vector.x;
+		var y:Float = vector.y;
+		var z:Float = vector.z;
+		
+		result.x = a * x + b * y + c * z + d;
+		result.y = e * x + f * y + g * z + h;
+		result.z = i * x + j * y + k * z + l;
+		result.w = m * x + n * y + o * z + p;
+		
+		return result;
+	}
+
+	public static function deltaTransformVector(matrix:Matrix3D, vector:Vector3D, result:Vector3D = null):Vector3D 
+	{
+		if (result == null) 
+			result = new Vector3D();
+			
+		var raw:Vector<Float> = RAW_DATA_CONTAINER;
+		matrix.copyRawDataTo(raw);
+		
+		var a:Float = raw[0];
+		var e:Float = raw[1];
+		var i:Float = raw[2];
+		var m:Float = raw[3];
+		var b:Float = raw[4];
+		var f:Float = raw[5];
+		var j:Float = raw[6];
+		var n:Float = raw[7];
+		var c:Float = raw[8];
+		var g:Float = raw[9];
+		var k:Float = raw[10];
+		var o:Float = raw[11];
+		var x:Float = vector.x;
+		var y:Float = vector.y;
+		var z:Float = vector.z;
+		
+		result.x = a * x + b * y + c * z;
+		result.y = e * x + f * y + g * z;
+		result.z = i * x + j * y + k * z;
+		result.w = m * x + n * y + o * z;
+		
+		return result;
+	}
+	
+	public static function getTranslation(transform:Matrix3D, result:Vector3D = null):Vector3D 
+	{
+		if (result == null) 
+			result = new Vector3D();
+			
+		transform.copyColumnTo(3, result);
+		
+		return result;
+	}
+	
+	public static function deltaTransformVectors(matrix:Matrix3D, vin:Vector<Float>, vout:Vector<Float>):Void 
+	{
+		var raw:Vector<Float> = RAW_DATA_CONTAINER;
+		matrix.copyRawDataTo(raw);
+		
+		var a:Float = raw[0];
+		var e:Float = raw[1];
+		var i:Float = raw[2];
+		var m:Float = raw[3];
+		var b:Float = raw[4];
+		var f:Float = raw[5];
+		var j:Float = raw[6];
+		var n:Float = raw[7];
+		var c:Float = raw[8];
+		var g:Float = raw[9];
+		var k:Float = raw[10];
+		var o:Float = raw[11];
+		
+		var outIndex:Int = 0;
+		
+		var index:Int = 0;
+		var length:Int = vin.length;
+		while (index < length)
+		{
+			var x:Float = vin[index];
+			var y:Float = vin[index+1];
+			var z:Float = vin[index + 2];
+			
+			vout[outIndex++] = a * x + b * y + c * z;
+			vout[outIndex++] = e * x + f * y + g * z;
+			vout[outIndex++] = i * x + j * y + k * z;
+			
+			index += 3;
+		}
 	}
 }

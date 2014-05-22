@@ -173,36 +173,36 @@ class SkeletonAnimator extends AnimatorBase implements IAnimator
 	 */
 	public function play(name:String, transition:IAnimationTransition = null, offset:Float = null):Void
 	{
-		if (_activeAnimationName == name)
-			return;
-
-		_activeAnimationName = name;
-
-		if (!_animationSet.hasAnimation(name))
-			throw new Error("Animation root node " + name + " not found!");
-
-		if (transition != null && _activeNode != null)
+		if (_activeAnimationName != name) 
 		{
-			//setup the transition
-			_activeNode = transition.getAnimationNode(this, _activeNode, _animationSet.getAnimation(name), Std.int(_absoluteTime));
-			_activeNode.addEventListener(AnimationStateEvent.TRANSITION_COMPLETE, onTransitionComplete);
+			_activeAnimationName = name;
+			
+			if (!_animationSet.hasAnimation(name))
+				throw new Error("Animation root node " + name + " not found!");
+			
+			if (transition != null && _activeNode != null)
+			{
+				//setup the transition
+				_activeNode = transition.getAnimationNode(this, _activeNode, _animationSet.getAnimation(name), Std.int(_absoluteTime));
+				_activeNode.addEventListener(AnimationStateEvent.TRANSITION_COMPLETE, onTransitionComplete);
+			} 
+			else
+			{
+				_activeNode = _animationSet.getAnimation(name);
+			}
+			
+			_activeState = getAnimationState(_activeNode);
+			
+			if (updatePosition) 
+			{
+				//update straight away to reset position deltas
+				_activeState.update(Std.int(_absoluteTime));
+				_activeState.positionDelta;
+			}
+			
+			_activeSkeletonState = Std.instance(_activeState,ISkeletonAnimationState);
 		}
-		else
-		{
-			_activeNode = _animationSet.getAnimation(name);
-		}
-
-		_activeState = getAnimationState(_activeNode);
-
-		if (updatePosition)
-		{
-			//update straight away to reset position deltas
-			_activeState.update(Std.int(_absoluteTime));
-			_activeState.positionDelta;
-		}
-
-		_activeSkeletonState = Std.instance(_activeState,ISkeletonAnimationState);
-
+		
 		start();
 
 		//apply a time offset if specified

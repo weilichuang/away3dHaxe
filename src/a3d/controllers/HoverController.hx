@@ -1,5 +1,6 @@
 package a3d.controllers;
 
+import a3d.math.FMatrix3D;
 import flash.geom.Vector3D;
 
 
@@ -376,11 +377,53 @@ class HoverController extends LookAtController
 			}
 		}
 
-		var pos:Vector3D = (lookAtObject != null) ? lookAtObject.position : ((lookAtPosition != null) ? lookAtPosition : _origin);
-		targetObject.x = pos.x + distance * Math.sin(currentPanAngle * FMath.DEGREES_TO_RADIANS()) * Math.cos(currentTiltAngle * FMath.DEGREES_TO_RADIANS());
-		targetObject.z = pos.z + distance * Math.cos(currentPanAngle * FMath.DEGREES_TO_RADIANS()) * Math.cos(currentTiltAngle * FMath.DEGREES_TO_RADIANS());
-		targetObject.y = pos.y + distance * Math.sin(currentTiltAngle * FMath.DEGREES_TO_RADIANS()) * yFactor;
+		if (_targetObject == null)
+			return;
 
+		if (_lookAtPosition != null)
+		{
+			_pos.x = _lookAtPosition.x;
+			_pos.y = _lookAtPosition.y;
+			_pos.z = _lookAtPosition.z;
+		} 
+		else if (_lookAtObject != null)
+		{
+			if (_targetObject.parent != null && _lookAtObject.parent != null)
+			{
+				if (_targetObject.parent != _lookAtObject.parent) 
+				{ 
+					// different spaces
+					_pos.x = _lookAtObject.scenePosition.x;
+					_pos.y = _lookAtObject.scenePosition.y;
+					_pos.z = _lookAtObject.scenePosition.z;
+					FMatrix3D.transformVector(_targetObject.parent.inverseSceneTransform, _pos, _pos);
+				}
+				else{
+					//one parent
+					FMatrix3D.getTranslation(_lookAtObject.transform, _pos);
+				}
+			}
+			else if (_lookAtObject.scene != null)
+			{
+				_pos.x = _lookAtObject.scenePosition.x;
+				_pos.y = _lookAtObject.scenePosition.y;
+				_pos.z = _lookAtObject.scenePosition.z;
+			}
+			else
+			{
+				FMatrix3D.getTranslation(_lookAtObject.transform, _pos);
+			}
+		}
+		else
+		{
+			_pos.x = _origin.x;
+			_pos.y = _origin.y;
+			_pos.z = _origin.z;
+		}
+
+		_targetObject.x = _pos.x + _distance * Math.sin(currentPanAngle * FMath.DEGREES_TO_RADIANS()) * Math.cos(currentTiltAngle * FMath.DEGREES_TO_RADIANS());
+		_targetObject.z = _pos.z + _distance * Math.cos(currentPanAngle * FMath.DEGREES_TO_RADIANS()) * Math.cos(currentTiltAngle * FMath.DEGREES_TO_RADIANS());
+		_targetObject.y = _pos.y + _distance * Math.sin(currentTiltAngle * FMath.DEGREES_TO_RADIANS()) * _yFactor;
 		super.update();
 	}
 }

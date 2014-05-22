@@ -116,16 +116,23 @@ class PerspectiveOffCenterLens extends LensBase
 	 * @param nX The normalised x coordinate in screen space, -1 corresponds to the left edge of the viewport, 1 to the right.
 	 * @param nY The normalised y coordinate in screen space, -1 corresponds to the top edge of the viewport, 1 to the bottom.
 	 * @param sZ The z coordinate in screen space, representing the distance into the screen.
+	 * @param v The destination Vector3D object
 	 * @return The scene position relative to the camera of the given screen coordinates.
 	 */
-	override public function unproject(nX:Float, nY:Float, sZ:Float):Vector3D
+	override public function unproject(nX:Float, nY:Float, sZ:Float, v:Vector3D = null):Vector3D
 	{
-		var v:Vector3D = new Vector3D(nX, -nY, sZ, 1.0);
+		if (v == null) 
+			v = new Vector3D();
+		
+		v.x = nX;
+		v.y = -nY;
+		v.z = sZ;
+		v.w = 1;
 
 		v.x *= sZ;
 		v.y *= sZ;
 
-		v = unprojectionMatrix.transformVector(v);
+		FMatrix3D.transformVector(unprojectionMatrix, v, v);
 
 		//z is unaffected by transform
 		v.z = sZ;

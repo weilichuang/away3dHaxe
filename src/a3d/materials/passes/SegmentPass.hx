@@ -2,6 +2,7 @@
 
 import a3d.core.base.IRenderable;
 import a3d.core.managers.Context3DProxy;
+import a3d.core.managers.RTTBufferManager;
 import a3d.core.managers.Stage3DProxy;
 import a3d.entities.Camera3D;
 import a3d.entities.SegmentSet;
@@ -157,7 +158,16 @@ class SegmentPass extends MaterialPassBase
 		context.setProgramConstantsFromVector(Context3DProgramType.VERTEX, 7, _constants);
 
 		// projection matrix
-		context.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX, 0, camera.lens.matrix, true);
+		if (stage3DProxy.renderTarget == null)
+			context.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX, 0, camera.lens.matrix, true);
+		else
+		{
+			//TODO: to find a better way
+			_calcMatrix.copyFrom(camera.lens.matrix);
+			var rttBufferManager:RTTBufferManager = RTTBufferManager.getInstance(stage3DProxy);
+			_calcMatrix.appendScale(rttBufferManager.textureRatioX, rttBufferManager.textureRatioY, 1);
+			context.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX, 0, _calcMatrix, true);
+		}
 	}
 
 	/**

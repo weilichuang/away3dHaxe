@@ -226,8 +226,11 @@ class Touch3DManager
 
 	private function onTouchMove(event:TouchEvent):Void
 	{
-
 		var touch:TouchPoint = _touchPointFromId.get(event.touchPointID);
+		
+		if (touch == null) 
+			return;
+		
 		touch.x = event.stageX;
 		touch.y = event.stageY;
 
@@ -242,8 +245,10 @@ class Touch3DManager
 
 	private function onTouchEnd(event:TouchEvent):Void
 	{
-
 		var touch:TouchPoint = _touchPointFromId.get(event.touchPointID);
+		
+		if (touch == null) 
+			return;
 
 		_collidingObject = _collidingObjectFromTouchId.get(touch.id);
 		if (_collidingObject != null)

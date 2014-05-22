@@ -4,6 +4,7 @@ import a3d.core.base.IRenderable;
 import a3d.entities.ObjectContainer3D;
 import a3d.entities.View3D;
 import a3d.materials.MaterialBase;
+import a3d.math.FMatrix3D;
 import flash.events.Event;
 import flash.geom.Point;
 import flash.geom.Vector3D;
@@ -238,12 +239,36 @@ class MouseEvent3D extends Event
 	{
 		if (Std.is(object,ObjectContainer3D))
 		{
-			return Std.instance(object,ObjectContainer3D).sceneTransform.transformVector(localPosition);
+			return FMatrix3D.transformVector(Std.instance(object, ObjectContainer3D).sceneTransform, localPosition);
 		}
 		else
 		{
 			return localPosition;
 		}
+	}
+	
+	/**
+	 * The position in scene space where the event took place
+	 * @param v destination Vector3D
+	 * @return
+	 */
+	public function getScenePosition(v:Vector3D = null):Vector3D
+	{
+		if (v == null)
+			v = new Vector3D();
+		
+		if (Std.is(object,ObjectContainer3D))
+		{
+			FMatrix3D.transformVector(Std.instance(object, ObjectContainer3D).sceneTransform, localPosition, v);
+		}
+		else
+		{
+			v.x = localPosition.x;
+			v.y = localPosition.y;
+			v.z = localPosition.z;
+		}
+
+		return v;
 	}
 
 	/**
@@ -254,7 +279,7 @@ class MouseEvent3D extends Event
 	{
 		if (Std.is(object,ObjectContainer3D))
 		{
-			var sceneNormal:Vector3D = Std.instance(object,ObjectContainer3D).sceneTransform.deltaTransformVector(localNormal);
+			var sceneNormal:Vector3D =  FMatrix3D.deltaTransformVector(Std.instance(object, ObjectContainer3D).sceneTransform, localNormal);
 			sceneNormal.normalize();
 			return sceneNormal;
 		}
@@ -262,5 +287,29 @@ class MouseEvent3D extends Event
 		{
 			return localNormal;
 		}
+	}
+	
+	/**
+	 * The normal in scene space where the event took place
+	 * @param v destination Vector3D
+	 * @return
+	 */
+	public function getSceneNormal(v:Vector3D = null):Vector3D 
+	{
+		if (v == null) v = new Vector3D();
+		
+		if (Std.is(object,ObjectContainer3D))
+		{
+			FMatrix3D.deltaTransformVector(Std.instance(object, ObjectContainer3D).sceneTransform, localNormal, v);
+			v.normalize();
+		}
+		else
+		{
+			v.x = localNormal.x;
+			v.y = localNormal.y;
+			v.z = localNormal.z;
+		}
+
+		return v;
 	}
 }

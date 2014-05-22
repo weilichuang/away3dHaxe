@@ -9,8 +9,7 @@ import a3d.entities.lights.LightBase;
 import a3d.entities.lights.LightProbe;
 import a3d.entities.lights.PointLight;
 import a3d.materials.MaterialBase;
-
-
+import flash.geom.Vector3D;
 
 
 /**
@@ -45,9 +44,12 @@ class ShadowCasterCollector extends EntityCollector
 			item.renderable = renderable;
 			item.next = _opaqueRenderableHead;
 			item.cascaded = false;
-			var dx:Float = _entryPoint.x - entity.x;
-			var dy:Float = _entryPoint.y - entity.y;
-			var dz:Float = _entryPoint.z - entity.z;
+			
+			var entityScenePos:Vector3D = entity.scenePosition;
+			var dx:Float = _entryPoint.x - entityScenePos.x;
+			var dy:Float = _entryPoint.y - entityScenePos.y;
+			var dz:Float = _entryPoint.z - entityScenePos.z;
+				
 			item.zIndex = dx * _cameraForward.x + dy * _cameraForward.y + dz * _cameraForward.z;
 			item.renderSceneTransform = renderable.getRenderSceneTransform(_camera);
 			item.renderOrderId = material.depthPassId;

@@ -171,11 +171,14 @@ class ParticleAnimationSet extends AnimationSetBase implements IAnimationSet
 	 */
 	public function deactivate(stage3DProxy:Stage3DProxy, pass:MaterialPassBase):Void
 	{
-		var context:Context3DProxy = stage3DProxy.context3D;
-		var offset:Int = _animationRegisterCache.vertexAttributesOffset;
-		var used:Int = _animationRegisterCache.numUsedStreams;
-		for (i in offset...used)
-			context.setVertexBufferAt(i, null);
+		if (_animationRegisterCache != null)
+		{
+			var context:Context3DProxy = stage3DProxy.context3D;
+			var offset:Int = _animationRegisterCache.vertexAttributesOffset;
+			var used:Int = _animationRegisterCache.numUsedStreams;
+			for (i in offset...used)
+				context.setVertexBufferAt(i, null);
+		}
 	}
 
 	/**

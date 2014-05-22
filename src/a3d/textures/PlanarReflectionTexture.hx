@@ -1,6 +1,5 @@
 package a3d.textures;
 
-
 import a3d.core.managers.Stage3DProxy;
 import a3d.core.render.DefaultRenderer;
 import a3d.core.render.RendererBase;
@@ -17,9 +16,6 @@ import flash.geom.Matrix3D;
 import flash.geom.Rectangle;
 import flash.geom.Vector3D;
 import flash.Vector;
-
-
-
 
 /**
  * PlanarReflectionTexture is a Texture that can be used for material-based planar reflections, as provided by PlanarReflectionMethod, FresnelPlanarReflectionMethod.
@@ -200,7 +196,7 @@ class PlanarReflectionTexture extends RenderTexture
 		_camera.transform = _matrix;
 		_lens.baseLens = camera.lens;
 		_lens.aspectRatio = _viewWidth / _viewHeight;
-		_lens.plane = transformPlane(_plane, _matrix);
+		_lens.plane = transformPlane(_plane, _matrix, _lens.plane);
 	}
 
 	private function isCameraBehindPlane(camera:Camera3D):Bool
@@ -208,20 +204,23 @@ class PlanarReflectionTexture extends RenderTexture
 		return camera.x * _plane.a + camera.y * _plane.b + camera.z * _plane.c + _plane.d < 0;
 	}
 
-	private function transformPlane(plane:Plane3D, matrix:Matrix3D):Plane3D
+	private function transformPlane(plane:Plane3D, matrix:Matrix3D, result:Plane3D = null):Plane3D
 	{
+		if (result == null) 
+			result = new Plane3D();
+		
 		// actually transposed inverseSceneTransform is used, but since sceneTransform is already the inverse of the inverse
 		var rawData:Vector<Float> = FMatrix3D.RAW_DATA_CONTAINER;
 		var a:Float = plane.a, b:Float = plane.b, c:Float = plane.c, d:Float = plane.d;
 		matrix.copyRawDataTo(rawData);
-		var transf:Plane3D = new Plane3D(
-			a * rawData[0] + b * rawData[1] + c * rawData[2] + d * rawData[3],
-			a * rawData[4] + b * rawData[5] + c * rawData[6] + d * rawData[7],
-			a * rawData[8] + b * rawData[9] + c * rawData[10] + d * rawData[11],
-			-(a * rawData[12] + b * rawData[13] + c * rawData[14] + d * rawData[15])
-			);
-		transf.normalize();
-		return transf;
+		
+		result.a = a * rawData[0] + b * rawData[1] + c * rawData[2] + d * rawData[3];
+		result.b = a * rawData[4] + b * rawData[5] + c * rawData[6] + d * rawData[7];
+		result.c = a * rawData[8] + b * rawData[9] + c * rawData[10] + d * rawData[11];
+		result.d = -(a * rawData[12] + b * rawData[13] + c * rawData[14] + d * rawData[15]);
+		result.normalize();
+		
+		return result;
 	}
 
 	private function updateSize(width:Float, height:Float):Void

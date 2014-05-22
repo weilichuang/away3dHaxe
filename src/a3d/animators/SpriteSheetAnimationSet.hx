@@ -27,9 +27,13 @@ class SpriteSheetAnimationSet extends AnimationSetBase implements IAnimationSet
 	*/
 	public function getAGALVertexCode(pass:MaterialPassBase, sourceRegisters:Vector<String>, targetRegisters:Vector<String>, profile:Context3DProfile):String
 	{
-		_agalCode = "mov " + targetRegisters[0] + ", " + sourceRegisters[0] + "\n";
-
-		return "";
+		var len:Int = targetRegisters.length;
+		_agalCode = "";
+		for (i in 0...len) 
+		{
+			_agalCode += "mov " + targetRegisters[i] + ", " + sourceRegisters[i] + "\n";
+		}
+		return _agalCode;
 	}
 
 	/**
@@ -65,7 +69,7 @@ class SpriteSheetAnimationSet extends AnimationSetBase implements IAnimationSet
 		var idConstant:Int = pass.numUsedVertexConstants;
 		var constantRegID:String = "vc" + idConstant;
 
-		_agalCode += "mov " + tempUV + ", " + UVSource + "\n";
+		_agalCode = "mov " + tempUV + ", " + UVSource + "\n";
 		_agalCode += "mul " + tempUV + ".xy, " + tempUV + ".xy, " + constantRegID + ".zw \n";
 		_agalCode += "add " + tempUV + ".xy, " + tempUV + ".xy, " + constantRegID + ".xy \n";
 		_agalCode += "mov " + UVTarget + ", " + tempUV + "\n";

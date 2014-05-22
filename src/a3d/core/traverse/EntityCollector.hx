@@ -13,6 +13,7 @@ import a3d.entities.lights.LightBase;
 import a3d.entities.lights.LightProbe;
 import a3d.entities.lights.PointLight;
 import a3d.materials.MaterialBase;
+import a3d.math.FMatrix3D;
 import a3d.math.Plane3D;
 import flash.geom.Vector3D;
 import flash.Vector;
@@ -118,13 +119,9 @@ class EntityCollector extends PartitionTraverser
 		if (_camera != null)
 		{
 			_entryPoint = _camera.scenePosition;
-			_cameraForward = _camera.forwardVector;
+			_cameraForward = FMatrix3D.getForward(_camera.transform, _cameraForward);
 		}
-		else
-		{
-			_entryPoint = null;
-			_cameraForward = null;
-		}
+
 		_cullPlanes = _customCullPlanes != null ? _customCullPlanes : (_camera != null ? _camera.frustumPlanes : null);
 		_numCullPlanes = _cullPlanes != null ? _cullPlanes.length : 0;
 		_numTriangles = _numMouseEnableds = 0;
@@ -187,9 +184,10 @@ class EntityCollector extends PartitionTraverser
 			item.renderOrderId = material.renderOrderId;
 			item.cascaded = false;
 			
-			var dx:Float = _entryPoint.x - entity.x;
-			var dy:Float = _entryPoint.y - entity.y;
-			var dz:Float = _entryPoint.z - entity.z;
+			var entityScenePos:Vector3D = entity.scenePosition;
+			var dx:Float = _entryPoint.x - entityScenePos.x;
+			var dy:Float = _entryPoint.y - entityScenePos.y;
+			var dz:Float = _entryPoint.z - entityScenePos.z;
 			
 			// project onto camera's z-axis
 			item.zIndex = dx * _cameraForward.x + dy * _cameraForward.y + dz * _cameraForward.z + entity.zOffset;
@@ -265,7 +263,7 @@ class EntityCollector extends PartitionTraverser
 	{
 		_camera = value;
 		_entryPoint = _camera.scenePosition;
-		_cameraForward = _camera.forwardVector;
+		_cameraForward = FMatrix3D.getForward(_camera.transform, _cameraForward);
 		_cullPlanes = _camera.frustumPlanes;
 		
 		return _camera;

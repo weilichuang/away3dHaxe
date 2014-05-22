@@ -420,6 +420,10 @@ class MaterialPassBase extends EventDispatcher
 				_blendFactorSource = Context3DBlendFactor.ZERO;
 				_blendFactorDest = Context3DBlendFactor.SOURCE_ALPHA;
 				_enableBlending = true;	
+			case BlendMode.SCREEN:
+				_blendFactorSource = Context3DBlendFactor.ONE;
+				_blendFactorDest = Context3DBlendFactor.ONE_MINUS_SOURCE_COLOR;
+				_enableBlending = true;
 			default:
 				throw new ArgumentError("Unsupported blend mode!");
 		}
@@ -488,6 +492,11 @@ class MaterialPassBase extends EventDispatcher
 			// kindly restore state
 			stage3DProxy.setRenderTarget(_oldTarget, _oldDepthStencil, _oldSurface);
 			stage3DProxy.scissorRect = _oldRect;
+		}
+		
+		if (_enableBlending)
+		{
+			stage3DProxy.context3D.setBlendFactors(Context3DBlendFactor.ONE, Context3DBlendFactor.ZERO);
 		}
 
 		stage3DProxy.context3D.setDepthTest(true, Context3DCompareMode.LESS_EQUAL);

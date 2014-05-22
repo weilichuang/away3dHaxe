@@ -164,22 +164,28 @@ class BoundingVolumeBase
 	 */
 	public function fromGeometry(geometry:Geometry):Void
 	{
+		var minX:Float, minY:Float, minZ:Float;
+		var maxX:Float, maxY:Float, maxZ:Float;
+			
 		var subGeoms:Vector<ISubGeometry> = geometry.subGeometries;
 		var numSubGeoms:Int = subGeoms.length;
 		if (numSubGeoms > 0)
 		{
-			var minX:Float, minY:Float, minZ:Float;
-			var maxX:Float, maxY:Float, maxZ:Float;
+			var subGeom:ISubGeometry = subGeoms[0];
+			var vertices:Vector<Float> = subGeom.vertexData;
+			var i:Int = subGeom.vertexOffset;
+			
+			minX = maxX = vertices[i];
+			minY = maxY = vertices[i + 1];
+			minZ = maxZ = vertices[i + 2];
+				
 			var j:Int = 0;
-			minX = minY = minZ = Math.POSITIVE_INFINITY;
-			maxX = maxY = maxZ = Math.NEGATIVE_INFINITY;
-
 			while (j < numSubGeoms)
 			{
-				var subGeom:ISubGeometry = subGeoms[j++];
-				var vertices:Vector<Float> = subGeom.vertexData;
+				subGeom = subGeoms[j++];
+				vertices = subGeom.vertexData;
 				var vertexDataLen:Int = vertices.length;
-				var i:Int = subGeom.vertexOffset;
+				i = subGeom.vertexOffset;
 				var stride:Int = subGeom.vertexStride;
 
 				while (i < vertexDataLen)

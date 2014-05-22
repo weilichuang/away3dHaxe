@@ -24,17 +24,19 @@ class PerspectiveLens extends LensBase
 	private var _focalLengthInv:Float;
 	private var _yMax:Float;
 	private var _xMax:Float;
-
+	
+	private var _coordinateSystem:Int;
 
 	/**
 	 * Creates a new PerspectiveLens object.
 	 *
 	 * @param fieldOfView The vertical field of view of the projection.
 	 */
-	public function new(fieldOfView:Float = 60)
+	public function new(fieldOfView:Float = 60, coordinateSystem = CoordinateSystem.LEFT_HANDED)
 	{
 		super();
 		this.fieldOfView = fieldOfView;
+		this.coordinateSystem = coordinateSystem;
 	}
 
 	
@@ -85,16 +87,22 @@ class PerspectiveLens extends LensBase
 	 * @param nX The normalised x coordinate in screen space, -1 corresponds to the left edge of the viewport, 1 to the right.
 	 * @param nY The normalised y coordinate in screen space, -1 corresponds to the top edge of the viewport, 1 to the bottom.
 	 * @param sZ The z coordinate in screen space, representing the distance into the screen.
+	 * @param v The destination Vector3D object
 	 * @return The scene position relative to the camera of the given screen coordinates.
 	 */
-	override public function unproject(nX:Float, nY:Float, sZ:Float):Vector3D
+	override public function unproject(nX:Float, nY:Float, sZ:Float, v:Vector3D = null):Vector3D
 	{
-		var v:Vector3D = new Vector3D(nX, -nY, sZ, 1.0);
+		if (v == null) 
+			v = new Vector3D();
+		v.x = nX;
+		v.y = -nY;
+		v.z = sZ;
+		v.w = 1;
 
 		v.x *= sZ;
 		v.y *= sZ;
 
-		v = unprojectionMatrix.transformVector(v);
+		FMatrix3D.transformVector(unprojectionMatrix, v, v);
 
 		//z is unaffected by transform
 		v.z = sZ;
@@ -108,7 +116,30 @@ class PerspectiveLens extends LensBase
 		clone._near = _near;
 		clone._far = _far;
 		clone._aspectRatio = _aspectRatio;
+		clone._coordinateSystem = _coordinateSystem;
 		return clone;
+	}
+	
+	
+	/**
+	 * The handedness of the coordinate system projection.
+	 *  The default is LEFT_HANDED.
+	 */
+	public var coordinateSystem(get, set):Int;
+	private function get_coordinateSystem():Int
+	{
+		return _coordinateSystem;
+	}
+
+	private function set_coordinateSystem(value:Int):Int
+	{
+		if (value == _coordinateSystem) 
+			return _coordinateSystem;
+			
+		_coordinateSystem = value;
+		invalidateMatrix();
+		
+		return _coordinateSystem;
 	}
 
 	/**
@@ -166,7 +197,12 @@ class PerspectiveLens extends LensBase
 			raw[14] = -2 * _far * _near / (_far - _near);
 		}
 
-
+		if (_coordinateSystem == CoordinateSystem.RIGHT_HANDED)
+		{
+			// Switch projection transform from left to right handed.
+			raw[5] = -raw[5];
+		}
+			
 		_matrix.copyRawDataFrom(raw);
 
 		var yMaxFar:Float = _far * _focalLengthInv;

@@ -4,6 +4,7 @@ import a3d.core.managers.Context3DProxy;
 import a3d.core.managers.RTTBufferManager;
 import a3d.core.managers.Stage3DProxy;
 import a3d.entities.Camera3D;
+import a3d.events.Stage3DEvent;
 import a3d.filters.Filter3DBase;
 import a3d.filters.tasks.Filter3DTaskBase;
 import flash.display3D.Context3DBlendFactor;
@@ -34,8 +35,14 @@ class Filter3DRenderer
 	public function new(stage3DProxy:Stage3DProxy)
 	{
 		_stage3DProxy = stage3DProxy;
+		_stage3DProxy.addEventListener(Stage3DEvent.CONTEXT3D_RECREATED, onContext3DRecreated);
 		_rttManager = RTTBufferManager.getInstance(stage3DProxy);
 		_rttManager.addEventListener(Event.RESIZE, onRTTResize);
+	}
+	
+	private function onContext3DRecreated(event:Stage3DEvent):Void 
+	{
+		_filterSizesInvalid = true;
 	}
 
 	private function onRTTResize(event:Event):Void
@@ -173,13 +180,14 @@ class Filter3DRenderer
 			_filters[i].textureHeight = _rttManager.textureHeight;
 		}
 
-		_filterSizesInvalid = true;
+		_filterSizesInvalid = false;
 	}
 
 	public function dispose():Void
 	{
 		_rttManager.removeEventListener(Event.RESIZE, onRTTResize);
 		_rttManager = null;
+		_stage3DProxy.removeEventListener(Stage3DEvent.CONTEXT3D_RECREATED, onContext3DRecreated);
 		_stage3DProxy = null;
 	}
 }

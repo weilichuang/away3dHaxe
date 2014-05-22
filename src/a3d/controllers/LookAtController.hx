@@ -1,5 +1,6 @@
 ﻿package a3d.controllers;
 
+import a3d.math.FMatrix3D;
 import flash.geom.Vector3D;
 
 import a3d.entities.Entity;
@@ -26,6 +27,8 @@ class LookAtController extends ControllerBase
 	private var _lookAtPosition:Vector3D;
 	private var _lookAtObject:ObjectContainer3D;
 	private var _origin:Vector3D;
+	private var _upAxis:Vector3D = Vector3D.Y_AXIS;
+	private var _pos:Vector3D = new Vector3D();
 
 	/**
 	 * Creates a new <code>LookAtController</code> object.
@@ -103,9 +106,33 @@ class LookAtController extends ControllerBase
 			}
 			else if (_lookAtObject != null)
 			{
-				_targetObject.lookAt(_lookAtObject.scene != null ? 
-									_lookAtObject.scenePosition : 
-									_lookAtObject.position);
+				if (_targetObject.parent != null && _lookAtObject.parent != null)
+				{
+					if (_targetObject.parent != _lookAtObject.parent) 
+					{
+						// different spaces
+						_pos.x = _lookAtObject.scenePosition.x;
+						_pos.y = _lookAtObject.scenePosition.y;
+						_pos.z = _lookAtObject.scenePosition.z;
+						FMatrix3D.transformVector(_targetObject.parent.inverseSceneTransform, _pos, _pos);
+					}
+					else
+					{
+						//one parent
+						FMatrix3D.getTranslation(_lookAtObject.transform, _pos);
+					}
+				}
+				else if (_lookAtObject.scene != null)
+				{
+					_pos.x = _lookAtObject.scenePosition.x;
+					_pos.y = _lookAtObject.scenePosition.y;
+					_pos.z = _lookAtObject.scenePosition.z;
+				}
+				else
+				{
+					FMatrix3D.getTranslation(_lookAtObject.transform, _pos);
+				}
+				_targetObject.lookAt(_pos, _upAxis);
 			}
 		}
 	}

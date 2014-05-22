@@ -1,6 +1,7 @@
 package a3d.tools.utils;
 
 
+import a3d.math.FMatrix3D;
 import flash.errors.Error;
 import flash.geom.Vector3D;
 import flash.Vector.Vector;
@@ -279,8 +280,7 @@ class Drag3D
 
 		intersect();
 
-		// TODO: Optimize this? Matrix3D.transformVector() creates a new vector - unnuecessary.
-		localIntersect = _object3d.parent.inverseSceneTransform.transformVector(_intersect);
+		localIntersect = FMatrix3D.transformVector(_object3d.parent.inverseSceneTransform, _intersect);
 
 		if (_offsetCenter == null)
 		{
@@ -406,7 +406,7 @@ class Drag3D
 
 	private function intersect(x:Float = null, y:Float = null):Void
 	{
-		var pMouse:Vector3D = (Math.isNaN(x) && Math.isNaN(y)) ? _view.unproject(_view.mouseX, _view.mouseY, 1) : _view.unproject(x, y, 1);
+		var pMouse:Vector3D = (Math.isNaN(x) && Math.isNaN(y)) ? _view.unproject(_view.mouseX, _view.mouseY, 1, FMatrix3D.CALCULATION_VECTOR3D) : _view.unproject(x, y, 1);
 
 		var cam:Vector3D = _view.camera.position;
 		var d0:Float = _np.x * cam.x + _np.y * cam.y + _np.z * cam.z - _d;

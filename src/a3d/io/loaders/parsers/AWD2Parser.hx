@@ -125,7 +125,6 @@ class AWD2Parser extends ParserBase
 	//set to "true" to have some traces in the Console
 	private var _debug:Bool = false;
 	private var _byteData:ByteArray;
-	private var _startedParsing:Bool;
 	private var _cur_block_id:UInt;
 	private var _blocks:Vector<AWDBlock>;
 	private var _newBlockBytes:ByteArray;
@@ -147,7 +146,6 @@ class AWD2Parser extends ParserBase
 
 	private var _texture_users:StringMap<Array<Int>>;
 
-	private var _parsed_header:Bool;
 	private var _body:ByteArray;
 
 	private var _defaultTexture:BitmapTexture;
@@ -197,10 +195,6 @@ class AWD2Parser extends ParserBase
 	{
 		super(ParserDataFormat.BINARY);
 
-		_blocks = new Vector<AWDBlock>();
-		_blocks[0] = new AWDBlock();
-		_blocks[0].data = null; // Zero address means null in AWD	
-		
 		_texture_users = new StringMap<Array<Int>>();
 
 		blendModeDic = new Vector<BlendMode>(); // used to translate ints to blendMode-strings
@@ -224,7 +218,6 @@ class AWD2Parser extends ParserBase
 		_depthSizeDic.push(512);
 		_depthSizeDic.push(2048);
 		_depthSizeDic.push(1024);
-		_version = []; // will contain 2 int (major-version, minor-version) for awd-version-check
 	}
 
 	/**
@@ -346,45 +339,49 @@ class AWD2Parser extends ParserBase
 	{
 		return (ParserUtil.toString(data, 3) == 'AWD');
 	}
+	
+	private override function startParsing(frameLimit:Float):Void
+	{
+		super.startParsing(frameLimit);
+		
+		_texture_users = new StringMap();
+		
+		_byteData = getByteData();
+		
+		_blocks = new Vector<AWDBlock>();
+		_blocks[0] = new AWDBlock();
+		_blocks[0].data = null; // Zero address means null in AWD
+		
+		_version = []; // will contain 2 int (major-version, minor-version) for awd-version-check
+		
+		//parse header
+		_byteData.endian = Endian.LITTLE_ENDIAN;
+		
+		// Parse header and decompress body if needed
+		parseHeader();
+		
+		switch (_compression)
+		{
+			case DEFLATE:
+				_body = new ByteArray();
+				_byteData.readBytes(_body, 0, _byteData.bytesAvailable);
+				_body.uncompress();
+			case LZMA:
+				_body = new ByteArray();
+				_byteData.readBytes(_body, 0, _byteData.bytesAvailable);
+				_body.uncompress(CompressionAlgorithm.LZMA);
+			case UNCOMPRESSED:
+				_body = _byteData;
+		}
+		
+		_body.endian = Endian.LITTLE_ENDIAN;
+	}
 
 	/**
 	 * @inheritDoc
 	 */
 	override private function proceedParsing():Bool
 	{
-		if (!_startedParsing)
-		{
-			_byteData = getByteData();
-			_startedParsing = true;
-		}
-
-		if (!_parsed_header)
-		{
-			_byteData.endian = Endian.LITTLE_ENDIAN;
-
-			// Parse header and decompress body if needed
-			parseHeader();
-			switch (_compression)
-			{
-				case DEFLATE:
-					_body = new ByteArray();
-					_byteData.readBytes(_body, 0, _byteData.bytesAvailable);
-					_body.uncompress();
-					
-				case LZMA:
-					_body = new ByteArray();
-					_byteData.readBytes(_body, 0, _byteData.bytesAvailable);
-					_body.uncompress(CompressionAlgorithm.LZMA);
-					
-				case UNCOMPRESSED:
-					_body = _byteData;
-					
-			}
-
-			_body.endian = Endian.LITTLE_ENDIAN;
-			_parsed_header = true;
-		}
-
 		while (_body.bytesAvailable > 0 && !parsingPaused && hasTime())
 		{
 			parseNextBlock();

@@ -75,7 +75,7 @@ class PBPickingCollider extends PickingColliderBase implements IPickingCollider
 			_rayTriangleKernel.data.vertexBuffer.height = vertexBufferDims.y;
 			_rayTriangleKernel.data.vertexBufferWidth.value = [vertexBufferDims.x];
 			_rayTriangleKernel.data.vertexBuffer.input = duplicateVertexData;
-			_rayTriangleKernel.data.bothSides.value = [subMesh.material.bothSides ? 1.0 : 0.0];
+			_rayTriangleKernel.data.bothSides.value = [ (subMesh.material != null && subMesh.material.bothSides) ? 1.0 : 0.0 ];
 
 			// send indices to pb
 			_rayTriangleKernel.data.indexBuffer.width = indexBufferDims.x;
@@ -113,18 +113,17 @@ class PBPickingCollider extends PickingColliderBase implements IPickingCollider
 		// Detect collision
 		if (collisionTriangleIndex >= 0)
 		{
-
 			pickingCollisionVO.rayEntryDistance = shortestCollisionDistance;
-			cx = rayPosition.x + shortestCollisionDistance * rayDirection.x;
-			cy = rayPosition.y + shortestCollisionDistance * rayDirection.y;
-			cz = rayPosition.z + shortestCollisionDistance * rayDirection.z;
-			pickingCollisionVO.localPosition = new Vector3D(cx, cy, cz);
-			pickingCollisionVO.localNormal = getCollisionNormal(indexData, vertexData, collisionTriangleIndex);
-			v = _kernelOutputBuffer[collisionTriangleIndex + 1]; // barycentric coord 1
-			w = _kernelOutputBuffer[collisionTriangleIndex + 2]; // barycentric coord 2
+			if (pickingCollisionVO.localPosition == null) 
+				pickingCollisionVO.localPosition = new Vector3D();
+			pickingCollisionVO.localPosition.x = rayPosition.x + shortestCollisionDistance*rayDirection.x;
+			pickingCollisionVO.localPosition.y = rayPosition.y + shortestCollisionDistance*rayDirection.y;
+			pickingCollisionVO.localPosition.z = rayPosition.z + shortestCollisionDistance*rayDirection.z;
+			pickingCollisionVO.localNormal = getCollisionNormal(indexData, vertexData, collisionTriangleIndex, pickingCollisionVO.localNormal);
+			v = _kernelOutputBuffer[ collisionTriangleIndex + 1 ]; // barycentric coord 1
+			w = _kernelOutputBuffer[ collisionTriangleIndex + 2 ]; // barycentric coord 2
 			u = 1.0 - v - w;
-			pickingCollisionVO.uv = getCollisionUV(indexData, uvData, collisionTriangleIndex, v, w, u, 0, 2);
-
+			pickingCollisionVO.uv = getCollisionUV(indexData, uvData, collisionTriangleIndex, v, w, u, 0, 2, pickingCollisionVO.uv);
 			return true;
 		}
 

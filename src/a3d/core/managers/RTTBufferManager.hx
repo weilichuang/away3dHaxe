@@ -1,5 +1,6 @@
 package a3d.core.managers;
 
+import a3d.events.Stage3DEvent;
 import a3d.tools.utils.TextureUtils;
 import a3d.utils.VectorUtil;
 import flash.display3D.IndexBuffer3D;
@@ -66,6 +67,7 @@ class RTTBufferManager extends EventDispatcher
 		_renderToTextureRect = new Rectangle();
 
 		_stage3DProxy = stage3DProxy;
+		_stage3DProxy.addEventListener(Stage3DEvent.CONTEXT3D_RECREATED, onContextRecreated);
 	}
 
 	
@@ -195,6 +197,7 @@ class RTTBufferManager extends EventDispatcher
 	public function dispose():Void
 	{
 		_instances.remove(_stage3DProxy);
+		_stage3DProxy.removeEventListener(Stage3DEvent.CONTEXT3D_RECREATED, onContextRecreated);
 		if (_indexBuffer != null)
 		{
 			_indexBuffer.dispose();
@@ -204,6 +207,14 @@ class RTTBufferManager extends EventDispatcher
 			_renderToTextureVertexBuffer = null;
 			_indexBuffer = null;
 		}
+	}
+	
+	private function onContextRecreated(event:Stage3DEvent):Void
+	{
+		_indexBuffer = null;
+		_renderToTextureVertexBuffer = null;
+		_renderToScreenVertexBuffer = null;
+		updateRTTBuffers();
 	}
 
 	// todo: place all this in a separate model, since it's used all over the place

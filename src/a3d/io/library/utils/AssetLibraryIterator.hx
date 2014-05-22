@@ -60,7 +60,7 @@ class AssetLibraryIterator
 
 	private function filter(assetTypeFilter:String, namespaceFilter:String, filterFunc:Dynamic):Void
 	{
-		if (assetTypeFilter != null || namespaceFilter != null)
+		if (assetTypeFilter != null || namespaceFilter != null || filterFunc != null)
 		{
 			var idx:Int;
 			var asset:IAsset;

@@ -1,5 +1,6 @@
 package a3d.filters.tasks;
 
+import a3d.core.managers.Context3DProxy;
 import a3d.core.managers.Stage3DProxy;
 import a3d.entities.Camera3D;
 import a3d.errors.AbstractMethodError;
@@ -9,7 +10,7 @@ import flash.display3D.Context3DProgramType;
 import flash.display3D.Context3DTextureFormat;
 import flash.display3D.Program3D;
 import flash.display3D.textures.Texture;
-
+import flash.display3D.Context3D;
 
 
 class Filter3DTaskBase
@@ -24,7 +25,7 @@ class Filter3DTaskBase
 	public var requireDepthRender(get, null):Bool;
 	
 	private var _mainInputTexture:Texture;
-
+	private var _mainInputTextureContext:Context3DProxy;
 	private var _scaledTextureWidth:Int = -1;
 	private var _scaledTextureHeight:Int = -1;
 	private var _textureWidth:Int = -1;
@@ -32,6 +33,7 @@ class Filter3DTaskBase
 	private var _textureDimensionsInvalid:Bool = true;
 	private var _program3DInvalid:Bool = true;
 	private var _program3D:Program3D;
+	private var _program3DContext:Context3DProxy;
 	private var _target:Texture;
 	private var _requireDepthRender:Bool;
 	private var _textureScale:Int = 0;
@@ -82,6 +84,9 @@ class Filter3DTaskBase
 			return _textureWidth;
 		_textureWidth = value;
 		_scaledTextureWidth = _textureWidth >> _textureScale;
+		if (_scaledTextureWidth < 1)
+			_scaledTextureWidth = 1;
+			
 		_textureDimensionsInvalid = true;
 		
 		return _textureWidth;
@@ -97,8 +102,13 @@ class Filter3DTaskBase
 	{
 		if (_textureHeight == value)
 			return _textureHeight;
+			
 		_textureHeight = value;
+		
 		_scaledTextureHeight = _textureHeight >> _textureScale;
+		if (_scaledTextureHeight < 1) 
+			_scaledTextureHeight = 1;
+			
 		_textureDimensionsInvalid = true;
 		
 		return _textureHeight;
@@ -118,6 +128,7 @@ class Filter3DTaskBase
 			_mainInputTexture.dispose();
 		if (_program3D != null)
 			_program3D.dispose();
+		_program3DContext = null;
 	}
 
 	private function invalidateProgram3D():Void
@@ -129,7 +140,8 @@ class Filter3DTaskBase
 	{
 		if (_program3D != null)
 			_program3D.dispose();
-		_program3D = stage.context3D.createProgram();
+		_program3DContext = stage.context3D;
+		_program3D = _program3DContext.createProgram();
 		_program3D.upload(new AGALMiniAssembler(Debug.active).assemble(Context3DProgramType.VERTEX, getVertexCode()),
 			new AGALMiniAssembler(Debug.active).assemble(Context3DProgramType.FRAGMENT, getFragmentCode()));
 		_program3DInvalid = false;
@@ -152,13 +164,19 @@ class Filter3DTaskBase
 		if (_mainInputTexture != null)
 			_mainInputTexture.dispose();
 
-		_mainInputTexture = stage.context3D.createTexture(_scaledTextureWidth, _scaledTextureHeight, Context3DTextureFormat.BGRA, true);
+		_mainInputTextureContext = stage.context3D;
+		_mainInputTexture = _mainInputTextureContext.createTexture(_scaledTextureWidth, _scaledTextureHeight, Context3DTextureFormat.BGRA, true);
 
 		_textureDimensionsInvalid = false;
 	}
 
 	public function getProgram3D(stage3DProxy:Stage3DProxy):Program3D
 	{
+		if (_program3DContext != stage3DProxy.context3D) 
+		{
+			_program3DInvalid = true;
+		}
+			
 		if (_program3DInvalid)
 			updateProgram3D(stage3DProxy);
 		return _program3D;

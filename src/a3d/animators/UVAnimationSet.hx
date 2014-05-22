@@ -27,9 +27,13 @@ class UVAnimationSet extends AnimationSetBase implements IAnimationSet
 	*/
 	public function getAGALVertexCode(pass:MaterialPassBase, sourceRegisters:Vector<String>, targetRegisters:Vector<String>, profile:Context3DProfile):String
 	{
-		_agalCode = "mov " + targetRegisters[0] + ", " + sourceRegisters[0] + "\n";
-
-		return "";
+		var len:Int = targetRegisters.length;
+		_agalCode = "";
+		for (i in 0...len) 
+		{
+			_agalCode += "mov " + targetRegisters[i] + ", " + sourceRegisters[i] + "\n";
+		}
+		return _agalCode;
 	}
 
 	/**
@@ -66,7 +70,7 @@ class UVAnimationSet extends AnimationSetBase implements IAnimationSet
 		var uvTranslateReg:String = "vc" + (idConstant);
 		var uvTransformReg:String = "vc" + (idConstant + 4);
 
-		_agalCode += "mov " + tempUV + ", " + UVSource + "\n";
+		_agalCode = "mov " + tempUV + ", " + UVSource + "\n";
 		_agalCode += "sub " + tempUV + ".xy, " + tempUV + ".xy, " + uvTranslateReg + ".zw \n";
 		_agalCode += "m44 " + tempUV + ", " + tempUV + ", " + uvTransformReg + "\n";
 		_agalCode += "add " + tempUV + ".xy, " + tempUV + ".xy, " + uvTranslateReg + ".xy \n";

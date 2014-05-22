@@ -247,11 +247,15 @@ class View3D extends Sprite
 	private function set_stage3DProxy(stage3DProxy:Stage3DProxy):Stage3DProxy
 	{
 		if (_stage3DProxy != null)
+		{
 			_stage3DProxy.removeEventListener(Stage3DEvent.VIEWPORT_UPDATED, onViewportUpdated);
+			_stage3DProxy.removeEventListener(Stage3DEvent.CONTEXT3D_RECREATED, onContext3DRecreated);
+		}
 
 		_stage3DProxy = stage3DProxy;
 
 		_stage3DProxy.addEventListener(Stage3DEvent.VIEWPORT_UPDATED, onViewportUpdated);
+		_stage3DProxy.addEventListener(Stage3DEvent.CONTEXT3D_RECREATED, onContext3DRecreated);
 
 		_renderer.stage3DProxy = _depthRenderer.stage3DProxy = _stage3DProxy;
 
@@ -259,6 +263,11 @@ class View3D extends Sprite
 		_backBufferInvalid = true;
 		
 		return _stage3DProxy;
+	}
+	
+	private function onContext3DRecreated(event:Stage3DEvent):Void 
+	{
+		_depthTextureInvalid = true;
 	}
 
 	
@@ -647,7 +656,7 @@ class View3D extends Sprite
 						_height = 2048;
 				}
 
-				_stage3DProxy.configureBackBuffer(Std.int(_width), Std.int(_height), _antiAlias, true);
+				_stage3DProxy.configureBackBuffer(Std.int(_width), Std.int(_height), _antiAlias);
 				_backBufferInvalid = false;
 			}
 			else
@@ -850,6 +859,8 @@ class View3D extends Sprite
 	public function dispose():Void
 	{
 		_stage3DProxy.removeEventListener(Stage3DEvent.VIEWPORT_UPDATED, onViewportUpdated);
+		_stage3DProxy.removeEventListener(Stage3DEvent.CONTEXT3D_RECREATED, onContext3DRecreated);
+		
 		if (!shareContext)
 		{
 			_stage3DProxy.dispose();
@@ -902,11 +913,12 @@ class View3D extends Sprite
 	 * @param sX The absolute x coordinate in 2D relative to View3D, representing the screenX coordinate.
 	 * @param sY The absolute y coordinate in 2D relative to View3D, representing the screenY coordinate.
 	 * @param sZ The distance into the screen, representing the screenZ coordinate.
+	 * @param v the destination Vector3D object
 	 * @return The scene position of the given screen coordinates.
 	 */
-	public function unproject(sX:Float, sY:Float, sZ:Float):Vector3D
+	public function unproject(sX:Float, sY:Float, sZ:Float, v:Vector3D = null):Vector3D
 	{
-		return _camera.unproject((sX * 2 - _width) / _stage3DProxy.width, (sY * 2 - _height) / _stage3DProxy.height, sZ);
+		return _camera.unproject((sX * 2 - _width) / _stage3DProxy.width, (sY * 2 - _height) / _stage3DProxy.height, sZ, v);
 	}
 
 	/**
@@ -972,7 +984,7 @@ class View3D extends Sprite
 		{
 			_stage3DProxy = Stage3DManager.getInstance(stage).getFreeStage3DProxy(_forceSoftware, _profile);
 			_stage3DProxy.addEventListener(Stage3DEvent.VIEWPORT_UPDATED, onViewportUpdated);
-
+			_stage3DProxy.addEventListener(Stage3DEvent.CONTEXT3D_RECREATED, onContext3DRecreated);
 		}
 
 		_globalPosDirty = true;

@@ -81,6 +81,13 @@ class StereoView3D extends View3D
 
 	override public function render():Void
 	{
+		//if context3D has Disposed by the OS,don't render at this frame
+		if (!stage3DProxy.recoverFromDisposal()) 
+		{
+			_backBufferInvalid = true;
+			return;
+		}
+			
 		if (_stereoEnabled)
 		{
 			// reset or update render settings

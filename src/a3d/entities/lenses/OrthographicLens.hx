@@ -48,13 +48,23 @@ class OrthographicLens extends LensBase
 	 * @param nX The normalised x coordinate in screen space, -1 corresponds to the left edge of the viewport, 1 to the right.
 	 * @param nY The normalised y coordinate in screen space, -1 corresponds to the top edge of the viewport, 1 to the bottom.
 	 * @param sZ The z coordinate in screen space, representing the distance into the screen.
+	 * @param v The destination Vector3D object
 	 * @return The scene position relative to the camera of the given screen coordinates.
 	 */
-	override public function unproject(nX:Float, nY:Float, sZ:Float):Vector3D
+	override public function unproject(nX:Float, nY:Float, sZ:Float, v:Vector3D = null):Vector3D
 	{
-		var v:Vector3D = new Vector3D(nX + matrix.rawData[12], -nY + matrix.rawData[13], sZ, 1.0);
+		if (v == null) 
+			v = new Vector3D();
+			
+		var translation:Vector3D = FMatrix3D.CALCULATION_VECTOR3D;
+		matrix.copyColumnTo(3, translation);
+		
+		v.x = nX + translation.x;
+		v.y = nX + translation.y;
+		v.z = sZ;
+		v.w = 1;
 
-		v = unprojectionMatrix.transformVector(v);
+		FMatrix3D.transformVector(unprojectionMatrix, v, v);
 
 		//z is unaffected by transform
 		v.z = sZ;

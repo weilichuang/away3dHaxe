@@ -10,6 +10,7 @@ import a3d.entities.lights.LightBase;
 import a3d.entities.lights.PointLight;
 import a3d.entities.lights.shadowmaps.ShadowMapperBase;
 import a3d.materials.MaterialBase;
+import a3d.math.FMatrix3D;
 import flash.display3D.Context3DBlendFactor;
 import flash.display3D.Context3DCompareMode;
 import flash.display3D.textures.TextureBase;
@@ -36,6 +37,8 @@ class DefaultRenderer extends RendererBase
 	private var _distanceRenderer:DepthRenderer;
 	private var _depthRenderer:DepthRenderer;
 	private var _skyboxProjection:Matrix3D;
+	private var _tempSkyboxMatrix:Matrix3D = new Matrix3D();
+	private var _skyboxTempVector:Vector3D = new Vector3D();
 
 	/**
 	 * Creates a new DefaultRenderer object.
@@ -146,25 +149,55 @@ class DefaultRenderer extends RendererBase
 
 	private function updateSkyBoxProjection(camera:Camera3D):Void
 	{
-		var near:Vector3D = new Vector3D();
 		_skyboxProjection.copyFrom(_rttViewProjectionMatrix);
-		_skyboxProjection.copyRowTo(2, near);
+		_skyboxProjection.copyRowTo(2, _skyboxTempVector);
 		var camPos:Vector3D = camera.scenePosition;
+		var cx:Float = _skyboxTempVector.x;
+		var cy:Float = _skyboxTempVector.y;
+		var cz:Float = _skyboxTempVector.z;
+		var length:Float = Math.sqrt(cx*cx + cy*cy + cz*cz);
 
-		var cx:Float = near.x;
-		var cy:Float = near.y;
-		var cz:Float = near.z;
-		var cw:Float = -(near.fastDot(camPos) + Math.sqrt(cx * cx + cy * cy + cz * cz));
-		var signX:Float = cx >= 0 ? 1 : -1;
-		var signY:Float = cy >= 0 ? 1 : -1;
-		var p:Vector3D = new Vector3D(signX, signY, 1, 1);
-		var inverse:Matrix3D = _skyboxProjection.clone();
-		inverse.invert();
-		var q:Vector3D = inverse.transformVector(p);
+		_skyboxTempVector.x = 0;
+		_skyboxTempVector.y = 0;
+		_skyboxTempVector.z = 0;
+		_skyboxTempVector.w = 1;
+		_tempSkyboxMatrix.copyFrom(camera.sceneTransform);
+		_tempSkyboxMatrix.copyColumnFrom(3,_skyboxTempVector);
+
+		_skyboxTempVector.x = 0;
+		_skyboxTempVector.y = 0;
+		_skyboxTempVector.z = 1;
+		_skyboxTempVector.w = 0;
+
+		FMatrix3D.transformVector(_tempSkyboxMatrix, _skyboxTempVector, _skyboxTempVector);
+		_skyboxTempVector.normalize();
+
+		var angle:Float = Math.acos(_skyboxTempVector.x*(cx/length) + _skyboxTempVector.y*(cy/length) + _skyboxTempVector.z*(cz/length));
+		if (Math.abs(angle) > 0.000001) 
+		{
+			return;
+		}
+
+		var cw:Float = -(cx*camPos.x + cy*camPos.y + cz*camPos.z + length);
+		var signX:Float = cx >= 0? 1 : -1;
+		var signY:Float = cy >= 0? 1 : -1;
+
+		var p:Vector3D = _skyboxTempVector;
+		p.x = signX;
+		p.y = signY;
+		p.z = 1;
+		p.w = 1;
+		_tempSkyboxMatrix.copyFrom(_skyboxProjection);
+		_tempSkyboxMatrix.invert();
+		var q:Vector3D = FMatrix3D.transformVector(_tempSkyboxMatrix, p, FMatrix3D.CALCULATION_VECTOR3D);
 		_skyboxProjection.copyRowTo(3, p);
-		var a:Float = (q.x * p.x + q.y * p.y + q.z * p.z + q.w * p.w) / (cx * q.x + cy * q.y + cz * q.z + cw * q.w);
-		_skyboxProjection.copyRowFrom(2, new Vector3D(cx * a, cy * a, cz * a, cw * a));
-
+		var a:Float = (q.x*p.x + q.y*p.y + q.z*p.z + q.w*p.w)/(cx*q.x + cy*q.y + cz*q.z + cw*q.w);
+		_skyboxTempVector.x = cx*a;
+		_skyboxTempVector.y = cy*a;
+		_skyboxTempVector.z = cz*a;
+		_skyboxTempVector.w = cw*a;
+		//copy changed near far
+		_skyboxProjection.copyRowFrom(2, _skyboxTempVector);
 	}
 
 	/**

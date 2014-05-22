@@ -578,15 +578,16 @@ class Object3D extends NamedAssetBase
 	private function set_transform(val:Matrix3D):Matrix3D
 	{
 		//ridiculous matrix error
-		if (val.rawData[0] == 0)
+		var raw:Vector<Float> = FMatrix3D.RAW_DATA_CONTAINER;
+		val.copyRawDataTo(raw);
+		
+		if (raw[0] == 0)
 		{
-			var raw:Vector<Float> = FMatrix3D.RAW_DATA_CONTAINER;
-			val.copyRawDataTo(raw);
 			raw[0] = _smallestNumber;
 			val.copyRawDataFrom(raw);
 		}
 
-		var elements:Vector<Vector3D> = val.decompose();
+		var elements:Vector<Vector3D> = FMatrix3D.decompose(val);
 		var vec:Vector3D;
 
 		vec = elements[0];
@@ -626,7 +627,12 @@ class Object3D extends NamedAssetBase
 
 	private function set_pivotPoint(pivot:Vector3D):Vector3D
 	{
-		_pivotPoint = pivot.clone();
+		if (_pivotPoint == null) 
+			_pivotPoint = new Vector3D();
+			
+		_pivotPoint.x = pivot.x;
+		_pivotPoint.y = pivot.y;
+		_pivotPoint.z = pivot.z;
 
 		invalidatePivot();
 		
@@ -651,6 +657,20 @@ class Object3D extends NamedAssetBase
 		return _pos.clone();
 	}
 
+	/**
+	 * Defines the position of the 3d object, relative to the local coordinates of the parent <code>ObjectContainer3D</code>.
+	 * @param v the destination Vector3D
+	 * @return
+	 */
+	public function getPosition(v:Vector3D = null):Vector3D 
+	{
+		if (v == null) 
+			v = new Vector3D();
+			
+		transform.copyColumnTo(3, v);
+		
+		return v;
+	}
 	
 	private function get_forwardVector():Vector3D
 	{
@@ -891,11 +911,21 @@ class Object3D extends NamedAssetBase
 	 */
 	public function rotate(axis:Vector3D, angle:Float):Void
 	{
-		transform.prependRotation(angle, axis);
-
-		transform = transform;
+		var m:Matrix3D = new Matrix3D();
+		m.prependRotation(angle, axis);
+		
+		var vec:Vector3D = m.decompose()[1];
+		
+		_rotationX += vec.x;
+		_rotationY += vec.y;
+		_rotationZ += vec.z;
+		
+		invalidateRotation();
 	}
 
+	private static var tempAxeX:Vector3D;
+	private static var tempAxeY:Vector3D;
+	private static var tempAxeZ:Vector3D;
 	/**
 	 * Rotates the 3d object around to face a point defined relative to the local coordinates of the parent <code>ObjectContainer3D</code>.
 	 *
@@ -904,24 +934,49 @@ class Object3D extends NamedAssetBase
 	 */
 	public function lookAt(target:Vector3D, upAxis:Vector3D = null):Void
 	{
-		var yAxis:Vector3D, zAxis:Vector3D, xAxis:Vector3D;
+		if (tempAxeX == null) tempAxeX = new Vector3D();
+		if (tempAxeY == null) tempAxeY = new Vector3D();
+		if (tempAxeZ == null) tempAxeZ = new Vector3D();
+		
+		var xAxis:Vector3D = tempAxeX;
+		var yAxis:Vector3D = tempAxeY;
+		var zAxis:Vector3D = tempAxeZ;
+
 		var raw:Vector<Float>;
 
 		if (upAxis == null)
 			upAxis = Vector3D.Y_AXIS;
-
-		zAxis = target.subtract(position);
-		zAxis.normalize();
-
-		xAxis = upAxis.crossProduct(zAxis);
-		xAxis.normalize();
-
-		if (xAxis.length < .05)
+			
+		if (_transformDirty) 
 		{
-			xAxis = upAxis.crossProduct(Vector3D.Z_AXIS);
+			updateTransform();
 		}
 
-		yAxis = zAxis.crossProduct(xAxis);
+		//zAxis = target.subtract(position);
+		zAxis.x = target.x - _x;
+		zAxis.y = target.y - _y;
+		zAxis.z = target.z - _z;
+		zAxis.normalize();
+
+		//xAxis = upAxis.crossProduct(zAxis);
+		xAxis.x = upAxis.y * zAxis.z - upAxis.z * zAxis.y;
+		xAxis.y = upAxis.z * zAxis.x - upAxis.x * zAxis.z;
+		xAxis.z = upAxis.x * zAxis.y - upAxis.y * zAxis.x;
+		xAxis.normalize();
+		
+		if (xAxis.length < 0.05) 
+		{
+			//xAxis = upAxis.crossProduct(Vector3D.Z_AXIS);
+			xAxis.x = upAxis.y;
+			xAxis.y = upAxis.x;
+			xAxis.z = 0;
+			xAxis.normalize();
+		}
+
+		//yAxis = zAxis.crossProduct(xAxis);
+		yAxis.x = zAxis.y*xAxis.z - zAxis.z*xAxis.y;
+		yAxis.y = zAxis.z*xAxis.x - zAxis.x*xAxis.z;
+		yAxis.z = zAxis.x*xAxis.y - zAxis.y*xAxis.x;
 
 		raw = FMatrix3D.RAW_DATA_CONTAINER;
 
@@ -987,14 +1042,29 @@ class Object3D extends NamedAssetBase
 		
 		_rot.fastSetTo(_rotationX, _rotationY, _rotationZ);
 
-		_sca.fastSetTo(_scaleX, _scaleY, _scaleZ);
-
-		_transform.recompose(_transformComponents);
-
+		// scale * pivot point * rotation * object translation
 		if (!_pivotZero)
 		{
-			_transform.prependTranslation(-_pivotPoint.x, -_pivotPoint.y, -_pivotPoint.z);
+			_sca.x = 1;
+			_sca.y = 1;
+			_sca.z = 1;
+
+			_transform.recompose(_transformComponents);
 			_transform.appendTranslation(_pivotPoint.x, _pivotPoint.y, _pivotPoint.z);
+			_transform.prependTranslation(-_pivotPoint.x, -_pivotPoint.y, -_pivotPoint.z);
+			_transform.prependScale(_scaleX, _scaleY, _scaleZ);
+
+			_sca.x = _scaleX;
+			_sca.y = _scaleY;
+			_sca.z = _scaleZ;
+		}
+		else
+		{
+			_sca.x = _scaleX;
+			_sca.y = _scaleY;
+			_sca.z = _scaleZ;
+
+			_transform.recompose(_transformComponents);
 		}
 
 		_transformDirty = false;

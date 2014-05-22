@@ -14,13 +14,6 @@ import flash.display3D.Context3DVertexBufferFormat;
 import flash.geom.Vector3D;
 import flash.Vector;
 
-
-
-
-
-/**
- * ...
- */
 class ParticleFollowState extends ParticleStateBase
 {
 	private var _particleFollowNode:ParticleFollowNode;
@@ -131,7 +124,7 @@ class ParticleFollowState extends ParticleStateBase
 		}
 
 		_prePos.copyFrom(_targetPos);
-		_targetEuler.copyFrom(_targetEuler);
+		_preEuler.copyFrom(_targetEuler);
 		animationSubGeometry.previousTime = currentTime;
 	}
 

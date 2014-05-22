@@ -118,6 +118,7 @@ class Stage3DProxy extends EventDispatcher
 	private var _backBufferHeight:Int;
 	private var _antiAlias:Int;
 	private var _enableDepthAndStencil:Bool;
+	private var _backBufferEnableDepthAndStencil:Bool = true;
 	private var _contextRequested:Bool;
 	//private var _activeVertexBuffers : Vector<VertexBuffer3D> = new Vector<VertexBuffer3D>(A3d.MAX_NUM_STAGE3D, true);
 	//private var _activeTextures : Vector<TextureBase> = new Vector<TextureBase>(A3d.MAX_NUM_STAGE3D, true);
@@ -187,10 +188,11 @@ class Stage3DProxy extends EventDispatcher
 	 * @param backBufferWidth The width of the backbuffer.
 	 * @param backBufferHeight The height of the backbuffer.
 	 * @param antiAlias The amount of anti-aliasing to use.
-	 * @param enableDepthAndStencil Indicates whether the back buffer contains a depth and stencil buffer.
 	 */
-	public function configureBackBuffer(backBufferWidth:Int, backBufferHeight:Int, antiAlias:Int, enableDepthAndStencil:Bool):Void
+	public function configureBackBuffer(backBufferWidth:Int, backBufferHeight:Int, antiAlias:Int):Void
 	{
+		if (backBufferWidth < 50) backBufferWidth = 50;
+		if (backBufferHeight < 50) backBufferHeight = 50;
 		var oldWidth:Int = _backBufferWidth;
 		var oldHeight:Int = _backBufferHeight;
 
@@ -203,10 +205,9 @@ class Stage3DProxy extends EventDispatcher
 			notifyViewportUpdated();
 
 		_antiAlias = antiAlias;
-		_enableDepthAndStencil = enableDepthAndStencil;
 
 		if (_context3D != null)
-			_context3D.configureBackBuffer(backBufferWidth, backBufferHeight, antiAlias, enableDepthAndStencil);
+			_context3D.configureBackBuffer(backBufferWidth, backBufferHeight, antiAlias, _backBufferEnableDepthAndStencil);
 	}
 
 	
@@ -261,7 +262,7 @@ class Stage3DProxy extends EventDispatcher
 
 		if (_backBufferDirty)
 		{
-			configureBackBuffer(_backBufferWidth, _backBufferHeight, _antiAlias, _enableDepthAndStencil);
+			configureBackBuffer(_backBufferWidth, _backBufferHeight, _antiAlias);
 			_backBufferDirty = false;
 		}
 
@@ -418,6 +419,8 @@ class Stage3DProxy extends EventDispatcher
 		if (_viewPort.width == width)
 			return width;
 
+		if (width < 50) width = 50;
+		
 		_viewPort.width = width;
 		_backBufferWidth = width;
 		_backBufferDirty = true;
@@ -437,6 +440,8 @@ class Stage3DProxy extends EventDispatcher
 	{
 		if (_viewPort.height == height)
 			return height;
+			
+		if(height<50) height = 50;
 
 		_backBufferHeight = height;
 		_viewPort.height = height;
@@ -553,7 +558,7 @@ class Stage3DProxy extends EventDispatcher
 			// which they may not have been if View3D.render() has yet to be
 			// invoked for the first time.
 			if (_backBufferWidth != 0 && _backBufferHeight != 0)
-				_context3D.configureBackBuffer(_backBufferWidth, _backBufferHeight, _antiAlias, _enableDepthAndStencil);
+				_context3D.configureBackBuffer(_backBufferWidth, _backBufferHeight, _antiAlias, _backBufferEnableDepthAndStencil);
 
 			// Dispatch the appropriate event depending on whether context was
 			// created for the first time or recreated after a device loss.
@@ -678,5 +683,18 @@ class Stage3DProxy extends EventDispatcher
 		if (_context3D == null)
 			return;
 		_context3D.clear(0, 0, 0, 1, 1, 0, Context3DClearMask.DEPTH);
+	}
+	
+	public var backBufferEnableDepthAndStencil(get, set):Bool;
+	private function get_backBufferEnableDepthAndStencil():Bool 
+	{
+		return _backBufferEnableDepthAndStencil;
+	}
+
+	private function set_backBufferEnableDepthAndStencil(value:Bool):Bool 
+	{
+		_backBufferEnableDepthAndStencil = value;
+		_backBufferDirty = true;
+		return _backBufferEnableDepthAndStencil;
 	}
 }

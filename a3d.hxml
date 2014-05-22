@@ -6,7 +6,7 @@
 -swf-header 1024:768:60:FFFFFF
 --flash-strict
 -swf-version 13
--main a3dexample.Intermediate_MD5Animation
+-main a3dexample.Intermediate_LightProbes
 -D advanced-telemetry
 -swf-lib embeds/assets.swf
 -D alchemy

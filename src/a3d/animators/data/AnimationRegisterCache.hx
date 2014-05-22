@@ -3,6 +3,7 @@ package a3d.animators.data;
 import a3d.animators.nodes.AnimationNodeBase;
 import a3d.materials.compilation.ShaderRegisterCache;
 import a3d.materials.compilation.ShaderRegisterElement;
+import a3d.math.FMatrix3D;
 import flash.display3D.Context3DProfile;
 import flash.geom.Matrix3D;
 import flash.Vector;
@@ -263,7 +264,9 @@ class AnimationRegisterCache extends ShaderRegisterCache
 
 	public function setVertexConstFromMatrix(index:Int, matrix:Matrix3D):Void
 	{
-		var rawData:Vector<Float> = matrix.rawData;
+		var rawData:Vector<Float> = FMatrix3D.RAW_DATA_CONTAINER;
+		matrix.copyRawDataTo(rawData);
+		
 		var _index:Int = (index - _vertexConstantOffset) * 4;
 		vertexConstantData[_index++] = rawData[0];
 		vertexConstantData[_index++] = rawData[4];

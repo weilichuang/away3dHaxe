@@ -81,15 +81,18 @@ class SkeletonClipNode extends AnimationClipNodeBase
 			_totalDelta.z += delta.z;
 		}
 
-		if (_stitchFinalFrame || !_looping)
+		if (_stitchFinalFrame && _looping) 
 		{
 			_totalDuration += _durations[_numFrames - 1];
-			p1 = _frames[0].jointPoses[0].translation;
-			p2 = _frames[1].jointPoses[0].translation;
-			delta = p2.subtract(p1);
-			_totalDelta.x += delta.x;
-			_totalDelta.y += delta.y;
-			_totalDelta.z += delta.z;
+			if (_numFrames > 1) 
+			{
+				p1 = _frames[0].jointPoses[0].translation;
+				p2 = _frames[1].jointPoses[0].translation;
+				delta = p2.subtract(p1);
+				_totalDelta.x += delta.x;
+				_totalDelta.y += delta.y;
+				_totalDelta.z += delta.z;
+			}
 		}
 	}
 	

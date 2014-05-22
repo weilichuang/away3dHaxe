@@ -8,6 +8,7 @@ import a3d.core.pick.IPickingCollider;
 import a3d.core.pick.PickingCollisionVO;
 import a3d.errors.AbstractMethodError;
 import a3d.io.library.assets.AssetType;
+import a3d.math.FMatrix3D;
 import flash.geom.Vector3D;
 
 
@@ -327,26 +328,31 @@ class Entity extends ObjectContainer3D
 
 	public function isIntersectingRay(rayPosition:Vector3D, rayDirection:Vector3D):Bool
 	{
+		if (pickingCollisionVO.localRayPosition == null) 
+			pickingCollisionVO.localRayPosition = new Vector3D();
+		if (pickingCollisionVO.localRayDirection == null)
+			pickingCollisionVO.localRayDirection = new Vector3D();
+		if (pickingCollisionVO.localNormal == null) 
+			pickingCollisionVO.localNormal = new Vector3D();
+
 		// convert ray to entity space
-		var localRayPosition:Vector3D = inverseSceneTransform.transformVector(rayPosition);
-		var localRayDirection:Vector3D = inverseSceneTransform.deltaTransformVector(rayDirection);
+		var localRayPosition:Vector3D = pickingCollisionVO.localRayPosition;
+		var localRayDirection:Vector3D = pickingCollisionVO.localRayDirection;
+		
+		FMatrix3D.transformVector(inverseSceneTransform, rayPosition, localRayPosition);
+		FMatrix3D.deltaTransformVector(inverseSceneTransform, rayDirection, localRayDirection);
 
 		// check for ray-bounds collision
-		if (pickingCollisionVO.localNormal == null)
-			pickingCollisionVO.localNormal = new Vector3D();
 		var rayEntryDistance:Float = bounds.rayIntersection(localRayPosition, localRayDirection, pickingCollisionVO.localNormal);
-
 		if (rayEntryDistance < 0)
 			return false;
-
+		
 		// Store collision data.
 		pickingCollisionVO.rayEntryDistance = rayEntryDistance;
-		pickingCollisionVO.localRayPosition = localRayPosition;
-		pickingCollisionVO.localRayDirection = localRayDirection;
 		pickingCollisionVO.rayPosition = rayPosition;
 		pickingCollisionVO.rayDirection = rayDirection;
 		pickingCollisionVO.rayOriginIsInsideBounds = rayEntryDistance == 0;
-
+		
 		return true;
 	}
 

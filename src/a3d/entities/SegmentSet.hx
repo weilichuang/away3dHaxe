@@ -343,7 +343,7 @@ class SegmentSet extends Entity implements IRenderable
 
 		subSet.vertexBufferDirty = true;
 
-		_boundsInvalid = true;
+		invalidateBounds();
 	}
 
 	
@@ -372,8 +372,6 @@ class SegmentSet extends Entity implements IRenderable
 		_activeSubSet = subSet;
 		_numIndices = subSet.numIndices;
 
-		var vertexBuffer:VertexBuffer3D = subSet.vertexBuffer;
-
 		if (subSet.vertexContext3D != stage3DProxy.context3D || subSet.vertexBufferDirty)
 		{
 			subSet.vertexBuffer = stage3DProxy.context3D.createVertexBuffer(subSet.numVertices, 11);
@@ -381,7 +379,8 @@ class SegmentSet extends Entity implements IRenderable
 			subSet.vertexBufferDirty = false;
 			subSet.vertexContext3D = stage3DProxy.context3D;
 		}
-
+		
+		var vertexBuffer:VertexBuffer3D = subSet.vertexBuffer;
 		var context3d:Context3DProxy = stage3DProxy.context3D;
 		context3d.setVertexBufferAt(0, vertexBuffer, 0, Context3DVertexBufferFormat.FLOAT_3);
 		context3d.setVertexBufferAt(1, vertexBuffer, 3, Context3DVertexBufferFormat.FLOAT_3);

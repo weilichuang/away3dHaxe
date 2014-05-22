@@ -267,11 +267,12 @@ class Camera3D extends Entity
 	 * @param nX The normalised x coordinate in screen space, -1 corresponds to the left edge of the viewport, 1 to the right.
 	 * @param nY The normalised y coordinate in screen space, -1 corresponds to the top edge of the viewport, 1 to the bottom.
 	 * @param sZ The z coordinate in screen space, representing the distance into the screen.
+	 * @param v The destination Vector3D object
 	 * @return The scene position of the given screen coordinates.
 	 */
-	public function unproject(nX:Float, nY:Float, sZ:Float):Vector3D
+	public function unproject(nX:Float, nY:Float, sZ:Float, v:Vector3D = null):Vector3D
 	{
-		return sceneTransform.transformVector(lens.unproject(nX, nY, sZ));
+		return FMatrix3D.transformVector(sceneTransform, lens.unproject(nX, nY, sZ, v), v);
 	}
 
 	/**
@@ -280,21 +281,23 @@ class Camera3D extends Entity
 	 * @param nX The normalised x coordinate in screen space, -1 corresponds to the left edge of the viewport, 1 to the right.
 	 * @param nY The normalised y coordinate in screen space, -1 corresponds to the top edge of the viewport, 1 to the bottom.
 	 * @param sZ The z coordinate in screen space, representing the distance into the screen.
+	 * @param v The destination Vector3D object
 	 * @return The ray from the camera to the scene space position of the given screen coordinates.
 	 */
-	public function getRay(nX:Float, nY:Float, sZ:Float):Vector3D
+	public function getRay(nX:Float, nY:Float, sZ:Float, v:Vector3D = null):Vector3D
 	{
-		return sceneTransform.deltaTransformVector(lens.unproject(nX, nY, sZ));
+		return FMatrix3D.deltaTransformVector(sceneTransform,lens.unproject(nX, nY, sZ, v), v);
 	}
 
 	/**
 	 * Calculates the normalised position in screen space of the given scene position.
 	 *
 	 * @param point3d the position vector of the scene coordinates to be projected.
+	 * @param v The destination Vector3D object
 	 * @return The normalised screen position of the given scene coordinates.
 	 */
-	public function project(point3d:Vector3D):Vector3D
+	public function project(point3d:Vector3D, v:Vector3D = null):Vector3D
 	{
-		return lens.project(inverseSceneTransform.transformVector(point3d));
+		return lens.project(FMatrix3D.transformVector(inverseSceneTransform,point3d,v), v);
 	}
 }

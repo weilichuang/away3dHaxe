@@ -48,7 +48,9 @@ class TextureMultiPassMaterial extends MultiPassMaterialBase
 
 	private function set_animateUVs(value:Bool):Bool
 	{
-		return _animateUVs = value;
+		_animateUVs = value;
+		invalidateScreenPasses();
+		return _animateUVs;	
 	}
 
 	
@@ -80,7 +82,24 @@ class TextureMultiPassMaterial extends MultiPassMaterialBase
 	override private function updateScreenPasses():Void
 	{
 		super.updateScreenPasses();
-		if (_effectsPass != null)
+		
+		if (_effectsPass != null && numLights == 0) 
+		{
 			_effectsPass.animateUVs = _animateUVs;
+		}
+		
+		if (_casterLightPass != null)
+		{
+			_casterLightPass.animateUVs = _animateUVs;
+		}
+		
+		if (_nonCasterLightPasses != null) 
+		{
+			var length:Int = _nonCasterLightPasses.length;
+			for (i in 0...length)
+			{
+				_nonCasterLightPasses[i].animateUVs = _animateUVs;
+			}
+		}
 	}
 }

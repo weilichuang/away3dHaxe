@@ -1,6 +1,7 @@
 package a3d.entities.lenses;
 
 import a3d.events.LensEvent;
+import a3d.math.FMatrix3D;
 import a3d.math.Plane3D;
 import flash.geom.Matrix3D;
 import flash.geom.Vector3D;
@@ -90,6 +91,7 @@ class ObliqueNearPlaneLens extends LensBase
 		invalidateMatrix();
 	}
 
+	private static var signCalculationVector:Vector3D = new Vector3D();
 	override private function updateMatrix():Void
 	{
 		_matrix.copyFrom(_baseLens.matrix);
@@ -100,12 +102,26 @@ class ObliqueNearPlaneLens extends LensBase
 		var cw:Float = -_plane.d + .05;
 		var signX:Float = cx >= 0 ? 1 : -1;
 		var signY:Float = cy >= 0 ? 1 : -1;
-		var p:Vector3D = new Vector3D(signX, signY, 1, 1);
-		var inverse:Matrix3D = _matrix.clone();
+		
+		var p:Vector3D = signCalculationVector;
+		p.x = signX;
+		p.y = signY;
+		p.z = 1;
+		p.w = 1;
+		
+		var inverse:Matrix3D = FMatrix3D.CALCULATION_MATRIX;
+		inverse.copyFrom(_matrix);
 		inverse.invert();
-		var q:Vector3D = inverse.transformVector(p);
+		
+		var q:Vector3D = FMatrix3D.transformVector(inverse,p,FMatrix3D.CALCULATION_VECTOR3D);
 		_matrix.copyRowTo(3, p);
+		
 		var a:Float = (q.x * p.x + q.y * p.y + q.z * p.z + q.w * p.w) / (cx * q.x + cy * q.y + cz * q.z + cw * q.w);
-		_matrix.copyRowFrom(2, new Vector3D(cx * a, cy * a, cz * a, cw * a));
+		p.x = cx * a;
+		p.y = cy * a;
+		p.z = cz * a;
+		p.w = cw * a;
+		
+		_matrix.copyRowFrom(2, p);
 	}
 }

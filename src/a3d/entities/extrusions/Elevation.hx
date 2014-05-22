@@ -11,7 +11,6 @@ import a3d.materials.MaterialBase;
 /**
 * Class Elevation generates (and becomes) a mesh from an heightmap.
 */
-
 class Elevation extends Mesh
 {
 	/**

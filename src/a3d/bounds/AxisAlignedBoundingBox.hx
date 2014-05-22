@@ -317,5 +317,7 @@ class AxisAlignedBoundingBox extends BoundingVolumeBase
 		_max.x = _centerX + _halfExtentsX;
 		_max.y = _centerY + _halfExtentsY;
 		_max.z = _centerZ + _halfExtentsZ;
+		
+		_aabbPointsDirty = true;
 	}
 }

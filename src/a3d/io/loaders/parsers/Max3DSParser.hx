@@ -68,10 +68,13 @@ class Max3DSParser extends ParserBase
 	private var _cur_mat_end:UInt;
 	private var _cur_mat:MaterialVO;
 
+	private var _useSmoothingGroups:Bool;
 
-	public function new()
+	public function new(useSmoothingGroups:Bool = true)
 	{
 		super(ParserDataFormat.BINARY);
+		
+		_useSmoothingGroups = useSmoothingGroups;
 	}
 
 	override public function resolveDependency(resourceDependency:ResourceDependency):Void
@@ -97,21 +100,21 @@ class Max3DSParser extends ParserBase
 		// TODO: Implement
 	}
 
+	override private function startParsing(frameLimit:Float):Void
+	{
+		super.startParsing(frameLimit);
+		
+		_byteData = ParserUtil.toByteArray(_data);
+		_byteData.position = 0;
+		_byteData.endian = Endian.LITTLE_ENDIAN;
+
+		_textures = new StringMap<TextureVO>();
+		_materials = new StringMap<MaterialVO>();
+		_unfinalized_objects = new StringMap<ObjectVO>();
+	}
 
 	override private function proceedParsing():Bool
 	{
-		if (_byteData == null)
-		{
-			_byteData = ParserUtil.toByteArray(_data);
-			_byteData.position = 0;
-			_byteData.endian = Endian.LITTLE_ENDIAN;
-
-			_textures = new StringMap<TextureVO>();
-			_materials = new StringMap<MaterialVO>();
-			_unfinalized_objects = new StringMap<ObjectVO>();
-		}
-
-
 		// TODO: With this construct, the loop will run no-op for as long
 		// as there is time once file has finished reading. Consider a nice
 		// way to stop loop when byte array is empty, without putting it in
@@ -527,7 +530,9 @@ class Max3DSParser extends ParserBase
 			faces = new Vector<FaceVO>(Std.int(obj.indices.length / 3), true);
 
 			prepareData(vertices, faces, obj);
-			applySmoothGroups(vertices, faces);
+			
+			if (_useSmoothingGroups)
+				applySmoothGroups(vertices, faces);
 
 			obj.verts = new Vector<Float>(vertices.length * 3, true);
 			for (i in 0...vertices.length)
@@ -691,7 +696,7 @@ class Max3DSParser extends ParserBase
 				k = groups.length - 1;
 				while ( k >= 0)
 				{
-					if ((group & groups[k]) > 0)
+					if (group == 0 || (group & groups[k]) > 0)
 					{
 						group |= groups[k];
 						groups.splice(k, 1);

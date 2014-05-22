@@ -8,18 +8,12 @@ import a3d.core.base.IRenderable;
 import a3d.core.managers.Stage3DProxy;
 import a3d.entities.Camera3D;
 import a3d.math.FMath;
+import a3d.math.FMatrix3D;
 import flash.geom.Matrix3D;
 import flash.geom.Orientation3D;
 import flash.geom.Vector3D;
 import flash.Vector;
 
-
-
-
-
-/**
- * ...
- */
 class ParticleBillboardState extends ParticleStateBase
 {
 	private var _matrix:Matrix3D;
@@ -51,7 +45,7 @@ class ParticleBillboardState extends ParticleStateBase
 
 			//create a quick inverse projection matrix
 			_matrix.copyFrom(renderable.sceneTransform);
-			comps = _matrix.decompose(Orientation3D.AXIS_ANGLE);
+			comps = FMatrix3D.decompose(_matrix, Orientation3D.AXIS_ANGLE);
 			_matrix.copyColumnFrom(0, right);
 			_matrix.copyColumnFrom(1, _billboardAxis);
 			_matrix.copyColumnFrom(2, look);
@@ -65,7 +59,7 @@ class ParticleBillboardState extends ParticleStateBase
 			_matrix.append(camera.inverseSceneTransform);
 
 			//decompose using axis angle rotations
-			comps = _matrix.decompose(Orientation3D.AXIS_ANGLE);
+			comps = FMatrix3D.decompose(_matrix, Orientation3D.AXIS_ANGLE);
 
 			//recreate the matrix with just the rotation data
 			_matrix.identity();

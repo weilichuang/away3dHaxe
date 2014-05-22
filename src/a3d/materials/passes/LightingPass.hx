@@ -109,33 +109,32 @@ class LightingPass extends CompiledPass
 	{
 		super.updateLights();
 		
-		var numDirectionalLights:Int = 0;
-		var numPointLights:Int = 0;
-		var numLightProbes:Int = 0;
-
+		var numDirectionalLights:Int = _numDirectionalLights;
+		var numPointLights:Int = _numPointLights;
+		var numLightProbes:Int = _numLightProbes;
+		
 		if (_lightPicker != null)
 		{
-			numDirectionalLights = calculateNumDirectionalLights(_lightPicker.numDirectionalLights);
-			numPointLights = calculateNumPointLights(_lightPicker.numPointLights);
-			numLightProbes = calculateNumProbes(_lightPicker.numLightProbes);
+			_numDirectionalLights = calculateNumDirectionalLights(_lightPicker.numDirectionalLights);
+			_numPointLights = calculateNumPointLights(_lightPicker.numPointLights);
+			_numLightProbes = calculateNumProbes(_lightPicker.numLightProbes);
 			
-			if (_includeCasters)
+			if (_includeCasters) 
 			{
-				numPointLights += _lightPicker.numCastingPointLights;
-				numDirectionalLights += _lightPicker.numCastingDirectionalLights;
+				_numPointLights += _lightPicker.numCastingPointLights;
+				_numDirectionalLights += _lightPicker.numCastingDirectionalLights;
 			}
-		}
-
-		if (numPointLights != _numPointLights ||
-			numDirectionalLights != _numDirectionalLights ||
-			numLightProbes != _numLightProbes)
+		} 
+		else 
 		{
-			_numPointLights = numPointLights;
-			_numDirectionalLights = numDirectionalLights;
-			_numLightProbes = numLightProbes;
-			invalidateShaderProgram();
+			_numDirectionalLights = 0;
+			_numPointLights = 0;
+			_numLightProbes = 0;
 		}
-
+		
+		
+		if (numPointLights != _numPointLights || numDirectionalLights != _numDirectionalLights || numLightProbes != _numLightProbes)
+			invalidateShaderProgram();
 	}
 
 	private function calculateNumDirectionalLights(numDirectionalLights:Int):Int

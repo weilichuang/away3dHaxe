@@ -5,6 +5,7 @@ import a3d.core.base.ISubGeometry;
 import a3d.entities.Mesh;
 import a3d.entities.ObjectContainer3D;
 import a3d.materials.MaterialBase;
+import a3d.math.FMatrix3D;
 import a3d.tools.utils.GeomUtil;
 import flash.Vector;
 
@@ -300,7 +301,7 @@ class Merge
 				if (!_objectSpace)
 				{
 					mesh.sceneTransform.transformVectors(vertices, vertices);
-					mesh.sceneTransform.transformVectors(normals, normals);
+					FMatrix3D.deltaTransformVectors(mesh.sceneTransform,normals, normals);
 
 					// Copy vertex data from temporary (transformed) vectors
 					vIdx = vo.vertices.length;

@@ -34,6 +34,7 @@ import a3d.textures.Texture2DBase;
 import a3d.textures.TextureProxyBase;
 import a3d.tools.commands.Merge;
 import a3d.utils.Cast;
+import a3d.utils.Debug;
 import a3d.utils.VectorUtil.VectorUtil;
 import flash.display.Bitmap;
 import flash.display.Loader;
@@ -942,7 +943,7 @@ class Advanced_MultiPassSponzaDemo extends BasicApplication
 
 		while (z < _numTexStrings.length)
 		{
-			trace(_diffuseTextureStrings[z], _numTexStrings[z]);
+			Debug.trace(_diffuseTextureStrings[z] + _numTexStrings[z]);
 			z++;
 		}
 

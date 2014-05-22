@@ -11,9 +11,6 @@ import flash.geom.Vector3D;
 import flash.Vector;
 
 
-
-
-
 /**
  * Picks a 3d object from a view or scene by 3D raycast calculations.
  * Performs an initial coarse boundary calculation to return a subset of entities whose bounding volumes intersect with the specified ray,
@@ -21,6 +18,9 @@ import flash.Vector;
  */
 class RaycastPicker implements IPicker
 {
+	private static var tempRayPosition:Vector3D = new Vector3D();
+	private static var tempRayDirection:Vector3D = new Vector3D();
+		
 	/**
 	 * @inheritDoc
 	 */
@@ -73,9 +73,11 @@ class RaycastPicker implements IPicker
 			return null;
 
 		//update ray
-		var rayPosition:Vector3D = view.unproject(x, y, 0);
-		var rayDirection:Vector3D = view.unproject(x, y, 1);
-		rayDirection = rayDirection.subtract(rayPosition);
+		var rayPosition:Vector3D = view.unproject(x, y, 0, tempRayPosition);
+		var rayDirection:Vector3D = view.unproject(x, y, 1, tempRayDirection);
+		rayDirection.x = rayDirection.x - rayPosition.x;
+		rayDirection.y = rayDirection.y - rayPosition.y;
+		rayDirection.z = rayDirection.z - rayPosition.z;
 
 		// Perform ray-bounds collision checks.
 		_numEntities = 0;
