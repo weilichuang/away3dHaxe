@@ -663,7 +663,7 @@ class SubGeometryBase
 	private function invalidateBounds():Void
 	{
 		if (_parentGeometry != null)
-			_parentGeometry.invalidateBounds(Std.instance(this,ISubGeometry));
+			_parentGeometry.invalidateBounds(cast(this,ISubGeometry));
 	}
 
 	

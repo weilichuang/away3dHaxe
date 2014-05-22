@@ -1,12 +1,12 @@
--cp src
 -lib feffects
 -lib polygonal-ds
 -lib polygonal-gl
+-cp src
 -swf bin/a3d.swf
 -swf-header 1024:768:60:FFFFFF
 --flash-strict
--swf-version 11.7
--main a3dexample.Basic_LoadMD2
+-swf-version 13
+-main a3dexample.Intermediate_ParticleTrails
 -D advanced-telemetry
 -swf-lib embeds/assets.swf
 -D alchemy

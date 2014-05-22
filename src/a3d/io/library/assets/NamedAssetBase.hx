@@ -73,7 +73,7 @@ class NamedAssetBase extends EventDispatcher
 		updateFullPath();
 
 		if (hasEventListener(AssetEvent.ASSET_RENAME))
-			dispatchEvent(new AssetEvent(AssetEvent.ASSET_RENAME, Std.instance(this, IAsset), prev));
+			dispatchEvent(new AssetEvent(AssetEvent.ASSET_RENAME, cast(this, IAsset), prev));
 		
 		return _name;
 	}
