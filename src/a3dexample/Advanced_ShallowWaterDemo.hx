@@ -336,7 +336,7 @@ class Advanced_ShallowWaterDemo extends BasicApplication
 	private function initGUI():Void
 	{
 		// Init brush clips.
-		var drop:Sprite = Std.instance(new Brush3(),Sprite);
+		var drop:Sprite = cast(new Brush3(),Sprite);
 
 		var brushClips:Array<Dynamic> = [
 			{label: "drop", data: drop},
@@ -355,7 +355,7 @@ class Advanced_ShallowWaterDemo extends BasicApplication
 		mouseBrush = new DisturbanceBrush();
 		mouseBrush.fromSprite(aMouseBrushClip);
 		imageBrush = new DisturbanceBrush();
-		imageBrush.fromSprite(Std.instance(new ImageClip(),Sprite));
+		imageBrush.fromSprite(cast(new ImageClip(),Sprite));
 
 		// Rain.
 		dropTmr = new Timer(50);
@@ -594,7 +594,7 @@ class Advanced_ShallowWaterDemo extends BasicApplication
 		showingLiquidImage = value;
 		if (showingLiquidImage)
 		{
-			imageBrush.fromSprite(Std.instance(new ImageClip(),Sprite));
+			imageBrush.fromSprite(cast(new ImageClip(),Sprite));
 			fluidDisturb.disturbBitmapMemory(0.5, 0.5, -10, imageBrush.bitmapData, -1, 0.01);
 		}
 		else
@@ -613,7 +613,7 @@ class Advanced_ShallowWaterDemo extends BasicApplication
 		showingLiquidImage1 = value;
 		if (showingLiquidImage1)
 		{
-			imageBrush.fromSprite(Std.instance(new ImageClip1(),Sprite));
+			imageBrush.fromSprite(cast(new ImageClip1(),Sprite));
 			fluidDisturb.disturbBitmapMemory(0.5, 0.5, -15, imageBrush.bitmapData, -1, 0.01);
 		}
 		else
@@ -632,7 +632,7 @@ class Advanced_ShallowWaterDemo extends BasicApplication
 		showingLiquidImage2 = value;
 		if (showingLiquidImage2)
 		{
-			imageBrush.fromSprite(Std.instance(new ImageClip2(),Sprite));
+			imageBrush.fromSprite(cast(new ImageClip2(),Sprite));
 			fluidDisturb.disturbBitmapMemory(0.5, 0.5, -15, imageBrush.bitmapData, -1, 0.01);
 		}
 		else

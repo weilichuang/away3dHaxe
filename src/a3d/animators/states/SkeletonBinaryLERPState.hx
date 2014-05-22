@@ -51,8 +51,8 @@ class SkeletonBinaryLERPState extends AnimationStateBase implements ISkeletonAni
 		_skeletonPose = new SkeletonPose();
 		_skeletonAnimationNode = skeletonAnimationNode;
 
-		_inputA = Std.instance(animator.getAnimationState(_skeletonAnimationNode.inputA),ISkeletonAnimationState);
-		_inputB = Std.instance(animator.getAnimationState(_skeletonAnimationNode.inputB),ISkeletonAnimationState);
+		_inputA = cast(animator.getAnimationState(_skeletonAnimationNode.inputA),ISkeletonAnimationState);
+		_inputB = cast(animator.getAnimationState(_skeletonAnimationNode.inputB),ISkeletonAnimationState);
 	}
 
 	/**

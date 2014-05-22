@@ -1,6 +1,6 @@
 -cp src
 -swf bin/Haxe_Advanced_FractalTreeDemo.swf
--swf-version 11.7
+-swf-version 13
 --flash-strict
 -swf-header 1024:768:60:0xffffff
 -lib feffects
@@ -10,7 +10,7 @@
 --next
 -cp src
 -swf bin/Haxe_Advanced_MultiPassSponzaDemo.swf
--swf-version 11.7
+-swf-version 13
 --flash-strict
 -lib feffects
 -swf-header 1024:768:60:0xffffff
@@ -21,7 +21,7 @@
 -cp src
 -swf bin/Haxe_Advanced_ShallowWaterDemo.swf
 -swf-lib embeds/assets.swf
--swf-version 11.7
+-swf-version 13
 --flash-strict
 -lib feffects
 -swf-header 1024:768:60:0xffffff
@@ -31,7 +31,7 @@
 --next
 -cp src
 -swf bin/Haxe_Advanced_TerrainDemo.swf
--swf-version 11.7
+-swf-version 13
 --flash-strict
 -lib feffects
 -swf-header 1024:768:60:0xffffff
@@ -41,7 +41,7 @@
 --next
 -cp src
 -swf bin/Haxe_Basic_Fire.swf
--swf-version 11.7
+-swf-version 13
 --flash-strict
 -lib feffects
 -swf-header 1024:768:60:0xffffff
@@ -51,7 +51,7 @@
 --next
 -cp src
 -swf bin/Haxe_Basic_Load3DS.swf
--swf-version 11.7
+-swf-version 13
 --flash-strict
 -lib feffects
 -swf-header 1024:768:60:0xffffff
@@ -61,7 +61,7 @@
 --next
 -cp src
 -swf bin/Haxe_Basic_LoadMD2.swf
--swf-version 11.7
+-swf-version 13
 --flash-strict
 -lib feffects
 -swf-header 1024:768:60:0xffffff
@@ -71,7 +71,7 @@
 --next
 -cp src
 -swf bin/Haxe_Basic_Particles.swf
--swf-version 11.7
+-swf-version 13
 --flash-strict
 -lib feffects
 -swf-header 1024:768:60:0xffffff
@@ -81,7 +81,7 @@
 --next
 -cp src
 -swf bin/Haxe_Basic_Shading.swf
--swf-version 11.7
+-swf-version 13
 --flash-strict
 -lib feffects
 -swf-header 1024:768:60:0xffffff
@@ -91,7 +91,7 @@
 --next
 -cp src
 -swf bin/Haxe_Basic_SkyBox.swf
--swf-version 11.7
+-swf-version 13
 --flash-strict
 -lib feffects
 -swf-header 1024:768:60:0xffffff
@@ -101,7 +101,7 @@
 --next
 -cp src
 -swf bin/Haxe_Basic_SpriteSheetAnimation.swf
--swf-version 11.7
+-swf-version 13
 --flash-strict
 -lib feffects
 -swf-header 1024:768:60:0xffffff
@@ -111,7 +111,7 @@
 --next
 -cp src
 -swf bin/Haxe_Basic_Stereo.swf
--swf-version 11.7
+-swf-version 13
 --flash-strict
 -lib feffects
 -swf-header 1024:768:60:0xffffff
@@ -121,7 +121,7 @@
 --next
 -cp src
 -swf bin/Haxe_Basic_Tweening3D.swf
--swf-version 11.7
+-swf-version 13
 --flash-strict
 -lib feffects
 -swf-header 1024:768:60:0xffffff
@@ -131,7 +131,7 @@
 --next
 -cp src
 -swf bin/Haxe_Basic_UVAnimation.swf
--swf-version 11.7
+-swf-version 13
 --flash-strict
 -lib feffects
 -swf-header 1024:768:60:0xffffff
@@ -141,7 +141,7 @@
 --next
 -cp src
 -swf bin/Haxe_Basic_View.swf
--swf-version 11.7
+-swf-version 13
 --flash-strict
 -lib feffects
 -swf-header 1024:768:60:0xffffff
@@ -151,7 +151,7 @@
 --next
 -cp src
 -swf bin/Haxe_Intermediate_Globe.swf
--swf-version 11.7
+-swf-version 13
 --flash-strict
 -lib feffects
 -swf-header 1024:768:60:0xffffff
@@ -161,7 +161,7 @@
 --next
 -cp src
 -swf bin/Haxe_Intermediate_Head.swf
--swf-version 11.7
+-swf-version 13
 --flash-strict
 -lib feffects
 -swf-header 1024:768:60:0xffffff
@@ -171,7 +171,7 @@
 --next
 -cp src
 -swf bin/Haxe_Intermediate_LightProbes.swf
--swf-version 11.7
+-swf-version 13
 --flash-strict
 -lib feffects
 -swf-header 1024:768:60:0xffffff
@@ -181,7 +181,7 @@
 --next
 -cp src
 -swf bin/Haxe_Intermediate_MD5Animation.swf
--swf-version 11.7
+-swf-version 13
 --flash-strict
 -lib feffects
 -swf-header 1024:768:60:0xffffff
@@ -191,7 +191,7 @@
 --next
 -cp src
 -swf bin/Haxe_Intermediate_MonsterHeadShading.swf
--swf-version 11.7
+-swf-version 13
 --flash-strict
 -lib feffects
 -swf-header 1024:768:60:0xffffff
@@ -201,7 +201,7 @@
 --next
 -cp src
 -swf bin/Haxe_Intermediate_MouseInteraction.swf
--swf-version 11.7
+-swf-version 13
 --flash-strict
 -lib feffects
 -swf-header 1024:768:60:0xffffff
@@ -211,7 +211,7 @@
 --next
 -cp src
 -swf bin/Haxe_Intermediate_OnkbaAWDAnimation.swf
--swf-version 11.7
+-swf-version 13
 --flash-strict
 -lib feffects
 -swf-header 1024:768:60:0xffffff
@@ -221,7 +221,7 @@
 --next
 -cp src
 -swf bin/Haxe_Intermediate_ParticleExplosions.swf
--swf-version 11.7
+-swf-version 13
 --flash-strict
 -lib feffects
 -swf-header 1024:768:60:0xffffff
@@ -231,7 +231,7 @@
 --next
 -cp src
 -swf bin/Haxe_Intermediate_ParticleTrails.swf
--swf-version 11.7
+-swf-version 13
 --flash-strict
 -lib feffects
 -swf-header 1024:768:60:0xffffff
@@ -241,7 +241,7 @@
 --next
 -cp src
 -swf bin/Haxe_Intermediate_PerelithKnightMD2.swf
--swf-version 11.7
+-swf-version 13
 --flash-strict
 -lib feffects
 -swf-header 1024:768:60:0xffffff
@@ -251,7 +251,7 @@
 --next
 -cp src
 -swf bin/Haxe_Intermediate_PlanarReflections.swf
--swf-version 11.7
+-swf-version 13
 --flash-strict
 -lib feffects
 -swf-header 1024:768:60:0xffffff
@@ -261,7 +261,7 @@
 --next
 -cp src
 -swf bin/Haxe_Intermediate_PolarBearAWDAnimation.swf
--swf-version 11.7
+-swf-version 13
 --flash-strict
 -lib feffects
 -swf-header 1024:768:60:0xffffff
@@ -271,7 +271,7 @@
 --next
 -cp src
 -swf bin/Haxe_Intermediate_RealTimeEnvMap.swf
--swf-version 11.7
+-swf-version 13
 --flash-strict
 -lib feffects
 -swf-header 1024:768:60:0xffffff
@@ -281,7 +281,7 @@
 --next
 -cp src
 -swf bin/Haxe_Intermediate_SpriteSheetAnimation.swf
--swf-version 11.7
+-swf-version 13
 --flash-strict
 -lib feffects
 -swf-header 1024:768:60:0xffffff
