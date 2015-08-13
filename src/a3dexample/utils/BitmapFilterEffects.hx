@@ -196,7 +196,8 @@ class BitmapFilterEffects extends Sprite
 
 	static public function hexToRgb(color:UInt):Vector<Int>
 	{
-		return Vector.ofArray([(color & 0xff0000) >> 16, (color & 0x00ff00) >> 8, color & 0x0000ff]);
+		var array:Array<Int> = [(color & 0xff0000) >> 16, (color & 0x00ff00) >> 8, color & 0x0000ff];
+		return Vector.ofArray(array);
 	}
 }
 

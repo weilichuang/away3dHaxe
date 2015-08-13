@@ -125,7 +125,7 @@ class DistanceMapPass extends MaterialPassBase
 			{
 				case Context3DTextureFormat.COMPRESSED:
 					format = "dxt1,";
-				case "compressedAlpha":
+				case Context3DTextureFormat.COMPRESSED_ALPHA:
 					format = "dxt5,";
 				default:
 					format = "";
