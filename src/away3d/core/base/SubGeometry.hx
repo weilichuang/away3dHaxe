@@ -42,7 +42,7 @@ class SubGeometry extends SubGeometryBase implements ISubGeometry
 		_verticesInvalid = true;
 	}
 	
-	private function invaliduvsBuffer():Void
+	private function invalidUvsBuffer():Void
 	{
 		_uvsInvalid = true;
 	}
@@ -61,7 +61,7 @@ class SubGeometry extends SubGeometryBase implements ISubGeometry
 	{
 		_tangentsInvalid = true;
 	}
-
+	
 	// buffers:
 	private var _vertexBuffer:VertexBuffer3D;
 	private var _uvBuffer:VertexBuffer3D;
@@ -97,11 +97,9 @@ class SubGeometry extends SubGeometryBase implements ISubGeometry
 	 */
 	public function activateVertexBuffer(index:Int, stage3DProxy:Stage3DProxy):Void
 	{
-		var contextIndex:Int = stage3DProxy.stage3DIndex;
 		var context:Context3DProxy = stage3DProxy.context3D;
 		
-		if (_vertexBuffer == null || 
-			_vertexBufferContext != context)
+		if (_vertexBuffer == null || _vertexBufferContext != context)
 		{
 			_vertexBuffer = context.createVertexBuffer(_numVertices, 3);
 			_vertexBufferContext = context;
@@ -122,14 +120,12 @@ class SubGeometry extends SubGeometryBase implements ISubGeometry
 	 */
 	public function activateUVBuffer(index:Int, stage3DProxy:Stage3DProxy):Void
 	{
-		var contextIndex:Int = stage3DProxy.stage3DIndex;
 		var context:Context3DProxy = stage3DProxy.context3D;
 
 		if (_autoGenerateUVs && _uvsDirty)
 			_uvs = updateDummyUVs(_uvs);
 
-		if (_uvBuffer == null || 
-			_uvBufferContext != context)
+		if (_uvBuffer == null || _uvBufferContext != context)
 		{
 			_uvBuffer = context.createVertexBuffer(_numVertices, 2);
 			_uvBufferContext = context;
@@ -150,11 +146,9 @@ class SubGeometry extends SubGeometryBase implements ISubGeometry
 	 */
 	public function activateSecondaryUVBuffer(index:Int, stage3DProxy:Stage3DProxy):Void
 	{
-		var contextIndex:Int = stage3DProxy.stage3DIndex;
 		var context:Context3DProxy = stage3DProxy.context3D;
 
-		if (_secondaryUvBuffer == null || 
-			_secondaryUvBufferContext != context)
+		if (_secondaryUvBuffer == null || _secondaryUvBufferContext != context)
 		{
 			_secondaryUvBuffer = context.createVertexBuffer(_numVertices, 2);
 			_secondaryUvBufferContext = context;
@@ -176,14 +170,12 @@ class SubGeometry extends SubGeometryBase implements ISubGeometry
 	 */
 	public function activateVertexNormalBuffer(index:Int, stage3DProxy:Stage3DProxy):Void
 	{
-		var contextIndex:Int = stage3DProxy.stage3DIndex;
 		var context:Context3DProxy = stage3DProxy.context3D;
 
 		if (_autoDeriveVertexNormals && _vertexNormalsDirty)
 			_vertexNormals = updateVertexNormals(_vertexNormals);
 
-		if (_vertexNormalBuffer == null || 
-			_vertexNormalBufferContext != context)
+		if (_vertexNormalBuffer == null || _vertexNormalBufferContext != context)
 		{
 			_vertexNormalBuffer = context.createVertexBuffer(_numVertices, 3);
 			_vertexNormalBufferContext = context;
@@ -206,14 +198,12 @@ class SubGeometry extends SubGeometryBase implements ISubGeometry
 	 */
 	public function activateVertexTangentBuffer(index:Int, stage3DProxy:Stage3DProxy):Void
 	{
-		var contextIndex:Int = stage3DProxy.stage3DIndex;
 		var context:Context3DProxy = stage3DProxy.context3D;
 
 		if (_vertexTangentsDirty)
 			_vertexTangents = updateVertexTangents(_vertexTangents);
 
-		if (_vertexTangentBuffer == null || 
-			_vertexTangentBufferContext != context)
+		if (_vertexTangentBuffer == null || _vertexTangentBufferContext != context)
 		{
 			_vertexTangentBuffer = context.createVertexBuffer(_numVertices, 3);
 			_vertexTangentBufferContext = context;
@@ -274,7 +264,7 @@ class SubGeometry extends SubGeometryBase implements ISubGeometry
 	override public function scaleUV(scaleU:Float = 1, scaleV:Float = 1):Void
 	{
 		super.scaleUV(scaleU, scaleV);
-		invaliduvsBuffer();
+		invalidUvsBuffer();
 	}
 
 	/**
@@ -332,11 +322,6 @@ class SubGeometry extends SubGeometryBase implements ISubGeometry
 			_vertexTangentBuffer.dispose();
 			_vertexTangentBuffer = null;
 		}
-		//disposeVertexBuffers(_vertexBuffer);
-		//disposeVertexBuffers(_vertexNormalBuffer);
-		//disposeVertexBuffers(_uvBuffer);
-		//disposeVertexBuffers(_secondaryUvBuffer);
-		//disposeVertexBuffers(_vertexTangentBuffer);
 	}
 
 	/**
@@ -371,7 +356,6 @@ class SubGeometry extends SubGeometryBase implements ISubGeometry
 			disposeAllVertexBuffers();
 		_numVertices = numVertices;
 
-		//invalidateBuffers(_verticesInvalid);
 		invalidVerticesBuffer();
 
 		invalidateBounds();
@@ -404,8 +388,7 @@ class SubGeometry extends SubGeometryBase implements ISubGeometry
 			_vertexTangentsDirty = true;
 		_faceTangentsDirty = true;
 		_uvs = uvs;
-		//invalidateBuffers(_uvsInvalid);
-		invaliduvsBuffer();
+		invalidUvsBuffer();
 	}
 
 	public function updateSecondaryUVData(uvs:Vector<Float>):Void
@@ -462,12 +445,17 @@ class SubGeometry extends SubGeometryBase implements ISubGeometry
 		invalidTangentsBuffer();
 	}
 
-	public function fromVectors(vertices:Vector<Float>, uvs:Vector<Float>, normals:Vector<Float>, tangents:Vector<Float>):Void
+	public function fromVectors(vertices:Vector<Float>, uvs:Vector<Float>, normals:Vector<Float>, tangents:Vector<Float>, secondaryUVs:Vector<Float>=null):Void
 	{
 		updateVertexData(vertices);
 		updateUVData(uvs);
 		updateVertexNormalData(normals);
 		updateVertexTangentData(tangents);
+		if (secondaryUVs != null && secondaryUVs.length > 0)
+		{
+			updateSecondaryUVData(secondaryUVs);				
+			hasSecondaryUVs = true;
+		}
 	}
 
 	override private function updateVertexNormals(target:Vector<Float>):Vector<Float>
@@ -487,13 +475,12 @@ class SubGeometry extends SubGeometryBase implements ISubGeometry
 
 	override private function updateDummyUVs(target:Vector<Float>):Vector<Float>
 	{
-		invaliduvsBuffer();
+		invalidUvsBuffer();
 		return super.updateDummyUVs(target);
 	}
 
 	private function disposeForStage3D(stage3DProxy:Stage3DProxy):Void
 	{
-		var index:Int = stage3DProxy.stage3DIndex;
 		if (_vertexBuffer != null)
 		{
 			_vertexBuffer.dispose();
@@ -579,6 +566,6 @@ class SubGeometry extends SubGeometryBase implements ISubGeometry
 
 	public function cloneWithSeperateBuffers():SubGeometry
 	{
-		return Std.instance(clone(),SubGeometry);
+		return cast clone();
 	}
 }

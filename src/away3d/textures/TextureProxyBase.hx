@@ -82,7 +82,6 @@ class TextureProxyBase extends NamedAssetBase implements IAsset
 
 	public function getTextureForStage3D(stage3DProxy:Stage3DProxy):TextureBase
 	{
-		var contextIndex:Int = stage3DProxy.stage3DIndex;
 		var tex:TextureBase = _texture;
 		var context:Context3DProxy = stage3DProxy.context3D;
 

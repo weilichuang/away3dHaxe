@@ -410,7 +410,6 @@ class MaterialPassBase extends EventDispatcher
 
 	public function activate(stage3DProxy:Stage3DProxy, camera:Camera3D):Void
 	{
-		var contextIndex:Int = stage3DProxy.stage3DIndex;
 		var context:Context3DProxy = stage3DProxy.context3D;
 
 		context.setDepthTest(_writeDepth && !_enableBlending, _depthCompareMode);
@@ -457,7 +456,6 @@ class MaterialPassBase extends EventDispatcher
 	 */
 	public function deactivate(stage3DProxy:Stage3DProxy):Void
 	{
-		var index:Int = stage3DProxy.stage3DIndex;
 		_previousUsedStream = _numUsedStreams;
 		_previousUsedTex = _numUsedTextures;
 

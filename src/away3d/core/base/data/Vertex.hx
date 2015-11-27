@@ -5,15 +5,10 @@ package away3d.core.base.data;
 */
 class Vertex
 {
-	public var x(get, set):Float;
-	public var y(get, set):Float;
-	public var z(get, set):Float;
-	public var index(get, set):Int;
-	
-	private var _x:Float;
-	private var _y:Float;
-	private var _z:Float;
-	private var _index:Int;
+	public var x:Float;
+	public var y:Float;
+	public var z:Float;
+	public var index:Int;
 
 	/**
 	* Creates a new <code>Vertex</code> value object.
@@ -25,66 +20,10 @@ class Vertex
 	*/
 	public function new(x:Float = 0, y:Float = 0, z:Float = 0, index:Int = 0)
 	{
-		_x = x;
-		_y = y;
-		_z = z;
-		_index = index;
-	}
-
-	/**
-	* To define/store the index of value object
-	* @param	ind		The index
-	*/
-	private inline function set_index(ind:Int):Int
-	{
-		return _index = ind;
-	}
-
-	private inline function get_index():Int
-	{
-		return _index;
-	}
-
-	/**
-	* To define/store the x value of the value object
-	* @param	value		The x value
-	*/
-	private inline function get_x():Float
-	{
-		return _x;
-	}
-
-	private inline function set_x(value:Float):Float
-	{
-		return _x = value;
-	}
-
-	/**
-	* To define/store the y value of the value object
-	* @param	value		The y value
-	*/
-	private inline function get_y():Float
-	{
-		return _y;
-	}
-
-	private inline function set_y(value:Float):Float
-	{
-		return _y = value;
-	}
-
-	/**
-	* To define/store the z value of the value object
-	* @param	value		The z value
-	*/
-	private inline function get_z():Float
-	{
-		return _z;
-	}
-
-	private inline function set_z(value:Float):Float
-	{
-		return _z = value;
+		this.x = x;
+		this.y = y;
+		this.z = z;
+		this.index = index;
 	}
 
 	/**
@@ -92,7 +31,7 @@ class Vertex
 	 */
 	public function clone():Vertex
 	{
-		return new Vertex(_x, _y, _z);
+		return new Vertex(x, y, z);
 	}
 
 	/**
@@ -100,7 +39,7 @@ class Vertex
 	 */
 	public function toString():String
 	{
-		return _x + "," + _y + "," + _z;
+		return x + "," + y + "," + z;
 	}
 
 

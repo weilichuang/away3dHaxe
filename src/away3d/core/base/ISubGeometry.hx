@@ -165,5 +165,5 @@ interface ISubGeometry
 	
 	function cloneWithSeperateBuffers():SubGeometry;
 
-	function fromVectors(vertices:Vector<Float>, uvs:Vector<Float>, normals:Vector<Float>, tangents:Vector<Float>):Void;
+	function fromVectors(vertices:Vector<Float>, uvs:Vector<Float>, normals:Vector<Float>, tangents:Vector<Float>, secondaryUVs:Vector<Float> = null):Void;
 }

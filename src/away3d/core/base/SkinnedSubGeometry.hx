@@ -89,7 +89,6 @@ class SkinnedSubGeometry extends CompactSubGeometry
 	 */
 	public function activateJointWeightsBuffer(index:Int, stage3DProxy:Stage3DProxy):Void
 	{
-		var contextIndex:Int = stage3DProxy.stage3DIndex;
 		var context:Context3DProxy = stage3DProxy.context3D;
 		if (_jointWeightContext != context || _jointWeightsBuffer == null)
 		{
@@ -112,11 +111,9 @@ class SkinnedSubGeometry extends CompactSubGeometry
 	 */
 	public function activateJointIndexBuffer(index:Int, stage3DProxy:Stage3DProxy):Void
 	{
-		var contextIndex:Int = stage3DProxy.stage3DIndex;
 		var context:Context3DProxy = stage3DProxy.context3D;
 
-		if (_jointIndexContext != context || 
-			_jointIndexBuffer == null)
+		if (_jointIndexContext != context || _jointIndexBuffer == null)
 		{
 			_jointIndexBuffer = context.createVertexBuffer(_numVertices, _jointsPerVertex);
 			_jointIndexContext = context;
@@ -176,8 +173,6 @@ class SkinnedSubGeometry extends CompactSubGeometry
 			_jointIndexBuffer.dispose();
 			_jointIndexBuffer = null;
 		}
-		//disposeVertexBuffers(_jointWeightsBuffer);
-		//disposeVertexBuffers(_jointIndexBuffer);
 	}
 
 	/**

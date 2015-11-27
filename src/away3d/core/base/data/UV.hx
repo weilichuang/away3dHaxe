@@ -8,14 +8,11 @@ class UV
 	/**
 	 * Defines the vertical coordinate of the texture value.
 	 */
-	public var v(get, set):Float;
+	public var v:Float;
 	/**
 	 * Defines the horizontal coordinate of the texture value.
 	 */
-	public var u(get, set):Float;
-	
-	private var _u:Float;
-	private var _v:Float;
+	public var u:Float;
 
 	/**
 	 * Creates a new <code>UV</code> object.
@@ -25,30 +22,8 @@ class UV
 	 */
 	public function new(u:Float = 0, v:Float = 0)
 	{
-		_u = u;
-		_v = v;
-	}
-
-	
-	private inline function get_v():Float
-	{
-		return _v;
-	}
-
-	private inline function set_v(value:Float):Float
-	{
-		return _v = value;
-	}
-
-	
-	private inline function get_u():Float
-	{
-		return _u;
-	}
-
-	private inline function set_u(value:Float):Float
-	{
-		return _u = value;
+		this.u = u;
+		this.v = v;
 	}
 
 	/**
@@ -56,7 +31,7 @@ class UV
 	 */
 	public function clone():UV
 	{
-		return new UV(_u, _v);
+		return new UV(u, v);
 	}
 
 	/**
@@ -64,7 +39,7 @@ class UV
 	 */
 	public function toString():String
 	{
-		return _u + "," + _v;
+		return u + "," + v;
 	}
 
 

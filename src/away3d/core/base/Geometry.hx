@@ -7,10 +7,6 @@ import away3d.io.library.assets.NamedAssetBase;
 import flash.geom.Matrix3D;
 import flash.Vector;
 
-
-
-
-
 /**
  * Geometry is a collection of SubGeometries, each of which contain the actual geometrical data such as vertices,
  * normals, uvs, etc. It also contains a reference to an animation class, which defines how the geometry moves.
@@ -68,7 +64,7 @@ class Geometry extends NamedAssetBase implements IAsset
 	 */
 	public function addSubGeometry(subGeometry:ISubGeometry):Void
 	{
-		_subGeometries.push(subGeometry);
+		_subGeometries[_subGeometries.length] = subGeometry;
 
 		subGeometry.parentGeometry = this;
 		
@@ -162,7 +158,7 @@ class Geometry extends NamedAssetBase implements IAsset
 			if (Std.is(subGeom,SubGeometry))
 				continue;
 
-			_removableCompactSubGeometries.push(Std.instance(subGeom,CompactSubGeometry));
+			_removableCompactSubGeometries.push(cast subGeom);
 			addSubGeometry(subGeom.cloneWithSeperateBuffers());
 		}
 

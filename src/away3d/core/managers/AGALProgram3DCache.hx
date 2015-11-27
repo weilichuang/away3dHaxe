@@ -73,7 +73,6 @@ class AGALProgram3DCache
 
 	public function setProgram3D(pass:MaterialPassBase, vertexCode:String, fragmentCode:String):Void
 	{
-		var stageIndex:Int = _stage3DProxy.stage3DIndex;
 		var program:Program3D;
 		var key:String = getKey(vertexCode, fragmentCode);
 

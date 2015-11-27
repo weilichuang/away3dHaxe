@@ -366,9 +366,16 @@ class CompactSubGeometry extends SubGeometryBase implements ISubGeometry
 	}
 
 
-	public function fromVectors(verts:Vector<Float>, uvs:Vector<Float>, normals:Vector<Float>, tangents:Vector<Float>):Void
+	public function fromVectors(verts:Vector<Float>, uvs:Vector<Float>, normals:Vector<Float>, tangents:Vector<Float>, secondaryUVs:Vector<Float> = null):Void
 	{
 		var vertLen:Int = Std.int(verts.length / 3 * 13);
+		
+		hasSecondaryUVs = (secondaryUVs != null && secondaryUVs.length > 0);
+		if (!hasSecondaryUVs) 
+			secondaryUVs = uvs;
+		else
+			if (secondaryUVs.length != uvs.length) 
+				secondaryUVs = uvs;
 
 		var index:Int = 0;
 		var v:Int = 0;
@@ -414,9 +421,16 @@ class CompactSubGeometry extends SubGeometryBase implements ISubGeometry
 			{
 				data[index++] = uvs[u];
 				data[index++] = uvs[u + 1];
-				// use same secondary uvs as primary
-				data[index++] = uvs[u++];
-				data[index++] = uvs[u++];
+				if (hasSecondaryUVs)
+				{
+					data[index++] = secondaryUVs[u++];
+					data[index++] = secondaryUVs[u++];
+				}
+				else
+				{
+					data[index++] = uvs[u++];
+					data[index++] = uvs[u++];						
+				}
 			}
 			else
 			{

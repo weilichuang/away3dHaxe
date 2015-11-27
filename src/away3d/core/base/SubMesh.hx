@@ -118,12 +118,12 @@ class SubMesh implements IRenderable
 	}
 
 	
-	private function get_shaderPickingDetails():Bool
+	private inline function get_shaderPickingDetails():Bool
 	{
 		return sourceEntity.shaderPickingDetails;
 	}
 
-	private function get_offsetU():Float
+	private inline function get_offsetU():Float
 	{
 		return _offsetU;
 	}
@@ -138,7 +138,7 @@ class SubMesh implements IRenderable
 		return _offsetU;
 	}
 
-	private function get_offsetV():Float
+	private inline function get_offsetV():Float
 	{
 		return _offsetV;
 	}
@@ -153,7 +153,7 @@ class SubMesh implements IRenderable
 		return _offsetV;
 	}
 
-	private function get_scaleU():Float
+	private inline function get_scaleU():Float
 	{
 		return _scaleU;
 	}
@@ -167,7 +167,7 @@ class SubMesh implements IRenderable
 		return _scaleU;
 	}
 
-	private function get_scaleV():Float
+	private inline function get_scaleV():Float
 	{
 		return _scaleV;
 	}
@@ -182,7 +182,7 @@ class SubMesh implements IRenderable
 		return _scaleV;
 	}
 
-	private function get_uvRotation():Float
+	private inline function get_uvRotation():Float
 	{
 		return _uvRotation;
 	}
@@ -198,13 +198,13 @@ class SubMesh implements IRenderable
 	}
 
 	
-	private function get_sourceEntity():Entity
+	private inline function get_sourceEntity():Entity
 	{
 		return _parentMesh;
 	}
 
 	
-	private function get_subGeometry():ISubGeometry
+	private inline function get_subGeometry():ISubGeometry
 	{
 		return _subGeometry;
 	}
@@ -215,11 +215,9 @@ class SubMesh implements IRenderable
 	}
 
 	
-	private function get_material():MaterialBase
+	private inline function get_material():MaterialBase
 	{
-		if (_material != null)
-			return _material;
-		return _parentMesh.material;
+		return _material != null ? _material : _parentMesh.material;
 	}
 
 	private function set_material(value:MaterialBase):MaterialBase
@@ -236,13 +234,13 @@ class SubMesh implements IRenderable
 	}
 
 	
-	private function get_sceneTransform():Matrix3D
+	private inline function get_sceneTransform():Matrix3D
 	{
 		return _parentMesh.sceneTransform;
 	}
 
 	
-	private function get_inverseSceneTransform():Matrix3D
+	private inline function get_inverseSceneTransform():Matrix3D
 	{
 		return _parentMesh.inverseSceneTransform;
 	}
@@ -250,7 +248,7 @@ class SubMesh implements IRenderable
 	/**
 	 * @inheritDoc
 	 */
-	public function activateVertexBuffer(index:Int, stage3DProxy:Stage3DProxy):Void
+	public inline function activateVertexBuffer(index:Int, stage3DProxy:Stage3DProxy):Void
 	{
 		_subGeometry.activateVertexBuffer(index, stage3DProxy);
 	}
@@ -258,7 +256,7 @@ class SubMesh implements IRenderable
 	/**
 	 * @inheritDoc
 	 */
-	public function activateVertexNormalBuffer(index:Int, stage3DProxy:Stage3DProxy):Void
+	public inline function activateVertexNormalBuffer(index:Int, stage3DProxy:Stage3DProxy):Void
 	{
 		_subGeometry.activateVertexNormalBuffer(index, stage3DProxy);
 	}
@@ -266,7 +264,7 @@ class SubMesh implements IRenderable
 	/**
 	 * @inheritDoc
 	 */
-	public function activateVertexTangentBuffer(index:Int, stage3DProxy:Stage3DProxy):Void
+	public inline function activateVertexTangentBuffer(index:Int, stage3DProxy:Stage3DProxy):Void
 	{
 		_subGeometry.activateVertexTangentBuffer(index, stage3DProxy);
 	}
@@ -274,7 +272,7 @@ class SubMesh implements IRenderable
 	/**
 	 * @inheritDoc
 	 */
-	public function activateUVBuffer(index:Int, stage3DProxy:Stage3DProxy):Void
+	public inline function activateUVBuffer(index:Int, stage3DProxy:Stage3DProxy):Void
 	{
 		_subGeometry.activateUVBuffer(index, stage3DProxy);
 	}
@@ -282,7 +280,7 @@ class SubMesh implements IRenderable
 	/**
 	 * @inheritDoc
 	 */
-	public function activateSecondaryUVBuffer(index:Int, stage3DProxy:Stage3DProxy):Void
+	public inline function activateSecondaryUVBuffer(index:Int, stage3DProxy:Stage3DProxy):Void
 	{
 		_subGeometry.activateSecondaryUVBuffer(index, stage3DProxy);
 	}
@@ -290,42 +288,42 @@ class SubMesh implements IRenderable
 	/**
 	 * @inheritDoc
 	 */
-	public function getIndexBuffer(stage3DProxy:Stage3DProxy):IndexBuffer3D
+	public inline function getIndexBuffer(stage3DProxy:Stage3DProxy):IndexBuffer3D
 	{
 		return _subGeometry.getIndexBuffer(stage3DProxy);
 	}
 
 	
-	private function get_numTriangles():Int
+	private inline function get_numTriangles():Int
 	{
 		return _subGeometry.numTriangles;
 	}
 
 	
-	private function get_animator():IAnimator
+	private inline function get_animator():IAnimator
 	{
 		return _parentMesh.animator;
 	}
 
 	
-	private function get_mouseEnabled():Bool
+	private inline function get_mouseEnabled():Bool
 	{
 		return _parentMesh.mouseEnabled || _parentMesh.ancestorsAllowMouseEnabled;
 	}
 
 	
-	private function get_castsShadows():Bool
+	private inline function get_castsShadows():Bool
 	{
 		return _parentMesh.castsShadows;
 	}
 
 	
-	private function get_parentMesh():Mesh
+	private inline function get_parentMesh():Mesh
 	{
 		return _parentMesh;
 	}
 
-	private function set_parentMesh(value:Mesh):Mesh
+	private inline function set_parentMesh(value:Mesh):Mesh
 	{
 		return _parentMesh = value;
 	}

@@ -997,7 +997,7 @@ class Object3D extends NamedAssetBase
 	/**
 	 * Invalidates the transformation matrix, causing it to be updated upon the next request
 	 */
-	public inline function invalidateTransform():Void
+	public function invalidateTransform():Void
 	{
 		_transformDirty = true;
 	}
