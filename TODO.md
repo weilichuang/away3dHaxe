@@ -1,2 +1,1 @@
-game分支主要用于简化代码，提高性能
-sgsl分支改用sgsl语法，简化shader书写
+只支持一个Stage3D
