@@ -72,7 +72,7 @@ class ParticleSegmentedScaleNode extends ParticleNodeBase
 		
 		startValue = animationRegisterCache.getFreeVertexConstant();
 		animationRegisterCache.setRegisterIndex(this, START_INDEX, startValue.index);
-		deltaValues = new Vector<ShaderRegisterElement>;
+		deltaValues = new Vector<ShaderRegisterElement>();
 		for (i in 0..._numSegmentPoint + 1)
 		{
 			deltaValues.push(animationRegisterCache.getFreeVertexConstant());

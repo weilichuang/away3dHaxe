@@ -5,7 +5,7 @@
 -swf bin/a3d.swf
 -swf-header 1024:768:60:FFFFFF
 --flash-strict
--swf-version 11.4
+-swf-version 12
 -main example.Advanced_MultiPassSponzaDemo
 -D advanced-telemetry
 -swf-lib embeds/assets.swf

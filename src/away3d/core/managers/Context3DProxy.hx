@@ -45,6 +45,13 @@ class Context3DProxy
 		_context3D = context3D;
 	}
 	
+	public function reset():Void
+	{
+		_curProgram = null;
+		_curDepthMask = false;
+		_curCulling = Context3DTriangleFace.BACK;
+	}
+	
 	public inline function clear(red:Float = 0.0, green:Float = 0.0, blue:Float = 0.0, alpha:Float = 1.0, 
 								depth:Float = 1.0, stencil:UInt = 0, mask:UInt = 0xffffffff):Void
 	{

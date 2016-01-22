@@ -4,9 +4,9 @@ import away3d.animators.data.AnimationRegisterCache;
 import away3d.animators.data.AnimationSubGeometry;
 import away3d.animators.nodes.ParticleSegmentedScaleNode;
 import away3d.animators.ParticleAnimator;
-import away3d.cameras.Camera3D;
 import away3d.core.base.IRenderable;
 import away3d.core.managers.Stage3DProxy;
+import away3d.entities.Camera3D;
 import flash.geom.Vector3D;
 import flash.Vector.Vector;
 
@@ -99,8 +99,8 @@ class ParticleSegmentedScaleState extends ParticleStateBase
 	
 	private function updateScaleData():Void
 	{
-		var _timeLifeData:Vector<Float> = new Vector<Float>;
-		_scaleData = new Vector<Float>;
+		var _timeLifeData:Vector<Float> = new Vector<Float>();
+		_scaleData = new Vector<Float>();
 		var i:Int;
 		for (i in 0..._numSegmentPoint)
 		{

@@ -9,8 +9,6 @@ import flash.geom.Matrix3D;
 import flash.geom.Vector3D;
 import flash.Vector;
 
-
-
 using away3d.math.FVector3D;
 
 

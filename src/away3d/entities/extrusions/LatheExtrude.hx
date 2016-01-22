@@ -98,9 +98,9 @@ class LatheExtrude extends Mesh
 	*/
 	public var tweek(get, set):Dynamic;
 	
-	private const EPS:Float = .0001;
-	private const LIMIT:UInt = 196605;
-	private const MAXRAD:Float = 1.2;
+	private static inline var EPS:Float = .0001;
+	private static inline var LIMIT:UInt = 196605;
+	private static inline var MAXRAD:Float = 1.2;
 
 	private var _profile:Vector<Vector3D>;
 	private var _lastProfile:Vector<Vector3D>;
@@ -516,9 +516,9 @@ class LatheExtrude extends Mesh
 		_uva.u = _uvb.u = 0;
 		_uvc.u = _uvd.u = 1;
 
-		for (i = 0; i < total; i += ptLength)
+		i = 0;
+		while (i < total)
 		{
-
 			if (i != 0)
 			{
 				if (_coverAll)
@@ -581,6 +581,8 @@ class LatheExtrude extends Mesh
 					}
 				}
 			}
+			
+			i += ptLength;
 		}
 	}
 
@@ -600,7 +602,8 @@ class LatheExtrude extends Mesh
 		var iter:Int = ptLength - 1;
 		var step:Float = (_preciseThickness && ptLength % 2 == 0) ? 1 / iter : 1 / ptLength;
 
-		for (i = 0; i < iter; ++i)
+		i = 0;
+		while (i < iter)
 		{
 
 			if (_coverAll)
@@ -668,6 +671,7 @@ class LatheExtrude extends Mesh
 				}
 			}
 
+			++i;
 		}
 	}
 
@@ -708,7 +712,7 @@ class LatheExtrude extends Mesh
 		if (!_varr)
 			_varr = new Vector<Vector3D>();
 
-		for (i = 0; i < vectors.length; ++i)
+		for (i in 0...vectors.length)
 		{
 			_varr.push(new Vector3D(vectors[i].x, vectors[i].y, vectors[i].z));
 			_uvarr.push(new UV(0, 1 % i));
@@ -723,13 +727,13 @@ class LatheExtrude extends Mesh
 		if (_revolutions < 1)
 			step *= _revolutions;
 
-		for (i = 0; i <= lsub; ++i)
+		for (i in 0...(lsub+1))
 		{
 
 			tmpVecs = new Vector<Vector3D>();
 			tmpVecs = vectors.concat();
 
-			for (j = 0; j < tmpVecs.length; ++j)
+			for (j in 0...tmpVecs.length)
 			{
 
 				factor = ((_revolutions - 1) / (_varr.length + 1));
@@ -840,10 +844,11 @@ class LatheExtrude extends Mesh
 			var vind:UInt;
 			var iter:Int = inc - 1;
 
-			for (i = 0; i < loop; i += inc)
+			i = 0;
+			for (i < loop)
 			{
 				index = 0;
-				for (j = 0; j < iter; ++j)
+				for (j in 0...iter)
 				{
 
 					if (i > 0)
@@ -927,6 +932,8 @@ class LatheExtrude extends Mesh
 
 					index++;
 				}
+				
+				i += inc;
 			}
 		}
 	}
@@ -949,7 +956,7 @@ class LatheExtrude extends Mesh
 				var aListsides:Array = ["top", "bottom", "right", "left", "front", "back"];
 				var renderSide:RenderSide = new RenderSide();
 
-				for (i = 0; i < aListsides.length; ++i)
+				for (i in 0...aListsides.length)
 					renderSide[aListsides[i]] = (_ignoreSides.indexOf(aListsides[i]) == -1);
 
 				_varr = new Vector<Vector3D>();
@@ -989,7 +996,7 @@ class LatheExtrude extends Mesh
 					var profileFront:Vector<Vector3D> = new Vector<Vector3D>();
 					var profileBack:Vector<Vector3D> = new Vector<Vector3D>();
 
-					for (i = 0; i < lines.length; ++i)
+					for (i in 0...lines.length)
 					{
 
 						points = lines[i];
@@ -1081,7 +1088,7 @@ class LatheExtrude extends Mesh
 					var tmprofile2:Vector<Vector3D> = new Vector<Vector3D>();
 					var halft:Float = _thickness * .5;
 					var val:Float;
-					for (i = 0; i < _profile.length; ++i)
+					for (i in 0..._profile.length)
 					{
 
 						switch (_axis)
@@ -1140,7 +1147,7 @@ class LatheExtrude extends Mesh
 		{
 			var sglist:SubGeometryList;
 			var sg:SubGeometry;
-			for (i = 1; i < 6; ++i)
+			for (i in 1...6)
 			{
 				sglist = _MaterialsSubGeometries[i];
 				sg = sglist.subGeometry;

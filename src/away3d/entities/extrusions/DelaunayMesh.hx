@@ -22,9 +22,9 @@ class DelaunayMesh extends Mesh
 	public static inline var PLANE_XY:String = "xy";
 	public static inline var PLANE_ZY:String = "zy";
 
-	private const LIMIT:UInt = 196605;
-	private const EPS:Float = .0001;
-	private const MAXRAD:Float = 1.2;
+	private static inline var LIMIT:UInt = 196605;
+	private static inline var EPS:Float = .0001;
+	private static inline var MAXRAD:Float = 1.2;
 
 	private var _circle:Vector3D;
 	private var _vectors:Vector<Vector3D>;
@@ -269,97 +269,96 @@ class DelaunayMesh extends Mesh
 		var ind1:UInt;
 		var ind2:UInt;
 
-		if (_smoothSurface)
-		{
-			var uvind:UInt;
-			var uvindV:UInt;
-			var vind:UInt;
-			var vindb:UInt;
-			var vindz:UInt;
-			var ind:UInt;
-			var indlength:UInt = indices.length;
-			calcNormal(v0, v1, v2);
-			var ab:Float;
-
-			if (indlength > 0)
-			{
-
-				for (var i:UInt = indlength - 1; i > 0; --i)
-				{
-					ind = indices[i];
-					vind = ind * 3;
-					vindb = vind + 1;
-					vindz = vind + 2;
-					uvind = ind * 2;
-					uvindV = uvind + 1;
-
-					if (bv0 && bv1 && bv2)
-						break;
-
-					if (!bv0 && vertices[vind] == v0.x && vertices[vindb] == v0.y && vertices[vindz] == v0.z)
-					{
-
-						_tmpNormal.x = normals[vind];
-						_tmpNormal.y = normals[vindb];
-						_tmpNormal.z = normals[vindz];
-						ab = Vector3D.angleBetween(_tmpNormal, _normal0);
-
-						if (ab < MAXRAD)
-						{
-							_normal0.x = (_tmpNormal.x + _normal0.x) * .5;
-							_normal0.y = (_tmpNormal.y + _normal0.y) * .5;
-							_normal0.z = (_tmpNormal.z + _normal0.z) * .5;
-
-							bv0 = true;
-							ind0 = ind;
-							continue;
-						}
-					}
-
-					if (!bv1 && vertices[vind] == v1.x && vertices[vindb] == v1.y && vertices[vindz] == v1.z)
-					{
-
-						_tmpNormal.x = normals[vind];
-						_tmpNormal.y = normals[vindb];
-						_tmpNormal.z = normals[vindz];
-						ab = Vector3D.angleBetween(_tmpNormal, _normal1);
-
-						if (ab < MAXRAD)
-						{
-							_normal1.x = (_tmpNormal.x + _normal1.x) * .5;
-							_normal1.y = (_tmpNormal.y + _normal1.y) * .5;
-							_normal1.z = (_tmpNormal.z + _normal1.z) * .5;
-
-							bv1 = true;
-							ind1 = ind;
-							continue;
-						}
-					}
-
-					if (!bv2 && vertices[vind] == v2.x && vertices[vindb] == v2.y && vertices[vindz] == v2.z)
-					{
-
-						_tmpNormal.x = normals[vind];
-						_tmpNormal.y = normals[vindb];
-						_tmpNormal.z = normals[vindz];
-						ab = Vector3D.angleBetween(_tmpNormal, _normal2);
-
-						if (ab < MAXRAD)
-						{
-
-							_normal2.x = (_tmpNormal.x + _normal2.x) * .5;
-							_normal2.y = (_tmpNormal.y + _normal2.y) * .5;
-							_normal2.z = (_tmpNormal.z + _normal2.z) * .5;
-
-							bv2 = true;
-							ind2 = ind;
-							continue;
-						}
-
-					}
-				}
-			}
-		}
+		//if (_smoothSurface)
+		//{
+			//var uvind:UInt;
+			//var uvindV:UInt;
+			//var vind:UInt;
+			//var vindb:UInt;
+			//var vindz:UInt;
+			//var ind:UInt;
+			//var indlength:UInt = indices.length;
+			//calcNormal(v0, v1, v2);
+			//var ab:Float;
+//
+			//if (indlength > 0)
+			//{
+				//for (var i:UInt = indlength - 1; i > 0; --i)
+				//{
+					//ind = indices[i];
+					//vind = ind * 3;
+					//vindb = vind + 1;
+					//vindz = vind + 2;
+					//uvind = ind * 2;
+					//uvindV = uvind + 1;
+//
+					//if (bv0 && bv1 && bv2)
+						//break;
+//
+					//if (!bv0 && vertices[vind] == v0.x && vertices[vindb] == v0.y && vertices[vindz] == v0.z)
+					//{
+//
+						//_tmpNormal.x = normals[vind];
+						//_tmpNormal.y = normals[vindb];
+						//_tmpNormal.z = normals[vindz];
+						//ab = Vector3D.angleBetween(_tmpNormal, _normal0);
+//
+						//if (ab < MAXRAD)
+						//{
+							//_normal0.x = (_tmpNormal.x + _normal0.x) * .5;
+							//_normal0.y = (_tmpNormal.y + _normal0.y) * .5;
+							//_normal0.z = (_tmpNormal.z + _normal0.z) * .5;
+//
+							//bv0 = true;
+							//ind0 = ind;
+							//continue;
+						//}
+					//}
+//
+					//if (!bv1 && vertices[vind] == v1.x && vertices[vindb] == v1.y && vertices[vindz] == v1.z)
+					//{
+//
+						//_tmpNormal.x = normals[vind];
+						//_tmpNormal.y = normals[vindb];
+						//_tmpNormal.z = normals[vindz];
+						//ab = Vector3D.angleBetween(_tmpNormal, _normal1);
+//
+						//if (ab < MAXRAD)
+						//{
+							//_normal1.x = (_tmpNormal.x + _normal1.x) * .5;
+							//_normal1.y = (_tmpNormal.y + _normal1.y) * .5;
+							//_normal1.z = (_tmpNormal.z + _normal1.z) * .5;
+//
+							//bv1 = true;
+							//ind1 = ind;
+							//continue;
+						//}
+					//}
+//
+					//if (!bv2 && vertices[vind] == v2.x && vertices[vindb] == v2.y && vertices[vindz] == v2.z)
+					//{
+//
+						//_tmpNormal.x = normals[vind];
+						//_tmpNormal.y = normals[vindb];
+						//_tmpNormal.z = normals[vindz];
+						//ab = Vector3D.angleBetween(_tmpNormal, _normal2);
+//
+						//if (ab < MAXRAD)
+						//{
+//
+							//_normal2.x = (_tmpNormal.x + _normal2.x) * .5;
+							//_normal2.y = (_tmpNormal.y + _normal2.y) * .5;
+							//_normal2.z = (_tmpNormal.z + _normal2.z) * .5;
+//
+							//bv2 = true;
+							//ind2 = ind;
+							//continue;
+						//}
+//
+					//}
+				//}
+			//}
+		//}
 
 		if (!bv0)
 		{

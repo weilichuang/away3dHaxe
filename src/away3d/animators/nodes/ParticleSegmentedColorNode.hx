@@ -72,8 +72,6 @@ class ParticleSegmentedColorNode extends ParticleNodeBase
 	 */
 	override public function getAGALVertexCode(pass:MaterialPassBase, animationRegisterCache:AnimationRegisterCache):String
 	{
-		pass = pass;
-
 		var code:String = "";
 		if (animationRegisterCache.needFragmentAnimation)
 		{
@@ -109,7 +107,7 @@ class ParticleSegmentedColorNode extends ParticleNodeBase
 			{
 				startMulValue = animationRegisterCache.getFreeVertexConstant();
 				animationRegisterCache.setRegisterIndex(this, START_MULTIPLIER_INDEX, startMulValue.index);
-				deltaMulValues = new Vector<ShaderRegisterElement>;
+				deltaMulValues = new Vector<ShaderRegisterElement>();
 				for (i in 0...numSegmentPoint + 1)
 				{
 					deltaMulValues.push(animationRegisterCache.getFreeVertexConstant());
@@ -122,7 +120,7 @@ class ParticleSegmentedColorNode extends ParticleNodeBase
 			{
 				startOffsetValue = animationRegisterCache.getFreeVertexConstant();
 				animationRegisterCache.setRegisterIndex(this, START_OFFSET_INDEX, startOffsetValue.index);
-				deltaOffsetValues = new Vector<ShaderRegisterElement>;
+				deltaOffsetValues = new Vector<ShaderRegisterElement>();
 				for (i in 0...numSegmentPoint+1)
 				{
 					deltaOffsetValues.push(animationRegisterCache.getFreeVertexConstant());

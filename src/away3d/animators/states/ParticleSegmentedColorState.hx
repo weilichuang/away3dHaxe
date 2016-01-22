@@ -131,9 +131,9 @@ class ParticleSegmentedColorState extends ParticleStateBase
 
 	private function updateColorData():Void
 	{
-		_timeLifeData = new Vector<Float>;
-		_multiplierData = new Vector<Float>;
-		_offsetData = new Vector<Float>;
+		_timeLifeData = new Vector<Float>();
+		_multiplierData = new Vector<Float>();
+		_offsetData = new Vector<Float>();
 
 		for (i in 0..._numSegmentPoint)
 		{
@@ -158,8 +158,8 @@ class ParticleSegmentedColorState extends ParticleStateBase
 						_timeLifeData[i]);
 				else
 					_multiplierData.push((_segmentPoints[i].color.redMultiplier - _segmentPoints[i - 1].color.redMultiplier) / _timeLifeData[i], (_segmentPoints[i].color.greenMultiplier - _segmentPoints[i -
-						1].color.greenMultiplier) / _timeLifeData[i], (_segmentPoints[i].color.blueMultiplier - _segmentPoints[i - 1].color.blueMultiplier) / _timeLifeData[i], (_segmentPoints[i].color.
-						alphaMultiplier - _segmentPoints[i - 1].color.alphaMultiplier) / _timeLifeData[i]);
+						1].color.greenMultiplier) / _timeLifeData[i], (_segmentPoints[i].color.blueMultiplier - _segmentPoints[i - 1].color.blueMultiplier) / _timeLifeData[i],
+						(_segmentPoints[i].color.alphaMultiplier - _segmentPoints[i - 1].color.alphaMultiplier) / _timeLifeData[i]);
 			}
 			if (_numSegmentPoint == 0)
 				_multiplierData.push(_endColor.redMultiplier - _startColor.redMultiplier, _endColor.greenMultiplier - _startColor.greenMultiplier, _endColor.blueMultiplier - _startColor.blueMultiplier,
@@ -181,8 +181,7 @@ class ParticleSegmentedColorState extends ParticleStateBase
 						255);
 				else
 					_offsetData.push((_segmentPoints[i].color.redOffset - _segmentPoints[i - 1].color.redOffset) / _timeLifeData[i] / 255, (_segmentPoints[i].color.greenOffset - _segmentPoints[i -
-						1].color.greenOffset) / _timeLifeData[i] / 255, (_segmentPoints[i].color.blueOffset - _segmentPoints[i - 1].color.blueOffset) / _timeLifeData[i] / 255, (_segmentPoints[i].color.
-						alphaOffset - _segmentPoints[i - 1].color.alphaOffset) / _timeLifeData[i] / 255);
+						1].color.greenOffset) / _timeLifeData[i] / 255, (_segmentPoints[i].color.blueOffset - _segmentPoints[i - 1].color.blueOffset) / _timeLifeData[i] / 255, (_segmentPoints[i].color.alphaOffset - _segmentPoints[i - 1].color.alphaOffset) / _timeLifeData[i] / 255);
 			}
 			if (_numSegmentPoint == 0)
 				_offsetData.push((_endColor.redOffset - _startColor.redOffset) / 255, (_endColor.greenOffset - _startColor.greenOffset) / 255, (_endColor.blueOffset - _startColor.blueOffset) / 255,

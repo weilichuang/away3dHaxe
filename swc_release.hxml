@@ -1,0 +1,8 @@
+-cp src
+-swf swc/away3d_release.swc
+--macro include('away3d')
+--macro include('com')
+-swf-version 17
+-swf-header 800:600:60:0xffffff
+-lib polygonal-core
+-lib polygonal-ds

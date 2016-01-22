@@ -58,9 +58,9 @@ class ParticleSpriteSheetNode extends ParticleNodeBase
 	/** @private */
 	private var _totalFrames:Int;
 	/** @private */
-	public var numColumns:Int;
+	private var _numColumns:Int;
 	/** @private */
-	public var numRows:Int;
+	private var _numRows:Int;
 	/** @private */
 	public var cycleDuration:Float;
 	/** @private */
@@ -102,13 +102,13 @@ class ParticleSpriteSheetNode extends ParticleNodeBase
 	
 	private function get_numColumns():Int
 	{
-		return numColumns;
+		return _numColumns;
 	}
 
 	
 	private function get_numRows():Int
 	{
-		return numRows;
+		return _numRows;
 	}
 
 	
