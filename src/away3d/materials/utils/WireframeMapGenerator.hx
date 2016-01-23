@@ -54,7 +54,7 @@ class WireframeMapGenerator
 		else if (fillAlpha < 0)
 			fillAlpha = 0;
 
-		bitmapData = new BitmapData(width, height, fillAlpha == 1 ? false : true, (fillAlpha << 24) | (fillColor & 0xffffff));
+		bitmapData = new BitmapData(width, height, fillAlpha == 1 ? false : true, (Std.int(fillAlpha*255) << 24) | (fillColor & 0xffffff));
 
 		for (i in 0...mesh.subMeshes.length)
 			drawLines(lineColor, lineThickness, bitmapData, mesh.subMeshes[i].subGeometry);

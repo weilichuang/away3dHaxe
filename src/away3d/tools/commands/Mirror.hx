@@ -8,7 +8,7 @@ import away3d.bounds.BoundingVolumeBase;
 import away3d.core.base.Geometry;
 import away3d.core.base.ISubGeometry;
 import away3d.entities.Mesh;
-import away3d.entities.ObjectContainer3D;
+import away3d.containers.ObjectContainer3D;
 import away3d.tools.utils.GeomUtil;
 
 

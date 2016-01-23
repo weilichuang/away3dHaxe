@@ -1,12 +1,14 @@
 package away3d.filters.tasks;
 
+import away3d.core.managers.Context3DProxy;
 import away3d.core.managers.Stage3DProxy;
-import away3d.entities.Camera3D;
-import away3d.materials.BlendMode;
+import away3d.cameras.Camera3D;
+import flash.display.BlendMode;
 import flash.display3D.Context3D;
 import flash.display3D.Context3DProgramType;
 import flash.display3D.textures.Texture;
 import flash.display3D.textures.TextureBase;
+import flash.errors.Error;
 import flash.Vector;
 
 
@@ -15,7 +17,7 @@ import flash.Vector;
 
 class Filter3DCompositeTask extends Filter3DTaskBase
 {
-	public var overlayTexture(get, set):Float;
+	public var overlayTexture(get, set):TextureBase;
 	public var exposure(get, set):Float;
 	
 	private var _data:Vector<Float>;
@@ -59,16 +61,16 @@ class Filter3DCompositeTask extends Filter3DTaskBase
 			"mul ft0, ft0, fc0.x				\n";
 		switch (_blendMode)
 		{
-			case "multiply":
+			case BlendMode.MULTIPLY:
 				op = "mul";
 			
-			case "add":
+			case BlendMode.ADD:
 				op = "add";
 			
-			case "subtract":
+			case BlendMode.SUBTRACT:
 				op = "sub";
 			
-			case "normal":
+			case BlendMode.NORMAL:
 				// for debugging purposes
 				op = "mov";
 			
@@ -84,13 +86,13 @@ class Filter3DCompositeTask extends Filter3DTaskBase
 
 	override public function activate(stage3DProxy:Stage3DProxy, camera3D:Camera3D, depthTexture:Texture):Void
 	{
-		var context:Context3D = stage3DProxy._context3D;
+		var context:Context3DProxy = stage3DProxy.context3D;
 		context.setProgramConstantsFromVector(Context3DProgramType.FRAGMENT, 0, _data, 1);
 		context.setTextureAt(1, _overlayTexture);
 	}
 
 	override public function deactivate(stage3DProxy:Stage3DProxy):Void
 	{
-		stage3DProxy._context3D.setTextureAt(1, null);
+		stage3DProxy.context3D.setTextureAt(1, null);
 	}
 }

@@ -6,7 +6,7 @@ import away3d.animators.nodes.ParticleSegmentedScaleNode;
 import away3d.animators.ParticleAnimator;
 import away3d.core.base.IRenderable;
 import away3d.core.managers.Stage3DProxy;
-import away3d.entities.Camera3D;
+import away3d.cameras.Camera3D;
 import flash.geom.Vector3D;
 import flash.Vector.Vector;
 
@@ -112,20 +112,43 @@ class ParticleSegmentedScaleState extends ParticleStateBase
 		if (_numSegmentPoint == 0)
 			_timeLifeData.push(1);
 		else
-			_timeLifeData.push(1 - _segmentPoints[i - 1].w);
+			_timeLifeData.push(1 - _segmentPoints[_numSegmentPoint - 1].w);
 			
-		_scaleData.push(_startScale.x , _startScale.y , _startScale.z , 0);
+		_scaleData.push(_startScale.x);
+		_scaleData.push(_startScale.y);
+		_scaleData.push(_startScale.z);
+		_scaleData.push(0);
 		for (i in 0..._numSegmentPoint)
 		{
 			if (i == 0)
-				_scaleData.push((_segmentPoints[i].x - _startScale.x)/_timeLifeData[i] , (_segmentPoints[i].y - _startScale.y)/_timeLifeData[i] , (_segmentPoints[i].z - _startScale.z)/_timeLifeData[i] , _timeLifeData[i]);
+			{
+				_scaleData.push((_segmentPoints[i].x - _startScale.x) / _timeLifeData[i]);
+				_scaleData.push((_segmentPoints[i].y - _startScale.y) / _timeLifeData[i]);
+				_scaleData.push((_segmentPoints[i].z - _startScale.z) / _timeLifeData[i]);
+				_scaleData.push(_timeLifeData[i]);
+			}
 			else
-				_scaleData.push((_segmentPoints[i].x - _segmentPoints[i - 1].x)/_timeLifeData[i] , (_segmentPoints[i].y - _segmentPoints[i - 1].y)/_timeLifeData[i] , (_segmentPoints[i].z - _segmentPoints[i - 1].z)/_timeLifeData[i] , _timeLifeData[i]);
+			{
+				_scaleData.push((_segmentPoints[i].x - _segmentPoints[i - 1].x) / _timeLifeData[i]); 
+				_scaleData.push((_segmentPoints[i].y - _segmentPoints[i - 1].y) / _timeLifeData[i] );
+				_scaleData.push((_segmentPoints[i].z - _segmentPoints[i - 1].z) / _timeLifeData[i]);
+				_scaleData.push(_timeLifeData[i]);
+			}
 		}
 		if (_numSegmentPoint == 0)
-			_scaleData.push(_endScale.x - _startScale.x , _endScale.y - _startScale.y , _endScale.z - _startScale.z , 1);
+		{
+			_scaleData.push(_endScale.x - _startScale.x);
+			_scaleData.push(_endScale.y - _startScale.y);
+			_scaleData.push(_endScale.z - _startScale.z);
+			_scaleData.push(1);
+		}
 		else
-			_scaleData.push((_endScale.x - _segmentPoints[i - 1].x) / _timeLifeData[i] , (_endScale.y - _segmentPoints[i - 1].y) / _timeLifeData[i] , (_endScale.z - _segmentPoints[i - 1].z) / _timeLifeData[i] , _timeLifeData[i]);
+		{
+			_scaleData.push((_endScale.x - _segmentPoints[_numSegmentPoint - 1].x) / _timeLifeData[_numSegmentPoint]);
+			_scaleData.push((_endScale.y - _segmentPoints[_numSegmentPoint - 1].y) / _timeLifeData[_numSegmentPoint]);
+			_scaleData.push((_endScale.z - _segmentPoints[_numSegmentPoint - 1].z) / _timeLifeData[_numSegmentPoint]);
+			_scaleData.push(_timeLifeData[_numSegmentPoint]);
+		}
 			
 	}
 }

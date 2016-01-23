@@ -79,7 +79,7 @@ class ParticleSpriteSheetNode extends ParticleNodeBase
 	 */
 	public function new(mode:UInt, usesCycle:Bool, usesPhase:Bool, numColumns:Int = 1, numRows:UInt = 1, cycleDuration:Float = 1, cyclePhase:Float = 0, totalFrames:Int = 2147483647)
 	{
-		var len:Int;
+		var len:Int = 0;
 		if (usesCycle)
 		{
 			len = 2;

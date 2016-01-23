@@ -2,7 +2,7 @@ package away3d.core.partition;
 
 import away3d.core.traverse.PartitionTraverser;
 import away3d.math.Plane3D;
-import away3d.entities.primitives.SkyBox;
+import away3d.primitives.SkyBox;
 import flash.Vector;
 
 /**

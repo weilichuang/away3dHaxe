@@ -4,11 +4,11 @@ import away3d.core.base.IRenderable;
 import away3d.core.data.RenderableListItem;
 import away3d.core.managers.Stage3DProxy;
 import away3d.core.traverse.EntityCollector;
-import away3d.entities.Camera3D;
-import away3d.entities.lights.DirectionalLight;
-import away3d.entities.lights.LightBase;
-import away3d.entities.lights.PointLight;
-import away3d.entities.lights.shadowmaps.ShadowMapperBase;
+import away3d.cameras.Camera3D;
+import away3d.lights.DirectionalLight;
+import away3d.lights.LightBase;
+import away3d.lights.PointLight;
+import away3d.lights.shadowmaps.ShadowMapperBase;
 import away3d.materials.MaterialBase;
 import flash.display3D.Context3DBlendFactor;
 import flash.display3D.Context3DCompareMode;
@@ -20,7 +20,7 @@ import flash.Vector;
 
 
 
-using away3d.math.FVector3D;
+using away3d.math.Vector3DUtils;
 
 /**
  * The DefaultRenderer class provides the default rendering method. It renders the scene graph objects using the

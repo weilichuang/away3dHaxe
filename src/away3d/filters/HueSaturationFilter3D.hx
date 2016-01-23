@@ -67,7 +67,7 @@ class HueSaturationFilter3D extends Filter3DBase
 	private function set_g(value:Float):Float
 	{
 		if (_hslTask.g == value)
-			return;
+			return value;
 		return _hslTask.g = value;
 	}
 }

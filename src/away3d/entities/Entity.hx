@@ -2,12 +2,14 @@ package away3d.entities;
 
 import away3d.bounds.AxisAlignedBoundingBox;
 import away3d.bounds.BoundingVolumeBase;
+import away3d.containers.ObjectContainer3D;
+import away3d.containers.Scene3D;
 import away3d.core.partition.EntityNode;
 import away3d.core.partition.Partition3D;
 import away3d.core.pick.IPickingCollider;
 import away3d.core.pick.PickingCollisionVO;
 import away3d.errors.AbstractMethodError;
-import away3d.io.library.assets.AssetType;
+import away3d.library.assets.AssetType;
 import flash.geom.Vector3D;
 
 

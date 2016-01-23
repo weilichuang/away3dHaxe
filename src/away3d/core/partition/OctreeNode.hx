@@ -3,8 +3,8 @@ package away3d.core.partition;
 
 import away3d.bounds.BoundingVolumeBase;
 import away3d.entities.Entity;
-import away3d.entities.primitives.WireframeCube;
-import away3d.entities.primitives.WireframePrimitiveBase;
+import away3d.primitives.WireframeCube;
+import away3d.primitives.WireframePrimitiveBase;
 import away3d.math.Plane3D;
 import flash.geom.Vector3D;
 import flash.Vector;

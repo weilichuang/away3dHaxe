@@ -20,9 +20,9 @@ class SegmentedPathBase implements IPath
 	 *
 	 * @return	a Vector.&lt;PathSegment&gt;: holding the elements (PathSegment) of the path
 	 */
-	public var segments(set, null):Vector<IPathSegment>;
+	public var segments(get, null):Vector<IPathSegment>;
 	
-	public var pointData(set, null):Vector<Vector3D>;
+	public var pointData(never, set):Vector<Vector3D>;
 	
 	private var _pointsPerSegment:Int;
 	private var _segments:Vector<IPathSegment>;
@@ -34,7 +34,6 @@ class SegmentedPathBase implements IPath
 			pointData = data;
 	}
 
-	
 	private function set_pointData(data:Vector<Vector3D>):Vector<Vector3D>
 	{
 		if (data.length < _pointsPerSegment)
@@ -44,12 +43,15 @@ class SegmentedPathBase implements IPath
 			throw new Error("Path Vector<Vector3D> must contain series of " + _pointsPerSegment + " Vector3D's per segment");
 
 		_segments = new Vector<IPathSegment>();
-		var i:Int = 0, len:Int = data.length;
-		for (i < len)
+		var i:Int = 0;
+		var len:Int = data.length;
+		while (i < len)
 		{
 			_segments.push(createSegmentFromArrayEntry(data, i));
 			i += _pointsPerSegment;
 		}
+		
+		return data;
 	}
 
 	// factory method
@@ -143,7 +145,8 @@ class SegmentedPathBase implements IPath
 	{
 		var points:Vector<Vector<Vector3D>> = new Vector<Vector<Vector3D>>();
 
-		for (i in 0..._segments.length)
+		var len:Int = _segments.length;
+		for (i in 0...len)
 			points[i] = getSegmentPoints(_segments[i], subdivision, (i == len - 1));
 
 		return points;

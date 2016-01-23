@@ -3,7 +3,7 @@ package away3d.core.managers;
 import away3d.Away3D;
 import away3d.events.Stage3DEvent;
 import away3d.materials.passes.MaterialPassBase;
-import away3d.utils.Debug;
+import away3d.debug.Debug;
 import com.adobe.utils.AGALMiniAssembler;
 import flash.display3D.Context3DProgramType;
 import flash.display3D.Program3D;

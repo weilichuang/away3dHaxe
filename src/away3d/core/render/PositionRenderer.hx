@@ -2,9 +2,10 @@ package away3d.core.render;
 
 import away3d.core.base.IRenderable;
 import away3d.core.data.RenderableListItem;
+import away3d.core.managers.Context3DProxy;
 import away3d.core.traverse.EntityCollector;
 import away3d.math.Matrix3DUtils;
-import away3d.utils.Debug;
+import away3d.debug.Debug;
 import com.adobe.utils.AGALMiniAssembler;
 import flash.display3D.Context3D;
 import flash.display3D.Context3DBlendFactor;
@@ -55,7 +56,7 @@ class PositionRenderer extends RendererBase
 		_context.setProgram(_program3D);
 
 		item = entityCollector.opaqueRenderableHead;
-		while (item)
+		while (item != null)
 		{
 			renderable = item.renderable;
 			renderable.activateVertexBuffer(0, _stage3DProxy);
@@ -70,7 +71,7 @@ class PositionRenderer extends RendererBase
 			return;
 
 		item = entityCollector.blendedRenderableHead;
-		while (item)
+		while (item != null)
 		{
 			renderable = item.renderable;
 			renderable.activateVertexBuffer(0, _stage3DProxy);
@@ -86,12 +87,12 @@ class PositionRenderer extends RendererBase
 	 * Creates the depth rendering Program3D.
 	 * @param context The Context3D object for which the Program3D needs to be created.
 	 */
-	private function initProgram3D(context:Context3D):Void
+	private function initProgram3D(context:Context3DProxy):Void
 	{
 		var vertexCode:String;
 		var fragmentCode:String;
 
-		_program3D = context.createProgram();
+		_program3D = context.context3D.createProgram();
 
 		vertexCode = "m44 vt0, va0, vc0\n" +
 					 "mov op, vt0	\n" +

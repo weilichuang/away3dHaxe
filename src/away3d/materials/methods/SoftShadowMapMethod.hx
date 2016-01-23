@@ -2,7 +2,7 @@ package away3d.materials.methods;
 
 
 import away3d.core.managers.Stage3DProxy;
-import away3d.entities.lights.DirectionalLight;
+import away3d.lights.DirectionalLight;
 import away3d.materials.compilation.ShaderRegisterCache;
 import away3d.materials.compilation.ShaderRegisterElement;
 import flash.Vector;

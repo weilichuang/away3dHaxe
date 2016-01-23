@@ -8,6 +8,7 @@ import flash.display.ShaderJob;
 import flash.errors.Error;
 import flash.geom.Point;
 import flash.geom.Rectangle;
+import flash.utils.ByteArray;
 
 class SplatBlendBitmapTexture extends BitmapTexture
 {
@@ -20,7 +21,7 @@ class SplatBlendBitmapTexture extends BitmapTexture
 	public function new(blendingData:Array<BitmapData>, normalize:Bool = false)
 	{
 		var bitmapData:BitmapData = blendingData[0].clone();
-		var channels:Array<BitmapDataChannel> = [BitmapDataChannel.RED, BitmapDataChannel.GREEN, BitmapDataChannel.BLUE];
+		var channels:Array<Int> = [BitmapDataChannel.RED, BitmapDataChannel.GREEN, BitmapDataChannel.BLUE];
 
 		super(bitmapData);
 

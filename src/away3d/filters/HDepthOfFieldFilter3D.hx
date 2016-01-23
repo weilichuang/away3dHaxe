@@ -2,15 +2,15 @@ package away3d.filters;
 
 import flash.geom.Vector3D;
 
-import away3d.entities.Camera3D;
+import away3d.cameras.Camera3D;
 import away3d.core.managers.Stage3DProxy;
-import away3d.entities.ObjectContainer3D;
+import away3d.containers.ObjectContainer3D;
 import away3d.filters.tasks.Filter3DHDepthOfFFieldTask;
 
 class HDepthOfFieldFilter3D extends Filter3DBase
 {
 	public var focusTarget(get, set):ObjectContainer3D;
-	public var focusDistance(get, set):Int;
+	public var focusDistance(get, set):Float;
 	public var range(get, set):Float;
 	public var maxBlur(get, set):Int;
 	
@@ -66,7 +66,7 @@ class HDepthOfFieldFilter3D extends Filter3DBase
 
 	private function set_maxBlur(value:Int):Int
 	{
-		_dofTask.maxBlur = value;
+		return _dofTask.maxBlur = value;
 	}
 
 	override public function update(stage:Stage3DProxy, camera:Camera3D):Void

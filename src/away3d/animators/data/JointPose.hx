@@ -5,7 +5,7 @@ import flash.geom.Matrix3D;
 import flash.geom.Vector3D;
 
 
-using away3d.math.FVector3D;
+using away3d.math.Vector3DUtils;
 
 /**
  * Contains transformation data for a skeleton joint, used for skeleton animation.

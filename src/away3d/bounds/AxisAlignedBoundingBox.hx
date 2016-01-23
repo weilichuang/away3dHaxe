@@ -1,7 +1,7 @@
 package away3d.bounds;
 
-import away3d.entities.primitives.WireframeCube;
-import away3d.entities.primitives.WireframePrimitiveBase;
+import away3d.primitives.WireframeCube;
+import away3d.primitives.WireframePrimitiveBase;
 import away3d.math.FMath;
 import away3d.math.Matrix3DUtils;
 import away3d.math.Plane3D;
@@ -10,7 +10,7 @@ import flash.geom.Matrix3D;
 import flash.geom.Vector3D;
 import flash.Vector;
 
-using away3d.math.FVector3D;
+using away3d.math.Vector3DUtils;
 
 
 

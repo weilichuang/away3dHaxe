@@ -32,8 +32,8 @@ class SkeletonNaryLERPState extends AnimationStateBase implements ISkeletonAnima
 
 		var i:UInt = _skeletonAnimationNode.numInputs;
 
-		while (i--)
-			_inputs[i] = Std.instance(animator.getAnimationState(_skeletonAnimationNode._inputs[i]),ISkeletonAnimationState);
+		while (i-- > 0)
+			_inputs[i] = cast animator.getAnimationState(_skeletonAnimationNode.inputs[i]);
 	}
 
 	/**
@@ -46,8 +46,8 @@ class SkeletonNaryLERPState extends AnimationStateBase implements ISkeletonAnima
 		_positionDeltaDirty = true;
 
 		for (j in 0..._skeletonAnimationNode.numInputs)
-			if (_blendWeights[j])
-				_inputs[j].update(value);
+			if (_blendWeights[j] != 0)
+				_inputs[j].update(Std.int(value));
 	}
 
 	/**
@@ -56,7 +56,7 @@ class SkeletonNaryLERPState extends AnimationStateBase implements ISkeletonAnima
 	override private function updateTime(time:Int):Void
 	{
 		for (j in 0..._skeletonAnimationNode.numInputs)
-			if (_blendWeights[j])
+			if (_blendWeights[j] != 0)
 				_inputs[j].update(time);
 
 		super.updateTime(time);
@@ -115,7 +115,7 @@ class SkeletonNaryLERPState extends AnimationStateBase implements ISkeletonAnima
 		{
 			weight = _blendWeights[j];
 
-			if (weight)
+			if (weight != 0)
 			{
 				delta = _inputs[j].positionDelta;
 				positionDelta.x += weight * delta.x;
@@ -140,11 +140,11 @@ class SkeletonNaryLERPState extends AnimationStateBase implements ISkeletonAnima
 		var endPose:JointPose, pose:JointPose;
 		var endTr:Vector3D, tr:Vector3D;
 		var endQuat:Quaternion, q:Quaternion;
-		var firstPose:Vector<JointPose>;
+		var firstPose:Vector<JointPose> = null;
 		var i:UInt;
 		var w0:Float, x0:Float, y0:Float, z0:Float;
 		var w1:Float, x1:Float, y1:Float, z1:Float;
-		var numJoints:UInt = skeleton.numJoints;
+		var numJoints:Int = skeleton.numJoints;
 
 		// :s
 		if (endPoses.length != numJoints)
@@ -154,7 +154,7 @@ class SkeletonNaryLERPState extends AnimationStateBase implements ISkeletonAnima
 		{
 			weight = _blendWeights[j];
 
-			if (!weight)
+			if (weight == 0)
 				continue;
 
 			poses = _inputs[j].getSkeletonPose(skeleton).jointPoses;

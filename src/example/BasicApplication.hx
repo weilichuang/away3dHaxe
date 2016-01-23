@@ -9,10 +9,10 @@ import flash.events.Event;
 import flash.events.KeyboardEvent;
 import flash.events.MouseEvent;
 
-import away3d.entities.Camera3D;
-import away3d.entities.Scene3D;
-import away3d.entities.View3D;
-import away3d.utils.AwayStats;
+import away3d.cameras.Camera3D;
+import away3d.containers.Scene3D;
+import away3d.containers.View3D;
+import away3d.debug.AwayStats;
 
 class BasicApplication extends Sprite
 {

@@ -23,11 +23,13 @@ class ViewVolumeRootNode extends NodeBase
 		_viewVolumes = new Vector<ViewVolume>();
 	}
 
-	override private function set_showDebugBounds(value:Bool):Void
+	override private function set_showDebugBounds(value:Bool):Bool
 	{
 		super.showDebugBounds = value;
 		if (_dynamicGrid != null)
 			_dynamicGrid.showDebugBounds = true;
+			
+		return value;
 	}
 
 	override public function findPartitionForEntity(entity:Entity):NodeBase
@@ -69,7 +71,7 @@ class ViewVolumeRootNode extends NodeBase
 		{
 			var volume:ViewVolume = getVolumeContaining(traverser.entryPoint);
 
-			if (!volume)
+			if (volume == null)
 				Lib.trace("WARNING: No view volume found for the current position.");
 
 			// keep the active one if no volume is found (it may be just be a small error)

@@ -7,7 +7,7 @@ import away3d.animators.nodes.ParticleColorNode;
 import away3d.animators.ParticleAnimator;
 import away3d.core.base.IRenderable;
 import away3d.core.managers.Stage3DProxy;
-import away3d.entities.Camera3D;
+import away3d.cameras.Camera3D;
 import flash.display3D.Context3DVertexBufferFormat;
 import flash.errors.Error;
 import flash.geom.ColorTransform;

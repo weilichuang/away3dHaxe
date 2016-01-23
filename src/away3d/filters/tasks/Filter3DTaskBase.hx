@@ -1,9 +1,9 @@
 package away3d.filters.tasks;
 
 import away3d.core.managers.Stage3DProxy;
-import away3d.entities.Camera3D;
+import away3d.cameras.Camera3D;
 import away3d.errors.AbstractMethodError;
-import away3d.utils.Debug;
+import away3d.debug.Debug;
 import com.adobe.utils.AGALMiniAssembler;
 import flash.display3D.Context3DProgramType;
 import flash.display3D.Context3DTextureFormat;

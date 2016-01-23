@@ -3,10 +3,10 @@ package away3d.core.partition;
 import away3d.core.traverse.PartitionTraverser;
 import away3d.core.traverse.SceneIterator;
 import away3d.entities.Entity;
-import away3d.entities.ObjectContainer3D;
-import away3d.entities.primitives.WireframeCube;
-import away3d.entities.primitives.WireframePrimitiveBase;
-import away3d.entities.Scene3D;
+import away3d.containers.ObjectContainer3D;
+import away3d.primitives.WireframeCube;
+import away3d.primitives.WireframePrimitiveBase;
+import away3d.containers.Scene3D;
 import flash.errors.Error;
 import flash.geom.Vector3D;
 import flash.Vector;
@@ -36,9 +36,9 @@ class ViewVolume extends NodeBase
 	private var _height:Float;
 	private var _depth:Float;
 	private var _cellSize:Float;
-	private var _numCellsX:UInt;
-	private var _numCellsY:UInt;
-	private var _numCellsZ:UInt;
+	private var _numCellsX:Int;
+	private var _numCellsY:Int;
+	private var _numCellsZ:Int;
 	private var _cells:Vector<ViewCell>;
 	private var _minX:Float;
 	private var _minY:Float;
@@ -57,6 +57,7 @@ class ViewVolume extends NodeBase
 	 */
 	public function new(minBound:Vector3D, maxBound:Vector3D, cellSize:Float = -1)
 	{
+		super();
 		_minX = minBound.x;
 		_minY = minBound.y;
 		_minZ = minBound.z;
@@ -102,7 +103,7 @@ class ViewVolume extends NodeBase
 				visibleStatics[i].acceptTraverser(traverser);
 
 			var visibleDynamics:Vector<InvertedOctreeNode> = cell.visibleDynamics;
-			if (visibleDynamics)
+			if (visibleDynamics != null)
 			{
 				numVisibles = visibleDynamics.length;
 				for (i in 0...numVisibles)
@@ -114,7 +115,7 @@ class ViewVolume extends NodeBase
 
 	public function addVisibleStatic(entity:Entity, indexX:UInt = 0, indexY:UInt = 0, indexZ:UInt = 0):Void
 	{
-		if (entity.staticNode == null)
+		if (entity.staticNode)
 			throw new Error("Entity being added as a visible static object must have static set to true");
 
 		var index:Int = getCellIndex(indexX, indexY, indexZ);
@@ -286,9 +287,9 @@ class ViewVolume extends NodeBase
 			cellIndex = 0;
 		else
 		{
-			var indexX:Int = (entryPoint.x - _minX) / _cellSize;
-			var indexY:Int = (entryPoint.y - _minY) / _cellSize;
-			var indexZ:Int = (entryPoint.z - _minZ) / _cellSize;
+			var indexX:Int = Std.int((entryPoint.x - _minX) / _cellSize);
+			var indexY:Int = Std.int((entryPoint.y - _minY) / _cellSize);
+			var indexZ:Int = Std.int((entryPoint.z - _minZ) / _cellSize);
 			cellIndex = indexX + (indexY + indexZ * _numCellsY) * _numCellsX;
 		}
 		return _cells[cellIndex];

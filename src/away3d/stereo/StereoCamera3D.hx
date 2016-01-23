@@ -1,8 +1,8 @@
 package away3d.stereo;
 
 
-import away3d.entities.Camera3D;
-import away3d.entities.lenses.LensBase;
+import away3d.cameras.Camera3D;
+import away3d.cameras.lenses.LensBase;
 import away3d.math.FMath;
 import flash.geom.Matrix3D;
 import flash.geom.Vector3D;

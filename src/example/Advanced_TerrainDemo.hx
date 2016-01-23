@@ -42,10 +42,10 @@ THE SOFTWARE.
 package example;
 
 import away3d.controllers.FirstPersonController;
-import away3d.entities.extrusions.Elevation;
-import away3d.entities.lights.DirectionalLight;
+import away3d.extrusions.Elevation;
+import away3d.lights.DirectionalLight;
 import away3d.entities.Mesh;
-import away3d.entities.primitives.PlaneGeometry;
+import away3d.primitives.PlaneGeometry;
 import away3d.materials.lightpickers.StaticLightPicker;
 import away3d.materials.methods.EnvMapMethod;
 import away3d.materials.methods.FogMethod;

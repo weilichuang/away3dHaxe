@@ -50,9 +50,9 @@ class QuadraticPath extends SegmentedPathBase implements IPath
 
 	override private function stitchSegment(start:IPathSegment, middle:IPathSegment, end:IPathSegment):Void
 	{
-		var seg:QuadraticPathSegment = QuadraticPathSegment(middle);
-		var prevSeg:QuadraticPathSegment = QuadraticPathSegment(start);
-		var nextSeg:QuadraticPathSegment = QuadraticPathSegment(end);
+		var seg:QuadraticPathSegment = cast (middle);
+		var prevSeg:QuadraticPathSegment = cast (start);
+		var nextSeg:QuadraticPathSegment = cast (end);
 
 		prevSeg.control.x = (prevSeg.control.x + seg.control.x) * .5;
 		prevSeg.control.y = (prevSeg.control.y + seg.control.y) * .5;
@@ -93,8 +93,8 @@ class QuadraticPath extends SegmentedPathBase implements IPath
 		var x:Float;
 		var y:Float;
 		var z:Float;
-		var seg0:Vector3D;
-		var seg1:Vector3D;
+		var seg0:Vector3D = null;
+		var seg1:Vector3D = null;
 		var tmp:Vector<Vector3D> = new Vector<Vector3D>();
 
 		var seg:QuadraticPathSegment = Std.instance(_segments[0],QuadraticPathSegment);
@@ -134,8 +134,12 @@ class QuadraticPath extends SegmentedPathBase implements IPath
 
 		_segments = new Vector<IPathSegment>();
 
-		for (i = 0; i < tmp.length; i += 3)
+		var i:Int = 0;
+		while (i < tmp.length)
+		{
 			_segments.push(new QuadraticPathSegment(tmp[i], tmp[i + 1], tmp[i + 2]));
+			i += 3;
+		}
 
 		tmp = null;
 	}
@@ -167,12 +171,13 @@ class QuadraticPath extends SegmentedPathBase implements IPath
 		var Y:Float;
 		var Z:Float;
 		var midPoint:Vector3D;
-
+		var currentPoint:Vector3D;
+		var nextPoint:Vector3D;
 		// Find the mid points and inject them into the array.
 		for (i in 0...points.length - 1)
 		{
-			var currentPoint:Vector3D = points[i];
-			var nextPoint:Vector3D = points[i + 1];
+			currentPoint = points[i];
+			nextPoint = points[i + 1];
 
 			X = (currentPoint.x + nextPoint.x) / 2;
 			Y = (currentPoint.y + nextPoint.y) / 2;

@@ -1,4 +1,5 @@
-package away3d.errors
+package away3d.errors;
+
 import flash.errors.Error;
 
 class DeprecationError extends Error

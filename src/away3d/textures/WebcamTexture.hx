@@ -2,7 +2,7 @@ package away3d.textures;
 
 import away3d.textures.BitmapTexture;
 import away3d.tools.utils.TextureUtils;
-import away3d.utils.Debug;
+import away3d.debug.Debug;
 import flash.display.BitmapData;
 import flash.display3D.textures.TextureBase;
 import flash.geom.Matrix;

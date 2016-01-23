@@ -98,7 +98,7 @@ class SimplePanVolumeDriver extends AbstractSound3DDriver implements ISound3DDri
 
 		_st3D.updateFromVector3D(_ref_v);
 
-		if (_sound_chan)
+		if (_sound_chan != null)
 			_sound_chan.soundTransform = _st3D.soundTransform;
 	}
 

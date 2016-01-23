@@ -2,9 +2,9 @@ package away3d.stereo;
 
 
 import away3d.core.render.RendererBase;
-import away3d.entities.Camera3D;
-import away3d.entities.Scene3D;
-import away3d.entities.View3D;
+import away3d.cameras.Camera3D;
+import away3d.containers.Scene3D;
+import away3d.containers.View3D;
 import away3d.stereo.methods.StereoRenderMethodBase;
 import away3d.stereo.StereoCamera3D;
 import away3d.stereo.StereoRenderer;

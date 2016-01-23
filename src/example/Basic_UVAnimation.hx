@@ -11,7 +11,7 @@ import away3d.animators.data.UVAnimationFrame;
 import away3d.animators.nodes.UVClipNode;
 import away3d.entities.Mesh;
 import away3d.materials.TextureMaterial;
-import away3d.entities.primitives.PlaneGeometry;
+import away3d.primitives.PlaneGeometry;
 import away3d.textures.BitmapTexture;
 
 @:bitmap("embeds/road.jpg") class MyRoad extends flash.display.BitmapData { }

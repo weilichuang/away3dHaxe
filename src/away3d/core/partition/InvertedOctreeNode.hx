@@ -3,8 +3,8 @@ package away3d.core.partition;
 
 import away3d.math.Plane3D;
 import away3d.core.traverse.PartitionTraverser;
-import away3d.entities.primitives.WireframeCube;
-import away3d.entities.primitives.WireframePrimitiveBase;
+import away3d.primitives.WireframeCube;
+import away3d.primitives.WireframePrimitiveBase;
 import flash.Vector;
 
 import flash.geom.Vector3D;
@@ -34,6 +34,7 @@ class InvertedOctreeNode extends NodeBase
 
 	public function new(minBounds:Vector3D, maxBounds:Vector3D)
 	{
+		super();
 		_minX = minBounds.x;
 		_minY = minBounds.y;
 		_minZ = minBounds.z;
@@ -81,7 +82,7 @@ class InvertedOctreeNode extends NodeBase
 	override public function acceptTraverser(traverser:PartitionTraverser):Void
 	{
 		super.acceptTraverser(traverser);
-		if (_parent)
+		if (_parent != null)
 			_parent.acceptTraverser(traverser);
 	}
 }

@@ -1,7 +1,8 @@
 package away3d.filters.tasks;
 
+import away3d.core.managers.Context3DProxy;
 import away3d.core.managers.Stage3DProxy;
-import away3d.entities.Camera3D;
+import away3d.cameras.Camera3D;
 import flash.display3D.Context3D;
 import flash.display3D.Context3DProgramType;
 import flash.display3D.textures.Texture;
@@ -144,7 +145,7 @@ class Filter3DVDepthOfFFieldTask extends Filter3DTaskBase
 
 	override public function activate(stage3DProxy:Stage3DProxy, camera:Camera3D, depthTexture:Texture):Void
 	{
-		var context:Context3D = stage3DProxy.context3D;
+		var context:Context3DProxy = stage3DProxy.context3D;
 		var n:Float = camera.lens.near;
 		var f:Float = camera.lens.far;
 

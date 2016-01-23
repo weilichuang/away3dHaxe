@@ -1,6 +1,6 @@
 package away3d.materials.utils;
 
-import away3d.utils.Debug;
+import away3d.debug.Debug;
 import flash.display.Sprite;
 import flash.events.AsyncErrorEvent;
 import flash.events.IOErrorEvent;
@@ -30,7 +30,7 @@ class SimpleVideoPlayer implements IVideoPlayer
 	private var _video:Video;
 	private var _ns:NetStream;
 	private var _nc:NetConnection;
-	private var _nsClient:Object;
+	private var _nsClient:Dynamic;
 	private var _soundTransform:SoundTransform;
 	private var _loop:Bool;
 	private var _playing:Bool;
@@ -51,10 +51,10 @@ class SimpleVideoPlayer implements IVideoPlayer
 
 		// client object that'll redirect various calls from the video stream
 		_nsClient = {};
-		_nsClient["onCuePoint"] = metaDataHandler;
-		_nsClient["onMetaData"] = metaDataHandler;
-		_nsClient["onBWDone"] = onBWDone;
-		_nsClient["close"] = streamClose;
+		untyped _nsClient["onCuePoint"] = metaDataHandler;
+		untyped _nsClient["onMetaData"] = metaDataHandler;
+		untyped _nsClient["onBWDone"] = onBWDone;
+		untyped _nsClient["close"] = streamClose;
 
 		// NetConnection
 		_nc = new NetConnection();
@@ -89,8 +89,7 @@ class SimpleVideoPlayer implements IVideoPlayer
 
 	public function play():Void
 	{
-
-		if (!_src)
+		if (_src == null)
 		{
 			Debug.trace("Video source not set.");
 			return;
@@ -150,10 +149,10 @@ class SimpleVideoPlayer implements IVideoPlayer
 		_nc.removeEventListener(IOErrorEvent.IO_ERROR, ioErrorHandler);
 		_nc.removeEventListener(AsyncErrorEvent.ASYNC_ERROR, asyncErrorHandler);
 
-		_nsClient["onCuePoint"] = null;
-		_nsClient["onMetaData"] = null;
-		_nsClient["onBWDone"] = null;
-		_nsClient["close"] = null;
+		untyped _nsClient["onCuePoint"] = null;
+		untyped _nsClient["onMetaData"] = null;
+		untyped _nsClient["onBWDone"] = null;
+		untyped _nsClient["close"] = null;
 
 		_container.removeChild(_video);
 		_container = null;
@@ -183,7 +182,7 @@ class SimpleVideoPlayer implements IVideoPlayer
 		// Must be present to prevent errors, but won't do anything
 	}
 
-	private function metaDataHandler(oData:Object = null):Void
+	private function metaDataHandler(oData:Dynamic = null):Void
 	{
 		// Offers info such as oData.duration, oData.width, oData.height, oData.framerate and more (if encoded into the FLV)
 		//this.dispatchEvent( new VideoEvent(VideoEvent.METADATA,_netStream,file,oData) );
@@ -212,7 +211,8 @@ class SimpleVideoPlayer implements IVideoPlayer
 
 	private function netStatusHandler(e:NetStatusEvent):Void
 	{
-		switch (e.info["code"])
+		var code:String = untyped e.info["code"];
+		switch (code)
 		{
 			case "NetStream.Play.Stop":
 				//this.dispatchEvent( new VideoEvent(VideoEvent.STOP,_netStream, file) ); 
@@ -224,10 +224,10 @@ class SimpleVideoPlayer implements IVideoPlayer
 				//this.dispatchEvent( new VideoEvent(VideoEvent.PLAY,_netStream, file) );
 				
 			case "NetStream.Play.StreamNotFound":
-				Debug.trace("The file " + _src + " was not found", e);
+				Debug.trace("The file " + _src + " was not found"+ e);
 				
 			case "NetConnection.Connect.Success":
-				Debug.trace("Connected to stream", e);
+				Debug.trace("Connected to stream"+ e);
 				
 		}
 	}
@@ -269,7 +269,7 @@ class SimpleVideoPlayer implements IVideoPlayer
 		return _ns.soundTransform.volume;
 	}
 
-	private function set_volume(val:Float):Void
+	private function set_volume(val:Float):Float
 	{
 		_soundTransform.volume = val;
 		_ns.soundTransform = _soundTransform;
@@ -318,23 +318,25 @@ class SimpleVideoPlayer implements IVideoPlayer
 	
 	private function get_width():Int
 	{
-		return _video.width;
+		return Std.int(_video.width);
 	}
 
 	private function set_width(val:Int):Int
 	{
-		return _video.width = val;
+		_video.width = val;
+		return val;
 	}
 
 	
 	private function get_height():Int
 	{
-		return _video.height;
+		return Std.int(_video.height);
 	}
 
 	private function set_height(val:Int):Int
 	{
-		return _video.height = val;
+		_video.height = val;
+		return val;
 	}
 
 

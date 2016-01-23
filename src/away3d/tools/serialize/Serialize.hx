@@ -9,8 +9,8 @@ import away3d.core.base.ISubGeometry;
 import away3d.core.base.SkinnedSubGeometry;
 import away3d.core.base.SubMesh;
 import away3d.entities.Mesh;
-import away3d.entities.ObjectContainer3D;
-import away3d.entities.Scene3D;
+import away3d.containers.ObjectContainer3D;
+import away3d.containers.Scene3D;
 import away3d.materials.lightpickers.StaticLightPicker;
 import away3d.materials.MaterialBase;
 import away3d.tools.serialize.SerializerBase;
@@ -45,7 +45,7 @@ class Serialize
 
 	public static function serializeMesh(mesh:Mesh, serializer:SerializerBase):Void
 	{
-		serializeObjectContainerInternal(Std.instance(mesh,ObjectContainer3D), serializer, false /* serializeChildrenAndEnd */);
+		serializeObjectContainerInternal(cast mesh, serializer, false /* serializeChildrenAndEnd */);
 		serializer.writeBool("castsShadows", mesh.castsShadows);
 
 		if (mesh.animator != null)
@@ -65,7 +65,7 @@ class Serialize
 				serializeSubMesh(subMesh, serializer);
 			}
 		}
-		serializeChildren(Std.instance(mesh,ObjectContainer3D), serializer);
+		serializeChildren(cast mesh, serializer);
 		serializer.endObject();
 	}
 

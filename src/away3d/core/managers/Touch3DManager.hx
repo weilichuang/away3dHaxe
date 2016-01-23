@@ -11,8 +11,8 @@ import haxe.ds.IntMap;
 import away3d.core.pick.IPicker;
 import away3d.core.pick.PickingCollisionVO;
 import away3d.core.pick.PickingType;
-import away3d.entities.ObjectContainer3D;
-import away3d.entities.View3D;
+import away3d.containers.ObjectContainer3D;
+import away3d.containers.View3D;
 import away3d.events.TouchEvent3D;
 
 

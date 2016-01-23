@@ -1,9 +1,9 @@
 package away3d.materials.lightpickers;
 
-import away3d.entities.lights.DirectionalLight;
-import away3d.entities.lights.LightBase;
-import away3d.entities.lights.LightProbe;
-import away3d.entities.lights.PointLight;
+import away3d.lights.DirectionalLight;
+import away3d.lights.LightBase;
+import away3d.lights.LightProbe;
+import away3d.lights.PointLight;
 import away3d.events.LightEvent;
 import flash.events.Event;
 import flash.Vector;

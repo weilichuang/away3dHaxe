@@ -128,10 +128,21 @@ class ParticleUVNode extends ParticleNodeBase
 		{
 			var uvConst:ShaderRegisterElement = animationRegisterCache.getFreeVertexConstant();
 			animationRegisterCache.setRegisterIndex(this, UV_INDEX, uvConst.index);
+			
+			var axisIndex:Int = 0;
+			if (_axis == "x")
+			{
+				axisIndex = 0;
+			}
+			else if (_axis == "y")
+			{
+				axisIndex = 1;
+			}
+			else
+			{
+				axisIndex = 2;
+			}
 
-			var axisIndex:Float = _axis == "x" ? 0 :
-				_axis == "y" ? 1 :
-				2;
 			var target:ShaderRegisterElement = new ShaderRegisterElement(animationRegisterCache.uvTarget.regName, animationRegisterCache.uvTarget.index, axisIndex);
 
 			var sin:ShaderRegisterElement = animationRegisterCache.getFreeVertexSingleTemp();

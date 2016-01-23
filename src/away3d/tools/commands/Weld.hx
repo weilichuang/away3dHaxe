@@ -4,7 +4,7 @@ import away3d.core.base.CompactSubGeometry;
 import away3d.core.base.Geometry;
 import away3d.core.base.ISubGeometry;
 import away3d.entities.Mesh;
-import away3d.entities.ObjectContainer3D;
+import away3d.containers.ObjectContainer3D;
 import away3d.math.FMath;
 import flash.geom.Vector3D;
 import flash.utils.Dictionary;
@@ -12,7 +12,7 @@ import flash.Vector;
 import haxe.ds.StringMap;
 
 
-using away3d.math.FVector3D;
+using away3d.math.Vector3DUtils;
 
 /**
  * Class Weld removes the vertices that can be shared from one or more meshes (smoothes the mesh surface when lighted).

@@ -3,7 +3,7 @@ package away3d.core.render;
 import away3d.core.managers.Context3DProxy;
 import away3d.core.managers.Stage3DProxy;
 import away3d.textures.Texture2DBase;
-import away3d.utils.Debug;
+import away3d.debug.Debug;
 import away3d.utils.VectorUtil;
 import com.adobe.utils.AGALMiniAssembler;
 import flash.display3D.Context3DProgramType;

@@ -6,12 +6,12 @@ import flash.geom.Vector3D;
 import away3d.core.base.IRenderable;
 import away3d.core.partition.NodeBase;
 import away3d.entities.Entity;
-import away3d.entities.Scene3D;
+import away3d.containers.Scene3D;
 import away3d.errors.AbstractMethodError;
-import away3d.entities.lights.DirectionalLight;
-import away3d.entities.lights.LightBase;
-import away3d.entities.lights.LightProbe;
-import away3d.entities.lights.PointLight;
+import away3d.lights.DirectionalLight;
+import away3d.lights.LightBase;
+import away3d.lights.LightProbe;
+import away3d.lights.PointLight;
 
 
 

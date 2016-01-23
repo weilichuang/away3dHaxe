@@ -2,9 +2,9 @@ package away3d.tools.helpers;
 
 import away3d.core.base.IMaterialOwner;
 import away3d.core.base.SubMesh;
-import away3d.entities.lights.LightBase;
+import away3d.lights.LightBase;
 import away3d.entities.Mesh;
-import away3d.entities.ObjectContainer3D;
+import away3d.containers.ObjectContainer3D;
 import away3d.materials.lightpickers.StaticLightPicker;
 import flash.Vector;
 

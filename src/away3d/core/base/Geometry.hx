@@ -1,9 +1,9 @@
 package away3d.core.base;
 
 import away3d.events.GeometryEvent;
-import away3d.io.library.assets.AssetType;
-import away3d.io.library.assets.IAsset;
-import away3d.io.library.assets.NamedAssetBase;
+import away3d.library.assets.AssetType;
+import away3d.library.assets.IAsset;
+import away3d.library.assets.NamedAssetBase;
 import flash.geom.Matrix3D;
 import flash.Vector;
 

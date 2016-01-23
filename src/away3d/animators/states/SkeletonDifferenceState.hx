@@ -52,8 +52,8 @@ class SkeletonDifferenceState extends AnimationStateBase implements ISkeletonAni
 
 		_skeletonAnimationNode = skeletonAnimationNode;
 
-		_baseInput = Std.instance(animator.getAnimationState(_skeletonAnimationNode.baseInput),ISkeletonAnimationState);
-		_differenceInput = Std.instance(animator.getAnimationState(_skeletonAnimationNode.differenceInput),ISkeletonAnimationState);
+		_baseInput = cast animator.getAnimationState(_skeletonAnimationNode.baseInput);
+		_differenceInput = cast animator.getAnimationState(_skeletonAnimationNode.differenceInput);
 	}
 
 	/**
@@ -124,7 +124,7 @@ class SkeletonDifferenceState extends AnimationStateBase implements ISkeletonAni
 		var base:JointPose, diff:JointPose;
 		var basePos:Vector3D, diffPos:Vector3D;
 		var tr:Vector3D;
-		var numJoints:UInt = skeleton.numJoints;
+		var numJoints:Int = skeleton.numJoints;
 
 		// :s
 		if (endPoses.length != numJoints)

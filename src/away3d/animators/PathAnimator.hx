@@ -2,7 +2,7 @@ package away3d.animators;
 
 import away3d.core.base.Object3D;
 import away3d.events.PathEvent;
-import away3d.math.FVector3D;
+import away3d.math.Vector3DUtils;
 import away3d.paths.IPath;
 import away3d.paths.IPathSegment;
 import flash.errors.Error;
@@ -29,7 +29,7 @@ class PathAnimator extends EventDispatcher
 	private var _bRange:Bool;
 	private var _bSegment:Bool;
 	private var _bCycle:Bool;
-	private var _lastSegment:UInt = 0;
+	private var _lastSegment:Int = 0;
 	private var _rot:Vector3D;
 	private var _upAxis:Vector3D = new Vector3D(0, 1, 0);
 	private var _basePosition:Vector3D = new Vector3D(0, 0, 0);
@@ -57,12 +57,12 @@ class PathAnimator extends EventDispatcher
 		_alignToPath = alignToPath;
 		_lookAtTarget = lookAtTarget;
 
-		if (offset)
+		if (offset != null)
 			setOffset(offset.x, offset.y, offset.z);
 
 		this.rotations = rotations;
 
-		if (_lookAtTarget && _alignToPath)
+		if (_lookAtTarget != null && _alignToPath)
 			_alignToPath = false;
 	}
 
@@ -119,7 +119,7 @@ class PathAnimator extends EventDispatcher
 		_lastTime = t;
 
 		var multi:Float = _path.numSegments * t;
-		_index = multi;
+		_index = Std.int(multi);
 
 		if (_index == _path.numSegments)
 			index--;
@@ -130,11 +130,11 @@ class PathAnimator extends EventDispatcher
 		var nT:Float = multi - _index;
 		updatePosition(nT, _path.segments[_index]);
 
-		var rotate:Bool;
-		if (_lookAtTarget)
+		var rotate:Bool = false;
+		if (_lookAtTarget != null)
 		{
 
-			if (_offset)
+			if (_offset != null)
 			{
 				_target.moveRight(_offset.x);
 				_target.moveUp(_offset.y);
@@ -146,7 +146,7 @@ class PathAnimator extends EventDispatcher
 		else if (_alignToPath)
 		{
 
-			if (_rotations && _rotations.length > 0)
+			if (_rotations != null && _rotations.length > 0)
 			{
 
 				if (_rotations[_index + 1] == null)
@@ -169,7 +169,7 @@ class PathAnimator extends EventDispatcher
 				_upAxis.x = 0;
 				_upAxis.y = 1;
 				_upAxis.z = 0;
-				_upAxis = FVector3D.rotatePoint(_upAxis, _rot);
+				_upAxis = Vector3DUtils.rotatePoint(_upAxis, _rot);
 
 				_target.lookAt(_basePosition, _upAxis);
 
@@ -210,7 +210,7 @@ class PathAnimator extends EventDispatcher
 
 		t = (t < 0) ? 0 : (t > 1) ? 1 : t;
 		var m:Float = _path.numSegments * t;
-		var i:UInt = m;
+		var i:UInt = Std.int(m);
 		var ps:IPathSegment = _path.segments[i];
 
 		return ps.getPointOnSegment(m - i, out);
@@ -237,7 +237,7 @@ class PathAnimator extends EventDispatcher
 		var t:Float = Math.abs(ms) / duration;
 		t = (t < 0) ? 0 : (t > 1) ? 1 : t;
 		var m:Float = _path.numSegments * t;
-		var i:UInt = m;
+		var i:UInt = Std.int(m);
 		var ps:IPathSegment = _path.segments[i];
 
 		return ps.getPointOnSegment(m - i, out);
@@ -475,7 +475,7 @@ class PathAnimator extends EventDispatcher
 			_tmpOffset.x = _offset.x;
 			_tmpOffset.y = _offset.y;
 			_tmpOffset.z = _offset.z;
-			_tmpOffset = FVector3D.rotatePoint(_tmpOffset, _rot);
+			_tmpOffset = Vector3DUtils.rotatePoint(_tmpOffset, _rot);
 
 			_position.x += _tmpOffset.x;
 			_position.y += _tmpOffset.y;

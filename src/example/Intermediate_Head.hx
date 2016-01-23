@@ -43,14 +43,14 @@ THE SOFTWARE.
 package example;
 
 import away3d.controllers.HoverController;
-import away3d.entities.Camera3D;
-import away3d.entities.lights.PointLight;
+import away3d.cameras.Camera3D;
+import away3d.lights.PointLight;
 import away3d.entities.Mesh;
-import away3d.entities.Scene3D;
+import away3d.containers.Scene3D;
 import away3d.events.AssetEvent;
-import away3d.io.library.AssetLibrary;
-import away3d.io.library.assets.AssetType;
-import away3d.io.loaders.parsers.Parsers;
+import away3d.library.AssetLibrary;
+import away3d.library.assets.AssetType;
+import away3d.loaders.parsers.Parsers;
 import away3d.materials.lightpickers.StaticLightPicker;
 import away3d.materials.methods.BasicDiffuseMethod;
 import away3d.materials.methods.BasicSpecularMethod;

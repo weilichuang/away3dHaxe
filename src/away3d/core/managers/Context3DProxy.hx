@@ -83,6 +83,13 @@ class Context3DProxy
 		return _context3D.createTexture(width, height, format, optimizeForRenderToTexture, streamingLevels);
 	}
 	
+	#if flash11_8
+	public inline function createRectangleTexture(width:Int, height:Int, format:Context3DTextureFormat, optimizeForRenderToTexture:Bool):flash.display3D.textures.RectangleTexture
+	{
+		return _context3D.createRectangleTexture(width, height, format, optimizeForRenderToTexture);
+	}
+	#end
+	
 	public inline function createVertexBuffer(numVertices:Int, data32PerVertex:Int):VertexBuffer3D
 	{
 		return _context3D.createVertexBuffer(numVertices, data32PerVertex);

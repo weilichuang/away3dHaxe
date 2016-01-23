@@ -5,14 +5,14 @@ import flash.errors.Error;
 import flash.geom.Vector3D;
 import flash.Vector.Vector;
 
-import away3d.entities.lenses.PerspectiveLens;
+import away3d.cameras.lenses.PerspectiveLens;
 import away3d.entities.Mesh;
-import away3d.entities.ObjectContainer3D;
-import away3d.entities.View3D;
+import away3d.containers.ObjectContainer3D;
+import away3d.containers.View3D;
 import away3d.materials.ColorMaterial;
-import away3d.entities.primitives.PlaneGeometry;
+import away3d.primitives.PlaneGeometry;
 
-using away3d.math.FVector3D;
+using away3d.math.Vector3DUtils;
 /**
 * Class Drag3D allows free dragging of an ObjectContainer3D onto a given plane.
 *

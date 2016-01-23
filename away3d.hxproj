@@ -22,7 +22,7 @@
     <option directives="" />
     <option flashStrict="True" />
     <option noInlineOnDebug="True" />
-    <option mainClass="example.Advanced_MultiPassSponzaDemo" />
+    <option mainClass="example.Intermediate_SpriteSheetAnimation" />
     <option enabledebug="True" />
     <option additional="-D advanced-telemetry&#xA;-swf-lib embeds/assets.swf&#xA;-D alchemy" />
   </build>
@@ -35,7 +35,7 @@
   <!-- Class files to compile (other referenced classes will automatically be included) -->
   <compileTargets>
     <compile path="src\Main.hx" />
-    <compile path="src\example\Advanced_MultiPassSponzaDemo.hx" />
+    <compile path="src\example\Intermediate_SpriteSheetAnimation.hx" />
   </compileTargets>
   <!-- Assets to embed into the output SWF -->
   <library>
@@ -46,7 +46,7 @@
     <hidden path="obj" />
   </hiddenPaths>
   <!-- Executed before build -->
-  <preBuildCommand />
+  <preBuildCommand>"$(CompilerPath)/haxe" swc_release.hxml</preBuildCommand>
   <!-- Executed after build -->
   <postBuildCommand alwaysRun="False" />
   <!-- Other project options -->

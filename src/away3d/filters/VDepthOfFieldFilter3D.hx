@@ -2,9 +2,9 @@ package away3d.filters;
 
 import flash.geom.Vector3D;
 
-import away3d.entities.Camera3D;
+import away3d.cameras.Camera3D;
 import away3d.core.managers.Stage3DProxy;
-import away3d.entities.ObjectContainer3D;
+import away3d.containers.ObjectContainer3D;
 import away3d.filters.tasks.Filter3DVDepthOfFFieldTask;
 
 class VDepthOfFieldFilter3D extends Filter3DBase
@@ -36,7 +36,7 @@ class VDepthOfFieldFilter3D extends Filter3DBase
 
 	private function set_focusTarget(value:ObjectContainer3D):ObjectContainer3D
 	{
-		_focusTarget = value;
+		return _focusTarget = value;
 	}
 
 	private function get_focusDistance():Float

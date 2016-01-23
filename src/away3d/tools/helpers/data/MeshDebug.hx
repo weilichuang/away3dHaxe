@@ -9,7 +9,7 @@ import away3d.core.base.ISubGeometry;
 import away3d.core.base.SubGeometryBase;
 import away3d.entities.Mesh;
 import away3d.entities.SegmentSet;
-import away3d.entities.primitives.LineSegment;
+import away3d.primitives.LineSegment;
 
 /**
 * MeshDebug, holds the data for the MeshDebugger class
@@ -60,7 +60,7 @@ class MeshDebug extends SegmentSet
 
 		for (i in 0...numSubGeoms)
 		{
-			subGeom = Std.instance(geometries[i],SubGeometryBase);
+			subGeom = cast geometries[i];
 			stride = subGeom.vertexStride;
 			offset = subGeom.vertexOffset;
 			normalOffset = subGeom.vertexNormalOffset;
@@ -140,7 +140,7 @@ class MeshDebug extends SegmentSet
 
 		for (i in 0...numSubGeoms)
 		{
-			subGeom = Std.instance(geometries[i],SubGeometryBase);
+			subGeom = cast geometries[i];
 			stride = subGeom.vertexStride;
 			offset = subGeom.vertexOffset;
 			vertices = subGeom.vertexData;

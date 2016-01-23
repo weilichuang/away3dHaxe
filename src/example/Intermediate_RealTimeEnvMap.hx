@@ -43,12 +43,12 @@ package example;
 
 import away3d.controllers.HoverController;
 import away3d.entities.extrusions.Elevation;
-import away3d.entities.lights.DirectionalLight;
+import away3d.lights.DirectionalLight;
 import away3d.entities.Mesh;
 import away3d.events.AssetEvent;
-import away3d.io.library.AssetLibrary;
-import away3d.io.library.assets.AssetType;
-import away3d.io.loaders.parsers.OBJParser;
+import away3d.library.AssetLibrary;
+import away3d.library.assets.AssetType;
+import away3d.loaders.parsers.OBJParser;
 import away3d.materials.ColorMaterial;
 import away3d.materials.lightpickers.StaticLightPicker;
 import away3d.materials.methods.EnvMapMethod;

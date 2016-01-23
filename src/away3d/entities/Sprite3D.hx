@@ -3,6 +3,7 @@ package away3d.entities;
 import away3d.animators.IAnimator;
 import away3d.bounds.AxisAlignedBoundingBox;
 import away3d.bounds.BoundingVolumeBase;
+import away3d.cameras.Camera3D;
 import away3d.core.base.IRenderable;
 import away3d.core.base.SubGeometry;
 import away3d.core.base.SubMesh;

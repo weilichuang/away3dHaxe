@@ -1,7 +1,7 @@
 package away3d.core.managers;
 
 import away3d.events.Stage3DEvent;
-import away3d.utils.Debug;
+import away3d.debug.Debug;
 import flash.display.Shape;
 import flash.display.Stage3D;
 import flash.display3D.Context3DClearMask;

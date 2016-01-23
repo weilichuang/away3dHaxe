@@ -3,7 +3,7 @@
 import flash.geom.Vector3D;
 
 import away3d.entities.Entity;
-import away3d.entities.ObjectContainer3D;
+import away3d.containers.ObjectContainer3D;
 import away3d.events.Object3DEvent;
 
 /**

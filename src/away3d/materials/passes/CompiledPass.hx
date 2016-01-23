@@ -3,7 +3,7 @@ package away3d.materials.passes;
 import away3d.core.base.IRenderable;
 import away3d.core.managers.Context3DProxy;
 import away3d.core.managers.Stage3DProxy;
-import away3d.entities.Camera3D;
+import away3d.cameras.Camera3D;
 import away3d.errors.AbstractMethodError;
 import away3d.events.ShadingMethodEvent;
 import away3d.materials.compilation.ShaderCompiler;

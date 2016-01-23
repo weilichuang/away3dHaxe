@@ -4,7 +4,7 @@ import flash.geom.Matrix3D;
 import flash.geom.Vector3D;
 import flash.media.SoundTransform;
 
-import away3d.entities.ObjectContainer3D;
+import away3d.containers.ObjectContainer3D;
 
 /**
  * SoundTransform3D is a convinience class that helps adjust a Soundtransform's volume and pan according

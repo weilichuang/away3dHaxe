@@ -36,7 +36,7 @@ class SkeletonDirectionalState extends AnimationStateBase implements ISkeletonAn
 	private function set_direction(value:Float):Float
 	{
 		if (_direction == value)
-			return;
+			return _direction;
 
 		_direction = value;
 
@@ -59,10 +59,10 @@ class SkeletonDirectionalState extends AnimationStateBase implements ISkeletonAn
 
 		_skeletonAnimationNode = skeletonAnimationNode;
 
-		_forward = Std.instance(animator.getAnimationState(_skeletonAnimationNode.forward),ISkeletonAnimationState);
-		_backward = Std.instance(animator.getAnimationState(_skeletonAnimationNode.backward),ISkeletonAnimationState);
-		_left = Std.instance(animator.getAnimationState(_skeletonAnimationNode.left),ISkeletonAnimationState);
-		_right = Std.instance(animator.getAnimationState(_skeletonAnimationNode.right),ISkeletonAnimationState);
+		_forward = cast animator.getAnimationState(_skeletonAnimationNode.forward);
+		_backward = cast animator.getAnimationState(_skeletonAnimationNode.backward);
+		_left = cast animator.getAnimationState(_skeletonAnimationNode.left);
+		_right = cast animator.getAnimationState(_skeletonAnimationNode.right);
 	}
 
 	/**
@@ -145,7 +145,7 @@ class SkeletonDirectionalState extends AnimationStateBase implements ISkeletonAn
 		var pose1:JointPose, pose2:JointPose;
 		var p1:Vector3D, p2:Vector3D;
 		var tr:Vector3D;
-		var numJoints:UInt = skeleton.numJoints;
+		var numJoints:Int = skeleton.numJoints;
 
 		// :s
 		if (endPoses.length != numJoints)

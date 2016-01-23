@@ -7,7 +7,7 @@ import away3d.animators.nodes.ParticleNodeBase;
 import away3d.animators.ParticleAnimator;
 import away3d.core.base.IRenderable;
 import away3d.core.managers.Stage3DProxy;
-import away3d.entities.Camera3D;
+import away3d.cameras.Camera3D;
 import flash.geom.Vector3D;
 import flash.Vector;
 import haxe.ds.WeakMap;

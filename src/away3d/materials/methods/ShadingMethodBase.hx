@@ -2,9 +2,9 @@ package away3d.materials.methods;
 
 import away3d.core.base.IRenderable;
 import away3d.core.managers.Stage3DProxy;
-import away3d.entities.Camera3D;
+import away3d.cameras.Camera3D;
 import away3d.events.ShadingMethodEvent;
-import away3d.io.library.assets.NamedAssetBase;
+import away3d.library.assets.NamedAssetBase;
 import away3d.materials.compilation.ShaderRegisterCache;
 import away3d.materials.compilation.ShaderRegisterData;
 import away3d.materials.compilation.ShaderRegisterElement;

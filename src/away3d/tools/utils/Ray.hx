@@ -2,7 +2,7 @@ package away3d.tools.utils;
 
 import flash.geom.Vector3D;
 
-using away3d.math.FVector3D;
+using away3d.math.Vector3DUtils;
 
 class Ray
 {

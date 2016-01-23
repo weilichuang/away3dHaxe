@@ -75,11 +75,15 @@ class DynamicGrid
 	private function createLevel(numCellsX:Int, numCellsY:Int, numCellsZ:Int, cellWidth:Float, cellHeight:Float, cellDepth:Float):Vector<InvertedOctreeNode>
 	{
 		var nodes:Vector<InvertedOctreeNode> = new Vector<InvertedOctreeNode>(numCellsX * numCellsY * numCellsZ);
-		var parents:Vector<InvertedOctreeNode>;
+		var parents:Vector<InvertedOctreeNode> = null;
 		var node:InvertedOctreeNode;
-		var i:Int;
-		var minX:Float, minY:Float, minZ:Float;
-		var numParentsX:Int, numParentsY:Int, numParentsZ:Int;
+		var i:Int = 0;
+		var minX:Float = 0;
+		var minY:Float = 0; 
+		var minZ:Float = 0;
+		var numParentsX:Int = 0;
+		var numParentsY:Int = 0;
+		var numParentsZ:Int = 0;
 
 		if (numCellsX != 1 || numCellsY != 1 || numCellsZ != 1)
 		{
@@ -99,7 +103,7 @@ class DynamicGrid
 				for (x in 0...numCellsX)
 				{
 					node = new InvertedOctreeNode(new Vector3D(minX, minY, minZ), new Vector3D(minX + cellWidth, minY + cellHeight, minZ + cellDepth));
-					if (parents)
+					if (parents != null)
 					{
 						var index:Int = (x >> 1) + ((y >> 1) + (z >> 1) * numParentsY) * numParentsX;
 						node.setParent(parents[index]);
@@ -128,12 +132,12 @@ class DynamicGrid
 		var maxY:Float = max.y;
 		var maxZ:Float = max.z;
 
-		var minIndexX:Int = (minX - _minX) / _cellWidth;
-		var maxIndexX:Int = (maxX - _minX) / _cellWidth;
-		var minIndexY:Int = (minY - _minY) / _cellHeight;
-		var maxIndexY:Int = (maxY - _minY) / _cellHeight;
-		var minIndexZ:Int = (minZ - _minZ) / _cellDepth;
-		var maxIndexZ:Int = (maxZ - _minZ) / _cellDepth;
+		var minIndexX:Int = Std.int((minX - _minX) / _cellWidth);
+		var maxIndexX:Int = Std.int((maxX - _minX) / _cellWidth);
+		var minIndexY:Int = Std.int((minY - _minY) / _cellHeight);
+		var maxIndexY:Int = Std.int((maxY - _minY) / _cellHeight);
+		var minIndexZ:Int = Std.int((minZ - _minZ) / _cellDepth);
+		var maxIndexZ:Int = Std.int((maxZ - _minZ) / _cellDepth);
 
 		if (minIndexX < 0)
 			minIndexX = 0;
@@ -171,7 +175,7 @@ class DynamicGrid
 			minIndexY >>= 1;
 			maxIndexZ >>= 1;
 			minIndexZ >>= 1;
-			node = node._parent;
+			node = node.parent;
 		}
 
 		return node;

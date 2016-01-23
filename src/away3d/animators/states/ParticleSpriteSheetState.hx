@@ -7,7 +7,7 @@ import away3d.animators.nodes.ParticleSpriteSheetNode;
 import away3d.animators.ParticleAnimator;
 import away3d.core.base.IRenderable;
 import away3d.core.managers.Stage3DProxy;
-import away3d.entities.Camera3D;
+import away3d.cameras.Camera3D;
 import flash.display3D.Context3DVertexBufferFormat;
 import flash.errors.Error;
 import flash.Vector;
@@ -74,7 +74,7 @@ class ParticleSpriteSheetState extends ParticleStateBase
 
 		_usesCycle = _particleSpriteSheetNode.usesCycle;
 		_usesPhase = _particleSpriteSheetNode.usesPhase;
-		_totalFrames = _particleSpriteSheetNode._totalFrames;
+		_totalFrames = _particleSpriteSheetNode.totalFrames;
 		_numColumns = _particleSpriteSheetNode.numColumns;
 		_numRows = _particleSpriteSheetNode.numRows;
 		_cycleDuration = _particleSpriteSheetNode.cycleDuration;

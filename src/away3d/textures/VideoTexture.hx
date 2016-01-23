@@ -164,7 +164,7 @@ class VideoTexture extends BitmapTexture
 	private function set_autoUpdate(value:Bool):Bool
 	{
 		if (value == _autoUpdate)
-			return;
+			return _autoUpdate;
 
 		_autoUpdate = value;
 

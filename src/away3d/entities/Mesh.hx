@@ -2,6 +2,7 @@
 
 
 import away3d.animators.IAnimator;
+import away3d.containers.ObjectContainer3D;
 import away3d.core.base.Geometry;
 import away3d.core.base.IMaterialOwner;
 import away3d.core.base.ISubGeometry;
@@ -11,8 +12,8 @@ import away3d.core.base.SubMesh;
 import away3d.core.partition.EntityNode;
 import away3d.core.partition.MeshNode;
 import away3d.events.GeometryEvent;
-import away3d.io.library.assets.AssetType;
-import away3d.io.library.assets.IAsset;
+import away3d.library.assets.AssetType;
+import away3d.library.assets.IAsset;
 import away3d.materials.MaterialBase;
 import away3d.materials.utils.DefaultMaterialManager;
 import flash.Vector;
@@ -144,7 +145,7 @@ class Mesh extends Entity implements IMaterialOwner implements IAsset
 	}
 
 	
-	private inline function get_geometry():Geometry
+	private function get_geometry():Geometry
 	{
 		return _geometry;
 	}

@@ -7,6 +7,7 @@ import away3d.animators.ParticleAnimationSet;
 import away3d.animators.states.ParticleInitialColorState;
 import away3d.materials.compilation.ShaderRegisterElement;
 import away3d.materials.passes.MaterialPassBase;
+import flash.errors.Error;
 import flash.geom.ColorTransform;
 
 
@@ -50,8 +51,6 @@ class ParticleInitialColorNode extends ParticleNodeBase
 	 */
 	override public function getAGALVertexCode(pass:MaterialPassBase, animationRegisterCache:AnimationRegisterCache):String
 	{
-		pass = pass;
-
 		var code:String = "";
 		if (animationRegisterCache.needFragmentAnimation)
 		{
@@ -92,7 +91,7 @@ class ParticleInitialColorNode extends ParticleNodeBase
 	 */
 	override public function generatePropertyOfOneParticle(param:ParticleProperties):Void
 	{
-		var initialColor:ColorTransform = param[COLOR_INITIAL_COLORTRANSFORM];
+		var initialColor:ColorTransform = untyped param[COLOR_INITIAL_COLORTRANSFORM];
 		if (initialColor == null)
 			throw(new Error("there is no " + COLOR_INITIAL_COLORTRANSFORM + " in param!"));
 

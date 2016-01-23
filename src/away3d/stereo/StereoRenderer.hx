@@ -5,7 +5,7 @@ import away3d.core.managers.RTTBufferManager;
 import away3d.core.managers.Stage3DProxy;
 import away3d.stereo.methods.InterleavedStereoRenderMethod;
 import away3d.stereo.methods.StereoRenderMethodBase;
-import away3d.utils.Debug;
+import away3d.debug.Debug;
 import com.adobe.utils.AGALMiniAssembler;
 import flash.display3D.Context3DProgramType;
 import flash.display3D.Context3DTextureFormat;

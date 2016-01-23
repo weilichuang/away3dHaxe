@@ -2,14 +2,14 @@ package away3d.core.base;
 
 import away3d.controllers.ControllerBase;
 import away3d.events.Object3DEvent;
-import away3d.io.library.assets.NamedAssetBase;
+import away3d.library.assets.NamedAssetBase;
 import away3d.math.FMath;
 import away3d.math.Matrix3DUtils;
 import flash.geom.Matrix3D;
 import flash.geom.Vector3D;
 import flash.Vector;
 
-using away3d.math.FVector3D;
+using away3d.math.Vector3DUtils;
 
 
 /**

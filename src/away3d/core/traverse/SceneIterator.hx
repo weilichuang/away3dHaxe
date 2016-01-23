@@ -1,8 +1,8 @@
 package away3d.core.traverse;
 
 
-import away3d.entities.ObjectContainer3D;
-import away3d.entities.Scene3D;
+import away3d.containers.ObjectContainer3D;
+import away3d.containers.Scene3D;
 import flash.Vector;
 
 
@@ -29,7 +29,7 @@ class SceneIterator
 	public function reset():Void
 	{
 		_childIndexStack = new Vector<Int>();
-		_node = _scene._sceneGraphRoot;
+		_node = _scene.sceneGraphRoot;
 		_childIndex = 0;
 		_stackPos = 0;
 		_traverseState = PRE;
@@ -62,7 +62,7 @@ class SceneIterator
 					_traverseState = IN;
 					
 			}
-		} while (!(_node == _scene._sceneGraphRoot && _traverseState == POST));
+		} while (!(_node == _scene.sceneGraphRoot && _traverseState == POST));
 
 		return null;
 	}

@@ -7,7 +7,7 @@ import away3d.core.base.SubGeometry;
 import away3d.core.base.SubMesh;
 import away3d.core.managers.Context3DProxy;
 import away3d.core.managers.Stage3DProxy;
-import away3d.entities.Camera3D;
+import away3d.cameras.Camera3D;
 import away3d.entities.Mesh;
 import away3d.math.Matrix3DUtils;
 import flash.display3D.Context3DCompareMode;

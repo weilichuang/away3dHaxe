@@ -1,6 +1,6 @@
 package away3d.events;
 
-import away3d.entities.Camera3D;
+import away3d.cameras.Camera3D;
 import flash.events.Event;
 
 

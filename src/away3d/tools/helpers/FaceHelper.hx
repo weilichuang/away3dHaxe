@@ -7,7 +7,7 @@ import away3d.core.base.SubGeometry;
 import away3d.core.base.data.UV;
 import away3d.core.base.data.Vertex;
 import away3d.entities.Mesh;
-import away3d.utils.Debug;
+import away3d.debug.Debug;
 import away3d.utils.VectorUtil;
 import flash.errors.Error;
 import flash.Vector;

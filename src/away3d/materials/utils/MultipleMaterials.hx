@@ -142,9 +142,9 @@ class MultipleMaterials
 	private function set_back(val:MaterialBase):MaterialBase
 	{
 		if (_back == val)
-			return;
+			return _back;
 
-		_back = val;
+		return _back = val;
 	}
 
 }

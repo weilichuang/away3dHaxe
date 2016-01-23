@@ -15,13 +15,13 @@ import away3d.animators.data.ParticleProperties;
 import away3d.animators.data.ParticlePropertiesMode;
 import away3d.animators.nodes.ParticleBillboardNode;
 import away3d.animators.nodes.ParticleVelocityNode;
-import away3d.entities.View3D;
+import away3d.containers.View3D;
 import away3d.controllers.HoverController;
 import away3d.core.base.Geometry;
-import away3d.utils.AwayStats;
+import away3d.debug.AwayStats;
 import away3d.entities.Mesh;
 import away3d.materials.TextureMaterial;
-import away3d.entities.primitives.PlaneGeometry;
+import away3d.primitives.PlaneGeometry;
 import away3d.tools.helpers.ParticleGeometryHelper;
 import away3d.utils.Cast;
 

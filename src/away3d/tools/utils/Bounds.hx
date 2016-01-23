@@ -1,6 +1,6 @@
 package away3d.tools.utils;
 
-import away3d.entities.lights.LightBase;
+import away3d.lights.LightBase;
 import flash.geom.Matrix3D;
 import flash.geom.Vector3D;
 import flash.utils.Dictionary;
@@ -9,7 +9,7 @@ import flash.Vector;
 
 import away3d.entities.Entity;
 import away3d.entities.Mesh;
-import away3d.entities.ObjectContainer3D;
+import away3d.containers.ObjectContainer3D;
 
 import haxe.ds.ObjectMap;
 

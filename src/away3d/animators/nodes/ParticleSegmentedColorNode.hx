@@ -75,7 +75,7 @@ class ParticleSegmentedColorNode extends ParticleNodeBase
 		var code:String = "";
 		if (animationRegisterCache.needFragmentAnimation)
 		{
-			var accMultiplierColor:ShaderRegisterElement;
+			var accMultiplierColor:ShaderRegisterElement = null;
 			//var accOffsetColor:ShaderRegisterElement;
 			if (usesMultiplier)
 			{
@@ -101,8 +101,8 @@ class ParticleSegmentedColorNode extends ParticleNodeBase
 
 			var i:Int;
 
-			var startMulValue:ShaderRegisterElement;
-			var deltaMulValues:Vector<ShaderRegisterElement>;
+			var startMulValue:ShaderRegisterElement = null;
+			var deltaMulValues:Vector<ShaderRegisterElement> = null;
 			if (usesMultiplier)
 			{
 				startMulValue = animationRegisterCache.getFreeVertexConstant();
@@ -114,8 +114,8 @@ class ParticleSegmentedColorNode extends ParticleNodeBase
 				}
 			}
 
-			var startOffsetValue:ShaderRegisterElement;
-			var deltaOffsetValues:Vector<ShaderRegisterElement>;
+			var startOffsetValue:ShaderRegisterElement = null;
+			var deltaOffsetValues:Vector<ShaderRegisterElement> = null;
 			if (usesOffset)
 			{
 				startOffsetValue = animationRegisterCache.getFreeVertexConstant();

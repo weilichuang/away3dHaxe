@@ -3,7 +3,7 @@ package away3d.tools.commands;
 import away3d.core.base.Geometry;
 import away3d.core.base.ISubGeometry;
 import away3d.entities.Mesh;
-import away3d.entities.ObjectContainer3D;
+import away3d.containers.ObjectContainer3D;
 import away3d.materials.MaterialBase;
 import away3d.tools.utils.GeomUtil;
 import flash.Vector;

@@ -26,6 +26,7 @@ class AbstractSound3DDriver extends EventDispatcher
 
 	public function new()
 	{
+		super();
 		_volume = 1;
 		_scale = 1000;
 		_playing = false;
@@ -77,7 +78,7 @@ class AbstractSound3DDriver extends EventDispatcher
 	private function set_mute(val:Bool):Bool
 	{
 		if (_mute == val)
-			return;
+			return val;
 
 		return _mute = val;
 	}

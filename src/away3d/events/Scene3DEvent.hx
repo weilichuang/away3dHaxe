@@ -1,6 +1,6 @@
 package away3d.events;
 
-import away3d.entities.ObjectContainer3D;
+import away3d.containers.ObjectContainer3D;
 import flash.events.Event;
 import flash.utils.Object;
 

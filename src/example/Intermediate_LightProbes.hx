@@ -38,16 +38,16 @@
 package example;
 
 import away3d.controllers.LookAtController;
-import away3d.entities.Camera3D;
-import away3d.entities.lights.LightProbe;
-import away3d.entities.lights.PointLight;
+import away3d.cameras.Camera3D;
+import away3d.lights.LightProbe;
+import away3d.lights.PointLight;
 import away3d.entities.Mesh;
-import away3d.entities.Scene3D;
+import away3d.containers.Scene3D;
 import away3d.events.AssetEvent;
-import away3d.io.library.AssetLibrary;
-import away3d.io.library.assets.AssetType;
-import away3d.io.loaders.misc.AssetLoaderContext;
-import away3d.io.loaders.parsers.OBJParser;
+import away3d.library.AssetLibrary;
+import away3d.library.assets.AssetType;
+import away3d.loaders.misc.AssetLoaderContext;
+import away3d.loaders.parsers.OBJParser;
 import away3d.materials.BlendMode;
 import away3d.materials.lightpickers.StaticLightPicker;
 import away3d.materials.LightSources;

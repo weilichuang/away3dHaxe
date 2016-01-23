@@ -1,7 +1,7 @@
 package away3d.tools.serialize;
 
 import away3d.tools.serialize.SerializerBase;
-import away3d.utils.Debug;
+import away3d.debug.Debug;
 import flash.geom.Vector3D;
 import flash.Vector;
 

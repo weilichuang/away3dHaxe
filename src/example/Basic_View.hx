@@ -1,6 +1,6 @@
 package example;
 
-import away3d.entities.primitives.SphereGeometry;
+import away3d.primitives.SphereGeometry;
 import away3d.textures.BitmapTexture;
 import flash.events.Event;
 import flash.geom.Vector3D;
@@ -8,7 +8,7 @@ import flash.Lib;
 
 import away3d.entities.Mesh;
 import away3d.materials.TextureMaterial;
-import away3d.entities.primitives.PlaneGeometry;
+import away3d.primitives.PlaneGeometry;
 import away3d.utils.Cast;
 
 class Basic_View extends BasicApplication

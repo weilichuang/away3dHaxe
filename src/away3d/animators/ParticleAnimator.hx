@@ -9,7 +9,7 @@ import away3d.core.base.IRenderable;
 import away3d.core.base.ISubGeometry;
 import away3d.core.base.SubMesh;
 import away3d.core.managers.Stage3DProxy;
-import away3d.entities.Camera3D;
+import away3d.cameras.Camera3D;
 import away3d.materials.passes.MaterialPassBase;
 import flash.display3D.Context3DProgramType;
 import flash.errors.Error;

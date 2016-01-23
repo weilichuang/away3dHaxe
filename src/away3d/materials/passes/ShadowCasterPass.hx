@@ -2,9 +2,9 @@ package away3d.materials.passes;
 
 import away3d.core.base.IRenderable;
 import away3d.core.managers.Stage3DProxy;
-import away3d.entities.Camera3D;
-import away3d.entities.lights.DirectionalLight;
-import away3d.entities.lights.PointLight;
+import away3d.cameras.Camera3D;
+import away3d.lights.DirectionalLight;
+import away3d.lights.PointLight;
 import away3d.materials.compilation.LightingShaderCompiler;
 import away3d.materials.compilation.ShaderCompiler;
 import away3d.materials.MaterialBase;

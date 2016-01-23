@@ -7,7 +7,7 @@ import flash.media.Sound;
 
 import away3d.audio.drivers.ISound3DDriver;
 import away3d.audio.drivers.SimplePanVolumeDriver;
-import away3d.entities.ObjectContainer3D;
+import away3d.containers.ObjectContainer3D;
 import away3d.events.Object3DEvent;
 
 /**
@@ -52,12 +52,12 @@ class Sound3D extends ObjectContainer3D
 	 * Returns a Bool indicating whether or not the sound is currently
 	 * playing.
 	*/
-	public var playing(get, null):Float;
+	public var playing(get, null):Bool;
 	/**
 	 * Returns a Bool indicating whether or not playback is currently
 	 * paused.
 	*/
-	public var paused(get, null):Float;
+	public var paused(get, null):Bool;
 	
 	private var _refv:Vector3D;
 	private var _driver:ISound3DDriver;
