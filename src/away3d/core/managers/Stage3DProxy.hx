@@ -264,6 +264,8 @@ class Stage3DProxy extends EventDispatcher
 			configureBackBuffer(_backBufferWidth, _backBufferHeight, _antiAlias, _enableDepthAndStencil);
 			_backBufferDirty = false;
 		}
+		
+		_context3D.reset();
 
 		_context3D.clear(
 			((_color >> 16) & 0xff) / 255.0,

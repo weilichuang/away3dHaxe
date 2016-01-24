@@ -17,6 +17,12 @@ class AnimationSubGeometry
 	public var numVertices(get,null):Int;
 	public var totalLenOfOneVertex(get, null):Int;
 	
+	public var numProcessedVertices:Int;
+
+	public var previousTime:Float;
+
+	public var animationParticles:Vector<ParticleAnimationData>;
+	
 	private var _vertexData:Vector<Float>;
 
 	private var _vertexBuffer:VertexBuffer3D;
@@ -27,12 +33,7 @@ class AnimationSubGeometry
 
 	private var _totalLenOfOneVertex:Int;
 
-	public var numProcessedVertices:Int;
-
-	public var previousTime:Float;
-
-	public var animationParticles:Vector<ParticleAnimationData>;
-
+	
 	public function new()
 	{
 		numProcessedVertices = 0;
@@ -52,7 +53,7 @@ class AnimationSubGeometry
 	public function activateVertexBuffer(index:Int, bufferOffset:Int, stage3DProxy:Stage3DProxy, format:Context3DVertexBufferFormat):Void
 	{
 		var context:Context3DProxy = stage3DProxy.context3D;
-		if (_vertexBuffer == null)
+		if (_vertexBuffer == null || _bufferContext != context)
 		{
 			_vertexBuffer = context.createVertexBuffer(_numVertices, _totalLenOfOneVertex);
 			_bufferContext = context;
@@ -64,7 +65,7 @@ class AnimationSubGeometry
 			_vertexBuffer.uploadFromVector(_vertexData, 0, _numVertices);
 			_bufferDirty = false;
 		}
-		stage3DProxy.context3D.setVertexBufferAt(index, _vertexBuffer, bufferOffset, format);
+		context.setVertexBufferAt(index, _vertexBuffer, bufferOffset, format);
 	}
 
 	public function dispose():Void
@@ -74,27 +75,28 @@ class AnimationSubGeometry
 			_vertexBuffer.dispose();
 			_vertexBuffer = null;
 		}
+		_bufferContext = null;
 	}
 
-	public function invalidateBuffer():Void
+	public inline function invalidateBuffer():Void
 	{
 		_bufferDirty = true;
 	}
 
 	
-	private function get_vertexData():Vector<Float>
+	private inline function get_vertexData():Vector<Float>
 	{
 		return _vertexData;
 	}
 
 	
-	private function get_numVertices():Int
+	private inline function get_numVertices():Int
 	{
 		return _numVertices;
 	}
 
 	
-	private function get_totalLenOfOneVertex():Int
+	private inline function get_totalLenOfOneVertex():Int
 	{
 		return _totalLenOfOneVertex;
 	}

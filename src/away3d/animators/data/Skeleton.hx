@@ -12,7 +12,7 @@ import flash.Vector;
  */
 class Skeleton extends NamedAssetBase implements IAsset
 {
-	
+	public var jointsPerVertex : Int;
 
 	/**
 	 * The total number of joints in the skeleton.

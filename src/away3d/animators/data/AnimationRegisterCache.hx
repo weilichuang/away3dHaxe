@@ -35,12 +35,10 @@ class AnimationRegisterCache extends ShaderRegisterCache
 	public var colorMulVary:ShaderRegisterElement;
 
 	//fragment
-
 	public var uvVar:ShaderRegisterElement;
 
 	//these are targets only need to rotate ( normal and tangent )
 	public var rotationRegisters:Vector<ShaderRegisterElement>;
-
 
 	public var needFragmentAnimation:Bool;
 	public var needUVAnimation:Bool;
@@ -48,14 +46,8 @@ class AnimationRegisterCache extends ShaderRegisterCache
 	public var sourceRegisters:Vector<String>;
 	public var targetRegisters:Vector<String>;
 
-	private var indexDictionary:WeakMap<AnimationNodeBase,Vector<Int>>;
-	
 	public var vertexConstantData:Vector<Float>;
 	public var fragmentConstantData:Vector<Float>;
-
-	private var _numVertexConstant:Int;
-	private var _numFragmentConstant:Int;
-
 
 	//set true if has an node which will change UV
 	public var hasUVNode:Bool;
@@ -67,6 +59,11 @@ class AnimationRegisterCache extends ShaderRegisterCache
 	public var hasColorMulNode:Bool;
 	//set if has an node which will apply color add operation
 	public var hasColorAddNode:Bool;
+	
+	private var _numVertexConstant:Int;
+	private var _numFragmentConstant:Int;
+	
+	private var indexDictionary:WeakMap<AnimationNodeBase,Vector<Int>>;
 
 	public function new(profile:Context3DProfile)
 	{
@@ -219,7 +216,6 @@ class AnimationRegisterCache extends ShaderRegisterCache
 	private function getRegisterFromString(code:String):ShaderRegisterElement
 	{
 		var temp:Array<String> = ~/(\d+)/.split(code);
-		//var temp:Array = code.split();
 		return new ShaderRegisterElement(temp[0], Std.parseInt(temp[1]));
 	}
 
@@ -243,7 +239,7 @@ class AnimationRegisterCache extends ShaderRegisterCache
 		fragmentConstantData.length = _numFragmentConstant * 4;
 	}
 
-	public function setVertexConst(index:Int, x:Float = 0, y:Float = 0, z:Float = 0, w:Float = 0):Void
+	public inline function setVertexConst(index:Int, x:Float = 0, y:Float = 0, z:Float = 0, w:Float = 0):Void
 	{
 		var _index:Int = (index - _vertexConstantOffset) * 4;
 		vertexConstantData[_index++] = x;
@@ -284,7 +280,7 @@ class AnimationRegisterCache extends ShaderRegisterCache
 
 	}
 
-	public function setFragmentConst(index:Int, x:Float = 0, y:Float = 0, z:Float = 0, w:Float = 0):Void
+	public inline function setFragmentConst(index:Int, x:Float = 0, y:Float = 0, z:Float = 0, w:Float = 0):Void
 	{
 		var _index:Int = (index - _fragmentConstantOffset) * 4;
 		fragmentConstantData[_index++] = x;

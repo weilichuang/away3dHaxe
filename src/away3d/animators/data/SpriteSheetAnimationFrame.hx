@@ -8,6 +8,13 @@ package away3d.animators.data;
  */
 class SpriteSheetAnimationFrame
 {
+	public var offsetX : Float = 0;
+	public var offsetY : Float = 0;
+	public var width : Float = 0;
+	public var height : Float = 0;
+	public var textureWidth : Float = 0;
+	public var textureHeight : Float = 0;
+		
 	/**
 	 * The u-component offset of the spritesheet frame.
 	 */

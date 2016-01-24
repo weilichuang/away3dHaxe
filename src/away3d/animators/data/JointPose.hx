@@ -31,11 +31,14 @@ class JointPose
 	 * The translation of the pose
 	 */
 	public var translation:Vector3D;
+	
+	public var scale:Vector3D;
 
 	public function new()
 	{
 		orientation = new Quaternion();
 		translation = new Vector3D();
+		scale = new Vector3D(1, 1, 1);
 	}
 
 	/**
@@ -51,6 +54,8 @@ class JointPose
 			
 		orientation.toMatrix3D(target);
 		target.appendTranslation(translation.x, translation.y, translation.z);
+		//TODO test
+		target.prependScale(scale.x, scale.y, scale.z);
 		return target;
 	}
 
@@ -63,5 +68,6 @@ class JointPose
 	{
 		orientation.copyFrom(pose.orientation);
 		translation.fastCopyFrom(pose.translation);
+		scale.fastCopyFrom(pose.scale);
 	}
 }
